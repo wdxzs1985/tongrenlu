@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <body>
+    <div class="container">
+        <div layout:fragment="content">
+            <form class="form-horizontal" method="POST">
+                <div id="track-list">
+	                <div th:each="trackBean : ${trackList}">
+	                  <div class="form-group">
+	                    <label class="col-sm-2 control-label">ID</label>
+	                    <div class="col-sm-4">
+	                      <input type="text" class="form-control" name="fileId[]" 
+	                        th:value="${trackBean.fileId}"/>
+	                    </div>
+	                    <label class="col-sm-2 control-label">TITLE</label>
+	                    <div class="col-sm-4">
+	                      <input type="text" class="form-control" name="track[]" 
+	                        th:value="${trackBean.track}"/>
+	                    </div>
+	                  </div>
+	                </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="add-button" class="btn btn-default">+ add</button>
+                    <button type="submit" class="btn btn-default">submit</button>
+                  </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <th:block layout:fragment="scripts">
+        <script type="text/x-tmpl" id="tmpl-track">
+                <div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">ID</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="fileId[]" />
+                    </div>
+                    <label class="col-sm-2 control-label">TITLE</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="track[]" />
+                    </div>
+                  </div>
+                </div>
+        </script>
+        <script th:src="@{/JavaScript-Templates-2.5.3/js/tmpl.min.js}" ></script>
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(function(){
+        	$('#add-button').click(function(){
+        		$('#track-list').append(tmpl('tmpl-track', {}));
+        	}).trigger('click');
+        });
+        /*]]>*/
+        </script>
+    </th:block>
+  </body>
+</html>

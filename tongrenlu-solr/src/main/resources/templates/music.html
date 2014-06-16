@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <head>
+    <link rel="stylesheet" th:href="@{/jQuery.jPlayer.2.6.0/skin/myskin/jplayer.myskin.css}" />
+  </head>
+  <body>
+    <div class="container">
+        <div layout:fragment="header">
+            <a th:href="@{/__${articleBean.articleId}__/input}" 
+                class="btn btn-default pull-right">edit</a>
+            <h3 th:text="#{articleBean.title}" >${articleBean.title}</h3>
+        </div>
+        <div layout:fragment="content">
+            <div class="row">
+              <div class="col-sm-4 col-md-3 ">
+                  <img th:src="@{http://placehold.it/400x400}" class="img-responsive" />
+              </div>
+              <div class="col-sm-8  col-md-9 ">
+                  <p class="muted">UP: AAAA / Date: 2014/05/01 / Views: 9999 / Favorites: 9999 / Comments: 9999</p>
+                  <ul class="list-inline">
+                      <li><a href="#" class="btn btn-danger">favorite</a></li>
+                      <li><a href="#" class="btn btn-default">function1</a></li>
+                      <li><a href="#" class="btn btn-default">function2</a></li>
+                  </ul>
+                  <pre>Cras sit amet nibh libero, in gravida 
+nulla. Nulla vel metus scelerisque 
+tempus viverra turpis. Fusce condimentum nunc ac 
+nisi vulputate 
+fringilla. Donec lacinia congue felis in faucibus.</pre>
+                  <ul class="list-inline">
+                      <li><strong>Tags :</strong></li>
+                      <li th:each="circle : ${articleBean.circleList}">
+                        <a href="#" class="tag">
+                          <span class="label label-default" th:text="${circle}">Cras(99)</span>
+                        </a>
+                      </li>
+                  </ul>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="player" class="">
+                        <div class="page-header">
+				            <a th:href="@{/__${articleBean.articleId}__/track}" 
+				                class="btn btn-default pull-right">edit</a>
+                            <h3>player</h3>
+                        </div>
+                        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                        <div id="jp_container_1" class="jp-audio">
+                            <div class="jp-type-playlist">
+                                <div class="jp-gui jp-interface">
+                                    <div class="jp-progress">
+                                        <div class="jp-current-time"></div>
+                                        <div class="jp-duration"></div>
+                                        <div class="jp-seek-bar">
+                                            <div class="jp-play-bar"></div>
+                                        </div>
+                                    </div>
+                                    <ul class="jp-toggles">
+                                        <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
+                                    </ul>
+                                    <ul class="jp-controls">
+                                        <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a></li>
+                                    </ul>
+                                    <ul class="jp-volumn hidden-xs">
+                                        <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
+                                        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
+                                    </ul>
+                                    <div class="jp-volume-bar hidden-xs">
+                                            <div class="jp-volume-bar-value"></div>
+                                    </div>
+                                </div>
+                                <div class="jp-playlist">
+                                    <ul>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                                <div class="jp-no-solution">
+                                    <span>Update Required</span>
+                                    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="comments" class="">
+                        <div class="page-header">
+                            <h3>comment</h3>
+                        </div>
+                        <div id="comments">
+                            <ul class="media-list">
+                              <li class="media" th:each="i : ${#numbers.sequence(1, 10)}">
+                                <a class="pull-left" href="#">
+                                  <img class="media-object" src="http://placehold.it/45x45" alt="..." />
+                                </a>
+                                <div class="media-body">
+                                  <h5 class="media-heading">Media heading</h5>
+                                  ...
+                                </div>
+                              </li>
+                            </ul>
+                            <ul class="pagination">
+                                <li th:unless="1==1">
+                                    <a href="#"
+                                       th:title="#{button.firstpage}">
+                                       &laquo;
+                                    </a>
+                                </li>
+                                <th:block th:each="i : ${#numbers.sequence(1, 6)}">
+                                    <li th:if="${i eq (1 - 5)}" class="disabled">
+                                        <span>...</span>
+                                    </li>
+                                    <li th:if="${i gt (1 - 5)} and ${i lt (1 + 5)}"
+                                        th:class="${i eq 1} ? 'active'">
+                                        <a href="#">
+                                            <span th:text="${i}">i</span>
+                                        </a>
+                                    </li>
+                                    <li th:if="${i eq (1 + 5)}" class="disabled">
+                                        <span>...</span>
+                                    </li>
+                                </th:block>
+                                <li th:unless="1==6">
+                                    <a href="#">
+                                        &raquo;
+                                    </a>
+                                </li>
+                            </ul>
+                            <form>
+                              <div class="form-group">
+                                <textarea id="inputComment" class="form-control" rows="3"></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js}" ></script>
+        <script th:src="@{/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js}" ></script>
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(function(){
+            $('#player .list-group-item > pre').hide()
+            $('#player .list-group-item').hover(function(){
+                $(this).find('pre').show();
+            }, function(){
+                $(this).find('pre').hide();
+            });
+            
+            var tracklist = /*[[${trackList}]]*/ [];
+            
+            var myPlaylist = new jPlayerPlaylist({
+                jPlayer: "#jquery_jplayer_1",
+                cssSelectorAncestor: "#jp_container_1"
+            }, tracklist, {
+                playlistOptions: {
+                    enableRemoveControls: true
+                },
+                swfPath: [[@{/jQuery.jPlayer.2.6.0/js}]],
+                supplied: 'mp3',
+                smoothPlayBar: true,
+                keyEnabled: true,
+                audioFullScreen: true
+            });
+        
+        });
+        /*]]>*/
+        </script>
+    </th:block>
+  </body>
+</html>

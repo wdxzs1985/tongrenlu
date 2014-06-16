@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <body>
+    <div class="container">
+        <div layout:fragment="content">
+            <div class="list-group">
+              <a th:href="@{/__${articleBean.articleId}__}" class="list-group-item" 
+                 th:each="articleBean : ${page}">
+                <h4 class="list-group-item-heading" th:text="${articleBean.title}">
+                </h4>
+              </a>
+              <a th:href="@{/music}" class="list-group-item">
+                <h4 class="list-group-item-heading">
+                   + ADD
+                </h4>
+              </a>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

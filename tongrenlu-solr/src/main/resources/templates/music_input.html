@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <head>
+    <link rel="stylesheet" th:href="@{/magicsuggest-master/magicsuggest-min.css}"/>
+  </head>
+  <body>
+    <div class="container">
+        <div layout:fragment="content">
+            <form class="form-horizontal" method="POST">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ID</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" name="articleId" 
+                    th:value="${articleBean.articleId}"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">TITLE</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" name="title" 
+                    th:value="${articleBean.title}"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">EVENT</label>
+                <div class="col-sm-6">
+                  <select name="" class="form-control">
+                        <OPTGROUP label="グループ１">
+                        <OPTION value="1">項目１</OPTION>
+                        <OPTION value="2">項目２</OPTION>
+                        <OPTION value="3">項目３</OPTION>
+                        </OPTGROUP>
+                        <OPTGROUP label="グループ２">
+                        <OPTION value="4">項目４</OPTION>
+                        <OPTION value="5">項目５</OPTION>
+                        </OPTGROUP>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">CIRCLE</label>
+                <div class="col-sm-6">
+                  <div id="circle-input"> </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">submit</button>
+                </div>
+              </div>
+            </form>
+        </div>
+    </div>
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/magicsuggest-master/magicsuggest-min.js}" ></script>
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(function(){
+        	$('#circle-input').magicSuggest({
+        		autoSelect: false,
+        		hideTrigger: true,
+        		name: 'circle',
+        		placeholder: [[#{article.inputTags}]],
+        		value: [[${articleBean.circleList}]],
+        		data: []
+            });
+        });
+        /*]]>*/
+        </script>
+    </th:block>
+  </body>
+</html>
