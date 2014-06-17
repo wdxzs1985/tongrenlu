@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="example" version="1.5">
+ <fields>
+   <field name="category" type="string" indexed="true" stored="true"/>
+
+   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+   <field name="_version_" type="long" indexed="true" stored="true" />
+
+   <field name="articleId" type="string" indexed="true" stored="true"/>
+
+   <field name="title" type="text_ja" indexed="true" stored="true"/>
+   <field name="description" type="text_ja" indexed="true" stored="true"/>
+   <field name="release" type="int" indexed="true" stored="true" />
+   <field name="event" type="text_ja" indexed="true" stored="true" />
+   <field name="tag" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+   <field name="circle" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+
+   <field name="artist" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+   <field name="original" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+
+   <field name="fileId" type="string" indexed="true" stored="true" />
+   <field name="track" type="text_ja" indexed="true" stored="true" />
+   <field name="trackNumber" type="int" indexed="true" stored="true" />
+   <field name="vocalOff" type="boolean" indexed="true" stored="true" />
+
+   <field name="data_ja" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+
+   <dynamicField name="*" type="ignored"/>
+ </fields>
+
+ <solrQueryParser defaultOperator="OR"/>
+
+	<uniqueKey>id</uniqueKey>
+
+  <types>
+
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+    <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+
+
+    <fieldType name="text_ja" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="false">
+      <analyzer>
+        <tokenizer class="solr.JapaneseTokenizerFactory" mode="search" userDictionary="lang/userdict_ja.txt"/>
+        <filter class="solr.JapaneseBaseFormFilterFactory"/>
+        <filter class="solr.JapanesePartOfSpeechStopFilterFactory" tags="lang/stoptags_ja.txt" />
+        <filter class="solr.CJKWidthFilterFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_ja.txt" />
+        <filter class="solr.JapaneseKatakanaStemFilterFactory" minimumLength="4"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" />
+ </types>
+
+</schema>

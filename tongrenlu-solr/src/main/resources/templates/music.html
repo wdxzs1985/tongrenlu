@@ -32,8 +32,13 @@ fringilla. Donec lacinia congue felis in faucibus.</pre>
                   <ul class="list-inline">
                       <li><strong>Tags :</strong></li>
                       <li th:each="circle : ${articleBean.circleList}">
-                        <a href="#" class="tag">
-                          <span class="label label-default" th:text="${circle}">Cras(99)</span>
+                        <a href="#" class="btn btn-xs btn-default" >
+                          <span th:text="${circle}">Cras(99)</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" class="btn btn-xs btn-link">
+                          <span >+ tag</span>
                         </a>
                       </li>
                   </ul>
