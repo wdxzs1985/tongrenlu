@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.persistence.RArticleTagMapper">
+    
+    <cache type="org.mybatis.caches.oscache.LoggingOSCache" flushInterval="3600"/>
+    
+    <insert id="insertArticleTag" flushCache="true">
+        INSERT INTO R_ARTICLE_TAG(
+            TAG_ID
+        ,   ARTICLE_ID
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{tagBean.tagId}
+        ,   #{articleBean.articleId}
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <select id="fetchArticleTag" resultType="TagBean" useCache="true">
+        SELECT
+            T.TAG_ID                as "tagId"
+        ,   T.TAG                   as "tag"
+        ,   V_ARTICLE_CNT.CNT       as articleCount
+        FROM
+            R_ARTICLE_TAG AT
+        ,   M_TAG T
+        ,   (SELECT
+                AT.TAG_ID
+            ,   COUNT(A.ARTICLE_ID) AS CNT
+            FROM
+                R_ARTICLE_TAG AT
+            ,   M_ARTICLE A
+            WHERE
+                AT.ARTICLE_ID = A.ARTICLE_ID (+)
+            AND A.PUBLISH_FLG = '1'
+            AND A.DEL_FLG = '0'
+            AND AT.DEL_FLG = '0'
+            GROUP BY AT.TAG_ID
+        ) V_ARTICLE_CNT
+        WHERE
+            AT.TAG_ID = T.TAG_ID (+)
+        AND AT.TAG_ID = V_ARTICLE_CNT.TAG_ID (+)
+        AND AT.DEL_FLG = '0'
+        AND AT.ARTICLE_ID = #{articleId}
+    </select>
+    
+    <select id="countArticleTag" resultType="int">
+        SELECT
+            COUNT(AT.TAG_ID)
+        FROM
+            R_ARTICLE_TAG AT
+        WHERE
+            AT.DEL_FLG = '0'
+        AND AT.ARTICLE_ID = #{articleBean.articleId}
+        AND AT.TAG_ID = #{tagBean.tagId}
+    </select>
+    
+    <update id="removeArticleTag" flushCache="true">
+        UPDATE R_ARTICLE_TAG AT
+        SET
+            AT.DEL_FLG = '1'
+        ,   UPD_DATE = SYSDATE
+        WHERE
+            AT.ARTICLE_ID = #{articleId}
+        AND AT.TAG_ID = #{tagId}
+    
+    </update>
+</mapper>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.persistence.RCollectMapper">
+    
+    <insert id="insertCollect">
+        INSERT INTO R_COLLECT(
+            USER_ID
+        ,   ARTICLE_ID
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{userId}
+        ,   #{articleId}
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <select id="countCollect" resultType="int">
+        SELECT
+            COUNT(C.USER_ID)
+        FROM
+            R_COLLECT C
+        WHERE
+            C.DEL_FLG = '0'
+        <if test="articleId != null">
+        AND C.ARTICLE_ID = #{articleId}
+        </if>
+        <if test="userId != null">
+        AND C.USER_ID = #{userId}
+        </if>
+    </select>
+    
+    <update id="deleteCollect" >
+        UPDATE R_COLLECT C
+        SET
+            C.DEL_FLG = '1'
+        ,   C.UPD_DATE = SYSDATE
+        WHERE
+            C.ARTICLE_ID = #{articleId}
+        AND C.USER_ID = #{userId}
+    </update>
+    
+    <select id="countComicCollect" resultType="int">
+        SELECT
+            COUNT(A.ARTICLE_ID)
+        FROM
+            M_ARTICLE A
+        ,   R_COMIC C
+        ,   R_COLLECT RC
+        WHERE
+            A.ARTICLE_ID = C.ARTICLE_ID (+)
+        AND A.ARTICLE_ID = RC.ARTICLE_ID (+)
+        AND A.PUBLISH_FLG = '1'
+        AND RC.USER_ID = #{userId}
+        AND C.DEL_FLG = '0'
+        AND RC.DEL_FLG = '0'
+    </select>
+    
+    <select id="fetchComicCollect" resultType="ComicBean">
+        SELECT
+            *
+        FROM
+            (SELECT
+                A.ARTICLE_ID            as articleId
+            ,   A.TITLE                 as title
+            ,   A.DESCRIPTION           as description
+            ,   A.PUBLISH_FLG           as publishFlg
+            ,   A.PUBLISH_DATE          as publishDate
+            ,   U.USER_ID               as "userBean.userId"
+            ,   U.NICKNAME              as "userBean.nickname"
+            ,   U.SIGNATURE             as "userBean.signature"
+            ,   C.RED_FLG               as redFlg
+            ,   C.TRANSLATE_FLG         as translateFlg
+            ,   NVL(V_ACCESS.CNT, 0)    as accessCount
+            ,   NVL(V_COLLECT.CNT, 0)   as collectCount
+            ,   NVL(V_COMMENT.CNT, 0)   as commentCount
+            ,   ROW_NUMBER() OVER (ORDER BY RC.ADD_DATE DESC) as RNUM
+            FROM
+                M_ARTICLE A
+            ,   R_COMIC C
+            ,   R_COLLECT RC
+            ,   M_USER U
+            ,   (SELECT
+                    M_ACCESS.ARTICLE_ID
+                ,   COUNT(M_ACCESS.ARTICLE_ID) as CNT
+                FROM
+                    M_ACCESS
+                WHERE
+                    M_ACCESS.DEL_FLG = '0'
+                GROUP BY M_ACCESS.ARTICLE_ID
+            ) V_ACCESS
+            ,   (SELECT
+                    R_COLLECT.ARTICLE_ID
+                ,   COUNT(R_COLLECT.ARTICLE_ID) as CNT
+                FROM
+                    R_COLLECT
+                WHERE
+                    R_COLLECT.DEL_FLG = '0'
+                GROUP BY R_COLLECT.ARTICLE_ID
+            ) V_COLLECT
+            ,   (SELECT
+                    M_ARTICLE_COMMENT.ARTICLE_ID
+                ,   COUNT(M_ARTICLE_COMMENT.ARTICLE_ID) as CNT
+                FROM
+                    M_ARTICLE_COMMENT
+                WHERE
+                    M_ARTICLE_COMMENT.DEL_FLG = '0'
+                GROUP BY M_ARTICLE_COMMENT.ARTICLE_ID
+            ) V_COMMENT
+            WHERE
+                A.ARTICLE_ID = C.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = RC.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_ACCESS.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COLLECT.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COMMENT.ARTICLE_ID (+)
+            AND A.USER_ID = U.USER_ID (+)
+            AND A.PUBLISH_FLG = '1'
+            AND RC.USER_ID = #{userId}
+            AND C.DEL_FLG = '0'
+            AND RC.DEL_FLG = '0')
+        WHERE
+            RNUM BETWEEN #{start} AND #{end}
+        ORDER BY RNUM
+    </select>
+    
+    <select id="countMusicCollect" resultType="int">
+        SELECT
+            COUNT(A.ARTICLE_ID)
+        FROM
+            M_ARTICLE A
+        ,   R_MUSIC M
+        ,   R_COLLECT RC
+        WHERE
+            A.ARTICLE_ID = M.ARTICLE_ID (+)
+        AND A.ARTICLE_ID = RC.ARTICLE_ID (+)
+        AND A.PUBLISH_FLG = '1'
+        AND RC.USER_ID = #{userId}
+        AND M.DEL_FLG = '0'
+        AND RC.DEL_FLG = '0'
+    </select>
+    
+    <select id="fetchMusicCollect" resultType="MusicBean">
+        SELECT
+            *
+        FROM
+            (SELECT
+                A.ARTICLE_ID            as articleId
+            ,   A.TITLE                 as title
+            ,   A.DESCRIPTION           as description
+            ,   A.PUBLISH_FLG           as publishFlg
+            ,   A.PUBLISH_DATE          as publishDate
+            ,   U.USER_ID               as "userBean.userId"
+            ,   U.NICKNAME              as "userBean.nickname"
+            ,   U.SIGNATURE             as "userBean.signature"
+            ,   NVL(V_ACCESS.CNT, 0)    as accessCount
+            ,   NVL(V_COLLECT.CNT, 0)   as collectCount
+            ,   NVL(V_COMMENT.CNT, 0)   as commentCount
+            ,   ROW_NUMBER() OVER (ORDER BY RC.ADD_DATE DESC) as RNUM
+            FROM
+                M_ARTICLE A
+            ,   R_MUSIC M
+            ,   R_COLLECT RC
+            ,   M_USER U
+            ,   (SELECT
+                    M_ACCESS.ARTICLE_ID
+                ,   COUNT(M_ACCESS.ARTICLE_ID) as CNT
+                FROM
+                    M_ACCESS
+                WHERE
+                    M_ACCESS.DEL_FLG = '0'
+                GROUP BY M_ACCESS.ARTICLE_ID
+            ) V_ACCESS
+            ,   (SELECT
+                    R_COLLECT.ARTICLE_ID
+                ,   COUNT(R_COLLECT.ARTICLE_ID) as CNT
+                FROM
+                    R_COLLECT
+                WHERE
+                    R_COLLECT.DEL_FLG = '0'
+                GROUP BY R_COLLECT.ARTICLE_ID
+            ) V_COLLECT
+            ,   (SELECT
+                    M_ARTICLE_COMMENT.ARTICLE_ID
+                ,   COUNT(M_ARTICLE_COMMENT.ARTICLE_ID) as CNT
+                FROM
+                    M_ARTICLE_COMMENT
+                WHERE
+                    M_ARTICLE_COMMENT.DEL_FLG = '0'
+                GROUP BY M_ARTICLE_COMMENT.ARTICLE_ID
+            ) V_COMMENT
+            WHERE
+                A.ARTICLE_ID = M.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = RC.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_ACCESS.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COLLECT.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COMMENT.ARTICLE_ID (+)
+            AND A.USER_ID = U.USER_ID (+)
+            AND A.PUBLISH_FLG = '1'
+            AND RC.USER_ID = #{userId}
+            AND M.DEL_FLG = '0'
+            AND RC.DEL_FLG = '0')
+        WHERE
+            RNUM BETWEEN #{start} AND #{end}
+        ORDER BY RNUM
+    </select>
+    
+    
+    <select id="countGameCollect" resultType="int">
+        SELECT
+            COUNT(A.ARTICLE_ID)
+        FROM
+            M_ARTICLE A
+        ,   R_GAME G
+        ,   R_COLLECT RC
+        WHERE
+            A.ARTICLE_ID = G.ARTICLE_ID (+)
+        AND A.ARTICLE_ID = RC.ARTICLE_ID (+)
+        AND A.PUBLISH_FLG = '1'
+        AND RC.USER_ID = #{userId}
+        AND G.DEL_FLG = '0'
+        AND RC.DEL_FLG = '0'
+    </select>
+    
+    <select id="fetchGameCollect" resultType="GameBean">
+        SELECT
+            *
+        FROM
+            (SELECT
+                A.ARTICLE_ID            as articleId
+            ,   A.TITLE                 as title
+            ,   A.DESCRIPTION           as description
+            ,   A.PUBLISH_FLG           as publishFlg
+            ,   A.PUBLISH_DATE          as publishDate
+            ,   U.USER_ID               as "userBean.userId"
+            ,   U.NICKNAME              as "userBean.nickname"
+            ,   U.SIGNATURE             as "userBean.signature"
+            ,   NVL(V_ACCESS.CNT, 0)    as accessCount
+            ,   NVL(V_COLLECT.CNT, 0)   as collectCount
+            ,   NVL(V_COMMENT.CNT, 0)   as commentCount
+            ,   ROW_NUMBER() OVER (ORDER BY RC.ADD_DATE DESC) as RNUM
+            FROM
+                M_ARTICLE A
+            ,   R_GAME G
+            ,   R_COLLECT RC
+            ,   M_USER U
+            ,   (SELECT
+                    M_ACCESS.ARTICLE_ID
+                ,   COUNT(M_ACCESS.ARTICLE_ID) as CNT
+                FROM
+                    M_ACCESS
+                WHERE
+                    M_ACCESS.DEL_FLG = '0'
+                GROUP BY M_ACCESS.ARTICLE_ID
+            ) V_ACCESS
+            ,   (SELECT
+                    R_COLLECT.ARTICLE_ID
+                ,   COUNT(R_COLLECT.ARTICLE_ID) as CNT
+                FROM
+                    R_COLLECT
+                WHERE
+                    R_COLLECT.DEL_FLG = '0'
+                GROUP BY R_COLLECT.ARTICLE_ID
+            ) V_COLLECT
+            ,   (SELECT
+                    M_ARTICLE_COMMENT.ARTICLE_ID
+                ,   COUNT(M_ARTICLE_COMMENT.ARTICLE_ID) as CNT
+                FROM
+                    M_ARTICLE_COMMENT
+                WHERE
+                    M_ARTICLE_COMMENT.DEL_FLG = '0'
+                GROUP BY M_ARTICLE_COMMENT.ARTICLE_ID
+            ) V_COMMENT
+            WHERE
+                A.ARTICLE_ID = G.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = RC.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_ACCESS.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COLLECT.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COMMENT.ARTICLE_ID (+)
+            AND A.USER_ID = U.USER_ID (+)
+            AND A.PUBLISH_FLG = '1'
+            AND RC.USER_ID = #{userId}
+            AND G.DEL_FLG = '0'
+            AND RC.DEL_FLG = '0')
+        WHERE
+            RNUM BETWEEN #{start} AND #{end}
+        ORDER BY RNUM
+    </select>
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.persistence.MArticleMapper">
+
+    <cache type="org.mybatis.caches.oscache.LoggingOSCache" flushInterval="3600"/>
+    
+    <insert id="insertArticle">
+        INSERT INTO M_ARTICLE(
+            ARTICLE_ID
+        ,   USER_ID
+        ,   TITLE
+        <if test="description != null">
+        ,   DESCRIPTION
+        </if>
+        ,   PUBLISH_FLG
+        ,   RECOMMEND
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{articleId}
+        ,   #{userBean.userId}
+        ,   #{title}
+        <if test="description != null">
+        ,   #{description}
+        </if>
+        ,   '0'
+        ,   '0'
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <update id="updateArticleInfo" flushCache="true">
+        UPDATE
+            M_ARTICLE A
+        SET
+            A.TITLE = #{title}
+        <if test="description != null">
+        ,   A.DESCRIPTION = #{description}
+        </if>
+        <if test="description == null">
+        ,   A.DESCRIPTION = NULL
+        </if>
+        ,   A.UPD_DATE = SYSDATE
+        WHERE
+            A.ARTICLE_ID = #{articleId}
+        AND A.DEL_FLG = '0'
+    </update>
+    
+    <update id="publishArticle" flushCache="true">
+        UPDATE
+            M_ARTICLE A
+        SET
+            A.PUBLISH_FLG = '1'
+        ,   A.PUBLISH_DATE = SYSDATE
+        ,   A.UPD_DATE = SYSDATE
+        WHERE
+            A.ARTICLE_ID = #{articleId}
+        AND A.DEL_FLG = '0'
+    </update>
+    
+    <select id="getArticleCount" resultType="int">
+        SELECT
+            COUNT(A.ARTICLE_ID)
+        FROM
+            M_ARTICLE A
+        WHERE
+            A.USER_ID = #{userBean.userId}
+        AND A.DEL_FLG = '0'
+    </select>
+    
+    <insert id="insertAccess" flushCache="true">
+        INSERT INTO M_ACCESS(
+            ARTICLE_ID
+        <if test="userBean != null and userBean.userId != null">
+        ,   USER_ID
+        </if>
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{articleId}
+        <if test="userBean != null and userBean.userId != null">
+        ,   #{userBean.userId}
+        </if>
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <update id="deleteArticle" flushCache="true">
+        UPDATE
+            M_ARTICLE A
+        SET
+            UPD_DATE = SYSDATE
+        ,   A.DEL_FLG = '1'
+        WHERE
+            A.ARTICLE_ID = #{articleId}
+        AND A.DEL_FLG = '0'
+    </update>
+    
+    <select id="getArticleList" resultType="ArticleBean">
+        SELECT
+            A.ARTICLE_ID    as articleId
+        ,   A.USER_ID       as userId
+        ,   A.TITLE         as title
+        ,   A.DESCRIPTION   as description
+        ,   A.PUBLISH_FLG   as publishFlg
+        ,   A.RECOMMEND     as recommend
+        FROM
+            M_ARTICLE A
+        WHERE
+            A.DEL_FLG = '0'
+        <if test="articleId != null">
+        AND A.ARTICLE_ID = #{articleId}
+        </if>
+    </select>
+    
+    <select id="getArticleBean" resultType="ArticleBean">
+        SELECT
+            A.ARTICLE_ID    as articleId
+        ,   A.USER_ID       as userId
+        ,   A.TITLE         as title
+        ,   A.DESCRIPTION   as description
+        ,   A.PUBLISH_FLG   as publishFlg
+        ,   A.RECOMMEND     as recommend
+        FROM
+            M_ARTICLE A
+        WHERE
+            A.DEL_FLG = '0'
+        AND A.ARTICLE_ID = #{articleId}
+    </select>
+    
+    <update id="recommendArticle" flushCache="true">
+        UPDATE
+            M_ARTICLE A
+        SET
+            A.UPD_DATE = SYSDATE
+        ,   A.RECOMMEND = #{recommend}
+        WHERE
+            A.ARTICLE_ID = #{articleId}
+        AND A.DEL_FLG = '0'
+    </update>
+</mapper>

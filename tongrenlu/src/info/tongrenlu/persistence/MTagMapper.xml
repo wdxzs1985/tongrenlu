@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.persistence.MTagMapper">
+    
+    <insert id="insertTag">
+        INSERT INTO M_TAG(
+            TAG_ID
+        ,   TAG
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{tagId}
+        ,   #{tag}
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <select id="fetchTag" resultType="TagBean">
+        SELECT
+            A.TAG_ID    as tagId
+        ,   A.TAG       as tag
+        ,   A.DEL_FLG   as delFlg
+        FROM
+            M_TAG A
+        <where>
+            <if test="tag != null">
+            AND LOWER( A.TAG ) = LOWER( #{tag} )
+            </if>
+            <if test="tagId != null">
+            AND A.TAG_ID = #{tagId}
+            </if>
+        </where>
+    </select>
+    
+    <select id="fetchTagList" resultType="TagBean">
+        SELECT
+            *
+        FROM
+            (SELECT
+                A.TAG_ID    as tagId
+            ,   A.TAG       as tag
+            ,   A.DEL_FLG   as delFlg
+            ,   ROW_NUMBER() OVER (ORDER BY A.TAG) as RNUM
+            FROM
+                M_TAG A
+            WHERE
+                LOWER( A.TAG ) LIKE '%' || LOWER( #{tag} ) || '%'
+            AND A.DEL_FLG = '0')
+        WHERE
+            RNUM BETWEEN #{start} AND #{end}
+        ORDER BY RNUM
+    </select>
+</mapper>

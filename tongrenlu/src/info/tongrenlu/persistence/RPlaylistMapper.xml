@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.persistence.RPlaylistMapper">
+
+    <cache type="org.mybatis.caches.oscache.LoggingOSCache" flushInterval="360000"/>
+    
+    <select id="getPlaylistCount" resultType="integer">
+        SELECT
+            COUNT(C.ARTICLE_ID)
+        FROM
+            M_ARTICLE A
+        ,   R_PLAYLIST C
+        ,   M_USER U
+        WHERE
+            C.ARTICLE_ID = A.ARTICLE_ID (+)
+        AND A.USER_ID = U.USER_ID (+)
+        <if test="userBean !=null and userBean.userId != null">
+        AND A.USER_ID = #{userBean.userId}
+        </if>
+        AND C.DEL_FLG = '0'
+    </select>
+    
+    <select id="getUserPlaylistName" resultType="PlaylistBean">
+        SELECT
+            A.ARTICLE_ID            as articleId
+        ,   A.TITLE                 as title
+        FROM
+            M_ARTICLE A
+        ,   R_PLAYLIST C
+        ,   M_USER U
+        WHERE
+            A.ARTICLE_ID = C.ARTICLE_ID (+)
+        AND A.USER_ID = U.USER_ID (+)
+        <if test="userBean !=null and userBean.userId != null">
+        AND A.USER_ID = #{userBean.userId}
+        </if>
+        AND C.DEL_FLG = '0'
+        ORDER BY A.ARTICLE_ID DESC
+    </select>
+    
+    <select id="getPlaylistList" resultType="PlaylistBean">
+        SELECT
+            *
+        FROM
+            (SELECT
+                A.ARTICLE_ID            as articleId
+            ,   A.TITLE                 as title
+            ,   U.USER_ID               as "userBean.userId"
+            ,   U.NICKNAME              as "userBean.nickname"
+            ,   ROW_NUMBER() OVER (ORDER BY A.ARTICLE_ID DESC) as RNUM
+            FROM
+                M_ARTICLE A
+            ,   R_PLAYLIST C
+            ,   M_USER U
+            ,   ( SELECT 
+                    T.ARTICLE_ID
+                ,   COUNT(T.FILE_ID) as CNT
+                FROM
+                    R_PLAYLIST_TRACK T
+                WHERE
+                    T.DEL_FLG = '0'
+                GROUP BY
+                    T.ARTICLE_ID
+            ) V_PLAYLIST_TRACK
+            WHERE
+                A.ARTICLE_ID = C.ARTICLE_ID (+)
+            AND A.USER_ID = U.USER_ID (+)
+            AND A.ARTICLE_ID = V_PLAYLIST_TRACK.ARTICLE_ID (+)
+            <if test="userBean !=null and userBean.userId != null">
+            AND A.USER_ID = #{userBean.userId}
+            </if>
+            <if test="userBean ==null or userBean.userId == null">
+            AND V_PLAYLIST_TRACK.CNT > 0
+            </if>
+            AND C.DEL_FLG = '0')
+        WHERE
+            RNUM BETWEEN #{start} AND #{end}
+        ORDER BY RNUM
+    </select>
+    
+    <select id="getPlaylist" resultType="PlaylistBean">
+        SELECT
+            A.ARTICLE_ID            as articleId
+        ,   A.TITLE                 as title
+        ,   A.DESCRIPTION           as description
+        ,   U.USER_ID               as "userBean.userId"
+        ,   U.NICKNAME              as "userBean.nickname"
+        FROM
+            M_ARTICLE A
+        ,   R_PLAYLIST C
+        ,   M_USER U
+        WHERE
+            C.ARTICLE_ID = A.ARTICLE_ID (+)
+        AND A.USER_ID = U.USER_ID (+)
+        AND C.ARTICLE_ID = #{articleId}
+        AND C.DEL_FLG = '0'
+    </select>
+    
+    <insert id="insertPlaylist" flushCache="true">
+        INSERT INTO R_PLAYLIST(
+            ARTICLE_ID
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{articleId}
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <update id="deletePlaylist" flushCache="true">
+        UPDATE
+            R_PLAYLIST M
+        SET
+            M.UPD_DATE = SYSDATE
+        ,   M.DEL_FLG = '1'
+        WHERE
+            M.ARTICLE_ID = #{articleId}
+        AND M.DEL_FLG = '0'
+    </update>
+    
+    <insert id="insertPlaylistTrack" flushCache="true">
+        INSERT INTO R_PLAYLIST_TRACK(
+            ARTICLE_ID
+        ,   FILE_ID
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ,   ORDER_NO
+        ) VALUES (
+            #{playlistBean.articleId}
+        ,   #{trackBean.fileBean.fileId}
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        ,   #{orderNo}
+        )
+    </insert>
+    
+    <update id="deletePlaylistTrack" flushCache="true">
+        UPDATE
+            R_PLAYLIST_TRACK M
+        SET
+            M.UPD_DATE = SYSDATE
+        ,   M.DEL_FLG = '1'
+        WHERE
+            M.ARTICLE_ID = #{playlistBean.articleId}
+        AND M.FILE_ID = #{trackBean.fileBean.fileId}
+        AND M.DEL_FLG = '0'
+    </update>
+    
+    <select id="getPlaylistTracks" resultType="PlaylistTrackBean">
+        SELECT
+            A.SONG_TITLE                as "trackBean.songTitle"
+        ,   A.LEAD_ARTIST               as "trackBean.leadArtist"
+        ,   A.ARTICLE_ID                as "trackBean.fileBean.articleId"
+        ,   A.FILE_ID                   as "trackBean.fileBean.fileId"
+        FROM
+            (SELECT
+                T.SONG_TITLE
+            ,   T.LEAD_ARTIST
+            ,   F.ARTICLE_ID
+            ,   F.FILE_ID
+            ,   ROW_NUMBER() OVER (ORDER BY R.ORDER_NO, R.ADD_DATE) as RNUM
+            FROM
+                M_TRACK T
+            ,   M_FILE F
+            ,   R_PLAYLIST_TRACK R
+            WHERE
+                T.FILE_ID = F.FILE_ID(+)
+            ANd T.FILE_ID = R.FILE_ID(+)
+            AND R.ARTICLE_ID = #{articleId}
+            AND T.DEL_FLG = '0'
+            AND F.DEL_FLG = '0'
+            AND R.DEL_FLG = '0'
+        ) A
+        ORDER BY RNUM
+    </select>
+    
+    <select id="countPlaylistTracks" resultType="int">
+        SELECT
+            COUNT(M_TRACK.FILE_ID)
+        FROM
+            M_TRACK
+        ,   M_FILE
+        ,   R_PLAYLIST_TRACK
+        WHERE
+            M_TRACK.FILE_ID = M_FILE.FILE_ID(+)
+        ANd M_TRACK.FILE_ID = R_PLAYLIST_TRACK.FILE_ID(+)
+        AND R_PLAYLIST_TRACK.ARTICLE_ID = #{articleId}
+        AND M_TRACK.DEL_FLG = '0'
+        AND M_FILE.DEL_FLG = '0'
+        AND R_PLAYLIST_TRACK.DEL_FLG = '0'
+    </select>
+</mapper>
