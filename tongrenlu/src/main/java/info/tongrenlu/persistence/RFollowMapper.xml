@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.persistence.RFollowMapper">
+    
+    <insert id="insertFollow">
+        INSERT INTO R_FOLLOW(
+            USER_ID
+        ,   FOLLOW_ID
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{userId}
+        ,   #{followId}
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <select id="countFollow" resultType="int">
+        SELECT
+            COUNT(1)
+        FROM
+            R_FOLLOW F
+        WHERE
+            F.DEL_FLG = '0'
+        <if test="userId != null">
+        AND F.USER_ID = #{userId}
+        </if>
+        <if test="followId != null">
+        AND F.FOLLOW_ID = #{followId}
+        </if>
+    </select>
+    
+    <update id="deleteFollow" >
+        UPDATE R_FOLLOW F
+        SET
+            F.DEL_FLG = '1'
+        ,   F.UPD_DATE = SYSDATE
+        WHERE
+            F.FOLLOW_ID = #{followId}
+        AND F.USER_ID = #{userId}
+    </update>
+    
+    <select id="fetchFollowList" resultType="UserBean">
+        SELECT
+            *
+        FROM
+            (SELECT
+                U.USER_ID               as userId
+            ,   U.NICKNAME              as nickname
+            ,   U.SIGNATURE             as signature
+            ,   NVL(V_ARTICLE.CNT, 0)   as articleCount
+            ,   NVL(V_FOLLOW.CNT, 0)    as followCount
+            ,   NVL(V_FANS.CNT, 0)      as fansCount
+            ,   ROW_NUMBER() OVER (ORDER BY F.ADD_DATE DESC) as RNUM
+            FROM
+                R_FOLLOW F
+            ,   M_USER U
+            ,   (SELECT
+                    M_ARTICLE.USER_ID
+                ,   COUNT(M_ARTICLE.ARTICLE_ID) as CNT
+                FROM
+                    M_ARTICLE
+                WHERE
+                    M_ARTICLE.DEL_FLG = '0'
+                GROUP BY M_ARTICLE.USER_ID
+            ) V_ARTICLE
+            ,   (SELECT
+                    R_FOLLOW.USER_ID
+                ,   COUNT(R_FOLLOW.FOLLOW_ID) as CNT
+                FROM
+                    R_FOLLOW
+                WHERE
+                    R_FOLLOW.DEL_FLG = '0'
+                GROUP BY R_FOLLOW.USER_ID
+            ) V_FOLLOW
+            ,   (SELECT
+                    R_FOLLOW.FOLLOW_ID
+                ,   COUNT(R_FOLLOW.USER_ID) as CNT
+                FROM
+                    R_FOLLOW
+                WHERE
+                    R_FOLLOW.DEL_FLG = '0'
+                GROUP BY R_FOLLOW.FOLLOW_ID
+            ) V_FANS
+            WHERE
+                F.DEL_FLG = '0'
+            <if test="userId != null">
+            AND F.FOLLOW_ID = U.USER_ID (+)
+            AND F.FOLLOW_ID = V_ARTICLE.USER_ID (+)
+            AND F.FOLLOW_ID = V_FOLLOW.USER_ID (+)
+            AND F.FOLLOW_ID = V_FANS.FOLLOW_ID (+)
+            AND F.USER_ID = #{userId}
+            </if>
+            <if test="followId != null">
+            AND F.USER_ID = U.USER_ID (+)
+            AND F.USER_ID = V_ARTICLE.USER_ID (+)
+            AND F.USER_ID = V_FOLLOW.USER_ID (+)
+            AND F.USER_ID = V_FANS.FOLLOW_ID (+)
+            AND F.FOLLOW_ID = #{followId}
+            </if>)
+        WHERE
+            RNUM BETWEEN #{start} AND #{end}
+        ORDER BY RNUM
+    </select>
+    
+</mapper>
