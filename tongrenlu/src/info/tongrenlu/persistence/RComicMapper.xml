@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.persistence.RComicMapper">
+
+    <cache-ref namespace="info.tongrenlu.persistence.MArticleMapper"/>
+    
+    <select id="getComicCount" resultType="integer">
+        SELECT
+            COUNT(C.ARTICLE_ID)
+        FROM
+            M_ARTICLE A
+        ,   R_COMIC C
+        WHERE
+            C.ARTICLE_ID = A.ARTICLE_ID (+)
+        <if test="userBean !=null and userBean.userId != null">
+        AND A.USER_ID = #{userBean.userId}
+        </if>
+        <if test="publishFlg != null">
+        AND A.PUBLISH_FLG = #{publishFlg}
+        </if>
+        <if test="redFlg == 0">
+        AND C.RED_FLG = '0'
+        </if>
+        <if test="translateFlg == 1">
+        AND C.TRANSLATE_FLG = '1'
+        </if>
+        <if test="tagId != null">
+        AND C.ARTICLE_ID IN (
+            SELECT
+                R_ARTICLE_TAG.ARTICLE_ID
+            FROM
+                R_ARTICLE_TAG
+            WHERE
+                R_ARTICLE_TAG.TAG_ID = #{tagId}
+            AND R_ARTICLE_TAG.DEL_FLG = '0'
+        )
+        </if>
+        <if test="searchQuery != null">
+        AND C.ARTICLE_ID IN (
+            SELECT
+                M_ARTICLE.ARTICLE_ID
+            FROM
+                M_ARTICLE
+            WHERE
+                LOWER( M_ARTICLE.TITLE ) LIKE '%' || LOWER( #{searchQuery} ) || '%'
+            OR  LOWER( M_ARTICLE.DESCRIPTION ) LIKE LOWER( '%' || #{searchQuery} ) || '%'
+            AND M_ARTICLE.DEL_FLG = '0'
+            UNION 
+            SELECT
+                R_ARTICLE_TAG.ARTICLE_ID
+            FROM
+                R_ARTICLE_TAG
+            ,   M_TAG
+            WHERE
+                R_ARTICLE_TAG.TAG_ID = M_TAG.TAG_ID(+)
+            AND LOWER( M_TAG.TAG ) LIKE '%' || LOWER( #{searchQuery} ) || '%'
+            AND R_ARTICLE_TAG.DEL_FLG = '0'
+        )
+        </if>
+        AND C.DEL_FLG = '0'
+    </select>
+    
+    <select id="getComicList" resultType="ComicBean">
+        SELECT
+            *
+        FROM
+            (SELECT
+                A.ARTICLE_ID            as articleId
+            ,   A.TITLE                 as title
+            ,   SUBSTR(A.DESCRIPTION, 1, 200)           as description
+            ,   A.PUBLISH_FLG           as publishFlg
+            ,   A.PUBLISH_DATE          as publishDate
+            ,   U.USER_ID               as "userBean.userId"
+            ,   U.NICKNAME              as "userBean.nickname"
+            ,   U.SIGNATURE             as "userBean.signature"
+            ,   C.RED_FLG               as redFlg
+            ,   C.TRANSLATE_FLG         as translateFlg
+            ,   NVL(V_ACCESS.CNT, 0)    as accessCount
+            ,   NVL(V_COLLECT.CNT, 0)   as collectCount
+            ,   NVL(V_COLLECT_2.CNT, 0) as collectFlg
+            ,   NVL(V_COMMENT.CNT, 0)   as commentCount
+            ,   ROW_NUMBER() OVER (ORDER BY ${order}) as RNUM
+            FROM
+                M_ARTICLE A
+            ,   R_COMIC C
+            ,   M_USER U
+            ,   (SELECT
+                    M_ACCESS.ARTICLE_ID
+                ,   COUNT(M_ACCESS.ARTICLE_ID) as CNT
+                FROM
+                    M_ACCESS
+                WHERE
+                    M_ACCESS.DEL_FLG = '0'
+                GROUP BY M_ACCESS.ARTICLE_ID
+            ) V_ACCESS
+            ,   (SELECT
+                    R_COLLECT.ARTICLE_ID
+                ,   COUNT(R_COLLECT.ARTICLE_ID) as CNT
+                FROM
+                    R_COLLECT
+                WHERE
+                    R_COLLECT.DEL_FLG = '0'
+                GROUP BY R_COLLECT.ARTICLE_ID
+            ) V_COLLECT
+            ,   (SELECT
+                    R_COLLECT.ARTICLE_ID
+                ,   COUNT(R_COLLECT.ARTICLE_ID) as CNT
+                FROM
+                    R_COLLECT
+                WHERE
+                    R_COLLECT.DEL_FLG = '0'
+                <if test="collectUserId != null">
+                AND R_COLLECT.USER_ID = #{collectUserId}
+                </if>
+                <if test="collectUserId == null">
+                AND R_COLLECT.USER_ID is null
+                </if>
+                GROUP BY R_COLLECT.ARTICLE_ID
+            ) V_COLLECT_2
+            ,   (SELECT
+                    M_ARTICLE_COMMENT.ARTICLE_ID
+                ,   COUNT(M_ARTICLE_COMMENT.ARTICLE_ID) as CNT
+                FROM
+                    M_ARTICLE_COMMENT
+                WHERE
+                    M_ARTICLE_COMMENT.DEL_FLG = '0'
+                GROUP BY M_ARTICLE_COMMENT.ARTICLE_ID
+            ) V_COMMENT
+            ,   (SELECT
+                    M_ARTICLE_COMMENT.ARTICLE_ID
+                ,   MAX(M_ARTICLE_COMMENT.COMMENT_ID) as COMMENT_ID
+                FROM
+                    M_ARTICLE_COMMENT
+                WHERE
+                    M_ARTICLE_COMMENT.DEL_FLG = '0'
+                AND M_ARTICLE_COMMENT.ADD_DATE > SYSDATE - 7
+                GROUP BY M_ARTICLE_COMMENT.ARTICLE_ID
+            ) V_COMMENT_2
+            WHERE
+                A.ARTICLE_ID = C.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_ACCESS.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COLLECT.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COLLECT_2.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COMMENT.ARTICLE_ID (+)
+            AND A.ARTICLE_ID = V_COMMENT_2.ARTICLE_ID (+)
+            AND A.USER_ID = U.USER_ID (+)
+            <if test="recommend != null">
+            AND (
+                    A.RECOMMEND = '1'
+                OR  A.PUBLISH_DATE > SYSDATE - 7
+                OR  V_COMMENT_2.ARTICLE_ID IS NOT NULL
+            )
+            </if>
+            <if test="publishFlg != null">
+            AND A.PUBLISH_FLG = #{publishFlg}
+            </if>
+            <if test="userBean !=null and userBean.userId != null">
+            AND A.USER_ID = #{userBean.userId}
+            </if>
+            <if test="redFlg == 0">
+            AND C.RED_FLG = '0'
+            </if>
+            <if test="translateFlg == 1">
+            AND C.TRANSLATE_FLG = '1'
+            </if>
+            <if test="tagId != null">
+            AND C.ARTICLE_ID IN (
+                SELECT
+                    R_ARTICLE_TAG.ARTICLE_ID
+                FROM
+                    R_ARTICLE_TAG
+                WHERE
+                    R_ARTICLE_TAG.TAG_ID = #{tagId}
+                AND R_ARTICLE_TAG.DEL_FLG = '0'
+            )
+            </if>
+            <if test="searchQuery != null">
+            AND C.ARTICLE_ID IN (
+                SELECT
+                    M_ARTICLE.ARTICLE_ID
+                FROM
+                    M_ARTICLE
+                WHERE
+                    LOWER( M_ARTICLE.TITLE ) LIKE '%' || LOWER( #{searchQuery} ) || '%'
+                OR  LOWER( M_ARTICLE.DESCRIPTION ) LIKE LOWER( '%' || #{searchQuery} ) || '%'
+                AND M_ARTICLE.DEL_FLG = '0'
+                UNION 
+                SELECT
+                    R_ARTICLE_TAG.ARTICLE_ID
+                FROM
+                    R_ARTICLE_TAG
+                ,   M_TAG
+                WHERE
+                    R_ARTICLE_TAG.TAG_ID = M_TAG.TAG_ID(+)
+                AND LOWER( M_TAG.TAG ) LIKE '%' || LOWER( #{searchQuery} ) || '%'
+                AND R_ARTICLE_TAG.DEL_FLG = '0'
+            )
+            </if>
+            AND C.DEL_FLG = '0')
+        WHERE
+            RNUM BETWEEN #{start} AND #{end}
+        ORDER BY RNUM
+    </select>
+    
+    <select id="getComic" resultType="ComicBean">
+        SELECT
+            A.ARTICLE_ID            as articleId
+        ,   A.TITLE                 as title
+        ,   A.DESCRIPTION           as description
+        ,   A.PUBLISH_FLG           as publishFlg
+        ,   A.PUBLISH_DATE          as publishDate
+        ,   C.RED_FLG               as redFlg
+        ,   C.TRANSLATE_FLG         as translateFlg
+        ,   NVL(V_ACCESS.CNT, 0)    as accessCount
+        ,   NVL(V_COLLECT.CNT, 0)   as collectCount
+        ,   NVL(V_COLLECT_2.CNT, 0) as collectFlg
+        ,   NVL(V_COMMENT.CNT, 0)   as commentCount
+        ,   U.USER_ID               as "userBean.userId"
+        ,   U.NICKNAME              as "userBean.nickname"
+        ,   U.SIGNATURE             as "userBean.signature"
+        FROM
+            M_ARTICLE A
+        ,   R_COMIC C
+        ,   M_USER U
+        ,   (SELECT
+                M_ACCESS.ARTICLE_ID
+            ,   COUNT(M_ACCESS.ARTICLE_ID) as CNT
+            FROM
+                M_ACCESS
+            WHERE
+                M_ACCESS.DEL_FLG = '0'
+            GROUP BY M_ACCESS.ARTICLE_ID
+        ) V_ACCESS
+        ,   (SELECT
+                R_COLLECT.ARTICLE_ID
+            ,   COUNT(R_COLLECT.ARTICLE_ID) as CNT
+            FROM
+                R_COLLECT
+            WHERE
+                R_COLLECT.DEL_FLG = '0'
+            GROUP BY R_COLLECT.ARTICLE_ID
+        ) V_COLLECT
+        ,   (SELECT
+                R_COLLECT.ARTICLE_ID
+            ,   COUNT(R_COLLECT.ARTICLE_ID) as CNT
+            FROM
+                R_COLLECT
+            WHERE
+                R_COLLECT.DEL_FLG = '0'
+            <if test="collectUserId != null">
+            AND R_COLLECT.USER_ID = #{collectUserId}
+            </if>
+            <if test="collectUserId == null">
+            AND R_COLLECT.USER_ID is null
+            </if>
+            GROUP BY R_COLLECT.ARTICLE_ID
+        ) V_COLLECT_2
+        ,   (SELECT
+                M_ARTICLE_COMMENT.ARTICLE_ID
+            ,   COUNT(M_ARTICLE_COMMENT.ARTICLE_ID) as CNT
+            FROM
+                M_ARTICLE_COMMENT
+            WHERE
+                M_ARTICLE_COMMENT.DEL_FLG = '0'
+            GROUP BY M_ARTICLE_COMMENT.ARTICLE_ID
+        ) V_COMMENT
+        WHERE
+            C.ARTICLE_ID = A.ARTICLE_ID (+)
+        AND C.ARTICLE_ID = V_ACCESS.ARTICLE_ID (+)
+        AND C.ARTICLE_ID = V_COLLECT.ARTICLE_ID (+)
+        AND A.ARTICLE_ID = V_COLLECT_2.ARTICLE_ID (+)
+        AND C.ARTICLE_ID = V_COMMENT.ARTICLE_ID (+)
+        AND A.USER_ID = U.USER_ID (+)
+        <if test="articleId != null">
+        AND C.ARTICLE_ID = #{articleId}
+        </if>
+        AND C.DEL_FLG = '0'
+    </select>
+    
+    <insert id="insertComic" flushCache="true">
+        INSERT INTO R_COMIC(
+            ARTICLE_ID
+        ,   RED_FLG
+        ,   TRANSLATE_FLG
+        ,   ADD_DATE
+        ,   UPD_DATE
+        ,   DEL_FLG
+        ) VALUES (
+            #{articleId}
+        ,   #{redFlg}
+        ,   #{translateFlg}
+        ,   SYSDATE
+        ,   SYSDATE
+        ,   '0'
+        )
+    </insert>
+    
+    <update id="updateComic" flushCache="true">
+        UPDATE
+            R_COMIC C
+        SET
+            UPD_DATE = SYSDATE
+        <if test="redFlg == 1">
+        ,   C.RED_FLG = '1'
+        </if>
+        <if test="redFlg != 1">
+        ,   C.RED_FLG = '0'
+        </if>
+        <if test="translateFlg == 0">
+        ,   C.TRANSLATE_FLG = '0'
+        </if>
+        <if test="translateFlg != 0">
+        ,   C.TRANSLATE_FLG = '1'
+        </if>
+        WHERE
+            C.ARTICLE_ID = #{articleId}
+        AND C.DEL_FLG = '0'
+    </update>
+    
+    <update id="deleteComic" flushCache="true">
+        UPDATE
+            R_COMIC C
+        SET
+            UPD_DATE = SYSDATE
+        ,   C.DEL_FLG = '1'
+        WHERE
+            C.ARTICLE_ID = #{articleId}
+        AND C.DEL_FLG = '0'
+    </update>
+    
+</mapper>

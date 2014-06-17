@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>info.tongrenlu</groupId>
-	<artifactId>web</artifactId>
+	<artifactId>tongrenlu-solr</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>tongrenlu-web</name>
-	<description>tongrenlu-web</description>
+	<name>tongrenlu-solr</name>
+	<description>tongrenlu-solr</description>
 	
 	<parent>
 	    <groupId>org.springframework.boot</groupId>
