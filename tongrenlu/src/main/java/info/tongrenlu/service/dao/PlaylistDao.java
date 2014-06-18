@@ -63,7 +63,7 @@ public class PlaylistDao extends SequenceSupport {
 
     public void createPlaylist(final PlaylistBean playlistBean) {
         playlistBean.setArticleId(this.getNextId());
-        this.articleMapper.insertArticle(playlistBean);
+        // this.articleMapper.insertArticle(playlistBean);
         this.playlistMapper.insertPlaylist(playlistBean);
     }
 
@@ -71,7 +71,7 @@ public class PlaylistDao extends SequenceSupport {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
 
-        this.articleMapper.deleteArticle(param);
+        // this.articleMapper.deleteArticle(param);
         this.playlistMapper.deletePlaylist(param);
     }
 

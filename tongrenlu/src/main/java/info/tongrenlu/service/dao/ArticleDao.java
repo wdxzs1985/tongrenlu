@@ -6,7 +6,6 @@ import info.tongrenlu.persistence.MArticleMapper;
 import info.tongrenlu.persistence.RCollectMapper;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,71 +19,69 @@ public class ArticleDao {
     @Autowired
     private RCollectMapper collectMapper = null;
 
+    public ArticleBean getArticleById(final String id) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id", id);
+        return this.articleMapper.fetchBean(params);
+    }
+
     public void addAccess(final ArticleBean articleBean, final UserBean userBean) {
-        final ArticleBean bean = new ArticleBean();
-        bean.setArticleId(articleBean.getArticleId());
-        bean.setUserBean(userBean);
-        this.articleMapper.insertAccess(bean);
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("articleBean", articleBean);
+        params.put("userBean", userBean);
+        this.articleMapper.insertAccess(params);
         articleBean.setAccessCount(articleBean.getAccessCount() + 1);
     }
 
     public void publish(final ArticleBean articleBean) {
-        this.articleMapper.publishArticle(articleBean);
+        final Map<String, Object> param = new HashMap<String, Object>();
+        param.put("articleBean", articleBean);
+        this.articleMapper.publish(param);
     }
 
-    public boolean hasCollected(final String userId, final String articleId) {
+    public void recommend(final ArticleBean articleBean, final String recommend) {
         final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", userId);
-        param.put("articleId", articleId);
-        final int count = this.collectMapper.countCollect(param);
+        param.put("articleBean", articleBean);
+        param.put("recommend", recommend);
+        this.articleMapper.recommend(param);
+    }
+
+    public int countByUser(final UserBean userBean) {
+        final Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userBean", userBean);
+        return this.articleMapper.countByUser(param);
+    }
+
+    public boolean hasCollected(final ArticleBean articleBean,
+                                final UserBean userBean) {
+        final Map<String, Object> param = new HashMap<String, Object>();
+        param.put("articleBean", articleBean);
+        param.put("userBean", userBean);
+        final int count = this.collectMapper.count(param);
         return count > 0;
     }
 
-    public void addCollect(final String userId, final String articleId) {
+    public void addCollect(final ArticleBean articleBean,
+                           final UserBean userBean) {
         final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", userId);
-        param.put("articleId", articleId);
-        this.collectMapper.insertCollect(param);
+        param.put("articleBean", articleBean);
+        param.put("userBean", userBean);
+        this.collectMapper.insert(param);
     }
 
-    public void removeCollect(final String userId, final String articleId) {
+    public void removeCollect(final ArticleBean articleBean,
+                              final UserBean userBean) {
         final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", userId);
-        param.put("articleId", articleId);
-        this.collectMapper.deleteCollect(param);
+        param.put("articleBean", articleBean);
+        param.put("userBean", userBean);
+        this.collectMapper.delete(param);
     }
 
-    public int countUserArticle(final UserBean userBean) {
+    public int countCollect(final UserBean userBean) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
-        final int itemCount = this.articleMapper.getArticleCount(param);
+        final int itemCount = this.collectMapper.count(param);
         return itemCount;
-    }
-
-    public int countCollectArticle(final String userId) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", userId);
-        final int itemCount = this.collectMapper.countCollect(param);
-        return itemCount;
-    }
-
-    public List<ArticleBean> getArticleList(final String articleId) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("articleId", articleId);
-        return this.articleMapper.getArticleList(param);
-    }
-
-    public ArticleBean getArticleBean(final String articleId) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("articleId", articleId);
-        return this.articleMapper.getArticleBean(param);
-    }
-
-    public void recommendArticle(final String articleId, final String recommend) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("articleId", articleId);
-        param.put("recommend", recommend);
-        this.articleMapper.recommendArticle(param);
     }
 
 }

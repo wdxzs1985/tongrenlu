@@ -1,9 +1,7 @@
 package info.tongrenlu.service.dao;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.persistence.MUserMapper;
 import info.tongrenlu.persistence.RFollowMapper;
-import info.tongrenlu.service.validator.UserBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
 import info.tongrenlu.support.SequenceSupport;
 
@@ -16,7 +14,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -29,25 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class UserDao extends SequenceSupport {
 
     @Autowired
-    private MessageSource messageSource = null;
-    @Autowired
-    private UserBeanValidator validator = null;
-    @Autowired
-    private MUserMapper userMapper = null;
-    @Autowired
     private RFollowMapper followMapper = null;
-
-    public boolean validateUserLogin(final UserBean user,
-                                     final Map<String, Object> model) {
-        boolean isValid = true;
-        if (!this.validator.validateEmail(user.getEmail(), "email_error", model)) {
-            isValid = false;
-        }
-        if (!this.validator.validatePassword(user.getPassword(), model)) {
-            isValid = false;
-        }
-        return isValid;
-    }
 
     public boolean validateUserOnline(final UserBean userBean,
                                       final Map<String, Object> model) {

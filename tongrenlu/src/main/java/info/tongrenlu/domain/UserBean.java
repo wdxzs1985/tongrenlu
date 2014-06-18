@@ -1,37 +1,38 @@
 package info.tongrenlu.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_DEFAULT)
-public class UserBean implements Serializable {
+public class UserBean extends DtoBean {
 
     /**
      * 
      */
-    private static final long serialVersionUID = 7273825309853765682L;
-
-    private String userId;
+    private static final long serialVersionUID = 1L;
 
     private String nickname;
 
+    @JsonIgnore
     private String email;
 
+    @JsonIgnore
     private String password;
 
-    private Date lastLoginTime;
+    @JsonIgnore
+    private String salt;
 
-    private String lastLoginIp;
+    @JsonIgnore
+    private String remember;
 
-    private String lastLoginUa;
-
+    @JsonIgnore
     private String adminFlg;
 
+    @JsonIgnore
     private String redFlg;
 
+    @JsonIgnore
     private String translateFlg;
 
     private String signature;
@@ -40,21 +41,11 @@ public class UserBean implements Serializable {
 
     private int comicCount = 0;
 
-    private int gameCount = 0;
-
     private int collectCount = 0;
 
     private int followCount = 0;
 
     private int fansCount = 0;
-
-    public String getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(final String userId) {
-        this.userId = userId;
-    }
 
     public String getNickname() {
         return this.nickname;
@@ -78,34 +69,6 @@ public class UserBean implements Serializable {
 
     public void setPassword(final String password) {
         this.password = password;
-    }
-
-    public Date getLastLoginTime() {
-        return this.lastLoginTime;
-    }
-
-    public void setLastLoginTime(final Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public String getLastLoginIp() {
-        return this.lastLoginIp;
-    }
-
-    public void setLastLoginIp(final String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp;
-    }
-
-    public String getLastLoginUa() {
-        return this.lastLoginUa;
-    }
-
-    public void setLastLoginUa(final String lastLoginUa) {
-        this.lastLoginUa = lastLoginUa;
-    }
-
-    public static long getSerialversionuid() {
-        return UserBean.serialVersionUID;
     }
 
     public String getRedFlg() {
@@ -166,7 +129,7 @@ public class UserBean implements Serializable {
 
     @Override
     public String toString() {
-        return "@" + this.nickname + "(" + this.userId + ")";
+        return this.nickname + "#" + this.getId();
     }
 
     public int getMusicCount() {
@@ -185,11 +148,19 @@ public class UserBean implements Serializable {
         this.comicCount = comicCount;
     }
 
-    public int getGameCount() {
-        return this.gameCount;
+    public String getSalt() {
+        return this.salt;
     }
 
-    public void setGameCount(final int gameCount) {
-        this.gameCount = gameCount;
+    public void setSalt(final String salt) {
+        this.salt = salt;
+    }
+
+    public String getRemember() {
+        return this.remember;
+    }
+
+    public void setRemember(final String remember) {
+        this.remember = remember;
     }
 }

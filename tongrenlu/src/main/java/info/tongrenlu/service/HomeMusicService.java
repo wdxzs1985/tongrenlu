@@ -118,16 +118,16 @@ public class HomeMusicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("title", trackBean.getSongTitle());
         model.put("artist", trackBean.getLeadArtist());
         model.put("original", trackBean.getOriginalTitle());
         model.put("mp3", FILE_PATH + "/"
-                         + trackBean.getFileBean().getArticleId()
-                         + "/"
-                         + trackBean.getFileBean().getFileId()
-                         + ".mp3");
+                + trackBean.getFileBean().getArticleId()
+                + "/"
+                + trackBean.getFileBean().getFileId()
+                + ".mp3");
         // model.put("poster", FILE_PATH
         // + "/"
         // + trackBean.getFileBean().getArticleId()
@@ -155,18 +155,18 @@ public class HomeMusicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                                + fileBean.getArticleId()
-                                + "/"
-                                + fileBean.getFileId()
-                                + "_800.jpg");
+                + fileBean.getArticleId()
+                + "/"
+                + fileBean.getFileId()
+                + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                               + fileBean.getArticleId()
-                               + "/"
-                               + fileBean.getFileId()
-                               + "_1600.jpg");
+                + fileBean.getArticleId()
+                + "/"
+                + fileBean.getFileId()
+                + "_1600.jpg");
         return model;
     }
 

@@ -2,14 +2,17 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.LoginService;
-import info.tongrenlu.support.ControllerSupport;
 import info.tongrenlu.support.LoginUserSupport;
 
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,45 +20,69 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-public class LoginController extends ControllerSupport {
+@SessionAttributes("LOGIN_USER")
+public class LoginController {
 
     @Autowired
     private LoginService loginService = null;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    @RequestMapping(method = RequestMethod.GET, value = "/prelogin")
     @ResponseBody
-    public Map<String, Object> doPostLogin(@ModelAttribute final UserBean userBean,
-                                           final String remember,
-                                           final HttpServletRequest request,
-                                           final HttpServletResponse response) {
-        return this.loginService.doPostLogin(userBean,
-                                             remember,
-                                             request,
-                                             response);
+    public Map<String, Object> doGetPreLogin(final HttpServletRequest request) {
+        final Map<String, Object> model = new HashMap<String, Object>();
+        final String salt = RandomStringUtils.randomAlphanumeric(4);
+        model.put("salt", salt);
+        request.getSession().setAttribute("salt", salt);
+        return model;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/register")
+    @RequestMapping(method = RequestMethod.POST, value = "/signin")
+    @ResponseBody
+    public Map<String, Object> doPostLogin(final String email,
+                                           final String password,
+                                           final String remember,
+                                           final Locale locale,
+                                           final HttpServletRequest request,
+                                           final HttpServletResponse response) {
+        final Map<String, Object> model = new HashMap<String, Object>();
+        model.put("result", false);
+
+        final String salt = (String) request.getSession().getAttribute("salt");
+
+        final UserBean userBean = new UserBean();
+        userBean.setEmail(StringUtils.lowerCase(email));
+        userBean.setPassword(password);
+        userBean.setSalt(salt);
+        userBean.setRemember(remember);
+
+        this.loginService.doLogin(userBean, model, locale);
+
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/signup")
     public String doGetRegister(final Model model) {
         return "login/register";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/register")
+    @RequestMapping(method = RequestMethod.POST, value = "/signup")
     public String doPostRegister(@ModelAttribute final UserBean userBean,
                                  final Model model) {
 
         return this.loginService.doPostRegister(userBean, model);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/register/finish")
+    @RequestMapping(method = RequestMethod.GET, value = "/signup/finish")
     public String doGetRegisterFinish(final Model model,
                                       final HttpServletRequest request,
                                       final HttpServletResponse response) {
         return "login/register_finish";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/logout")
+    @RequestMapping(method = RequestMethod.GET, value = "/signout")
     @ResponseBody
     public void doGetLogout(final HttpServletRequest request,
                             final HttpServletResponse response) {

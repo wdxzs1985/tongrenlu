@@ -4,6 +4,7 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.persistence.MUserMapper;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -78,24 +79,29 @@ public class UserBeanValidator {
 
     public boolean validateEmail(final String email,
                                  final String errorAttribute,
-                                 final Map<String, Object> model) {
+                                 final Map<String, Object> model,
+                                 final Locale locale) {
         boolean isValid = true;
+        final String fieldName = this.messageSource.getMessage("UserBean.email",
+                                                               null,
+                                                               locale);
         if (StringUtils.isBlank(email)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("UserBean.email[Blank]",
-                                                    null,
+                      this.messageSource.getMessage("validate.empty",
+                                                    new Object[] { fieldName },
                                                     null));
             isValid = false;
         } else if (StringUtils.length(email) > 100) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("UserBean.email[TooLong]",
-                                                    new Integer[] { 100 },
+                      this.messageSource.getMessage("validate.tooLong",
+                                                    new Object[] { fieldName,
+                                                            100 },
                                                     null));
             isValid = false;
         } else if (!this.emailPattern.matcher(email).matches()) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("UserBean.email[Regex]",
-                                                    null,
+                      this.messageSource.getMessage("validate.bad",
+                                                    new Object[] { fieldName },
                                                     null));
             isValid = false;
         }

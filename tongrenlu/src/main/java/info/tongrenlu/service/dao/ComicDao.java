@@ -44,14 +44,14 @@ public class ComicDao extends SequenceSupport {
         param.put("translateFlg", translateFlg);
         param.put("collectUserId", collectUserId);
 
-        final int itemCount = this.comicMapper.getComicCount(param);
+        final int itemCount = this.comicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<ComicBean> items = this.comicMapper.getComicList(param);
+        final List<ComicBean> items = this.comicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -60,13 +60,13 @@ public class ComicDao extends SequenceSupport {
                                              final String searchQuery) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.comicMapper.getComicCount(param);
+        final int itemCount = this.comicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<ComicBean> items = this.comicMapper.getComicList(param);
+        final List<ComicBean> items = this.comicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -76,7 +76,7 @@ public class ComicDao extends SequenceSupport {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
         param.put("collectUserId", collectUserId);
-        return this.comicMapper.getComic(param);
+        return this.comicMapper.fetchBean(param);
     }
 
     public List<ComicBean> getComicLastest(final String searchQuery,
@@ -103,9 +103,9 @@ public class ComicDao extends SequenceSupport {
                                  size);
     }
 
-    public List<ComicBean> getlastCommentComic(final String redFlg,
-                                               final String translateFlg,
-                                               final int size) {
+    public List<ComicBean> getComicForIndex(final String redFlg,
+                                            final String translateFlg,
+                                            final int size) {
         return this.getComicRank(null,
                                  null,
                                  redFlg,
@@ -129,7 +129,7 @@ public class ComicDao extends SequenceSupport {
         param.put("order", order);
         param.put("start", 1);
         param.put("end", size);
-        final List<ComicBean> items = this.comicMapper.getComicList(param);
+        final List<ComicBean> items = this.comicMapper.fetchList(param);
         return items;
     }
 
@@ -146,7 +146,7 @@ public class ComicDao extends SequenceSupport {
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", start);
         param.put("end", end);
-        final List<ComicBean> items = this.comicMapper.getComicList(param);
+        final List<ComicBean> items = this.comicMapper.fetchList(param);
         return items;
     }
 
@@ -159,14 +159,14 @@ public class ComicDao extends SequenceSupport {
         param.put("publishFlg", "1");
         param.put("redFlg", redFlg);
         param.put("translateFlg", translateFlg);
-        final int itemCount = this.comicMapper.getComicCount(param);
+        final int itemCount = this.comicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<ComicBean> items = this.comicMapper.getComicList(param);
+        final List<ComicBean> items = this.comicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -185,9 +185,8 @@ public class ComicDao extends SequenceSupport {
 
     @Transactional
     public void createComic(final ComicBean comic) {
-        comic.setArticleId(this.getNextId());
-        this.articleMapper.insertArticle(comic);
-        this.comicMapper.insertComic(comic);
+        this.articleMapper.insert(comic);
+        this.comicMapper.insert(comic);
     }
 
     public boolean validateEditComic(final ComicBean comic,
@@ -205,8 +204,8 @@ public class ComicDao extends SequenceSupport {
 
     @Transactional
     public void editComic(final ComicBean comic) {
-        this.articleMapper.updateArticleInfo(comic);
-        this.comicMapper.updateComic(comic);
+        this.articleMapper.update(comic);
+        this.comicMapper.update(comic);
     }
 
     public PaginateSupport getConsoleComicList(final UserBean userBean,
@@ -215,34 +214,32 @@ public class ComicDao extends SequenceSupport {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.comicMapper.getComicCount(param);
+        final int itemCount = this.comicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<ComicBean> items = this.comicMapper.getComicList(param);
+        final List<ComicBean> items = this.comicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
 
-    public void deleteComic(final String articleId) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("articleId", articleId);
-        this.articleMapper.deleteArticle(param);
-        this.comicMapper.deleteComic(param);
+    public void deleteComic(final ComicBean comic) {
+        this.articleMapper.delete(comic);
+        this.comicMapper.delete(comic);
     }
 
     public PaginateSupport getComicCollectList(final UserBean userBean,
                                                final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", userBean.getUserId());
-        final int itemCount = this.collectMapper.countComicCollect(param);
+        param.put("userBean", userBean);
+        final int itemCount = this.collectMapper.countForComic(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<ComicBean> items = this.collectMapper.fetchComicCollect(param);
+        final List<ComicBean> items = this.collectMapper.fetchListForComic(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -250,7 +247,7 @@ public class ComicDao extends SequenceSupport {
     public int countUnpublish() {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("publishFlg", "0");
-        return this.comicMapper.getComicCount(param);
+        return this.comicMapper.count(param);
     }
 
 }

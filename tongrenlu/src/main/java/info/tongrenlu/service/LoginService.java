@@ -2,12 +2,13 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.persistence.MUserMapper;
 import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.UserDao;
+import info.tongrenlu.service.validator.UserBeanValidator;
 import info.tongrenlu.support.IPSupport;
 import info.tongrenlu.support.LoginUserSupport;
 
-import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,31 +30,18 @@ public class LoginService {
     @Autowired
     private MessageSource messageSource = null;
     @Autowired
-    private UserDao userDao = null;
+    private UserBeanValidator validator = null;
+    @Autowired
+    private MUserMapper userMapper = null;
     @Autowired
     private FileDao fileDao = null;
     @Autowired
     private CookieGenerator autoLoginCookieGenerator = null;
 
-    public Map<String, Object> doGetLogin(final UserBean loginUser) {
-        final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("result", false);
-        if (this.userDao.validateUserOnline(loginUser, model)) {
-            model.put("userId", loginUser.getUserId());
-            model.put("nickname", loginUser.getNickname());
-            model.put("result", true);
-        }
-        return model;
-    }
-
-    public Map<String, Object> doPostLogin(final UserBean userBean,
-                                           final String remember,
-                                           final HttpServletRequest request,
-                                           final HttpServletResponse response) {
-        final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("result", false);
-        userBean.setEmail(StringUtils.lowerCase(userBean.getEmail()));
-        if (this.userDao.validateUserLogin(userBean, model)) {
+    public Map<String, Object> doLogin(final UserBean userBean,
+                                       final Map<String, Object> model,
+                                       final Locale locale) {
+        if (this.validateUserLogin(userBean, model, locale)) {
             final UserBean loginUser = this.userDao.doUserLogin(userBean, model);
             if (loginUser != null) {
                 final boolean isAutoLogin = StringUtils.equals(remember, "1");
@@ -64,6 +52,22 @@ public class LoginService {
             }
         }
         return model;
+    }
+
+    private boolean validateUserLogin(final UserBean user,
+                                      final Map<String, Object> model,
+                                      final Locale locale) {
+        boolean isValid = true;
+        if (!this.validator.validateEmail(user.getEmail(),
+                                          "email_error",
+                                          model,
+                                          locale)) {
+            isValid = false;
+        }
+        if (!this.validator.validatePassword(user.getPassword(), model)) {
+            isValid = false;
+        }
+        return isValid;
     }
 
     public void doLoginSuccess(final UserBean userBean,

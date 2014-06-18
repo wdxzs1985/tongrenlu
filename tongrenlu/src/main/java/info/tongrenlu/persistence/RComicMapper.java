@@ -5,20 +5,19 @@ import info.tongrenlu.domain.ComicBean;
 import java.util.List;
 import java.util.Map;
 
-
 public interface RComicMapper {
 
-    public List<ComicBean> getComicList(Map<String, Object> param);
+    public List<ComicBean> fetchList(Map<String, Object> param);
 
-    public void insertComic(ComicBean comic);
+    public ComicBean fetchBean(Map<String, Object> param);
 
-    public int getComicCount(Map<String, Object> param);
+    public int count(Map<String, Object> param);
 
-    public ComicBean getComic(Map<String, Object> param);
+    public void insert(ComicBean comic);
 
-    public void updateComic(ComicBean comic);
+    public void update(ComicBean comic);
 
-    public void deleteComic(Map<String, Object> param);
+    public void delete(ComicBean comic);
 
     // public List<ComicBean> getComicRank(Map<String, Object> param);
 

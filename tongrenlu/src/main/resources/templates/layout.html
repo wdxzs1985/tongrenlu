@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+  <title th:inline="text">[[#{application.name}]]</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" th:href="@{/bootstrap-3.1.1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div layout:fragment="header">header</div>
+<div layout:fragment="content">content</div>
+<div layout:fragment="footer">footer</div>
+<script th:src="@{/jquery/jquery-2.1.0.min.js}" ></script>
+<script th:src="@{/bootstrap-3.1.1/js/bootstrap.min.js}" ></script>
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>

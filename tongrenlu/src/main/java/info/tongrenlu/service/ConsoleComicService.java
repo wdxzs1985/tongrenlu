@@ -119,7 +119,7 @@ public class ConsoleComicService {
                                 loginUser.getUserId())) {
             return "console/error/403";
         }
-        this.comicDao.deleteComic(articleId);
+        this.comicDao.deleteComic(comicBean);
         return "redirect:/console/comic";
     }
 

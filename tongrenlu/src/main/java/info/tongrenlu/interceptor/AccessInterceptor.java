@@ -2,8 +2,6 @@ package info.tongrenlu.interceptor;
 
 import info.tongrenlu.support.IPSupport;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -44,12 +42,12 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         final String message = builder.toString();
         this.log.info(message);
 
-        final Enumeration<String> requestHeaders = request.getHeaderNames();
-        while (requestHeaders.hasMoreElements()) {
-            final String name = requestHeaders.nextElement();
-            final String value = request.getHeader(name);
-            this.log.info(String.format("%10s : %s", name, value));
-        }
+        // final Enumeration<String> requestHeaders = request.getHeaderNames();
+        // while (requestHeaders.hasMoreElements()) {
+        // final String name = requestHeaders.nextElement();
+        // final String value = request.getHeader(name);
+        // this.log.info(String.format("%10s : %s", name, value));
+        // }
 
         final HttpSession session = request.getSession();
         this.saveAccessInfo(session, message);

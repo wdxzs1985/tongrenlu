@@ -1,0 +1,369 @@
+div.jp-audio {
+
+    /* Edit the font-size to counteract inherited font sizing.
+     * Eg. 1.25em = 1 / 0.8em
+     */
+
+    font-size:1.25em; /* 1.25em for testing in site pages */ /* No parent CSS that can effect the size in the demos ZIP */
+
+    font-family:Verdana, Arial, sans-serif;
+    line-height:1.6;
+    padding: 3px;
+    background: #fff;
+    border: 1px solid #bdc3c7;
+}
+
+div.jp-interface {
+    position: relative;
+    width:100%;
+}
+
+
+div.jp-audio .jp-interface {
+    height: 80px;
+}
+
+/* @group CONTROLS */
+
+div.jp-interface ul.jp-controls {
+    list-style-type:none;
+    padding: 12px 0;
+    overflow:hidden;
+    width:150px;
+    height: 35px;
+    margin:0 auto;
+}
+
+div.jp-interface ul.jp-controls li {
+    display:inline;
+    float: left;
+}
+div.jp-interface ul.jp-controls a {
+    overflow:hidden;
+    display:block;
+    width:35px;
+    height:25px;
+    line-height:100%; /* need this for IE6 */
+}
+
+
+/* @group playlist player controls */
+
+div.jp-type-playlist .jp-controls li a{
+    text-align: center;
+}
+
+div.jp-type-playlist .jp-play {
+}
+
+div.jp-type-playlist .jp-play:hover {
+}
+
+div.jp-type-playlist .jp-pause {
+}
+
+div.jp-type-playlist .jp-pause:hover {
+}
+
+div.jp-type-playlist .jp-stop {
+}
+
+div.jp-type-playlist .jp-stop:hover {
+}
+
+div.jp-type-playlist .jp-previous {
+}
+
+div.jp-type-playlist .jp-previous:hover {
+}
+
+div.jp-type-playlist .jp-next {
+}
+
+div.jp-type-playlist .jp-next:hover {
+}
+
+/* @end */
+
+/* @end */
+
+
+
+
+/* @group TOGGLES */
+
+ul.jp-toggles {
+    list-style-type:none;
+    padding: 12px 0;
+    overflow:hidden;
+    position: absolute;
+    width:55px;
+}
+
+ul.jp-toggles li{
+    display:block;
+    float:right;
+}
+
+ul.jp-toggles li a{
+    display:block;
+    width:25px;
+    height:25px;
+    line-height:100%; /* need this for IE6 */
+}
+
+.jp-repeat {
+    color: #bdc3c7;
+}
+
+.jp-repeat:hover {
+    color: #999;
+}
+
+.jp-repeat-off {
+}
+
+.jp-repeat-off:hover {
+}
+
+.jp-shuffle {
+    color: #bdc3c7;
+}
+
+.jp-shuffle:hover {
+    color: #999;
+}
+
+.jp-shuffle-off {
+}
+
+.jp-shuffle-off:hover {
+}
+
+
+/* @end */
+
+/* @group progress bar */
+
+/* The seeking class is added/removed inside jPlayer */
+div.jp-seeking-bg {
+}
+
+.jp-progress {
+    height: 24px;
+    padding: 4px 2px 2px 2px;
+    margin-bottom: 2px;
+    overflow:hidden;
+}
+
+.jp-seek-bar {
+    background: #bdc3c7;
+    width:0px;
+    height: 4px;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+.jp-play-bar {
+    background: #3498db;
+    width:0px;
+    height: 100%;
+    overflow:hidden;
+}
+
+
+/* @end */
+
+/* @group volume controls */
+
+ul.jp-volumn {
+    list-style-type:none;
+    padding: 12px 0;
+    overflow:hidden;
+    position: absolute;
+    width:105px;
+    top: 24px;
+    right: 0;
+}
+
+ul.jp-volumn li{
+}
+
+div.jp-interface ul.jp-volumn a.jp-mute,
+div.jp-interface ul.jp-volumn a.jp-unmute,
+div.jp-interface ul.jp-volumn a.jp-volume-max {
+    width: 20px;
+    display: block;
+    float:left;
+}
+
+div.jp-audio ul.jp-volumn a.jp-mute,
+div.jp-audio ul.jp-volumn a.jp-unmute{
+    text-align: left;
+}
+
+div.jp-audio ul.jp-volumn a.jp-volume-max{
+    margin-left: 60px;
+    text-align: right;
+}
+
+div.jp-interface ul.jp-controls a.jp-mute:hover {
+}
+
+div.jp-interface ul.jp-controls a.jp-unmute {
+}
+
+div.jp-interface ul.jp-controls a.jp-unmute:hover {
+}
+
+div.jp-interface ul.jp-controls a.jp-volume-max {
+}
+
+div.jp-interface ul.jp-controls a.jp-volume-max:hover {
+}
+
+.jp-volume-bar {
+    background: #bdc3c7;
+    height: 4px;
+    padding: 0;
+    overflow: hidden;
+    width: 50px;
+    position: absolute;
+    top: 47px;
+    right: 32px;
+}
+
+.jp-volume-bar:hover {
+    cursor:  pointer;
+}
+
+
+div.jp-audio .jp-interface .jp-volume-bar {
+}
+
+.jp-volume-bar-value {
+    height: 4px;
+    background: #3498db;
+}
+
+/* @end */
+
+/* @group current time and duration */
+
+.jp-current-time, .jp-duration {
+    width:70px;
+    font-size:.5em;
+    color: #8c7a99;
+}
+
+.jp-current-time {
+    float: left;
+}
+
+.jp-duration {
+    float: right;
+    text-align:right;
+}
+
+/* @end */
+
+/* @group playlist */
+
+.jp-details ul,
+.jp-playlist ul {
+    list-style-type:none;   
+    font-size:.7em;
+    margin: 0;
+    padding: 0;
+}
+
+.jp-details li,
+.jp-playlist li {
+    position: relative;
+    padding: 2px 10px;
+    overflow: hidden;
+}
+
+/* Note that the first-child (IE6) and last-child (IE6/7/8) selectors do not work on IE */
+
+div.jp-type-playlist div.jp-playlist li:first-child {
+    border-top:none;
+    padding-top:3px;
+}
+
+div.jp-type-playlist div.jp-playlist li:last-child {
+    border-bottom:none;
+    padding-bottom:3px;
+}
+
+div.jp-type-playlist div.jp-playlist a {
+    color: #95a5a6;
+    text-decoration:none;
+}
+
+div.jp-type-playlist div.jp-playlist a:hover {
+    color: #3498db;
+}
+
+div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
+    background-color: #ecf0f1;
+}
+
+div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
+    color: #3498db;
+}
+
+div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove {
+    float:right;
+    display:inline;
+    text-align:right;
+    margin-left:10px;
+    font-weight:bold;
+    color:#95a5a6;
+}
+div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove:hover {
+    color:#e74c3c;
+}
+
+span.jp-artist {
+    font-size:.8em;
+    color:#95a5a6;
+}
+
+/* @end */
+
+div.jp-jplayer audio,
+div.jp-jplayer {
+    width:0px;
+    height:0px;
+}
+
+div.jp-jplayer {
+    background-color: #000000;
+}
+
+/* @group NO SOLUTION error feedback */
+
+.jp-no-solution {
+    padding:5px;
+    font-size:.8em;
+    background-color:#3a2a45;
+    border-top:2px solid #554461;
+    border-left:2px solid #554461;
+    border-right:2px solid #180a1f;
+    border-bottom:2px solid #180a1f;
+    color:#FFF;
+    display:none;
+}
+
+.jp-no-solution a {
+    color:#FFF;
+}
+
+.jp-no-solution span {
+    font-size:1em;
+    display:block;
+    text-align:center;
+    font-weight:bold;
+}
+/* @end */

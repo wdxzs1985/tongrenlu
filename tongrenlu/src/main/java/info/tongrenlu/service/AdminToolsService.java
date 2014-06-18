@@ -1,7 +1,6 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.constants.ConstantsFactoryBean;
-import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
@@ -69,10 +68,11 @@ public class AdminToolsService {
     }
 
     public void doGetConvertCover(final String articleId) {
-        final List<ArticleBean> articleList = this.articleDao.getArticleList(articleId);
-        for (final ArticleBean articleBean : articleList) {
-            this.fileDao.convertCover(articleBean.getArticleId(), "cover");
-        }
+        // final List<ArticleBean> articleList =
+        // this.articleDao.getArticleList(articleId);
+        // for (final ArticleBean articleBean : articleList) {
+        // this.fileDao.convertCover(articleBean.getArticleId(), "cover");
+        // }
     }
 
     public void doGetConvertAvatar(final String userId) {
@@ -83,10 +83,11 @@ public class AdminToolsService {
     }
 
     public void doPostConvertThumbnail(final String articleId) {
-        final List<ArticleBean> articleList = this.articleDao.getArticleList(articleId);
-        for (final ArticleBean articleBean : articleList) {
-            this.convertThumbnail(articleBean.getArticleId());
-        }
+        // final List<ArticleBean> articleList =
+        // this.articleDao.getArticleList(articleId);
+        // for (final ArticleBean articleBean : articleList) {
+        // this.convertThumbnail(articleBean.getArticleId());
+        // }
     }
 
     protected void convertThumbnail(final String articleId) {

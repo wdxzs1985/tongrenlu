@@ -40,14 +40,14 @@ public class MusicDao extends SequenceSupport {
         param.put("publishFlg", "1");
         param.put("collectUserId", collectUserId);
 
-        final int itemCount = this.musicMapper.getMusicCount(param);
+        final int itemCount = this.musicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<MusicBean> items = this.musicMapper.getMusicList(param);
+        final List<MusicBean> items = this.musicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -57,7 +57,7 @@ public class MusicDao extends SequenceSupport {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
         param.put("collectUserId", collectUserId);
-        return this.musicMapper.getMusic(param);
+        return this.musicMapper.fetchBean(param);
     }
 
     public List<MusicBean> getMusicLastest(final String searchQuery,
@@ -82,7 +82,7 @@ public class MusicDao extends SequenceSupport {
         return this.getMusicRank(param);
     }
 
-    public List<MusicBean> getlastCommentMusic(final int size) {
+    public List<MusicBean> getMusicForIndex(final int size) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("recommend", "1");
         param.put("publishFlg", "1");
@@ -94,7 +94,7 @@ public class MusicDao extends SequenceSupport {
     }
 
     private List<MusicBean> getMusicRank(final Map<String, Object> param) {
-        final List<MusicBean> items = this.musicMapper.getMusicList(param);
+        final List<MusicBean> items = this.musicMapper.fetchList(param);
         return items;
     }
 
@@ -107,7 +107,7 @@ public class MusicDao extends SequenceSupport {
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", start);
         param.put("end", end);
-        final List<MusicBean> items = this.musicMapper.getMusicList(param);
+        final List<MusicBean> items = this.musicMapper.fetchList(param);
         return items;
     }
 
@@ -115,13 +115,13 @@ public class MusicDao extends SequenceSupport {
                                              final String searchQuery) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.musicMapper.getMusicCount(param);
+        final int itemCount = this.musicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<MusicBean> items = this.musicMapper.getMusicList(param);
+        final List<MusicBean> items = this.musicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -140,9 +140,8 @@ public class MusicDao extends SequenceSupport {
 
     @Transactional
     public void createMusic(final MusicBean music) {
-        music.setArticleId(this.getNextId());
-        this.articleMapper.insertArticle(music);
-        this.musicMapper.insertMusic(music);
+        this.articleMapper.insert(music);
+        this.musicMapper.insert(music);
     }
 
     public boolean validateEditMusic(final MusicBean music,
@@ -160,7 +159,7 @@ public class MusicDao extends SequenceSupport {
 
     @Transactional
     public void editMusic(final MusicBean music) {
-        this.articleMapper.updateArticleInfo(music);
+        this.articleMapper.update(music);
         // this.musicMapper.updateMusic(music);
     }
 
@@ -169,13 +168,13 @@ public class MusicDao extends SequenceSupport {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
         param.put("publishFlg", "1");
-        final int itemCount = this.musicMapper.getMusicCount(param);
+        final int itemCount = this.musicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<MusicBean> items = this.musicMapper.getMusicList(param);
+        final List<MusicBean> items = this.musicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -186,23 +185,21 @@ public class MusicDao extends SequenceSupport {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.musicMapper.getMusicCount(param);
+        final int itemCount = this.musicMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<MusicBean> items = this.musicMapper.getMusicList(param);
+        final List<MusicBean> items = this.musicMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
 
     @Transactional
-    public void deleteMusic(final String articleId) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("articleId", articleId);
-        this.articleMapper.deleteArticle(param);
-        this.musicMapper.deleteMusic(param);
+    public void deleteMusic(final MusicBean music) {
+        this.articleMapper.delete(music);
+        this.musicMapper.delete(music);
 
     }
 
@@ -210,12 +207,12 @@ public class MusicDao extends SequenceSupport {
                                                final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", userBean.getUserId());
-        final int itemCount = this.collectMapper.countMusicCollect(param);
+        final int itemCount = this.collectMapper.countForMusic(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<MusicBean> items = this.collectMapper.fetchMusicCollect(param);
+        final List<MusicBean> items = this.collectMapper.fetchListForMusic(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -223,7 +220,7 @@ public class MusicDao extends SequenceSupport {
     public int countUnpublish() {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("publishFlg", "0");
-        return this.musicMapper.getMusicCount(param);
+        return this.musicMapper.count(param);
     }
 
 }

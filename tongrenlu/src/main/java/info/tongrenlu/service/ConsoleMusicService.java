@@ -120,7 +120,7 @@ public class ConsoleMusicService {
                                 loginUser.getUserId())) {
             return "console/error/403";
         }
-        this.musicDao.deleteMusic(articleId);
+        this.musicDao.deleteMusic(musicBean);
         return "redirect:/console/music";
     }
 

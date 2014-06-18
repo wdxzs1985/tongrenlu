@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+<head>
+  <title th:inline="text">[[#{application.name}]]</title>
+</head>
+<body>
+<div class="navbar navbar-default navbar-static-top" layout:fragment="header">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"
+        th:href="@{/}" 
+        th:text="#{application.name}">
+          application.name
+      </a>
+    </div>
+      <ul class="nav navbar-nav navbar-left">
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li th:unless="${session.LOGIN_USER}">
+          <a th:href="@{/signup}" th:text="#{application.signup}">
+            sign up
+          </a>
+        </li>
+        <li th:unless="${session.LOGIN_USER}">
+          <a href="#signinModal" data-toggle="modal"
+             th:text="#{application.signin}">
+            sign in
+          </a>
+        </li>
+        <li th:if="${session.LOGIN_USER}">
+          <a th:href="@{/signout}" th:text="#{application.signout}">
+            sign out
+          </a>
+        </li>
+      </ul>
+  </div>
+</div>
+<div class="navbar navbar-fixed-bottom" layout:fragment="footer">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"
+        th:href="@{/}" 
+        th:text="#{application.name}">
+          application
+      </a>
+    </div>
+  </div>
+</div>
+<th:block layout:fragment="scripts">
+<!-- Modal -->
+<div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="signinModalLabel" th:text="#{application.signin}">sign in</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" method="post">
+          <div class="form-group">
+            <label for="inputEmail" class="col-sm-2 control-label" 
+                th:text="#{UserBean.email}">Email</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="inputEmail" 
+                placeholder="Email" th:placeholder="#{UserBean.email}"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-sm-2 control-label" 
+                th:text="#{UserBean.password}">Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputPassword" 
+                placeholder="Password" th:placeholder="#{UserBean.password}"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="autoLogin" checked="true"/>
+                  <span th:text="#{UserBean.autologin}">Remember me</span> 
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"
+            th:text="#{button.close}">Close</button>
+        <button type="button" class="btn btn-success"
+            th:text="#{application.signin}">Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>
+</th:block>
+</body>
+</html>

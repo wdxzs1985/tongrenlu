@@ -2,12 +2,10 @@ package info.tongrenlu.support;
 
 import java.util.Map;
 
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.velocity.VelocityEngineUtils;
 
 @Component
 public class MailSenderSupport {
@@ -18,20 +16,19 @@ public class MailSenderSupport {
     @Autowired
     private SimpleMailMessage templateMessage = null;
 
-    @Autowired
-    private VelocityEngine velocityEngine = null;
-
     private String templatePath = null;
 
     private String suffix = null;
 
     public String getText(final String template, final Map<String, Object> model) {
-        final String text = VelocityEngineUtils.mergeTemplateIntoString(this.velocityEngine,
-                                                                        this.getTemplatePath() + template
-                                                                                + this.getSuffix(),
-                                                                        "utf-8",
-                                                                        model);
-        return text;
+        // final String text =
+        // VelocityEngineUtils.mergeTemplateIntoString(this.velocityEngine,
+        // this.getTemplatePath() + template
+        // + this.getSuffix(),
+        // "utf-8",
+        // model);
+        // return text;
+        return "text";
     }
 
     public void send(final String subject, final String to, final String text) {

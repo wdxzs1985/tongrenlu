@@ -3,7 +3,9 @@ package info.tongrenlu.service;
 import info.tongrenlu.constants.RedFlg;
 import info.tongrenlu.constants.TranslateFlg;
 import info.tongrenlu.domain.ArticleBean;
+import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
+import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.dao.ArticleDao;
 import info.tongrenlu.service.dao.ComicDao;
@@ -14,6 +16,7 @@ import info.tongrenlu.service.dao.UserDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,23 +46,18 @@ public class ArticleService {
     @Autowired
     private SolrService solrService = null;
 
-    public String doGetHomeIndex(final UserBean loginUser, final Model model) {
+    public List<MusicBean> getMusicForIndex(final UserBean loginUser) {
+        return this.musicDao.getMusicForIndex(30);
+    }
+
+    public List<ComicBean> getComicForIndex(final UserBean loginUser) {
         final String redFlg = RedFlg.NOT_RED;
         String translateFlg = TranslateFlg.NOT_TRANSLATED;
         if (loginUser != null) {
             // redFlg = loginUser.getRedFlg();
             translateFlg = loginUser.getTranslateFlg();
         }
-        // music
-        model.addAttribute("lastCommentMusic",
-                           this.musicDao.getlastCommentMusic(30));
-        // comic
-        model.addAttribute("lastCommentComic",
-                           this.comicDao.getlastCommentComic(redFlg,
-                                                             translateFlg,
-                                                             20));
-
-        return "home/index";
+        return this.comicDao.getComicForIndex(redFlg, translateFlg, 20);
     }
 
     public Map<String, Object> doPostRemoveTag(final String articleId,
@@ -85,16 +83,20 @@ public class ArticleService {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
         if (this.userDao.validateUserOnline(loginUser, model)) {
-            final String userId = loginUser.getUserId();
-            final boolean collected = this.articleDao.hasCollected(userId,
-                                                                   articleId);
-            if (collected) {
-                this.articleDao.removeCollect(userId, articleId);
-            } else {
-                this.articleDao.addCollect(userId, articleId);
+            final ArticleBean articleBean = this.articleDao.getArticleById(articleId);
+            if (articleBean != null) {
+                boolean collected = this.articleDao.hasCollected(articleBean,
+                                                                 loginUser);
+                if (collected) {
+                    this.articleDao.removeCollect(articleBean, loginUser);
+                    collected = false;
+                } else {
+                    this.articleDao.addCollect(articleBean, loginUser);
+                    collected = true;
+                }
+                model.put("collected", collected);
+                model.put("result", true);
             }
-            model.put("collected", !collected);
-            model.put("result", true);
         }
         return model;
     }
@@ -102,7 +104,7 @@ public class ArticleService {
     public Map<String, Object> doPostArticleRecommend(final String articleId) {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
-        final ArticleBean articleBean = this.articleDao.getArticleBean(articleId);
+        final ArticleBean articleBean = this.articleDao.getArticleById(articleId);
         if (articleBean != null) {
             String recommend = articleBean.getRecommend();
             if (StringUtils.equals("1", recommend)) {
@@ -110,7 +112,7 @@ public class ArticleService {
             } else {
                 recommend = "1";
             }
-            this.articleDao.recommendArticle(articleId, recommend);
+            this.articleDao.recommend(articleBean, recommend);
             model.put("recommend", recommend);
             model.put("result", true);
         }
