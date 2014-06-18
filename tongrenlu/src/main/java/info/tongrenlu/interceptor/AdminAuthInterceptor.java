@@ -6,9 +6,7 @@ import info.tongrenlu.support.LoginUserSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 
 public class AdminAuthInterceptor extends HandlerInterceptorAdapter {
 
@@ -17,12 +15,10 @@ public class AdminAuthInterceptor extends HandlerInterceptorAdapter {
                              final HttpServletResponse response,
                              final Object handler) throws Exception {
         final UserBean user = LoginUserSupport.getLoginUser(request);
-        if (user != null) {
-            if (StringUtils.equals("1", user.getAdminFlg())) {
-                return true;
-            }
+        if (user != null && user.isAdmin()) {
+            return true;
         }
-        response.sendRedirect(request.getContextPath() + "/login");
+        response.sendError(403);
         return false;
     }
 }

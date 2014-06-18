@@ -1,17 +1,15 @@
 package info.tongrenlu.domain;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_DEFAULT)
-public class PlaylistTrackBean implements Serializable {
+public class PlaylistTrackBean extends DtoBean {
 
     /**
      * 
      */
-    private static final long serialVersionUID = 6005076136073292376L;
+    private static final long serialVersionUID = 1L;
 
     private PlaylistBean playlistBean = null;
 

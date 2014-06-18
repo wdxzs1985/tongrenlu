@@ -6,9 +6,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_DEFAULT)
-public class ArticleBean {
+public class ArticleBean extends DtoBean {
 
-    private String articleId;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    private UserBean userBean;
 
     private String title;
 
@@ -20,25 +25,11 @@ public class ArticleBean {
 
     private String recommend;
 
-    private String type = null;
+    private int accessCount = 0;
 
-    private Integer accessCount;
+    private int collectCount = 0;
 
-    private Integer collectCount;
-
-    private Integer collectFlg;
-
-    private Integer commentCount;
-
-    private UserBean userBean;
-
-    public String getArticleId() {
-        return this.articleId;
-    }
-
-    public void setArticleId(final String articleId) {
-        this.articleId = articleId;
-    }
+    private int commentCount = 0;
 
     public String getTitle() {
         return this.title;
@@ -96,14 +87,6 @@ public class ArticleBean {
         this.userBean = userBean;
     }
 
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(final String type) {
-        this.type = type;
-    }
-
     public Integer getCollectCount() {
         return this.collectCount;
     }
@@ -118,14 +101,6 @@ public class ArticleBean {
 
     public void setRecommend(final String recommend) {
         this.recommend = recommend;
-    }
-
-    public Integer getCollectFlg() {
-        return this.collectFlg;
-    }
-
-    public void setCollectFlg(final Integer collectFlg) {
-        this.collectFlg = collectFlg;
     }
 
 }

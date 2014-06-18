@@ -7,12 +7,20 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_DEFAULT)
 public class UserBean extends DtoBean {
 
+    public static final String ROLE_NORMAL = "0";
+
+    public static final String ROLE_EDITOR = "1";
+
+    public static final String ROLE_ADMIN = "9";
+
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
     private String nickname;
+
+    private String signature;
 
     @JsonIgnore
     private String email;
@@ -21,21 +29,22 @@ public class UserBean extends DtoBean {
     private String password;
 
     @JsonIgnore
+    private String password2;
+
+    @JsonIgnore
     private String salt;
 
     @JsonIgnore
-    private String remember;
+    private String fingerprint;
 
     @JsonIgnore
-    private String adminFlg;
+    private String role;
 
     @JsonIgnore
     private String redFlg;
 
     @JsonIgnore
     private String translateFlg;
-
-    private String signature;
 
     private int musicCount = 0;
 
@@ -77,14 +86,6 @@ public class UserBean extends DtoBean {
 
     public void setRedFlg(final String redFlg) {
         this.redFlg = redFlg;
-    }
-
-    public String getAdminFlg() {
-        return this.adminFlg;
-    }
-
-    public void setAdminFlg(final String adminFlg) {
-        this.adminFlg = adminFlg;
     }
 
     public String getTranslateFlg() {
@@ -156,11 +157,36 @@ public class UserBean extends DtoBean {
         this.salt = salt;
     }
 
-    public String getRemember() {
-        return this.remember;
+    public String getRole() {
+        return this.role;
     }
 
-    public void setRemember(final String remember) {
-        this.remember = remember;
+    public void setRole(final String role) {
+        this.role = role;
     }
+
+    public boolean isEditor() {
+        return UserBean.ROLE_EDITOR.equals(this.role);
+    }
+
+    public boolean isAdmin() {
+        return UserBean.ROLE_ADMIN.equals(this.role);
+    }
+
+    public String getFingerprint() {
+        return this.fingerprint;
+    }
+
+    public void setFingerprint(final String fingerprint) {
+        this.fingerprint = fingerprint;
+    }
+
+    public String getPassword2() {
+        return this.password2;
+    }
+
+    public void setPassword2(final String password2) {
+        this.password2 = password2;
+    }
+
 }

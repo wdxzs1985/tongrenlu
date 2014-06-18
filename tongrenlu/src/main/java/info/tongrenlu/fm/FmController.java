@@ -6,6 +6,7 @@ import info.tongrenlu.service.LoginService;
 import info.tongrenlu.support.ControllerSupport;
 import info.tongrenlu.support.LoginUserSupport;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -127,7 +128,13 @@ public class FmController extends ControllerSupport {
     public Map<String, Object> doGetLoginAsJson(final HttpServletRequest request,
                                                 final HttpServletResponse response) {
         final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        return this.loginService.doGetLogin(loginUser);
+        final Map<String, Object> model = new HashMap<String, Object>();
+        model.put("result", false);
+        if (loginUser != null) {
+            model.put("loginUser", loginUser);
+            model.put("result", true);
+        }
+        return model;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/fm/login")
@@ -136,10 +143,9 @@ public class FmController extends ControllerSupport {
                                                  final String remember,
                                                  final HttpServletRequest request,
                                                  final HttpServletResponse response) {
-        return this.loginService.doPostLogin(userBean,
-                                             remember,
-                                             request,
-                                             response);
+        final Map<String, Object> model = new HashMap<String, Object>();
+        model.put("result", false);
+        return model;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fm/my/collect")

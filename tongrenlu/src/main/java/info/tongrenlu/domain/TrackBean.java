@@ -1,51 +1,27 @@
 package info.tongrenlu.domain;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_DEFAULT)
-public class TrackBean implements Serializable {
+public class TrackBean extends DtoBean {
 
     /**
      * 
      */
-    private static final long serialVersionUID = 3132800283486952794L;
-
-    private String album = null;
-
-    private String songTitle = null;
-
-    private String leadArtist = null;
-
-    private String originalTitle = null;
+    private static final long serialVersionUID = 1L;
 
     private int trackNumber = 0;
 
     private FileBean fileBean = null;
 
-    // SongComment
+    private MusicBean musicBean = null;
 
-    // SongLyric
+    private String track = null;
 
-    // AuthorComposer
+    private String artist = null;
 
-    public String getSongTitle() {
-        return this.songTitle;
-    }
-
-    public void setSongTitle(final String songTitle) {
-        this.songTitle = songTitle;
-    }
-
-    public String getLeadArtist() {
-        return this.leadArtist;
-    }
-
-    public void setLeadArtist(final String leadArtist) {
-        this.leadArtist = leadArtist;
-    }
+    private String originalTitle = null;
 
     public FileBean getFileBean() {
         return this.fileBean;
@@ -71,12 +47,28 @@ public class TrackBean implements Serializable {
         this.originalTitle = originalTitle;
     }
 
-    public String getAlbum() {
-        return this.album;
+    public MusicBean getMusicBean() {
+        return this.musicBean;
     }
 
-    public void setAlbum(final String album) {
-        this.album = album;
+    public void setMusicBean(final MusicBean musicBean) {
+        this.musicBean = musicBean;
+    }
+
+    public String getTrack() {
+        return this.track;
+    }
+
+    public void setTrack(final String track) {
+        this.track = track;
+    }
+
+    public String getArtist() {
+        return this.artist;
+    }
+
+    public void setArtist(final String artist) {
+        this.artist = artist;
     }
 
 }

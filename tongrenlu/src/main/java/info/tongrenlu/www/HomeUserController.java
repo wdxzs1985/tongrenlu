@@ -27,12 +27,11 @@ public class HomeUserController extends ControllerSupport {
     @Autowired
     private CommentService commentService = null;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}")
-    public String doGetIndex(@PathVariable final String userId,
+    @RequestMapping(method = RequestMethod.GET, value = "/user/{id}")
+    public String doGetIndex(@PathVariable final Integer id,
                              final Model model,
                              final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        return this.userService.doGetUserIndex(loginUser, userId, model);
+        return "user/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}/follow")
@@ -40,8 +39,7 @@ public class HomeUserController extends ControllerSupport {
                               @RequestParam(required = false) final Integer page,
                               final Model model,
                               final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        return this.userService.doGetFollow(loginUser, userId, page, model);
+        return "user/follow";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}/fans")
@@ -49,8 +47,7 @@ public class HomeUserController extends ControllerSupport {
                             @RequestParam(required = false) final Integer page,
                             final Model model,
                             final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        return this.userService.doGetFans(loginUser, userId, page, model);
+        return "user/fans";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}/comic")
@@ -58,8 +55,7 @@ public class HomeUserController extends ControllerSupport {
                              @RequestParam(required = false) final Integer page,
                              final Model model,
                              final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        return this.userService.doGetComic(loginUser, userId, page, model);
+        return "user/comic";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}/music")
@@ -67,8 +63,7 @@ public class HomeUserController extends ControllerSupport {
                              @RequestParam(required = false) final Integer page,
                              final Model model,
                              final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        return this.userService.doGetMusic(loginUser, userId, page, model);
+        return "user/music";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/user/{userId}/follow")
@@ -77,29 +72,5 @@ public class HomeUserController extends ControllerSupport {
                                             final HttpServletRequest request) {
         final UserBean loginUser = LoginUserSupport.getLoginUser(request);
         return this.userService.doPostFollow(loginUser, userId);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}/comment")
-    @ResponseBody
-    public Map<String, Object> doGetUserComment(@PathVariable final String userId,
-                                                @RequestParam final Integer page,
-                                                final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        final UserBean userBean = new UserBean();
-        userBean.setUserId(userId);
-        return this.commentService.doGetUserComment(loginUser, userBean, page);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/user/{userId}/comment")
-    @ResponseBody
-    public Map<String, Object> doPostUserComment(@PathVariable final String userId,
-                                                 final String content,
-                                                 final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
-        final UserBean userBean = new UserBean();
-        userBean.setUserId(userId);
-        return this.commentService.doPostUserComment(loginUser,
-                                                     userBean,
-                                                     content);
     }
 }

@@ -1,17 +1,15 @@
 package info.tongrenlu.domain;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_DEFAULT)
-public class ArticleTagBean implements Serializable {
+public class ArticleTagBean extends DtoBean {
 
     /**
      * 
      */
-    private static final long serialVersionUID = 8410195215169913699L;
+    private static final long serialVersionUID = 1L;
 
     private TagBean tagBean = null;
 

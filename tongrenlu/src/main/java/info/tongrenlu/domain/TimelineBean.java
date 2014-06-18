@@ -6,11 +6,7 @@ public class TimelineBean {
 
     private UserBean userBean = null;
 
-    private String articleId = null;
-
-    private String title = null;
-
-    private String content = null;
+    private ArticleBean articleBean = null;
 
     private Date timeline = null;
 
@@ -24,30 +20,6 @@ public class TimelineBean {
 
     public void setUserBean(final UserBean userBean) {
         this.userBean = userBean;
-    }
-
-    public String getArticleId() {
-        return this.articleId;
-    }
-
-    public void setArticleId(final String articleId) {
-        this.articleId = articleId;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
-    public void setContent(final String content) {
-        this.content = content;
     }
 
     public Date getTimeline() {
@@ -72,6 +44,14 @@ public class TimelineBean {
 
     public void setType(final String type) {
         this.type = type;
+    }
+
+    public ArticleBean getArticleBean() {
+        return this.articleBean;
+    }
+
+    public void setArticleBean(final ArticleBean articleBean) {
+        this.articleBean = articleBean;
     }
 
 }

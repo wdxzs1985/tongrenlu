@@ -7,16 +7,16 @@ import java.util.Map;
 
 public interface MUserMapper {
 
-    public void insertUser(UserBean userBean);
+    public void insert(UserBean userBean);
 
-    public int countUser(Map<String, Object> param);
+    public void delete(UserBean userBean);
 
-    public UserBean fetchUser(Map<String, Object> param);
+    public int count(Map<String, Object> param);
 
-    public void updateUser(Map<String, Object> param);
+    public UserBean fetchBean(Map<String, Object> param);
 
-    public UserBean fetchUserInfo(Map<String, Object> param);
+    public List<UserBean> fetchList(Map<String, Object> param);
 
-    public List<UserBean> fetchUserList(Map<String, Object> param);
+    public void update(Map<String, Object> param);
 
 }
