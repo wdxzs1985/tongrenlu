@@ -17,18 +17,16 @@
     </div>
   </div>
 </div>
-<div class="navbar navbar-fixed-bottom" layout:fragment="footer">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="index.html"
-        th:href="@{/}" 
-        th:text="#{application.name}">
-          application
-      </a>
-    </div>
-  </div>
-</div>
-<th:block layout:fragment="scripts">
+<div class="container" layout:fragment="content">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="panel panel-default" layout:fragment="panel">
+        </div><!-- /.panel -->
+    </div><!-- /.col-sm-6 -->
+  </div><!-- /.row -->
+</div><!-- /.container -->
+<th:block layout:fragment="scripts-libs">
+<script th:src="@{/JavaScript-MD5-1.1.0/js/md5.min.js}" ></script>
 </th:block>
 </body>
 </html>

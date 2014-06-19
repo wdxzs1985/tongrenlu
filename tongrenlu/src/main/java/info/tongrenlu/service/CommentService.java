@@ -2,7 +2,7 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.dao.CommentDao;
+import info.tongrenlu.manager.CommentDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;

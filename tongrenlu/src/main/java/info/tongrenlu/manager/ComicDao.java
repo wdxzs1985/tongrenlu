@@ -1,4 +1,4 @@
-package info.tongrenlu.service.dao;
+package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.UserBean;

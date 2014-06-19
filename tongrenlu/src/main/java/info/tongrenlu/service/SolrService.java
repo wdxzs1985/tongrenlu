@@ -3,10 +3,10 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
-import info.tongrenlu.service.dao.ComicDao;
-import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.MusicDao;
-import info.tongrenlu.service.dao.TagDao;
+import info.tongrenlu.manager.ComicDao;
+import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.MusicDao;
+import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class SolrService {
     private Log log = LogFactory.getLog(SolrService.class);
 
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileDao = null;
     @Autowired
     private ComicDao comicDao = null;
     @Autowired

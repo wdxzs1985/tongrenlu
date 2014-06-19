@@ -3,11 +3,11 @@ package info.tongrenlu.service;
 import info.tongrenlu.constants.RedFlg;
 import info.tongrenlu.constants.TranslateFlg;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.dao.ComicDao;
-import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.MusicDao;
-import info.tongrenlu.service.dao.TimelineDao;
-import info.tongrenlu.service.dao.UserDao;
+import info.tongrenlu.manager.ComicDao;
+import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.MusicDao;
+import info.tongrenlu.manager.TimelineDao;
+import info.tongrenlu.manager.UserDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class UserService {
     @Autowired
     private UserDao userDao = null;
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileDao = null;
     @Autowired
     private ComicDao comicDao = null;
     @Autowired

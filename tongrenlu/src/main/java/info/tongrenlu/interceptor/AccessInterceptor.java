@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 public class AccessInterceptor extends HandlerInterceptorAdapter {
 
@@ -22,6 +23,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(final HttpServletRequest request,
                              final HttpServletResponse response,
                              final Object handler) throws Exception {
+
+        if (handler instanceof ResourceHttpRequestHandler) {
+            return true;
+        }
 
         final String method = request.getMethod();
         final String uri = request.getRequestURI();

@@ -63,9 +63,9 @@ public class LoginController {
         userBean.setPassword(password);
         userBean.setSalt((String) session.getAttribute("salt"));
 
-        final UserBean loginUser = this.loginService.doLogin(userBean,
-                                                             model,
-                                                             locale);
+        final UserBean loginUser = this.loginService.doSignIn(userBean,
+                                                              model,
+                                                              locale);
         if (loginUser != null) {
             session.setAttribute(CommonConstants.LOGIN_USER, loginUser);
             if (CommonConstants.is(autoLogin)) {
@@ -82,44 +82,54 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/signup")
-    public String doGetRegister(final Model model) {
+    public String doGetSignup(final Model model) {
+        final UserBean userBean = new UserBean();
+        model.addAttribute("userBean", userBean);
         return "login/signup";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
-    public String doPostRegister(final String email,
-                                 final String password,
-                                 final Model model,
-                                 final Locale locale) {
+    public String doPostSignup(final String nickname,
+                               final String email,
+                               final String password,
+                               final String password2,
+                               final Model model,
+                               final Locale locale) {
         final UserBean userBean = new UserBean();
+        userBean.setNickname(nickname);
         userBean.setEmail(StringUtils.lowerCase(email));
         userBean.setPassword(password);
+        userBean.setPassword2(password2);
 
-        final UserBean newUser = this.loginService.doRegister(userBean,
-                                                              model.asMap(),
-                                                              locale);
+        final UserBean newUser = this.loginService.doSignup(userBean,
+                                                            model.asMap(),
+                                                            locale);
         if (newUser != null) {
             // send mail
             return "redirect:/signup/finish";
         }
+
+        model.addAttribute("userBean", userBean);
         return "login/signup";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/signup/finish")
-    public String doGetRegisterFinish(final Model model) {
+    public String doGetSignupFinish(final Model model) {
         return "login/signup_finish";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/signout")
-    @ResponseBody
-    public void doGetLogout(final SessionStatus sessionStatus) {
+    public String doGetSignout(final SessionStatus sessionStatus,
+                               final HttpServletResponse response) {
         sessionStatus.setComplete();
+        this.autoLoginCookie.removeCookie(response);
+        return "redirect:/";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/forgot")
-    public String doGetForgot(final Model model,
-                              final HttpServletRequest request,
-                              final HttpServletResponse response) {
+    public String doGetForgot(final Model model) {
+        final UserBean userBean = new UserBean();
+        model.addAttribute("userBean", userBean);
         return "login/forgot";
     }
 
@@ -140,24 +150,29 @@ public class LoginController {
                                               userBean);
             return "login/forgot_change";
         } else {
+            model.addAttribute("userBean", inputUser);
             return "login/forgot";
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/forgot/change")
     public String doPostChangePassword(final String password,
+                                       final String password2,
                                        final Model model,
                                        final Locale locale,
                                        final HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final UserBean userBean = (UserBean) session.getAttribute(LoginController.FORGOT_USER);
         if (userBean == null) {
+            session.removeAttribute(LoginController.FORGOT_USER);
             return "redirect:/forgot";
         }
 
         userBean.setPassword(password);
+        userBean.setPassword(password2);
 
         if (this.loginService.doChangePassword(userBean, model.asMap(), locale)) {
+            session.removeAttribute(LoginController.FORGOT_USER);
             return "redirect:/forgot/finish";
         }
         return "login/forgot_change";

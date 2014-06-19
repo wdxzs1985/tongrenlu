@@ -4,9 +4,9 @@ import info.tongrenlu.constants.RedFlg;
 import info.tongrenlu.constants.TranslateFlg;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.dao.ComicDao;
-import info.tongrenlu.service.dao.MusicDao;
-import info.tongrenlu.service.dao.TagDao;
+import info.tongrenlu.manager.ComicDao;
+import info.tongrenlu.manager.MusicDao;
+import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;

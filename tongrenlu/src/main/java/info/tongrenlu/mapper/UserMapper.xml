@@ -27,6 +27,9 @@
             U.EMAIL                 as email,
             U.PASSWORD              as password,
             U.NICKNAME              as nickname,
+            U.role                  as role,
+            U.red_flg               as redFlg,
+            U.translate_flg         as translateFlg,
         </trim>
         FROM
             M_USER U
@@ -45,12 +48,12 @@
         UPDATE
             M_USER
         <set>
-        <if test="password != null">
-        ,   PASSWORD = #{password}
-        </if>
-        <if test="fingerprint != null">
-        ,   fingerprint = #{fingerprint}
-        </if>
+            <if test="password != null">
+                PASSWORD = #{password},
+            </if>
+            <if test="fingerprint != null">
+                fingerprint = #{fingerprint},
+            </if>
         </set>
         <where>
             id = #{id}

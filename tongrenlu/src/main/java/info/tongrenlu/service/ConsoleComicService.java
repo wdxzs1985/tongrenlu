@@ -2,9 +2,9 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.dao.ComicDao;
-import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.TagDao;
+import info.tongrenlu.manager.ComicDao;
+import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.Map;
@@ -22,7 +22,7 @@ public class ConsoleComicService {
     @Autowired
     private ComicDao comicDao = null;
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileDao = null;
     @Autowired
     private TagDao tagDao = null;
     @Autowired

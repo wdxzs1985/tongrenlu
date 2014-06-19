@@ -21,4 +21,9 @@
         </interceptor>
     </interceptors>
     
+    <beans:bean id="characterEncodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter">
+        <beans:property name="encoding" value="UTF-8" />
+        <beans:property name="forceEncoding" value="true" />
+    </beans:bean>
+    
 </beans:beans>

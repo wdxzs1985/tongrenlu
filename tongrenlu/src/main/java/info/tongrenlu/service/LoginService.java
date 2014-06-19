@@ -1,8 +1,8 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.mapper.UserMapper;
-import info.tongrenlu.service.dao.FileDao;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class LoginService {
 
     public static final int NICKNAME_LENGTH = 20;
@@ -32,11 +31,12 @@ public class LoginService {
     @Autowired
     private UserMapper userMapper = null;
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileManager = null;
 
-    public UserBean doLogin(final UserBean inputUser,
-                            final Map<String, Object> model,
-                            final Locale locale) {
+    @Transactional
+    public UserBean doSignIn(final UserBean inputUser,
+                             final Map<String, Object> model,
+                             final Locale locale) {
         if (this.validateForLoginInput(inputUser, model, locale)) {
             final UserBean loginUser = this.getByEmail(inputUser.getEmail());
             if (this.validateForLogin(inputUser, loginUser, model, locale)) {
@@ -49,6 +49,7 @@ public class LoginService {
         return null;
     }
 
+    @Transactional
     public UserBean doAutoLogin(final String fingerprint) {
         UserBean loginUser = null;
         if (StringUtils.isNotBlank(fingerprint)) {
@@ -62,12 +63,15 @@ public class LoginService {
         return loginUser;
     }
 
-    public UserBean doRegister(final UserBean inputUser,
-                               final Map<String, Object> model,
-                               final Locale locale) {
+    @Transactional
+    public UserBean doSignup(final UserBean inputUser,
+                             final Map<String, Object> model,
+                             final Locale locale) {
         if (this.validateForRegister(inputUser, model, locale)) {
             // this.userDao.doUserRegister(userBean);
             // this.fileDao.saveAvatarFile(userBean, null);
+            this.userMapper.insert(inputUser);
+            this.fileManager.saveAvatarFile(inputUser, null);
             return inputUser;
         }
         return null;
@@ -88,6 +92,7 @@ public class LoginService {
         return null;
     }
 
+    @Transactional
     public boolean doChangePassword(final UserBean inputUser,
                                     final Map<String, Object> model,
                                     final Locale locale) {
@@ -149,7 +154,7 @@ public class LoginService {
                                     final Locale locale) {
         boolean isValid = true;
         if (loginUser == null) {
-            final String message = this.messageSource.getMessage("error.signin",
+            final String message = this.messageSource.getMessage("error.signIn",
                                                                  null,
                                                                  locale);
             model.put("error", message);
@@ -157,7 +162,7 @@ public class LoginService {
         } else {
             final String password = DigestUtils.md5Hex(loginUser.getPassword() + userBean.getSalt());
             if (!StringUtils.equals(userBean.getPassword(), password)) {
-                final String message = this.messageSource.getMessage("error.signin",
+                final String message = this.messageSource.getMessage("error.signIn",
                                                                      null,
                                                                      locale);
                 model.put("error", message);
@@ -176,10 +181,10 @@ public class LoginService {
                                 model,
                                 locale)) {
             isValid = false;
-        } else if (this.validateEmailExist(inputUser.getEmail(),
-                                           "emailError",
-                                           model,
-                                           locale)) {
+        } else if (!this.validateEmailExist(inputUser.getEmail(),
+                                            "emailError",
+                                            model,
+                                            locale)) {
             isValid = false;
         }
         if (!this.validatePassword(inputUser.getPassword(),
@@ -284,7 +289,7 @@ public class LoginService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            LoginService.EMAIL_LENGTH },
+                                                                  LoginService.EMAIL_LENGTH },
                                                     null));
             isValid = false;
         } else if (!LoginService.EMAIL_PATTERN.matcher(email).matches()) {
@@ -346,11 +351,11 @@ public class LoginService {
         final String fieldName2 = this.messageSource.getMessage("UserBean.password2",
                                                                 null,
                                                                 locale);
-        if (StringUtils.equals(password, password2)) {
+        if (!StringUtils.equals(password, password2)) {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.notSame",
                                                     new Object[] { fieldName1,
-                                                            fieldName2 },
+                                                                  fieldName2 },
                                                     null));
             isValid = false;
         }
@@ -375,7 +380,7 @@ public class LoginService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            LoginService.NICKNAME_LENGTH },
+                                                                  LoginService.NICKNAME_LENGTH },
                                                     null));
             isValid = false;
         }

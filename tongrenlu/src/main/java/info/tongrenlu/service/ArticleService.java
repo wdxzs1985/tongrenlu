@@ -7,12 +7,12 @@ import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.dao.ArticleDao;
-import info.tongrenlu.service.dao.ComicDao;
-import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.MusicDao;
-import info.tongrenlu.service.dao.TagDao;
-import info.tongrenlu.service.dao.UserDao;
+import info.tongrenlu.manager.ArticleDao;
+import info.tongrenlu.manager.ComicDao;
+import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.MusicDao;
+import info.tongrenlu.manager.TagDao;
+import info.tongrenlu.manager.UserDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class ArticleService {
     @Autowired
     private TagDao tagDao = null;
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileDao = null;
     @Autowired
     private ComicDao comicDao = null;
     @Autowired
@@ -71,7 +71,7 @@ public class ArticleService {
     public void doGetDeleteFile(final String fileId) {
         final FileBean fileBean = this.fileDao.getFileInfo(fileId);
         final String ext = fileBean.getExtension();
-        if (StringUtils.equalsIgnoreCase(ext, FileDao.MP3)) {
+        if (StringUtils.equalsIgnoreCase(ext, FileManager.MP3)) {
             this.fileDao.deleteMp3File(fileBean);
         } else {
             this.fileDao.deleteJpgFile(fileBean);

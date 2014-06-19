@@ -2,10 +2,10 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
-import info.tongrenlu.service.dao.ArticleDao;
-import info.tongrenlu.service.dao.ComicDao;
-import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.TagDao;
+import info.tongrenlu.manager.ArticleDao;
+import info.tongrenlu.manager.ComicDao;
+import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class AdminComicService {
     @Autowired
     private ArticleDao articleDao = null;
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileDao = null;
     @Autowired
     private TagDao tagDao = null;
     @Autowired
@@ -55,7 +55,7 @@ public class AdminComicService {
             return "cosole/error/404";
         }
         model.addAttribute("articleBean", comicBean);
-        model.addAttribute(this.fileDao.getArticleFiles(articleId, FileDao.JPG));
+        model.addAttribute(this.fileDao.getArticleFiles(articleId, FileManager.JPG));
         model.addAttribute(this.tagDao.getArticleTag(articleId));
         return "admin/comic/view";
     }
@@ -85,7 +85,7 @@ public class AdminComicService {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
         final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileDao.JPG);
+                                                                  FileManager.JPG);
         for (final FileBean fileBean : files) {
             fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean, request));
         }
@@ -117,7 +117,7 @@ public class AdminComicService {
         }
         model.addAttribute("articleBean", comic);
         final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileDao.JPG);
+                                                                     FileManager.JPG);
         model.addAttribute(fileList);
         return "admin/comic/sort";
     }

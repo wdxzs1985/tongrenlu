@@ -4,11 +4,11 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.dao.ArticleDao;
-import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.MusicDao;
-import info.tongrenlu.service.dao.TagDao;
-import info.tongrenlu.service.dao.UserDao;
+import info.tongrenlu.manager.ArticleDao;
+import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.MusicDao;
+import info.tongrenlu.manager.TagDao;
+import info.tongrenlu.manager.UserDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class HomeMusicService {
     @Autowired
     private UserDao userDao = null;
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileDao = null;
     @Autowired
     private TagDao tagDao = null;
 
@@ -140,7 +140,7 @@ public class HomeMusicService {
                                      final HttpServletRequest request) {
         final List<Object> modelList = new ArrayList<Object>();
         final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileDao.JPG);
+                                                                     FileManager.JPG);
         for (final FileBean fileBean : fileList) {
             modelList.add(this.prepareFileBeanModel(fileBean, request));
         }

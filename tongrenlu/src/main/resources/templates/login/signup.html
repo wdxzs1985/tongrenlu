@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="login/layout">
+  <body>
+      <div class="panel panel-default" layout:fragment="panel">
+          <div class="panel-heading">
+            <h4 th:text="#{signup}">Sign Up</h4>
+          </div>
+          <form id="signup-form" th:action="@{/signup}" class="form-horizontal" method="post">
+              <div class="panel-body">
+                  <div th:class="${#strings.isEmpty(nicknameError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                    <label for="inputNickname" class="col-sm-2 control-label" 
+                        th:text="#{UserBean.nickname}">Nickname</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" 
+                        id="inputNickname" name="nickname"
+                        th:value="${userBean.nickname}"
+                        th:placeholder="#{UserBean.nickname}"/>
+                      <span class="glyphicon glyphicon-remove form-control-feedback"
+                          th:unless="${#strings.isEmpty(nicknameError)}"></span>
+                      <p class="help-block" 
+                          th:unless="${#strings.isEmpty(nicknameError)}"
+                          th:text="${nicknameError}"></p>
+                    </div>
+                  </div>
+                  <div th:class="${#strings.isEmpty(emailError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                    <label for="inputEmail" class="col-sm-2 control-label" 
+                        th:text="#{UserBean.email}">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" 
+                        id="inputEmail" name="email"
+                        th:value="${userBean.email}"
+                        th:placeholder="#{UserBean.email}"/>
+                      <span class="glyphicon glyphicon-remove form-control-feedback"
+                          th:unless="${#strings.isEmpty(emailError)}"></span>
+                      <p class="help-block" 
+                          th:unless="${#strings.isEmpty(emailError)}"
+                          th:text="${emailError}"></p>
+                    </div>
+                  </div>
+                  <div th:class="${#strings.isEmpty(passwordError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                    <label for="inputPassword" class="col-sm-2 control-label" 
+                        th:text="#{UserBean.password}">Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" id="inputPassword" 
+                        placeholder="Password" th:placeholder="#{UserBean.password}"/>
+                      <input type="hidden" id="hiddenPassword" name="password"/>
+                      <span class="glyphicon glyphicon-remove form-control-feedback"
+                          th:unless="${#strings.isEmpty(passwordError)}"></span>
+                      <p class="help-block" 
+                          th:unless="${#strings.isEmpty(passwordError)}"
+                          th:text="${passwordError}"></p>
+                    </div>
+                  </div>
+                  <div th:class="${#strings.isEmpty(password2Error)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                    <label for="inputPassword2" class="col-sm-2 control-label" 
+                        th:text="#{UserBean.password2}">Password2</label>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" id="inputPassword2" 
+                        placeholder="Password2" th:placeholder="#{UserBean.password2}"/>
+                      <input type="hidden" id="hiddenPassword2" name="password2"/>
+                      <span class="glyphicon glyphicon-remove form-control-feedback"
+                          th:unless="${#strings.isEmpty(password2Error)}"></span>
+                      <p class="help-block" 
+                          th:unless="${#strings.isEmpty(password2Error)}"
+                          th:text="${password2Error}"></p>
+                    </div>
+                  </div>
+              </div>
+              <div class="panel-footer text-right">
+                <button type="submit" class="btn btn-success"
+                    th:text="#{button.submit}">Sign Up</button>
+              </div>
+          </form>
+      </div><!-- /.panel -->
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:inline="javascript">
+$(function(){
+    $('#signup-form').submit(function(e){
+        var p = $('#inputPassword').val();
+        if(p){
+            $('#hiddenPassword').val(md5(p));
+        }
+        var p2 = $('#inputPassword2').val();
+        if(p2){
+            $('#hiddenPassword2').val(md5(p2));
+        }
+    });
+})
+</script>
+</th:block>
+  </body>
+</html>

@@ -3,10 +3,10 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
-import info.tongrenlu.service.dao.ArticleDao;
-import info.tongrenlu.service.dao.FileDao;
-import info.tongrenlu.service.dao.MusicDao;
-import info.tongrenlu.service.dao.TagDao;
+import info.tongrenlu.manager.ArticleDao;
+import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.MusicDao;
+import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class AdminMusicService {
     @Autowired
     private ArticleDao articleDao = null;
     @Autowired
-    private FileDao fileDao = null;
+    private FileManager fileDao = null;
     @Autowired
     private TagDao tagDao = null;
     @Autowired
@@ -85,7 +85,7 @@ public class AdminMusicService {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
         final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileDao.MP3);
+                                                                  FileManager.MP3);
         for (final FileBean fileBean : files) {
             fileList.add(this.fileDao.prepareMp3FileBeanModel(fileBean, request));
         }
@@ -154,7 +154,7 @@ public class AdminMusicService {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
         final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileDao.JPG);
+                                                                  FileManager.JPG);
         for (final FileBean fileBean : files) {
             fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean, request));
         }
@@ -186,7 +186,7 @@ public class AdminMusicService {
         }
         model.addAttribute("articleBean", music);
         final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileDao.JPG);
+                                                                     FileManager.JPG);
         model.addAttribute(fileList);
         return "admin/music/booklet/sort";
     }
