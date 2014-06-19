@@ -7,7 +7,6 @@ import info.tongrenlu.persistence.RCollectMapper;
 import info.tongrenlu.persistence.RMusicMapper;
 import info.tongrenlu.service.validator.ArticleBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
-import info.tongrenlu.support.SequenceSupport;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class MusicDao extends SequenceSupport {
+public class MusicDao {
 
     @Autowired
     private ArticleBeanValidator validator = null;
@@ -206,7 +205,7 @@ public class MusicDao extends SequenceSupport {
     public PaginateSupport getMusicCollectList(final UserBean userBean,
                                                final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", userBean.getUserId());
+        param.put("userId", userBean.getId());
         final int itemCount = this.collectMapper.countForMusic(param);
         paginate.setItemCount(itemCount);
         paginate.compute();

@@ -102,11 +102,11 @@ public class TagService {
 
         String redFlg = RedFlg.NOT_RED;
         String translateFlg = TranslateFlg.NOT_TRANSLATED;
-        String userId = null;
+        final String userId = null;
         if (loginUser != null) {
             redFlg = loginUser.getRedFlg();
             translateFlg = loginUser.getTranslateFlg();
-            userId = loginUser.getUserId();
+            // userId = loginUser.getUserId();
         }
 
         final PaginateSupport paginate = new PaginateSupport();
@@ -135,9 +135,9 @@ public class TagService {
         }
         model.addAttribute(tagBean);
 
-        String userId = null;
+        final String userId = null;
         if (loginUser != null) {
-            userId = loginUser.getUserId();
+            // userId = loginUser.getUserId();
         }
 
         final PaginateSupport paginate = new PaginateSupport();

@@ -45,11 +45,11 @@ public class HomeComicService {
                              final Model model) {
         String redFlg = RedFlg.NOT_RED;
         String translateFlg = TranslateFlg.NOT_TRANSLATED;
-        String userId = null;
+        final String userId = null;
         if (loginUser != null) {
             redFlg = loginUser.getRedFlg();
             translateFlg = loginUser.getTranslateFlg();
-            userId = loginUser.getUserId();
+            // userId = loginUser.getId();
         }
 
         final PaginateSupport paginate = new PaginateSupport();
@@ -75,11 +75,11 @@ public class HomeComicService {
                             final Model model) {
         String redFlg = RedFlg.NOT_RED;
         String translateFlg = TranslateFlg.NOT_TRANSLATED;
-        String userId = null;
+        final String userId = null;
         if (loginUser != null) {
             redFlg = loginUser.getRedFlg();
             translateFlg = loginUser.getTranslateFlg();
-            userId = loginUser.getUserId();
+            // userId = loginUser.getUserId();
         }
         final ComicBean comicBean = this.comicDao.getComicById(articleId,
                                                                userId);
@@ -91,9 +91,8 @@ public class HomeComicService {
             } else if (StringUtils.equals(comicBean.getRedFlg(), "1")) {
                 return "home/error/403";
             }
-        } else if (!StringUtils.equals(loginUser.getAdminFlg(), "1")) {
-            if (!StringUtils.equals(loginUser.getUserId(),
-                                    comicBean.getUserBean().getUserId())) {
+        } else if (!loginUser.isAdmin()) {
+            if (!comicBean.getUserBean().equals(loginUser)) {
                 if (!StringUtils.equals(comicBean.getPublishFlg(), "1")) {
                     return "home/error/403";
                 } else if (StringUtils.equals(comicBean.getRedFlg(), "1")) {
@@ -112,10 +111,9 @@ public class HomeComicService {
                                                           1,
                                                           6));
         if (loginUser != null) {
-            model.addAttribute("hasFollowed",
-                               this.userDao.hasFollowed(loginUser.getUserId(),
-                                                        comicBean.getUserBean()
-                                                                 .getUserId()));
+            // model.addAttribute("hasFollowed",
+            // this.userDao.hasFollowed(loginUser,
+            // comicBean.getUserBean()));
         }
         // access
         this.articleDao.addAccess(comicBean, loginUser);
@@ -141,18 +139,18 @@ public class HomeComicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                                + fileBean.getArticleId()
-                                + "/"
-                                + fileBean.getFileId()
-                                + "_800.jpg");
+                + fileBean.getId()
+                + "/"
+                + fileBean.getId()
+                + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                               + fileBean.getArticleId()
-                               + "/"
-                               + fileBean.getFileId()
-                               + "_1600.jpg");
+                + fileBean.getId()
+                + "/"
+                + fileBean.getId()
+                + "_1600.jpg");
         return model;
     }
 }

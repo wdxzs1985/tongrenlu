@@ -3,8 +3,6 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
-import info.tongrenlu.domain.TagBean;
-import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.service.dao.ComicDao;
 import info.tongrenlu.service.dao.FileDao;
 import info.tongrenlu.service.dao.MusicDao;
@@ -12,7 +10,6 @@ import info.tongrenlu.service.dao.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -81,8 +78,7 @@ public class SolrService {
 
     private void createArticleIndexDocument(final SolrInputDocument inputDocument,
                                             final ArticleBean articleBean) {
-        final String articleId = articleBean.getArticleId();
-        inputDocument.addField("article_id", articleId);
+        inputDocument.addField("article_id", articleBean.getId());
         inputDocument.addField("title", articleBean.getTitle());
         inputDocument.addField("description", articleBean.getDescription());
         inputDocument.addField("publish_date", articleBean.getPublishDate());
@@ -90,23 +86,24 @@ public class SolrService {
 
     private void addArticleTagIndex(final SolrInputDocument inputDocument,
                                     final ArticleBean articleBean) {
-        final String articleId = articleBean.getArticleId();
-        final List<TagBean> tagBeans = this.tagDao.getArticleTag(articleId);
-        for (final TagBean tagBean : tagBeans) {
-            inputDocument.addField("tag", tagBean.getTag());
-        }
+        // final Integer articleId = articleBean.getId();
+        // final List<TagBean> tagBeans = this.tagDao.getArticleTag(articleId);
+        // for (final TagBean tagBean : tagBeans) {
+        // inputDocument.addField("tag", tagBean.getTag());
+        // }
     }
 
     private void addMusicTrachIndex(final SolrInputDocument inputDocument,
                                     final MusicBean musicBean) {
-        final String articleId = musicBean.getArticleId();
-        final List<TrackBean> trackBeans = this.fileDao.getMusicTracks(articleId);
-        for (final TrackBean trackBean : trackBeans) {
-            inputDocument.addField("song_title", trackBean.getSongTitle());
-            inputDocument.addField("lead_artist", trackBean.getLeadArtist());
-            inputDocument.addField("original_title",
-                                   trackBean.getOriginalTitle());
-        }
+        // final Integer articleId = articleBean.getId();
+        // final List<TrackBean> trackBeans =
+        // this.fileDao.getMusicTracks(articleId);
+        // for (final TrackBean trackBean : trackBeans) {
+        // inputDocument.addField("song_title", trackBean.getTrack());
+        // inputDocument.addField("lead_artist", trackBean.getArtist());
+        // inputDocument.addField("original_title",
+        // trackBean.getOriginalTitle());
+        // }
     }
 
     public PaginateSupport search(final String searchQuery,
@@ -133,46 +130,46 @@ public class SolrService {
     }
 
     public static final String[] ESCAPE_CHARS = new String[] { "\\",
-                                                              "+",
-                                                              "-",
-                                                              "&",
-                                                              "|",
-                                                              "!",
-                                                              "(",
-                                                              ")",
-                                                              "{",
-                                                              "}",
-                                                              "[",
-                                                              "]",
-                                                              "^",
-                                                              "~",
-                                                              "*",
-                                                              "?",
-                                                              ":",
-                                                              "\"",
-                                                              ";",
-                                                              " " };
+            "+",
+            "-",
+            "&",
+            "|",
+            "!",
+            "(",
+            ")",
+            "{",
+            "}",
+            "[",
+            "]",
+            "^",
+            "~",
+            "*",
+            "?",
+            ":",
+            "\"",
+            ";",
+            " " };
 
     public static final String[] ESCAPED_CHARS = new String[] { "\\\\",
-                                                               "\\+",
-                                                               "\\-",
-                                                               "\\&",
-                                                               "\\|",
-                                                               "\\!",
-                                                               "\\(",
-                                                               "\\)",
-                                                               "\\{",
-                                                               "\\}",
-                                                               "\\[",
-                                                               "\\]",
-                                                               "\\^",
-                                                               "\\~",
-                                                               "\\*",
-                                                               "\\?",
-                                                               "\\:",
-                                                               "\\\"",
-                                                               "\\;",
-                                                               "\\ " };
+            "\\+",
+            "\\-",
+            "\\&",
+            "\\|",
+            "\\!",
+            "\\(",
+            "\\)",
+            "\\{",
+            "\\}",
+            "\\[",
+            "\\]",
+            "\\^",
+            "\\~",
+            "\\*",
+            "\\?",
+            "\\:",
+            "\\\"",
+            "\\;",
+            "\\ " };
 
     public String escapeForSolr(final String input) {
         return StringUtils.replaceEach(input,

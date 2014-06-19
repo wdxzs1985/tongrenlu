@@ -10,9 +10,9 @@ public interface MArticleMapper {
 
     public void delete(ArticleBean param);
 
-    public ArticleBean fetchBean(Map<String, Object> params);
+    public void update(ArticleBean param);
 
-    public void update(Map<String, Object> param);
+    public ArticleBean fetchBean(Map<String, Object> params);
 
     public int countByUser(Map<String, Object> param);
 

@@ -2,6 +2,7 @@ package info.tongrenlu.service.dao;
 
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.persistence.MAccessMapper;
 import info.tongrenlu.persistence.MArticleMapper;
 import info.tongrenlu.persistence.RCollectMapper;
 
@@ -17,6 +18,8 @@ public class ArticleDao {
     @Autowired
     private MArticleMapper articleMapper = null;
     @Autowired
+    private MAccessMapper accessMapper = null;
+    @Autowired
     private RCollectMapper collectMapper = null;
 
     public ArticleBean getArticleById(final String id) {
@@ -29,21 +32,22 @@ public class ArticleDao {
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("articleBean", articleBean);
         params.put("userBean", userBean);
-        this.articleMapper.insertAccess(params);
+        this.accessMapper.insert(params);
         articleBean.setAccessCount(articleBean.getAccessCount() + 1);
     }
 
     public void publish(final ArticleBean articleBean) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("articleBean", articleBean);
-        this.articleMapper.publish(param);
+        // final Map<String, Object> param = new HashMap<String, Object>();
+        // param.put("articleBean", articleBean);
+        // param.put("publishFlg", "1");
+        // this.articleMapper.publish(param);
     }
 
     public void recommend(final ArticleBean articleBean, final String recommend) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("articleBean", articleBean);
-        param.put("recommend", recommend);
-        this.articleMapper.recommend(param);
+        // final Map<String, Object> param = new HashMap<String, Object>();
+        // param.put("articleBean", articleBean);
+        // param.put("recommend", recommend);
+        // this.articleMapper.recommend(param);
     }
 
     public int countByUser(final UserBean userBean) {

@@ -5,7 +5,6 @@ import info.tongrenlu.domain.ArticleTagBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.persistence.MTagMapper;
 import info.tongrenlu.persistence.RArticleTagMapper;
-import info.tongrenlu.support.SequenceSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class TagDao extends SequenceSupport {
+public class TagDao {
 
     @Autowired
     private MessageSource messageSource = null;
@@ -36,7 +35,7 @@ public class TagDao extends SequenceSupport {
         }
         for (final String tagId : tagIdArray) {
             final TagBean tagBean = new TagBean();
-            tagBean.setTagId(tagId);
+            // tagBean.setTagId(tagId);
             this.addArticleTag(articleBean, tagBean);
         }
     }
@@ -65,7 +64,6 @@ public class TagDao extends SequenceSupport {
     }
 
     public void createTag(final TagBean tagBean) {
-        tagBean.setTagId(this.getNextId());
         this.tagMapper.insertTag(tagBean);
     }
 
@@ -95,7 +93,7 @@ public class TagDao extends SequenceSupport {
         if (ArrayUtils.isNotEmpty(tagIdArray) && ArrayUtils.isNotEmpty(tagArray)) {
             for (int i = 0; i < tagIdArray.length; i++) {
                 final TagBean tagBean = new TagBean();
-                tagBean.setTagId(tagIdArray[i]);
+                // tagBean.setTagId(tagIdArray[i]);
                 tagBean.setTag(tagArray[i]);
                 tagBeanList.add(tagBean);
             }

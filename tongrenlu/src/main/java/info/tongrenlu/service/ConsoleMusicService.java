@@ -9,7 +9,6 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,8 +71,7 @@ public class ConsoleMusicService {
         if (musicBean == null) {
             return "console/error/404";
         }
-        if (!StringUtils.equals(musicBean.getUserBean().getUserId(),
-                                loginUser.getUserId())) {
+        if (!musicBean.getUserBean().equals(loginUser)) {
             return "console/error/403";
         }
         model.addAttribute("articleBean", musicBean);
@@ -93,11 +91,9 @@ public class ConsoleMusicService {
         if (music == null) {
             return "console/error/404";
         }
-        if (!StringUtils.equals(music.getUserBean().getUserId(),
-                                loginUser.getUserId())) {
+        if (!musicBean.getUserBean().equals(loginUser)) {
             return "console/error/403";
         }
-        musicBean.setArticleId(articleId);
         if (this.musicDao.validateEditMusic(musicBean, cover, model)) {
             this.musicDao.editMusic(musicBean);
             this.tagDao.addArticleTag(musicBean, tagIdArray);
@@ -116,8 +112,7 @@ public class ConsoleMusicService {
         if (musicBean == null) {
             return "console/error/404";
         }
-        if (!StringUtils.equals(musicBean.getUserBean().getUserId(),
-                                loginUser.getUserId())) {
+        if (!musicBean.getUserBean().equals(loginUser)) {
             return "console/error/403";
         }
         this.musicDao.deleteMusic(musicBean);

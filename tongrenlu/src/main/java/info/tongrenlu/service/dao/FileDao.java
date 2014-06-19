@@ -9,7 +9,6 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.persistence.MFileMapper;
 import info.tongrenlu.persistence.MTrackMapper;
 import info.tongrenlu.support.PaginateSupport;
-import info.tongrenlu.support.SequenceSupport;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,18 +33,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class FileDao extends SequenceSupport {
+public class FileDao {
 
     public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-                                                            90,
-                                                            120,
-                                                            180,
-                                                            400 };
+            90,
+            120,
+            180,
+            400 };
     public static final int[] COMIC_SIZE_ARRAY = new int[] { 120,
-                                                            300,
-                                                            800,
-                                                            1200,
-                                                            1600 };
+            300,
+            800,
+            1200,
+            1600 };
     public static final String JPG = "jpg";
     public static final String MP3 = "mp3";
 
@@ -61,10 +60,10 @@ public class FileDao extends SequenceSupport {
         final FileBean fileBean = this.createFileInfo(articleId,
                                                       fileItem,
                                                       FileDao.JPG);
-        final File inputFile = this.getJpgFile(fileBean.getArticleId(),
-                                               fileBean.getFileId());
-        this.saveUpload(fileItem, inputFile);
-        this.convertThumbnail(fileBean, inputFile);
+        // final File inputFile = this.getJpgFile(fileBean.getArticleId(),
+        // fileBean.getFileId());
+        // this.saveUpload(fileItem, inputFile);
+        // this.convertThumbnail(fileBean, inputFile);
         return fileBean;
     }
 
@@ -73,10 +72,10 @@ public class FileDao extends SequenceSupport {
         final FileBean fileBean = this.createFileInfo(articleId,
                                                       fileItem,
                                                       FileDao.MP3);
-        final File inputFile = this.getMp3File(fileBean.getArticleId(),
-                                               fileBean.getFileId());
-        this.saveUpload(fileItem, inputFile);
-        this.saveTrackInfo(inputFile, fileBean);
+        // final File inputFile = this.getMp3File(fileBean.getArticleId(),
+        // fileBean.getFileId());
+        // this.saveUpload(fileItem, inputFile);
+        // this.saveTrackInfo(inputFile, fileBean);
         return fileBean;
     }
 
@@ -85,11 +84,10 @@ public class FileDao extends SequenceSupport {
                                     final String extension) {
         final String name = fileItem.getOriginalFilename();
         final FileBean fileBean = new FileBean();
-        fileBean.setFileId(this.getNextId());
-        fileBean.setArticleId(articleId);
+        // fileBean.setArticleId(articleId);
         fileBean.setName(name);
         fileBean.setExtension(extension);
-        fileBean.setSize(fileItem.getSize());
+        // fileBean.setSize(fileItem.getSize());
         this.fileMapper.insertFile(fileBean);
         return fileBean;
     }
@@ -111,20 +109,20 @@ public class FileDao extends SequenceSupport {
 
     public void convertThumbnail(final FileBean fileBean, final File inputFile) {
         for (final int size : FileDao.COMIC_SIZE_ARRAY) {
-            final String name = fileBean.getFileId() + "_" + size;
-            final File outputFile = this.getJpgFile(fileBean.getArticleId(),
-                                                    name);
-            this.convertComic(inputFile.getAbsolutePath(),
-                              outputFile.getAbsolutePath(),
-                              size);
+            // final String name = fileBean.getId() + "_" + size;
+            // final File outputFile = this.getJpgFile(fileBean.getArticleId(),
+            // name);
+            // this.convertComic(inputFile.getAbsolutePath(),
+            // outputFile.getAbsolutePath(),
+            // size);
         }
     }
 
-    private void saveTrackInfo(final File file, final FileBean fileBean) {
+    protected void saveTrackInfo(final File file, final FileBean fileBean) {
         final TrackBean trackBean = new TrackBean();
         trackBean.setFileBean(fileBean);
-        final String songTitle = FilenameUtils.getBaseName(fileBean.getName());
-        trackBean.setSongTitle(StringUtils.left(songTitle, 255));
+        final String track = FilenameUtils.getBaseName(fileBean.getName());
+        trackBean.setTrack(StringUtils.left(track, 255));
         this.trackMapper.insertTrack(trackBean);
     }
 
@@ -143,26 +141,26 @@ public class FileDao extends SequenceSupport {
 
     public void deleteJpgFile(final FileBean fileBean) {
         this.fileMapper.deleteFileInfo(fileBean);
-        final File originalFile = this.getJpgFile(fileBean.getArticleId(),
-                                                  fileBean.getFileId());
-        FileUtils.deleteQuietly(originalFile);
+        // final File originalFile = this.getJpgFile(fileBean.getArticleId(),
+        // fileBean.getFileId());
+        // FileUtils.deleteQuietly(originalFile);
         for (final int size : FileDao.COMIC_SIZE_ARRAY) {
-            final File thumbnail = this.getJpgFile(fileBean.getArticleId(),
-                                                   fileBean.getFileId() + "_"
-                                                           + size);
-            FileUtils.deleteQuietly(thumbnail);
+            // final File thumbnail = this.getJpgFile(fileBean.getArticleId(),
+            // fileBean.getFileId() + "_"
+            // + size);
+            // FileUtils.deleteQuietly(thumbnail);
         }
     }
 
     public void deleteMp3File(final FileBean fileBean) {
         this.fileMapper.deleteFileInfo(fileBean);
-        this.deleteTrack(fileBean.getFileId());
-        final File mp3File = this.getMp3File(fileBean.getArticleId(),
-                                             fileBean.getFileId());
-        FileUtils.deleteQuietly(mp3File);
+        // this.deleteTrack(fileBean.getFileId());
+        // final File mp3File = this.getMp3File(fileBean.getArticleId(),
+        // fileBean.getFileId());
+        // FileUtils.deleteQuietly(mp3File);
     }
 
-    private void deleteTrack(final String fileId) {
+    protected void deleteTrack(final String fileId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("fileId", fileId);
         this.trackMapper.deleteTrack(param);
@@ -181,7 +179,7 @@ public class FileDao extends SequenceSupport {
         int orderNo = 1;
         for (final String fileId : fileIdArray) {
             final FileBean fileInfo = new FileBean();
-            fileInfo.setFileId(fileId);
+            // fileInfo.setId(fileId);
             fileInfo.setOrderNo(orderNo);
             this.fileMapper.updateFileOrder(fileInfo);
             orderNo++;
@@ -190,19 +188,19 @@ public class FileDao extends SequenceSupport {
 
     public void saveCoverFile(final ArticleBean articleBean,
                               final MultipartFile fileItem) {
-        final String id = articleBean.getArticleId();
-        final String prefix = "cover";
-        final File inputFile = this.getJpgFile(id, prefix);
-        if (fileItem != null && !fileItem.isEmpty()) {
-            this.saveUpload(fileItem, inputFile);
-            this.convertCover(id, prefix);
-        } else {
-            if (!inputFile.exists()) {
-                for (final int size : FileDao.COVER_SIZE_ARRAY) {
-                    this.copyDefaultCover(id, prefix + "_", size);
-                }
-            }
-        }
+        // final String id = articleBean.getArticleId();
+        // final String prefix = "cover";
+        // final File inputFile = this.getJpgFile(id, prefix);
+        // if (fileItem != null && !fileItem.isEmpty()) {
+        // this.saveUpload(fileItem, inputFile);
+        // this.convertCover(id, prefix);
+        // } else {
+        // if (!inputFile.exists()) {
+        // for (final int size : FileDao.COVER_SIZE_ARRAY) {
+        // this.copyDefaultCover(id, prefix + "_", size);
+        // }
+        // }
+        // }
     }
 
     public void convertCover(final String id, final String prefix) {
@@ -223,24 +221,24 @@ public class FileDao extends SequenceSupport {
 
     public void saveAvatarFile(final UserBean userBean,
                                final MultipartFile fileItem) {
-        final String id = userBean.getUserId();
-        final String prefix = "avatar";
-        final File inputFile = this.getJpgFile(id, prefix);
-        if (fileItem != null && !fileItem.isEmpty()) {
-            this.saveUpload(fileItem, inputFile);
-            this.convertCover(id, prefix);
-        } else {
-            if (!inputFile.exists()) {
-                for (final int size : FileDao.COVER_SIZE_ARRAY) {
-                    this.copyDefaultCover(id, prefix + "_", size);
-                }
-            }
-        }
+        // final String id = userBean.getUserId();
+        // final String prefix = "avatar";
+        // final File inputFile = this.getJpgFile(id, prefix);
+        // if (fileItem != null && !fileItem.isEmpty()) {
+        // this.saveUpload(fileItem, inputFile);
+        // this.convertCover(id, prefix);
+        // } else {
+        // if (!inputFile.exists()) {
+        // for (final int size : FileDao.COVER_SIZE_ARRAY) {
+        // this.copyDefaultCover(id, prefix + "_", size);
+        // }
+        // }
+        // }
     }
 
-    private void convertComic(final String input,
-                              final String output,
-                              final int size) {
+    protected void convertComic(final String input,
+                                final String output,
+                                final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.constantsBean.getConvertPath());
@@ -309,16 +307,16 @@ public class FileDao extends SequenceSupport {
             final String fileId = fileIdArray[i];
             final int orderNo = i + 1;
             final FileBean fileBean = new FileBean();
-            fileBean.setFileId(fileId);
+            // fileBean.setFileId(fileId);
             fileBean.setOrderNo(orderNo);
             this.fileMapper.updateFileOrder(fileBean);
 
             final TrackBean trackBean = new TrackBean();
             trackBean.setFileBean(fileBean);
-            trackBean.setSongTitle(songTitleArray[i]);
+            trackBean.setTrack(songTitleArray[i]);
 
             if (ArrayUtils.isNotEmpty(leadArtistArray)) {
-                trackBean.setLeadArtist(leadArtistArray[i]);
+                trackBean.setArtist(leadArtistArray[i]);
             }
 
             if (ArrayUtils.isNotEmpty(originalTitleArray)) {
@@ -334,22 +332,22 @@ public class FileDao extends SequenceSupport {
         final FileBean fileBean = this.createFileInfo(articleId,
                                                       fileItem,
                                                       FileDao.JPG);
-        final String fileId = fileBean.getFileId();
-        final File inputFile = this.getJpgFile(articleId, fileId);
-        this.saveUpload(fileItem, inputFile);
-        for (final int size : FileDao.COMIC_SIZE_ARRAY) {
-            final String name = fileId + "_" + size;
-            final File outputFile = this.getJpgFile(articleId, name);
-            this.convertScreenshot(inputFile.getAbsolutePath(),
-                                   outputFile.getAbsolutePath(),
-                                   size);
-        }
+        // final String fileId = fileBean.getFileId();
+        // final File inputFile = this.getJpgFile(articleId, fileId);
+        // this.saveUpload(fileItem, inputFile);
+        // for (final int size : FileDao.COMIC_SIZE_ARRAY) {
+        // final String name = fileId + "_" + size;
+        // final File outputFile = this.getJpgFile(articleId, name);
+        // this.convertScreenshot(inputFile.getAbsolutePath(),
+        // outputFile.getAbsolutePath(),
+        // size);
+        // }
         return fileBean;
     }
 
-    private void convertScreenshot(final String input,
-                                   final String output,
-                                   final int size) {
+    protected void convertScreenshot(final String input,
+                                     final String output,
+                                     final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.constantsBean.getConvertPath());
@@ -392,24 +390,24 @@ public class FileDao extends SequenceSupport {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("name", fileBean.getName());
-        model.put("size", fileBean.getSize());
+        // model.put("size", fileBean.getSize());
         model.put("url", FILE_PATH + "/"
-                         + fileBean.getArticleId()
-                         + "/"
-                         + fileBean.getFileId()
-                         + "_800.jpg");
+                + fileBean.getArticleBean().getId()
+                + "/"
+                + fileBean.getId()
+                + "_800.jpg");
         model.put("thumbnailUrl", FILE_PATH + "/"
-                                  + fileBean.getArticleId()
-                                  + "/"
-                                  + fileBean.getFileId()
-                                  + "_120.jpg");
+                + fileBean.getArticleBean().getId()
+                + "/"
+                + fileBean.getId()
+                + "_120.jpg");
         model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                               + fileBean.getFileId()
-                               + "/delete");
+                + fileBean.getId()
+                + "/delete");
         model.put("deleteType", "GET");
         return model;
     }
@@ -420,22 +418,22 @@ public class FileDao extends SequenceSupport {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("name", fileBean.getName());
-        model.put("size", fileBean.getSize());
+        // model.put("size", fileBean.getSize());
         model.put("url", FILE_PATH + "/"
-                         + fileBean.getArticleId()
-                         + "/"
-                         + fileBean.getFileId()
-                         + ".mp3");
+                + fileBean.getArticleBean().getId()
+                + "/"
+                + fileBean.getId()
+                + ".mp3");
         model.put("thumbnailUrl", FILE_PATH + "/"
-                                  + fileBean.getArticleId()
-                                  + "/cover_60.jpg");
+                + fileBean.getArticleBean().getId()
+                + "/cover_60.jpg");
         model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                               + fileBean.getFileId()
-                               + "/delete");
+                + fileBean.getId()
+                + "/delete");
         model.put("deleteType", "GET");
         return model;
     }

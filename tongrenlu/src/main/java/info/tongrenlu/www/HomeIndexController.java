@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("LOGIN_USER")
-public class HomeArticleController {
+public class HomeIndexController {
 
     @Autowired
     private ArticleService articleService = null;
@@ -37,7 +37,7 @@ public class HomeArticleController {
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     public String doGetSearch(@RequestParam(required = false) final Integer page,
                               @RequestParam(required = false) final String q,
-                              @ModelAttribute final UserBean loginUser,
+                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model) {
         return "search/index";
     }

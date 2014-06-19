@@ -51,10 +51,6 @@ public class FmService {
                                                 final Integer page,
                                                 final Integer size,
                                                 final String searchQuery) {
-        String userId = null;
-        if (loginUser != null) {
-            userId = loginUser.getUserId();
-        }
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
@@ -62,9 +58,7 @@ public class FmService {
         paginate.setPage(page);
         paginate.setSize(size);
         model.put("searchQuery", searchQuery);
-        model.put("page", this.musicDao.getMusicList(searchQuery,
-                                                     null,
-                                                     userId,
+        model.put("page", this.musicDao.getMusicList(searchQuery, null, null,// loginUser
                                                      paginate));
         model.put("result", true);
         return model;
@@ -73,15 +67,10 @@ public class FmService {
     public Map<String, Object> doGetMusicInfo(final UserBean loginUser,
                                               final String articleId,
                                               final HttpServletRequest request) {
-        String userId = null;
-        if (loginUser != null) {
-            userId = loginUser.getUserId();
-        }
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
-        final MusicBean musicBean = this.musicDao.getMusicById(articleId,
-                                                               userId);
+        final MusicBean musicBean = this.musicDao.getMusicById(articleId, null);
         if (musicBean != null) {
             model.put("articleBean", musicBean);
             final List<Object> playlist = new ArrayList<Object>();
@@ -102,13 +91,13 @@ public class FmService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? FmService.LOCAL_RESOURCE
-                                        : FmService.REMOTE_RESOURCE;
-        final String articleId = trackBean.getFileBean().getArticleId();
-        final String fileId = trackBean.getFileBean().getFileId();
-        final String title = trackBean.getSongTitle();
-        final String artist = trackBean.getLeadArtist();
+                : FmService.REMOTE_RESOURCE;
+        final Integer articleId = trackBean.getMusicBean().getId();
+        final Integer fileId = trackBean.getFileBean().getId();
+        final String title = trackBean.getTrack();
+        final String artist = trackBean.getArtist();
         final String original = trackBean.getOriginalTitle();
-        final String album = trackBean.getAlbum();
+        final String album = trackBean.getMusicBean().getTitle();
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("articleId", articleId);
@@ -213,8 +202,7 @@ public class FmService {
                 model.put("error", "播放列表不存在");
                 return model;
             }
-            if (!StringUtils.equals(playlistBean.getUserBean().getUserId(),
-                                    loginUser.getUserId())) {
+            if (!playlistBean.getUserBean().equals(loginUser)) {
                 model.put("error", "不是我的播放列表");
                 return model;
             }
@@ -243,8 +231,7 @@ public class FmService {
                 model.put("error", "播放列表不存在");
                 return model;
             }
-            if (!StringUtils.equals(playlistBean.getUserBean().getUserId(),
-                                    loginUser.getUserId())) {
+            if (!playlistBean.getUserBean().equals(loginUser)) {
                 model.put("error", "不是我的播放列表");
                 return model;
             }
@@ -280,8 +267,7 @@ public class FmService {
                 model.put("error", "播放列表不存在");
                 return model;
             }
-            if (!StringUtils.equals(playlistBean.getUserBean().getUserId(),
-                                    loginUser.getUserId())) {
+            if (!playlistBean.getUserBean().equals(loginUser)) {
                 model.put("error", "不是我的播放列表");
                 return model;
             }

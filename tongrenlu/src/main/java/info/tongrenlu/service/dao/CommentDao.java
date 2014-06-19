@@ -3,10 +3,8 @@ package info.tongrenlu.service.dao;
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ArticleCommentBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.domain.UserCommentBean;
 import info.tongrenlu.persistence.MCommentMapper;
 import info.tongrenlu.support.PaginateSupport;
-import info.tongrenlu.support.SequenceSupport;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +16,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommentDao extends SequenceSupport {
+public class CommentDao {
 
     @Autowired
     private MessageSource messageSource = null;
@@ -29,12 +27,12 @@ public class CommentDao extends SequenceSupport {
                                                  final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleBean", articleBean);
-        final int itemCount = this.commentMapper.getArticleCommentCount(param);
+        final int itemCount = this.commentMapper.count(param);
         paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<ArticleCommentBean> items = this.commentMapper.getArticleCommentList(param);
+        final List<ArticleCommentBean> items = this.commentMapper.fetchList(param);
         paginate.setItems(items);
         return paginate;
     }
@@ -43,36 +41,10 @@ public class CommentDao extends SequenceSupport {
                                   final ArticleBean articleBean,
                                   final String content) {
         final ArticleCommentBean commentBean = new ArticleCommentBean();
-        commentBean.setCommentId(this.getNextId());
         commentBean.setContent(content);
         commentBean.setArticleBean(articleBean);
-        commentBean.setSender(sender);
-        this.commentMapper.insertArticleComment(commentBean);
-    }
-
-    public PaginateSupport getUserCommentList(final UserBean userBean,
-                                              final PaginateSupport paginate) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userBean", userBean);
-        final int itemCount = this.commentMapper.getUserCommentCount(param);
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-        param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
-        final List<UserCommentBean> items = this.commentMapper.getUserCommentList(param);
-        paginate.setItems(items);
-        return paginate;
-    }
-
-    public void addUserComment(final UserBean sender,
-                               final UserBean userBean,
-                               final String content) {
-        final UserCommentBean commentBean = new UserCommentBean();
-        commentBean.setCommentId(this.getNextId());
-        commentBean.setContent(content);
-        commentBean.setUserBean(userBean);
-        commentBean.setSender(sender);
-        this.commentMapper.insertUserComment(commentBean);
+        commentBean.setUserBean(sender);
+        this.commentMapper.insert(commentBean);
     }
 
     public boolean validateAddComment(final String content,

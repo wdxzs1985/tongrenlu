@@ -7,7 +7,6 @@ import info.tongrenlu.persistence.RCollectMapper;
 import info.tongrenlu.persistence.RComicMapper;
 import info.tongrenlu.service.validator.ArticleBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
-import info.tongrenlu.support.SequenceSupport;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class ComicDao extends SequenceSupport {
+public class ComicDao {
 
     @Autowired
     private ArticleBeanValidator validator = null;

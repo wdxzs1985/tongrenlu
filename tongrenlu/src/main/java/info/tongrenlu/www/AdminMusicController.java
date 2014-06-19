@@ -1,7 +1,6 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.service.AdminMusicService;
-import info.tongrenlu.support.ControllerSupport;
 
 import java.util.Map;
 
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class AdminMusicController extends ControllerSupport {
+public class AdminMusicController {
 
     @Autowired
     private AdminMusicService musicService = null;
@@ -28,8 +27,7 @@ public class AdminMusicController extends ControllerSupport {
     public String doGetMusicIndex(@RequestParam(required = false) final Integer page,
                                   @RequestParam(required = false) final String q,
                                   final Model model) {
-        final String searchQuery = this.decodeQuery(q);
-        return this.musicService.doGetMusicIndex(page, searchQuery, model);
+        return this.musicService.doGetMusicIndex(page, q, model);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}")

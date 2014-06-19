@@ -35,16 +35,15 @@ public class UserService {
     private TimelineDao timelineDao = null;
 
     public String doGetConsoleIndex(final UserBean loginUser, final Model model) {
-
-        final UserBean userBean = this.userDao.getUserInfo(loginUser.getUserId());
-        loginUser.setMusicCount(userBean.getMusicCount());
-        loginUser.setComicCount(userBean.getComicCount());
-        loginUser.setGameCount(userBean.getGameCount());
-        loginUser.setCollectCount(userBean.getCollectCount());
-        loginUser.setFollowCount(userBean.getFollowCount());
-        loginUser.setFansCount(userBean.getFansCount());
-
-        if (StringUtils.equals(loginUser.getAdminFlg(), "1")) {
+        // final UserBean userBean =
+        // this.userDao.getUserInfo(loginUser.getId());
+        // loginUser.setMusicCount(userBean.getMusicCount());
+        // loginUser.setComicCount(userBean.getComicCount());
+        // loginUser.setCollectCount(userBean.getCollectCount());
+        // loginUser.setFollowCount(userBean.getFollowCount());
+        // loginUser.setFansCount(userBean.getFansCount());
+        //
+        if (loginUser.isAdmin()) {
             model.addAttribute("unpublishMusicCount",
                                this.musicDao.countUnpublish());
             model.addAttribute("unpublishComicCount",
@@ -92,7 +91,7 @@ public class UserService {
                                                 password,
                                                 passwordAgain,
                                                 model)) {
-            this.userDao.updateUserPassword(loginUser, password);
+            // this.userDao.updateUserPassword(loginUser, password);
             return "redirect:/console/user/finish";
         }
         return "console/user/password";
@@ -105,17 +104,17 @@ public class UserService {
             loginUser.getRedFlg();
             loginUser.getTranslateFlg();
         }
-        final UserBean userBean = this.userDao.getUserInfo(userId);
-        if (userBean == null) {
-            return "home/error/404";
-        }
-
-        model.addAttribute(userBean);
+        // final UserBean userBean = this.userDao.getUserInfo(userId);
+        // if (userBean == null) {
+        // return "home/error/404";
+        // }
+        //
+        // model.addAttribute(userBean);
 
         if (loginUser != null) {
-            model.addAttribute("hasFollowed",
-                               this.userDao.hasFollowed(loginUser.getUserId(),
-                                                        userBean.getUserId()));
+            // model.addAttribute("hasFollowed",
+            // this.userDao.hasFollowed(loginUser.getUserId(),
+            // userBean.getUserId()));
         }
         return "home/user/index";
     }
@@ -125,14 +124,15 @@ public class UserService {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
         if (this.userDao.validateUserOnline(loginUser, model)) {
-            final boolean follow = this.userDao.hasFollowed(loginUser.getUserId(),
-                                                            userId);
-            if (follow) {
-                this.userDao.removeFollow(loginUser.getUserId(), userId);
-            } else {
-                this.userDao.addFollow(loginUser.getUserId(), userId);
-            }
-            model.put("follow", follow);
+            // final boolean follow =
+            // this.userDao.hasFollowed(loginUser.getUserId(),
+            // userId);
+            // if (follow) {
+            // this.userDao.removeFollow(loginUser.getUserId(), userId);
+            // } else {
+            // this.userDao.addFollow(loginUser.getUserId(), userId);
+            // }
+            // model.put("follow", follow);
             model.put("result", true);
         }
         return model;
@@ -142,20 +142,20 @@ public class UserService {
                               final String userId,
                               final Integer page,
                               final Model model) {
-        final UserBean userBean = this.userDao.getUserInfo(userId);
-        if (userBean == null) {
-            return "home/error/404";
-        }
-        model.addAttribute(userBean);
+        // final UserBean userBean = this.userDao.getUserInfo(userId);
+        // if (userBean == null) {
+        // return "home/error/404";
+        // }
+        // model.addAttribute(userBean);
         final PaginateSupport paginate = new PaginateSupport();
         paginate.setPage(page);
         paginate.setSize(10);
-        model.addAttribute("page",
-                           this.userDao.getFollowList(userBean, paginate));
+        // model.addAttribute("page",
+        // this.userDao.getFollowList(userBean, paginate));
         if (loginUser != null) {
-            model.addAttribute("hasFollowed",
-                               this.userDao.hasFollowed(loginUser.getUserId(),
-                                                        userBean.getUserId()));
+            // model.addAttribute("hasFollowed",
+            // this.userDao.hasFollowed(loginUser.getUserId(),
+            // userBean.getUserId()));
         }
         return "home/user/follow";
     }
@@ -164,20 +164,21 @@ public class UserService {
                             final String userId,
                             final Integer page,
                             final Model model) {
-        final UserBean userBean = this.userDao.getUserInfo(userId);
-        if (userBean == null) {
-            return "home/error/404";
-        }
-        model.addAttribute(userBean);
+        // final UserBean userBean = this.userDao.getUserInfo(userId);
+        // if (userBean == null) {
+        // return "home/error/404";
+        // }
+        // model.addAttribute(userBean);
         final PaginateSupport paginate = new PaginateSupport();
         paginate.setPage(page);
         paginate.setSize(10);
-        model.addAttribute("page", this.userDao.getFansList(userBean, paginate));
+        // model.addAttribute("page", this.userDao.getFansList(userBean,
+        // paginate));
 
         if (loginUser != null) {
-            model.addAttribute("hasFollowed",
-                               this.userDao.hasFollowed(loginUser.getUserId(),
-                                                        userBean.getUserId()));
+            // model.addAttribute("hasFollowed",
+            // this.userDao.hasFollowed(loginUser.getUserId(),
+            // userBean.getUserId()));
         }
         return "home/user/fans";
     }
@@ -192,23 +193,23 @@ public class UserService {
             redFlg = loginUser.getRedFlg();
             translateFlg = loginUser.getTranslateFlg();
         }
-        final UserBean userBean = this.userDao.getUserInfo(userId);
-        if (userBean == null) {
-            return "home/error/404";
-        }
-        model.addAttribute(userBean);
+        // final UserBean userBean = this.userDao.getUserInfo(userId);
+        // if (userBean == null) {
+        // return "home/error/404";
+        // }
+        // model.addAttribute(userBean);
         final PaginateSupport paginate = new PaginateSupport();
         paginate.setPage(page);
         paginate.setSize(10);
-        model.addAttribute("page", this.comicDao.getUserComicList(userBean,
-                                                                  redFlg,
-                                                                  translateFlg,
-                                                                  paginate));
+        // model.addAttribute("page", this.comicDao.getUserComicList(userBean,
+        // redFlg,
+        // translateFlg,
+        // paginate));
 
         if (loginUser != null) {
-            model.addAttribute("hasFollowed",
-                               this.userDao.hasFollowed(loginUser.getUserId(),
-                                                        userBean.getUserId()));
+            // model.addAttribute("hasFollowed",
+            // this.userDao.hasFollowed(loginUser.getUserId(),
+            // userBean.getUserId()));
         }
         return "home/user/comic";
     }
@@ -217,21 +218,21 @@ public class UserService {
                              final String userId,
                              final Integer page,
                              final Model model) {
-        final UserBean userBean = this.userDao.getUserInfo(userId);
-        if (userBean == null) {
-            return "home/error/404";
-        }
-        model.addAttribute(userBean);
+        // final UserBean userBean = this.userDao.getUserInfo(userId);
+        // if (userBean == null) {
+        // return "home/error/404";
+        // }
+        // model.addAttribute(userBean);
         final PaginateSupport paginate = new PaginateSupport();
         paginate.setPage(page);
         paginate.setSize(10);
-        model.addAttribute("page",
-                           this.musicDao.getUserMusicList(userBean, paginate));
+        // model.addAttribute("page",
+        // this.musicDao.getUserMusicList(userBean, paginate));
 
         if (loginUser != null) {
-            model.addAttribute("hasFollowed",
-                               this.userDao.hasFollowed(loginUser.getUserId(),
-                                                        userBean.getUserId()));
+            // model.addAttribute("hasFollowed",
+            // this.userDao.hasFollowed(loginUser.getUserId(),
+            // userBean.getUserId()));
         }
         return "home/user/music";
     }
@@ -263,8 +264,8 @@ public class UserService {
         final PaginateSupport paginate = new PaginateSupport();
         paginate.setPage(page);
         paginate.setSize(10);
-        final String userId = userBean.getUserId();
-        model.put("page", this.timelineDao.getMyTimeline(userId, paginate));
+        // final String userId = userBean.getUserId();
+        // model.put("page", this.timelineDao.getMyTimeline(userId, paginate));
         return model;
     }
 }

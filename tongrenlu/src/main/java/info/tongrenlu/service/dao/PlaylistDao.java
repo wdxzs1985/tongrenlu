@@ -9,7 +9,6 @@ import info.tongrenlu.persistence.MArticleMapper;
 import info.tongrenlu.persistence.RPlaylistMapper;
 import info.tongrenlu.service.validator.ArticleBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
-import info.tongrenlu.support.SequenceSupport;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlaylistDao extends SequenceSupport {
+public class PlaylistDao {
 
     @Autowired
     private ArticleBeanValidator validator = null;
@@ -62,7 +61,6 @@ public class PlaylistDao extends SequenceSupport {
     }
 
     public void createPlaylist(final PlaylistBean playlistBean) {
-        playlistBean.setArticleId(this.getNextId());
         // this.articleMapper.insertArticle(playlistBean);
         this.playlistMapper.insertPlaylist(playlistBean);
     }

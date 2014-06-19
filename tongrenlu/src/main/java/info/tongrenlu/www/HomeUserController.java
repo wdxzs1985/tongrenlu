@@ -3,8 +3,6 @@ package info.tongrenlu.www;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.UserService;
-import info.tongrenlu.support.ControllerSupport;
-import info.tongrenlu.support.LoginUserSupport;
 
 import java.util.Map;
 
@@ -13,14 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-public class HomeUserController extends ControllerSupport {
+@SessionAttributes("LOGIN_USER")
+public class HomeUserController {
 
     @Autowired
     private UserService userService = null;
@@ -69,8 +70,8 @@ public class HomeUserController extends ControllerSupport {
     @RequestMapping(method = RequestMethod.POST, value = "/user/{userId}/follow")
     @ResponseBody
     public Map<String, Object> doPostFollow(@PathVariable final String userId,
-                                            final HttpServletRequest request) {
-        final UserBean loginUser = LoginUserSupport.getLoginUser(request);
+                                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                            final Model model) {
         return this.userService.doPostFollow(loginUser, userId);
     }
 }

@@ -8,7 +8,6 @@ import info.tongrenlu.service.dao.FileDao;
 import info.tongrenlu.service.dao.MusicDao;
 import info.tongrenlu.service.dao.TagDao;
 import info.tongrenlu.support.PaginateSupport;
-import info.tongrenlu.support.SequenceSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
-public class AdminMusicService extends SequenceSupport {
+public class AdminMusicService {
     @Autowired
     private MusicDao musicDao = null;
     @Autowired

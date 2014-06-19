@@ -1,7 +1,6 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.service.ArticleService;
-import info.tongrenlu.support.ControllerSupport;
 
 import java.util.Map;
 
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class AdminArticleController extends ControllerSupport {
+public class AdminArticleController {
 
     @Autowired
     private ArticleService articleService = null;

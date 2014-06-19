@@ -9,7 +9,6 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +69,7 @@ public class ConsoleComicService {
         if (comicBean == null) {
             return "console/error/404";
         }
-        if (!StringUtils.equals(comicBean.getUserBean().getUserId(),
-                                loginUser.getUserId())) {
+        if (!comicBean.getUserBean().equals(loginUser)) {
             return "console/error/403";
         }
         model.addAttribute("articleBean", comicBean);
@@ -90,11 +88,9 @@ public class ConsoleComicService {
         if (comic == null) {
             return "console/error/404";
         }
-        if (!StringUtils.equals(comic.getUserBean().getUserId(),
-                                loginUser.getUserId())) {
+        if (!comicBean.getUserBean().equals(loginUser)) {
             return "console/error/403";
         }
-        comicBean.setArticleId(articleId);
         if (this.comicDao.validateEditComic(comicBean, cover, model)) {
             this.comicDao.editComic(comicBean);
             this.tagDao.addArticleTag(comic, tagIdArray);
@@ -115,8 +111,7 @@ public class ConsoleComicService {
         if (comicBean == null) {
             return "console/error/404";
         }
-        if (!StringUtils.equals(comicBean.getUserBean().getUserId(),
-                                loginUser.getUserId())) {
+        if (!comicBean.getUserBean().equals(loginUser)) {
             return "console/error/403";
         }
         this.comicDao.deleteComic(comicBean);

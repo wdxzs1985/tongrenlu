@@ -43,9 +43,9 @@ public class HomeMusicService {
                              final Integer page,
                              final String searchQuery,
                              final Model model) {
-        String userId = null;
+        final String userId = null;
         if (loginUser != null) {
-            userId = loginUser.getUserId();
+            // userId = loginUser.getUserId();
         }
 
         final PaginateSupport paginate = new PaginateSupport();
@@ -63,9 +63,9 @@ public class HomeMusicService {
     public String doGetView(final UserBean loginUser,
                             final String articleId,
                             final Model model) {
-        String userId = null;
+        final String userId = null;
         if (loginUser != null) {
-            userId = loginUser.getUserId();
+            // userId = loginUser.getUserId();
         }
         final MusicBean musicBean = this.musicDao.getMusicById(articleId,
                                                                userId);
@@ -75,9 +75,8 @@ public class HomeMusicService {
             if (!StringUtils.equals(musicBean.getPublishFlg(), "1")) {
                 return "home/error/403";
             }
-        } else if (!StringUtils.equals(loginUser.getAdminFlg(), "1")) {
-            if (!StringUtils.equals(loginUser.getUserId(),
-                                    musicBean.getUserBean().getUserId())) {
+        } else if (!loginUser.isAdmin()) {
+            if (!musicBean.getUserBean().equals(loginUser)) {
                 if (!StringUtils.equals(musicBean.getPublishFlg(), "1")) {
                     return "home/error/403";
                 }
@@ -91,10 +90,10 @@ public class HomeMusicService {
                                                           1,
                                                           6));
         if (loginUser != null) {
-            model.addAttribute("hasFollowed",
-                               this.userDao.hasFollowed(loginUser.getUserId(),
-                                                        musicBean.getUserBean()
-                                                                 .getUserId()));
+            // model.addAttribute("hasFollowed",
+            // this.userDao.hasFollowed(loginUser.getUserId(),
+            // musicBean.getUserBean()
+            // .getUserId()));
         }
         this.articleDao.addAccess(musicBean, loginUser);
         return "home/music/view";
@@ -120,13 +119,13 @@ public class HomeMusicService {
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
                 : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("title", trackBean.getSongTitle());
-        model.put("artist", trackBean.getLeadArtist());
+        model.put("title", trackBean.getTrack());
+        model.put("artist", trackBean.getArtist());
         model.put("original", trackBean.getOriginalTitle());
         model.put("mp3", FILE_PATH + "/"
-                + trackBean.getFileBean().getArticleId()
+                + trackBean.getMusicBean().getId()
                 + "/"
-                + trackBean.getFileBean().getFileId()
+                + trackBean.getFileBean().getId()
                 + ".mp3");
         // model.put("poster", FILE_PATH
         // + "/"
@@ -158,14 +157,14 @@ public class HomeMusicService {
                 : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                + fileBean.getArticleId()
+                + fileBean.getArticleBean().getId()
                 + "/"
-                + fileBean.getFileId()
+                + fileBean.getId()
                 + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                + fileBean.getArticleId()
+                + fileBean.getArticleBean().getId()
                 + "/"
-                + fileBean.getFileId()
+                + fileBean.getId()
                 + "_1600.jpg");
         return model;
     }

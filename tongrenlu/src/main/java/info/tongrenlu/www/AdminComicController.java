@@ -1,7 +1,6 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.service.AdminComicService;
-import info.tongrenlu.support.ControllerSupport;
 
 import java.util.Map;
 
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class AdminComicController extends ControllerSupport {
+public class AdminComicController {
 
     @Autowired
     private AdminComicService comicService = null;
@@ -27,8 +26,7 @@ public class AdminComicController extends ControllerSupport {
     public String doGetComicIndex(@RequestParam(required = false) final Integer page,
                                   @RequestParam(required = false) final String q,
                                   final Model model) {
-        final String searchQuery = this.decodeQuery(q);
-        return this.comicService.doGetComicIndex(page, searchQuery, model);
+        return this.comicService.doGetComicIndex(page, q, model);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}")
