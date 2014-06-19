@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+<head>
+  <title th:inline="text">[[#{application.name}]]</title>
+</head>
+<body>
+<div class="navbar navbar-default navbar-static-top" layout:fragment="header">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"
+        th:href="@{/}" 
+        th:text="#{application.name}">
+          application.name
+      </a>
+    </div>
+  </div>
+</div>
+<div class="navbar navbar-fixed-bottom" layout:fragment="footer">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"
+        th:href="@{/}" 
+        th:text="#{application.name}">
+          application
+      </a>
+    </div>
+  </div>
+</div>
+<th:block layout:fragment="scripts">
+</th:block>
+</body>
+</html>
