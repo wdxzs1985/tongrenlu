@@ -58,12 +58,10 @@ public class LoginController {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
 
-        final String salt = (String) session.getAttribute("salt");
-
         final UserBean userBean = new UserBean();
         userBean.setEmail(StringUtils.lowerCase(email));
         userBean.setPassword(password);
-        userBean.setSalt(salt);
+        userBean.setSalt((String) session.getAttribute("salt"));
 
         final UserBean loginUser = this.loginService.doLogin(userBean,
                                                              model,

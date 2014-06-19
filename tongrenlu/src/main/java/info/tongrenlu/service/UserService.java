@@ -60,7 +60,7 @@ public class UserService {
                                                 loginUser,
                                                 model.asMap())) {
             loginUser.setNickname(userBean.getNickname());
-            loginUser.setSignature(userBean.getSignature());
+            // loginUser.setSignature(userBean.getSignature());
 
             final String redFlg = userBean.getRedFlg();
             final String translateFlg = userBean.getTranslateFlg();

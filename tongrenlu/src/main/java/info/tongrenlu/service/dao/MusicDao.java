@@ -2,12 +2,10 @@ package info.tongrenlu.service.dao;
 
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.persistence.MArticleMapper;
-import info.tongrenlu.persistence.RCollectMapper;
-import info.tongrenlu.persistence.RMusicMapper;
 import info.tongrenlu.service.validator.ArticleBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +20,13 @@ public class MusicDao {
 
     @Autowired
     private ArticleBeanValidator validator = null;
-    @Autowired
-    private MArticleMapper articleMapper = null;
-    @Autowired
-    private RMusicMapper musicMapper = null;
-    @Autowired
-    private RCollectMapper collectMapper = null;
+
+    // @Autowired
+    // private MArticleMapper articleMapper = null;
+    // @Autowired
+    // private RMusicMapper musicMapper = null;
+    // @Autowired
+    // private RCollectMapper collectMapper = null;
 
     public PaginateSupport getMusicList(final String searchQuery,
                                         final String tagId,
@@ -39,15 +38,15 @@ public class MusicDao {
         param.put("publishFlg", "1");
         param.put("collectUserId", collectUserId);
 
-        final int itemCount = this.musicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.musicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<MusicBean> items = this.musicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<MusicBean> items = this.musicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
@@ -56,7 +55,8 @@ public class MusicDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
         param.put("collectUserId", collectUserId);
-        return this.musicMapper.fetchBean(param);
+        // return this.musicMapper.fetchBean(param);
+        return null;
     }
 
     public List<MusicBean> getMusicLastest(final String searchQuery,
@@ -93,8 +93,9 @@ public class MusicDao {
     }
 
     private List<MusicBean> getMusicRank(final Map<String, Object> param) {
-        final List<MusicBean> items = this.musicMapper.fetchList(param);
-        return items;
+        // final List<MusicBean> items = this.musicMapper.fetchList(param);
+        // return items;
+        return Collections.emptyList();
     }
 
     public List<MusicBean> getUserMusicList(final UserBean userBean,
@@ -106,22 +107,24 @@ public class MusicDao {
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", start);
         param.put("end", end);
-        final List<MusicBean> items = this.musicMapper.fetchList(param);
-        return items;
+        // final List<MusicBean> items = this.musicMapper.fetchList(param);
+        // return items;
+
+        return Collections.emptyList();
     }
 
     public PaginateSupport getAdminMusicList(final PaginateSupport paginate,
                                              final String searchQuery) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.musicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.musicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<MusicBean> items = this.musicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<MusicBean> items = this.musicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
@@ -139,8 +142,8 @@ public class MusicDao {
 
     @Transactional
     public void createMusic(final MusicBean music) {
-        this.articleMapper.insert(music);
-        this.musicMapper.insert(music);
+        // this.articleMapper.insert(music);
+        // this.musicMapper.insert(music);
     }
 
     public boolean validateEditMusic(final MusicBean music,
@@ -158,7 +161,7 @@ public class MusicDao {
 
     @Transactional
     public void editMusic(final MusicBean music) {
-        this.articleMapper.update(music);
+        // this.articleMapper.update(music);
         // this.musicMapper.updateMusic(music);
     }
 
@@ -167,14 +170,14 @@ public class MusicDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
         param.put("publishFlg", "1");
-        final int itemCount = this.musicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.musicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<MusicBean> items = this.musicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<MusicBean> items = this.musicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
@@ -184,42 +187,43 @@ public class MusicDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.musicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.musicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<MusicBean> items = this.musicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<MusicBean> items = this.musicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
     @Transactional
     public void deleteMusic(final MusicBean music) {
-        this.articleMapper.delete(music);
-        this.musicMapper.delete(music);
-
+        // this.articleMapper.delete(music);
+        // this.musicMapper.delete(music);
     }
 
     public PaginateSupport getMusicCollectList(final UserBean userBean,
                                                final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", userBean.getId());
-        final int itemCount = this.collectMapper.countForMusic(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.collectMapper.countForMusic(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<MusicBean> items = this.collectMapper.fetchListForMusic(param);
-        paginate.setItems(items);
+        // final List<MusicBean> items =
+        // this.collectMapper.fetchListForMusic(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
     public int countUnpublish() {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("publishFlg", "0");
-        return this.musicMapper.count(param);
+        // return this.musicMapper.count(param);
+        return 0;
     }
 
 }

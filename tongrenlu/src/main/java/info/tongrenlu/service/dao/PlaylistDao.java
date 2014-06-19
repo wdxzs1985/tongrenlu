@@ -5,11 +5,10 @@ import info.tongrenlu.domain.PlaylistBean;
 import info.tongrenlu.domain.PlaylistTrackBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.persistence.MArticleMapper;
-import info.tongrenlu.persistence.RPlaylistMapper;
 import info.tongrenlu.service.validator.ArticleBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,33 +21,38 @@ public class PlaylistDao {
 
     @Autowired
     private ArticleBeanValidator validator = null;
-    @Autowired
-    private MArticleMapper articleMapper = null;
-    @Autowired
-    private RPlaylistMapper playlistMapper = null;
+
+    // @Autowired
+    // private MArticleMapper articleMapper = null;
+    // @Autowired
+    // private RPlaylistMapper playlistMapper = null;
 
     public PaginateSupport getPlaylistList(final UserBean userBean,
                                            final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
 
-        final int itemCount = this.playlistMapper.getPlaylistCount(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.playlistMapper.getPlaylistCount(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         // param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<PlaylistBean> items = this.playlistMapper.getPlaylistList(param);
-        paginate.setItems(items);
+        // final List<PlaylistBean> items =
+        // this.playlistMapper.getPlaylistList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
     public List<PlaylistBean> getUserPlaylist(final UserBean userBean) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
-        final List<PlaylistBean> items = this.playlistMapper.getUserPlaylistName(param);
-        return items;
+        // final List<PlaylistBean> items =
+        // this.playlistMapper.getUserPlaylistName(param);
+        // return items;
+
+        return Collections.emptyList();
     }
 
     public boolean validateCreatePlaylist(final PlaylistBean playlistBean,
@@ -62,7 +66,7 @@ public class PlaylistDao {
 
     public void createPlaylist(final PlaylistBean playlistBean) {
         // this.articleMapper.insertArticle(playlistBean);
-        this.playlistMapper.insertPlaylist(playlistBean);
+        // this.playlistMapper.insertPlaylist(playlistBean);
     }
 
     public void removePlaylist(final String articleId) {
@@ -70,25 +74,28 @@ public class PlaylistDao {
         param.put("articleId", articleId);
 
         // this.articleMapper.deleteArticle(param);
-        this.playlistMapper.deletePlaylist(param);
+        // this.playlistMapper.deletePlaylist(param);
     }
 
     public PlaylistBean getPlaylistById(final String articleId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
-        return this.playlistMapper.getPlaylist(param);
+        // return this.playlistMapper.getPlaylist(param);
+        return null;
     }
 
     public List<PlaylistTrackBean> getPlaylistTracks(final String articleId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
-        return this.playlistMapper.getPlaylistTracks(param);
+        // return this.playlistMapper.getPlaylistTracks(param);
+        return Collections.emptyList();
     }
 
     public int countTrack(final String articleId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
-        return this.playlistMapper.countPlaylistTracks(param);
+        // return this.playlistMapper.countPlaylistTracks(param);
+        return 0;
     }
 
     public void addTrack(final PlaylistBean playlistBean,
@@ -101,7 +108,7 @@ public class PlaylistDao {
         playlistTrackBean.setPlaylistBean(playlistBean);
         playlistTrackBean.setTrackBean(trackBean);
         playlistTrackBean.setOrderNo(orderNo);
-        this.playlistMapper.insertPlaylistTrack(playlistTrackBean);
+        // this.playlistMapper.insertPlaylistTrack(playlistTrackBean);
     }
 
     public void removeTrack(final PlaylistBean playlistBean,
@@ -113,7 +120,7 @@ public class PlaylistDao {
         playlistTrackBean.setPlaylistBean(playlistBean);
         playlistTrackBean.setTrackBean(trackBean);
 
-        this.playlistMapper.deletePlaylistTrack(playlistTrackBean);
+        // this.playlistMapper.deletePlaylistTrack(playlistTrackBean);
     }
 
 }

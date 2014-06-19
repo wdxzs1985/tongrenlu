@@ -1,35 +1,32 @@
 package info.tongrenlu.service.dao;
 
-import info.tongrenlu.domain.TimelineBean;
-import info.tongrenlu.persistence.MTimelineMapper;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TimelineDao {
 
-    @Autowired
-    private MTimelineMapper timelineMapper = null;
+    // @Autowired
+    // private MTimelineMapper timelineMapper = null;
 
     public PaginateSupport getUserTimeline(final String userId,
                                            final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", userId);
 
-        final int itemCount = this.timelineMapper.countTimeline(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.timelineMapper.countTimeline(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<TimelineBean> items = this.timelineMapper.fetchTimelineList(param);
-        paginate.setItems(items);
+        // final List<TimelineBean> items =
+        // this.timelineMapper.fetchTimelineList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
@@ -39,14 +36,15 @@ public class TimelineDao {
         param.put("userId", userId);
         param.put("loginUserId", userId);
 
-        final int itemCount = this.timelineMapper.countTimeline(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.timelineMapper.countTimeline(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<TimelineBean> items = this.timelineMapper.fetchTimelineList(param);
-        paginate.setItems(items);
+        // final List<TimelineBean> items =
+        // this.timelineMapper.fetchTimelineList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 }

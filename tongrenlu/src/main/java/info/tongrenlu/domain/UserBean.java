@@ -20,8 +20,6 @@ public class UserBean extends DtoBean {
 
     private String nickname;
 
-    private String signature;
-
     @JsonIgnore
     private String email;
 
@@ -45,16 +43,6 @@ public class UserBean extends DtoBean {
 
     @JsonIgnore
     private String translateFlg;
-
-    private int musicCount = 0;
-
-    private int comicCount = 0;
-
-    private int collectCount = 0;
-
-    private int followCount = 0;
-
-    private int fansCount = 0;
 
     public String getNickname() {
         return this.nickname;
@@ -96,59 +84,6 @@ public class UserBean extends DtoBean {
         this.translateFlg = translateFlg;
     }
 
-    public String getSignature() {
-        return this.signature;
-    }
-
-    public void setSignature(final String signature) {
-        this.signature = signature;
-    }
-
-    public int getCollectCount() {
-        return this.collectCount;
-    }
-
-    public void setCollectCount(final int collectCount) {
-        this.collectCount = collectCount;
-    }
-
-    public int getFansCount() {
-        return this.fansCount;
-    }
-
-    public void setFansCount(final int fansCount) {
-        this.fansCount = fansCount;
-    }
-
-    public int getFollowCount() {
-        return this.followCount;
-    }
-
-    public void setFollowCount(final int followCount) {
-        this.followCount = followCount;
-    }
-
-    @Override
-    public String toString() {
-        return this.nickname + "#" + this.getId();
-    }
-
-    public int getMusicCount() {
-        return this.musicCount;
-    }
-
-    public void setMusicCount(final int musicCount) {
-        this.musicCount = musicCount;
-    }
-
-    public int getComicCount() {
-        return this.comicCount;
-    }
-
-    public void setComicCount(final int comicCount) {
-        this.comicCount = comicCount;
-    }
-
     public String getSalt() {
         return this.salt;
     }
@@ -187,6 +122,11 @@ public class UserBean extends DtoBean {
 
     public void setPassword2(final String password2) {
         this.password2 = password2;
+    }
+
+    @Override
+    public String toString() {
+        return this.nickname + "#" + this.getId();
     }
 
 }

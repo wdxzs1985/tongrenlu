@@ -2,17 +2,13 @@ package info.tongrenlu.service.dao;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.persistence.MArticleMapper;
-import info.tongrenlu.persistence.RCollectMapper;
-import info.tongrenlu.persistence.RComicMapper;
-import info.tongrenlu.service.validator.ArticleBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,14 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class ComicDao {
 
-    @Autowired
-    private ArticleBeanValidator validator = null;
-    @Autowired
-    private MArticleMapper articleMapper = null;
-    @Autowired
-    private RComicMapper comicMapper = null;
-    @Autowired
-    private RCollectMapper collectMapper = null;
+    // @Autowired
+    // private MArticleMapper articleMapper = null;
+    // @Autowired
+    // private RComicMapper comicMapper = null;
+    // @Autowired
+    // private RCollectMapper collectMapper = null;
 
     public PaginateSupport getComicList(final String searchQuery,
                                         final String tagId,
@@ -43,15 +37,15 @@ public class ComicDao {
         param.put("translateFlg", translateFlg);
         param.put("collectUserId", collectUserId);
 
-        final int itemCount = this.comicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.comicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<ComicBean> items = this.comicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<ComicBean> items = this.comicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
@@ -59,14 +53,14 @@ public class ComicDao {
                                              final String searchQuery) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.comicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.comicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<ComicBean> items = this.comicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<ComicBean> items = this.comicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
@@ -75,7 +69,8 @@ public class ComicDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
         param.put("collectUserId", collectUserId);
-        return this.comicMapper.fetchBean(param);
+        // return this.comicMapper.fetchBean(param);
+        return null;
     }
 
     public List<ComicBean> getComicLastest(final String searchQuery,
@@ -128,8 +123,9 @@ public class ComicDao {
         param.put("order", order);
         param.put("start", 1);
         param.put("end", size);
-        final List<ComicBean> items = this.comicMapper.fetchList(param);
-        return items;
+        // final List<ComicBean> items = this.comicMapper.fetchList(param);
+        // return items;
+        return Collections.emptyList();
     }
 
     public List<ComicBean> getUserComicList(final UserBean userBean,
@@ -145,8 +141,9 @@ public class ComicDao {
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", start);
         param.put("end", end);
-        final List<ComicBean> items = this.comicMapper.fetchList(param);
-        return items;
+        // final List<ComicBean> items = this.comicMapper.fetchList(param);
+        // return items;
+        return Collections.emptyList();
     }
 
     public PaginateSupport getUserComicList(final UserBean userBean,
@@ -158,53 +155,55 @@ public class ComicDao {
         param.put("publishFlg", "1");
         param.put("redFlg", redFlg);
         param.put("translateFlg", translateFlg);
-        final int itemCount = this.comicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.comicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<ComicBean> items = this.comicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<ComicBean> items = this.comicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
     public boolean validateCreateComic(final ComicBean comic,
                                        final Map<String, Object> model) {
-        boolean isValid = true;
-        if (!this.validator.validateTitle(comic.getTitle(), model)) {
-            isValid = false;
-        }
-        if (!this.validator.validateDescription(comic.getDescription(), model)) {
-            isValid = false;
-        }
+        final boolean isValid = true;
+        // if (!this.validator.validateTitle(comic.getTitle(), model)) {
+        // isValid = false;
+        // }
+        // if (!this.validator.validateDescription(comic.getDescription(),
+        // model)) {
+        // isValid = false;
+        // }
         return isValid;
     }
 
     @Transactional
     public void createComic(final ComicBean comic) {
-        this.articleMapper.insert(comic);
-        this.comicMapper.insert(comic);
+        // this.articleMapper.insert(comic);
+        // this.comicMapper.insert(comic);
     }
 
     public boolean validateEditComic(final ComicBean comic,
                                      final MultipartFile cover,
                                      final Map<String, Object> model) {
-        boolean isValid = true;
-        if (!this.validator.validateTitle(comic.getTitle(), model)) {
-            isValid = false;
-        }
-        if (!this.validator.validateDescription(comic.getDescription(), model)) {
-            isValid = false;
-        }
+        final boolean isValid = true;
+        // if (!this.validator.validateTitle(comic.getTitle(), model)) {
+        // isValid = false;
+        // }
+        // if (!this.validator.validateDescription(comic.getDescription(),
+        // model)) {
+        // isValid = false;
+        // }
         return isValid;
     }
 
     @Transactional
     public void editComic(final ComicBean comic) {
-        this.articleMapper.update(comic);
-        this.comicMapper.update(comic);
+        // this.articleMapper.update(comic);
+        // this.comicMapper.update(comic);
     }
 
     public PaginateSupport getConsoleComicList(final UserBean userBean,
@@ -213,40 +212,42 @@ public class ComicDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.comicMapper.count(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.comicMapper.count(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
-        final List<ComicBean> items = this.comicMapper.fetchList(param);
-        paginate.setItems(items);
+        // final List<ComicBean> items = this.comicMapper.fetchList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
     public void deleteComic(final ComicBean comic) {
-        this.articleMapper.delete(comic);
-        this.comicMapper.delete(comic);
+        // this.articleMapper.delete(comic);
+        // this.comicMapper.delete(comic);
     }
 
     public PaginateSupport getComicCollectList(final UserBean userBean,
                                                final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userBean", userBean);
-        final int itemCount = this.collectMapper.countForComic(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.collectMapper.countForComic(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<ComicBean> items = this.collectMapper.fetchListForComic(param);
-        paginate.setItems(items);
+        // final List<ComicBean> items =
+        // this.collectMapper.fetchListForComic(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
     public int countUnpublish() {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("publishFlg", "0");
-        return this.comicMapper.count(param);
+        // return this.comicMapper.count(param);
+        return 0;
     }
 
 }

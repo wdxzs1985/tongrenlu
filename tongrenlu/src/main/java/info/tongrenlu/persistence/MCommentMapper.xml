@@ -6,7 +6,7 @@
     
     <cache flushInterval="3600"/>
     
-    <insert id="insertArticleComment" flushCache="true">
+    <insert id="insert" flushCache="true">
         INSERT INTO M_ARTICLE_COMMENT(
             COMMENT_ID
         ,   CONTENT
@@ -26,7 +26,7 @@
         )
     </insert>
     
-    <select id="getArticleCommentCount" resultType="int">
+    <select id="count" resultType="int">
         SELECT
             COUNT(C.COMMENT_ID)
         FROM

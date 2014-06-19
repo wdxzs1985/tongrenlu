@@ -1,9 +1,9 @@
 package info.tongrenlu.service.dao;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.persistence.RFollowMapper;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +18,9 @@ public class UserDao {
 
     @Autowired
     private MessageSource messageSource = null;
-    @Autowired
-    private RFollowMapper followMapper = null;
+
+    // @Autowired
+    // private RFollowMapper followMapper = null;
 
     public boolean validateUserOnline(final UserBean userBean,
                                       final Map<String, Object> model) {
@@ -113,33 +114,36 @@ public class UserDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", userId);
         param.put("followId", followId);
-        return this.followMapper.countFollow(param) > 0;
+        // return this.followMapper.countFollow(param) > 0;
+        return false;
     }
 
     public void removeFollow(final String userId, final String followId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", userId);
         param.put("followId", followId);
-        this.followMapper.deleteFollow(param);
+        // this.followMapper.deleteFollow(param);
     }
 
     public void addFollow(final String userId, final String followId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", userId);
         param.put("followId", followId);
-        this.followMapper.insertFollow(param);
+        // this.followMapper.insertFollow(param);
     }
 
     public int countFollow(final UserBean userBean) {
         final Map<String, Object> param = new HashMap<String, Object>();
         // param.put("userId", userBean.getUserId());
-        return this.followMapper.countFollow(param);
+        // return this.followMapper.countFollow(param);
+        return 0;
     }
 
     public int countFans(final UserBean userBean) {
         final Map<String, Object> param = new HashMap<String, Object>();
         // param.put("followId", userBean.getUserId());
-        return this.followMapper.countFollow(param);
+        // return this.followMapper.countFollow(param);
+        return 0;
     }
 
     public PaginateSupport getFollowList(final UserBean userBean,
@@ -147,14 +151,15 @@ public class UserDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         // param.put("userId", userBean.getUserId());
 
-        final int itemCount = this.followMapper.countFollow(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.followMapper.countFollow(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<UserBean> items = this.followMapper.fetchFollowList(param);
-        paginate.setItems(items);
+        // final List<UserBean> items =
+        // this.followMapper.fetchFollowList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
@@ -163,39 +168,42 @@ public class UserDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         // param.put("followId", userBean.getUserId());
 
-        final int itemCount = this.followMapper.countFollow(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.followMapper.countFollow(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
 
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<UserBean> items = this.followMapper.fetchFollowList(param);
-        paginate.setItems(items);
+        // final List<UserBean> items =
+        // this.followMapper.fetchFollowList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 
-    public Object getUserFollowList(final String userId,
-                                    final int start,
-                                    final int end) {
+    public List<UserBean> getUserFollowList(final String userId,
+                                            final int start,
+                                            final int end) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", userId);
 
         param.put("start", start);
         param.put("end", end);
 
-        return this.followMapper.fetchFollowList(param);
+        // return this.followMapper.fetchFollowList(param);
+        return Collections.emptyList();
     }
 
-    public Object getUserFansList(final String userId,
-                                  final int start,
-                                  final int end) {
+    public List<UserBean> getUserFansList(final String userId,
+                                          final int start,
+                                          final int end) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("followId", userId);
 
         param.put("start", start);
         param.put("end", end);
 
-        return this.followMapper.fetchFollowList(param);
+        // return this.followMapper.fetchFollowList(param);
+        return Collections.emptyList();
     }
 
 }

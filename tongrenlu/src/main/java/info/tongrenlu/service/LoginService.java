@@ -1,7 +1,7 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.persistence.MUserMapper;
+import info.tongrenlu.mapper.UserMapper;
 import info.tongrenlu.service.dao.FileDao;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class LoginService {
     @Autowired
     private MessageSource messageSource = null;
     @Autowired
-    private MUserMapper userMapper = null;
+    private UserMapper userMapper = null;
     @Autowired
     private FileDao fileDao = null;
 
@@ -284,7 +284,7 @@ public class LoginService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  LoginService.EMAIL_LENGTH },
+                                                            LoginService.EMAIL_LENGTH },
                                                     null));
             isValid = false;
         } else if (!LoginService.EMAIL_PATTERN.matcher(email).matches()) {
@@ -350,7 +350,7 @@ public class LoginService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.notSame",
                                                     new Object[] { fieldName1,
-                                                                  fieldName2 },
+                                                            fieldName2 },
                                                     null));
             isValid = false;
         }
@@ -375,7 +375,7 @@ public class LoginService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  LoginService.NICKNAME_LENGTH },
+                                                            LoginService.NICKNAME_LENGTH },
                                                     null));
             isValid = false;
         }

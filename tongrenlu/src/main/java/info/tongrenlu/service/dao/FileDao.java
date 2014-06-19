@@ -6,14 +6,13 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.persistence.MFileMapper;
-import info.tongrenlu.persistence.MTrackMapper;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +49,11 @@ public class FileDao {
 
     @Autowired
     protected ConstantsFactoryBean constantsBean = null;
-    @Autowired
-    private MFileMapper fileMapper = null;
-    @Autowired
-    private MTrackMapper trackMapper = null;
+
+    // @Autowired
+    // private MFileMapper fileMapper = null;
+    // @Autowired
+    // private MTrackMapper trackMapper = null;
 
     public FileBean createImageFileInfo(final String articleId,
                                         final MultipartFile fileItem) {
@@ -88,11 +88,11 @@ public class FileDao {
         fileBean.setName(name);
         fileBean.setExtension(extension);
         // fileBean.setSize(fileItem.getSize());
-        this.fileMapper.insertFile(fileBean);
+        // this.fileMapper.insertFile(fileBean);
         return fileBean;
     }
 
-    private void saveUpload(final MultipartFile fileItem, final File file) {
+    protected void saveUpload(final MultipartFile fileItem, final File file) {
         InputStream input = null;
         OutputStream output = null;
         try {
@@ -123,7 +123,7 @@ public class FileDao {
         trackBean.setFileBean(fileBean);
         final String track = FilenameUtils.getBaseName(fileBean.getName());
         trackBean.setTrack(StringUtils.left(track, 255));
-        this.trackMapper.insertTrack(trackBean);
+        // this.trackMapper.insertTrack(trackBean);
     }
 
     public File getJpgFile(final String dirId, final String name) {
@@ -140,7 +140,7 @@ public class FileDao {
     }
 
     public void deleteJpgFile(final FileBean fileBean) {
-        this.fileMapper.deleteFileInfo(fileBean);
+        // this.fileMapper.deleteFileInfo(fileBean);
         // final File originalFile = this.getJpgFile(fileBean.getArticleId(),
         // fileBean.getFileId());
         // FileUtils.deleteQuietly(originalFile);
@@ -153,7 +153,7 @@ public class FileDao {
     }
 
     public void deleteMp3File(final FileBean fileBean) {
-        this.fileMapper.deleteFileInfo(fileBean);
+        // this.fileMapper.deleteFileInfo(fileBean);
         // this.deleteTrack(fileBean.getFileId());
         // final File mp3File = this.getMp3File(fileBean.getArticleId(),
         // fileBean.getFileId());
@@ -163,7 +163,7 @@ public class FileDao {
     protected void deleteTrack(final String fileId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("fileId", fileId);
-        this.trackMapper.deleteTrack(param);
+        // this.trackMapper.deleteTrack(param);
     }
 
     public List<FileBean> getArticleFiles(final String articleId,
@@ -171,8 +171,9 @@ public class FileDao {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
         param.put("extension", extension);
-        final List<FileBean> files = this.fileMapper.getArticleFiles(param);
-        return files;
+        // final List<FileBean> files = this.fileMapper.getArticleFiles(param);
+        // return files;
+        return Collections.emptyList();
     }
 
     public void sortFiles(final String[] fileIdArray) {
@@ -181,7 +182,7 @@ public class FileDao {
             final FileBean fileInfo = new FileBean();
             // fileInfo.setId(fileId);
             fileInfo.setOrderNo(orderNo);
-            this.fileMapper.updateFileOrder(fileInfo);
+            // this.fileMapper.updateFileOrder(fileInfo);
             orderNo++;
         }
     }
@@ -288,13 +289,15 @@ public class FileDao {
     public List<TrackBean> getMusicTracks(final String articleId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("articleId", articleId);
-        return this.trackMapper.getTrackList(param);
+        // return this.trackMapper.getTrackList(param);
+        return Collections.emptyList();
     }
 
     public FileBean getFileInfo(final String fileId) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("fileId", fileId);
-        return this.fileMapper.getFileInfo(param);
+        // return this.fileMapper.getFileInfo(param);
+        return null;
     }
 
     public void updateTracks(final String[] fileIdArray,
@@ -309,7 +312,7 @@ public class FileDao {
             final FileBean fileBean = new FileBean();
             // fileBean.setFileId(fileId);
             fileBean.setOrderNo(orderNo);
-            this.fileMapper.updateFileOrder(fileBean);
+            // this.fileMapper.updateFileOrder(fileBean);
 
             final TrackBean trackBean = new TrackBean();
             trackBean.setFileBean(fileBean);
@@ -323,7 +326,7 @@ public class FileDao {
                 trackBean.setOriginalTitle(originalTitleArray[i]);
             }
             trackBean.setTrackNumber(orderNo);
-            this.trackMapper.updateTrackBean(trackBean);
+            // this.trackMapper.updateTrackBean(trackBean);
         }
     }
 
@@ -442,13 +445,13 @@ public class FileDao {
                                              final PaginateSupport paginate) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("searchQuery", searchQuery);
-        final int itemCount = this.trackMapper.getTrackCount(param);
-        paginate.setItemCount(itemCount);
+        // final int itemCount = this.trackMapper.getTrackCount(param);
+        // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
         param.put("end", paginate.getEnd());
-        final List<TrackBean> items = this.trackMapper.getTrackList(param);
-        paginate.setItems(items);
+        // final List<TrackBean> items = this.trackMapper.getTrackList(param);
+        // paginate.setItems(items);
         return paginate;
     }
 }
