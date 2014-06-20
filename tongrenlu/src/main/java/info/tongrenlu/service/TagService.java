@@ -73,11 +73,11 @@ public class TagService {
             return "home/error/404";
         }
         model.addAttribute(tagBean);
-        String redFlg = RedFlg.NOT_RED;
-        String translateFlg = TranslateFlg.NOT_TRANSLATED;
+        final String redFlg = RedFlg.NOT_RED;
+        final String translateFlg = TranslateFlg.NOT_TRANSLATED;
         if (loginUser != null) {
-            redFlg = loginUser.getRedFlg();
-            translateFlg = loginUser.getTranslateFlg();
+            // redFlg = loginUser.getRedFlg();
+            // translateFlg = loginUser.getTranslateFlg();
         }
         model.addAttribute("comicLastestByTag",
                            this.comicDao.getComicLastest(null,
@@ -100,12 +100,12 @@ public class TagService {
         }
         model.addAttribute(tagBean);
 
-        String redFlg = RedFlg.NOT_RED;
-        String translateFlg = TranslateFlg.NOT_TRANSLATED;
+        final String redFlg = RedFlg.NOT_RED;
+        final String translateFlg = TranslateFlg.NOT_TRANSLATED;
         final String userId = null;
         if (loginUser != null) {
-            redFlg = loginUser.getRedFlg();
-            translateFlg = loginUser.getTranslateFlg();
+            // redFlg = loginUser.getRedFlg();
+            // translateFlg = loginUser.getTranslateFlg();
             // userId = loginUser.getUserId();
         }
 

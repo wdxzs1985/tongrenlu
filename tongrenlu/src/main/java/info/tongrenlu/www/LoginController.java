@@ -2,7 +2,7 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.LoginService;
+import info.tongrenlu.service.UserService;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -31,13 +31,13 @@ public class LoginController {
     public static final String FORGOT_USER = "FORGOT_USER";
 
     @Autowired
-    private LoginService loginService = null;
+    private UserService loginService = null;
     @Autowired
     private CookieGenerator autoLoginCookie = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/salt")
     @ResponseBody
-    public Map<String, Object> doGetPreLogin(final HttpServletRequest request) {
+    public Map<String, Object> doGetSalt(final HttpServletRequest request) {
         final Map<String, Object> model = new HashMap<String, Object>();
         final String salt = RandomStringUtils.randomAlphanumeric(4);
         model.put("salt", salt);

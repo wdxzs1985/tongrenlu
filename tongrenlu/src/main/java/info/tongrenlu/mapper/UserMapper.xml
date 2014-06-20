@@ -28,8 +28,9 @@
             U.PASSWORD              as password,
             U.NICKNAME              as nickname,
             U.role                  as role,
-            U.red_flg               as redFlg,
-            U.translate_flg         as translateFlg,
+            U.include_red_flg       as includeRed,
+            U.only_translate_flg    as onlyTranslate,
+            U.only_vocal_flg        as onlyVocal,
         </trim>
         FROM
             M_USER U
@@ -39,7 +40,10 @@
         AND U.fingerprint = #{fingerprint}
         </if>
         <if test="email != null">
-        AND U.EMAIL = #{email}
+        AND U.email = #{email}
+        </if>
+        <if test="id != null">
+        AND U.id = #{id}
         </if>
         </where>
     </select>

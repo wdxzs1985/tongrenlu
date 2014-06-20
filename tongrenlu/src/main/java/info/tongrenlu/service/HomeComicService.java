@@ -43,12 +43,12 @@ public class HomeComicService {
                              final Integer page,
                              final String searchQuery,
                              final Model model) {
-        String redFlg = RedFlg.NOT_RED;
-        String translateFlg = TranslateFlg.NOT_TRANSLATED;
+        final String redFlg = RedFlg.NOT_RED;
+        final String translateFlg = TranslateFlg.NOT_TRANSLATED;
         final String userId = null;
         if (loginUser != null) {
-            redFlg = loginUser.getRedFlg();
-            translateFlg = loginUser.getTranslateFlg();
+            // redFlg = loginUser.getRedFlg();
+            // translateFlg = loginUser.getTranslateFlg();
             // userId = loginUser.getId();
         }
 
@@ -73,12 +73,12 @@ public class HomeComicService {
     public String doGetView(final UserBean loginUser,
                             final String articleId,
                             final Model model) {
-        String redFlg = RedFlg.NOT_RED;
-        String translateFlg = TranslateFlg.NOT_TRANSLATED;
+        final String redFlg = RedFlg.NOT_RED;
+        final String translateFlg = TranslateFlg.NOT_TRANSLATED;
         final String userId = null;
         if (loginUser != null) {
-            redFlg = loginUser.getRedFlg();
-            translateFlg = loginUser.getTranslateFlg();
+            // redFlg = loginUser.getRedFlg();
+            // translateFlg = loginUser.getTranslateFlg();
             // userId = loginUser.getUserId();
         }
         final ComicBean comicBean = this.comicDao.getComicById(articleId,

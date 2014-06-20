@@ -55,7 +55,8 @@ public class AdminComicService {
             return "cosole/error/404";
         }
         model.addAttribute("articleBean", comicBean);
-        model.addAttribute(this.fileDao.getArticleFiles(articleId, FileManager.JPG));
+        model.addAttribute(this.fileDao.getArticleFiles(articleId,
+                                                        FileManager.JPG));
         model.addAttribute(this.tagDao.getArticleTag(articleId));
         return "admin/comic/view";
     }
@@ -131,6 +132,10 @@ public class AdminComicService {
             this.fileDao.sortFiles(fileIdArray);
         }
         return "redirect:/admin/comic/" + articleId;
+    }
+
+    public int countUnpublish() {
+        return 0;
     }
 
 }

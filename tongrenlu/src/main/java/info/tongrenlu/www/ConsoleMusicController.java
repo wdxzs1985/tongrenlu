@@ -32,6 +32,8 @@ public class ConsoleMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/input")
     public String doGetInput(final Model model) {
+        final MusicBean musicBean = new MusicBean();
+        model.addAttribute("articleBean", musicBean);
         return "console/music/input";
     }
 

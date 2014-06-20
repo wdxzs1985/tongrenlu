@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class ConsoleArticleController {
+public class ConsoleController {
 
     @Autowired
     protected ArticleService articleService = null;

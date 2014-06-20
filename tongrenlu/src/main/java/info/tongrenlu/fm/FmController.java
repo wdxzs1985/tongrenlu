@@ -2,7 +2,7 @@ package info.tongrenlu.fm;
 
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.FmService;
-import info.tongrenlu.service.LoginService;
+import info.tongrenlu.service.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class FmController {
     @Autowired
     private FmService fmService = null;
     @Autowired
-    private LoginService loginService = null;
+    private UserService loginService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/fm")
     public String doGetIndex(final Model model, final HttpServletRequest request) {

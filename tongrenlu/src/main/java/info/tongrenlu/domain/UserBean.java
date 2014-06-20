@@ -1,5 +1,7 @@
 package info.tongrenlu.domain;
 
+import info.tongrenlu.constants.CommonConstants;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -39,10 +41,13 @@ public class UserBean extends DtoBean {
     private String role;
 
     @JsonIgnore
-    private String redFlg;
+    private String includeRedFlg;
 
     @JsonIgnore
-    private String translateFlg;
+    private String onlyTranslateFlg;
+
+    @JsonIgnore
+    private String onlyVocalFlg;
 
     public String getNickname() {
         return this.nickname;
@@ -68,22 +73,6 @@ public class UserBean extends DtoBean {
         this.password = password;
     }
 
-    public String getRedFlg() {
-        return this.redFlg;
-    }
-
-    public void setRedFlg(final String redFlg) {
-        this.redFlg = redFlg;
-    }
-
-    public String getTranslateFlg() {
-        return this.translateFlg;
-    }
-
-    public void setTranslateFlg(final String translateFlg) {
-        this.translateFlg = translateFlg;
-    }
-
     public String getSalt() {
         return this.salt;
     }
@@ -98,14 +87,6 @@ public class UserBean extends DtoBean {
 
     public void setRole(final String role) {
         this.role = role;
-    }
-
-    public boolean isEditor() {
-        return UserBean.ROLE_EDITOR.equals(this.role);
-    }
-
-    public boolean isAdmin() {
-        return UserBean.ROLE_ADMIN.equals(this.role);
     }
 
     public String getFingerprint() {
@@ -124,9 +105,53 @@ public class UserBean extends DtoBean {
         this.password2 = password2;
     }
 
+    public String getIncludeRedFlg() {
+        return this.includeRedFlg;
+    }
+
+    public void setIncludeRedFlg(final String includeRedFlg) {
+        this.includeRedFlg = includeRedFlg;
+    }
+
+    public String getOnlyTranslateFlg() {
+        return this.onlyTranslateFlg;
+    }
+
+    public void setOnlyTranslateFlg(final String onlyTranslateFlg) {
+        this.onlyTranslateFlg = onlyTranslateFlg;
+    }
+
+    public String getOnlyVocalFlg() {
+        return this.onlyVocalFlg;
+    }
+
+    public void setOnlyVocalFlg(final String onlyVocalFlg) {
+        this.onlyVocalFlg = onlyVocalFlg;
+    }
+
     @Override
     public String toString() {
         return this.nickname + "#" + this.getId();
+    }
+
+    public boolean isEditor() {
+        return UserBean.ROLE_EDITOR.equals(this.role);
+    }
+
+    public boolean isAdmin() {
+        return UserBean.ROLE_ADMIN.equals(this.role);
+    }
+
+    public boolean isIncludeRed() {
+        return CommonConstants.CHR_TRUE.equals(this.includeRedFlg);
+    }
+
+    public boolean isOnlyTranslate() {
+        return CommonConstants.CHR_TRUE.equals(this.onlyTranslateFlg);
+    }
+
+    public boolean isOnlyVocal() {
+        return CommonConstants.CHR_TRUE.equals(this.onlyVocalFlg);
     }
 
 }

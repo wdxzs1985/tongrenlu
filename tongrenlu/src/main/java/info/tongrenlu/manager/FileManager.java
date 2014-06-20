@@ -18,7 +18,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -36,15 +35,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManager {
 
     public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-                                                            90,
-                                                            120,
-                                                            180,
-                                                            400 };
+            90,
+            120,
+            180,
+            400 };
     public static final int[] COMIC_SIZE_ARRAY = new int[] { 120,
-                                                            300,
-                                                            800,
-                                                            1200,
-                                                            1600 };
+            300,
+            800,
+            1200,
+            1600 };
 
     public static final String CAT_USER = "user";
     public static final String CAT_COMIC = "comic";
@@ -75,17 +74,17 @@ public class FileManager {
 
     public String getInputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                                        : this.inputPathLinux;
+                : this.inputPathLinux;
     }
 
     public String getOutputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                                        : this.outputPathLinux;
+                : this.outputPathLinux;
     }
 
     public String getConvertPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                                        : this.convertPathLinux;
+                : this.convertPathLinux;
     }
 
     // @Autowired
@@ -182,13 +181,13 @@ public class FileManager {
                         final String ext) {
         final String rootPath = this.getInputPath();
         return new File(rootPath + "/"
-                        + category
-                        + "/"
-                        + dirId
-                        + "/"
-                        + name
-                        + "."
-                        + ext);
+                + category
+                + "/"
+                + dirId
+                + "/"
+                + name
+                + "."
+                + ext);
     }
 
     public void deleteJpgFile(final FileBean fileBean) {
@@ -270,8 +269,9 @@ public class FileManager {
 
     public void saveAvatarFile(final UserBean userBean,
                                final MultipartFile fileItem) {
-        String userId = String.valueOf(userBean.getId());
-        userId = DigestUtils.md5Hex(userId);
+        final String userId = String.format("%s_%d",
+                                            FileManager.CAT_USER,
+                                            userBean.getId());
         final File inputFile = this.getJpgFile(FileManager.CAT_USER,
                                                userId,
                                                FileManager.COVER);
@@ -447,24 +447,24 @@ public class FileManager {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("name", fileBean.getName());
         // model.put("size", fileBean.getSize());
         model.put("url", FILE_PATH + "/"
-                         + fileBean.getArticleBean().getId()
-                         + "/"
-                         + fileBean.getId()
-                         + "_800.jpg");
+                + fileBean.getArticleBean().getId()
+                + "/"
+                + fileBean.getId()
+                + "_800.jpg");
         model.put("thumbnailUrl", FILE_PATH + "/"
-                                  + fileBean.getArticleBean().getId()
-                                  + "/"
-                                  + fileBean.getId()
-                                  + "_120.jpg");
+                + fileBean.getArticleBean().getId()
+                + "/"
+                + fileBean.getId()
+                + "_120.jpg");
         model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                               + fileBean.getId()
-                               + "/delete");
+                + fileBean.getId()
+                + "/delete");
         model.put("deleteType", "GET");
         return model;
     }
@@ -475,22 +475,22 @@ public class FileManager {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("name", fileBean.getName());
         // model.put("size", fileBean.getSize());
         model.put("url", FILE_PATH + "/"
-                         + fileBean.getArticleBean().getId()
-                         + "/"
-                         + fileBean.getId()
-                         + ".mp3");
+                + fileBean.getArticleBean().getId()
+                + "/"
+                + fileBean.getId()
+                + ".mp3");
         model.put("thumbnailUrl", FILE_PATH + "/"
-                                  + fileBean.getArticleBean().getId()
-                                  + "/cover_60.jpg");
+                + fileBean.getArticleBean().getId()
+                + "/cover_60.jpg");
         model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                               + fileBean.getId()
-                               + "/delete");
+                + fileBean.getId()
+                + "/delete");
         model.put("deleteType", "GET");
         return model;
     }

@@ -1,7 +1,8 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.UserService;
+import info.tongrenlu.domain.UserProfileBean;
+import info.tongrenlu.service.UserProfileService;
 
 import java.util.Map;
 
@@ -21,68 +22,78 @@ import org.springframework.web.multipart.MultipartFile;
 public class ConsoleUserController {
 
     @Autowired
-    private UserService userService = null;
+    private UserProfileService userService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
-        return this.userService.doGetConsoleIndex(loginUser, model);
+        final UserProfileBean userProfileBean = this.userService.getUserProfile(loginUser);
+        model.addAttribute("userProfileBean", userProfileBean);
+        return "console/profile/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/user/setting")
-    public String doGetUserSetting(final Model model) {
-        return "console/user/setting";
+    @RequestMapping(method = RequestMethod.GET, value = "/console/setting")
+    public String doGetUserSetting(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                   final Model model) {
+        final UserBean inputUser = this.userService.getUserById(loginUser.getId());
+        model.addAttribute("userBean", loginUser);
+
+        final UserProfileBean userProfileBean = this.userService.getUserProfile(inputUser);
+        model.addAttribute("userProfileBean", userProfileBean);
+        return "console/profile/setting";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/user/setting")
-    public String doPostUserSetting(final UserBean userBean,
+    @RequestMapping(method = RequestMethod.POST, value = "/console/setting")
+    public String doPostUserSetting(final String nickname,
+                                    final String signature,
+                                    final String includeRedFlg,
+                                    final String onlyTranslateFlg,
+                                    final String onlyVocalFlg,
                                     @RequestParam final MultipartFile avatar,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                     final Model model) {
-        return this.userService.doPostUserSetting(loginUser,
-                                                  userBean,
-                                                  avatar,
-                                                  model);
+        final UserBean inputUser = this.userService.getUserById(loginUser.getId());
+        inputUser.setIncludeRedFlg(includeRedFlg);
+        inputUser.setOnlyTranslateFlg(onlyTranslateFlg);
+        inputUser.setOnlyVocalFlg(onlyVocalFlg);
+        model.addAttribute("userBean", loginUser);
+
+        final UserProfileBean userProfileBean = this.userService.getUserProfile(inputUser);
+        userProfileBean.setNickname(nickname);
+        userProfileBean.setSignature(signature);
+        model.addAttribute("userProfileBean", userProfileBean);
+
+        return "console/profile/setting";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/user/password")
+    @RequestMapping(method = RequestMethod.GET, value = "/console/password")
     public String doGetPassword(final Model model) {
-        return "console/user/password";
+        return "console/password";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/user/password")
-    public String doPostPassword(final String oldPassword,
-                                 final String password,
-                                 final String passwordAgain,
+    @RequestMapping(method = RequestMethod.POST, value = "/console/password")
+    public String doPostPassword(final String password,
+                                 final String password2,
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                  final Model model) {
-        return this.userService.doPostPassword(loginUser,
-                                               oldPassword,
-                                               password,
-                                               passwordAgain,
-                                               model);
+        return "console/password";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/user/finish")
-    public String doGetUserSettingFinish(final Model model) {
-        return "console/user/finish";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/console/user/follow")
+    @RequestMapping(method = RequestMethod.GET, value = "/console/follow")
     public String doGetFollow(@RequestParam(required = false) final Integer page,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model) {
         return this.userService.doGetConsoleFollow(loginUser, page, model);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/user/fans")
+    @RequestMapping(method = RequestMethod.GET, value = "/console/fans")
     public String doGetFans(@RequestParam(required = false) final Integer page,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         return this.userService.doGetConsoleFans(loginUser, page, model);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/user/timeline")
+    @RequestMapping(method = RequestMethod.GET, value = "/console/timeline")
     @ResponseBody
     public Map<String, Object> doGetTimeline(@RequestParam(required = false) final Integer page,
                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser) {

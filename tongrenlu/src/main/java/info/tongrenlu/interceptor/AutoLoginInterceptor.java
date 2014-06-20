@@ -2,7 +2,7 @@ package info.tongrenlu.interceptor;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.LoginService;
+import info.tongrenlu.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
 
     private Log log = LogFactory.getLog(AutoLoginInterceptor.class);
     @Autowired
-    private LoginService loginService = null;
+    private UserService loginService = null;
     @Autowired
     private CookieGenerator autoLoginCookie = null;
 

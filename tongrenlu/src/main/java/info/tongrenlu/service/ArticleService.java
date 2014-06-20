@@ -52,10 +52,10 @@ public class ArticleService {
 
     public List<ComicBean> getComicForIndex(final UserBean loginUser) {
         final String redFlg = RedFlg.NOT_RED;
-        String translateFlg = TranslateFlg.NOT_TRANSLATED;
+        final String translateFlg = TranslateFlg.NOT_TRANSLATED;
         if (loginUser != null) {
             // redFlg = loginUser.getRedFlg();
-            translateFlg = loginUser.getTranslateFlg();
+            // translateFlg = loginUser.getTranslateFlg();
         }
         return this.comicDao.getComicForIndex(redFlg, translateFlg, 20);
     }

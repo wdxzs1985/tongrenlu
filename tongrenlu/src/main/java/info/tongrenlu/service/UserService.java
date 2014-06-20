@@ -1,271 +1,402 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.constants.RedFlg;
-import info.tongrenlu.constants.TranslateFlg;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.manager.ComicDao;
 import info.tongrenlu.manager.FileManager;
-import info.tongrenlu.manager.MusicDao;
-import info.tongrenlu.manager.TimelineDao;
-import info.tongrenlu.manager.UserDao;
-import info.tongrenlu.support.PaginateSupport;
+import info.tongrenlu.mapper.UserMapper;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@Transactional
 public class UserService {
-    @Autowired
-    private UserDao userDao = null;
-    @Autowired
-    private FileManager fileDao = null;
-    @Autowired
-    private ComicDao comicDao = null;
-    @Autowired
-    private MusicDao musicDao = null;
-    @Autowired
-    private TimelineDao timelineDao = null;
 
-    public String doGetConsoleIndex(final UserBean loginUser, final Model model) {
-        // final UserBean userBean =
-        // this.userDao.getUserInfo(loginUser.getId());
-        // loginUser.setMusicCount(userBean.getMusicCount());
-        // loginUser.setComicCount(userBean.getComicCount());
-        // loginUser.setCollectCount(userBean.getCollectCount());
-        // loginUser.setFollowCount(userBean.getFollowCount());
-        // loginUser.setFansCount(userBean.getFansCount());
-        //
-        if (loginUser.isAdmin()) {
-            model.addAttribute("unpublishMusicCount",
-                               this.musicDao.countUnpublish());
-            model.addAttribute("unpublishComicCount",
-                               this.comicDao.countUnpublish());
-        }
-        return "console/index";
-    }
+    public static final int NICKNAME_LENGTH = 20;
+    public static final int EMAIL_LENGTH = 200;
+    public static final int SIGNATURE_LENGTH = 200;
 
-    public String doPostUserSetting(final UserBean loginUser,
-                                    final UserBean userBean,
-                                    final MultipartFile avatar,
-                                    final Model model) {
-        if (this.userDao.validateChangeUserinfo(userBean,
-                                                loginUser,
-                                                model.asMap())) {
-            loginUser.setNickname(userBean.getNickname());
-            // loginUser.setSignature(userBean.getSignature());
+    public static final Pattern EMAIL_PATTERN = Pattern.compile("^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$");
 
-            final String redFlg = userBean.getRedFlg();
-            final String translateFlg = userBean.getTranslateFlg();
-            if (StringUtils.isNotBlank(redFlg)) {
-                loginUser.setRedFlg(redFlg);
-            } else {
-                loginUser.setRedFlg(RedFlg.NOT_RED);
+    @Autowired
+    private MessageSource messageSource = null;
+    @Autowired
+    private UserMapper userMapper = null;
+    @Autowired
+    private FileManager fileManager = null;
+
+    @Transactional
+    public UserBean doSignIn(final UserBean inputUser,
+                             final Map<String, Object> model,
+                             final Locale locale) {
+        if (this.validateForLoginInput(inputUser, model, locale)) {
+            final UserBean loginUser = this.getByEmail(inputUser.getEmail());
+            if (this.validateForLogin(inputUser, loginUser, model, locale)) {
+                final String fingerprint = RandomStringUtils.randomAlphanumeric(32);
+                loginUser.setFingerprint(fingerprint);
+                this.updateFingerprint(loginUser);
+                return loginUser;
             }
-            if (StringUtils.isNotBlank(translateFlg)) {
-                loginUser.setTranslateFlg(translateFlg);
-            } else {
-                loginUser.setTranslateFlg(TranslateFlg.TRANSLATED);
+        }
+        return null;
+    }
+
+    @Transactional
+    public UserBean doAutoLogin(final String fingerprint) {
+        UserBean loginUser = null;
+        if (StringUtils.isNotBlank(fingerprint)) {
+            loginUser = this.getByFingerprint(fingerprint);
+            if (loginUser != null) {
+                final String newFingerprint = RandomStringUtils.randomAlphanumeric(32);
+                loginUser.setFingerprint(newFingerprint);
+                this.updateFingerprint(loginUser);
             }
-            this.userDao.updateUserInfo(loginUser);
-            this.fileDao.saveAvatarFile(loginUser, avatar);
-            return "redirect:/console/user/finish";
         }
-        return "console/user/setting";
+        return loginUser;
     }
 
-    public String doPostPassword(final UserBean loginUser,
-                                 final String oldPassword,
-                                 final String password,
-                                 final String passwordAgain,
-                                 final Model model) {
-        if (this.userDao.validateChangePassword(loginUser,
-                                                oldPassword,
-                                                password,
-                                                passwordAgain,
-                                                model)) {
-            // this.userDao.updateUserPassword(loginUser, password);
-            return "redirect:/console/user/finish";
+    @Transactional
+    public UserBean doSignup(final UserBean inputUser,
+                             final Map<String, Object> model,
+                             final Locale locale) {
+        if (this.validateForRegister(inputUser, model, locale)) {
+            // this.userDao.doUserRegister(userBean);
+            // this.fileDao.saveAvatarFile(userBean, null);
+            this.userMapper.insert(inputUser);
+            this.fileManager.saveAvatarFile(inputUser, null);
+            return inputUser;
         }
-        return "console/user/password";
+        return null;
     }
 
-    public String doGetUserIndex(final UserBean loginUser,
-                                 final String userId,
-                                 final Model model) {
-        if (loginUser != null) {
-            loginUser.getRedFlg();
-            loginUser.getTranslateFlg();
+    public UserBean doFindForgotUser(final UserBean inputUser,
+                                     final Map<String, Object> model,
+                                     final Locale locale) {
+        if (this.validateForFindForgotUserInput(inputUser, model, locale)) {
+            final UserBean loginUser = this.getByEmail(inputUser.getEmail());
+            if (this.validateForFindForgotUser(inputUser,
+                                               loginUser,
+                                               model,
+                                               locale)) {
+                return loginUser;
+            }
         }
-        // final UserBean userBean = this.userDao.getUserInfo(userId);
-        // if (userBean == null) {
-        // return "home/error/404";
-        // }
-        //
-        // model.addAttribute(userBean);
-
-        if (loginUser != null) {
-            // model.addAttribute("hasFollowed",
-            // this.userDao.hasFollowed(loginUser.getUserId(),
-            // userBean.getUserId()));
-        }
-        return "home/user/index";
+        return null;
     }
 
-    public Map<String, Object> doPostFollow(final UserBean loginUser,
-                                            final String userId) {
-        final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("result", false);
-        if (this.userDao.validateUserOnline(loginUser, model)) {
-            // final boolean follow =
-            // this.userDao.hasFollowed(loginUser.getUserId(),
-            // userId);
-            // if (follow) {
-            // this.userDao.removeFollow(loginUser.getUserId(), userId);
-            // } else {
-            // this.userDao.addFollow(loginUser.getUserId(), userId);
-            // }
-            // model.put("follow", follow);
-            model.put("result", true);
+    @Transactional
+    public boolean doChangePassword(final UserBean inputUser,
+                                    final Map<String, Object> model,
+                                    final Locale locale) {
+        if (this.validateForChangePassword(inputUser, model, locale)) {
+            this.updatePassword(inputUser);
+            return true;
         }
-        return model;
+        return false;
     }
 
-    public String doGetFollow(final UserBean loginUser,
-                              final String userId,
-                              final Integer page,
-                              final Model model) {
-        // final UserBean userBean = this.userDao.getUserInfo(userId);
-        // if (userBean == null) {
-        // return "home/error/404";
-        // }
-        // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        // model.addAttribute("page",
-        // this.userDao.getFollowList(userBean, paginate));
-        if (loginUser != null) {
-            // model.addAttribute("hasFollowed",
-            // this.userDao.hasFollowed(loginUser.getUserId(),
-            // userBean.getUserId()));
+    private UserBean getByEmail(final String email) {
+        final Map<String, Object> param = new HashMap<String, Object>();
+        param.put("email", email);
+        return this.userMapper.fetchBean(param);
+    }
+
+    private UserBean getByFingerprint(final String fingerprint) {
+        final Map<String, Object> param = new HashMap<String, Object>();
+        param.put("fingerprint", fingerprint);
+        return this.userMapper.fetchBean(param);
+    }
+
+    private void updateFingerprint(final UserBean userBean) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", userBean.getId());
+        params.put("fingerprint", userBean.getFingerprint());
+        this.userMapper.update(params);
+    }
+
+    private void updatePassword(final UserBean userBean) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("id", userBean.getId());
+        params.put("password", userBean.getPassword());
+        this.userMapper.update(params);
+    }
+
+    public boolean validateForLoginInput(final UserBean userBean,
+                                         final Map<String, Object> model,
+                                         final Locale locale) {
+        boolean isValid = true;
+        if (!this.validateEmail(userBean.getEmail(),
+                                "emailError",
+                                model,
+                                locale)) {
+            isValid = false;
         }
-        return "home/user/follow";
-    }
-
-    public String doGetFans(final UserBean loginUser,
-                            final String userId,
-                            final Integer page,
-                            final Model model) {
-        // final UserBean userBean = this.userDao.getUserInfo(userId);
-        // if (userBean == null) {
-        // return "home/error/404";
-        // }
-        // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        // model.addAttribute("page", this.userDao.getFansList(userBean,
-        // paginate));
-
-        if (loginUser != null) {
-            // model.addAttribute("hasFollowed",
-            // this.userDao.hasFollowed(loginUser.getUserId(),
-            // userBean.getUserId()));
+        if (!this.validatePassword(userBean.getPassword(),
+                                   "passwordError",
+                                   model,
+                                   locale)) {
+            isValid = false;
         }
-        return "home/user/fans";
+        return isValid;
     }
 
-    public String doGetComic(final UserBean loginUser,
-                             final String userId,
-                             final Integer page,
-                             final Model model) {
-        String redFlg = RedFlg.NOT_RED;
-        String translateFlg = TranslateFlg.NOT_TRANSLATED;
-        if (loginUser != null) {
-            redFlg = loginUser.getRedFlg();
-            translateFlg = loginUser.getTranslateFlg();
+    public boolean validateForLogin(final UserBean userBean,
+                                    final UserBean loginUser,
+                                    final Map<String, Object> model,
+                                    final Locale locale) {
+        boolean isValid = true;
+        if (loginUser == null) {
+            final String message = this.messageSource.getMessage("error.signIn",
+                                                                 null,
+                                                                 locale);
+            model.put("error", message);
+            isValid = false;
+        } else {
+            final String password = DigestUtils.md5Hex(loginUser.getPassword() + userBean.getSalt());
+            if (!StringUtils.equals(userBean.getPassword(), password)) {
+                final String message = this.messageSource.getMessage("error.signIn",
+                                                                     null,
+                                                                     locale);
+                model.put("error", message);
+                isValid = false;
+            }
         }
-        // final UserBean userBean = this.userDao.getUserInfo(userId);
-        // if (userBean == null) {
-        // return "home/error/404";
-        // }
-        // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        // model.addAttribute("page", this.comicDao.getUserComicList(userBean,
-        // redFlg,
-        // translateFlg,
-        // paginate));
+        return isValid;
+    }
 
-        if (loginUser != null) {
-            // model.addAttribute("hasFollowed",
-            // this.userDao.hasFollowed(loginUser.getUserId(),
-            // userBean.getUserId()));
+    public boolean validateForRegister(final UserBean inputUser,
+                                       final Map<String, Object> model,
+                                       final Locale locale) {
+        boolean isValid = true;
+        if (!this.validateEmail(inputUser.getEmail(),
+                                "emailError",
+                                model,
+                                locale)) {
+            isValid = false;
+        } else if (!this.validateEmailExist(inputUser.getEmail(),
+                                            "emailError",
+                                            model,
+                                            locale)) {
+            isValid = false;
         }
-        return "home/user/comic";
-    }
-
-    public String doGetMusic(final UserBean loginUser,
-                             final String userId,
-                             final Integer page,
-                             final Model model) {
-        // final UserBean userBean = this.userDao.getUserInfo(userId);
-        // if (userBean == null) {
-        // return "home/error/404";
-        // }
-        // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        // model.addAttribute("page",
-        // this.musicDao.getUserMusicList(userBean, paginate));
-
-        if (loginUser != null) {
-            // model.addAttribute("hasFollowed",
-            // this.userDao.hasFollowed(loginUser.getUserId(),
-            // userBean.getUserId()));
+        if (!this.validatePassword(inputUser.getPassword(),
+                                   "passwordError",
+                                   model,
+                                   locale)) {
+            isValid = false;
+        } else if (!this.validatePassword2(inputUser.getPassword(),
+                                           inputUser.getPassword2(),
+                                           "password2Error",
+                                           model,
+                                           locale)) {
+            isValid = false;
         }
-        return "home/user/music";
+
+        if (!this.validateNickname(inputUser.getNickname(),
+                                   "nicknameError",
+                                   model,
+                                   locale)) {
+            isValid = false;
+        }
+        return isValid;
     }
 
-    public String doGetConsoleFollow(final UserBean userBean,
-                                     final Integer page,
-                                     final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        model.addAttribute("page",
-                           this.userDao.getFollowList(userBean, paginate));
-        return "console/user/follow";
+    public boolean validateForFindForgotUserInput(final UserBean userBean,
+                                                  final Map<String, Object> model,
+                                                  final Locale locale) {
+        boolean isValid = true;
+        if (!this.validateEmail(userBean.getEmail(),
+                                "emailError",
+                                model,
+                                locale)) {
+            isValid = false;
+        }
+        if (!this.validateNickname(userBean.getNickname(),
+                                   "nicknameError",
+                                   model,
+                                   locale)) {
+            isValid = false;
+        }
+        return isValid;
     }
 
-    public String doGetConsoleFans(final UserBean userBean,
-                                   final Integer page,
-                                   final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        model.addAttribute("page", this.userDao.getFansList(userBean, paginate));
-        return "console/user/fans";
+    public boolean validateForFindForgotUser(final UserBean inputUser,
+                                             final UserBean loginUser,
+                                             final Map<String, Object> model,
+                                             final Locale locale) {
+        boolean isValid = true;
+        if (loginUser == null) {
+            final String message = this.messageSource.getMessage("error.findForgotUser",
+                                                                 null,
+                                                                 locale);
+            model.put("error", message);
+            isValid = false;
+        } else {
+            if (!StringUtils.equals(inputUser.getNickname(),
+                                    loginUser.getNickname())) {
+                final String message = this.messageSource.getMessage("error.findForgotUser",
+                                                                     null,
+                                                                     locale);
+                model.put("error", message);
+                isValid = false;
+            }
+        }
+        return isValid;
     }
 
-    public Map<String, Object> doGetTimeline(final UserBean userBean,
-                                             final Integer page) {
-        final Map<String, Object> model = new HashMap<String, Object>();
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        // final String userId = userBean.getUserId();
-        // model.put("page", this.timelineDao.getMyTimeline(userId, paginate));
-        return model;
+    public boolean validateForChangePassword(final UserBean inputUser,
+                                             final Map<String, Object> model,
+                                             final Locale locale) {
+        boolean isValid = true;
+        if (!this.validatePassword(inputUser.getPassword(),
+                                   "passwordError",
+                                   model,
+                                   locale)) {
+            isValid = false;
+        } else if (!this.validatePassword2(inputUser.getPassword(),
+                                           inputUser.getPassword2(),
+                                           "password2Error",
+                                           model,
+                                           locale)) {
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private boolean validateEmail(final String email,
+                                  final String errorAttribute,
+                                  final Map<String, Object> model,
+                                  final Locale locale) {
+        boolean isValid = true;
+        final String fieldName = this.messageSource.getMessage("UserBean.email",
+                                                               null,
+                                                               locale);
+        if (StringUtils.isBlank(email)) {
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.empty",
+                                                    new Object[] { fieldName },
+                                                    null));
+            isValid = false;
+        } else if (StringUtils.length(email) > UserService.EMAIL_LENGTH) {
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.tooLong",
+                                                    new Object[] { fieldName,
+                                                                  UserService.EMAIL_LENGTH },
+                                                    null));
+            isValid = false;
+        } else if (!UserService.EMAIL_PATTERN.matcher(email).matches()) {
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.bad",
+                                                    new Object[] { fieldName },
+                                                    null));
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private boolean validateEmailExist(final String email,
+                                       final String errorAttribute,
+                                       final Map<String, Object> model,
+                                       final Locale locale) {
+        boolean isValid = true;
+        final UserBean userBean = this.getByEmail(email);
+        if (userBean != null) {
+            final String fieldName = this.messageSource.getMessage("UserBean.email",
+                                                                   null,
+                                                                   locale);
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.unique",
+                                                    new Object[] { fieldName },
+                                                    locale));
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private boolean validatePassword(final String password,
+                                     final String errorAttribute,
+                                     final Map<String, Object> model,
+                                     final Locale locale) {
+        boolean isValid = true;
+        final String fieldName = this.messageSource.getMessage("UserBean.password",
+                                                               null,
+                                                               locale);
+        if (StringUtils.isBlank(password)) {
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.empty",
+                                                    new Object[] { fieldName },
+                                                    null));
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private boolean validatePassword2(final String password,
+                                      final String password2,
+                                      final String errorAttribute,
+                                      final Map<String, Object> model,
+                                      final Locale locale) {
+        boolean isValid = true;
+        final String fieldName1 = this.messageSource.getMessage("UserBean.password",
+                                                                null,
+                                                                locale);
+        final String fieldName2 = this.messageSource.getMessage("UserBean.password2",
+                                                                null,
+                                                                locale);
+        if (!StringUtils.equals(password, password2)) {
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.notSame",
+                                                    new Object[] { fieldName1,
+                                                                  fieldName2 },
+                                                    null));
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private boolean validateNickname(final String nickname,
+                                     final String errorAttribute,
+                                     final Map<String, Object> model,
+                                     final Locale locale) {
+        boolean isValid = true;
+        final String fieldName = this.messageSource.getMessage("UserBean.nickname",
+                                                               null,
+                                                               locale);
+        if (StringUtils.isBlank(nickname)) {
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.empty",
+                                                    new Object[] { fieldName },
+                                                    null));
+            isValid = false;
+        } else if (StringUtils.length(nickname) > UserService.NICKNAME_LENGTH) {
+            model.put(errorAttribute,
+                      this.messageSource.getMessage("validate.tooLong",
+                                                    new Object[] { fieldName,
+                                                                  UserService.NICKNAME_LENGTH },
+                                                    null));
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    public boolean validateSignature(final String signature,
+                                     final Map<String, Object> model) {
+        boolean isValid = true;
+        if (StringUtils.length(signature) > UserService.SIGNATURE_LENGTH) {
+            model.put("signature_error",
+                      this.messageSource.getMessage("UserBean.signature[TooLong]",
+                                                    new Integer[] { UserService.SIGNATURE_LENGTH },
+                                                    null));
+            isValid = false;
+        }
+        return isValid;
     }
 }

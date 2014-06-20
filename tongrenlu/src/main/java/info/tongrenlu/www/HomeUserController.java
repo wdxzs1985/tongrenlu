@@ -2,7 +2,7 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.CommentService;
-import info.tongrenlu.service.UserService;
+import info.tongrenlu.service.UserProfileService;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class HomeUserController {
 
     @Autowired
-    private UserService userService = null;
+    private UserProfileService userService = null;
     @Autowired
     private CommentService commentService = null;
 

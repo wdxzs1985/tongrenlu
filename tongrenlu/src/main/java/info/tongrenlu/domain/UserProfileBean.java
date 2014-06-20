@@ -26,7 +26,7 @@ public class UserProfileBean extends DtoBean {
     private int fansCount = 0;
 
     public String getNickname() {
-        return this.nickname + "#" + this.getId();
+        return this.nickname;
     }
 
     public void setNickname(final String nickname) {

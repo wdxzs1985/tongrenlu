@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+  <body>
+    <div class="container" layout:fragment="content">
+      <form class="form-horizontal" th:action="@{/console/setting}" method="post" enctype="multipart/form-data">
+        <div class="page-header">
+            <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                  <a href="javascript:;" >
+                    <img src="http://placehold.it/180x180" alt="..." />
+                  </a>
+                  <div class="caption">
+                    <input type="file" id="avatar" name="avatar" class="form-control" accept="image/jpeg,image/png" />
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div th:class="${#strings.isEmpty(nicknameError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                  <label for="inputNickname" class="col-sm-2 control-label" 
+                      th:text="#{UserProfileBean.nickname}">Nickname</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" 
+                      id="inputNickname" name="nickname"
+                      th:value="${userProfileBean.nickname}"
+                      th:placeholder="#{UserProfileBean.nickname}"/>
+                    <span class="glyphicon glyphicon-remove form-control-feedback"
+                        th:unless="${#strings.isEmpty(nicknameError)}"></span>
+                    <p class="help-block" 
+                        th:unless="${#strings.isEmpty(nicknameError)}"
+                        th:text="${nicknameError}"></p>
+                  </div>
+                </div>
+             <div th:class="${#strings.isEmpty(signatureError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+               <label for="inputSignature" class="col-sm-2 control-label" 
+                   th:text="#{UserProfileBean.signature}">Signature</label>
+               <div class="col-sm-10">
+                 <textarea class="form-control" rows="10"
+                   id="inputSignature" name="signature"
+                   th:text="${userProfileBean.signature}"
+                   th:placeholder="#{UserProfileBean.signature}"></textarea>
+                 <span class="glyphicon glyphicon-remove form-control-feedback"
+                     th:unless="${#strings.isEmpty(signatureError)}"></span>
+                 <p class="help-block" 
+                     th:unless="${#strings.isEmpty(signatureError)}"
+                     th:text="${signatureError}"></p>
+               </div>
+             </div>
+            </div>
+        </div>
+        <div class="page-header">
+            <h4 th:text="#{console.profile.setting.customize}"></h4>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="checkbox">
+                    <input type="checkbox" name="includeRedFlg" value="1" th:checked="${userBean.includeRed}" />
+                    <span th:text="#{console.profile.setting.includeRed}"></span>
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label class="checkbox">
+                    <input type="checkbox" name="onlyTranslateFlg" value="1" th:checked="${userBean.onlyTranslate}" />
+                    <span th:text="#{console.profile.setting.onlyTranslate}"></span>
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label class="checkbox">
+                    <input type="checkbox" name="onlyVocalFlg" value="1" th:checked="${userBean.onlyVocal}" />
+                    <span th:text="#{console.profile.setting.onlyVocal}"></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary" th:text="button.save"></button>
+                <a th:href="@{/console}" class="btn btn-default" th:text="button.cancel"></a>
+            </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

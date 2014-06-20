@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("LOGIN_USER")
-public class HomeIndexController {
+public class IndexController {
 
     @Autowired
     private ArticleService articleService = null;
