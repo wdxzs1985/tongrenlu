@@ -3,7 +3,6 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ComicDao;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -22,7 +21,7 @@ public class ConsoleComicService {
     @Autowired
     private ComicDao comicDao = null;
     @Autowired
-    private FileManager fileDao = null;
+    private FileService fileDao = null;
     @Autowired
     private TagDao tagDao = null;
     @Autowired

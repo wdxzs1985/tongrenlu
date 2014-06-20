@@ -5,7 +5,6 @@ import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleDao;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.manager.UserDao;
@@ -35,7 +34,7 @@ public class HomeMusicService {
     @Autowired
     private UserDao userDao = null;
     @Autowired
-    private FileManager fileDao = null;
+    private FileService fileDao = null;
     @Autowired
     private TagDao tagDao = null;
 
@@ -140,7 +139,7 @@ public class HomeMusicService {
                                      final HttpServletRequest request) {
         final List<Object> modelList = new ArrayList<Object>();
         final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileManager.JPG);
+                                                                     FileService.JPG);
         for (final FileBean fileBean : fileList) {
             modelList.add(this.prepareFileBeanModel(fileBean, request));
         }

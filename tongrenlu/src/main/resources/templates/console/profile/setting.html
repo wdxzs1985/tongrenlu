@@ -5,29 +5,19 @@
   <body>
     <div class="container" layout:fragment="content">
       <form class="form-horizontal" th:action="@{/console/setting}" method="post" enctype="multipart/form-data">
-        <div class="page-header">
-            <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
-        </div>
         <div class="row">
-            <div class="col-sm-4">
-                <div class="thumbnail">
-                  <a href="javascript:;" >
-                    <img src="http://placehold.it/180x180" alt="..." />
-                  </a>
-                  <div class="caption">
-                    <input type="file" id="avatar" name="avatar" class="form-control" accept="image/jpeg,image/png" />
-                  </div>
-                </div>
-            </div>
             <div class="col-sm-8">
+                <div class="page-header">
+                    <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
+                </div>
                 <div th:class="${#strings.isEmpty(nicknameError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
                   <label for="inputNickname" class="col-sm-2 control-label" 
-                      th:text="#{UserProfileBean.nickname}">Nickname</label>
+                      th:text="#{UserBean.nickname}">Nickname</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" 
                       id="inputNickname" name="nickname"
-                      th:value="${userProfileBean.nickname}"
-                      th:placeholder="#{UserProfileBean.nickname}"/>
+                      th:value="${userBean.nickname}"
+                      th:placeholder="#{UserBean.nickname}"/>
                     <span class="glyphicon glyphicon-remove form-control-feedback"
                         th:unless="${#strings.isEmpty(nicknameError)}"></span>
                     <p class="help-block" 
@@ -37,48 +27,54 @@
                 </div>
              <div th:class="${#strings.isEmpty(signatureError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
                <label for="inputSignature" class="col-sm-2 control-label" 
-                   th:text="#{UserProfileBean.signature}">Signature</label>
+                   th:text="#{UserBean.signature}">Signature</label>
                <div class="col-sm-10">
                  <textarea class="form-control" rows="10"
                    id="inputSignature" name="signature"
-                   th:text="${userProfileBean.signature}"
-                   th:placeholder="#{UserProfileBean.signature}"></textarea>
+                   th:text="${userBean.signature}"
+                   th:placeholder="#{UserBean.signature}"></textarea>
                  <span class="glyphicon glyphicon-remove form-control-feedback"
                      th:unless="${#strings.isEmpty(signatureError)}"></span>
                  <p class="help-block" 
                      th:unless="${#strings.isEmpty(signatureError)}"
                      th:text="${signatureError}"></p>
                </div>
-             </div>
+              </div>
+              <div class="page-header">
+                  <h4 th:text="#{console.profile.setting.customize}"></h4>
+              </div>
+              <div class="form-group">
+               <div class="col-sm-10 col-sm-offset-2">
+                  <label class="checkbox-inline">
+                      <input type="checkbox" name="includeRedFlg" value="1" th:checked="${userBean.includeRed}" />
+                      <span th:text="#{console.profile.setting.includeRed}"></span>
+                  </label>
+                  <label class="checkbox-inline">
+                      <input type="checkbox" name="onlyTranslateFlg" value="1" th:checked="${userBean.onlyTranslate}" />
+                      <span th:text="#{console.profile.setting.onlyTranslate}"></span>
+                  </label>
+                  <label class="checkbox-inline">
+                      <input type="checkbox" name="onlyVocalFlg" value="1" th:checked="${userBean.onlyVocal}" />
+                      <span th:text="#{console.profile.setting.onlyVocal}"></span>
+                  </label>
+                </div>
+              </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="submit" class="btn btn-primary" th:text="button.save"></button>
+                        <a th:href="@{/console}" class="btn btn-default" th:text="button.cancel"></a>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="page-header">
-            <h4 th:text="#{console.profile.setting.customize}"></h4>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-2">
-                <label class="checkbox">
-                    <input type="checkbox" name="includeRedFlg" value="1" th:checked="${userBean.includeRed}" />
-                    <span th:text="#{console.profile.setting.includeRed}"></span>
-                </label>
-            </div>
-            <div class="col-sm-2">
-                <label class="checkbox">
-                    <input type="checkbox" name="onlyTranslateFlg" value="1" th:checked="${userBean.onlyTranslate}" />
-                    <span th:text="#{console.profile.setting.onlyTranslate}"></span>
-                </label>
-            </div>
-            <div class="col-sm-2">
-                <label class="checkbox">
-                    <input type="checkbox" name="onlyVocalFlg" value="1" th:checked="${userBean.onlyVocal}" />
-                    <span th:text="#{console.profile.setting.onlyVocal}"></span>
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <button type="submit" class="btn btn-primary" th:text="button.save"></button>
-                <a th:href="@{/console}" class="btn btn-default" th:text="button.cancel"></a>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                  <a href="javascript:;" >
+                    <img src="http://placehold.it/400x400" alt="..." />
+                  </a>
+                  <div class="caption">
+                    <input type="file" id="avatar" name="avatar" class="form-control" accept="image/jpeg,image/png" />
+                  </div>
+                </div>
             </div>
         </div>
       </form>

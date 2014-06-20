@@ -20,17 +20,18 @@
         )
     </insert>
     
-    <select id="fetchBean" useCache="false" resultType="UserBean">
+    <select id="fetchBean" resultType="UserBean">
         SELECT
         <trim suffixOverrides=",">
             U.id                    as id,
             U.EMAIL                 as email,
             U.PASSWORD              as password,
             U.NICKNAME              as nickname,
+            U.signature             as signature,
             U.role                  as role,
-            U.include_red_flg       as includeRed,
-            U.only_translate_flg    as onlyTranslate,
-            U.only_vocal_flg        as onlyVocal,
+            U.include_red_flg       as includeRedFlg,
+            U.only_translate_flg    as onlyTranslateFlg,
+            U.only_vocal_flg        as onlyVocalFlg,
         </trim>
         FROM
             M_USER U
@@ -48,6 +49,21 @@
         </where>
     </select>
     
+    <select id="fetchProfile" resultType="UserProfileBean">
+        SELECT
+        <trim suffixOverrides=",">
+            U.id                    as id,
+            U.NICKNAME              as nickname,
+            U.signature             as signature,
+        </trim>
+        FROM
+            M_USER U
+        <where>
+            U.DEL_FLG = '0'
+        AND U.id = #{id}
+        </where>
+    </select>
+    
     <update id="update">
         UPDATE
             M_USER
@@ -57,6 +73,21 @@
             </if>
             <if test="fingerprint != null">
                 fingerprint = #{fingerprint},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname},
+            </if>
+            <if test="signature != null">
+                signature = #{signature},
+            </if>
+            <if test="includeRedFlg != null">
+                include_red_flg = #{includeRedFlg},
+            </if>
+            <if test="onlyTranslateFlg != null">
+                only_translate_flg = #{onlyTranslateFlg},
+            </if>
+            <if test="onlyVocalFlg != null">
+                only_vocal_flg = #{onlyVocalFlg},
             </if>
         </set>
         <where>

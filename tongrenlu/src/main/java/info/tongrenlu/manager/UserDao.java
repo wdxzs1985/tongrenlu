@@ -35,26 +35,6 @@ public class UserDao {
         return isValid;
     }
 
-    public boolean validateChangeUserinfo(final UserBean user,
-                                          final UserBean loginUser,
-                                          final Map<String, Object> model) {
-        final boolean isValid = true;
-        // if (!this.validator.validateNickname(user.getNickname(), model)) {
-        // isValid = false;
-        // }
-        // if (!this.validator.validateSignature(user.getSignature(), model)) {
-        // isValid = false;
-        // }
-        // if (isValid) {
-        // if (!this.validator.validateNicknameExist(user.getNickname(),
-        // loginUser.getUserId(),
-        // model)) {
-        // isValid = false;
-        // }
-        // }
-        return isValid;
-    }
-
     public void updateUserInfo(final UserBean userBean) {
         // final Map<String, Object> param = new HashMap<String, Object>();
         // param.put("userId", userBean.getUserId());
@@ -133,14 +113,14 @@ public class UserDao {
     }
 
     public int countFollow(final UserBean userBean) {
-        final Map<String, Object> param = new HashMap<String, Object>();
+        new HashMap<String, Object>();
         // param.put("userId", userBean.getUserId());
         // return this.followMapper.countFollow(param);
         return 0;
     }
 
     public int countFans(final UserBean userBean) {
-        final Map<String, Object> param = new HashMap<String, Object>();
+        new HashMap<String, Object>();
         // param.put("followId", userBean.getUserId());
         // return this.followMapper.countFollow(param);
         return 0;

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 public class AdminAuthInterceptor extends HandlerInterceptorAdapter {
 
@@ -15,12 +16,20 @@ public class AdminAuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(final HttpServletRequest request,
                              final HttpServletResponse response,
                              final Object handler) throws Exception {
-        final HttpSession session = request.getSession();
-        final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
-        if (loginUser != null && loginUser.isAdmin()) {
+        if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
-        response.sendError(403);
+        final HttpSession session = request.getSession();
+        final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
+        if (loginUser != null) {
+            if (loginUser.isAdmin()) {
+                return true;
+            } else {
+                response.sendRedirect(request.getContextPath() + "/console");
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/");
+        }
         return false;
     }
 }

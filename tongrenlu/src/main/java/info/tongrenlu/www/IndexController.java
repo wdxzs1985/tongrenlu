@@ -30,14 +30,13 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String doGetIndex(@ModelAttribute final UserBean loginUser,
                              final Model model) {
-
         return "home/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     public String doGetSearch(@RequestParam(required = false) final Integer page,
                               @RequestParam(required = false) final String q,
-                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                              @ModelAttribute final UserBean loginUser,
                               final Model model) {
         return "search/index";
     }

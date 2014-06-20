@@ -1,4 +1,4 @@
-package info.tongrenlu.manager;
+package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.FileBean;
@@ -32,22 +32,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class FileManager {
+public class FileService {
 
     public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-            90,
-            120,
-            180,
-            400 };
+                                                            90,
+                                                            120,
+                                                            180,
+                                                            400 };
     public static final int[] COMIC_SIZE_ARRAY = new int[] { 120,
-            300,
-            800,
-            1200,
-            1600 };
+                                                            300,
+                                                            800,
+                                                            1200,
+                                                            1600 };
 
-    public static final String CAT_USER = "user";
-    public static final String CAT_COMIC = "comic";
-    public static final String CAT_MUSIC = "music";
+    public static final String CAT_USER = "u";
+    public static final String CAT_COMIC = "c";
+    public static final String CAT_MUSIC = "m";
 
     public static final String COVER = "cover";
 
@@ -74,17 +74,17 @@ public class FileManager {
 
     public String getInputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                : this.inputPathLinux;
+                                        : this.inputPathLinux;
     }
 
     public String getOutputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                : this.outputPathLinux;
+                                        : this.outputPathLinux;
     }
 
     public String getConvertPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                : this.convertPathLinux;
+                                        : this.convertPathLinux;
     }
 
     // @Autowired
@@ -96,7 +96,7 @@ public class FileManager {
                                         final MultipartFile fileItem) {
         final FileBean fileBean = this.createFileInfo(articleId,
                                                       fileItem,
-                                                      FileManager.JPG);
+                                                      FileService.JPG);
         // final File inputFile = this.getJpgFile(fileBean.getArticleId(),
         // fileBean.getFileId());
         // this.saveUpload(fileItem, inputFile);
@@ -108,7 +108,7 @@ public class FileManager {
                                          final MultipartFile fileItem) {
         final FileBean fileBean = this.createFileInfo(articleId,
                                                       fileItem,
-                                                      FileManager.MP3);
+                                                      FileService.MP3);
         // final File inputFile = this.getMp3File(fileBean.getArticleId(),
         // fileBean.getFileId());
         // this.saveUpload(fileItem, inputFile);
@@ -145,7 +145,7 @@ public class FileManager {
     }
 
     public void convertThumbnail(final FileBean fileBean, final File inputFile) {
-        for (final int size : FileManager.COMIC_SIZE_ARRAY) {
+        for (final int size : FileService.COMIC_SIZE_ARRAY) {
             // final String name = fileBean.getId() + "_" + size;
             // final File outputFile = this.getJpgFile(fileBean.getArticleId(),
             // name);
@@ -163,31 +163,19 @@ public class FileManager {
         // this.trackMapper.insertTrack(trackBean);
     }
 
-    public File getJpgFile(final String category,
-                           final String dirId,
-                           final String name) {
-        return this.getFile(category, dirId, name, FileManager.JPG);
+    public File getJpgFile(final String dirId, final String name) {
+        return this.getFile(dirId, name, FileService.JPG);
     }
 
     public File getMp3File(final String category,
                            final String dirId,
                            final String name) {
-        return this.getFile(category, dirId, name, FileManager.MP3);
+        return this.getFile(dirId, name, FileService.MP3);
     }
 
-    public File getFile(final String category,
-                        final String dirId,
-                        final String name,
-                        final String ext) {
+    public File getFile(final String dirId, final String name, final String ext) {
         final String rootPath = this.getInputPath();
-        return new File(rootPath + "/"
-                + category
-                + "/"
-                + dirId
-                + "/"
-                + name
-                + "."
-                + ext);
+        return new File(rootPath + "/" + dirId + "/" + name + "." + ext);
     }
 
     public void deleteJpgFile(final FileBean fileBean) {
@@ -195,7 +183,7 @@ public class FileManager {
         // final File originalFile = this.getJpgFile(fileBean.getArticleId(),
         // fileBean.getFileId());
         // FileUtils.deleteQuietly(originalFile);
-        for (final int size : FileManager.COMIC_SIZE_ARRAY) {
+        for (final int size : FileService.COMIC_SIZE_ARRAY) {
             // final File thumbnail = this.getJpgFile(fileBean.getArticleId(),
             // fileBean.getFileId() + "_"
             // + size);
@@ -255,36 +243,25 @@ public class FileManager {
         // }
     }
 
-    public void convertCover(final File inputFile,
-                             final String category,
-                             final String id) {
-        for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final File outputFile = this.getJpgFile(category,
-                                                    id,
-                                                    FileManager.COVER + "_"
-                                                            + size);
+    public void convertCover(final File inputFile, final String id) {
+        for (final int size : FileService.COVER_SIZE_ARRAY) {
+            final String name = String.format("%s_%d", FileService.COVER, size);
+            final File outputFile = this.getJpgFile(id, name);
             this.convertCover(inputFile, outputFile, size);
         }
     }
 
     public void saveAvatarFile(final UserBean userBean,
                                final MultipartFile fileItem) {
-        final String userId = String.format("%s_%d",
-                                            FileManager.CAT_USER,
-                                            userBean.getId());
-        final File inputFile = this.getJpgFile(FileManager.CAT_USER,
-                                               userId,
-                                               FileManager.COVER);
+        final String userId = FileService.CAT_USER + userBean.getId();
+        final File inputFile = this.getJpgFile(userId, FileService.COVER);
         if (fileItem != null && !fileItem.isEmpty()) {
             this.saveUpload(fileItem, inputFile);
-            this.convertCover(inputFile, FileManager.CAT_USER, userId);
+            this.convertCover(inputFile, userId);
         } else {
             if (!inputFile.exists()) {
-                for (final int size : FileManager.COVER_SIZE_ARRAY) {
-                    this.copyDefaultCover(FileManager.CAT_USER,
-                                          userId,
-                                          FileManager.COVER,
-                                          size);
+                for (final int size : FileService.COVER_SIZE_ARRAY) {
+                    this.copyDefaultCover(userId, FileService.COVER, size);
                 }
             }
         }
@@ -299,7 +276,7 @@ public class FileManager {
         // create the operation, add images and operators/options
         final IMOperation op = new IMOperation();
         op.density(72);
-        op.quality(75d);
+        op.quality(80d);
         op.addImage(input);
         op.thumbnail(size, size, '>');
         op.addImage(output);
@@ -386,7 +363,7 @@ public class FileManager {
                                          final MultipartFile fileItem) {
         final FileBean fileBean = this.createFileInfo(articleId,
                                                       fileItem,
-                                                      FileManager.JPG);
+                                                      FileService.JPG);
         // final String fileId = fileBean.getFileId();
         // final File inputFile = this.getJpgFile(articleId, fileId);
         // this.saveUpload(fileItem, inputFile);
@@ -425,13 +402,12 @@ public class FileManager {
         }
     }
 
-    public void copyDefaultCover(final String category,
-                                 final String id,
+    public void copyDefaultCover(final String id,
                                  final String type,
                                  final int size) {
         final String name = type + "_" + size;
-        final File src = this.getJpgFile(category, "default", name);
-        final File dest = this.getJpgFile(category, id, name);
+        final File src = this.getJpgFile("default", name);
+        final File dest = this.getJpgFile(id, name);
 
         try {
             FileUtils.copyFile(src, dest);
@@ -447,24 +423,24 @@ public class FileManager {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                : "/resource";
+                                        : "/resource";
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("name", fileBean.getName());
         // model.put("size", fileBean.getSize());
         model.put("url", FILE_PATH + "/"
-                + fileBean.getArticleBean().getId()
-                + "/"
-                + fileBean.getId()
-                + "_800.jpg");
+                         + fileBean.getArticleBean().getId()
+                         + "/"
+                         + fileBean.getId()
+                         + "_800.jpg");
         model.put("thumbnailUrl", FILE_PATH + "/"
-                + fileBean.getArticleBean().getId()
-                + "/"
-                + fileBean.getId()
-                + "_120.jpg");
+                                  + fileBean.getArticleBean().getId()
+                                  + "/"
+                                  + fileBean.getId()
+                                  + "_120.jpg");
         model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                + fileBean.getId()
-                + "/delete");
+                               + fileBean.getId()
+                               + "/delete");
         model.put("deleteType", "GET");
         return model;
     }
@@ -475,22 +451,22 @@ public class FileManager {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                : "/resource";
+                                        : "/resource";
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("name", fileBean.getName());
         // model.put("size", fileBean.getSize());
         model.put("url", FILE_PATH + "/"
-                + fileBean.getArticleBean().getId()
-                + "/"
-                + fileBean.getId()
-                + ".mp3");
+                         + fileBean.getArticleBean().getId()
+                         + "/"
+                         + fileBean.getId()
+                         + ".mp3");
         model.put("thumbnailUrl", FILE_PATH + "/"
-                + fileBean.getArticleBean().getId()
-                + "/cover_60.jpg");
+                                  + fileBean.getArticleBean().getId()
+                                  + "/cover_60.jpg");
         model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                + fileBean.getId()
-                + "/delete");
+                               + fileBean.getId()
+                               + "/delete");
         model.put("deleteType", "GET");
         return model;
     }

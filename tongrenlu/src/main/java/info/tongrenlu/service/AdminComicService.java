@@ -4,7 +4,6 @@ import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.manager.ArticleDao;
 import info.tongrenlu.manager.ComicDao;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -31,7 +30,7 @@ public class AdminComicService {
     @Autowired
     private ArticleDao articleDao = null;
     @Autowired
-    private FileManager fileDao = null;
+    private FileService fileDao = null;
     @Autowired
     private TagDao tagDao = null;
     @Autowired
@@ -56,7 +55,7 @@ public class AdminComicService {
         }
         model.addAttribute("articleBean", comicBean);
         model.addAttribute(this.fileDao.getArticleFiles(articleId,
-                                                        FileManager.JPG));
+                                                        FileService.JPG));
         model.addAttribute(this.tagDao.getArticleTag(articleId));
         return "admin/comic/view";
     }
@@ -86,7 +85,7 @@ public class AdminComicService {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
         final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileManager.JPG);
+                                                                  FileService.JPG);
         for (final FileBean fileBean : files) {
             fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean, request));
         }
@@ -118,7 +117,7 @@ public class AdminComicService {
         }
         model.addAttribute("articleBean", comic);
         final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileManager.JPG);
+                                                                     FileService.JPG);
         model.addAttribute(fileList);
         return "admin/comic/sort";
     }

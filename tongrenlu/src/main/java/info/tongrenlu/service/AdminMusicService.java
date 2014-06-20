@@ -2,7 +2,6 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.manager.ArticleDao;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.mapper.MusicMapper;
 import info.tongrenlu.support.PaginateSupport;
@@ -30,7 +29,7 @@ public class AdminMusicService {
     @Autowired
     private ArticleDao articleDao = null;
     @Autowired
-    private FileManager fileDao = null;
+    private FileService fileDao = null;
     @Autowired
     private TagDao tagDao = null;
     @Autowired
@@ -91,7 +90,7 @@ public class AdminMusicService {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
         final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileManager.MP3);
+                                                                  FileService.MP3);
         for (final FileBean fileBean : files) {
             fileList.add(this.fileDao.prepareMp3FileBeanModel(fileBean, request));
         }
@@ -161,7 +160,7 @@ public class AdminMusicService {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
         final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileManager.JPG);
+                                                                  FileService.JPG);
         for (final FileBean fileBean : files) {
             fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean, request));
         }

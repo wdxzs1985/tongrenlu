@@ -4,7 +4,6 @@ import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.manager.ComicDao;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
@@ -29,7 +28,7 @@ public class SolrService {
     private Log log = LogFactory.getLog(SolrService.class);
 
     @Autowired
-    private FileManager fileDao = null;
+    private FileService fileDao = null;
     @Autowired
     private ComicDao comicDao = null;
     @Autowired

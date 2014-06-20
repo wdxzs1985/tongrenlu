@@ -7,7 +7,6 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleDao;
 import info.tongrenlu.manager.ComicDao;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.manager.UserDao;
 import info.tongrenlu.support.PaginateSupport;
@@ -35,7 +34,7 @@ public class HomeComicService {
     @Autowired
     private UserDao userDao = null;
     @Autowired
-    private FileManager fileDao = null;
+    private FileService fileDao = null;
     @Autowired
     private TagDao tagDao = null;
 
@@ -125,7 +124,7 @@ public class HomeComicService {
                                       final HttpServletRequest request) {
         final List<Object> modelList = new ArrayList<Object>();
         final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileManager.JPG);
+                                                                     FileService.JPG);
         for (final FileBean fileBean : fileList) {
             modelList.add(this.prepareFileBeanModel(fileBean, request));
         }

@@ -1,9 +1,12 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.domain.UserProfileBean;
-import info.tongrenlu.service.UserProfileService;
+import info.tongrenlu.service.ConsoleUserService;
+import info.tongrenlu.service.FileService;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +25,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class ConsoleUserController {
 
     @Autowired
-    private UserProfileService userService = null;
+    private ConsoleUserService userService = null;
+    @Autowired
+    private FileService fileService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
-        final UserProfileBean userProfileBean = this.userService.getUserProfile(loginUser);
+        final Integer id = loginUser.getId();
+        final UserProfileBean userProfileBean = this.userService.getUserProfile(id);
         model.addAttribute("userProfileBean", userProfileBean);
         return "console/profile/index";
     }
@@ -35,34 +41,39 @@ public class ConsoleUserController {
     @RequestMapping(method = RequestMethod.GET, value = "/console/setting")
     public String doGetUserSetting(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                    final Model model) {
-        final UserBean inputUser = this.userService.getUserById(loginUser.getId());
         model.addAttribute("userBean", loginUser);
-
-        final UserProfileBean userProfileBean = this.userService.getUserProfile(inputUser);
-        model.addAttribute("userProfileBean", userProfileBean);
         return "console/profile/setting";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/console/setting")
     public String doPostUserSetting(final String nickname,
                                     final String signature,
-                                    final String includeRedFlg,
-                                    final String onlyTranslateFlg,
-                                    final String onlyVocalFlg,
+                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String includeRedFlg,
+                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyTranslateFlg,
+                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyVocalFlg,
                                     @RequestParam final MultipartFile avatar,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                    final Model model) {
-        final UserBean inputUser = this.userService.getUserById(loginUser.getId());
+                                    final Model model,
+                                    final Locale locale) {
+        final UserBean inputUser = new UserBean();
+        inputUser.setId(loginUser.getId());
+        inputUser.setNickname(nickname);
+        inputUser.setSignature(signature);
         inputUser.setIncludeRedFlg(includeRedFlg);
         inputUser.setOnlyTranslateFlg(onlyTranslateFlg);
         inputUser.setOnlyVocalFlg(onlyVocalFlg);
-        model.addAttribute("userBean", loginUser);
 
-        final UserProfileBean userProfileBean = this.userService.getUserProfile(inputUser);
-        userProfileBean.setNickname(nickname);
-        userProfileBean.setSignature(signature);
-        model.addAttribute("userProfileBean", userProfileBean);
+        if (this.userService.saveUserSetting(inputUser, model.asMap(), locale)) {
+            loginUser.setNickname(nickname);
+            loginUser.setSignature(signature);
+            loginUser.setIncludeRedFlg(includeRedFlg);
+            loginUser.setOnlyTranslateFlg(onlyTranslateFlg);
+            loginUser.setOnlyVocalFlg(onlyVocalFlg);
 
+            this.fileService.saveAvatarFile(loginUser, avatar);
+            return "redirect:/console/setting";
+        }
+        model.addAttribute("userBean", inputUser);
         return "console/profile/setting";
     }
 

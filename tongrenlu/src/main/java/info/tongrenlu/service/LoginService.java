@@ -1,7 +1,6 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.mapper.UserMapper;
 
 import java.util.HashMap;
@@ -18,11 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService {
+@Transactional
+public class LoginService {
 
-    public static final int NICKNAME_LENGTH = 20;
     public static final int EMAIL_LENGTH = 200;
-    public static final int SIGNATURE_LENGTH = 200;
+    public static final int NICKNAME_LENGTH = 20;
 
     public static final Pattern EMAIL_PATTERN = Pattern.compile("^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$");
 
@@ -30,8 +29,6 @@ public class UserService {
     private MessageSource messageSource = null;
     @Autowired
     private UserMapper userMapper = null;
-    @Autowired
-    private FileManager fileManager = null;
 
     @Transactional
     public UserBean doSignIn(final UserBean inputUser,
@@ -71,7 +68,6 @@ public class UserService {
             // this.userDao.doUserRegister(userBean);
             // this.fileDao.saveAvatarFile(userBean, null);
             this.userMapper.insert(inputUser);
-            this.fileManager.saveAvatarFile(inputUser, null);
             return inputUser;
         }
         return null;
@@ -283,20 +279,20 @@ public class UserService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.empty",
                                                     new Object[] { fieldName },
-                                                    null));
+                                                    locale));
             isValid = false;
-        } else if (StringUtils.length(email) > UserService.EMAIL_LENGTH) {
+        } else if (StringUtils.length(email) > LoginService.EMAIL_LENGTH) {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  UserService.EMAIL_LENGTH },
-                                                    null));
+                                                                  LoginService.EMAIL_LENGTH },
+                                                    locale));
             isValid = false;
-        } else if (!UserService.EMAIL_PATTERN.matcher(email).matches()) {
+        } else if (!LoginService.EMAIL_PATTERN.matcher(email).matches()) {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.bad",
                                                     new Object[] { fieldName },
-                                                    null));
+                                                    locale));
             isValid = false;
         }
         return isValid;
@@ -333,7 +329,7 @@ public class UserService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.empty",
                                                     new Object[] { fieldName },
-                                                    null));
+                                                    locale));
             isValid = false;
         }
         return isValid;
@@ -356,7 +352,7 @@ public class UserService {
                       this.messageSource.getMessage("validate.notSame",
                                                     new Object[] { fieldName1,
                                                                   fieldName2 },
-                                                    null));
+                                                    locale));
             isValid = false;
         }
         return isValid;
@@ -374,27 +370,14 @@ public class UserService {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.empty",
                                                     new Object[] { fieldName },
-                                                    null));
+                                                    locale));
             isValid = false;
-        } else if (StringUtils.length(nickname) > UserService.NICKNAME_LENGTH) {
+        } else if (StringUtils.length(nickname) > LoginService.NICKNAME_LENGTH) {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  UserService.NICKNAME_LENGTH },
-                                                    null));
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    public boolean validateSignature(final String signature,
-                                     final Map<String, Object> model) {
-        boolean isValid = true;
-        if (StringUtils.length(signature) > UserService.SIGNATURE_LENGTH) {
-            model.put("signature_error",
-                      this.messageSource.getMessage("UserBean.signature[TooLong]",
-                                                    new Integer[] { UserService.SIGNATURE_LENGTH },
-                                                    null));
+                                                                  LoginService.NICKNAME_LENGTH },
+                                                    locale));
             isValid = false;
         }
         return isValid;

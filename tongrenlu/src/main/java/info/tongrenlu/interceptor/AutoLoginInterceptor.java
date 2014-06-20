@@ -2,7 +2,7 @@ package info.tongrenlu.interceptor;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.UserService;
+import info.tongrenlu.service.LoginService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +14,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import org.springframework.web.util.CookieGenerator;
 
 public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
 
     private Log log = LogFactory.getLog(AutoLoginInterceptor.class);
     @Autowired
-    private UserService loginService = null;
+    private LoginService loginService = null;
     @Autowired
     private CookieGenerator autoLoginCookie = null;
 
@@ -28,6 +29,9 @@ public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(final HttpServletRequest request,
                              final HttpServletResponse response,
                              final Object handler) throws Exception {
+        if (handler instanceof ResourceHttpRequestHandler) {
+            return true;
+        }
         final HttpSession session = request.getSession();
         UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
         if (loginUser == null) {

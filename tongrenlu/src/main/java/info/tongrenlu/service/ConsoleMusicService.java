@@ -2,7 +2,6 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
@@ -24,7 +23,7 @@ public class ConsoleMusicService {
     @Autowired
     private MusicDao musicDao = null;
     @Autowired
-    protected FileManager fileDao = null;
+    protected FileService fileDao = null;
     @Autowired
     protected TagDao tagDao = null;
     @Autowired

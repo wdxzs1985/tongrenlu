@@ -7,7 +7,6 @@ import info.tongrenlu.domain.PlaylistTrackBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleDao;
-import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.PlaylistDao;
 import info.tongrenlu.manager.UserDao;
@@ -45,7 +44,7 @@ public class FmService {
     @Autowired
     private PlaylistDao playlistDao = null;
     @Autowired
-    private FileManager fileDao = null;
+    private FileService fileDao = null;
 
     public Map<String, Object> doGetMusicAsJson(final UserBean loginUser,
                                                 final Integer page,

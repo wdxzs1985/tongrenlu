@@ -22,6 +22,8 @@ public class UserBean extends DtoBean {
 
     private String nickname;
 
+    private String signature;
+
     @JsonIgnore
     private String email;
 
@@ -55,6 +57,14 @@ public class UserBean extends DtoBean {
 
     public void setNickname(final String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getSignature() {
+        return this.signature;
+    }
+
+    public void setSignature(final String signature) {
+        this.signature = signature;
     }
 
     public String getEmail() {

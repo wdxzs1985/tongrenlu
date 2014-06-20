@@ -2,7 +2,8 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.UserService;
+import info.tongrenlu.service.FileService;
+import info.tongrenlu.service.LoginService;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -31,9 +32,11 @@ public class LoginController {
     public static final String FORGOT_USER = "FORGOT_USER";
 
     @Autowired
-    private UserService loginService = null;
+    private LoginService loginService = null;
     @Autowired
     private CookieGenerator autoLoginCookie = null;
+    @Autowired
+    private FileService fileService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/salt")
     @ResponseBody
@@ -105,7 +108,7 @@ public class LoginController {
                                                             model.asMap(),
                                                             locale);
         if (newUser != null) {
-            // send mail
+            this.fileService.saveAvatarFile(newUser, null);
             return "redirect:/signup/finish";
         }
 
@@ -155,6 +158,13 @@ public class LoginController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/forgot/change")
+    public String doGetChangePassword(final HttpServletRequest request) {
+        final HttpSession session = request.getSession();
+        session.removeAttribute(LoginController.FORGOT_USER);
+        return "redirect:/forgot";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/forgot/change")
     public String doPostChangePassword(final String password,
                                        final String password2,
@@ -169,7 +179,7 @@ public class LoginController {
         }
 
         userBean.setPassword(password);
-        userBean.setPassword(password2);
+        userBean.setPassword2(password2);
 
         if (this.loginService.doChangePassword(userBean, model.asMap(), locale)) {
             session.removeAttribute(LoginController.FORGOT_USER);
