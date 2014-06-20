@@ -9,7 +9,10 @@ import info.tongrenlu.service.FileService;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.CookieGenerator;
 
 @Controller
 @SessionAttributes("LOGIN_USER")
@@ -28,6 +33,10 @@ public class ConsoleUserController {
     private ConsoleUserService userService = null;
     @Autowired
     private FileService fileService = null;
+    @Autowired
+    private MessageSource messageSource = null;
+    @Autowired
+    private CookieGenerator autoLoginCookie = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
@@ -54,6 +63,7 @@ public class ConsoleUserController {
                                     @RequestParam final MultipartFile avatar,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                     final Model model,
+                                    final RedirectAttributes redirectAttributes,
                                     final Locale locale) {
         final UserBean inputUser = new UserBean();
         inputUser.setId(loginUser.getId());
@@ -63,7 +73,7 @@ public class ConsoleUserController {
         inputUser.setOnlyTranslateFlg(onlyTranslateFlg);
         inputUser.setOnlyVocalFlg(onlyVocalFlg);
 
-        if (this.userService.saveUserSetting(inputUser, model.asMap(), locale)) {
+        if (this.userService.saveSetting(inputUser, model.asMap(), locale)) {
             loginUser.setNickname(nickname);
             loginUser.setSignature(signature);
             loginUser.setIncludeRedFlg(includeRedFlg);
@@ -71,6 +81,10 @@ public class ConsoleUserController {
             loginUser.setOnlyVocalFlg(onlyVocalFlg);
 
             this.fileService.saveAvatarFile(loginUser, avatar);
+            final String message = this.messageSource.getMessage("console.profile.setting.finish",
+                                                                 null,
+                                                                 locale);
+            redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/console/setting";
         }
         model.addAttribute("userBean", inputUser);
@@ -79,15 +93,31 @@ public class ConsoleUserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/password")
     public String doGetPassword(final Model model) {
-        return "console/password";
+        return "console/profile/password";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/console/password")
     public String doPostPassword(final String password,
                                  final String password2,
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                 final Model model) {
-        return "console/password";
+                                 final Model model,
+                                 final RedirectAttributes redirectAttributes,
+                                 final Locale locale,
+                                 final HttpServletResponse response) {
+        final UserBean inputUser = new UserBean();
+        inputUser.setId(loginUser.getId());
+        inputUser.setPassword(password);
+        inputUser.setPassword2(password2);
+        if (this.userService.changePassword(inputUser, model.asMap(), locale)) {
+
+            final String message = this.messageSource.getMessage("console.profile.password.finish",
+                                                                 null,
+                                                                 locale);
+            redirectAttributes.addFlashAttribute("message", message);
+            this.autoLoginCookie.removeCookie(response);
+            return "redirect:/console/password";
+        }
+        return "console/profile/password";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/follow")

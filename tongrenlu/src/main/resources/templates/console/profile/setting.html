@@ -7,6 +7,11 @@
       <form class="form-horizontal" th:action="@{/console/setting}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-sm-8">
+                <div class="alert alert-success" 
+                     th:unless="${#strings.isEmpty(message)}"
+                     th:text="${message}" >
+                </div>
+            
                 <div class="page-header">
                     <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
                 </div>
