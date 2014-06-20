@@ -1,10 +1,12 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.AritcleManager;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
+import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.Locale;
@@ -20,26 +22,44 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class ConsoleMusicService {
 
+    @Autowired
     private AritcleManager aritcleManager = null;
+    @Autowired
+    private TagManager tagManager = null;
 
+    @Transactional
     public MusicBean doCreate(final MusicBean inputMusic,
                               final MultipartFile cover,
                               final String[] tags,
                               final Map<String, Object> model,
                               final Locale locale) {
         if (this.validateForCreate(inputMusic, model, locale)) {
-            this.aritcleManager.create(inputMusic);
-            this.aritcleManager.addArticleTag(inputMusic, tags);
+            this.aritcleManager.insertMusic(inputMusic);
+            for (final String tag : tags) {
+                TagBean tagBean = this.tagManager.getByTag(tag);
+                if (tagBean == null) {
+                    tagBean = new TagBean();
+                    tagBean.setTag(tag);
+                    this.tagManager.insert(tagBean);
+                }
+                this.aritcleManager.addArticleTag(inputMusic, tagBean);
+            }
             return inputMusic;
         }
         return null;
     }
 
-    private boolean validateForCreate(final MusicBean inputMusic,
+    private boolean validateForCreate(final MusicBean inputArticle,
                                       final Map<String, Object> model,
                                       final Locale locale) {
-        // TODO Auto-generated method stub
-        return false;
+        boolean isValid = true;
+        if (!this.aritcleManager.validateTitle(inputArticle.getTitle(),
+                                               "titleError",
+                                               model,
+                                               locale)) {
+            isValid = false;
+        }
+        return isValid;
     }
 
     @Autowired

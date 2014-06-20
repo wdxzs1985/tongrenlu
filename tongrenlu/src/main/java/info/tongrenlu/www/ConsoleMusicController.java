@@ -29,20 +29,26 @@ public class ConsoleMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/input")
     public String doGetInput(final Model model) {
-        final MusicBean musicBean = new MusicBean();
+        final MusicBean inputMusic = new MusicBean();
         final String[] tags = {};
-        model.addAttribute("articleBean", musicBean);
+        model.addAttribute("articleBean", inputMusic);
         model.addAttribute("tags", tags);
         return "console/music/input";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/console/music/input")
-    public String doPostInput(@ModelAttribute final MusicBean inputMusic,
-                              @RequestParam(required = false) final MultipartFile cover,
+    public String doPostInput(final String title,
+                              final String description,
+                              final MultipartFile cover,
                               @RequestParam(value = "tags[]", required = false) final String[] tags,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
                               final Locale locale) {
+        final MusicBean inputMusic = new MusicBean();
+        inputMusic.setUserBean(loginUser);
+        inputMusic.setTitle(title);
+        inputMusic.setDescription(description);
+
         final MusicBean musicBean = this.musicService.doCreate(inputMusic,
                                                                cover,
                                                                tags,
@@ -60,7 +66,7 @@ public class ConsoleMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/finish")
     public String doGetFinish(final Model model) {
-        return "console/music/finish";
+        return "console/music/input_finish";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music")

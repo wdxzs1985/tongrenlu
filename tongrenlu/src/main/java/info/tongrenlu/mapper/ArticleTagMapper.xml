@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.ArticleTagMapper">
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO R_ARTICLE_TAG(
+        <trim suffixOverrides=",">
+            TAG_ID,
+            ARTICLE_ID,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{tagBean.id},
+            #{articleBean.id},
+        </trim>
+        )
+    </insert>
+    
+    <update id="deleteByArticleId">
+        UPDATE R_ARTICLE_TAG
+        SET
+            DEL_FLG = '1'
+        WHERE
+            ARTICLE_ID = #{articleBean.id}
+    </update>
+</mapper>

@@ -9,4 +9,8 @@ public interface TagMapper {
 
     public List<TagBean> fetchListByTag(Map<String, Object> param);
 
+    public TagBean fetchBean(Map<String, Object> param);
+
+    public void insert(TagBean tagBean);
+
 }

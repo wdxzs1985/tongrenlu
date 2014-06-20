@@ -2,16 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="info.tongrenlu.mapper.MusicMapper">
+<mapper namespace="info.tongrenlu.mapper.ArticleMapper">
 
-    <insert id="insert">
-        INSERT INTO R_MUSIC(
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO M_ARTICLE(
         <trim suffixOverrides=",">
-            id,
+            title,
+            description,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
-            #{id},
+            #{title},
+            #{description},
         </trim>
         )
     </insert>

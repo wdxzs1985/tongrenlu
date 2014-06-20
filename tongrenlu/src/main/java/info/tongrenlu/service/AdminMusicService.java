@@ -38,7 +38,7 @@ public class AdminMusicService {
     public int countUnpublish() {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("publishFlg", "0");
-        return this.musicMapper.count(param);
+        return 0;
     }
 
     public String doGetMusicIndex(final Integer page,

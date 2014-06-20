@@ -11,9 +11,21 @@
         ,   A.TAG       as tag
         FROM
             M_TAG A
-        WHERE
+        <where>
             A.TAG LIKE #{pattern}
+        </where>
         limit 1,10
+    </select>
+    
+    <select id="fetchBean" resultType="TagBean">
+        SELECT
+            A.id        as id
+        ,   A.TAG       as tag
+        FROM
+            M_TAG A
+        <where>
+            A.TAG = #{tag}
+        </where>
     </select>
     
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
