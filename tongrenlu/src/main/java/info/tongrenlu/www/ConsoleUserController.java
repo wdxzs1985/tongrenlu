@@ -42,7 +42,7 @@ public class ConsoleUserController {
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
         final Integer id = loginUser.getId();
-        final UserProfileBean userProfileBean = this.userService.getUserProfile(id);
+        final UserProfileBean userProfileBean = this.userService.getProfileById(id);
         model.addAttribute("userProfileBean", userProfileBean);
         return "console/profile/index";
     }
@@ -81,6 +81,7 @@ public class ConsoleUserController {
             loginUser.setOnlyVocalFlg(onlyVocalFlg);
 
             this.fileService.saveAvatarFile(loginUser, avatar);
+
             final String message = this.messageSource.getMessage("console.profile.setting.finish",
                                                                  null,
                                                                  locale);

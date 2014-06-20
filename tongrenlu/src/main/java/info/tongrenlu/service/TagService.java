@@ -7,6 +7,7 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ComicDao;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
+import info.tongrenlu.mapper.TagMapper;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -25,6 +26,19 @@ import org.springframework.ui.Model;
 @Service
 @Transactional
 public class TagService {
+
+    @Autowired
+    private TagMapper tagMapper = null;
+
+    public List<TagBean> getTagListByTag(final String tag,
+                                         final int start,
+                                         final int size) {
+        final Map<String, Object> param = new HashMap<String, Object>();
+        param.put("tag", tag);
+        param.put("start", start);
+        param.put("limit", size);
+        return this.tagMapper.fetchListByTag(param);
+    }
 
     @Autowired
     private ComicDao comicDao = null;

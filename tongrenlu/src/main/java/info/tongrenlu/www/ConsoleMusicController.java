@@ -3,6 +3,9 @@ package info.tongrenlu.www;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ConsoleMusicService;
+import info.tongrenlu.service.FileService;
+
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,44 @@ public class ConsoleMusicController {
 
     @Autowired
     private ConsoleMusicService musicService = null;
+    @Autowired
+    private FileService fileService = null;
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/music/input")
+    public String doGetInput(final Model model) {
+        final MusicBean musicBean = new MusicBean();
+        final String[] tags = {};
+        model.addAttribute("articleBean", musicBean);
+        model.addAttribute("tags", tags);
+        return "console/music/input";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/console/music/input")
+    public String doPostInput(@ModelAttribute final MusicBean inputMusic,
+                              @RequestParam(required = false) final MultipartFile cover,
+                              @RequestParam(value = "tags[]", required = false) final String[] tags,
+                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                              final Model model,
+                              final Locale locale) {
+        final MusicBean musicBean = this.musicService.doCreate(inputMusic,
+                                                               cover,
+                                                               tags,
+                                                               model.asMap(),
+                                                               locale);
+        if (musicBean != null) {
+            this.fileService.saveCoverFile(musicBean, cover);
+            return "redirect:/console/music/finish";
+        }
+
+        model.addAttribute("articleBean", inputMusic);
+        model.addAttribute("tags", tags);
+        return "console/music/input";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/music/finish")
+    public String doGetFinish(final Model model) {
+        return "console/music/finish";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music")
     public String doGetIndex(@RequestParam(required = false) final Integer page,
@@ -28,33 +69,6 @@ public class ConsoleMusicController {
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
         return this.musicService.doGetIndex(loginUser, page, q, model);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/input")
-    public String doGetInput(final Model model) {
-        final MusicBean musicBean = new MusicBean();
-        model.addAttribute("articleBean", musicBean);
-        return "console/music/input";
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/input")
-    public String doPostInput(@ModelAttribute final MusicBean musicBean,
-                              @RequestParam final MultipartFile cover,
-                              @RequestParam(value = "tagId[]", required = false) final String[] tagIdArray,
-                              @RequestParam(value = "tag[]", required = false) final String[] tagArray,
-                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model) {
-        return this.musicService.doPostInput(loginUser,
-                                             musicBean,
-                                             cover,
-                                             tagIdArray,
-                                             tagArray,
-                                             model.asMap());
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/finish")
-    public String doGetFinish(final Model model) {
-        return "console/music/finish";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}")

@@ -6,14 +6,13 @@ import info.tongrenlu.manager.ComicDao;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TimelineDao;
 import info.tongrenlu.manager.UserDao;
-import info.tongrenlu.mapper.UserMapper;
+import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -24,32 +23,20 @@ import org.springframework.ui.Model;
 @Transactional
 public class ConsoleUserService {
 
-    public static final int NICKNAME_LENGTH = 20;
-
-    public static final int SIGNATURE_LENGTH = 200;
-
     @Autowired
-    private UserMapper userMapper = null;
+    private UserManager userManager = null;
     @Autowired
     private MessageSource messageSource = null;
 
-    public UserBean getUserById(final Integer id) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("id", id);
-        return this.userMapper.fetchBean(param);
-    }
-
-    public UserProfileBean getUserProfile(final Integer id) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("id", id);
-        return this.userMapper.fetchProfile(param);
+    public UserProfileBean getProfileById(final Integer id) {
+        return this.userManager.getProfileById(id);
     }
 
     public boolean saveSetting(final UserBean inputUser,
                                final Map<String, Object> model,
                                final Locale locale) {
         if (this.validateForSaveSetting(inputUser, model, locale)) {
-            this.updateSetting(inputUser);
+            this.userManager.updateSetting(inputUser);
             return true;
         }
         return false;
@@ -60,44 +47,26 @@ public class ConsoleUserService {
                                   final Map<String, Object> model,
                                   final Locale locale) {
         if (this.validateForChangePassword(inputUser, model, locale)) {
-            this.updatePassword(inputUser);
+            this.userManager.updatePassword(inputUser);
             return true;
         }
         return false;
-    }
-
-    private void updateSetting(final UserBean userBean) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("id", userBean.getId());
-        param.put("nickname", userBean.getNickname());
-        param.put("signature", userBean.getSignature());
-        param.put("includeRedFlg", userBean.getIncludeRedFlg());
-        param.put("onlyTranslateFlg", userBean.getOnlyTranslateFlg());
-        param.put("onlyVocalFlg", userBean.getOnlyVocalFlg());
-        this.userMapper.update(param);
-    }
-
-    private void updatePassword(final UserBean userBean) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("id", userBean.getId());
-        params.put("password", userBean.getPassword());
-        this.userMapper.update(params);
     }
 
     public boolean validateForSaveSetting(final UserBean userBean,
                                           final Map<String, Object> model,
                                           final Locale locale) {
         boolean isValid = true;
-        if (!this.validateNickname(userBean.getNickname(),
-                                   "nicknameError",
-                                   model,
-                                   locale)) {
+        if (!this.userManager.validateNickname(userBean.getNickname(),
+                                               "nicknameError",
+                                               model,
+                                               locale)) {
             isValid = false;
         }
-        if (!this.validateSignature(userBean.getSignature(),
-                                    "signatureError",
-                                    model,
-                                    locale)) {
+        if (!this.userManager.validateSignature(userBean.getSignature(),
+                                                "signatureError",
+                                                model,
+                                                locale)) {
             isValid = false;
         }
         return isValid;
@@ -107,101 +76,16 @@ public class ConsoleUserService {
                                              final Map<String, Object> model,
                                              final Locale locale) {
         boolean isValid = true;
-        if (!this.validatePassword(inputUser.getPassword(),
-                                   "passwordError",
-                                   model,
-                                   locale)) {
+        if (!this.userManager.validatePassword(inputUser.getPassword(),
+                                               "passwordError",
+                                               model,
+                                               locale)) {
             isValid = false;
-        } else if (!this.validatePassword2(inputUser.getPassword(),
-                                           inputUser.getPassword2(),
-                                           "password2Error",
-                                           model,
-                                           locale)) {
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    private boolean validateNickname(final String nickname,
-                                     final String errorAttribute,
-                                     final Map<String, Object> model,
-                                     final Locale locale) {
-        boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.nickname",
-                                                               null,
-                                                               locale);
-        if (StringUtils.isBlank(nickname)) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
-            isValid = false;
-        } else if (StringUtils.length(nickname) > LoginService.NICKNAME_LENGTH) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName,
-                                                                  LoginService.NICKNAME_LENGTH },
-                                                    locale));
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    private boolean validateSignature(final String signature,
-                                      final String errorAttribute,
-                                      final Map<String, Object> model,
-                                      final Locale locale) {
-        boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.signature",
-                                                               null,
-                                                               locale);
-        if (StringUtils.length(signature) > ConsoleUserService.SIGNATURE_LENGTH) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName,
-                                                                  ConsoleUserService.SIGNATURE_LENGTH },
-                                                    locale));
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    private boolean validatePassword(final String password,
-                                     final String errorAttribute,
-                                     final Map<String, Object> model,
-                                     final Locale locale) {
-        boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.password",
-                                                               null,
-                                                               locale);
-        if (StringUtils.isBlank(password)) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    private boolean validatePassword2(final String password,
-                                      final String password2,
-                                      final String errorAttribute,
-                                      final Map<String, Object> model,
-                                      final Locale locale) {
-        boolean isValid = true;
-        final String fieldName1 = this.messageSource.getMessage("UserBean.password",
-                                                                null,
-                                                                locale);
-        final String fieldName2 = this.messageSource.getMessage("UserBean.password2",
-                                                                null,
-                                                                locale);
-        if (!StringUtils.equals(password, password2)) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.notSame",
-                                                    new Object[] { fieldName1,
-                                                                  fieldName2 },
-                                                    locale));
+        } else if (!this.userManager.validatePassword2(inputUser.getPassword(),
+                                                       inputUser.getPassword2(),
+                                                       "password2Error",
+                                                       model,
+                                                       locale)) {
             isValid = false;
         }
         return isValid;

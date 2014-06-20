@@ -1,11 +1,15 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.TagService;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +30,18 @@ public class HomeTagController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/tag/search")
     @ResponseBody
-    public List<String> doGetSearchTag(final String q) {
-        return this.tagService.doGetSearchTag(q);
+    public List<String> doGetSearchTag(final String query) {
+        if (StringUtils.isBlank(query)) {
+            return Collections.emptyList();
+        }
+        final List<String> tagList = new ArrayList<String>();
+        final List<TagBean> tagBeanList = this.tagService.getTagListByTag(query,
+                                                                          1,
+                                                                          10);
+        for (final TagBean tagBean : tagBeanList) {
+            tagList.add(tagBean.getTag());
+        }
+        return tagList;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/console/tag/input")

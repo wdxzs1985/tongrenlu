@@ -2,23 +2,45 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.manager.AritcleManager;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
 public class ConsoleMusicService {
+
+    private AritcleManager aritcleManager = null;
+
+    public MusicBean doCreate(final MusicBean inputMusic,
+                              final MultipartFile cover,
+                              final String[] tags,
+                              final Map<String, Object> model,
+                              final Locale locale) {
+        if (this.validateForCreate(inputMusic, model, locale)) {
+            this.aritcleManager.create(inputMusic);
+            this.aritcleManager.addArticleTag(inputMusic, tags);
+            return inputMusic;
+        }
+        return null;
+    }
+
+    private boolean validateForCreate(final MusicBean inputMusic,
+                                      final Map<String, Object> model,
+                                      final Locale locale) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
     @Autowired
     private MusicDao musicDao = null;
@@ -41,26 +63,6 @@ public class ConsoleMusicService {
                                                              searchQuery,
                                                              paginate));
         return "console/music/index";
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/input")
-    public String doPostInput(final UserBean loginUser,
-                              final MusicBean musicBean,
-                              final MultipartFile cover,
-                              final String[] tagIdArray,
-                              final String[] tagArray,
-                              final Map<String, Object> model) {
-        musicBean.setUserBean(loginUser);
-        if (this.musicDao.validateCreateMusic(musicBean, model)) {
-            this.musicDao.createMusic(musicBean);
-            this.tagDao.addArticleTag(musicBean, tagIdArray);
-            this.fileDao.saveCoverFile(musicBean, cover);
-            return "redirect:/console/music/finish";
-        }
-        model.put("articleBean", musicBean);
-        model.put("inputTagBeanList",
-                  this.tagDao.resolveInputTagBeanList(tagIdArray, tagArray));
-        return "console/music/input";
     }
 
     public String doGetEdit(final UserBean loginUser,
