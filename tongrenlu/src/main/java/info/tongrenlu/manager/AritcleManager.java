@@ -9,6 +9,8 @@ import info.tongrenlu.mapper.ArticleTagMapper;
 import info.tongrenlu.mapper.MusicMapper;
 import info.tongrenlu.mapper.TagMapper;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -34,17 +36,57 @@ public class AritcleManager {
     @Autowired
     private TagMapper tagMapper = null;
 
-    public void insertMusic(final MusicBean inputMusic) {
-        this.articleMapper.insert(inputMusic);
-        this.musicMapper.insert(inputMusic);
+    public void insert(final ArticleBean articleBean) {
+        this.articleMapper.insert(articleBean);
+        if (articleBean instanceof MusicBean) {
+            this.musicMapper.insert((MusicBean) articleBean);
+        }
     }
 
-    public void addArticleTag(final ArticleBean articleBean,
-                              final TagBean tagBean) {
+    public void update(final ArticleBean articleBean) {
+        this.articleMapper.update(articleBean);
+        if (articleBean instanceof MusicBean) {
+            // this.musicMapper.update((MusicBean) articleBean);
+        }
+    }
+
+    public void delete(final ArticleBean articleBean) {
+        if (articleBean instanceof MusicBean) {
+            this.musicMapper.delete(articleBean);
+        }
+    }
+
+    public int countMusic(final Map<String, Object> params) {
+        return this.musicMapper.countForSearch(params);
+    }
+
+    public List<MusicBean> searchMusic(final Map<String, Object> params) {
+        return this.musicMapper.fetchListForSearch(params);
+    }
+
+    public void addTag(final ArticleBean articleBean, final TagBean tagBean) {
         final ArticleTagBean articleTagBean = new ArticleTagBean();
         articleTagBean.setArticleBean(articleBean);
         articleTagBean.setTagBean(tagBean);
         this.articleTagMapper.insert(articleTagBean);
+    }
+
+    public List<String> getTags(final ArticleBean articleBean) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("articleBean", articleBean);
+        return this.articleTagMapper.fetchTags(param);
+    }
+
+    public void removeTags(final ArticleBean articleBean) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("articleBean", articleBean);
+        this.articleTagMapper.delete(param);
+    }
+
+    public MusicBean getMusicById(final Integer id) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", id);
+        return this.musicMapper.fetchBean(param);
     }
 
     public boolean validateTitle(final String title,
@@ -71,5 +113,4 @@ public class AritcleManager {
         }
         return isValid;
     }
-
 }

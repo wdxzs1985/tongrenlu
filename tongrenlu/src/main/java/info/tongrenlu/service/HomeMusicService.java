@@ -47,9 +47,7 @@ public class HomeMusicService {
             // userId = loginUser.getUserId();
         }
 
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("page", this.musicDao.getMusicList(searchQuery,
                                                               null,
@@ -116,16 +114,16 @@ public class HomeMusicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                : "/resource";
+                                        : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("title", trackBean.getTrack());
         model.put("artist", trackBean.getArtist());
         model.put("original", trackBean.getOriginalTitle());
         model.put("mp3", FILE_PATH + "/"
-                + trackBean.getMusicBean().getId()
-                + "/"
-                + trackBean.getFileBean().getId()
-                + ".mp3");
+                         + trackBean.getMusicBean().getId()
+                         + "/"
+                         + trackBean.getFileBean().getId()
+                         + ".mp3");
         // model.put("poster", FILE_PATH
         // + "/"
         // + trackBean.getFileBean().getArticleId()
@@ -153,18 +151,18 @@ public class HomeMusicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                : "/resource";
+                                        : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                + fileBean.getArticleBean().getId()
-                + "/"
-                + fileBean.getId()
-                + "_800.jpg");
+                                + fileBean.getArticleBean().getId()
+                                + "/"
+                                + fileBean.getId()
+                                + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                + fileBean.getArticleBean().getId()
-                + "/"
-                + fileBean.getId()
-                + "_1600.jpg");
+                               + fileBean.getArticleBean().getId()
+                               + "/"
+                               + fileBean.getId()
+                               + "_1600.jpg");
         return model;
     }
 

@@ -54,31 +54,31 @@ public class LoginService {
     }
 
     @Transactional
-    public UserBean doSignup(final UserBean inputUser,
-                             final Map<String, Object> model,
-                             final Locale locale) {
+    public boolean doSignup(final UserBean inputUser,
+                            final Map<String, Object> model,
+                            final Locale locale) {
         if (this.validateForRegister(inputUser, model, locale)) {
             // this.userDao.doUserRegister(userBean);
             // this.fileDao.saveAvatarFile(userBean, null);
             this.userManager.insert(inputUser);
-            return inputUser;
+            return true;
         }
-        return null;
+        return false;
     }
 
-    public UserBean doFindForgotUser(final UserBean inputUser,
-                                     final Map<String, Object> model,
-                                     final Locale locale) {
+    public boolean doFindForgotUser(final UserBean inputUser,
+                                    final Map<String, Object> model,
+                                    final Locale locale) {
         if (this.validateForFindForgotUserInput(inputUser, model, locale)) {
             final UserBean loginUser = this.userManager.getByEmail(inputUser.getEmail());
             if (this.validateForFindForgotUser(inputUser,
                                                loginUser,
                                                model,
                                                locale)) {
-                return loginUser;
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
     @Transactional

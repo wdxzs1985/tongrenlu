@@ -6,4 +6,6 @@ public interface ArticleMapper {
 
     public void insert(ArticleBean articleBean);
 
+    public void update(ArticleBean articleBean);
+
 }

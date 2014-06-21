@@ -39,9 +39,7 @@ public class AdminComicService {
     public String doGetComicIndex(final Integer page,
                                   final String searchQuery,
                                   final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute(this.comicDao.getAdminComicList(paginate,
                                                            searchQuery));

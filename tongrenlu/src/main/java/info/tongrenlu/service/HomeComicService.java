@@ -51,9 +51,7 @@ public class HomeComicService {
             // userId = loginUser.getId();
         }
 
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
 
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("page", this.comicDao.getComicList(searchQuery,
@@ -138,18 +136,18 @@ public class HomeComicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                : "/resource";
+                                        : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                + fileBean.getId()
-                + "/"
-                + fileBean.getId()
-                + "_800.jpg");
+                                + fileBean.getId()
+                                + "/"
+                                + fileBean.getId()
+                                + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                + fileBean.getId()
-                + "/"
-                + fileBean.getId()
-                + "_1600.jpg");
+                               + fileBean.getId()
+                               + "/"
+                               + fileBean.getId()
+                               + "_1600.jpg");
         return model;
     }
 }

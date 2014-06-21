@@ -43,7 +43,7 @@ public class ComicDao {
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<ComicBean> items = this.comicMapper.fetchList(param);
         // paginate.setItems(items);
         return paginate;
@@ -57,7 +57,7 @@ public class ComicDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
         // final List<ComicBean> items = this.comicMapper.fetchList(param);
         // paginate.setItems(items);
@@ -161,7 +161,7 @@ public class ComicDao {
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<ComicBean> items = this.comicMapper.fetchList(param);
         // paginate.setItems(items);
         return paginate;
@@ -216,7 +216,7 @@ public class ComicDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
         // final List<ComicBean> items = this.comicMapper.fetchList(param);
         // paginate.setItems(items);
@@ -236,7 +236,7 @@ public class ComicDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<ComicBean> items =
         // this.collectMapper.fetchListForComic(param);
         // paginate.setItems(items);

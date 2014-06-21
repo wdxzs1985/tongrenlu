@@ -44,7 +44,7 @@ public class MusicDao {
 
         param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<MusicBean> items = this.musicMapper.fetchList(param);
         // paginate.setItems(items);
         return paginate;
@@ -121,7 +121,7 @@ public class MusicDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
         // final List<MusicBean> items = this.musicMapper.fetchList(param);
         // paginate.setItems(items);
@@ -174,7 +174,7 @@ public class MusicDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
         // final List<MusicBean> items = this.musicMapper.fetchList(param);
         // paginate.setItems(items);
@@ -191,7 +191,7 @@ public class MusicDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         param.put("order", "A.ARTICLE_ID DESC");
         // final List<MusicBean> items = this.musicMapper.fetchList(param);
         // paginate.setItems(items);
@@ -212,7 +212,7 @@ public class MusicDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<MusicBean> items =
         // this.collectMapper.fetchListForMusic(param);
         // paginate.setItems(items);

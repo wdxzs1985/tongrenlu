@@ -136,7 +136,7 @@ public class UserDao {
         paginate.compute();
 
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<UserBean> items =
         // this.followMapper.fetchFollowList(param);
         // paginate.setItems(items);
@@ -153,7 +153,7 @@ public class UserDao {
         paginate.compute();
 
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<UserBean> items =
         // this.followMapper.fetchFollowList(param);
         // paginate.setItems(items);

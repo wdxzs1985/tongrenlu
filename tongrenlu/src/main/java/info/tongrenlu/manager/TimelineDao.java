@@ -23,7 +23,7 @@ public class TimelineDao {
         paginate.compute();
 
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<TimelineBean> items =
         // this.timelineMapper.fetchTimelineList(param);
         // paginate.setItems(items);
@@ -41,7 +41,7 @@ public class TimelineDao {
         paginate.compute();
 
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<TimelineBean> items =
         // this.timelineMapper.fetchTimelineList(param);
         // paginate.setItems(items);

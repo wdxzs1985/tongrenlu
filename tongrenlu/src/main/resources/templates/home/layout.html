@@ -2,34 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="layout">
-<head>
-  <title th:inline="text">[[#{application.name}]]</title>
-</head>
 <body>
 <div class="navbar navbar-default navbar-static-top" layout:fragment="header">
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
         th:href="@{/}" 
-        th:text="#{application.name}">
-          application.name
-      </a>
+        th:text="#{application}"></a>
     </div>
       <ul class="nav navbar-nav navbar-left">
-        <li ><a th:href="@{/music}" th:text="#{music}"></a></li>
-        <li ><a th:href="@{/comic}" th:text="#{comic}"></a></li>
-        <li ><a th:href="@{/search}" th:text="#{search}"></a></li>
-        <li ><a th:href="@{/fm}" th:text="#{fm}"></a></li>
+        <li ><a th:href="@{/music}" th:text="#{home.music}"></a></li>
+        <li ><a th:href="@{/comic}" th:text="#{home.comic}"></a></li>
+        <li ><a th:href="@{/search}" th:text="#{home.search}"></a></li>
+        <li ><a th:href="@{/fm}" th:text="#{home.fm}"></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li id="nav-signin" th:class="${session.LOGIN_USER} ? 'hidden' : 'show'">
           <a href="#signinModal" data-toggle="modal"
-             th:text="#{application.signin}">
+             th:text="#{login.signin}">
             sign in
           </a>
         </li>
         <li id="nav-signup" th:class="${session.LOGIN_USER} ? 'hidden' : 'show'">
-          <a th:href="@{/signup}" th:text="#{application.signup}">
+          <a th:href="@{/signup}" th:text="#{login.signup}">
             sign up
           </a>
         </li>
@@ -40,7 +35,7 @@
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console}" th:text="#{console}"></a></li>
             <li class="divider"></li>
-            <li ><a th:href="@{/signout}" th:text="#{signout}"></a></li>
+            <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
           </ul>
         </li>
       </ul>
@@ -51,9 +46,7 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
         th:href="@{/}" 
-        th:text="#{application.name}">
-          application
-      </a>
+        th:text="#{application}"></a>
     </div>
   </div>
 </div>
@@ -64,7 +57,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="signinModalLabel" th:text="#{signin}">sign in</h4>
+        <h4 class="modal-title" id="signinModalLabel" th:text="#{login.signin}">sign in</h4>
       </div>
       <form id="login-form" class="form-horizontal" method="post">
         <div class="modal-body">
@@ -92,7 +85,7 @@
               <div class="checkbox">
                 <label>
                   <input type="checkbox" name="autoLogin" value="1" checked="true"/>
-                  <span th:text="#{signin.autologin}">Remember me</span> 
+                  <span th:text="#{login.signin.autologin}">Remember me</span> 
                 </label>
               </div>
             </div>
@@ -100,9 +93,9 @@
         </div>
         <div class="modal-footer" style="overflow:hidden">
           <a th:href="@{/forgot}" class="btn btn-default pull-left"
-            th:text="#{forgot}">Forgot</a>
+            th:text="#{login.forgot}">Forgot</a>
           <button type="submit" class="btn btn-success pull-right"
-            th:text="#{signin}">Sign In</button>
+            th:text="#{login.signin}">Sign In</button>
         </div>
       </form>
     </div>

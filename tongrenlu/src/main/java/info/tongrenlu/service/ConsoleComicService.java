@@ -31,9 +31,7 @@ public class ConsoleComicService {
                              final Integer page,
                              final String searchQuery,
                              final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute(this.comicDao.getConsoleComicList(loginUser,
                                                              searchQuery,
@@ -51,7 +49,7 @@ public class ConsoleComicService {
         if (this.comicDao.validateCreateComic(comicBean, model)) {
             this.comicDao.createComic(comicBean);
             this.tagDao.addArticleTag(comicBean, tagIdArray);
-            this.fileDao.saveCoverFile(comicBean, cover);
+            this.fileDao.saveCover(comicBean, cover);
             return "redirect:/console/comic/finish";
         }
 
@@ -93,7 +91,7 @@ public class ConsoleComicService {
         if (this.comicDao.validateEditComic(comicBean, cover, model)) {
             this.comicDao.editComic(comicBean);
             this.tagDao.addArticleTag(comic, tagIdArray);
-            this.fileDao.saveCoverFile(comicBean, cover);
+            this.fileDao.saveCover(comicBean, cover);
             this.solrService.createComicIndex(comicBean, true);
             return "redirect:/console/comic";
         }
@@ -120,9 +118,7 @@ public class ConsoleComicService {
     public String doGetCollect(final UserBean loginUser,
                                final Integer page,
                                final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute(this.comicDao.getComicCollectList(loginUser,
                                                              paginate));
         return "console/comic/collect";

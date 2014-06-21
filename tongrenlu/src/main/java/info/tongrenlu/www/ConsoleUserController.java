@@ -2,7 +2,6 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.service.ConsoleUserService;
 import info.tongrenlu.service.FileService;
 
@@ -38,15 +37,6 @@ public class ConsoleUserController {
     @Autowired
     private CookieGenerator autoLoginCookie = null;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console")
-    public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model) {
-        final Integer id = loginUser.getId();
-        final UserProfileBean userProfileBean = this.userService.getProfileById(id);
-        model.addAttribute("userProfileBean", userProfileBean);
-        return "console/profile/index";
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/console/setting")
     public String doGetUserSetting(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                    final Model model) {
@@ -60,7 +50,7 @@ public class ConsoleUserController {
                                     @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String includeRedFlg,
                                     @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyTranslateFlg,
                                     @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyVocalFlg,
-                                    @RequestParam final MultipartFile avatar,
+                                    @RequestParam final MultipartFile cover,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                     final Model model,
                                     final RedirectAttributes redirectAttributes,
@@ -80,7 +70,7 @@ public class ConsoleUserController {
             loginUser.setOnlyTranslateFlg(onlyTranslateFlg);
             loginUser.setOnlyVocalFlg(onlyVocalFlg);
 
-            this.fileService.saveAvatarFile(loginUser, avatar);
+            this.fileService.saveCover(loginUser, cover);
 
             final String message = this.messageSource.getMessage("console.profile.setting.finish",
                                                                  null,

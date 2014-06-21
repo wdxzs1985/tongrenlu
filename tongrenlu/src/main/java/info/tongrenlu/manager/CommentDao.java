@@ -30,7 +30,7 @@ public class CommentDao {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<ArticleCommentBean> items =
         // this.commentMapper.fetchList(param);
         // paginate.setItems(items);

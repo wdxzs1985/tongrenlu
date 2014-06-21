@@ -53,9 +53,7 @@ public class FmService {
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(size);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.put("searchQuery", searchQuery);
         model.put("page", this.musicDao.getMusicList(searchQuery, null, null,// loginUser
                                                      paginate));
@@ -90,7 +88,7 @@ public class FmService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? FmService.LOCAL_RESOURCE
-                : FmService.REMOTE_RESOURCE;
+                                        : FmService.REMOTE_RESOURCE;
         final Integer articleId = trackBean.getMusicBean().getId();
         final Integer fileId = trackBean.getFileBean().getId();
         final String title = trackBean.getTrack();
@@ -117,9 +115,7 @@ public class FmService {
     public Map<String, Object> doGetPlaylist(final Integer page,
                                              final Integer size) {
         final Map<String, Object> model = new HashMap<String, Object>();
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(size);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.put("page", this.playlistDao.getPlaylistList(null, paginate));
         model.put("result", true);
         return model;
@@ -151,9 +147,7 @@ public class FmService {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
         if (this.userDao.validateUserOnline(loginUser, model)) {
-            final PaginateSupport paginate = new PaginateSupport();
-            paginate.setPage(page);
-            paginate.setSize(size);
+            final PaginateSupport paginate = new PaginateSupport(page);
             model.put("page",
                       this.playlistDao.getPlaylistList(loginUser, paginate));
             model.put("result", true);
@@ -291,9 +285,7 @@ public class FmService {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
         if (this.userDao.validateUserOnline(loginUser, model)) {
-            final PaginateSupport paginate = new PaginateSupport();
-            paginate.setPage(page);
-            paginate.setSize(size);
+            final PaginateSupport paginate = new PaginateSupport(page);
             model.put("page",
                       this.musicDao.getMusicCollectList(loginUser, paginate));
             model.put("result", true);
@@ -308,9 +300,7 @@ public class FmService {
                                                 final HttpServletRequest request) {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(size);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.put("searchQuery", searchQuery);
         model.put("page", this.fileDao.searchMusicTracks(searchQuery, paginate));
 

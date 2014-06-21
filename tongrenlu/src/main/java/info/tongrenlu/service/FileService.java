@@ -1,6 +1,7 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.domain.ArticleBean;
+import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
@@ -87,6 +88,93 @@ public class FileService {
                                         : this.convertPathLinux;
     }
 
+    public File getJpgFile(final String dirId, final String name) {
+        return this.getFile(dirId, name, FileService.JPG);
+    }
+
+    public void saveCover(final DtoBean dtoBean, final MultipartFile fileItem) {
+        String dirId = null;
+        if (dtoBean instanceof UserBean) {
+            dirId = FileService.CAT_USER + dtoBean.getId();
+        } else if (dtoBean instanceof MusicBean) {
+            dirId = FileService.CAT_MUSIC + dtoBean.getId();
+        } else if (dtoBean instanceof ComicBean) {
+            dirId = FileService.CAT_COMIC + dtoBean.getId();
+        } else {
+            return;
+        }
+        final File inputFile = this.getJpgFile(dirId, FileService.COVER);
+        if (fileItem != null && !fileItem.isEmpty()) {
+            this.saveUpload(fileItem, inputFile);
+            this.convertCover(inputFile, dirId);
+        } else {
+            if (!inputFile.exists()) {
+                for (final int size : FileService.COVER_SIZE_ARRAY) {
+                    this.copyDefaultCover(dirId, size);
+                }
+            }
+        }
+    }
+
+    protected void saveUpload(final MultipartFile fileItem, final File file) {
+        InputStream input = null;
+        OutputStream output = null;
+        try {
+            input = fileItem.getInputStream();
+            output = FileUtils.openOutputStream(file);
+            IOUtils.copy(input, output);
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            IOUtils.closeQuietly(input);
+            IOUtils.closeQuietly(output);
+        }
+    }
+
+    protected void convertCover(final File input,
+                                final File output,
+                                final int size) {
+        final ConvertCmd cmd = new ConvertCmd();
+        // cmd.setAsyncMode(true);
+        cmd.setSearchPath(this.getConvertPath());
+        // create the operation, add images and operators/options
+        final IMOperation op = new IMOperation();
+        op.density(72);
+        op.addImage(input.getAbsolutePath());
+        op.thumbnail(size, size, '>').crop(size, size, 0, 0);
+        op.addImage(output.getAbsolutePath());
+        // execute the operation
+        try {
+            cmd.run(op);
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        } catch (final InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (final IM4JavaException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void convertCover(final File inputFile, final String id) {
+        for (final int size : FileService.COVER_SIZE_ARRAY) {
+            final String name = String.format("%s_%d", FileService.COVER, size);
+            final File outputFile = this.getJpgFile(id, name);
+            this.convertCover(inputFile, outputFile, size);
+        }
+    }
+
+    public void copyDefaultCover(final String id, final int size) {
+        final String name = String.format("%s_%d", FileService.COVER, size);
+        final File src = this.getJpgFile("default", name);
+        final File dest = this.getJpgFile(id, name);
+
+        try {
+            FileUtils.copyFile(src, dest);
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // @Autowired
     // private MFileMapper fileMapper = null;
     // @Autowired
@@ -129,21 +217,6 @@ public class FileService {
         return fileBean;
     }
 
-    protected void saveUpload(final MultipartFile fileItem, final File file) {
-        InputStream input = null;
-        OutputStream output = null;
-        try {
-            input = fileItem.getInputStream();
-            output = FileUtils.openOutputStream(file);
-            IOUtils.copy(input, output);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            IOUtils.closeQuietly(input);
-            IOUtils.closeQuietly(output);
-        }
-    }
-
     public void convertThumbnail(final FileBean fileBean, final File inputFile) {
         for (final int size : FileService.COMIC_SIZE_ARRAY) {
             // final String name = fileBean.getId() + "_" + size;
@@ -161,10 +234,6 @@ public class FileService {
         final String track = FilenameUtils.getBaseName(fileBean.getName());
         trackBean.setTrack(StringUtils.left(track, 255));
         // this.trackMapper.insertTrack(trackBean);
-    }
-
-    public File getJpgFile(final String dirId, final String name) {
-        return this.getFile(dirId, name, FileService.JPG);
     }
 
     public File getMp3File(final String category,
@@ -226,47 +295,6 @@ public class FileService {
         }
     }
 
-    public void saveCoverFile(final ArticleBean articleBean,
-                              final MultipartFile fileItem) {
-        // final String id = articleBean.getArticleId();
-        // final String prefix = "cover";
-        // final File inputFile = this.getJpgFile(id, prefix);
-        // if (fileItem != null && !fileItem.isEmpty()) {
-        // this.saveUpload(fileItem, inputFile);
-        // this.convertCover(id, prefix);
-        // } else {
-        // if (!inputFile.exists()) {
-        // for (final int size : FileDao.COVER_SIZE_ARRAY) {
-        // this.copyDefaultCover(id, prefix + "_", size);
-        // }
-        // }
-        // }
-    }
-
-    public void convertCover(final File inputFile, final String id) {
-        for (final int size : FileService.COVER_SIZE_ARRAY) {
-            final String name = String.format("%s_%d", FileService.COVER, size);
-            final File outputFile = this.getJpgFile(id, name);
-            this.convertCover(inputFile, outputFile, size);
-        }
-    }
-
-    public void saveAvatarFile(final UserBean userBean,
-                               final MultipartFile fileItem) {
-        final String userId = FileService.CAT_USER + userBean.getId();
-        final File inputFile = this.getJpgFile(userId, FileService.COVER);
-        if (fileItem != null && !fileItem.isEmpty()) {
-            this.saveUpload(fileItem, inputFile);
-            this.convertCover(inputFile, userId);
-        } else {
-            if (!inputFile.exists()) {
-                for (final int size : FileService.COVER_SIZE_ARRAY) {
-                    this.copyDefaultCover(userId, FileService.COVER, size);
-                }
-            }
-        }
-    }
-
     protected void convertComic(final String input,
                                 final String output,
                                 final int size) {
@@ -280,30 +308,6 @@ public class FileService {
         op.addImage(input);
         op.thumbnail(size, size, '>');
         op.addImage(output);
-        // execute the operation
-        try {
-            cmd.run(op);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (final IM4JavaException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected void convertCover(final File input,
-                                final File output,
-                                final int size) {
-        final ConvertCmd cmd = new ConvertCmd();
-        // cmd.setAsyncMode(true);
-        cmd.setSearchPath(this.getConvertPath());
-        // create the operation, add images and operators/options
-        final IMOperation op = new IMOperation();
-        op.density(72);
-        op.addImage(input.getAbsolutePath());
-        op.thumbnail(size, size, '>').crop(size, size, 0, 0);
-        op.addImage(output.getAbsolutePath());
         // execute the operation
         try {
             cmd.run(op);
@@ -402,20 +406,6 @@ public class FileService {
         }
     }
 
-    public void copyDefaultCover(final String id,
-                                 final String type,
-                                 final int size) {
-        final String name = type + "_" + size;
-        final File src = this.getJpgFile("default", name);
-        final File dest = this.getJpgFile(id, name);
-
-        try {
-            FileUtils.copyFile(src, dest);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public Map<String, Object> prepareJpgFileBeanModel(final FileBean fileBean,
                                                        final HttpServletRequest request) {
 
@@ -479,7 +469,7 @@ public class FileService {
         // paginate.setItemCount(itemCount);
         paginate.compute();
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<TrackBean> items = this.trackMapper.getTrackList(param);
         // paginate.setItems(items);
         return paginate;

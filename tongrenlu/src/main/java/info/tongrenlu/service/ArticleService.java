@@ -105,14 +105,14 @@ public class ArticleService {
         model.put("result", false);
         final ArticleBean articleBean = this.articleDao.getArticleById(articleId);
         if (articleBean != null) {
-            String recommend = articleBean.getRecommend();
-            if (StringUtils.equals("1", recommend)) {
-                recommend = "0";
-            } else {
-                recommend = "1";
-            }
-            this.articleDao.recommend(articleBean, recommend);
-            model.put("recommend", recommend);
+            // String recommend = articleBean.getRecommend();
+            // if (StringUtils.equals("1", recommend)) {
+            // recommend = "0";
+            // } else {
+            // recommend = "1";
+            // }
+            // this.articleDao.recommend(articleBean, recommend);
+            // model.put("recommend", recommend);
             model.put("result", true);
         }
         return model;
@@ -128,9 +128,7 @@ public class ArticleService {
 
         model.addAttribute("searchQuery", searchQuery);
 
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         paginate.compute();
 
         model.addAttribute("page",

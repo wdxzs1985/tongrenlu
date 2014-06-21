@@ -18,11 +18,34 @@
         )
     </insert>
     
-    <update id="deleteByArticleId">
+    <select id="fetchTags" resultType="string">
+        SELECT 
+        <trim suffixOverrides=",">
+            m_tag.tag           as tag,
+        </trim>
+        FROM 
+            r_article_tag
+        LEFT JOIN 
+            m_tag 
+        ON r_article_tag.tag_id = m_tag.id
+        LEFT JOIN 
+            m_article 
+        ON r_article_tag.article_id = m_article.id
+        <where>
+            m_article.id = #{articleBean.id}
+        AND r_article_tag.del_flg = '0'
+        </where>
+    </select>
+    
+    <update id="delete">
         UPDATE R_ARTICLE_TAG
-        SET
+        <set>
             DEL_FLG = '1'
-        WHERE
+        </set>
+        <where>
+        <if test="articleBean!=null">
             ARTICLE_ID = #{articleBean.id}
+        </if>
+        </where>
     </update>
 </mapper>

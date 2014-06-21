@@ -21,8 +21,14 @@ public class TagManager {
         return this.tagMapper.fetchBean(param);
     }
 
-    public void insert(final TagBean tagBean) {
-        this.tagMapper.insert(tagBean);
+    public TagBean create(final String tag) {
+        TagBean tagBean = this.getByTag(tag);
+        if (tagBean == null) {
+            tagBean = new TagBean();
+            tagBean.setTag(tag);
+            this.tagMapper.insert(tagBean);
+        }
+        return tagBean;
     }
 
 }

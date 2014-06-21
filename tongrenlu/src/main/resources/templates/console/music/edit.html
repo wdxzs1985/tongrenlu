@@ -10,7 +10,7 @@
       <div class="page-header">
           <h4 th:text="#{console.music.input}"></h4>
       </div>
-      <form class="form-horizontal" th:action="@{/console/music/input}" method="post" enctype="multipart/form-data">
+      <form class="form-horizontal" th:action="@{/console/music/__${articleBean.id}__}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-sm-8">
               <div th:class="${#strings.isEmpty(titleError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">

@@ -4,19 +4,16 @@ import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.AritcleManager;
-import info.tongrenlu.manager.MusicDao;
-import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -28,25 +25,43 @@ public class ConsoleMusicService {
     private TagManager tagManager = null;
 
     @Transactional
-    public MusicBean doCreate(final MusicBean inputMusic,
-                              final MultipartFile cover,
-                              final String[] tags,
-                              final Map<String, Object> model,
-                              final Locale locale) {
+    public boolean doCreate(final MusicBean inputMusic,
+                            final String[] tags,
+                            final Map<String, Object> model,
+                            final Locale locale) {
         if (this.validateForCreate(inputMusic, model, locale)) {
-            this.aritcleManager.insertMusic(inputMusic);
+            this.aritcleManager.insert(inputMusic);
             for (final String tag : tags) {
-                TagBean tagBean = this.tagManager.getByTag(tag);
-                if (tagBean == null) {
-                    tagBean = new TagBean();
-                    tagBean.setTag(tag);
-                    this.tagManager.insert(tagBean);
-                }
-                this.aritcleManager.addArticleTag(inputMusic, tagBean);
+                final TagBean tagBean = this.tagManager.create(tag);
+                this.aritcleManager.addTag(inputMusic, tagBean);
             }
-            return inputMusic;
+            return true;
         }
-        return null;
+        return false;
+    }
+
+    @Transactional
+    public boolean doEdit(final MusicBean musicBean,
+                          final String[] tags,
+                          final Map<String, Object> model,
+                          final Locale locale) {
+        if (this.validateForEdit(musicBean, model, locale)) {
+            this.aritcleManager.update(musicBean);
+            this.aritcleManager.removeTags(musicBean);
+            for (final String tag : tags) {
+                final TagBean tagBean = this.tagManager.create(tag);
+                this.aritcleManager.addTag(musicBean, tagBean);
+            }
+            // TODO update solr document
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public void doDelete(final MusicBean musicBean) {
+        this.aritcleManager.delete(musicBean);
+        // TODO delete solr document
     }
 
     private boolean validateForCreate(final MusicBean inputArticle,
@@ -62,92 +77,42 @@ public class ConsoleMusicService {
         return isValid;
     }
 
-    @Autowired
-    private MusicDao musicDao = null;
-    @Autowired
-    protected FileService fileDao = null;
-    @Autowired
-    protected TagDao tagDao = null;
-    @Autowired
-    private SolrService solrService = null;
-
-    public String doGetIndex(final UserBean loginUser,
-                             final Integer page,
-                             final String searchQuery,
-                             final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        model.addAttribute("searchQuery", searchQuery);
-        model.addAttribute(this.musicDao.getConsoleMusicList(loginUser,
-                                                             searchQuery,
-                                                             paginate));
-        return "console/music/index";
+    private boolean validateForEdit(final MusicBean inputArticle,
+                                    final Map<String, Object> model,
+                                    final Locale locale) {
+        boolean isValid = true;
+        if (!this.aritcleManager.validateTitle(inputArticle.getTitle(),
+                                               "titleError",
+                                               model,
+                                               locale)) {
+            isValid = false;
+        }
+        return isValid;
     }
 
-    public String doGetEdit(final UserBean loginUser,
-                            final String articleId,
-                            final Model model) {
-        final MusicBean musicBean = this.musicDao.getMusicById(articleId, null);
-        if (musicBean == null) {
-            return "console/error/404";
-        }
-        if (!musicBean.getUserBean().equals(loginUser)) {
-            return "console/error/403";
-        }
-        model.addAttribute("articleBean", musicBean);
-        model.addAttribute(this.tagDao.getArticleTag(articleId));
-        return "console/music/edit";
+    public PaginateSupport<MusicBean> searchMusicByUser(final UserBean loginUser,
+                                                        final String query,
+                                                        final Integer pageNumber) {
+        final PaginateSupport<MusicBean> paginate = new PaginateSupport<>(pageNumber);
+        paginate.addParam("query", query);
+        paginate.addParam("userBean", loginUser);
+        paginate.setPageNumber(pageNumber);
+        final int itemCount = this.aritcleManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
 
+        final List<MusicBean> items = this.aritcleManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
+
+        return paginate;
     }
 
-    public String doPostEdit(final UserBean loginUser,
-                             final String articleId,
-                             final MusicBean musicBean,
-                             final MultipartFile cover,
-                             final String[] tagIdArray,
-                             final String[] tagArray,
-                             final Map<String, Object> model) {
-        final MusicBean music = this.musicDao.getMusicById(articleId, null);
-        if (music == null) {
-            return "console/error/404";
-        }
-        if (!musicBean.getUserBean().equals(loginUser)) {
-            return "console/error/403";
-        }
-        if (this.musicDao.validateEditMusic(musicBean, cover, model)) {
-            this.musicDao.editMusic(musicBean);
-            this.tagDao.addArticleTag(musicBean, tagIdArray);
-            this.fileDao.saveCoverFile(musicBean, cover);
-            this.solrService.createMusicIndex(musicBean, true);
-            return "redirect:/console/music";
-        }
-        model.put("articleBean", musicBean);
-        model.put("inputTagBeanList",
-                  this.tagDao.resolveInputTagBeanList(tagIdArray, tagArray));
-        return "console/music/edit";
+    public MusicBean getById(final Integer id) {
+        return this.aritcleManager.getMusicById(id);
     }
 
-    public String doGetDelete(final UserBean loginUser, final String articleId) {
-        final MusicBean musicBean = this.musicDao.getMusicById(articleId, null);
-        if (musicBean == null) {
-            return "console/error/404";
-        }
-        if (!musicBean.getUserBean().equals(loginUser)) {
-            return "console/error/403";
-        }
-        this.musicDao.deleteMusic(musicBean);
-        return "redirect:/console/music";
+    public List<String> getTags(final MusicBean musicBean) {
+        return this.aritcleManager.getTags(musicBean);
     }
 
-    public String doGetCollect(final UserBean loginUser,
-                               final Integer page,
-                               final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
-        model.addAttribute(this.musicDao.getMusicCollectList(loginUser,
-                                                             paginate));
-        return "console/music/collect";
-    }
 }

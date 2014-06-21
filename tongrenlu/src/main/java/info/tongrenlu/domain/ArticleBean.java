@@ -23,7 +23,7 @@ public class ArticleBean extends DtoBean {
 
     private Date publishDate;
 
-    private String recommend;
+    private String recommendFlg;
 
     private int accessCount = 0;
 
@@ -95,12 +95,12 @@ public class ArticleBean extends DtoBean {
         this.collectCount = collectCount;
     }
 
-    public String getRecommend() {
-        return this.recommend;
+    public String getRecommendFlg() {
+        return this.recommendFlg;
     }
 
-    public void setRecommend(final String recommend) {
-        this.recommend = recommend;
+    public void setRecommendFlg(final String recommendFlg) {
+        this.recommendFlg = recommendFlg;
     }
 
 }

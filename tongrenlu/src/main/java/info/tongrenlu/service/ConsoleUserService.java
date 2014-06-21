@@ -168,9 +168,7 @@ public class ConsoleUserService {
         // return "home/error/404";
         // }
         // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         // model.addAttribute("page",
         // this.userDao.getFollowList(userBean, paginate));
         if (loginUser != null) {
@@ -190,9 +188,7 @@ public class ConsoleUserService {
         // return "home/error/404";
         // }
         // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         // model.addAttribute("page", this.userDao.getFansList(userBean,
         // paginate));
 
@@ -219,9 +215,7 @@ public class ConsoleUserService {
         // return "home/error/404";
         // }
         // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         // model.addAttribute("page", this.comicDao.getUserComicList(userBean,
         // redFlg,
         // translateFlg,
@@ -244,9 +238,7 @@ public class ConsoleUserService {
         // return "home/error/404";
         // }
         // model.addAttribute(userBean);
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         // model.addAttribute("page",
         // this.musicDao.getUserMusicList(userBean, paginate));
 
@@ -261,9 +253,7 @@ public class ConsoleUserService {
     public String doGetConsoleFollow(final UserBean userBean,
                                      final Integer page,
                                      final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("page",
                            this.userDao.getFollowList(userBean, paginate));
         return "console/user/follow";
@@ -272,9 +262,7 @@ public class ConsoleUserService {
     public String doGetConsoleFans(final UserBean userBean,
                                    final Integer page,
                                    final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("page", this.userDao.getFansList(userBean, paginate));
         return "console/user/fans";
     }
@@ -282,9 +270,7 @@ public class ConsoleUserService {
     public Map<String, Object> doGetTimeline(final UserBean userBean,
                                              final Integer page) {
         final Map<String, Object> model = new HashMap<String, Object>();
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         // final String userId = userBean.getUserId();
         // model.put("page", this.timelineDao.getMyTimeline(userId, paginate));
         return model;

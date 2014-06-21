@@ -44,9 +44,7 @@ public class AdminMusicService {
     public String doGetMusicIndex(final Integer page,
                                   final String searchQuery,
                                   final Model model) {
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("searchQuery", searchQuery);
         // model.addAttribute(this.musicDao.getAdminMusicList(paginate,
         // searchQuery));

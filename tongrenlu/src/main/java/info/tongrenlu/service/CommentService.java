@@ -26,9 +26,7 @@ public class CommentService {
                                                    final ArticleBean articleBean,
                                                    final Integer page) {
         final Map<String, Object> model = new HashMap<String, Object>();
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(50);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.put("page",
                   this.commentDao.getArticleCommentList(articleBean, paginate));
         return model;

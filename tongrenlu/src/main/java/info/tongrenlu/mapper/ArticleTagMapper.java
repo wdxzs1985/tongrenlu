@@ -1,11 +1,15 @@
 package info.tongrenlu.mapper;
 
-import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ArticleTagBean;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ArticleTagMapper {
 
     public void insert(ArticleTagBean articleTagBean);
 
-    public void deleteByArticleId(ArticleBean articleBean);
+    public List<String> fetchTags(Map<String, Object> param);
+
+    public void delete(Map<String, Object> param);
 }

@@ -15,4 +15,77 @@
         </trim>
         )
     </insert>
+    
+    <select id="countForSearch" resultType="int">
+        SELECT 
+            count(m_article.id)
+        FROM
+            m_article
+        left join r_music on r_music.id = m_article.id
+        <where>
+            <if test="userBean != null">
+            AND m_article.user_id = #{userBean.id}
+            </if>
+            <if test="query != null">
+            <bind name="pattern" value="'%' + query + '%'" />
+            AND (m_article.title LIKE #{pattern}
+            OR  m_article.description LIKE #{pattern})
+            </if>
+            AND r_music.del_flg = '0'
+        </where>
+    </select>
+    
+    <select id="fetchListForSearch" resultType="MusicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            m_article.id as id,
+            m_article.title as title,
+            m_article.description as description,
+            m_article.publish_flg as publishFlg,
+            m_article.recommend_flg as recommendFlg,
+        </trim>
+        FROM
+            m_article
+        left join r_music on r_music.id = m_article.id
+        <where>
+            <if test="userBean != null">
+            AND m_article.user_id = #{userBean.id}
+            </if>
+            <if test="query != null">
+            <bind name="pattern" value="'%' + query + '%'" />
+            AND (m_article.title LIKE #{pattern}
+            OR  m_article.description LIKE #{pattern})
+            </if>
+            AND r_music.del_flg = '0'
+        </where>
+        order by id desc
+        limit #{start}, #{pageSize}
+    </select>
+    
+    <select id="fetchBean" resultType="MusicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            m_article.id as id,
+            m_article.title as title,
+            m_article.description as description,
+        </trim>
+        FROM
+            m_article
+        left join r_music on r_music.id = m_article.id
+        <where>
+                r_music.id = #{id}
+            AND r_music.del_flg = '0'
+        </where>
+    </select>
+    
+    <update id="delete">
+        UPDATE r_music
+        <set>
+            del_flg = '1'
+        </set>
+        <where>
+            id = #{id}
+        AND del_flg = '0'
+        </where>
+    </update>
 </mapper>

@@ -3,7 +3,7 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="layout">
 <head>
-  <title th:inline="text">[[#{application.name}]]</title>
+  <title th:inline="text">[[#{console}]]</title>
 </head>
 <body>
 <div class="navbar navbar-default navbar-static-top" layout:fragment="header">
@@ -11,9 +11,7 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
         th:href="@{/console}" 
-        th:text="#{application.name}">
-          application.name
-      </a>
+        th:text="#{console}"></a>
     </div>
       <ul class="nav navbar-nav navbar-left">
         <li id="nav-music" class="dropdown">
@@ -23,14 +21,12 @@
           <ul class="dropdown-menu">
             <th:block th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
             <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
-            <li ><a th:href="@{/console/music}" th:text="#{console.music.list}"></a></li>
-            <li class="divider"></li>
+            <li ><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
             </th:block>
             <th:block th:if="${session.LOGIN_USER.admin}">
-            <li ><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
             <li class="divider"></li>
+            <li ><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
             </th:block>
-            <li ><a th:href="@{/console/fav/music}" th:text="#{console.fav.music}"></a></li>
           </ul>
         </li>
         <li id="nav-comic" class="dropdown">
@@ -40,18 +36,26 @@
           <ul class="dropdown-menu">
             <th:block th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
             <li ><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
-            <li ><a th:href="@{/console/comic}" th:text="#{console.comic.list}"></a></li>
-            <li class="divider"></li>
+            <li ><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
             </th:block>
             <th:block th:if="${session.LOGIN_USER.admin}">
-            <li ><a th:href="@{/admin/comic}" th:text="#{admin.comic}"></a></li>
             <li class="divider"></li>
+            <li ><a th:href="@{/admin/comic}" th:text="#{admin.comic}"></a></li>
             </th:block>
+          </ul>
+        </li>
+        <li id="nav-fav" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+            <span th:text="#{console.fav}"></span> <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li ><a th:href="@{/console/fav/music}" th:text="#{console.fav.music}"></a></li>
             <li ><a th:href="@{/console/fav/comic}" th:text="#{console.fav.comic}"></a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li ><a th:href="@{/}" th:text="#{application}"></a></li>
         <li id="nav-console" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span id="nav-nickname" th:text="${session.LOGIN_USER}"></span> <b class="caret"></b>
@@ -59,7 +63,7 @@
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console/setting}" th:text="#{console.profile.setting}"></a></li>
             <li class="divider"></li>
-            <li ><a th:href="@{/signout}" th:text="#{signout}"></a></li>
+            <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
           </ul>
         </li>
       </ul>

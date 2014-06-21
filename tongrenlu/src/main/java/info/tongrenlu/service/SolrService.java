@@ -111,7 +111,7 @@ public class SolrService {
         final String escaped = this.escapeForSolr(searchQuery);
         params.setQuery(String.format("index_ja:%s", escaped));
         params.add("start", String.valueOf(paginate.getStart() - 1));
-        params.add("rows", String.valueOf(paginate.getSize()));
+        params.add("rows", String.valueOf(paginate.getPageSize()));
         try {
             final QueryResponse response = this.solrServer.query(params);
             final SolrDocumentList docs = response.getResults();
@@ -129,46 +129,46 @@ public class SolrService {
     }
 
     public static final String[] ESCAPE_CHARS = new String[] { "\\",
-            "+",
-            "-",
-            "&",
-            "|",
-            "!",
-            "(",
-            ")",
-            "{",
-            "}",
-            "[",
-            "]",
-            "^",
-            "~",
-            "*",
-            "?",
-            ":",
-            "\"",
-            ";",
-            " " };
+                                                              "+",
+                                                              "-",
+                                                              "&",
+                                                              "|",
+                                                              "!",
+                                                              "(",
+                                                              ")",
+                                                              "{",
+                                                              "}",
+                                                              "[",
+                                                              "]",
+                                                              "^",
+                                                              "~",
+                                                              "*",
+                                                              "?",
+                                                              ":",
+                                                              "\"",
+                                                              ";",
+                                                              " " };
 
     public static final String[] ESCAPED_CHARS = new String[] { "\\\\",
-            "\\+",
-            "\\-",
-            "\\&",
-            "\\|",
-            "\\!",
-            "\\(",
-            "\\)",
-            "\\{",
-            "\\}",
-            "\\[",
-            "\\]",
-            "\\^",
-            "\\~",
-            "\\*",
-            "\\?",
-            "\\:",
-            "\\\"",
-            "\\;",
-            "\\ " };
+                                                               "\\+",
+                                                               "\\-",
+                                                               "\\&",
+                                                               "\\|",
+                                                               "\\!",
+                                                               "\\(",
+                                                               "\\)",
+                                                               "\\{",
+                                                               "\\}",
+                                                               "\\[",
+                                                               "\\]",
+                                                               "\\^",
+                                                               "\\~",
+                                                               "\\*",
+                                                               "\\?",
+                                                               "\\:",
+                                                               "\\\"",
+                                                               "\\;",
+                                                               "\\ " };
 
     public String escapeForSolr(final String input) {
         return StringUtils.replaceEach(input,

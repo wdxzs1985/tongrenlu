@@ -38,7 +38,7 @@ public class PlaylistDao {
 
         // param.put("order", "A.ARTICLE_ID DESC");
         param.put("start", paginate.getStart());
-        param.put("end", paginate.getEnd());
+        // param.put("end", paginate.getEnd());
         // final List<PlaylistBean> items =
         // this.playlistMapper.getPlaylistList(param);
         // paginate.setItems(items);

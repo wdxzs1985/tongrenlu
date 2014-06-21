@@ -1,50 +1,70 @@
 package info.tongrenlu.support;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class PaginateSupport {
+public class PaginateSupport<T> {
 
-    private Integer page = null;
+    private int pageNumber = 1;
 
-    private Integer size = null;
+    private int pageSize = 10;
 
-    private Integer itemCount = null;
+    private int pageCount = 0;
 
-    private List<?> items = null;
+    private int itemCount;
 
-    private int pagenum = 0;
+    private List<T> items;
 
-    private int start = 0;
+    private Map<String, Object> params;
 
-    private int end = 0;
+    public PaginateSupport(final Integer pageNumber) {
+        this(pageNumber, 10);
+    }
+
+    public PaginateSupport(final Integer pageNumber, final Integer pageSize) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.itemCount = 0;
+        this.items = new ArrayList<>();
+        this.params = new HashMap<>();
+    }
 
     public void compute() {
-        if (this.page == null || this.page <= 0) {
-            this.page = 1;
-        }
-        if (this.size == null || this.size <= 0) {
-            this.size = 10;
-        }
-        if (this.itemCount == null) {
-            this.itemCount = 0;
-        }
-        this.pagenum = this.itemCount / this.size
-                       + (this.itemCount % this.size == 0 ? 0 : 1);
+        // init
+        this.itemCount = Math.max(this.itemCount, 0);
+        this.pageNumber = Math.max(this.pageNumber, 1);
+        this.pageSize = Math.max(this.pageSize, 10);
+        this.pageCount = 0;
 
-        this.start = (this.page - 1) * this.size + 1;
-        this.end = this.page * this.size;
+        // pageCount
+        final int mod = this.itemCount % this.pageSize;
+        this.pageCount = (this.itemCount - mod) / this.pageSize + 1;
+        this.pageNumber = Math.min(this.pageNumber, this.pageCount);
+
+        this.params.put("start", this.getStart());
+        this.params.put("pageSize", this.getPageSize());
+    }
+
+    public int getStart() {
+        return (this.pageNumber - 1) * this.pageSize;
     }
 
     public boolean isFirst() {
-        return this.page == 1;
+        return this.pageNumber == 1;
     }
 
     public boolean isLast() {
-        return this.page == this.pagenum;
+        return this.pageNumber == this.pageCount;
     }
 
-    public int getPagenum() {
-        return this.pagenum;
+    public int getPageCount() {
+        return this.pageCount;
+    }
+
+    public void setPageCount(final int pageCount) {
+        this.pageCount = pageCount;
     }
 
     public int getItemCount() {
@@ -55,36 +75,37 @@ public class PaginateSupport {
         this.itemCount = itemCount;
     }
 
-    public List<?> getItems() {
+    public List<T> getItems() {
         return this.items;
     }
 
-    public void setItems(final List<?> items) {
+    public void setItems(final List<T> items) {
         this.items = items;
     }
 
-    public int getStart() {
-        return this.start;
+    public int getPageNumber() {
+        return this.pageNumber;
     }
 
-    public int getEnd() {
-        return this.end;
+    public void setPageNumber(final int pageNumber) {
+        this.pageNumber = pageNumber;
     }
 
-    public Integer getPage() {
-        return this.page;
+    public int getPageSize() {
+        return this.pageSize;
     }
 
-    public void setPage(final Integer page) {
-        this.page = page;
+    public void setPageSize(final int pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public Integer getSize() {
-        return this.size;
+    public Map<String, Object> getParams() {
+        return this.params;
     }
 
-    public void setSize(final Integer size) {
-        this.size = size;
+    public PaginateSupport<T> addParam(final String key, final Object value) {
+        this.params.put(key, value);
+        return this;
     }
 
 }

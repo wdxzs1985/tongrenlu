@@ -104,11 +104,11 @@ public class LoginController {
         userBean.setPassword(password);
         userBean.setPassword2(password2);
 
-        final UserBean newUser = this.loginService.doSignup(userBean,
-                                                            model.asMap(),
-                                                            locale);
-        if (newUser != null) {
-            this.fileService.saveAvatarFile(newUser, null);
+        final boolean result = this.loginService.doSignup(userBean,
+                                                          model.asMap(),
+                                                          locale);
+        if (result) {
+            this.fileService.saveCover(userBean, null);
             return "redirect:/signup/finish";
         }
 
@@ -145,12 +145,12 @@ public class LoginController {
         final UserBean inputUser = new UserBean();
         inputUser.setEmail(StringUtils.lowerCase(email));
         inputUser.setNickname(nickname);
-        final UserBean userBean = this.loginService.doFindForgotUser(inputUser,
-                                                                     model.asMap(),
-                                                                     locale);
-        if (userBean != null) {
+        final boolean result = this.loginService.doFindForgotUser(inputUser,
+                                                                  model.asMap(),
+                                                                  locale);
+        if (result) {
             request.getSession().setAttribute(LoginController.FORGOT_USER,
-                                              userBean);
+                                              inputUser);
             return "login/forgot_change";
         } else {
             model.addAttribute("userBean", inputUser);
@@ -191,7 +191,6 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/forgot/finish")
     public String doGetForgotFinish(final Model model) {
-        // send mail
         return "login/forgot_finish";
     }
 }

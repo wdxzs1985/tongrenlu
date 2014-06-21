@@ -5,7 +5,7 @@ CREATE TABLE `M_ARTICLE` (
   `description` text,
   `publish_flg` char(1) NOT NULL default '0',
   `publish_date` timestamp NULL default NULL,
-  `recommend` char(1) NOT NULL default '0',
+  `recommend_flg` char(1) NOT NULL default '0',
   `upd_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `del_flg` char(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)

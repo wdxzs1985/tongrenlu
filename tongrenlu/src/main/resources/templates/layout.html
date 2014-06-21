@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
-  <title th:inline="text">[[#{application.name}]]</title>
+  <title th:inline="text">[[#{application}]]</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" th:href="@{/bootstrap-3.1.1/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" th:href="@{/tongrenlu/css/screen.css}"/>
 </head>
 <body>
 <div layout:fragment="header"></div>
@@ -13,10 +14,7 @@
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
-        th:href="@{/}" 
-        th:text="#{application.name}">
-          application
-      </a>
+        th:href="@{/}" th:text="#{application}"></a>
     </div>
   </div>
 </div>

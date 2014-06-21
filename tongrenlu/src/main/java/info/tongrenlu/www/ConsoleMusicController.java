@@ -2,9 +2,13 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.exception.ForbiddenException;
+import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.FileService;
+import info.tongrenlu.support.PaginateSupport;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +43,8 @@ public class ConsoleMusicController {
     @RequestMapping(method = RequestMethod.POST, value = "/console/music/input")
     public String doPostInput(final String title,
                               final String description,
-                              final MultipartFile cover,
                               @RequestParam(value = "tags[]", required = false) final String[] tags,
+                              @RequestParam final MultipartFile cover,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
                               final Locale locale) {
@@ -49,13 +53,12 @@ public class ConsoleMusicController {
         inputMusic.setTitle(title);
         inputMusic.setDescription(description);
 
-        final MusicBean musicBean = this.musicService.doCreate(inputMusic,
-                                                               cover,
-                                                               tags,
-                                                               model.asMap(),
-                                                               locale);
-        if (musicBean != null) {
-            this.fileService.saveCoverFile(musicBean, cover);
+        final boolean result = this.musicService.doCreate(inputMusic,
+                                                          tags,
+                                                          model.asMap(),
+                                                          locale);
+        if (result) {
+            this.fileService.saveCover(inputMusic, cover);
             return "redirect:/console/music/finish";
         }
 
@@ -70,47 +73,86 @@ public class ConsoleMusicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music")
-    public String doGetIndex(@RequestParam(required = false) final Integer page,
-                             @RequestParam(required = false) final String q,
+    public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                             @RequestParam(value = "q", required = false) final String query,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
-        return this.musicService.doGetIndex(loginUser, page, q, model);
+        final PaginateSupport<MusicBean> page = this.musicService.searchMusicByUser(loginUser,
+                                                                                    query,
+                                                                                    pageNumber);
+        model.addAttribute("page", page);
+        return "console/music/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}")
-    public String doGetEdit(@PathVariable final String articleId,
+    public String doGetEdit(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
-        return this.musicService.doGetEdit(loginUser, articleId, model);
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+
+        final List<String> tags = this.musicService.getTags(musicBean);
+
+        model.addAttribute("articleBean", musicBean);
+        model.addAttribute("tags", tags);
+
+        return "console/music/edit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}")
-    public String doPostEdit(@PathVariable final String articleId,
-                             @ModelAttribute final MusicBean musicBean,
-                             @RequestParam(value = "tagId[]", required = false) final String[] tagIdArray,
-                             @RequestParam(value = "tag[]", required = false) final String[] tagArray,
+    public String doPostEdit(@PathVariable final Integer articleId,
+                             final String title,
+                             final String description,
+                             @RequestParam(value = "tags[]", required = false) final String[] tags,
                              @RequestParam final MultipartFile cover,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model) {
-        return this.musicService.doPostEdit(loginUser,
-                                            articleId,
-                                            musicBean,
-                                            cover,
-                                            tagIdArray,
-                                            tagArray,
-                                            model.asMap());
+                             final Model model,
+                             final Locale locale) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+
+        musicBean.setTitle(title);
+        musicBean.setDescription(description);
+
+        final boolean result = this.musicService.doEdit(musicBean,
+                                                        tags,
+                                                        model.asMap(),
+                                                        locale);
+
+        if (result) {
+            this.fileService.saveCover(musicBean, cover);
+            return "redirect:/console/music";
+        }
+
+        model.addAttribute("articleBean", musicBean);
+        model.addAttribute("tags", tags);
+
+        return "console/music/edit";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/delete")
-    public String doGetDelete(@PathVariable final String articleId,
+    public String doGetDelete(@PathVariable final Integer articleId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
-        return this.musicService.doGetDelete(loginUser, articleId);
-    }
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/collect")
-    public String doGetCollect(@RequestParam(required = false) final Integer page,
-                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                               final Model model) {
-        return this.musicService.doGetCollect(loginUser, page, model);
+        this.musicService.doDelete(musicBean);
+
+        return "redirect:/console/music";
     }
 }

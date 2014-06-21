@@ -14,7 +14,7 @@
         <where>
             A.TAG LIKE #{pattern}
         </where>
-        limit 1,10
+        limit 0, 10
     </select>
     
     <select id="fetchBean" resultType="TagBean">

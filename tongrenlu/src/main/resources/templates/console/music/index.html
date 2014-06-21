@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+  <body>
+    <div class="container" layout:fragment="content">
+        <div class="row">
+            <div class="col-sm-8">
+                <ul class="nav nav-tabs">
+                  <li class=""><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
+                  <li class="active"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
+                  <li class=""><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <form th:action="@{/console/music}" method="get">
+                            <div class="input-group">
+                              <input type="text" class="form-control" />
+                              <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
+                              </div><!-- /btn-group -->
+                            </div><!-- /input-group -->
+                        </form>
+                        <hr />
+                        <ul class="media-list">
+                          <li class="media" th:each="articleBean : ${page.items}">
+                            <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                              <img class="media-object" src="http://placehold.it/120x120" th:alt-title="${articleBean.title}" />
+                            </a>
+                            <div class="media-body">
+                                <div class="btn-group-vertical pull-right">
+                                    <a href="#" class="btn btn-default" th:text="#{console.article.preview}"></a>
+                                    <a th:href="@{/console/music/__${articleBean.id}__/delete}" class="btn btn-default" th:text="#{console.article.delete}"></a>
+                                </div>
+                              <h4 class="media-heading" >
+                                <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                                <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
+                              </h4>
+                              <p th:text="${#strings.length(articleBean.description)} gt 100 ? ${#strings.substring(articleBean.description,0,100)} : ${articleBean.description}"></p>
+                            </div>
+                          </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

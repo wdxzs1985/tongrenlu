@@ -3,6 +3,11 @@ package info.tongrenlu.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_DEFAULT)
 public abstract class DtoBean implements Serializable {
 
     /**
@@ -12,8 +17,10 @@ public abstract class DtoBean implements Serializable {
 
     private Integer id;
 
+    @JsonIgnore
     private Date updDate;
 
+    @JsonIgnore
     private String delFlg;
 
     public Integer getId() {

@@ -28,11 +28,11 @@
                   </a>
                   <div class="caption">
                     <h5 th:text="${userProfileBean}" class="text-center"></h5>
-                    <p th:text="${userProfileBean.signature}">...</p>
+                    <p th:text="${userProfileBean.signature}"></p>
                     <p class="text-right">
-                        <a th:href="@{/console/setting}" class="btn btn-link btn-xz" 
+                        <a th:href="@{/console/setting}" class="btn btn-link btn-xs" 
                             th:text="#{console.profile.setting}"></a>
-                        <a th:href="@{/console/password}" class="btn btn-link btn-xz" 
+                        <a th:href="@{/console/password}" class="btn btn-link btn-xs" 
                             th:text="#{console.profile.password}"></a>
                     </p>
                   </div>

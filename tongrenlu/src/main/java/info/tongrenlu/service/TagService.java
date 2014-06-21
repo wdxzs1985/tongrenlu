@@ -123,9 +123,7 @@ public class TagService {
             // userId = loginUser.getUserId();
         }
 
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("page", this.comicDao.getComicList(null,
                                                               tagId,
                                                               redFlg,
@@ -154,9 +152,7 @@ public class TagService {
             // userId = loginUser.getUserId();
         }
 
-        final PaginateSupport paginate = new PaginateSupport();
-        paginate.setPage(page);
-        paginate.setSize(10);
+        final PaginateSupport paginate = new PaginateSupport(page);
         model.addAttribute("page", this.musicDao.getMusicList(null,
                                                               tagId,
                                                               userId,

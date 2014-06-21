@@ -7,14 +7,31 @@
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO M_ARTICLE(
         <trim suffixOverrides=",">
+            user_id,
             title,
             description,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
+            #{userBean.id},
             #{title},
             #{description},
         </trim>
         )
     </insert>
+    
+    <update id="update">
+        UPDATE M_ARTICLE
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
 </mapper>
