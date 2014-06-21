@@ -3,14 +3,14 @@
 <head>
   <title th:inline="text">[[#{application}]]</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" th:href="@{/bootstrap-3.1.1/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" href="http://static.tongrenlu.info/bootstrap-3.1.1/css/bootstrap.min.css"/>
   <link rel="stylesheet" th:href="@{/tongrenlu/css/screen.css}"/>
 </head>
 <body>
 <div layout:fragment="header"></div>
 <div layout:fragment="content"></div>
 <div layout:fragment="footer">
-<div class="navbar navbar-fixed-bottom" layout:fragment="footer">
+<div class="navbar navbar-static-bottom" layout:fragment="footer">
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
@@ -19,8 +19,8 @@
   </div>
 </div>
 </div>
-<script th:src="@{/jquery/jquery-2.1.0.min.js}" ></script>
-<script th:src="@{/bootstrap-3.1.1/js/bootstrap.min.js}" ></script>
+<script src="http://static.tongrenlu.info/jquery/jquery-2.1.0.min.js" ></script>
+<script src="http://static.tongrenlu.info/bootstrap-3.1.1/js/bootstrap.min.js" ></script>
 <th:block layout:fragment="scripts-libs"></th:block>
 <th:block layout:fragment="scripts"></th:block>
 </body>

@@ -1,7 +1,6 @@
 package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.mapper.UserMapper;
 
 import java.util.HashMap;
@@ -45,12 +44,6 @@ public class UserManager {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("id", id);
         return this.userMapper.fetchBean(param);
-    }
-
-    public UserProfileBean getProfileById(final Integer id) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("id", id);
-        return this.userMapper.fetchProfile(param);
     }
 
     public void insert(final UserBean userBean) {

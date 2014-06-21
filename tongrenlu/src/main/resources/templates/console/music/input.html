@@ -3,7 +3,7 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
   <head>
-    <link th:href="@{/magicsuggest-2.0.5/magicsuggest-min.css}" rel="stylesheet" />
+    <link href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container" layout:fragment="content">
@@ -73,7 +73,7 @@
       </form>
     </div>
 <th:block layout:fragment="scripts-libs">
-<script th:src="@{/magicsuggest-2.0.5/magicsuggest-min.js}" ></script>
+<script src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
 </th:block>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">

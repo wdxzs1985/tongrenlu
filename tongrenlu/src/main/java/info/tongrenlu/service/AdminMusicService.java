@@ -1,9 +1,10 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.FileBean;
+import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.manager.AritcleManager;
 import info.tongrenlu.manager.ArticleDao;
 import info.tongrenlu.manager.TagDao;
-import info.tongrenlu.mapper.MusicMapper;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -25,7 +26,23 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdminMusicService {
 
     @Autowired
-    private MusicMapper musicMapper = null;
+    private AritcleManager aritcleManager = null;
+
+    public PaginateSupport<MusicBean> searchMusic(final String query,
+                                                  final Integer pageNumber) {
+        final PaginateSupport<MusicBean> paginate = new PaginateSupport<>(pageNumber);
+        paginate.addParam("query", query);
+        paginate.setPageNumber(pageNumber);
+        final int itemCount = this.aritcleManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<MusicBean> items = this.aritcleManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
+
+        return paginate;
+    }
+
     @Autowired
     private ArticleDao articleDao = null;
     @Autowired
@@ -34,22 +51,6 @@ public class AdminMusicService {
     private TagDao tagDao = null;
     @Autowired
     private SolrService solrService = null;
-
-    public int countUnpublish() {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("publishFlg", "0");
-        return 0;
-    }
-
-    public String doGetMusicIndex(final Integer page,
-                                  final String searchQuery,
-                                  final Model model) {
-        final PaginateSupport paginate = new PaginateSupport(page);
-        model.addAttribute("searchQuery", searchQuery);
-        // model.addAttribute(this.musicDao.getAdminMusicList(paginate,
-        // searchQuery));
-        return "admin/music/index";
-    }
 
     public String doGetMusicView(final String articleId, final Model model) {
         // final MusicBean musicBean = this.musicDao.getMusicById(articleId,

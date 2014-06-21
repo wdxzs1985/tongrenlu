@@ -49,21 +49,6 @@
         </where>
     </select>
     
-    <select id="fetchProfile" resultType="UserProfileBean">
-        SELECT
-        <trim suffixOverrides=",">
-            U.id                    as id,
-            U.NICKNAME              as nickname,
-            U.signature             as signature,
-        </trim>
-        FROM
-            M_USER U
-        <where>
-            U.DEL_FLG = '0'
-        AND U.id = #{id}
-        </where>
-    </select>
-    
     <update id="update">
         UPDATE
             M_USER

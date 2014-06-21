@@ -24,11 +24,7 @@
                       <li><a href="#" class="btn btn-default">function1</a></li>
                       <li><a href="#" class="btn btn-default">function2</a></li>
                   </ul>
-                  <pre>Cras sit amet nibh libero, in gravida 
-nulla. Nulla vel metus scelerisque 
-tempus viverra turpis. Fusce condimentum nunc ac 
-nisi vulputate 
-fringilla. Donec lacinia congue felis in faucibus.</pre>
+                  <pre>Cras sit amet nibh libero, in gravida </pre>
                   <ul class="list-inline">
                       <li><strong>Tags :</strong></li>
                       <li th:each="circle : ${articleBean.circleList}">
@@ -48,8 +44,8 @@ fringilla. Donec lacinia congue felis in faucibus.</pre>
                 <div class="col-md-6">
                     <div id="player" class="">
                         <div class="page-header">
-				            <a th:href="@{/__${articleBean.articleId}__/track}" 
-				                class="btn btn-default pull-right">edit</a>
+                            <a th:href="@{/__${articleBean.articleId}__/track}" 
+                                class="btn btn-default pull-right">edit</a>
                             <h3>player</h3>
                         </div>
                         <div id="jquery_jplayer_1" class="jp-jplayer"></div>

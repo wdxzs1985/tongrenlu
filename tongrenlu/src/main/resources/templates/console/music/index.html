@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
+<head>
+<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+</head>
   <body>
     <div class="container" layout:fragment="content">
         <div class="row">
@@ -9,38 +12,47 @@
                 <ul class="nav nav-tabs">
                   <li class=""><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
                   <li class="active"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-                  <li class=""><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
+                  <li class="" th:if="${session.LOGIN_USER.admin}"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active">
                         <form th:action="@{/console/music}" method="get">
                             <div class="input-group">
-                              <input type="text" class="form-control" />
+                              <input type="text" class="form-control" name="q" th:value="${page.params.query}"/>
                               <div class="input-group-btn">
-                                <button type="button" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
+                                <button type="submit" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
                               </div><!-- /btn-group -->
                             </div><!-- /input-group -->
                         </form>
                         <hr />
-                        <ul class="media-list">
-                          <li class="media" th:each="articleBean : ${page.items}">
-                            <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                              <img class="media-object" src="http://placehold.it/120x120" th:alt-title="${articleBean.title}" />
-                            </a>
-                            <div class="media-body">
-                                <div class="btn-group-vertical pull-right">
-                                    <a href="#" class="btn btn-default" th:text="#{console.article.preview}"></a>
-                                    <a th:href="@{/console/music/__${articleBean.id}__/delete}" class="btn btn-default" th:text="#{console.article.delete}"></a>
-                                </div>
-                              <h4 class="media-heading" >
-                                <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                                <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
-                              </h4>
-                              <p th:text="${#strings.length(articleBean.description)} gt 100 ? ${#strings.substring(articleBean.description,0,100)} : ${articleBean.description}"></p>
-                            </div>
-                          </li>
-                        </ul>
+                        <th:block th:unless="${#lists.isEmpty(page.items)}">
+	                        <ul class="media-list">
+	                          <li class="media" th:each="articleBean : ${page.items}">
+	                            <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+	                              <img class="media-object" src="http://placehold.it/120x120" th:alt-title="${articleBean.title}" />
+	                            </a>
+	                            <div class="media-body">
+	                              <h5 class="media-heading" >
+	                                <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
+	                                <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
+	                                <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
+	                              </h5>
+	                              <p th:text="${#strings.length(articleBean.description)} gt 200 ? ${#strings.substring(articleBean.description,0,200)} : ${articleBean.description}"></p>
+	                              <ul class="list-inline text-right">
+                                    <li><a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-default" th:text="#{console.article.edit}"></a></li>
+                                    <li><a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-primary" th:text="#{console.music.track.upload}"></a></li>
+                                    <li><a th:href="@{/console/music/__${articleBean.id}__/booklet/upload}" class="btn btn-primary" th:text="#{console.music.booklet.upload}"></a></li>
+                                    <li><a th:href="@{/console/music/__${articleBean.id}__/delete}" class="btn btn-danger" th:text="#{console.article.delete}"></a></li>
+                                  </ul>
+	                            </div>
+	                          </li>
+	                        </ul>
+                            <div id="jpaginate" class="hidden-xs hidden-sm"></div>
+                        </th:block>
+                        <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                            <h4 th:text="#{console.article.noData}"></h4>
+                            <a th:href="@{/console/music/input}" th:text="#{console.music.input}" class="btn btn-primary"></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,5 +60,31 @@
             </div>
         </div>
     </div>
+<th:block layout:fragment="scripts-libs">
+<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+</th:block>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $("#jpaginate").paginate({
+        count       : /*[[${page.pageCount}]]*/ 20,
+        start       : /*[[${page.pageNumber}]]*/ 1,
+        display     : 10,
+        border                  : true,
+        border_color            : '#fff',
+        text_color              : '#fff',
+        background_color        : '#428bca',  
+        border_hover_color      : '#3498db',
+        text_hover_color        : '#fff',
+        background_hover_color  : '#2980b9', 
+        images                  : false,
+        onChange                : function (currval){
+            window.location.href = /*[[@{/console/music(p=${i}, q=${page.params.query})}]]*/ '/console/music';
+            return false;
+        }
+    });
+});
+</script>
+</th:block>
   </body>
 </html>

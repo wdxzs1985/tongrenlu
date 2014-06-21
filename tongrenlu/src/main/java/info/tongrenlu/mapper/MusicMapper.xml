@@ -22,6 +22,7 @@
         FROM
             m_article
         left join r_music on r_music.id = m_article.id
+        left join m_user on m_user.id = m_article.user_id
         <where>
             <if test="userBean != null">
             AND m_article.user_id = #{userBean.id}
@@ -38,15 +39,18 @@
     <select id="fetchListForSearch" resultType="MusicBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_article.id as id,
-            m_article.title as title,
-            m_article.description as description,
-            m_article.publish_flg as publishFlg,
+            m_article.id            as id,
+            m_article.title         as title,
+            m_article.description   as description,
+            m_article.publish_flg   as publishFlg,
             m_article.recommend_flg as recommendFlg,
+            m_user.id               as "userBean.id",
+            m_user.nickname         as "userBean.nickname",
         </trim>
         FROM
             m_article
         left join r_music on r_music.id = m_article.id
+        left join m_user on m_user.id = m_article.user_id
         <where>
             <if test="userBean != null">
             AND m_article.user_id = #{userBean.id}
@@ -65,13 +69,17 @@
     <select id="fetchBean" resultType="MusicBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_article.id as id,
-            m_article.title as title,
-            m_article.description as description,
+            m_article.id            as id,
+            m_article.title         as title,
+            m_article.description   as description,
+            m_user.id               as "userBean.id",
+            m_user.nickname         as "userBean.nickname",
+            m_user.signature        as "userBean.signature",
         </trim>
         FROM
             m_article
         left join r_music on r_music.id = m_article.id
+        left join m_user on m_user.id = m_article.user_id
         <where>
                 r_music.id = #{id}
             AND r_music.del_flg = '0'

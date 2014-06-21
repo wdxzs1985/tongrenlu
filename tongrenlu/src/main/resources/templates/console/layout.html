@@ -9,35 +9,30 @@
 <div class="navbar navbar-default navbar-static-top" layout:fragment="header">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="index.html"
-        th:href="@{/console}" 
-        th:text="#{console}"></a>
+      <a class="navbar-brand"
+         th:href="@{/console}" th:text="#{console}"></a>
     </div>
       <ul class="nav navbar-nav navbar-left">
-        <li id="nav-music" class="dropdown">
+        <li id="nav-music" class="dropdown" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span th:text="#{console.music}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <th:block th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
             <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
             <li ><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-            </th:block>
             <th:block th:if="${session.LOGIN_USER.admin}">
             <li class="divider"></li>
             <li ><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
             </th:block>
           </ul>
         </li>
-        <li id="nav-comic" class="dropdown">
+        <li id="nav-comic" class="dropdown" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span th:text="#{console.comic}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <th:block th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
             <li ><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
             <li ><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
-            </th:block>
             <th:block th:if="${session.LOGIN_USER.admin}">
             <li class="divider"></li>
             <li ><a th:href="@{/admin/comic}" th:text="#{admin.comic}"></a></li>

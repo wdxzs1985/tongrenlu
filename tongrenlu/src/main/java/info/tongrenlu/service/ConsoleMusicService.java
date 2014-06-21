@@ -2,7 +2,6 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
-import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.AritcleManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
@@ -90,21 +89,13 @@ public class ConsoleMusicService {
         return isValid;
     }
 
-    public PaginateSupport<MusicBean> searchMusicByUser(final UserBean loginUser,
-                                                        final String query,
-                                                        final Integer pageNumber) {
-        final PaginateSupport<MusicBean> paginate = new PaginateSupport<>(pageNumber);
-        paginate.addParam("query", query);
-        paginate.addParam("userBean", loginUser);
-        paginate.setPageNumber(pageNumber);
+    public void searchMusic(final PaginateSupport<MusicBean> paginate) {
         final int itemCount = this.aritcleManager.countMusic(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
         final List<MusicBean> items = this.aritcleManager.searchMusic(paginate.getParams());
         paginate.setItems(items);
-
-        return paginate;
     }
 
     public MusicBean getById(final Integer id) {

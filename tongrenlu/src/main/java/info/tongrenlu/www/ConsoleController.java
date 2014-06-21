@@ -1,7 +1,6 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.service.ConsoleUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,8 @@ public class ConsoleController {
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
         final Integer id = loginUser.getId();
-        final UserProfileBean userProfileBean = this.userService.getProfileById(id);
-        model.addAttribute("userProfileBean", userProfileBean);
+        final UserBean userBean = this.userService.getById(id);
+        model.addAttribute("userBean", userBean);
         return "console/index";
     }
 

@@ -1,7 +1,6 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.manager.ComicDao;
 import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TimelineDao;
@@ -28,8 +27,8 @@ public class ConsoleUserService {
     @Autowired
     private MessageSource messageSource = null;
 
-    public UserProfileBean getProfileById(final Integer id) {
-        return this.userManager.getProfileById(id);
+    public UserBean getById(final Integer id) {
+        return this.userManager.getById(id);
     }
 
     public boolean saveSetting(final UserBean inputUser,
