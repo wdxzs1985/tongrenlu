@@ -29,7 +29,9 @@
 	                        <ul class="media-list">
 	                          <li class="media" th:each="articleBean : ${page.items}">
 	                            <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-	                              <img class="media-object" src="http://placehold.it/120x120" th:alt-title="${articleBean.title}" />
+	                              <img class="media-object" src="http://placehold.it/120x120" 
+                                       th:src="@{/files/m__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
+	                                   th:alt-title="${articleBean.title}" />
 	                            </a>
 	                            <div class="media-body">
 	                              <h5 class="media-heading" >

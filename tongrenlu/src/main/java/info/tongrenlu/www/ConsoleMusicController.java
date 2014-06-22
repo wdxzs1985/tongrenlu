@@ -1,5 +1,6 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
@@ -8,11 +9,13 @@ import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.FileService;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -194,16 +197,86 @@ public class ConsoleMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/track/file")
     @ResponseBody
-    public Map<String, Object> doGetTrackFile(@PathVariable final Integer articleId) {
+    public Map<String, Object> doGetTrackFile(@PathVariable final Integer articleId,
+                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+
         final Map<String, Object> model = new HashMap<String, Object>();
+        final List<FileBean> files = this.musicService.getTrackFiles(musicBean);
+        model.put("files", files);
         return model;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/track/file")
     @ResponseBody
     public Map<String, Object> doPostTrackFile(@PathVariable final Integer articleId,
-                                               @RequestParam(value = "files[]") final MultipartFile[] files) {
+                                               @RequestParam(value = "files[]") final MultipartFile[] uploads,
+                                               @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+
         final Map<String, Object> model = new HashMap<String, Object>();
+        final List<FileBean> files = new ArrayList<>();
+        if (ArrayUtils.isNotEmpty(uploads)) {
+            for (final MultipartFile upload : uploads) {
+                final FileBean fileBean = this.musicService.addTrackFile(articleId,
+                                                                         upload);
+                files.add(fileBean);
+            }
+        }
+
+        model.put("files", files);
         return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/{fileId}/delete")
+    @ResponseBody
+    public Map<String, Object> doPostTrackDelete(@PathVariable final Integer articleId,
+                                                 @PathVariable final Integer fileId,
+                                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+
+        final Map<String, Object> model = new HashMap<String, Object>();
+        final FileBean fileBean = new FileBean();
+        fileBean.setId(fileId);
+        fileBean.setArticleId(articleId);
+        this.musicService.removeTrackFile(fileBean);
+
+        model.put("result", true);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/track/sort")
+    public String doGetTrackSort(@PathVariable final Integer articleId,
+                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                 final Model model) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+
+        model.addAttribute("articleBean", musicBean);
+
+        return "console/music/track_sort";
     }
 }

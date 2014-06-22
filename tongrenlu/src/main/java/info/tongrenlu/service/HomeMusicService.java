@@ -116,14 +116,14 @@ public class HomeMusicService {
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
                                         : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("title", trackBean.getTrack());
-        model.put("artist", trackBean.getArtist());
-        model.put("original", trackBean.getOriginalTitle());
-        model.put("mp3", FILE_PATH + "/"
-                         + trackBean.getMusicBean().getId()
-                         + "/"
-                         + trackBean.getFileBean().getId()
-                         + ".mp3");
+        // model.put("title", trackBean.getTrack());
+        // model.put("artist", trackBean.getArtist());
+        // model.put("original", trackBean.getOriginalTitle());
+        // model.put("mp3", FILE_PATH + "/"
+        // + trackBean.getMusicBean().getId()
+        // + "/"
+        // + trackBean.getFileBean().getId()
+        // + ".mp3");
         // model.put("poster", FILE_PATH
         // + "/"
         // + trackBean.getFileBean().getArticleId()
@@ -154,12 +154,12 @@ public class HomeMusicService {
                                         : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                                + fileBean.getArticleBean().getId()
+                                + fileBean.getArticleId()
                                 + "/"
                                 + fileBean.getId()
                                 + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                               + fileBean.getArticleBean().getId()
+                               + fileBean.getArticleId()
                                + "/"
                                + fileBean.getId()
                                + "_1600.jpg");

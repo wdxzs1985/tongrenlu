@@ -11,5 +11,5 @@ public interface ArticleTagMapper {
 
     public List<String> fetchTags(Map<String, Object> param);
 
-    public void delete(Map<String, Object> param);
+    public void delete(ArticleTagBean articleTagBean);
 }

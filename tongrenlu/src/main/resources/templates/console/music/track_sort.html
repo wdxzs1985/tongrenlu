@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+  <head>
+    <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload.css" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload-ui.css" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
+  </head>
+  <body>
+    <div class="container" layout:fragment="content">
+      <form th:action="@{/console/music/__${articleBean.id}__/track/sort}" method="POST">
+        <div class="page-header">
+            <h3 >
+              <span th:text="${articleBean.title}"></span>
+              <small th:text="#{console.article.sort}"></small>
+            </h3>
+        </div>
+        <!-- The file upload form used as target for the file upload widget -->
+        <div class="row">
+          <div class="col-xs-6 text-left">
+            <a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span th:text="#{console.music.track.upload}"></span>
+            </a>
+          </div>
+          <div class="col-xs-6 text-right">
+            <button type="submit" th:href="@{/console/music/__${articleBean.id}__/track/sort}" class="btn btn-success">
+                <span th:text="#{console.article.sort}"></span>
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+<th:block layout:fragment="scripts-libs">
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl" th:inline="text">
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+</script>
+</th:block>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:inline="javascript">
+$(function () {
+
+});
+</script>
+</th:block>
+  </body>
+</html>

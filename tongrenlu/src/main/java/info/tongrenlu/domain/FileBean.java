@@ -11,7 +11,7 @@ public class FileBean extends DtoBean {
      */
     private static final long serialVersionUID = 1L;
 
-    private ArticleBean articleBean = null;
+    private Integer articleId = null;
 
     private String name = null;
 
@@ -43,12 +43,12 @@ public class FileBean extends DtoBean {
         this.orderNo = orderNo;
     }
 
-    public ArticleBean getArticleBean() {
-        return this.articleBean;
+    public Integer getArticleId() {
+        return this.articleId;
     }
 
-    public void setArticleBean(final ArticleBean articleBean) {
-        this.articleBean = articleBean;
+    public void setArticleId(final Integer articleId) {
+        this.articleId = articleId;
     }
 
 }

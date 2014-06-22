@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.FileMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+        INSERT INTO M_FILE(
+        <trim suffixOverrides=",">
+            NAME,
+            EXTENSION,
+            ARTICLE_ID,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{name},
+            #{extension},
+            #{articleId},
+        </trim>
+        )
+    </insert>
+    
+    <select id="fetchList" resultType="FileBean">
+        SELECT
+        <trim suffixOverrides=",">
+            A.ID            as id,
+            A.NAME          as name,
+            A.EXTENSION     as extension,
+            A.ARTICLE_ID    as articleId,
+            A.ORDER_NO      as orderNo,
+        </trim>
+        FROM
+            M_FILE A
+        <where>
+            A.ARTICLE_ID = #{articleId}
+        <if test="extension">
+        AND A.EXTENSION = #{extension}
+        </if>
+        AND A.DEL_FLG = '0'
+        </where>
+        ORDER BY
+            A.ORDER_NO, A.NAME, A.ID
+    </select>
+    
+    <select id="fetchBean" resultType="FileBean">
+        SELECT
+        <trim suffixOverrides=",">
+            A.ID            as id,
+            A.NAME          as name,
+            A.EXTENSION     as extension,
+            A.ARTICLE_ID    as articleId,
+            A.ORDER_NO      as orderNo,
+        </trim>
+        FROM
+            M_FILE A
+        <where>
+            A.ID = #{id}
+        AND A.DEL_FLG = '0'
+        </where>
+    </select>
+    
+    <update id="delete" flushCache="true">
+        UPDATE M_FILE A
+        <set>
+            DEL_FLG = '1'
+        </set>
+        <where>
+            A.ID = #{id}
+        AND A.DEL_FLG = '0'
+        </where>
+    </update>
+    
+    <update id="update" flushCache="true">
+        UPDATE M_FILE A
+        <set>
+            ORDER_NO = #{orderNo}
+        </set>
+        <where>
+            A.ID = #{id}
+        AND A.DEL_FLG = '0'
+        </where>
+    </update>
+</mapper>

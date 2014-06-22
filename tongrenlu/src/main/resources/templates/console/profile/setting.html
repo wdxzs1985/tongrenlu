@@ -73,9 +73,8 @@
             </div>
             <div class="col-sm-4">
                 <div class="thumbnail">
-                  <a href="javascript:;" >
-                    <img src="http://placehold.it/400x400" alt="..." />
-                  </a>
+                    <img src="http://placehold.it/400x400" alt="..." 
+                         th:src="@{/files/u__${userBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
                   <div class="caption">
                     <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
                   </div>

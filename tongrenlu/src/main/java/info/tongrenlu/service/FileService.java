@@ -232,7 +232,7 @@ public class FileService {
         final TrackBean trackBean = new TrackBean();
         trackBean.setFileBean(fileBean);
         final String track = FilenameUtils.getBaseName(fileBean.getName());
-        trackBean.setTrack(StringUtils.left(track, 255));
+        trackBean.setName(StringUtils.left(track, 255));
         // this.trackMapper.insertTrack(trackBean);
     }
 
@@ -349,7 +349,7 @@ public class FileService {
 
             final TrackBean trackBean = new TrackBean();
             trackBean.setFileBean(fileBean);
-            trackBean.setTrack(songTitleArray[i]);
+            // trackBean.setTrack(songTitleArray[i]);
 
             if (ArrayUtils.isNotEmpty(leadArtistArray)) {
                 trackBean.setArtist(leadArtistArray[i]);
@@ -409,55 +409,57 @@ public class FileService {
     public Map<String, Object> prepareJpgFileBeanModel(final FileBean fileBean,
                                                        final HttpServletRequest request) {
 
-        final String serverName = request.getServerName();
-        final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
-                                                                                                      "192.168.11.");
-        final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
-
+        // final String serverName = request.getServerName();
+        // final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1")
+        // || StringUtils.contains(serverName,
+        // "192.168.11.");
+        // final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
+        // : "/resource";
+        //
         final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("name", fileBean.getName());
-        // model.put("size", fileBean.getSize());
-        model.put("url", FILE_PATH + "/"
-                         + fileBean.getArticleBean().getId()
-                         + "/"
-                         + fileBean.getId()
-                         + "_800.jpg");
-        model.put("thumbnailUrl", FILE_PATH + "/"
-                                  + fileBean.getArticleBean().getId()
-                                  + "/"
-                                  + fileBean.getId()
-                                  + "_120.jpg");
-        model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                               + fileBean.getId()
-                               + "/delete");
-        model.put("deleteType", "GET");
+        // model.put("name", fileBean.getName());
+        // // model.put("size", fileBean.getSize());
+        // model.put("url", FILE_PATH + "/"
+        // + fileBean.getArticleBean().getId()
+        // + "/"
+        // + fileBean.getId()
+        // + "_800.jpg");
+        // model.put("thumbnailUrl", FILE_PATH + "/"
+        // + fileBean.getArticleBean().getId()
+        // + "/"
+        // + fileBean.getId()
+        // + "_120.jpg");
+        // model.put("deleteUrl", request.getContextPath() + "/admin/file/"
+        // + fileBean.getId()
+        // + "/delete");
+        // model.put("deleteType", "GET");
         return model;
     }
 
     public Map<String, Object> prepareMp3FileBeanModel(final FileBean fileBean,
                                                        final HttpServletRequest request) {
-        final String serverName = request.getServerName();
-        final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
-                                                                                                      "192.168.11.");
-        final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
-
+        // final String serverName = request.getServerName();
+        // final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1")
+        // || StringUtils.contains(serverName,
+        // "192.168.11.");
+        // final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
+        // : "/resource";
+        //
         final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("name", fileBean.getName());
-        // model.put("size", fileBean.getSize());
-        model.put("url", FILE_PATH + "/"
-                         + fileBean.getArticleBean().getId()
-                         + "/"
-                         + fileBean.getId()
-                         + ".mp3");
-        model.put("thumbnailUrl", FILE_PATH + "/"
-                                  + fileBean.getArticleBean().getId()
-                                  + "/cover_60.jpg");
-        model.put("deleteUrl", request.getContextPath() + "/admin/file/"
-                               + fileBean.getId()
-                               + "/delete");
-        model.put("deleteType", "GET");
+        // model.put("name", fileBean.getName());
+        // // model.put("size", fileBean.getSize());
+        // model.put("url", FILE_PATH + "/"
+        // + fileBean.getArticleBean().getId()
+        // + "/"
+        // + fileBean.getId()
+        // + ".mp3");
+        // model.put("thumbnailUrl", FILE_PATH + "/"
+        // + fileBean.getArticleBean().getId()
+        // + "/cover_60.jpg");
+        // model.put("deleteUrl", request.getContextPath() + "/admin/file/"
+        // + fileBean.getId()
+        // + "/delete");
+        // model.put("deleteType", "GET");
         return model;
     }
 

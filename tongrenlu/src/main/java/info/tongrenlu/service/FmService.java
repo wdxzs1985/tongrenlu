@@ -89,26 +89,27 @@ public class FmService {
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? FmService.LOCAL_RESOURCE
                                         : FmService.REMOTE_RESOURCE;
-        final Integer articleId = trackBean.getMusicBean().getId();
+        // final Integer articleId = trackBean.getMusicBean().getId();
         final Integer fileId = trackBean.getFileBean().getId();
-        final String title = trackBean.getTrack();
+        // final String title = trackBean.getTrack();
         final String artist = trackBean.getArtist();
         final String original = trackBean.getOriginalTitle();
-        final String album = trackBean.getMusicBean().getTitle();
+        // final String album = trackBean.getMusicBean().getTitle();
 
         final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("articleId", articleId);
-        model.put("fileId", fileId);
-        model.put("album", album);
-        model.put("title", title);
+        // model.put("articleId", articleId);
+        // model.put("fileId", fileId);
+        // model.put("album", album);
+        // model.put("title", title);
         if (StringUtils.isNotBlank(artist)) {
             model.put("artist", artist);
         }
         if (StringUtils.isNotBlank(original)) {
             model.put("original", original);
         }
-        model.put("mp3", FILE_PATH + "/" + articleId + "/" + fileId + ".mp3");
-        model.put("poster", FILE_PATH + "/" + articleId + "/cover_400.jpg");
+        // model.put("mp3", FILE_PATH + "/" + articleId + "/" + fileId +
+        // ".mp3");
+        // model.put("poster", FILE_PATH + "/" + articleId + "/cover_400.jpg");
         return model;
     }
 

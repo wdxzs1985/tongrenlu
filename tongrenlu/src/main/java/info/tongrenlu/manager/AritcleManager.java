@@ -2,12 +2,16 @@ package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ArticleTagBean;
+import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
+import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.mapper.ArticleMapper;
 import info.tongrenlu.mapper.ArticleTagMapper;
+import info.tongrenlu.mapper.FileMapper;
 import info.tongrenlu.mapper.MusicMapper;
 import info.tongrenlu.mapper.TagMapper;
+import info.tongrenlu.mapper.TrackMapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +39,10 @@ public class AritcleManager {
     private MusicMapper musicMapper = null;
     @Autowired
     private TagMapper tagMapper = null;
+    @Autowired
+    private FileMapper fileMapper = null;
+    @Autowired
+    private TrackMapper trackMapper = null;
 
     public void insert(final ArticleBean articleBean) {
         this.articleMapper.insert(articleBean);
@@ -78,15 +86,39 @@ public class AritcleManager {
     }
 
     public void removeTags(final ArticleBean articleBean) {
-        final Map<String, Object> param = new HashMap<>();
-        param.put("articleBean", articleBean);
-        this.articleTagMapper.delete(param);
+        final ArticleTagBean articleTagBean = new ArticleTagBean();
+        articleTagBean.setArticleBean(articleBean);
+        this.articleTagMapper.delete(articleTagBean);
     }
 
     public MusicBean getMusicById(final Integer id) {
         final Map<String, Object> param = new HashMap<>();
         param.put("id", id);
         return this.musicMapper.fetchBean(param);
+    }
+
+    public List<FileBean> getFiles(final Integer articleId,
+                                   final String extension) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("articleId", articleId);
+        param.put("extension", extension);
+        return this.fileMapper.fetchList(param);
+    }
+
+    public void addFile(final FileBean fileBean) {
+        this.fileMapper.insert(fileBean);
+    }
+
+    public void deleteFile(final FileBean fileBean) {
+        this.fileMapper.delete(fileBean);
+    }
+
+    public void addTrack(final TrackBean trackBean) {
+        this.trackMapper.insert(trackBean);
+    }
+
+    public void deleteTrack(final TrackBean trackBean) {
+        this.trackMapper.delete(trackBean);
     }
 
     public boolean validateTitle(final String title,

@@ -15,9 +15,7 @@ public class TrackBean extends DtoBean {
 
     private FileBean fileBean = null;
 
-    private MusicBean musicBean = null;
-
-    private String track = null;
+    private String name = null;
 
     private String artist = null;
 
@@ -47,28 +45,20 @@ public class TrackBean extends DtoBean {
         this.originalTitle = originalTitle;
     }
 
-    public MusicBean getMusicBean() {
-        return this.musicBean;
-    }
-
-    public void setMusicBean(final MusicBean musicBean) {
-        this.musicBean = musicBean;
-    }
-
-    public String getTrack() {
-        return this.track;
-    }
-
-    public void setTrack(final String track) {
-        this.track = track;
-    }
-
     public String getArtist() {
         return this.artist;
     }
 
     public void setArtist(final String artist) {
         this.artist = artist;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 
 }
