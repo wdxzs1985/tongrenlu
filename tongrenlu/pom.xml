@@ -48,11 +48,6 @@
             <artifactId>im4java</artifactId>
             <version>1.4.0</version>
         </dependency>
-	    <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.5.2</version>
-        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
