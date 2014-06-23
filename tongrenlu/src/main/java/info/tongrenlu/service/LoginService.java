@@ -1,6 +1,7 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.UserManager;
 
 import java.util.Locale;
@@ -22,6 +23,8 @@ public class LoginService {
     private UserManager userManager = null;
     @Autowired
     private MessageSource messageSource = null;
+    @Autowired
+    private FileManager fileManager = null;
 
     @Transactional
     public UserBean doSignIn(final UserBean inputUser,

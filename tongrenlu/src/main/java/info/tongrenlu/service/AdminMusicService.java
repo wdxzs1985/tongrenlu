@@ -88,11 +88,12 @@ public class AdminMusicService {
                                                    final HttpServletRequest request) {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
-        final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileService.MP3);
-        for (final FileBean fileBean : files) {
-            fileList.add(this.fileDao.prepareMp3FileBeanModel(fileBean, request));
-        }
+        // final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
+        // FileService.MP3);
+        // for (final FileBean fileBean : files) {
+        // fileList.add(this.fileDao.prepareMp3FileBeanModel(fileBean,
+        // request));
+        // }
         modelMap.put("files", fileList);
         return modelMap;
     }
@@ -104,10 +105,11 @@ public class AdminMusicService {
         final List<Object> fileList = new ArrayList<Object>();
         if (ArrayUtils.isNotEmpty(files)) {
             for (final MultipartFile fileItem : files) {
-                final FileBean fileBean = this.fileDao.createMusicTrackInfo(articleId,
-                                                                            fileItem);
-                fileList.add(this.fileDao.prepareMp3FileBeanModel(fileBean,
-                                                                  request));
+                // final FileBean fileBean =
+                // this.fileDao.createMusicTrackInfo(articleId,
+                // fileItem);
+                // fileList.add(this.fileDao.prepareMp3FileBeanModel(fileBean,
+                // request));
             }
         }
         modelMap.put("files", fileList);
@@ -158,11 +160,12 @@ public class AdminMusicService {
                                                 final HttpServletRequest request) {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
-        final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileService.JPG);
-        for (final FileBean fileBean : files) {
-            fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean, request));
-        }
+        // final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
+        // FileService.JPG);
+        // for (final FileBean fileBean : files) {
+        // fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean,
+        // request));
+        // }
         modelMap.put("files", fileList);
         return modelMap;
     }

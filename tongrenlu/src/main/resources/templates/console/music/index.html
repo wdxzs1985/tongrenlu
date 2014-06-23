@@ -29,7 +29,7 @@
 	                        <ul class="media-list">
 	                          <li class="media" th:each="articleBean : ${page.items}">
 	                            <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-	                              <img class="media-object" src="http://placehold.it/120x120" 
+	                              <img class="media-object img-120" src="http://placehold.it/120x120" 
                                        th:src="@{/files/m__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
 	                                   th:alt-title="${articleBean.title}" />
 	                            </a>
@@ -39,7 +39,7 @@
 	                                <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
 	                                <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
 	                              </h5>
-	                              <p th:text="${#strings.length(articleBean.description)} gt 200 ? ${#strings.substring(articleBean.description,0,200)} : ${articleBean.description}"></p>
+                                  <p th:text="${articleBean.description}" class="text-single-line"></p>
 	                              <ul class="list-inline text-right">
                                     <li><a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-default" th:text="#{console.article.edit}"></a></li>
                                     <li><a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-primary" th:text="#{console.music.track.upload}"></a></li>

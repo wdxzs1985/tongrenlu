@@ -18,13 +18,45 @@
         )
     </insert>
     
+    <update id="update" flushCache="true">
+        UPDATE M_TRACK
+        <set>
+            name = #{name},
+            artist = #{artist},
+            original = #{original},
+            instrumental = #{instrumental},
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
     <update id="delete" flushCache="true">
         UPDATE M_TRACK
         <set>
-            del_flg = '0'
+            del_flg = '1'
         </set>
         <where>
             id = #{fileBean.id}
         </where>
     </update>
+    
+    <select id="fetchList" resultType="TrackBean">
+        SELECT
+        <trim suffixOverrides=",">
+            M_TRACK.ID              as "id",
+            M_TRACK.NAME            as "name",
+            M_TRACK.ARTIST          as "artist",
+            M_TRACK.INSTRUMENTAL    as "instrumental",
+            M_TRACK.ORIGINAL        as "original",
+        </trim>
+        FROM
+            M_FILE 
+        LEFT JOIN M_TRACK ON M_FILE.ID = M_TRACK.ID
+        LEFT JOIN M_ARTICLE ON M_FILE.ARTICLE_ID = M_ARTICLE.ID
+        <where>
+            M_ARTICLE.ID = #{articleId}
+        </where>
+        ORDER BY M_FILE.ORDER_NO
+    </select>
 </mapper>

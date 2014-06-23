@@ -147,4 +147,22 @@ public class ConsoleMusicService {
 
         this.fileManager.deleteFile(fileBean);
     }
+
+    public List<TrackBean> getTrackList(final Integer articleId) {
+        return this.aritcleManager.getTrackList(articleId);
+    }
+
+    @Transactional
+    public void updateTrack(final List<TrackBean> trackList) {
+        for (final TrackBean trackBean : trackList) {
+            this.aritcleManager.updateTrack(trackBean);
+            this.aritcleManager.updateFile(trackBean.getFileBean());
+        }
+    }
+
+    @Transactional
+    public void publish(final MusicBean musicBean) {
+        this.aritcleManager.publish(musicBean);
+    }
+
 }

@@ -30,7 +30,7 @@
                   </a>
                   <div class="caption">
                     <h5 th:text="${userBean}" class="text-center"></h5>
-                    <p th:text="${userBean.signature}"></p>
+                    <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
                     <p class="text-right">
                         <a th:href="@{/console/setting}" class="btn btn-link btn-xs" 
                             th:text="#{console.profile.setting}"></a>

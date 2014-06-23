@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+  <head>
+    <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
+  </head>
+  <body>
+    <div class="container" layout:fragment="content">
+      <div class="page-header">
+          <h1 th:text="${articleBean.title}"></h1>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="page-header">
+              <a class="btn btn-default pull-right"
+                th:href="@{/admin/music/__${articleBean.id}__/booklet}"
+                th:text="#{console.music.booklet.upload}">upload</a>
+              <h4 th:text="#{console.music.booklet}">booklet</h4>
+          </div>
+          <a href="#" class="thumbnail">
+              <img src="http://placehold.it/400x400" class="img-responsive" 
+                   th:src="@{/files/m__${articleBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${articleBean.title}"/>
+          </a>
+        </div>
+        <div class="col-sm-8">
+          <div class="page-header">
+              <a class="btn btn-default pull-right"
+                th:href="@{/admin/music/__${articleBean.id}__/track/upload}"
+                th:text="#{console.music.track.upload}">upload</a>
+              <h4 th:text="#{console.music.track}">player</h4>
+          </div>
+          <div id="player" class="">
+              <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+              <div id="jp_container_1" class="jp-audio">
+                  <div class="jp-type-playlist">
+                      <div class="jp-gui jp-interface">
+                          <div class="jp-progress">
+                              <div class="jp-current-time"></div>
+                              <div class="jp-duration"></div>
+                              <div class="jp-seek-bar">
+                                  <div class="jp-play-bar"></div>
+                              </div>
+                          </div>
+                          <ul class="jp-toggles">
+                              <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a></li>
+                              <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a></li>
+                              <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
+                              <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
+                          </ul>
+                          <ul class="jp-controls">
+                              <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a></li>
+                              <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a></li>
+                              <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a></li>
+                              <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a></li>
+                              <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a></li>
+                          </ul>
+                          <ul class="jp-volumn hidden-xs">
+                              <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
+                              <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
+                              <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
+                          </ul>
+                          <div class="jp-volume-bar hidden-xs">
+                                  <div class="jp-volume-bar-value"></div>
+                          </div>
+                      </div>
+                      <div class="jp-playlist">
+                          <ul>
+                              <li></li>
+                          </ul>
+                      </div>
+                      <div class="jp-no-solution">
+                          <span>Update Required</span>
+                          To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+       </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="page-header">
+              <a class="btn btn-default pull-right"
+                th:href="@{/admin/music/__${articleBean.id}__/edit}"
+                th:text="#{button.edit}">edit</a>
+              <h4 th:text="${articleBean.title}"></h4>
+          </div>
+          <pre th:text="${articleBean.description}"></pre>
+          <ul class="list-inline">
+              <li><strong>Tags :</strong></li>
+              <li th:each="tag : ${tags}">
+                <a href="#" class="btn btn-xs btn-default" >
+                  <span th:text="${tag}"></span>
+                </a>
+              </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="page-header">
+                <h4 th:text="#{console.article.owner}"></h4>
+            </div>
+            <div class="media">
+                <a class="pull-left" th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
+                  <img class="media-object" src="http://placehold.it/60x60" th:alt-title="${articleBean.userBean}" 
+                       th:src="@{/files/u__${articleBean.userBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}" />
+                </a>
+                <div class="media-body">
+                  <h5 class="media-heading" >
+                    <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
+                  </h5>
+                  <p th:text="${articleBean.userBean.signature}"></p>
+                </div>
+            </div>
+            <hr />
+            <ul class="list-inline">
+                <li>
+                  <a href="#" class="btn btn-success" th:text="#{admin.article.publish}"></a>
+                  <a th:href="@{/admin/music}" class="btn btn-default" th:text="#{button.back}"></a>
+                </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+<th:block layout:fragment="scripts-libs">
+<script src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
+<script src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
+</th:block>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $(function(){
+        $('#player .list-group-item > pre').hide()
+        $('#player .list-group-item').hover(function(){
+            $(this).find('pre').show();
+        }, function(){
+            $(this).find('pre').hide();
+        });
+        
+        var tracklist = /*[[${trackList}]]*/ [];
+        
+        var myPlaylist = new jPlayerPlaylist({
+            jPlayer: "#jquery_jplayer_1",
+            cssSelectorAncestor: "#jp_container_1"
+        }, tracklist, {
+            playlistOptions: {
+                enableRemoveControls: true
+            },
+            swfPath: /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js',
+            supplied: 'mp3',
+            smoothPlayBar: true,
+            keyEnabled: true,
+            audioFullScreen: true
+        });
+    
+    });
+});
+</script>
+</th:block>
+  </body>
+</html>

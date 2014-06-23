@@ -109,13 +109,12 @@
                   <h5 class="media-heading" >
                     <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
                   </h5>
-                  <p th:text="${#strings.length(articleBean.userBean.signature)} gt 80 ? ${#strings.substring(articleBean.userBean.signature,0,80)} : ${articleBean.userBean.signature}"></p>
+                  <p th:text="${articleBean.userBean.signature}"></p>
                 </div>
             </div>
             <hr />
             <ul class="list-inline">
                 <li>
-                  <a href="#" class="btn btn-success" th:text="#{admin.music.publish}" th:if="${session.LOGIN_USER.admin}"></a>
                   <a th:href="@{/console/music}" class="btn btn-default" th:text="#{button.back}"></a>
                 </li>
             </ul>

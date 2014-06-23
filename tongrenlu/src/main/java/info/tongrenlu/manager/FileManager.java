@@ -6,7 +6,6 @@ import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.FileService;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +15,8 @@ import java.io.OutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
@@ -27,15 +28,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManager {
 
     public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-                                                            90,
-                                                            120,
-                                                            180,
-                                                            400 };
+            90,
+            120,
+            180,
+            400 };
     public static final int[] COMIC_SIZE_ARRAY = new int[] { 120,
-                                                            300,
-                                                            800,
-                                                            1200,
-                                                            1600 };
+            300,
+            800,
+            1200,
+            1600 };
 
     public static final String USER = "u";
     public static final String COMIC = "c";
@@ -46,6 +47,8 @@ public class FileManager {
 
     public static final String JPG = "jpg";
     public static final String MP3 = "mp3";
+
+    private Log log = LogFactory.getLog(this.getClass());
 
     @Value("${file.inputPathWindows}")
     private String inputPathWindows = null;
@@ -67,17 +70,17 @@ public class FileManager {
 
     public String getInputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                                        : this.inputPathLinux;
+                : this.inputPathLinux;
     }
 
     public String getOutputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                                        : this.outputPathLinux;
+                : this.outputPathLinux;
     }
 
     public String getConvertPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                                        : this.convertPathLinux;
+                : this.convertPathLinux;
     }
 
     public void saveCover(final DtoBean dtoBean, final MultipartFile fileItem) {
@@ -99,7 +102,7 @@ public class FileManager {
             this.convertCover(inputFile, dirId);
         } else {
             if (!inputFile.exists()) {
-                for (final int size : FileService.COVER_SIZE_ARRAY) {
+                for (final int size : COVER_SIZE_ARRAY) {
                     this.copyDefaultCover(dirId, size);
                 }
             }
@@ -145,7 +148,7 @@ public class FileManager {
     }
 
     public void convertCover(final File inputFile, final String id) {
-        for (final int size : FileService.COVER_SIZE_ARRAY) {
+        for (final int size : COVER_SIZE_ARRAY) {
             final String name = String.format("%s_%d", FileManager.COVER, size);
             final File outputFile = this.getFile(id, name, FileManager.JPG);
             this.convertCover(inputFile, outputFile, size);
@@ -162,17 +165,25 @@ public class FileManager {
         final IMOperation op = new IMOperation();
         op.density(72);
         op.addImage(input.getAbsolutePath());
-        op.thumbnail(size, size, '>').crop(size, size, 0, 0);
+        op.adaptiveResize(size, null, '^')
+          .gravity("center")
+          .extent(size)
+          .crop(size);
         op.addImage(output.getAbsolutePath());
         // execute the operation
         try {
             cmd.run(op);
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            FileUtils.deleteQuietly(output);
         } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            FileUtils.deleteQuietly(output);
         } catch (final IM4JavaException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            FileUtils.deleteQuietly(output);
+        } finally {
+            // FileUtils.deleteQuietly(input);
         }
     }
 

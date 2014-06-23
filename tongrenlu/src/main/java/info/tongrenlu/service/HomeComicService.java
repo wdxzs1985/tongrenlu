@@ -121,11 +121,12 @@ public class HomeComicService {
                                       final String articleId,
                                       final HttpServletRequest request) {
         final List<Object> modelList = new ArrayList<Object>();
-        final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileService.JPG);
-        for (final FileBean fileBean : fileList) {
-            modelList.add(this.prepareFileBeanModel(fileBean, request));
-        }
+        // final List<FileBean> fileList =
+        // this.fileDao.getArticleFiles(articleId,
+        // FileService.JPG);
+        // for (final FileBean fileBean : fileList) {
+        // modelList.add(this.prepareFileBeanModel(fileBean, request));
+        // }
         return modelList;
     }
 
@@ -136,18 +137,18 @@ public class HomeComicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                                + fileBean.getId()
-                                + "/"
-                                + fileBean.getId()
-                                + "_800.jpg");
+                + fileBean.getId()
+                + "/"
+                + fileBean.getId()
+                + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                               + fileBean.getId()
-                               + "/"
-                               + fileBean.getId()
-                               + "_1600.jpg");
+                + fileBean.getId()
+                + "/"
+                + fileBean.getId()
+                + "_1600.jpg");
         return model;
     }
 }

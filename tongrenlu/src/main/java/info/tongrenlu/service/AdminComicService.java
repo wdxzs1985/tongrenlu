@@ -52,8 +52,8 @@ public class AdminComicService {
             return "cosole/error/404";
         }
         model.addAttribute("articleBean", comicBean);
-        model.addAttribute(this.fileDao.getArticleFiles(articleId,
-                                                        FileService.JPG));
+        // model.addAttribute(this.fileDao.getArticleFiles(articleId,
+        // FileService.JPG));
         model.addAttribute(this.tagDao.getArticleTag(articleId));
         return "admin/comic/view";
     }
@@ -82,11 +82,12 @@ public class AdminComicService {
                                               final HttpServletRequest request) {
         final Map<String, Object> modelMap = new HashMap<String, Object>();
         final List<Object> fileList = new ArrayList<Object>();
-        final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
-                                                                  FileService.JPG);
-        for (final FileBean fileBean : files) {
-            fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean, request));
-        }
+        // final List<FileBean> files = this.fileDao.getArticleFiles(articleId,
+        // FileService.JPG);
+        // for (final FileBean fileBean : files) {
+        // fileList.add(this.fileDao.prepareJpgFileBeanModel(fileBean,
+        // request));
+        // }
         modelMap.put("files", fileList);
         return modelMap;
     }
@@ -114,9 +115,10 @@ public class AdminComicService {
             return "cosole/error/404";
         }
         model.addAttribute("articleBean", comic);
-        final List<FileBean> fileList = this.fileDao.getArticleFiles(articleId,
-                                                                     FileService.JPG);
-        model.addAttribute(fileList);
+        // final List<FileBean> fileList =
+        // this.fileDao.getArticleFiles(articleId,
+        // FileService.JPG);
+        // model.addAttribute(fileList);
         return "admin/comic/sort";
     }
 

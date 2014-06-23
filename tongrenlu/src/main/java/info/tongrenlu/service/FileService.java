@@ -1,17 +1,13 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
-import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,245 +15,61 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.im4java.core.ConvertCmd;
-import org.im4java.core.IM4JavaException;
-import org.im4java.core.IMOperation;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileService {
 
-    public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-                                                            90,
-                                                            120,
-                                                            180,
-                                                            400 };
-    public static final int[] COMIC_SIZE_ARRAY = new int[] { 120,
-                                                            300,
-                                                            800,
-                                                            1200,
-                                                            1600 };
-
-    public static final String CAT_USER = "u";
-    public static final String CAT_COMIC = "c";
-    public static final String CAT_MUSIC = "m";
-
-    public static final String COVER = "cover";
-
-    public static final String JPG = "jpg";
-    public static final String MP3 = "mp3";
-
-    @Value("${file.inputPathWindows}")
-    private String inputPathWindows = null;
-
-    @Value("${file.inputPathLinux}")
-    private String inputPathLinux = null;
-
-    @Value("${file.outputPathWindows}")
-    private String outputPathWindows = null;
-
-    @Value("${file.outputPathLinux}")
-    private String outputPathLinux = null;
-
-    @Value("${file.convertPathWindows}")
-    private String convertPathWindows = null;
-
-    @Value("${file.convertPathLinux}")
-    private String convertPathLinux = null;
-
-    public String getInputPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                                        : this.inputPathLinux;
-    }
-
-    public String getOutputPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                                        : this.outputPathLinux;
-    }
-
-    public String getConvertPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                                        : this.convertPathLinux;
-    }
-
-    public File getJpgFile(final String dirId, final String name) {
-        return this.getFile(dirId, name, FileService.JPG);
-    }
+    @Autowired
+    private FileManager fileManager = null;
 
     public void saveCover(final DtoBean dtoBean, final MultipartFile fileItem) {
-        String dirId = null;
-        if (dtoBean instanceof UserBean) {
-            dirId = FileService.CAT_USER + dtoBean.getId();
-        } else if (dtoBean instanceof MusicBean) {
-            dirId = FileService.CAT_MUSIC + dtoBean.getId();
-        } else if (dtoBean instanceof ComicBean) {
-            dirId = FileService.CAT_COMIC + dtoBean.getId();
-        } else {
-            return;
-        }
-        final File inputFile = this.getJpgFile(dirId, FileService.COVER);
-        if (fileItem != null && !fileItem.isEmpty()) {
-            this.saveUpload(fileItem, inputFile);
-            this.convertCover(inputFile, dirId);
-        } else {
-            if (!inputFile.exists()) {
-                for (final int size : FileService.COVER_SIZE_ARRAY) {
-                    this.copyDefaultCover(dirId, size);
-                }
-            }
-        }
+        this.fileManager.saveCover(dtoBean, fileItem);
     }
-
-    protected void saveUpload(final MultipartFile fileItem, final File file) {
-        InputStream input = null;
-        OutputStream output = null;
-        try {
-            input = fileItem.getInputStream();
-            output = FileUtils.openOutputStream(file);
-            IOUtils.copy(input, output);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            IOUtils.closeQuietly(input);
-            IOUtils.closeQuietly(output);
-        }
-    }
-
-    protected void convertCover(final File input,
-                                final File output,
-                                final int size) {
-        final ConvertCmd cmd = new ConvertCmd();
-        // cmd.setAsyncMode(true);
-        cmd.setSearchPath(this.getConvertPath());
-        // create the operation, add images and operators/options
-        final IMOperation op = new IMOperation();
-        op.density(72);
-        op.addImage(input.getAbsolutePath());
-        op.thumbnail(size, size, '>').crop(size, size, 0, 0);
-        op.addImage(output.getAbsolutePath());
-        // execute the operation
-        try {
-            cmd.run(op);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (final IM4JavaException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void convertCover(final File inputFile, final String id) {
-        for (final int size : FileService.COVER_SIZE_ARRAY) {
-            final String name = String.format("%s_%d", FileService.COVER, size);
-            final File outputFile = this.getJpgFile(id, name);
-            this.convertCover(inputFile, outputFile, size);
-        }
-    }
-
-    public void copyDefaultCover(final String id, final int size) {
-        final String name = String.format("%s_%d", FileService.COVER, size);
-        final File src = this.getJpgFile("default", name);
-        final File dest = this.getJpgFile(id, name);
-
-        try {
-            FileUtils.copyFile(src, dest);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // @Autowired
-    // private MFileMapper fileMapper = null;
-    // @Autowired
-    // private MTrackMapper trackMapper = null;
 
     public FileBean createImageFileInfo(final String articleId,
                                         final MultipartFile fileItem) {
-        final FileBean fileBean = this.createFileInfo(articleId,
-                                                      fileItem,
-                                                      FileService.JPG);
+        // final FileBean fileBean = this.createFileInfo(articleId,
+        // fileItem,
+        // FileService.JPG);
         // final File inputFile = this.getJpgFile(fileBean.getArticleId(),
         // fileBean.getFileId());
         // this.saveUpload(fileItem, inputFile);
         // this.convertThumbnail(fileBean, inputFile);
-        return fileBean;
-    }
-
-    public FileBean createMusicTrackInfo(final String articleId,
-                                         final MultipartFile fileItem) {
-        final FileBean fileBean = this.createFileInfo(articleId,
-                                                      fileItem,
-                                                      FileService.MP3);
-        // final File inputFile = this.getMp3File(fileBean.getArticleId(),
-        // fileBean.getFileId());
-        // this.saveUpload(fileItem, inputFile);
-        // this.saveTrackInfo(inputFile, fileBean);
-        return fileBean;
-    }
-
-    private FileBean createFileInfo(final String articleId,
-                                    final MultipartFile fileItem,
-                                    final String extension) {
-        final String name = fileItem.getOriginalFilename();
-        final FileBean fileBean = new FileBean();
-        // fileBean.setArticleId(articleId);
-        fileBean.setName(name);
-        fileBean.setExtension(extension);
-        // fileBean.setSize(fileItem.getSize());
-        // this.fileMapper.insertFile(fileBean);
-        return fileBean;
+        return null;
     }
 
     public void convertThumbnail(final FileBean fileBean, final File inputFile) {
-        for (final int size : FileService.COMIC_SIZE_ARRAY) {
-            // final String name = fileBean.getId() + "_" + size;
-            // final File outputFile = this.getJpgFile(fileBean.getArticleId(),
-            // name);
-            // this.convertComic(inputFile.getAbsolutePath(),
-            // outputFile.getAbsolutePath(),
-            // size);
-        }
+        // for (final int size : FileService.COMIC_SIZE_ARRAY) {
+        // // final String name = fileBean.getId() + "_" + size;
+        // // final File outputFile = this.getJpgFile(fileBean.getArticleId(),
+        // // name);
+        // // this.convertComic(inputFile.getAbsolutePath(),
+        // // outputFile.getAbsolutePath(),
+        // // size);
+        // }
     }
 
-    protected void saveTrackInfo(final File file, final FileBean fileBean) {
-        final TrackBean trackBean = new TrackBean();
-        trackBean.setFileBean(fileBean);
-        final String track = FilenameUtils.getBaseName(fileBean.getName());
-        trackBean.setName(StringUtils.left(track, 255));
-        // this.trackMapper.insertTrack(trackBean);
-    }
-
-    public File getMp3File(final String category,
-                           final String dirId,
-                           final String name) {
-        return this.getFile(dirId, name, FileService.MP3);
-    }
-
-    public File getFile(final String dirId, final String name, final String ext) {
-        final String rootPath = this.getInputPath();
-        return new File(rootPath + "/" + dirId + "/" + name + "." + ext);
-    }
+    // public File getMp3File(final String category,
+    // final String dirId,
+    // final String name) {
+    // return this.getFile(dirId, name, FileService.MP3);
+    // }
 
     public void deleteJpgFile(final FileBean fileBean) {
         // this.fileMapper.deleteFileInfo(fileBean);
         // final File originalFile = this.getJpgFile(fileBean.getArticleId(),
         // fileBean.getFileId());
         // FileUtils.deleteQuietly(originalFile);
-        for (final int size : FileService.COMIC_SIZE_ARRAY) {
-            // final File thumbnail = this.getJpgFile(fileBean.getArticleId(),
-            // fileBean.getFileId() + "_"
-            // + size);
-            // FileUtils.deleteQuietly(thumbnail);
-        }
+        // for (final int size : FileService.COMIC_SIZE_ARRAY) {
+        // final File thumbnail = this.getJpgFile(fileBean.getArticleId(),
+        // fileBean.getFileId() + "_"
+        // + size);
+        // FileUtils.deleteQuietly(thumbnail);
+        // }
     }
 
     public void deleteMp3File(final FileBean fileBean) {
@@ -269,8 +81,8 @@ public class FileService {
     }
 
     protected void deleteTrack(final String fileId) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("fileId", fileId);
+        // final Map<String, Object> param = new HashMap<String, Object>();
+        // param.put("fileId", fileId);
         // this.trackMapper.deleteTrack(param);
     }
 
@@ -298,26 +110,26 @@ public class FileService {
     protected void convertComic(final String input,
                                 final String output,
                                 final int size) {
-        final ConvertCmd cmd = new ConvertCmd();
-        // cmd.setAsyncMode(true);
-        cmd.setSearchPath(this.getConvertPath());
-        // create the operation, add images and operators/options
-        final IMOperation op = new IMOperation();
-        op.density(72);
-        op.quality(80d);
-        op.addImage(input);
-        op.thumbnail(size, size, '>');
-        op.addImage(output);
-        // execute the operation
-        try {
-            cmd.run(op);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (final IM4JavaException e) {
-            throw new RuntimeException(e);
-        }
+        // final ConvertCmd cmd = new ConvertCmd();
+        // // cmd.setAsyncMode(true);
+        // cmd.setSearchPath(this.getConvertPath());
+        // // create the operation, add images and operators/options
+        // final IMOperation op = new IMOperation();
+        // op.density(72);
+        // op.quality(80d);
+        // op.addImage(input);
+        // op.thumbnail(size, size, '>');
+        // op.addImage(output);
+        // // execute the operation
+        // try {
+        // cmd.run(op);
+        // } catch (final IOException e) {
+        // throw new RuntimeException(e);
+        // } catch (final InterruptedException e) {
+        // throw new RuntimeException(e);
+        // } catch (final IM4JavaException e) {
+        // throw new RuntimeException(e);
+        // }
     }
 
     public List<TrackBean> getMusicTracks(final String articleId) {
@@ -355,54 +167,11 @@ public class FileService {
                 trackBean.setArtist(leadArtistArray[i]);
             }
 
-            if (ArrayUtils.isNotEmpty(originalTitleArray)) {
-                trackBean.setOriginalTitle(originalTitleArray[i]);
-            }
-            trackBean.setTrackNumber(orderNo);
+            // if (ArrayUtils.isNotEmpty(originalTitleArray)) {
+            // trackBean.setOriginalTitle(originalTitleArray[i]);
+            // }
+            // trackBean.setTrackNumber(orderNo);
             // this.trackMapper.updateTrackBean(trackBean);
-        }
-    }
-
-    public FileBean createScreenshotInfo(final String articleId,
-                                         final MultipartFile fileItem) {
-        final FileBean fileBean = this.createFileInfo(articleId,
-                                                      fileItem,
-                                                      FileService.JPG);
-        // final String fileId = fileBean.getFileId();
-        // final File inputFile = this.getJpgFile(articleId, fileId);
-        // this.saveUpload(fileItem, inputFile);
-        // for (final int size : FileDao.COMIC_SIZE_ARRAY) {
-        // final String name = fileId + "_" + size;
-        // final File outputFile = this.getJpgFile(articleId, name);
-        // this.convertScreenshot(inputFile.getAbsolutePath(),
-        // outputFile.getAbsolutePath(),
-        // size);
-        // }
-        return fileBean;
-    }
-
-    protected void convertScreenshot(final String input,
-                                     final String output,
-                                     final int size) {
-        final ConvertCmd cmd = new ConvertCmd();
-        // cmd.setAsyncMode(true);
-        cmd.setSearchPath(this.getConvertPath());
-        // create the operation, add images and operators/options
-        final IMOperation op = new IMOperation();
-        op.density(72);
-        op.quality(75d);
-        op.addImage(input);
-        op.thumbnail(size, null, '>');
-        op.addImage(output);
-        // execute the operation
-        try {
-            cmd.run(op);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (final IM4JavaException e) {
-            throw new RuntimeException(e);
         }
     }
 

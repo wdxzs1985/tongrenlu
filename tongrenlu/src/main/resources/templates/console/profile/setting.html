@@ -34,10 +34,10 @@
                <label for="inputSignature" class="col-sm-2 control-label" 
                    th:text="#{UserBean.signature}">Signature</label>
                <div class="col-sm-10">
-                 <textarea class="form-control" rows="10"
+                 <input class="form-control"
                    id="inputSignature" name="signature"
-                   th:text="${userBean.signature}"
-                   th:placeholder="#{UserBean.signature}"></textarea>
+                   th:value="${userBean.signature}"
+                   th:placeholder="#{UserBean.signature}" />
                  <span class="glyphicon glyphicon-remove form-control-feedback"
                      th:unless="${#strings.isEmpty(signatureError)}"></span>
                  <p class="help-block" 

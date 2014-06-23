@@ -1,7 +1,7 @@
 CREATE TABLE `M_USER` (
   `id` int(11) NOT NULL auto_increment,
   `nickname` varchar(20) default NULL,
-  `signature` varchar(200) default NULL,
+  `signature` varchar(20) default NULL,
   `email` varchar(200) default NULL,
   `password` varchar(32) default NULL,
   `fingerprint` varchar(32) default NULL,

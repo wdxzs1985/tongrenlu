@@ -88,12 +88,12 @@ public class FmService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? FmService.LOCAL_RESOURCE
-                                        : FmService.REMOTE_RESOURCE;
+                : FmService.REMOTE_RESOURCE;
         // final Integer articleId = trackBean.getMusicBean().getId();
         final Integer fileId = trackBean.getFileBean().getId();
         // final String title = trackBean.getTrack();
         final String artist = trackBean.getArtist();
-        final String original = trackBean.getOriginalTitle();
+        // final String original = trackBean.getOriginalTitle();
         // final String album = trackBean.getMusicBean().getTitle();
 
         final Map<String, Object> model = new HashMap<String, Object>();
@@ -104,9 +104,9 @@ public class FmService {
         if (StringUtils.isNotBlank(artist)) {
             model.put("artist", artist);
         }
-        if (StringUtils.isNotBlank(original)) {
-            model.put("original", original);
-        }
+        // if (StringUtils.isNotBlank(original)) {
+        // model.put("original", original);
+        // }
         // model.put("mp3", FILE_PATH + "/" + articleId + "/" + fileId +
         // ".mp3");
         // model.put("poster", FILE_PATH + "/" + articleId + "/cover_400.jpg");

@@ -57,6 +57,7 @@
             <!-- The table listing the files available for upload/download -->
             <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
         </form>
+        <hr />
         <div class="row">
           <div class="col-xs-6 text-left">
             <a th:href="@{/console/music/__${articleBean.id}__}" class="btn btn-default">
@@ -65,7 +66,7 @@
             </a>
           </div>
           <div class="col-xs-6 text-right">
-            <a th:href="@{/console/music/__${articleBean.id}__/track/sort}" class="btn btn-primary">
+            <a th:href="@{/console/music/__${articleBean.id}__/track/sort}" class="btn btn-success">
                 <span th:text="#{console.article.sort}"></span>
                 <span class="glyphicon glyphicon-chevron-right"></span>
             </a>
@@ -125,9 +126,11 @@
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
         <td>
+            {% if (!file.error) { %}
             <span class="preview">
                 <img src="/files/m{%=file.articleId%}/cover_60.jpg" />
             </span>
+            {% } %}
         </td>
         <td>
             <p class="name">

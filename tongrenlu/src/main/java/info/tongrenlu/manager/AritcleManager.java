@@ -52,7 +52,11 @@ public class AritcleManager {
     }
 
     public void update(final ArticleBean articleBean) {
-        this.articleMapper.update(articleBean);
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", articleBean.getId());
+        param.put("title", articleBean.getTitle());
+        param.put("descrption", articleBean.getDescription());
+        this.articleMapper.update(param);
         if (articleBean instanceof MusicBean) {
             // this.musicMapper.update((MusicBean) articleBean);
         }
@@ -62,6 +66,13 @@ public class AritcleManager {
         if (articleBean instanceof MusicBean) {
             this.musicMapper.delete(articleBean);
         }
+    }
+
+    public void publish(final ArticleBean articleBean) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", articleBean.getId());
+        param.put("publishFlg", "1");
+        this.articleMapper.update(param);
     }
 
     public int countMusic(final Map<String, Object> params) {
@@ -109,12 +120,35 @@ public class AritcleManager {
         this.fileMapper.insert(fileBean);
     }
 
+    public void updateFile(final FileBean fileBean) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", fileBean.getId());
+        param.put("orderNo", fileBean.getOrderNo());
+        this.fileMapper.update(param);
+    }
+
     public void deleteFile(final FileBean fileBean) {
         this.fileMapper.delete(fileBean);
     }
 
+    public List<TrackBean> getTrackList(final Integer articleId) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("articleId", articleId);
+        return this.trackMapper.fetchList(param);
+    }
+
     public void addTrack(final TrackBean trackBean) {
         this.trackMapper.insert(trackBean);
+    }
+
+    public void updateTrack(final TrackBean trackBean) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", trackBean.getId());
+        param.put("name", trackBean.getName());
+        param.put("artist", trackBean.getArtist());
+        param.put("original", trackBean.getOriginal());
+        param.put("instrumental", trackBean.getInstrumental());
+        this.trackMapper.update(param);
     }
 
     public void deleteTrack(final TrackBean trackBean) {
@@ -139,7 +173,7 @@ public class AritcleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  AritcleManager.TITLE_LENGTH },
+                                                            AritcleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

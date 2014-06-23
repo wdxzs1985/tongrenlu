@@ -9,14 +9,85 @@
   </head>
   <body>
     <div class="container" layout:fragment="content">
+      <div class="page-header">
+          <h3 >
+            <span th:text="${articleBean.title}"></span>
+            <small th:text="#{console.article.sort}"></small>
+          </h3>
+      </div>
+      <div class="btn-toolbar">
+          <div class="btn-group ">
+              <button class="btn btn-success" id="sort-by-name">
+                  <span class="glyphicon glyphicon-file"></span>
+                  <span th:text="#{console.article.sort.byName}" class="hidden-xs"></span>
+              </button>
+              <button class="btn btn-info" id="sort-by-time">
+                  <span class="glyphicon glyphicon-time"></span>
+                  <span th:text="#{console.article.sort.byTime}" class="hidden-xs"></span>
+              </button>
+          </div>
+          <div class="btn-group">
+              <button class="btn btn-default" id="sortable-list-expand">
+                  <span class="glyphicon glyphicon-plus"></span>
+                  <span th:text="#{console.music.track.expand}" class="hidden-xs"></span>
+              </button>
+              <button class="btn btn-default" id="sortable-list-collapse">
+                  <span class="glyphicon glyphicon-minus"></span>
+                  <span th:text="#{console.music.track.collapse}" class="hidden-xs"></span>
+              </button>
+          </div>
+          <div class="btn-group ">
+              <a href="http://static.tongrenlu.info/touhou_ost.html" 
+                 class="btn btn-default" target="_blank">
+                  <span class="glyphicon glyphicon-new-window"></span>
+                  <span th:text="#{console.music.track.originalList}" class="hidden-xs"></span>
+              </a>
+          </div>
+      </div>
+      <hr />
       <form th:action="@{/console/music/__${articleBean.id}__/track/sort}" method="POST">
-        <div class="page-header">
-            <h3 >
-              <span th:text="${articleBean.title}"></span>
-              <small th:text="#{console.article.sort}"></small>
-            </h3>
+        <div id="sortable-list" class="media-list">
+            <div class="col-sm-4 col-md-2 sortable-object" 
+                 th:attr="data-id=${track.id},data-name=${track.name}"
+                 th:each="track : ${trackList}">
+                <div class="thumbnail">
+                    <img class="media-object visible-xs" th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" />
+                    <img class="media-object hidden-xs" th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" />
+                    <div class="caption">
+                        <p class="text-center text-single-line" th:text="${track.name}">${track.name}</p>
+                    </div>
+                </div>
+                <div class="media-body">
+                    <input type="hidden" name="trackId[]" th:value="${track.id}" />
+                    <div class="form-group">
+                        <div class="row ">
+                            <div class="col-md-8 col-lg-8">
+                                <input type="text" th:id="'track-name-' + ${track.id}" name="name[]" class="form-control" th:value="${track.name}" />
+                            </div>
+                            <div class="col-md-4 col-lg-4">
+                                <div class="checkbox">
+                                  <label th:for="'track-instrumental-' + ${track.id}" >
+                                    <input type="checkbox" name="instrumental[]" th:value="${track.id}"
+                                        th:id="'track-instrumental-' + ${track.id}" 
+                                        th:checked="${track.instrumental} eq '1'" />
+                                    <span th:text="#{TrackBean.instrumental}"></span>
+                                  </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" th:for="'track-artist-' + ${track.id}" th:text="#{TrackBean.artist}"></label>
+                            <input type="text" th:id="'track-artist-' + ${track.id}" name="artist[]" class="form-control" th:value="${track.artist}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" th:for="'track-original-' + ${track.id}" th:text="#{TrackBean.original}"></label>
+                            <textarea th:id="'track-original-' + ${track.id}" name="original[]" class="form-control" rows="3" th:text="${track.original}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- The file upload form used as target for the file upload widget -->
+        <hr />
         <div class="row">
           <div class="col-xs-6 text-left">
             <a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-default">
@@ -25,27 +96,100 @@
             </a>
           </div>
           <div class="col-xs-6 text-right">
-            <button type="submit" th:href="@{/console/music/__${articleBean.id}__/track/sort}" class="btn btn-success">
-                <span th:text="#{console.article.sort}"></span>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+                <span th:text="#{button.save}"></span>
             </button>
           </div>
         </div>
       </form>
     </div>
 <th:block layout:fragment="scripts-libs">
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl" th:inline="text">
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-</script>
+<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.core.min.js}"></script>
+<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.widget.min.js}"></script>
+<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.mouse.min.js}"></script>
+<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.sortable.min.js}"></script>
 </th:block>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
-$(function () {
+$(function(){
+    var $sortableList = $( '#sortable-list' ).sortable()
+    $sortableList.on('expand', function() {
+        $sortableList.sortable( 'disable' );
+        $sortableList.removeClass('row').addClass('media-list');
+        var $listItem = $sortableList.find('.sortable-object');
+        $listItem.removeClass('col-sm-4 col-md-2').addClass('media');
+        
+        $listItem.find('.thumbnail').addClass('pull-left');
+        $listItem.find('.thumbnail .caption').removeClass('show').addClass('hidden');
+        $listItem.find('.media-body').removeClass('hidden').addClass('show');
 
-});
+        $( "#sortable-list-expand" ).addClass('disabled btn-default').removeClass('btn-primary');
+        $( "#sortable-list-collapse" ).addClass('btn-primary').removeClass('disabled btn-default');
+    }).on('collapse', function(){
+        $sortableList.sortable( 'enable' );
+        $sortableList.removeClass('media-list').addClass('row');
+        
+        var $listItem = $sortableList.find('.sortable-object');
+        $listItem.removeClass('media').addClass('col-sm-4 col-md-2');
+        
+        $listItem.find('.thumbnail').removeClass('pull-left');
+        $listItem.find('.thumbnail .caption').removeClass('hidden').addClass('show');
+        $listItem.find('.media-body').removeClass('show').addClass('hidden');
+
+        $( "#sortable-list-collapse" ).addClass('disabled btn-default').removeClass('btn-primary');
+        $( "#sortable-list-expand" ).addClass('btn-primary').removeClass('disabled btn-default');
+    }).trigger('expand');
+    
+    // $( "#sort-file-list" ).disableSelection();
+    
+    $( "#sortable-list-expand" ).click(function(e){
+    	e.preventDefault();
+    	$sortableList.trigger('expand');
+    });
+    $( "#sortable-list-collapse" ).click(function(e){
+        e.preventDefault();
+        $sortableList.trigger('collapse');
+    });
+    
+    $("#sort-by-time").click(function(){
+    	var $listItem = $sortableList.find('.sortable-object');
+        var $tempFileList = $('<div></div>');
+        $.each($listItem, function(i1, e1){
+            var $e1 =  $(e1);
+            var fileId1 = $e1.data("id");
+            
+            $tempFileList.prepend($e1);
+            $.each($tempFileList.children('.sortable-object'), function(i2, e2){
+                var $e2 =  $(e2);
+                var fileId2 = $e2.data("id");
+                if(fileId1 > fileId2){
+                    $e1.insertAfter($e2);
+                }
+            });
+        });
+        $tempFileList.children('.sortable-object').appendTo($sortableList);
+        return false;
+    });
+    $("#sort-by-name").click(function(){
+        var $listItem = $sortableList.find('.sortable-object');
+        var $tempFileList = $('<div></div>');
+        $.each($listItem, function(i1, e1){
+            var $e1 =  $(e1);
+            var name1 = $e1.data("name");
+            $tempFileList.prepend($e1);
+            $.each($tempFileList.children('.sortable-object'), function(i2, e2){
+                var $e2 =  $(e2);
+                var name2 = $e2.data("name");
+                if(name1 > name2){
+                    $e1.insertAfter($e2);
+                }
+            });
+        });
+        $tempFileList.children('.sortable-object').appendTo($sortableList);
+        return false;
+    });
+}) ;
 </script>
 </th:block>
   </body>

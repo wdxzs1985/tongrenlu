@@ -70,11 +70,11 @@ public class ArticleService {
     public void doGetDeleteFile(final String fileId) {
         final FileBean fileBean = this.fileDao.getFileInfo(fileId);
         final String ext = fileBean.getExtension();
-        if (StringUtils.equalsIgnoreCase(ext, FileService.MP3)) {
-            this.fileDao.deleteMp3File(fileBean);
-        } else {
-            this.fileDao.deleteJpgFile(fileBean);
-        }
+        // if (StringUtils.equalsIgnoreCase(ext, FileService.MP3)) {
+        // this.fileDao.deleteMp3File(fileBean);
+        // } else {
+        // this.fileDao.deleteJpgFile(fileBean);
+        // }
     }
 
     public Map<String, Object> doPostArticleCollect(final UserBean loginUser,

@@ -1,7 +1,9 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
@@ -277,6 +279,61 @@ public class ConsoleMusicController {
 
         model.addAttribute("articleBean", musicBean);
 
+        final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
+        model.addAttribute("trackList", trackList);
+
         return "console/music/track_sort";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/track/sort")
+    public String doPostTrackSort(@PathVariable final Integer articleId,
+                                  @RequestParam(value = "trackId[]") final Integer[] trackId,
+                                  @RequestParam(value = "name[]") final String[] name,
+                                  @RequestParam(value = "artist[]", required = false) final String[] artist,
+                                  @RequestParam(value = "original[]", required = false) final String[] original,
+                                  @RequestParam(value = "instrumental[]", required = false) final Integer[] instrumental,
+                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                  final Model model,
+                                  final Locale locale) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+
+        model.addAttribute("articleBean", musicBean);
+
+        final List<TrackBean> trackList = new ArrayList<TrackBean>();
+        for (int i = 0; i < trackId.length; i++) {
+            final TrackBean trackBean = new TrackBean();
+            trackBean.setId(trackId[i]);
+            trackBean.setName(name[i]);
+
+            if (ArrayUtils.isNotEmpty(artist)) {
+                trackBean.setArtist(artist[i]);
+            }
+            if (ArrayUtils.isNotEmpty(original)) {
+                trackBean.setOriginal(original[i]);
+            }
+            if (ArrayUtils.isNotEmpty(instrumental)) {
+                if (ArrayUtils.contains(instrumental, trackId[i])) {
+                    trackBean.setInstrumental(CommonConstants.CHR_TRUE);
+                } else {
+                    trackBean.setInstrumental(CommonConstants.CHR_FALSE);
+                }
+            }
+
+            final FileBean fileBean = new FileBean();
+            fileBean.setId(trackId[i]);
+            fileBean.setOrderNo(i + 1);
+            trackBean.setFileBean(fileBean);
+
+            trackList.add(trackBean);
+        }
+
+        this.musicService.updateTrack(trackList);
+        return "redirect:/console/music/" + articleId;
     }
 }
