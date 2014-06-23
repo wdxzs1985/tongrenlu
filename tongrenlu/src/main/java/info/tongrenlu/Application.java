@@ -14,9 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@ImportResource({ "config/spring-context.xml",
-                 "config/servlet-context.xml",
-                 "config/mail.xml" })
+@ImportResource({ "config/spring-context.xml", "config/servlet-context.xml" })
 public class Application {
 
     public static void main(final String[] args) {
