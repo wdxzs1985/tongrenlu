@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-8">
                 <ul class="nav nav-tabs">
-                  <li class=""><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
+                  <li class="hidden-xs"><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
                   <li class="active"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
                   <li class="" th:if="${session.LOGIN_USER.admin}"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
                 </ul>
@@ -26,29 +26,33 @@
                         </form>
                         <hr />
                         <th:block th:unless="${#lists.isEmpty(page.items)}">
-	                        <ul class="media-list">
-	                          <li class="media" th:each="articleBean : ${page.items}">
-	                            <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-	                              <img class="media-object img-120" src="http://placehold.it/120x120" 
+                            <ul class="media-list">
+                              <li class="media" th:each="articleBean : ${page.items}">
+                                <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                  <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
                                        th:src="@{/files/m__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
-	                                   th:alt-title="${articleBean.title}" />
-	                            </a>
-	                            <div class="media-body">
-	                              <h5 class="media-heading" >
-	                                <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
-	                                <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
-	                                <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
-	                              </h5>
+                                       th:alt-title="${articleBean.title}" />
+                                  <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
+                                       th:src="@{/files/m__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
+                                       th:alt-title="${articleBean.title}" />
+                                </a>
+                                <div class="media-body">
+                                  <h5 class="media-heading text-single-line">
+                                    <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                                    <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                    <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
+                                  </h5>
                                   <p th:text="${articleBean.description}" class="text-single-line"></p>
-	                              <ul class="list-inline text-right">
-                                    <li><a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-default" th:text="#{console.article.edit}"></a></li>
-                                    <li><a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-primary" th:text="#{console.music.track.upload}"></a></li>
-                                    <li><a th:href="@{/console/music/__${articleBean.id}__/booklet/upload}" class="btn btn-primary" th:text="#{console.music.booklet.upload}"></a></li>
-                                    <li><a th:href="@{/console/music/__${articleBean.id}__/delete}" class="btn btn-danger" th:text="#{console.article.delete}"></a></li>
+                                  <ul class="list-inline text-right">
+                                    <li><a th:href="@{/console/music/__${articleBean.id}__}" class="btn btn-sm btn-default" th:text="#{console.article.preview}"></a></li>
+                                    <li class="hidden-xs"><a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-sm btn-default" th:text="#{console.article.edit}"></a></li>
+                                    <li class="hidden-xs"><a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-sm btn-primary" th:text="#{console.music.track.upload}"></a></li>
+                                    <li class="hidden-xs"><a th:href="@{/console/music/__${articleBean.id}__/booklet/upload}" class="btn btn-sm btn-primary" th:text="#{console.music.booklet.upload}"></a></li>
+                                    <li><a th:href="@{/console/music/__${articleBean.id}__/delete}" class="btn btn-sm btn-danger" th:text="#{console.article.delete}"></a></li>
                                   </ul>
-	                            </div>
-	                          </li>
-	                        </ul>
+                                </div>
+                              </li>
+                            </ul>
                             <div id="jpaginate" class="hidden-xs hidden-sm"></div>
                         </th:block>
                         <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">

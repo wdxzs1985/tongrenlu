@@ -29,6 +29,9 @@
             <if test="description != null">
                 description = #{description},
             </if>
+            <if test="publishFlg != null">
+                publish_flg = #{publishFlg},
+            </if>
         </set>
         <where>
             id = #{id}

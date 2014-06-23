@@ -28,15 +28,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManager {
 
     public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-            90,
-            120,
-            180,
-            400 };
+                                                            90,
+                                                            120,
+                                                            180,
+                                                            400 };
     public static final int[] COMIC_SIZE_ARRAY = new int[] { 120,
-            300,
-            800,
-            1200,
-            1600 };
+                                                            300,
+                                                            800,
+                                                            1200,
+                                                            1600 };
 
     public static final String USER = "u";
     public static final String COMIC = "c";
@@ -70,17 +70,17 @@ public class FileManager {
 
     public String getInputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                : this.inputPathLinux;
+                                        : this.inputPathLinux;
     }
 
     public String getOutputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                : this.outputPathLinux;
+                                        : this.outputPathLinux;
     }
 
     public String getConvertPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                : this.convertPathLinux;
+                                        : this.convertPathLinux;
     }
 
     public void saveCover(final DtoBean dtoBean, final MultipartFile fileItem) {
@@ -102,7 +102,7 @@ public class FileManager {
             this.convertCover(inputFile, dirId);
         } else {
             if (!inputFile.exists()) {
-                for (final int size : COVER_SIZE_ARRAY) {
+                for (final int size : FileManager.COVER_SIZE_ARRAY) {
                     this.copyDefaultCover(dirId, size);
                 }
             }
@@ -148,7 +148,7 @@ public class FileManager {
     }
 
     public void convertCover(final File inputFile, final String id) {
-        for (final int size : COVER_SIZE_ARRAY) {
+        for (final int size : FileManager.COVER_SIZE_ARRAY) {
             final String name = String.format("%s_%d", FileManager.COVER, size);
             final File outputFile = this.getFile(id, name, FileManager.JPG);
             this.convertCover(inputFile, outputFile, size);
@@ -165,10 +165,9 @@ public class FileManager {
         final IMOperation op = new IMOperation();
         op.density(72);
         op.addImage(input.getAbsolutePath());
-        op.adaptiveResize(size, null, '^')
-          .gravity("center")
-          .extent(size)
-          .crop(size);
+        op.adaptiveResize(size, size, '^');
+        op.gravity("center");
+        op.extent(size, size);
         op.addImage(output.getAbsolutePath());
         // execute the operation
         try {

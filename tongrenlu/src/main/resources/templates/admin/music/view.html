@@ -6,29 +6,58 @@
     <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
   </head>
   <body>
-    <div class="container" layout:fragment="content">
-      <div class="page-header">
-          <h1 th:text="${articleBean.title}"></h1>
+    <div layout:fragment="content">
+        <div class="clearfix">
+          <div class="pull-left">
+            <div class="media">
+                <div class="media-heading pull-left">
+                    <img src="http://placehold.it/60x60" class="img-responsive" 
+                       th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"/>
+                </div>
+                <div class="media-body">
+                    <h1><span th:text="${articleBean.title}"></span></h1>
+                    <p class="visible-xs">
+                        <strong th:text="#{home.article.owner} + ': '"></strong>
+                        <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
+                    </p>
+                </div>
+	        </div>
+	      </div>
+          <div class="pull-right well hidden-xs">
+            <div class="media">
+                <a class="pull-left" th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
+                  <img class="media-object" src="http://placehold.it/60x60" th:alt-title="${articleBean.userBean}" 
+                       th:src="@{/files/u__${articleBean.userBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}" />
+                </a>
+                <div class="media-body">
+                  <h5 class="media-heading" >
+                    <strong th:text="#{home.article.owner} + ': '"></strong>
+                    <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
+                  </h5>
+                  <p class="hidden-xs" th:text="${articleBean.userBean.signature}"></p>
+                </div>
+            </div>
+          </div>
       </div>
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-xs-12">
           <div class="page-header">
               <a class="btn btn-default pull-right"
                 th:href="@{/admin/music/__${articleBean.id}__/booklet}"
                 th:text="#{console.music.booklet.upload}">upload</a>
-              <h4 th:text="#{console.music.booklet}">booklet</h4>
+              <h4 th:text="#{home.music.booklet}">booklet</h4>
           </div>
           <a href="#" class="thumbnail">
               <img src="http://placehold.it/400x400" class="img-responsive" 
                    th:src="@{/files/m__${articleBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${articleBean.title}"/>
           </a>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-6">
           <div class="page-header">
               <a class="btn btn-default pull-right"
                 th:href="@{/admin/music/__${articleBean.id}__/track/upload}"
                 th:text="#{console.music.track.upload}">upload</a>
-              <h4 th:text="#{console.music.track}">player</h4>
+              <h4 th:text="#{home.music.track}">player</h4>
           </div>
           <div id="player" class="">
               <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -77,16 +106,14 @@
               </div>
           </div>
         </div>
-       </div>
-      <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-6">
           <div class="page-header">
               <a class="btn btn-default pull-right"
                 th:href="@{/admin/music/__${articleBean.id}__/edit}"
                 th:text="#{button.edit}">edit</a>
               <h4 th:text="${articleBean.title}"></h4>
           </div>
-          <pre th:text="${articleBean.description}"></pre>
+          <pre id="article-description" th:text="${articleBean.description}"></pre>
           <ul class="list-inline">
               <li><strong>Tags :</strong></li>
               <li th:each="tag : ${tags}">
@@ -96,64 +123,44 @@
               </li>
           </ul>
         </div>
-        <div class="col-md-4">
-            <div class="page-header">
-                <h4 th:text="#{console.article.owner}"></h4>
-            </div>
-            <div class="media">
-                <a class="pull-left" th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
-                  <img class="media-object" src="http://placehold.it/60x60" th:alt-title="${articleBean.userBean}" 
-                       th:src="@{/files/u__${articleBean.userBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}" />
-                </a>
-                <div class="media-body">
-                  <h5 class="media-heading" >
-                    <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
-                  </h5>
-                  <p th:text="${articleBean.userBean.signature}"></p>
-                </div>
-            </div>
-            <hr />
-            <ul class="list-inline">
-                <li>
-                  <a href="#" class="btn btn-success" th:text="#{admin.article.publish}"></a>
-                  <a th:href="@{/admin/music}" class="btn btn-default" th:text="#{button.back}"></a>
-                </li>
-            </ul>
-        </div>
       </div>
+      <hr />
+      <ul class="list-inline">
+          <li>
+            <a th:href="@{/admin/music/__${articleBean.id}__/publish}" class="btn btn-success" th:text="#{admin.article.publish}"></a>
+            <a th:href="@{/admin/music}" class="btn btn-default" th:text="#{button.back}"></a>
+          </li>
+      </ul>
     </div>
 <th:block layout:fragment="scripts-libs">
-<script src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
-<script src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/player.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/url.js}" ></script>
+<script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
+<li><div>
+    <a href="javascript:;" class="{%=o.itemClass%}">
+      <h5>{%=o.file.title%}{% if (o.file.artist) { %}<small class="jp-artist">by {%=o.file.artist%}</small>{% } %}</h5>
+    </a>
+    {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
+</div></li>
+</script>
 </th:block>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    $(function(){
-        $('#player .list-group-item > pre').hide()
-        $('#player .list-group-item').hover(function(){
-            $(this).find('pre').show();
-        }, function(){
-            $(this).find('pre').hide();
-        });
-        
-        var tracklist = /*[[${trackList}]]*/ [];
-        
-        var myPlaylist = new jPlayerPlaylist({
-            jPlayer: "#jquery_jplayer_1",
-            cssSelectorAncestor: "#jp_container_1"
-        }, tracklist, {
-            playlistOptions: {
-                enableRemoveControls: true
-            },
-            swfPath: /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js',
-            supplied: 'mp3',
-            smoothPlayBar: true,
-            keyEnabled: true,
-            audioFullScreen: true
-        });
+    var articleId = /*[[${articleBean.id}]]*/ '';
+    var root = /*[[@{/}]]*/'';
+    var swfPath = /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js';
     
+    new player({
+        articleId: articleId,
+        root: root,
+        swfPath: swfPath
     });
+    
+    $('#article-description').url();
 });
 </script>
 </th:block>

@@ -48,8 +48,8 @@
       <form th:action="@{/console/music/__${articleBean.id}__/track/sort}" method="POST">
         <div id="sortable-list" class="media-list">
             <div class="col-sm-4 col-md-2 sortable-object" 
-                 th:attr="data-id=${track.id},data-name=${track.name}"
-                 th:each="track : ${trackList}">
+                 th:each="track : ${trackList}"
+                 th:attr="data-id=${track.id},data-name=${track.name}">
                 <div class="thumbnail">
                     <img class="media-object visible-xs" th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" />
                     <img class="media-object hidden-xs" th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" />

@@ -56,6 +56,8 @@
         LEFT JOIN M_ARTICLE ON M_FILE.ARTICLE_ID = M_ARTICLE.ID
         <where>
             M_ARTICLE.ID = #{articleId}
+        AND M_FILE.DEL_FLG='0'
+        AND M_TRACK.DEL_FLG='0'
         </where>
         ORDER BY M_FILE.ORDER_NO
     </select>

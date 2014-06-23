@@ -4,16 +4,16 @@
   <title th:inline="text">[[#{application}]]</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
   <link rel="stylesheet" href="http://static.tongrenlu.info/bootstrap-3.1.1/css/bootstrap.min.css"/>
   <link rel="stylesheet" th:href="@{/tongrenlu/css/screen.css}"/>
 </head>
 <body>
 <div layout:fragment="header"></div>
-<div layout:fragment="content"></div>
+<div layout:fragment="content" class="container-fluid"></div>
 <div layout:fragment="footer">
 <div class="navbar navbar-static-bottom" layout:fragment="footer">
-  <div class="container">
+  <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
         th:href="@{/}" th:text="#{application}"></a>

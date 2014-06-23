@@ -1,9 +1,13 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.HomeMusicService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,27 +27,28 @@ public class HomeMusicController {
     @Autowired
     private HomeMusicService musicService = null;
 
+    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/track")
+    @ResponseBody
+    public Map<String, Object> doGetTrack(@PathVariable final Integer articleId) {
+        final Map<String, Object> model = new HashMap<>();
+        final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
+        model.put("trackList", trackList);
+        return model;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/music")
     public String doGetIndex(@RequestParam(required = false) final Integer page,
                              @RequestParam(required = false) final String q,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
-        return this.musicService.doGetIndex(loginUser, page, q, model);
+        throw new PageNotFoundException();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}")
     public String doGetView(@PathVariable final String articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
-        return this.musicService.doGetView(loginUser, articleId, model);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/playlist")
-    @ResponseBody
-    public List<Object> doGetPlaylist(@PathVariable final String articleId,
-                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                      final Model model) {
-        return this.musicService.doGetPlaylist(loginUser, articleId, null);
+        throw new PageNotFoundException();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/booklet")
@@ -51,6 +56,6 @@ public class HomeMusicController {
     public List<Object> doGetBooklet(@PathVariable final String articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                      final Model model) {
-        return this.musicService.doGetBooklet(loginUser, articleId, null);
+        throw new PageNotFoundException();
     }
 }

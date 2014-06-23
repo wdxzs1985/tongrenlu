@@ -150,7 +150,7 @@ div.jp-seeking-bg {
 }
 
 .jp-progress {
-    height: 24px;
+    height: 32px;
     padding: 4px 2px 2px 2px;
     margin-bottom: 2px;
     overflow:hidden;
@@ -159,7 +159,7 @@ div.jp-seeking-bg {
 .jp-seek-bar {
     background: #bdc3c7;
     width:0px;
-    height: 4px;
+    height: 8px;
     overflow:hidden;
     cursor:pointer;
 }
@@ -314,15 +314,25 @@ div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
 }
 
 div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove {
-    float:right;
-    display:inline;
-    text-align:right;
-    margin-left:10px;
-    font-weight:bold;
     color:#95a5a6;
 }
 div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove:hover {
     color:#e74c3c;
+}
+
+.jp-playlist pre {
+	border: none;
+	background: none;
+	font-size: 12px;
+	display: none;
+}
+
+.jp-playlist li.jp-playlist-current pre {
+    display: block;
+}
+
+.jp-playlist li:hover pre {
+    display: block;
 }
 
 span.jp-artist {
@@ -367,3 +377,6 @@ div.jp-jplayer {
     font-weight:bold;
 }
 /* @end */
+
+
+
