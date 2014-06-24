@@ -9,12 +9,14 @@
         <trim suffixOverrides=",">
             NAME,
             EXTENSION,
+            CONTENT_TYPE,
             ARTICLE_ID,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
             #{name},
             #{extension},
+            #{contentType},
             #{articleId},
         </trim>
         )
@@ -33,8 +35,8 @@
             M_FILE A
         <where>
             A.ARTICLE_ID = #{articleId}
-        <if test="extension">
-        AND A.EXTENSION = #{extension}
+        <if test="contentType">
+        AND A.CONTENT_TYPE = #{contentType}
         </if>
         AND A.DEL_FLG = '0'
         </where>
@@ -48,6 +50,7 @@
             A.ID            as id,
             A.NAME          as name,
             A.EXTENSION     as extension,
+            A.CONTENT_TYPE  as contentType,
             A.ARTICLE_ID    as articleId,
             A.ORDER_NO      as orderNo,
         </trim>

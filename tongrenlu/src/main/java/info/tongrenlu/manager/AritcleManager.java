@@ -109,11 +109,17 @@ public class AritcleManager {
     }
 
     public List<FileBean> getFiles(final Integer articleId,
-                                   final String extension) {
+                                   final String contentType) {
         final Map<String, Object> param = new HashMap<>();
         param.put("articleId", articleId);
-        param.put("extension", extension);
+        param.put("contentType", contentType);
         return this.fileMapper.fetchList(param);
+    }
+
+    public FileBean getFile(final Integer id) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", id);
+        return this.fileMapper.fetchBean(param);
     }
 
     public void addFile(final FileBean fileBean) {

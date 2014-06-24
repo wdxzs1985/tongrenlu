@@ -52,13 +52,13 @@
                  th:attr="data-id=${track.id},data-name=${track.name}">
                 <div class="thumbnail">
                     <img class="media-object visible-xs" th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" />
-                    <img class="media-object hidden-xs" th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" />
+                    <img class="media-object hidden-xs" th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}" />
                     <div class="caption">
-                        <p class="text-center text-single-line" th:text="${track.name}">${track.name}</p>
+                        <span class="text-center text-single-line" th:text="${track.name}"></span>
+                        <input type="hidden" name="trackId[]" th:value="${track.id}" />
                     </div>
                 </div>
                 <div class="media-body">
-                    <input type="hidden" name="trackId[]" th:value="${track.id}" />
                     <div class="form-group">
                         <div class="row ">
                             <div class="col-md-8 col-lg-8">
@@ -153,18 +153,24 @@ $(function(){
     });
     
     $("#sort-by-time").click(function(){
-    	var $listItem = $sortableList.find('.sortable-object');
+        var $listItem = $sortableList.find('.sortable-object');
         var $tempFileList = $('<div></div>');
         $.each($listItem, function(i1, e1){
             var $e1 =  $(e1);
             var fileId1 = $e1.data("id");
+            var name1 = $e1.data("name");
             
             $tempFileList.prepend($e1);
             $.each($tempFileList.children('.sortable-object'), function(i2, e2){
                 var $e2 =  $(e2);
                 var fileId2 = $e2.data("id");
+                var name2 = $e2.data("name");
                 if(fileId1 > fileId2){
                     $e1.insertAfter($e2);
+                } else if(fileId1 == fileId2) {
+                    if(name1 > name2){
+                        $e1.insertAfter($e2);
+                    }
                 }
             });
         });
@@ -176,13 +182,20 @@ $(function(){
         var $tempFileList = $('<div></div>');
         $.each($listItem, function(i1, e1){
             var $e1 =  $(e1);
+            var fileId1 = $e1.data("id");
             var name1 = $e1.data("name");
+            
             $tempFileList.prepend($e1);
             $.each($tempFileList.children('.sortable-object'), function(i2, e2){
                 var $e2 =  $(e2);
+                var fileId2 = $e2.data("id");
                 var name2 = $e2.data("name");
                 if(name1 > name2){
                     $e1.insertAfter($e2);
+                } else if(name1 == name2){
+                    if(fileId1 > fileId2){
+                        $e1.insertAfter($e2);
+                    }
                 }
             });
         });

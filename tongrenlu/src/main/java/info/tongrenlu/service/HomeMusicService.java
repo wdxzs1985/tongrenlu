@@ -4,6 +4,7 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.AritcleManager;
+import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class HomeMusicService {
 
     public List<TrackBean> getTrackList(final Integer articleId) {
         return this.aritcleManager.getTrackList(articleId);
+    }
+
+    public List<FileBean> getBookletList(final Integer articleId) {
+        return this.aritcleManager.getFiles(articleId, FileManager.IMAGE);
     }
 
     // @Autowired
@@ -149,18 +154,18 @@ public class HomeMusicService {
         final boolean isLocal = StringUtils.contains(serverName, "127.0.0.1") || StringUtils.contains(serverName,
                                                                                                       "192.168.11.");
         final String FILE_PATH = isLocal ? "http://192.168.11.9/resource"
-                                        : "/resource";
+                : "/resource";
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("normal_img", FILE_PATH + "/"
-                                + fileBean.getArticleId()
-                                + "/"
-                                + fileBean.getId()
-                                + "_800.jpg");
+                + fileBean.getArticleId()
+                + "/"
+                + fileBean.getId()
+                + "_800.jpg");
         model.put("large_img", FILE_PATH + "/"
-                               + fileBean.getArticleId()
-                               + "/"
-                               + fileBean.getId()
-                               + "_1600.jpg");
+                + fileBean.getArticleId()
+                + "/"
+                + fileBean.getId()
+                + "_1600.jpg");
         return model;
     }
 

@@ -7,6 +7,7 @@ import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
+import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.FileService;
 import info.tongrenlu.support.PaginateSupport;
@@ -17,8 +18,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,15 +33,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @SessionAttributes("LOGIN_USER")
 public class ConsoleMusicController {
 
     @Autowired
+    private MessageSource messageSource = null;
+    @Autowired
     private ConsoleMusicService musicService = null;
     @Autowired
     private FileService fileService = null;
+
+    private void throwExceptionWhenNotAllow(final MusicBean musicBean,
+                                            final UserBean loginUser) {
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/input")
     public String doGetInput(final Model model) {
@@ -93,12 +110,7 @@ public class ConsoleMusicController {
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         final List<String> tags = this.musicService.getTags(musicBean);
 
@@ -113,12 +125,8 @@ public class ConsoleMusicController {
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         final List<String> tags = this.musicService.getTags(musicBean);
 
@@ -138,12 +146,8 @@ public class ConsoleMusicController {
                              final Model model,
                              final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         musicBean.setTitle(title);
         musicBean.setDescription(description);
@@ -168,12 +172,8 @@ public class ConsoleMusicController {
     public String doGetDelete(@PathVariable final Integer articleId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         this.musicService.doDelete(musicBean);
 
@@ -185,12 +185,8 @@ public class ConsoleMusicController {
                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                    final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         model.addAttribute("articleBean", musicBean);
 
@@ -202,16 +198,12 @@ public class ConsoleMusicController {
     public Map<String, Object> doGetTrackFile(@PathVariable final Integer articleId,
                                               @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         final Map<String, Object> model = new HashMap<String, Object>();
-        final List<FileBean> files = this.musicService.getTrackFiles(musicBean);
-        model.put("files", files);
+        final List<FileBean> fileList = this.musicService.getTrackFileList(musicBean);
+        model.put("files", this.musicService.wrapFileBeanList(fileList));
         return model;
     }
 
@@ -219,22 +211,32 @@ public class ConsoleMusicController {
     @ResponseBody
     public Map<String, Object> doPostTrackFile(@PathVariable final Integer articleId,
                                                @RequestParam(value = "files[]") final MultipartFile[] uploads,
-                                               @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+                                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                               final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         final Map<String, Object> model = new HashMap<String, Object>();
-        final List<FileBean> files = new ArrayList<>();
+        final List<Map<String, Object>> files = new ArrayList<>();
         if (ArrayUtils.isNotEmpty(uploads)) {
             for (final MultipartFile upload : uploads) {
-                final FileBean fileBean = this.musicService.addTrackFile(articleId,
-                                                                         upload);
-                files.add(fileBean);
+                final String filename = upload.getOriginalFilename();
+                final String name = FilenameUtils.getBaseName(filename);
+                final String extention = FilenameUtils.getExtension(filename);
+
+                final FileBean fileBean = new FileBean();
+                fileBean.setArticleId(articleId);
+                fileBean.setName(name);
+                fileBean.setExtension(extention);
+                fileBean.setContentType(FileManager.AUDIO);
+
+                final Map<String, Object> fileModel = new HashMap<String, Object>();
+                this.musicService.addTrackFile(fileBean,
+                                               upload,
+                                               fileModel,
+                                               locale);
+                files.add(this.musicService.wrapFileBean(fileBean, fileModel));
             }
         }
 
@@ -248,18 +250,11 @@ public class ConsoleMusicController {
                                                  @PathVariable final Integer fileId,
                                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         final Map<String, Object> model = new HashMap<String, Object>();
-        final FileBean fileBean = new FileBean();
-        fileBean.setId(fileId);
-        fileBean.setArticleId(articleId);
-        this.musicService.removeTrackFile(fileBean);
+        this.musicService.removeFile(fileId);
 
         model.put("result", true);
         return model;
@@ -268,21 +263,25 @@ public class ConsoleMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/track/sort")
     public String doGetTrackSort(@PathVariable final Integer articleId,
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                 final Model model) {
+                                 final Model model,
+                                 final RedirectAttributes redirectAttr,
+                                 final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
 
-        model.addAttribute("articleBean", musicBean);
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
-        model.addAttribute("trackList", trackList);
-
-        return "console/music/track_sort";
+        if (CollectionUtils.isNotEmpty(trackList)) {
+            model.addAttribute("articleBean", musicBean);
+            model.addAttribute("trackList", trackList);
+            return "console/music/track_sort";
+        } else {
+            final String error = this.messageSource.getMessage("console.article.sort.noFile",
+                                                               null,
+                                                               locale);
+            redirectAttr.addFlashAttribute("error", error);
+            return "redirect:/console/music/" + articleId + "/track/upload";
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/track/sort")
@@ -296,12 +295,8 @@ public class ConsoleMusicController {
                                   final Model model,
                                   final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-        if (musicBean == null) {
-            throw new PageNotFoundException();
-        }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
-        }
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
         model.addAttribute("articleBean", musicBean);
 
@@ -333,7 +328,119 @@ public class ConsoleMusicController {
             trackList.add(trackBean);
         }
 
-        this.musicService.updateTrack(trackList);
+        this.musicService.updateTrackList(trackList);
+
+        return "redirect:/console/music/" + articleId;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/booklet/upload")
+    public String doGetBookletUpload(@PathVariable final Integer articleId,
+                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                     final Model model) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
+
+        model.addAttribute("articleBean", musicBean);
+
+        return "console/music/booklet_upload";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/booklet/file")
+    @ResponseBody
+    public Map<String, Object> doGetBookletFile(@PathVariable final Integer articleId,
+                                                @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
+
+        final Map<String, Object> model = new HashMap<String, Object>();
+        final List<FileBean> fileList = this.musicService.getBookletFileList(musicBean);
+        model.put("files", this.musicService.wrapFileBeanList(fileList));
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/booklet/file")
+    @ResponseBody
+    public Map<String, Object> doPostBookletFile(@PathVariable final Integer articleId,
+                                                 @RequestParam(value = "files[]") final MultipartFile[] uploads,
+                                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                                 final Locale locale) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
+
+        final Map<String, Object> model = new HashMap<String, Object>();
+        final List<Map<String, Object>> files = new ArrayList<>();
+        if (ArrayUtils.isNotEmpty(uploads)) {
+            for (final MultipartFile upload : uploads) {
+                final String filename = upload.getOriginalFilename();
+                final String name = FilenameUtils.getBaseName(filename);
+                final String extention = FilenameUtils.getExtension(filename);
+
+                final FileBean fileBean = new FileBean();
+                fileBean.setArticleId(articleId);
+                fileBean.setName(name);
+                fileBean.setExtension(extention);
+                fileBean.setContentType(FileManager.IMAGE);
+
+                final Map<String, Object> fileModel = new HashMap<String, Object>();
+
+                this.musicService.addBookletFile(fileBean,
+                                                 upload,
+                                                 fileModel,
+                                                 locale);
+                files.add(this.musicService.wrapFileBean(fileBean, fileModel));
+            }
+        }
+
+        model.put("files", files);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/booklet/sort")
+    public String doGetBookletSort(@PathVariable final Integer articleId,
+                                   @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                   final Model model,
+                                   final RedirectAttributes redirectAttr,
+                                   final Locale locale) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
+
+        final List<FileBean> fileList = this.musicService.getBookletFileList(musicBean);
+        if (CollectionUtils.isNotEmpty(fileList)) {
+            model.addAttribute("articleBean", musicBean);
+            model.addAttribute("fileList", fileList);
+            return "console/music/booklet_sort";
+        } else {
+            final String error = this.messageSource.getMessage("console.article.sort.noFile",
+                                                               null,
+                                                               locale);
+            redirectAttr.addFlashAttribute("error", error);
+            return "redirect:/console/music/" + articleId + "/booklet/upload";
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/booklet/sort")
+    public String doPostBookletSort(@PathVariable final Integer articleId,
+                                    @RequestParam(value = "fileId[]") final Integer[] fileId,
+                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                    final Model model,
+                                    final Locale locale) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
+
+        final List<FileBean> fileList = new ArrayList<FileBean>();
+        for (int i = 0; i < fileId.length; i++) {
+            final FileBean fileBean = new FileBean();
+            fileBean.setId(fileId[i]);
+            fileBean.setOrderNo(i + 1);
+
+            fileList.add(fileBean);
+        }
+
         return "redirect:/console/music/" + articleId;
     }
 }

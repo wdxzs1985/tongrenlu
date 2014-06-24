@@ -31,11 +31,11 @@
     // in the Gallery lightbox:
     $(document).on('click', '[data-gallery]', function (event) {
         // Get the container id from the data-gallery attribute:
-        var id = $(this).data('gallery'),
-            widget = $(id),
-            container = (widget.length && widget) ||
-                $(Gallery.prototype.options.container),
-            callbacks = {
+        var id = $(this).data('gallery');
+        var widget = $(id);
+        var container = (widget.length && widget) ||
+                $(Gallery.prototype.options.container);
+        var callbacks = {
                 onopen: function () {
                     container
                         .data('gallery', this)

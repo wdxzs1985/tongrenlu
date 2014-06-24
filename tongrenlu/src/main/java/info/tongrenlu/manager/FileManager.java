@@ -11,16 +11,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,25 +33,29 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManager {
 
     public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-                                                            90,
-                                                            120,
-                                                            180,
-                                                            400 };
-    public static final int[] COMIC_SIZE_ARRAY = new int[] { 120,
-                                                            300,
-                                                            800,
-                                                            1200,
-                                                            1600 };
+            90,
+            120,
+            180,
+            400 };
+    public static final int[] IMAGE_SIZE_ARRAY = new int[] { 1200, 1600 };
 
     public static final String USER = "u";
     public static final String COMIC = "c";
     public static final String MUSIC = "m";
     public static final String FILE = "f";
 
-    public static final String COVER = "cover";
+    public static final String COVER = "cover.jpg";
 
     public static final String JPG = "jpg";
     public static final String MP3 = "mp3";
+
+    public static final String[] ACCEPT_AUDIO = { "audio/mp3" };
+
+    public static final String[] ACCEPT_IMAGE = { "image/jpeg", "image/png" };
+
+    public static final String AUDIO = "audio";
+
+    public static final String IMAGE = "image";
 
     private Log log = LogFactory.getLog(this.getClass());
 
@@ -70,18 +79,21 @@ public class FileManager {
 
     public String getInputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                                        : this.inputPathLinux;
+                : this.inputPathLinux;
     }
 
     public String getOutputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                                        : this.outputPathLinux;
+                : this.outputPathLinux;
     }
 
     public String getConvertPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                                        : this.convertPathLinux;
+                : this.convertPathLinux;
     }
+
+    @Autowired
+    private MessageSource messageSource = null;
 
     public void saveCover(final DtoBean dtoBean, final MultipartFile fileItem) {
         String dirId = null;
@@ -94,9 +106,7 @@ public class FileManager {
         } else {
             return;
         }
-        final File inputFile = this.getFile(dirId,
-                                            FileManager.COVER,
-                                            FileManager.JPG);
+        final File inputFile = this.getFile(dirId, FileManager.COVER);
         if (fileItem != null && !fileItem.isEmpty()) {
             this.saveFile(fileItem, inputFile);
             this.convertCover(inputFile, dirId);
@@ -109,27 +119,47 @@ public class FileManager {
         }
     }
 
-    public void saveMp3(final FileBean fileBean, final MultipartFile fileItem) {
-        final String dirId = FileManager.MUSIC + fileBean.getArticleId();
-        final String name = FileManager.FILE + fileBean.getId();
+    public void saveFile(final String articleType,
+                         final FileBean fileBean,
+                         final MultipartFile fileItem) {
+        final String dirId = articleType + fileBean.getArticleId();
 
-        final File file = this.getFile(dirId, name, FileManager.MP3);
-
+        final String name = String.format("f%d.%s",
+                                          fileBean.getId(),
+                                          fileBean.getExtension());
+        final File file = this.getFile(dirId, name);
         this.saveFile(fileItem, file);
     }
 
-    public void deleteFile(final FileBean fileBean) {
-        final String dirId = FileManager.MUSIC + fileBean.getArticleId();
-        final String name = FileManager.FILE + fileBean.getId();
-
-        final File file = this.getFile(dirId, name, FileManager.MP3);
-
+    public void deleteFile(final String articleType, final FileBean fileBean) {
+        final String dirId = articleType + fileBean.getArticleId();
+        final String name = String.format("f%d.%s",
+                                          fileBean.getId(),
+                                          fileBean.getExtension());
+        final File file = this.getFile(dirId, name);
         FileUtils.deleteQuietly(file);
+
+        if (FileManager.IMAGE.equals(fileBean.getContentType())) {
+            for (final int size : FileManager.COVER_SIZE_ARRAY) {
+                final String thumbnail = String.format("f%d_%d.jpg",
+                                                       fileBean.getId(),
+                                                       size);
+                final File thumbnailFile = this.getFile(dirId, thumbnail);
+                FileUtils.deleteQuietly(thumbnailFile);
+            }
+            for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
+                final String thumbnail = String.format("f%d_%d.jpg",
+                                                       fileBean.getId(),
+                                                       size);
+                final File thumbnailFile = this.getFile(dirId, thumbnail);
+                FileUtils.deleteQuietly(thumbnailFile);
+            }
+        }
     }
 
-    public File getFile(final String dirId, final String name, final String ext) {
+    public File getFile(final String dirId, final String name) {
         final String rootPath = this.getInputPath();
-        return new File(rootPath + "/" + dirId + "/" + name + "." + ext);
+        return new File(rootPath + "/" + dirId + "/" + name);
     }
 
     protected void saveFile(final MultipartFile fileItem, final File file) {
@@ -149,8 +179,8 @@ public class FileManager {
 
     public void convertCover(final File inputFile, final String id) {
         for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final String name = String.format("%s_%d", FileManager.COVER, size);
-            final File outputFile = this.getFile(id, name, FileManager.JPG);
+            final String name = String.format("cover_%d.jpg", size);
+            final File outputFile = this.getFile(id, name);
             this.convertCover(inputFile, outputFile, size);
         }
     }
@@ -163,7 +193,7 @@ public class FileManager {
         cmd.setSearchPath(this.getConvertPath());
         // create the operation, add images and operators/options
         final IMOperation op = new IMOperation();
-        op.density(72);
+        op.density(72).strip();
         op.addImage(input.getAbsolutePath());
         op.adaptiveResize(size, size, '^');
         op.gravity("center");
@@ -186,10 +216,62 @@ public class FileManager {
         }
     }
 
-    public void copyDefaultCover(final String id, final int size) {
-        final String name = String.format("%s_%d", FileManager.COVER, size);
-        final File src = this.getFile("default", name, FileManager.JPG);
-        final File dest = this.getFile(id, name, FileManager.JPG);
+    public void convertImage(final String articleType, final FileBean fileBean) {
+        final String dirId = articleType + fileBean.getArticleId();
+        final String inputName = String.format("f%d.%s",
+                                               fileBean.getId(),
+                                               fileBean.getExtension());
+        final File inputFile = this.getFile(dirId, inputName);
+
+        for (final int size : FileManager.COVER_SIZE_ARRAY) {
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    fileBean.getId(),
+                                                    size);
+            final File outputFile = this.getFile(dirId, outputName);
+            this.convertCover(inputFile, outputFile, size);
+        }
+        for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    fileBean.getId(),
+                                                    size);
+            final File outputFile = this.getFile(dirId, outputName);
+            this.convertImage(inputFile, outputFile, size);
+        }
+    }
+
+    protected void convertImage(final File input,
+                                final File output,
+                                final int size) {
+        final ConvertCmd cmd = new ConvertCmd();
+        // cmd.setAsyncMode(true);
+        cmd.setSearchPath(this.getConvertPath());
+        // create the operation, add images and operators/options
+        final IMOperation op = new IMOperation();
+        op.density(72).strip();
+        op.addImage(input.getAbsolutePath());
+        op.adaptiveResize(size, size, '^');
+        op.addImage(output.getAbsolutePath());
+        // execute the operation
+        try {
+            cmd.run(op);
+        } catch (final IOException e) {
+            // throw new RuntimeException(e);
+            FileUtils.deleteQuietly(output);
+        } catch (final InterruptedException e) {
+            // throw new RuntimeException(e);
+            FileUtils.deleteQuietly(output);
+        } catch (final IM4JavaException e) {
+            // throw new RuntimeException(e);
+            FileUtils.deleteQuietly(output);
+        } finally {
+            // FileUtils.deleteQuietly(input);
+        }
+    }
+
+    public void copyDefaultCover(final String dirId, final int size) {
+        final String name = String.format("cover_%d.jpg", size);
+        final File src = this.getFile("default", name);
+        final File dest = this.getFile(dirId, name);
 
         try {
             FileUtils.copyFile(src, dest);
@@ -215,5 +297,21 @@ public class FileManager {
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean validateContentType(final String contentType,
+                                       final String[] accepted,
+                                       final String errorAttribute,
+                                       final Map<String, Object> model,
+                                       final Locale locale) {
+        boolean isValid = true;
+        if (!ArrayUtils.contains(accepted, contentType)) {
+            final String message = this.messageSource.getMessage("error.fileNotAccept",
+                                                                 null,
+                                                                 locale);
+            model.put(errorAttribute, message);
+            isValid = false;
+        }
+        return isValid;
     }
 }

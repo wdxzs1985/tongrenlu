@@ -17,6 +17,8 @@ public class FileBean extends DtoBean {
 
     private String extension = null;
 
+    private String contentType = null;
+
     private int orderNo = 0;
 
     public String getName() {
@@ -25,14 +27,6 @@ public class FileBean extends DtoBean {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public String getExtension() {
-        return this.extension;
-    }
-
-    public void setExtension(final String extension) {
-        this.extension = extension;
     }
 
     public int getOrderNo() {
@@ -49,6 +43,22 @@ public class FileBean extends DtoBean {
 
     public void setArticleId(final Integer articleId) {
         this.articleId = articleId;
+    }
+
+    public String getContentType() {
+        return this.contentType;
+    }
+
+    public void setContentType(final String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getExtension() {
+        return this.extension;
+    }
+
+    public void setExtension(final String extension) {
+        this.extension = extension;
     }
 
 }

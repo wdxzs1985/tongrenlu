@@ -10,15 +10,14 @@ var player = function(option) {
         volume : 0.5
 	}, option);
 	
-	var dataUrl = option.root + 'music/' + option.articleId + '/track';
-    $.getJSON(dataUrl).done(function(response){
+    $.getJSON(option.url).done(function(response){
         if(response.trackList) {
         	var playlist = [];
         	$.each(response.trackList, function(index, track) {
         		var title = track.name;
                 var artist = track.artist;
                 var original = track.original;
-                var mp3 = option.root + 'files/m' + option.articleId + '/f' + track.id + '.mp3';
+                var mp3 = option.filePath + '/f' + track.id + '.mp3';
         		var playable = {
         				title: title,
         				artist: artist,
@@ -42,27 +41,5 @@ var player = function(option) {
                 return d;
             }
         }
-    });
-    
-    $('#jp_container_N').on('click', '.jp-add-playlist', function(){
-    	if(window.user) {
-    		loadMyPlaylistName();
-    	} else {
-    		window.dologin();
-    	}
-    })
-}
-
-var loadMyPlaylistName = function(){
-    $.getJSON('/fm/my/playlist/name', function(response){
-        if(response.result) {
-            $('#playlist-name-list').html( tmpl('playlistDialogTemplate', response) );
-            $('#playlist-modal').modal();
-        } else {
-            alert(response.error);
-        }
-    }).error(function(){
-        alert('服务器⑨了。');
-    }).complete(function(){
     });
 }

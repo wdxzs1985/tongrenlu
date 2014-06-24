@@ -4,6 +4,7 @@
   layout:decorator="console/layout">
   <head>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
   </head>
   <body>
     <div layout:fragment="content">
@@ -22,14 +23,18 @@
         <div class="col-xs-12">
           <div class="page-header">
               <a class="btn btn-default pull-right"
-                th:href="@{/console/music/__${articleBean.id}__/booklet}"
+                th:href="@{/console/music/__${articleBean.id}__/booklet/upload}"
                 th:text="#{console.music.booklet.upload}">upload</a>
               <h4 th:text="#{home.music.booklet}">booklet</h4>
           </div>
-          <a href="#" class="thumbnail">
-              <img src="http://placehold.it/400x400" class="img-responsive" 
-                   th:src="@{/files/m__${articleBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${articleBean.title}"/>
-          </a>
+          <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+              <div class="slides"></div>
+              <h3 class="title"></h3>
+              <a class="prev">&lsaquo;</a>
+              <a class="next">&rsaquo;</a>
+              <a class="play-pause"></a>
+              <ol class="indicator"></ol>
+          </div>
         </div>
         <div class="col-sm-6">
           <div class="page-header">
@@ -108,11 +113,13 @@
       </ul>
     </div>
 <th:block layout:fragment="scripts-libs">
+<script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/player.js}" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/url.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
 <li><div>
     <a href="javascript:;" class="{%=o.itemClass%}">
@@ -125,16 +132,21 @@
 <th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    var articleId = /*[[${articleBean.id}]]*/ '';
-    var root = /*[[@{/}]]*/'';
+    var trackDataUrl = /*[[@{/music/__${articleBean.id}__/track}]]*/ '';
+    var bookletDataUrl = /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '';
+    var filePath = /*[[@{/files/m__${articleBean.id}__}]]*/'';
     var swfPath = /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js';
     
     new player({
-    	articleId: articleId,
-    	root: root,
+    	url: trackDataUrl,
+    	filePath: filePath,
     	swfPath: swfPath
     });
-    
+    new carousel({
+        url: bookletDataUrl,
+        filePath: filePath,
+        startSlideshow: false
+    });
     $('#article-description').url();
 });
 </script>

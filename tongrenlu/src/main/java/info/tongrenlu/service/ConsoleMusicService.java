@@ -9,13 +9,16 @@ import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class ConsoleMusicService {
 
+    @Autowired
+    private MessageSource messageSource = null;
     @Autowired
     private AritcleManager aritcleManager = null;
     @Autowired
@@ -72,6 +77,118 @@ public class ConsoleMusicService {
         this.fileManager.deleteArticle(musicBean);
     }
 
+    public void searchMusic(final PaginateSupport<MusicBean> paginate) {
+        final int itemCount = this.aritcleManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<MusicBean> items = this.aritcleManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
+    }
+
+    public MusicBean getById(final Integer id) {
+        return this.aritcleManager.getMusicById(id);
+    }
+
+    public List<String> getTags(final MusicBean musicBean) {
+        return this.aritcleManager.getTags(musicBean);
+    }
+
+    public List<FileBean> getTrackFileList(final MusicBean musicBean) {
+        final Integer articleId = musicBean.getId();
+        return this.aritcleManager.getFiles(articleId, FileManager.AUDIO);
+    }
+
+    public List<FileBean> getBookletFileList(final MusicBean musicBean) {
+        final Integer articleId = musicBean.getId();
+        return this.aritcleManager.getFiles(articleId, FileManager.IMAGE);
+    }
+
+    public List<Map<String, Object>> wrapFileBeanList(final List<FileBean> fileList) {
+        List<Map<String, Object>> files = Collections.emptyList();
+        if (CollectionUtils.isNotEmpty(fileList)) {
+            files = new ArrayList<Map<String, Object>>();
+            for (final FileBean fileBean : fileList) {
+                final Map<String, Object> fileModel = new HashMap<String, Object>();
+                files.add(this.wrapFileBean(fileBean, fileModel));
+            }
+        }
+        return files;
+    }
+
+    public Map<String, Object> wrapFileBean(final FileBean fileBean,
+                                            final Map<String, Object> fileModel) {
+        fileModel.put("id", fileBean.getId());
+        fileModel.put("name", fileBean.getName());
+        fileModel.put("articleId", fileBean.getArticleId());
+        return fileModel;
+    }
+
+    @Transactional
+    public boolean addTrackFile(final FileBean fileBean,
+                                final MultipartFile upload,
+                                final Map<String, Object> fileModel,
+                                final Locale locale) {
+        if (this.validateForTrackFile(upload, fileModel, locale)) {
+            this.aritcleManager.addFile(fileBean);
+
+            final TrackBean trackBean = new TrackBean();
+            trackBean.setId(fileBean.getId());
+            trackBean.setName(fileBean.getName());
+            this.aritcleManager.addTrack(trackBean);
+            this.fileManager.saveFile(FileManager.MUSIC, fileBean, upload);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean addBookletFile(final FileBean fileBean,
+                                  final MultipartFile upload,
+                                  final Map<String, Object> fileModel,
+                                  final Locale locale) {
+        if (this.validateForBookletFile(upload, fileModel, locale)) {
+            this.aritcleManager.addFile(fileBean);
+            this.fileManager.saveFile(FileManager.MUSIC, fileBean, upload);
+            this.fileManager.convertImage(FileManager.MUSIC, fileBean);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public void removeFile(final Integer fileId) {
+        final FileBean fileBean = this.aritcleManager.getFile(fileId);
+        if (fileBean != null) {
+            this.aritcleManager.deleteFile(fileBean);
+
+            if (FileManager.AUDIO.equals(fileBean.getContentType())) {
+                final TrackBean trackBean = new TrackBean();
+                trackBean.setFileBean(fileBean);
+                this.aritcleManager.deleteTrack(trackBean);
+            }
+
+            this.fileManager.deleteFile(FileManager.MUSIC, fileBean);
+        }
+    }
+
+    public List<TrackBean> getTrackList(final Integer articleId) {
+        return this.aritcleManager.getTrackList(articleId);
+    }
+
+    @Transactional
+    public void updateTrackList(final List<TrackBean> trackList) {
+        for (final TrackBean trackBean : trackList) {
+            this.aritcleManager.updateTrack(trackBean);
+            this.aritcleManager.updateFile(trackBean.getFileBean());
+        }
+    }
+
+    @Transactional
+    public void publish(final MusicBean musicBean) {
+        this.aritcleManager.publish(musicBean);
+    }
+
     private boolean validateForCreate(final MusicBean inputArticle,
                                       final Map<String, Object> model,
                                       final Locale locale) {
@@ -98,71 +215,32 @@ public class ConsoleMusicService {
         return isValid;
     }
 
-    public void searchMusic(final PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.aritcleManager.countMusic(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<MusicBean> items = this.aritcleManager.searchMusic(paginate.getParams());
-        paginate.setItems(items);
-    }
-
-    public MusicBean getById(final Integer id) {
-        return this.aritcleManager.getMusicById(id);
-    }
-
-    public List<String> getTags(final MusicBean musicBean) {
-        return this.aritcleManager.getTags(musicBean);
-    }
-
-    public List<FileBean> getTrackFiles(final MusicBean musicBean) {
-        final Integer articleId = musicBean.getId();
-        return this.aritcleManager.getFiles(articleId, "mp3");
-    }
-
-    public FileBean addTrackFile(final Integer articleId,
-                                 final MultipartFile upload) {
-        final FileBean fileBean = new FileBean();
-        fileBean.setArticleId(articleId);
-        fileBean.setName(upload.getOriginalFilename());
-        fileBean.setExtension("mp3");
-        this.aritcleManager.addFile(fileBean);
-
-        final TrackBean trackBean = new TrackBean();
-        trackBean.setId(fileBean.getId());
-        final String name = FilenameUtils.getBaseName(fileBean.getName());
-        trackBean.setName(StringUtils.left(name, 255));
-        this.aritcleManager.addTrack(trackBean);
-
-        this.fileManager.saveMp3(fileBean, upload);
-        return fileBean;
-    }
-
-    public void removeTrackFile(final FileBean fileBean) {
-        this.aritcleManager.deleteFile(fileBean);
-
-        final TrackBean trackBean = new TrackBean();
-        trackBean.setFileBean(fileBean);
-        this.aritcleManager.deleteTrack(trackBean);
-
-        this.fileManager.deleteFile(fileBean);
-    }
-
-    public List<TrackBean> getTrackList(final Integer articleId) {
-        return this.aritcleManager.getTrackList(articleId);
-    }
-
-    @Transactional
-    public void updateTrack(final List<TrackBean> trackList) {
-        for (final TrackBean trackBean : trackList) {
-            this.aritcleManager.updateTrack(trackBean);
-            this.aritcleManager.updateFile(trackBean.getFileBean());
+    private boolean validateForTrackFile(final MultipartFile upload,
+                                         final Map<String, Object> fileModel,
+                                         final Locale locale) {
+        boolean isValid = true;
+        if (!this.fileManager.validateContentType(upload.getContentType(),
+                                                  FileManager.ACCEPT_AUDIO,
+                                                  "error",
+                                                  fileModel,
+                                                  locale)) {
+            isValid = false;
         }
+        return isValid;
     }
 
-    @Transactional
-    public void publish(final MusicBean musicBean) {
-        this.aritcleManager.publish(musicBean);
+    private boolean validateForBookletFile(final MultipartFile upload,
+                                           final Map<String, Object> fileModel,
+                                           final Locale locale) {
+        boolean isValid = true;
+        if (!this.fileManager.validateContentType(upload.getContentType(),
+                                                  FileManager.ACCEPT_IMAGE,
+                                                  "error",
+                                                  fileModel,
+                                                  locale)) {
+            isValid = false;
+        }
+        return isValid;
     }
 
 }

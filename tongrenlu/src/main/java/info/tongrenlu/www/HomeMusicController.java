@@ -1,5 +1,6 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
@@ -36,6 +37,15 @@ public class HomeMusicController {
         return model;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/booklet")
+    @ResponseBody
+    public Map<String, Object> doGetBooklet(@PathVariable final Integer articleId) {
+        final Map<String, Object> model = new HashMap<>();
+        final List<FileBean> fileList = this.musicService.getBookletList(articleId);
+        model.put("fileList", fileList);
+        return model;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/music")
     public String doGetIndex(@RequestParam(required = false) final Integer page,
                              @RequestParam(required = false) final String q,
@@ -51,11 +61,4 @@ public class HomeMusicController {
         throw new PageNotFoundException();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/booklet")
-    @ResponseBody
-    public List<Object> doGetBooklet(@PathVariable final String articleId,
-                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                     final Model model) {
-        throw new PageNotFoundException();
-    }
 }
