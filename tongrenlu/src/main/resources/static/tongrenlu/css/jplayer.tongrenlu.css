@@ -182,7 +182,7 @@ ul.jp-volumn {
     overflow:hidden;
     position: absolute;
     width:105px;
-    top: 24px;
+    top: 32px;
     right: 0;
 }
 
@@ -229,7 +229,7 @@ div.jp-interface ul.jp-controls a.jp-volume-max:hover {
     overflow: hidden;
     width: 50px;
     position: absolute;
-    top: 47px;
+    top: 55px;
     right: 32px;
 }
 

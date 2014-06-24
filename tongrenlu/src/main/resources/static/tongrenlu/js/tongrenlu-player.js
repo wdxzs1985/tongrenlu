@@ -10,19 +10,21 @@ var player = function(option) {
         volume : 0.5
 	}, option);
 	
-    $.getJSON(option.url).done(function(response){
+    $.getJSON(settings.url).done(function(response){
         if(response.trackList) {
         	var playlist = [];
         	$.each(response.trackList, function(index, track) {
         		var title = track.name;
                 var artist = track.artist;
                 var original = track.original;
-                var mp3 = option.filePath + '/f' + track.id + '.mp3';
+                var mp3 = settings.filePath + '/f' + track.id + '.mp3';
+                var poster = settings.filePath + '/cover_400.jpg';
         		var playable = {
         				title: title,
         				artist: artist,
                         original: original,
-        				mp3: mp3
+        				mp3: mp3,
+        				poster: poster
         		};
         		playlist.push(playable);
         	});
