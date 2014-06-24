@@ -3,7 +3,7 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.manager.AritcleManager;
+import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -25,7 +25,7 @@ import org.springframework.ui.Model;
 public class HomeMusicService {
 
     @Autowired
-    private AritcleManager aritcleManager = null;
+    private ArticleManager aritcleManager = null;
 
     public List<TrackBean> getTrackList(final Integer articleId) {
         return this.aritcleManager.getTrackList(articleId);

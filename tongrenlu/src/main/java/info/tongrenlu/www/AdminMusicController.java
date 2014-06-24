@@ -65,7 +65,7 @@ public class AdminMusicController {
 
         this.throwExceptionWhenNotFound(musicBean);
 
-        final List<String> tags = this.musicService.getTags(musicBean);
+        final String[] tags = this.musicService.getTags(musicBean);
 
         model.addAttribute("articleBean", musicBean);
         model.addAttribute("tags", tags);
@@ -80,7 +80,7 @@ public class AdminMusicController {
 
         this.throwExceptionWhenNotFound(musicBean);
 
-        final List<String> tags = this.musicService.getTags(musicBean);
+        final String[] tags = this.musicService.getTags(musicBean);
 
         model.addAttribute("articleBean", musicBean);
         model.addAttribute("tags", tags);
@@ -166,7 +166,7 @@ public class AdminMusicController {
 
         this.throwExceptionWhenNotFound(musicBean);
 
-        final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
+        final List<TrackBean> trackList = this.musicService.getTrackList(musicBean);
         if (CollectionUtils.isNotEmpty(trackList)) {
             model.addAttribute("articleBean", musicBean);
             model.addAttribute("trackList", trackList);
@@ -223,7 +223,7 @@ public class AdminMusicController {
             trackList.add(trackBean);
         }
 
-        this.musicService.updateTrackList(trackList);
+        this.musicService.updateTrackList(trackList, musicBean);
         return "redirect:/admin/music/" + articleId;
     }
 

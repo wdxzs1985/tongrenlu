@@ -33,10 +33,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManager {
 
     public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-            90,
-            120,
-            180,
-            400 };
+                                                            90,
+                                                            120,
+                                                            180,
+                                                            400 };
     public static final int[] IMAGE_SIZE_ARRAY = new int[] { 1200, 1600 };
 
     public static final String USER = "u";
@@ -79,17 +79,17 @@ public class FileManager {
 
     public String getInputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                : this.inputPathLinux;
+                                        : this.inputPathLinux;
     }
 
     public String getOutputPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                : this.outputPathLinux;
+                                        : this.outputPathLinux;
     }
 
     public String getConvertPath() {
         return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                : this.convertPathLinux;
+                                        : this.convertPathLinux;
     }
 
     @Autowired
@@ -249,7 +249,7 @@ public class FileManager {
         final IMOperation op = new IMOperation();
         op.density(72).strip();
         op.addImage(input.getAbsolutePath());
-        op.adaptiveResize(size, size, '^');
+        op.adaptiveResize(size, size, '>');
         op.addImage(output.getAbsolutePath());
         // execute the operation
         try {

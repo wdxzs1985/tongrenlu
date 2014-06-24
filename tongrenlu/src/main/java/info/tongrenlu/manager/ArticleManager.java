@@ -24,7 +24,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AritcleManager {
+public class ArticleManager {
 
     public static final int TITLE_LENGTH = 100;
 
@@ -175,11 +175,11 @@ public class AritcleManager {
                                                     new Object[] { fieldName },
                                                     locale));
             isValid = false;
-        } else if (StringUtils.length(title) > AritcleManager.TITLE_LENGTH) {
+        } else if (StringUtils.length(title) > ArticleManager.TITLE_LENGTH) {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            AritcleManager.TITLE_LENGTH },
+                                                            ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

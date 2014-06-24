@@ -153,15 +153,15 @@ public class UserBean extends DtoBean {
     }
 
     public boolean isIncludeRed() {
-        return CommonConstants.CHR_TRUE.equals(this.includeRedFlg);
+        return CommonConstants.is(this.includeRedFlg);
     }
 
     public boolean isOnlyTranslate() {
-        return CommonConstants.CHR_TRUE.equals(this.onlyTranslateFlg);
+        return CommonConstants.is(this.onlyTranslateFlg);
     }
 
     public boolean isOnlyVocal() {
-        return CommonConstants.CHR_TRUE.equals(this.onlyVocalFlg);
+        return CommonConstants.is(this.onlyVocalFlg);
     }
 
 }

@@ -110,9 +110,10 @@ public class ConsoleMusicController {
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
+
         this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
-        final List<String> tags = this.musicService.getTags(musicBean);
+        final String[] tags = this.musicService.getTags(musicBean);
 
         model.addAttribute("articleBean", musicBean);
         model.addAttribute("tags", tags);
@@ -128,7 +129,7 @@ public class ConsoleMusicController {
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
-        final List<String> tags = this.musicService.getTags(musicBean);
+        final String[] tags = this.musicService.getTags(musicBean);
 
         model.addAttribute("articleBean", musicBean);
         model.addAttribute("tags", tags);
@@ -270,7 +271,7 @@ public class ConsoleMusicController {
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
-        final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
+        final List<TrackBean> trackList = this.musicService.getTrackList(musicBean);
         if (CollectionUtils.isNotEmpty(trackList)) {
             model.addAttribute("articleBean", musicBean);
             model.addAttribute("trackList", trackList);
@@ -328,7 +329,7 @@ public class ConsoleMusicController {
             trackList.add(trackBean);
         }
 
-        this.musicService.updateTrackList(trackList);
+        this.musicService.updateTrackList(trackList, musicBean);
 
         return "redirect:/console/music/" + articleId;
     }

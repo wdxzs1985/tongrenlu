@@ -1,12 +1,17 @@
 package info.tongrenlu.service;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
-import info.tongrenlu.manager.AritcleManager;
+import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagManager;
+import info.tongrenlu.solr.MusicDocument;
+import info.tongrenlu.solr.MusicRepository;
+import info.tongrenlu.solr.TrackDocument;
+import info.tongrenlu.solr.TrackRepository;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -17,6 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -30,11 +36,15 @@ public class ConsoleMusicService {
     @Autowired
     private MessageSource messageSource = null;
     @Autowired
-    private AritcleManager aritcleManager = null;
+    private ArticleManager articleManager = null;
     @Autowired
     private TagManager tagManager = null;
     @Autowired
     private FileManager fileManager = null;
+    @Autowired
+    private MusicRepository musicRepository = null;
+    @Autowired
+    private TrackRepository trackRepository = null;
 
     @Transactional
     public boolean doCreate(final MusicBean inputMusic,
@@ -42,10 +52,10 @@ public class ConsoleMusicService {
                             final Map<String, Object> model,
                             final Locale locale) {
         if (this.validateForCreate(inputMusic, model, locale)) {
-            this.aritcleManager.insert(inputMusic);
+            this.articleManager.insert(inputMusic);
             for (final String tag : tags) {
                 final TagBean tagBean = this.tagManager.create(tag);
-                this.aritcleManager.addTag(inputMusic, tagBean);
+                this.articleManager.addTag(inputMusic, tagBean);
             }
             return true;
         }
@@ -58,13 +68,16 @@ public class ConsoleMusicService {
                           final Map<String, Object> model,
                           final Locale locale) {
         if (this.validateForEdit(musicBean, model, locale)) {
-            this.aritcleManager.update(musicBean);
-            this.aritcleManager.removeTags(musicBean);
+            this.articleManager.update(musicBean);
+            this.articleManager.removeTags(musicBean);
             for (final String tag : tags) {
                 final TagBean tagBean = this.tagManager.create(tag);
-                this.aritcleManager.addTag(musicBean, tagBean);
+                this.articleManager.addTag(musicBean, tagBean);
             }
-            // TODO update solr document
+
+            if (CommonConstants.is(musicBean.getPublishFlg())) {
+                this.saveMusicDocument(musicBean, tags);
+            }
             return true;
         }
         return false;
@@ -72,36 +85,36 @@ public class ConsoleMusicService {
 
     @Transactional
     public void doDelete(final MusicBean musicBean) {
-        this.aritcleManager.delete(musicBean);
-        // TODO delete solr document
+        this.articleManager.delete(musicBean);
+        this.deleteMusicDocument(musicBean);
         this.fileManager.deleteArticle(musicBean);
     }
 
     public void searchMusic(final PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.aritcleManager.countMusic(paginate.getParams());
+        final int itemCount = this.articleManager.countMusic(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<MusicBean> items = this.aritcleManager.searchMusic(paginate.getParams());
+        final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
         paginate.setItems(items);
     }
 
     public MusicBean getById(final Integer id) {
-        return this.aritcleManager.getMusicById(id);
+        return this.articleManager.getMusicById(id);
     }
 
-    public List<String> getTags(final MusicBean musicBean) {
-        return this.aritcleManager.getTags(musicBean);
+    public String[] getTags(final MusicBean musicBean) {
+        return this.articleManager.getTags(musicBean).toArray(new String[] {});
     }
 
     public List<FileBean> getTrackFileList(final MusicBean musicBean) {
         final Integer articleId = musicBean.getId();
-        return this.aritcleManager.getFiles(articleId, FileManager.AUDIO);
+        return this.articleManager.getFiles(articleId, FileManager.AUDIO);
     }
 
     public List<FileBean> getBookletFileList(final MusicBean musicBean) {
         final Integer articleId = musicBean.getId();
-        return this.aritcleManager.getFiles(articleId, FileManager.IMAGE);
+        return this.articleManager.getFiles(articleId, FileManager.IMAGE);
     }
 
     public List<Map<String, Object>> wrapFileBeanList(final List<FileBean> fileList) {
@@ -130,12 +143,12 @@ public class ConsoleMusicService {
                                 final Map<String, Object> fileModel,
                                 final Locale locale) {
         if (this.validateForTrackFile(upload, fileModel, locale)) {
-            this.aritcleManager.addFile(fileBean);
+            this.articleManager.addFile(fileBean);
 
             final TrackBean trackBean = new TrackBean();
             trackBean.setId(fileBean.getId());
             trackBean.setName(fileBean.getName());
-            this.aritcleManager.addTrack(trackBean);
+            this.articleManager.addTrack(trackBean);
             this.fileManager.saveFile(FileManager.MUSIC, fileBean, upload);
             return true;
         }
@@ -148,7 +161,7 @@ public class ConsoleMusicService {
                                   final Map<String, Object> fileModel,
                                   final Locale locale) {
         if (this.validateForBookletFile(upload, fileModel, locale)) {
-            this.aritcleManager.addFile(fileBean);
+            this.articleManager.addFile(fileBean);
             this.fileManager.saveFile(FileManager.MUSIC, fileBean, upload);
             this.fileManager.convertImage(FileManager.MUSIC, fileBean);
             return true;
@@ -158,42 +171,57 @@ public class ConsoleMusicService {
 
     @Transactional
     public void removeFile(final Integer fileId) {
-        final FileBean fileBean = this.aritcleManager.getFile(fileId);
+        final FileBean fileBean = this.articleManager.getFile(fileId);
         if (fileBean != null) {
-            this.aritcleManager.deleteFile(fileBean);
+            this.articleManager.deleteFile(fileBean);
 
             if (FileManager.AUDIO.equals(fileBean.getContentType())) {
                 final TrackBean trackBean = new TrackBean();
                 trackBean.setFileBean(fileBean);
-                this.aritcleManager.deleteTrack(trackBean);
+                this.articleManager.deleteTrack(trackBean);
             }
 
             this.fileManager.deleteFile(FileManager.MUSIC, fileBean);
         }
     }
 
-    public List<TrackBean> getTrackList(final Integer articleId) {
-        return this.aritcleManager.getTrackList(articleId);
+    public List<TrackBean> getTrackList(final MusicBean musicBean) {
+        final Integer articleId = musicBean.getId();
+        return this.articleManager.getTrackList(articleId);
     }
 
     @Transactional
-    public void updateTrackList(final List<TrackBean> trackList) {
+    public void updateTrackList(final List<TrackBean> trackList,
+                                final MusicBean musicBean) {
+        final boolean isPublish = CommonConstants.is(musicBean.getPublishFlg());
+
         for (final TrackBean trackBean : trackList) {
-            this.aritcleManager.updateTrack(trackBean);
-            this.aritcleManager.updateFile(trackBean.getFileBean());
+            this.articleManager.updateTrack(trackBean);
+            this.articleManager.updateFile(trackBean.getFileBean());
+
+            if (isPublish) {
+                this.saveTrackDocument(trackBean, musicBean);
+            }
         }
     }
 
     @Transactional
     public void publish(final MusicBean musicBean) {
-        this.aritcleManager.publish(musicBean);
+        this.articleManager.publish(musicBean);
+
+        final List<String> tagList = this.articleManager.getTags(musicBean);
+        this.saveMusicDocument(musicBean, tagList.toArray(new String[] {}));
+
+        for (final TrackBean trackBean : this.getTrackList(musicBean)) {
+            this.saveTrackDocument(trackBean, musicBean);
+        }
     }
 
     private boolean validateForCreate(final MusicBean inputArticle,
                                       final Map<String, Object> model,
                                       final Locale locale) {
         boolean isValid = true;
-        if (!this.aritcleManager.validateTitle(inputArticle.getTitle(),
+        if (!this.articleManager.validateTitle(inputArticle.getTitle(),
                                                "titleError",
                                                model,
                                                locale)) {
@@ -206,7 +234,7 @@ public class ConsoleMusicService {
                                     final Map<String, Object> model,
                                     final Locale locale) {
         boolean isValid = true;
-        if (!this.aritcleManager.validateTitle(inputArticle.getTitle(),
+        if (!this.articleManager.validateTitle(inputArticle.getTitle(),
                                                "titleError",
                                                model,
                                                locale)) {
@@ -243,4 +271,62 @@ public class ConsoleMusicService {
         return isValid;
     }
 
+    @Transactional
+    public void saveMusicDocument(final MusicBean musicBean, final String[] tags) {
+        final Integer articleId = musicBean.getId();
+        final String id = "music" + articleId;
+        MusicDocument document = this.musicRepository.findOne(id);
+        if (document == null) {
+            document = new MusicDocument();
+            document.setId(id);
+            document.setArticleId(articleId);
+        }
+        document.setTitle(musicBean.getTitle());
+        document.setDescription(musicBean.getDescription());
+        document.setTags(tags);
+
+        this.musicRepository.save(document);
+
+        for (final TrackDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
+            trackDocument.setTitle(musicBean.getTitle());
+            this.trackRepository.save(trackDocument);
+        }
+    }
+
+    @Transactional
+    public void deleteMusicDocument(final MusicBean musicBean) {
+        final Integer articleId = musicBean.getId();
+        final String id = "music" + articleId;
+        this.musicRepository.delete(id);
+
+        for (final TrackDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
+            this.trackRepository.delete(trackDocument);
+        }
+    }
+
+    @Transactional
+    public void saveTrackDocument(final TrackBean trackBean,
+                                  final MusicBean musicBean) {
+        final String id = "track" + trackBean.getId();
+        TrackDocument document = this.trackRepository.findOne(id);
+        if (document == null) {
+            document = new TrackDocument();
+            document.setId(id);
+            document.setFileId(trackBean.getId());
+            document.setArticleId(musicBean.getId());
+            document.setTitle(musicBean.getTitle());
+        }
+
+        document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
+        document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
+        document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n\n"));
+
+        this.trackRepository.save(document);
+    }
+
+    @Transactional
+    public void deleteTrackDocument(final TrackBean trackBean) {
+        final String id = "track" + trackBean.getId();
+        this.trackRepository.delete(id);
+    }
 }
