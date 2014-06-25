@@ -88,7 +88,8 @@ $(function() {
         background_hover_color  : '#2980b9', 
         images                  : false,
         onChange                : function (currval){
-            window.location.href = /*[[@{/console/music(p=${i}, q=${page.params.query})}]]*/ '/console/music';
+            var url = /*[[@{/console/music(q=${page.params.query},p='')}]]*/ '/console/music';
+            window.location.href = url + currval;
             return false;
         }
     });

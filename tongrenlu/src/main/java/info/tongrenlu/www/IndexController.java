@@ -55,16 +55,8 @@ public class IndexController {
 
             final Page<ArticleDocument> searchResult = this.searchService.findArticle(query,
                                                                                       pageable);
-            if (searchResult.getTotalElements() == 1) {
-                final ArticleDocument articleDocument = searchResult.getContent()
-                                                                    .get(0);
-                return "redirect:/" + articleDocument.getCategory()
-                        + "/"
-                        + articleDocument.getArticleId();
-            } else {
-                model.addAttribute("query", query);
-                model.addAttribute("searchResult", searchResult);
-            }
+            model.addAttribute("query", query);
+            model.addAttribute("searchResult", searchResult);
         }
         return "home/search";
     }

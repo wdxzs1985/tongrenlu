@@ -22,10 +22,10 @@
                         <a class="pull-left" th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
                             th:alt-title="${articleDocument.title}">
                           <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
-                               th:src="@{/files/__${#strings.substring(articleDocument.category,0,1)}____${articleDocument.id}__/cover_120.jpg}"
+                               th:src="@{/files/__${#strings.substring(articleDocument.category,0,1)}____${articleDocument.articleId}__/cover_120.jpg}"
                                th:alt-title="${articleDocument.title}" />
                           <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
-                               th:src="@{/files/__${#strings.substring(articleDocument.category,0,1)}____${articleDocument.id}__/cover_60.jpg}"
+                               th:src="@{/files/__${#strings.substring(articleDocument.category,0,1)}____${articleDocument.articleId}__/cover_60.jpg}"
                                th:alt-title="${articleDocument.title}" />
                         </a>
                         <div class="media-body">

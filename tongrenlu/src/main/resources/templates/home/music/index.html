@@ -9,9 +9,9 @@
     <div class="container" layout:fragment="content">
         <div class="row">
             <div class="col-sm-8">
-                <form th:action="@{/music}" method="get">
+                <form th:action="@{/search}" method="get">
                     <div class="input-group">
-                      <input type="text" class="form-control" name="q" th:value="${page.params.query}"/>
+                      <input type="text" class="form-control" name="q"/>
                       <div class="input-group-btn">
                         <button type="submit" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
                       </div><!-- /btn-group -->
@@ -69,7 +69,8 @@ $(function() {
         background_hover_color  : '#2980b9', 
         images                  : false,
         onChange                : function (currval){
-            window.location.href = /*[[@{/console/music(p=${i}, q=${page.params.query})}]]*/ '/console/music';
+        	var url = /*[[@{/music(p='')}]]*/ '/music';
+            window.location.href = url + currval;
             return false;
         }
     });

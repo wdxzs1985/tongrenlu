@@ -87,7 +87,8 @@ $(function() {
         background_hover_color  : '#2980b9', 
         images                  : false,
         onChange                : function (currval){
-            window.location.href = /*[[@{/admin/music(p=${i}, q=${page.params.query})}]]*/ '/admin/music';
+            var url = /*[[@{/admin/music(q=${page.params.query},p='')}]]*/ '/admin/music';
+            window.location.href = url + currval;
             return false;
         }
     });

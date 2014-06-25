@@ -7,16 +7,17 @@
   </head>
   <body>
     <div class="container" layout:fragment="content">
-      <div class="page-header">
-          <h4 th:text="#{console.music.input}"></h4>
-      </div>
-      <form class="form-horizontal" th:action="@{/console/music/input}" method="post" enctype="multipart/form-data">
+      <ul class="nav nav-tabs">
+        <li class="active "><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
+        <li class=""><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
+      </ul>
+      <form class="" th:action="@{/console/music/input}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-sm-8">
               <div th:class="${#strings.isEmpty(titleError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-                <label for="inputTitle" class="col-sm-2 control-label" 
+                <label for="inputTitle" class=" control-label" 
                     th:text="#{ArticleBean.title}">Title</label>
-                <div class="col-sm-10">
+                <div class="">
                   <input type="text" class="form-control" 
                     id="inputTitle" name="title"
                     th:value="${articleBean.title}"
@@ -29,9 +30,9 @@
                 </div>
               </div>
               <div th:class="${#strings.isEmpty(descriptionError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-               <label for="inputDescription" class="col-sm-2 control-label" 
+               <label for="inputDescription" class=" control-label" 
                    th:text="#{ArticleBean.description}">Description</label>
-                <div class="col-sm-10">
+                <div class="">
                   <textarea class="form-control" rows="20"
                    id="inputDescription" name="description"
                    th:text="${articleBean.description}"
@@ -44,9 +45,9 @@
                 </div>
               </div>
               <div class="form-group">
-               <label for="inputTag" class="col-sm-2 control-label" 
+               <label for="inputTag" class=" control-label" 
                    th:text="#{ArticleBean.tag}">Tag</label>
-                <div class="col-sm-10">
+                <div class="">
                   <div id="magicsuggest"></div>
                 </div>
               </div>
@@ -64,10 +65,8 @@
             </div>
             <div class="col-sm-8">
               <div class="form-group">
-                  <div class="col-sm-10 col-sm-offset-2">
-                      <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
-                      <a th:href="@{/console/music}" class="btn btn-default" th:text="#{button.cancel}"></a>
-                  </div>
+                <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
+                <a th:href="@{/console/music}" class="btn btn-default" th:text="#{button.cancel}"></a>
               </div>
             </div>
         </div>

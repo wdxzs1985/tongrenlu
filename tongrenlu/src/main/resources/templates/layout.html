@@ -10,17 +10,25 @@
 </head>
 <body>
 <div layout:fragment="header"></div>
-<div layout:fragment="content" class="container-fluid main-container"></div>
-<div layout:fragment="footer">
-<div class="navbar navbar-static-bottom" layout:fragment="footer">
-  <div class="container-fluid">
+<div layout:fragment="content" class="container"></div>
+<th:block layout:fragment="footer">
+<div class="navbar navbar-static-bottom visible-xs">
+  <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
         th:href="@{/}" th:text="#{application}"></a>
     </div>
   </div>
 </div>
+<div class="navbar navbar-fixed-bottom navbar-inverse hidden-xs" >
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"
+        th:href="@{/}" th:text="#{application}"></a>
+    </div>
+  </div>
 </div>
+</th:block>
 <script src="http://static.tongrenlu.info/jquery/jquery-1.11.0.min.js" ></script>
 <script src="http://static.tongrenlu.info/bootstrap-3.1.1/js/bootstrap.min.js" ></script>
 <th:block layout:fragment="scripts-libs"></th:block>

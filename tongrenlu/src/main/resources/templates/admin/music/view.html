@@ -5,6 +5,11 @@
   <head>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
+    <style>
+        .container{
+            width: 100%;
+        }
+    </style>
   </head>
   <body>
     <div layout:fragment="content">
@@ -152,7 +157,11 @@
 <script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
 <li><div>
     <a href="javascript:;" class="{%=o.itemClass%}">
-      <h5>{%=o.file.title%}{% if (o.file.artist) { %}<small class="jp-artist">by {%=o.file.artist%}</small>{% } %}</h5>
+      <h5>
+        {%=o.file.title%}
+        {% if (o.file.artist) { %}<span class="label label-info"> by {%=o.file.artist%}</span>{% } %}
+        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
+      </h5>
     </a>
     {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
 </div></li>
