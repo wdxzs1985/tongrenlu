@@ -5,7 +5,6 @@ import info.tongrenlu.constants.TranslateFlg;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ComicDao;
-import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.mapper.TagMapper;
 import info.tongrenlu.support.PaginateSupport;
@@ -42,8 +41,6 @@ public class TagService {
 
     @Autowired
     private ComicDao comicDao = null;
-    @Autowired
-    private MusicDao musicDao = null;
     @Autowired
     private TagDao tagDao = null;
 
@@ -99,8 +96,6 @@ public class TagService {
                                                          redFlg,
                                                          translateFlg,
                                                          12));
-        model.addAttribute("musicLastestByTag",
-                           this.musicDao.getMusicLastest(null, tagId, 12));
         return "home/tag/view";
     }
 
@@ -153,11 +148,12 @@ public class TagService {
         }
 
         final PaginateSupport paginate = new PaginateSupport(page);
-        model.addAttribute("page", this.musicDao.getMusicList(null,
-                                                              tagId,
-                                                              userId,
-                                                              paginate));
-        model.addAttribute("access10Music", this.musicDao.getMusicAccess(20));
+        // model.addAttribute("page", this.musicDao.getMusicList(null,
+        // tagId,
+        // userId,
+        // paginate));
+        // model.addAttribute("access10Music",
+        // this.musicDao.getMusicAccess(20));
         return "home/tag/music";
     }
 

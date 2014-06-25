@@ -1,13 +1,11 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.FileBean;
-import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.PlaylistBean;
 import info.tongrenlu.domain.PlaylistTrackBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleDao;
-import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.PlaylistDao;
 import info.tongrenlu.manager.UserDao;
 import info.tongrenlu.support.PaginateSupport;
@@ -40,8 +38,6 @@ public class FmService {
     @Autowired
     private UserDao userDao = null;
     @Autowired
-    private MusicDao musicDao = null;
-    @Autowired
     private PlaylistDao playlistDao = null;
     @Autowired
     private FileService fileDao = null;
@@ -55,8 +51,9 @@ public class FmService {
         model.put("result", false);
         final PaginateSupport paginate = new PaginateSupport(page);
         model.put("searchQuery", searchQuery);
-        model.put("page", this.musicDao.getMusicList(searchQuery, null, null,// loginUser
-                                                     paginate));
+        // model.put("page", this.musicDao.getMusicList(searchQuery, null,
+        // null,// loginUser
+        // paginate));
         model.put("result", true);
         return model;
     }
@@ -67,18 +64,20 @@ public class FmService {
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
-        final MusicBean musicBean = this.musicDao.getMusicById(articleId, null);
-        if (musicBean != null) {
-            model.put("articleBean", musicBean);
-            final List<Object> playlist = new ArrayList<Object>();
-            final List<TrackBean> trackList = this.fileDao.getMusicTracks(articleId);
-            for (final TrackBean trackBean : trackList) {
-                playlist.add(this.prepareTrackBeanModel(trackBean, request));
-            }
-            model.put("playlist", playlist);
-            this.articleDao.addAccess(musicBean, loginUser);
-            model.put("result", true);
-        }
+        // final MusicBean musicBean = this.musicDao.getMusicById(articleId,
+        // null);
+        // if (musicBean != null) {
+        // model.put("articleBean", musicBean);
+        // final List<Object> playlist = new ArrayList<Object>();
+        // final List<TrackBean> trackList =
+        // this.fileDao.getMusicTracks(articleId);
+        // for (final TrackBean trackBean : trackList) {
+        // playlist.add(this.prepareTrackBeanModel(trackBean, request));
+        // }
+        // model.put("playlist", playlist);
+        // this.articleDao.addAccess(musicBean, loginUser);
+        // model.put("result", true);
+        // }
         return model;
     }
 
@@ -170,15 +169,15 @@ public class FmService {
                                                 final String title) {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
-        if (this.userDao.validateUserOnline(loginUser, model)) {
-            final PlaylistBean playlistBean = new PlaylistBean();
-            playlistBean.setUserBean(loginUser);
-            playlistBean.setTitle(title);
-            if (this.playlistDao.validateCreatePlaylist(playlistBean, model)) {
-                this.playlistDao.createPlaylist(playlistBean);
-                model.put("result", true);
-            }
-        }
+        // if (this.userDao.validateUserOnline(loginUser, model)) {
+        // final PlaylistBean playlistBean = new PlaylistBean();
+        // playlistBean.setUserBean(loginUser);
+        // playlistBean.setTitle(title);
+        // if (this.playlistDao.validateCreatePlaylist(playlistBean, model)) {
+        // this.playlistDao.createPlaylist(playlistBean);
+        // model.put("result", true);
+        // }
+        // }
         return model;
     }
 
@@ -286,10 +285,10 @@ public class FmService {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
         if (this.userDao.validateUserOnline(loginUser, model)) {
-            final PaginateSupport paginate = new PaginateSupport(page);
-            model.put("page",
-                      this.musicDao.getMusicCollectList(loginUser, paginate));
-            model.put("result", true);
+            // final PaginateSupport paginate = new PaginateSupport(page);
+            // model.put("page",
+            // this.musicDao.getMusicCollectList(loginUser, paginate));
+            // model.put("result", true);
         }
         return model;
     }

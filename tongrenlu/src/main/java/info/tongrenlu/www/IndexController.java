@@ -1,13 +1,21 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.ArticleService;
 import info.tongrenlu.service.CommentService;
+import info.tongrenlu.service.SearchService;
+import info.tongrenlu.solr.ArticleDocument;
+import info.tongrenlu.support.PaginateSupport;
 
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,9 +31,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class IndexController {
 
     @Autowired
-    private ArticleService articleService = null;
+    private SearchService searchService = null;
+
     @Autowired
     private CommentService commentService = null;
+
+    private Log log = LogFactory.getLog(this.getClass());
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String doGetIndex(@ModelAttribute final UserBean loginUser,
@@ -34,11 +45,28 @@ public class IndexController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
-    public String doGetSearch(@RequestParam(required = false) final Integer page,
-                              @RequestParam(required = false) final String q,
-                              @ModelAttribute final UserBean loginUser,
+    public String doGetSearch(@RequestParam(value = "p", defaultValue = "0") final Integer pageNumber,
+                              @RequestParam(value = "q", required = false) final String query,
                               final Model model) {
-        return "search/index";
+        if (StringUtils.isNotBlank(query)) {
+
+            final Pageable pageable = new PageRequest(pageNumber,
+                                                      PaginateSupport.PAGESIZE);
+
+            final Page<ArticleDocument> searchResult = this.searchService.findArticle(query,
+                                                                                      pageable);
+            if (searchResult.getTotalElements() == 1) {
+                final ArticleDocument articleDocument = searchResult.getContent()
+                                                                    .get(0);
+                return "redirect:/" + articleDocument.getCategory()
+                        + "/"
+                        + articleDocument.getArticleId();
+            } else {
+                model.addAttribute("query", query);
+                model.addAttribute("searchResult", searchResult);
+            }
+        }
+        return "home/search";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/article/{articleId}/collect")

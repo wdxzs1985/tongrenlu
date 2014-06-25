@@ -17,9 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     @Autowired
-    private UserBean guestUserbean = null;
-
-    @Autowired
     private CommentDao commentDao = null;
 
     public Map<String, Object> doGetArticleComment(final UserBean loginUser,
@@ -38,10 +35,7 @@ public class CommentService {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
 
-        UserBean sender = loginUser;
-        if (sender == null) {
-            sender = this.guestUserbean;
-        }
+        final UserBean sender = loginUser;
 
         if (this.commentDao.validateAddComment(content, model)) {
             this.commentDao.addArticleComment(sender, articleBean, content);

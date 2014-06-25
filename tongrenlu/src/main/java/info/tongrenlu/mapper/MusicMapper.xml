@@ -27,6 +27,9 @@
             <if test="userBean != null">
             AND m_article.user_id = #{userBean.id}
             </if>
+            <if test="publishFlg != null">
+            AND m_article.publish_flg = #{publishFlg}
+            </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />
             AND (m_article.title LIKE #{pattern}
@@ -55,6 +58,9 @@
             <if test="userBean != null">
             AND m_article.user_id = #{userBean.id}
             </if>
+            <if test="publishFlg != null">
+            AND m_article.publish_flg = #{publishFlg}
+            </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />
             AND (m_article.title LIKE #{pattern}
@@ -72,6 +78,8 @@
             m_article.id            as id,
             m_article.title         as title,
             m_article.description   as description,
+            m_article.publish_flg   as publishFlg,
+            m_article.recommend_flg as recommendFlg,
             m_user.id               as "userBean.id",
             m_user.nickname         as "userBean.nickname",
             m_user.signature        as "userBean.signature",

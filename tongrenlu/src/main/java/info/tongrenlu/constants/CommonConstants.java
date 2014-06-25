@@ -10,6 +10,8 @@ public class CommonConstants {
     public static final long MONTH = CommonConstants.DAY * 30;
 
     public static final String FINGERPRINT = "fingerprint";
+
+    public static final String FORGOT_USER = "FORGOT_USER";
     public static final String LOGIN_USER = "LOGIN_USER";
 
     public static final String CHR_FALSE = "0";

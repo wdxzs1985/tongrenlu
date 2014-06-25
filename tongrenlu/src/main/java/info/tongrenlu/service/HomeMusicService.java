@@ -1,10 +1,12 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.FileBean;
+import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -25,14 +27,33 @@ import org.springframework.ui.Model;
 public class HomeMusicService {
 
     @Autowired
-    private ArticleManager aritcleManager = null;
+    private ArticleManager articleManager = null;
+    @Autowired
+    private TagManager tagManager = null;
 
     public List<TrackBean> getTrackList(final Integer articleId) {
-        return this.aritcleManager.getTrackList(articleId);
+        return this.articleManager.getTrackList(articleId);
     }
 
     public List<FileBean> getBookletList(final Integer articleId) {
-        return this.aritcleManager.getFiles(articleId, FileManager.IMAGE);
+        return this.articleManager.getFiles(articleId, FileManager.IMAGE);
+    }
+
+    public void searchMusic(final PaginateSupport<MusicBean> paginate) {
+        final int itemCount = this.articleManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
+    }
+
+    public MusicBean getById(final Integer id) {
+        return this.articleManager.getMusicById(id);
+    }
+
+    public String[] getTags(final MusicBean musicBean) {
+        return this.articleManager.getTags(musicBean).toArray(new String[] {});
     }
 
     // @Autowired
@@ -168,5 +189,4 @@ public class HomeMusicService {
                 + "_1600.jpg");
         return model;
     }
-
 }

@@ -141,7 +141,10 @@ public class UserBean extends DtoBean {
 
     @Override
     public String toString() {
-        return this.nickname + "#" + this.getId();
+        if (this.getId() > 0) {
+            return this.nickname + "#" + this.getId();
+        }
+        return this.nickname;
     }
 
     public boolean isEditor() {
@@ -162,6 +165,10 @@ public class UserBean extends DtoBean {
 
     public boolean isOnlyVocal() {
         return CommonConstants.is(this.onlyVocalFlg);
+    }
+
+    public boolean isGuest() {
+        return this.role == null;
     }
 
 }

@@ -17,18 +17,18 @@
         <li ><a th:href="@{/fm}" th:text="#{home.fm}"></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li id="nav-signin" th:class="${session.LOGIN_USER} ? 'hidden' : 'show'">
+        <li id="nav-signup" th:class="${session.LOGIN_USER.guest} ? 'show' : 'hidden'">
+          <a th:href="@{/signup}" th:text="#{login.signup}">
+            sign up
+          </a>
+        </li>
+        <li id="nav-signin" th:class="${session.LOGIN_USER.guest} ? 'show' : 'hidden'">
           <a href="#signinModal" data-toggle="modal"
              th:text="#{login.signin}">
             sign in
           </a>
         </li>
-        <li id="nav-signup" th:class="${session.LOGIN_USER} ? 'hidden' : 'show'">
-          <a th:href="@{/signup}" th:text="#{login.signup}">
-            sign up
-          </a>
-        </li>
-        <li id="nav-console" th:class="${session.LOGIN_USER} ? 'dropdown show' : 'dropdown hidden'">
+        <li id="nav-console" th:class="${session.LOGIN_USER.guest} ? 'dropdown hidden' : 'dropdown show'">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span id="nav-nickname" th:text="${session.LOGIN_USER} ? ${session.LOGIN_USER} : #{UserBean.nickname}"></span> <b class="caret"></b>
           </a>
@@ -39,15 +39,6 @@
           </ul>
         </li>
       </ul>
-  </div>
-</div>
-<div class="navbar navbar-fixed-bottom" layout:fragment="footer">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="index.html"
-        th:href="@{/}" 
-        th:text="#{application}"></a>
-    </div>
   </div>
 </div>
 <th:block layout:fragment="scripts-libs">
@@ -108,7 +99,7 @@ $(function(){
 	$loginForm.submit(function(e){
     	e.preventDefault();
     	
-    	var saltUrl = /** [[@{/salt}]] **/ '/salt';
+    	var saltUrl = /** [[@{/signin/salt}]] **/ '/signin/salt';
     	$.get(saltUrl).success(function(response){
     		if(response) {
                 var salt = response.salt;

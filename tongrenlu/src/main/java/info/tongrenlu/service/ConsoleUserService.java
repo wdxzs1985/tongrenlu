@@ -2,7 +2,6 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ComicDao;
-import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TimelineDao;
 import info.tongrenlu.manager.UserDao;
 import info.tongrenlu.manager.UserManager;
@@ -96,8 +95,6 @@ public class ConsoleUserService {
     private FileService fileDao = null;
     @Autowired
     private ComicDao comicDao = null;
-    @Autowired
-    private MusicDao musicDao = null;
     @Autowired
     private TimelineDao timelineDao = null;
 

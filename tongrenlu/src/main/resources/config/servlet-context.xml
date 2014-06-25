@@ -10,7 +10,28 @@
     <interceptors>
         <beans:bean class="info.tongrenlu.interceptor.TimerInterceptor" />
         <beans:bean class="info.tongrenlu.interceptor.AccessInterceptor" />
-        <beans:bean class="info.tongrenlu.interceptor.AutoLoginInterceptor" />
+        <interceptor>
+            <mapping path="/**"/>
+            <exclude-mapping path="/signin"/>
+            <exclude-mapping path="/signin/salt"/>
+            <exclude-mapping path="/signout"/>
+            <exclude-mapping path="/signup"/>
+            <exclude-mapping path="/signup/**"/>
+            <exclude-mapping path="/forgot"/>
+            <exclude-mapping path="/forgot/**"/>
+            <beans:bean class="info.tongrenlu.interceptor.AutoLoginInterceptor" />
+        </interceptor>
+        <interceptor>
+            <mapping path="/**"/>
+            <exclude-mapping path="/signin"/>
+            <exclude-mapping path="/signin/salt"/>
+            <exclude-mapping path="/signout"/>
+            <exclude-mapping path="/signup"/>
+            <exclude-mapping path="/signup/**"/>
+            <exclude-mapping path="/forgot"/>
+            <exclude-mapping path="/forgot/**"/>
+            <beans:bean class="info.tongrenlu.interceptor.GuestAuthInterceptor" />
+        </interceptor>
         <interceptor>
             <mapping path="/console/**"/>
             <beans:bean class="info.tongrenlu.interceptor.ConsoleAuthInterceptor" />

@@ -179,6 +179,8 @@ public class ConsoleMusicService {
                 final TrackBean trackBean = new TrackBean();
                 trackBean.setFileBean(fileBean);
                 this.articleManager.deleteTrack(trackBean);
+
+                this.deleteTrackDocument(trackBean);
             }
 
             this.fileManager.deleteFile(FileManager.MUSIC, fileBean);

@@ -5,7 +5,6 @@ import info.tongrenlu.domain.PlaylistBean;
 import info.tongrenlu.domain.PlaylistTrackBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.validator.ArticleBeanValidator;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.Collections;
@@ -13,14 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PlaylistDao {
-
-    @Autowired
-    private ArticleBeanValidator validator = null;
 
     // @Autowired
     // private MArticleMapper articleMapper = null;
@@ -55,14 +50,14 @@ public class PlaylistDao {
         return Collections.emptyList();
     }
 
-    public boolean validateCreatePlaylist(final PlaylistBean playlistBean,
-                                          final Map<String, Object> model) {
-        boolean isValid = true;
-        if (!this.validator.validateTitle(playlistBean.getTitle(), model)) {
-            isValid = false;
-        }
-        return isValid;
-    }
+    // public boolean validateCreatePlaylist(final PlaylistBean playlistBean,
+    // final Map<String, Object> model) {
+    // // boolean isValid = true;
+    // // if (!this.validator.validateTitle(playlistBean.getTitle(), model)) {
+    // // isValid = false;
+    // // }
+    // // return isValid;
+    // }
 
     public void createPlaylist(final PlaylistBean playlistBean) {
         // this.articleMapper.insertArticle(playlistBean);

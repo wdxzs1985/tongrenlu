@@ -37,12 +37,14 @@
                                        th:alt-title="${articleBean.title}" />
                                 </a>
                                 <div class="media-body">
-                                  <h5 class="media-heading text-single-line">
-                                    <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                                    <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                    <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
-                                  </h5>
-                                  <p th:text="${articleBean.description}" class="text-single-line"></p>
+                                  <div class="article-list-item">
+                                      <h4 class="media-heading text-single-line">
+                                        <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                                        <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                        <a th:href="@{/console/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
+                                      </h4>
+                                      <p th:text="${articleBean.description}"></p>
+                                  </div>
                                   <ul class="list-inline text-right">
                                     <li><a th:href="@{/console/music/__${articleBean.id}__}" class="btn btn-sm btn-default" th:text="#{console.article.preview}"></a></li>
                                     <li class="hidden-xs"><a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-sm btn-default" th:text="#{console.article.edit}"></a></li>
@@ -58,6 +60,7 @@
                         <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                             <h4 th:text="#{console.article.noData}"></h4>
                             <a th:href="@{/console/music/input}" th:text="#{console.music.input}" class="btn btn-primary"></a>
+                            <a th:href="@{/console/music}" th:text="#{button.back}" class="btn btn-default"></a>
                         </div>
                     </div>
                 </div>

@@ -7,9 +7,11 @@ import java.util.Map;
 
 public class PaginateSupport<T> {
 
+    public static int PAGESIZE = 10;
+
     private int pageNumber = 1;
 
-    private int pageSize = 10;
+    private int pageSize = PAGESIZE;
 
     private int pageCount = 0;
 

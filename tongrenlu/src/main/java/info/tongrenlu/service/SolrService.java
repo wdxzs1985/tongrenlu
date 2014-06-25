@@ -4,7 +4,6 @@ import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.manager.ComicDao;
-import info.tongrenlu.manager.MusicDao;
 import info.tongrenlu.manager.TagDao;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -31,8 +30,6 @@ public class SolrService {
     private FileService fileDao = null;
     @Autowired
     private ComicDao comicDao = null;
-    @Autowired
-    private MusicDao musicDao = null;
     @Autowired
     private TagDao tagDao = null;
     @Autowired
@@ -129,46 +126,46 @@ public class SolrService {
     }
 
     public static final String[] ESCAPE_CHARS = new String[] { "\\",
-                                                              "+",
-                                                              "-",
-                                                              "&",
-                                                              "|",
-                                                              "!",
-                                                              "(",
-                                                              ")",
-                                                              "{",
-                                                              "}",
-                                                              "[",
-                                                              "]",
-                                                              "^",
-                                                              "~",
-                                                              "*",
-                                                              "?",
-                                                              ":",
-                                                              "\"",
-                                                              ";",
-                                                              " " };
+            "+",
+            "-",
+            "&",
+            "|",
+            "!",
+            "(",
+            ")",
+            "{",
+            "}",
+            "[",
+            "]",
+            "^",
+            "~",
+            "*",
+            "?",
+            ":",
+            "\"",
+            ";",
+            " " };
 
     public static final String[] ESCAPED_CHARS = new String[] { "\\\\",
-                                                               "\\+",
-                                                               "\\-",
-                                                               "\\&",
-                                                               "\\|",
-                                                               "\\!",
-                                                               "\\(",
-                                                               "\\)",
-                                                               "\\{",
-                                                               "\\}",
-                                                               "\\[",
-                                                               "\\]",
-                                                               "\\^",
-                                                               "\\~",
-                                                               "\\*",
-                                                               "\\?",
-                                                               "\\:",
-                                                               "\\\"",
-                                                               "\\;",
-                                                               "\\ " };
+            "\\+",
+            "\\-",
+            "\\&",
+            "\\|",
+            "\\!",
+            "\\(",
+            "\\)",
+            "\\{",
+            "\\}",
+            "\\[",
+            "\\]",
+            "\\^",
+            "\\~",
+            "\\*",
+            "\\?",
+            "\\:",
+            "\\\"",
+            "\\;",
+            "\\ " };
 
     public String escapeForSolr(final String input) {
         return StringUtils.replaceEach(input,

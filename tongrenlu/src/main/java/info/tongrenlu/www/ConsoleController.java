@@ -1,6 +1,9 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.exception.ForbiddenException;
+import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.ConsoleUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,16 @@ public class ConsoleController {
 
     @Autowired
     private ConsoleUserService userService = null;
+
+    protected void throwExceptionWhenNotAllow(final ArticleBean articleBean,
+                                              final UserBean loginUser) {
+        if (articleBean == null) {
+            throw new PageNotFoundException();
+        }
+        if (!loginUser.equals(articleBean.getUserBean()) && !loginUser.isAdmin()) {
+            throw new ForbiddenException();
+        }
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,

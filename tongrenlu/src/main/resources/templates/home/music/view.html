@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="console/layout">
+  layout:decorator="home/layout">
   <head>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
@@ -12,13 +12,27 @@
           <div class="pull-left">
             <div class="media">
                 <div class="media-heading pull-left">
-                    <img src="http://placehold.it/60x60" class="img-responsive img-60 visible-xs" 
+                    <img src="http://placehold.it/60x60" class="img-responsive visible-xs" 
                        th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
-                    <img src="http://placehold.it/120x120" class="img-responsive img-120 hidden-xs" 
+                    <img src="http://placehold.it/120x120" class="img-responsive hidden-xs" 
                        th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"/>
                 </div>
                 <div class="media-body">
                     <h1><span th:text="${articleBean.title}"></span></h1>
+                    <ul class="list-inline">
+                      <li>
+                        <a href="#" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-heart-empty"></span>
+                            <span th:text="#{home.article.addFavritor}"></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" class="btn btn-success">
+                            <span class="glyphicon glyphicon-heart"></span>
+                            <span th:text="#{home.article.removeFavritor}"></span>
+                        </a>
+                      </li>
+                    </ul>
                     <p class="visible-xs">
                         <strong th:text="#{home.article.owner} + ': '"></strong>
                         <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
@@ -26,13 +40,25 @@
                 </div>
             </div>
           </div>
+          <div class="pull-right well hidden-xs">
+            <div class="media">
+                <a class="pull-left" th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
+                  <img class="media-object" src="http://placehold.it/60x60" th:alt-title="${articleBean.userBean}" 
+                       th:src="@{/files/u__${articleBean.userBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}" />
+                </a>
+                <div class="media-body">
+                  <h5 class="media-heading" >
+                    <strong th:text="#{home.article.owner} + ': '"></strong>
+                    <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
+                  </h5>
+                  <p class="hidden-xs" th:text="${articleBean.userBean.signature}"></p>
+                </div>
+            </div>
+          </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
           <div class="page-header">
-              <a class="btn btn-default pull-right"
-                th:href="@{/console/music/__${articleBean.id}__/booklet/upload}"
-                th:text="#{console.music.booklet.upload}">upload</a>
               <h4 th:text="#{home.music.booklet}">booklet</h4>
           </div>
           <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
@@ -46,9 +72,6 @@
         </div>
         <div class="col-sm-6">
           <div class="page-header">
-              <a class="btn btn-default pull-right"
-                th:href="@{/console/music/__${articleBean.id}__/track/upload}"
-                th:text="#{console.music.track.upload}">upload</a>
               <h4 th:text="#{home.music.track}">player</h4>
           </div>
           <div id="player" class="">
@@ -103,12 +126,9 @@
         </div>
         <div class="col-sm-6">
           <div class="page-header">
-              <a class="btn btn-default pull-right"
-                th:href="@{/console/music/__${articleBean.id}__/edit}"
-                th:text="#{button.edit}">edit</a>
               <h4 th:text="#{console.article.info}"></h4>
           </div>
-          <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : #{articleBean.description}"></pre>
+          <pre id="article-description" th:text="${articleBean.description}"></pre>
           <ul class="list-inline">
               <li><strong>Tags :</strong></li>
               <li th:each="tag : ${tags}">
@@ -133,14 +153,26 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
-<li><div>
+<li class="clearfix">
+    <div class="pull-right">
+        <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
+            <span class="glyphicon glyphicon-headphones"></span>
+        </a>
+        <a href="javascript:;" class="btn btn-xs btn-default hidden">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+        <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    </div>
+    <div class="clearfix">
     <a href="javascript:;" class="{%=o.itemClass%}">
-      <h5>
-        {%=o.file.title%}
-        {% if (o.file.artist) { %}<span class="label label-info"> by {%=o.file.artist%}</span>{% } %}
-        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
-      </h5>
+      <h5>{%=o.file.title%}</h5>
     </a>
+    <div>
+        {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
+        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
+    </div>
     {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
 </div></li>
 </script>
@@ -157,6 +189,16 @@ $(function() {
     	url: trackDataUrl,
     	filePath: filePath,
     	swfPath: swfPath,
+    	filter: function(playList, playable) {
+    		var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
+    		if(onlyVocal) {
+    			if(!playable.instrumental) {
+                    playList.push(playable);
+                }
+    		} else {
+    			playList.push(playable);
+    		}
+    	}
     });
     new carousel({
         url: bookletDataUrl,

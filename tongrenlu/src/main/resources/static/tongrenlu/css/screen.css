@@ -1,17 +1,29 @@
+body {
+	padding-bottom: 70px;
+}
+
 .nav-tabs {
 	margin-bottom: 15px;
 }
 
 .img-400 {
-    max-width: 400px;
+    width: 400px;
+    height: 400px;
 }
 
 .img-180 {
-    max-width: 180px;
+    width: 180px;
+    height: 180px;
 }
 
 .img-120 {
-	max-width: 120px;
+	width: 120px;
+    height: 120px;
+}
+
+.img-60 {
+    width: 60px;
+    height: 60px;
 }
 
 .text-single-line {
@@ -19,4 +31,14 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.article-list-item:even {
+	background: #ddd;
+}
+
+.article-list-item p{
+    height: 5.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

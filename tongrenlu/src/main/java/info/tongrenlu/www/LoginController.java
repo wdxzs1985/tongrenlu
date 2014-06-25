@@ -21,15 +21,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.util.CookieGenerator;
 
 @Controller
-@SessionAttributes("LOGIN_USER")
 public class LoginController {
-
-    public static final String FORGOT_USER = "FORGOT_USER";
 
     @Autowired
     private LoginService loginService = null;
@@ -38,7 +33,7 @@ public class LoginController {
     @Autowired
     private FileService fileService = null;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/salt")
+    @RequestMapping(method = RequestMethod.GET, value = "/signin/salt")
     @ResponseBody
     public Map<String, Object> doGetSalt(final HttpServletRequest request) {
         final Map<String, Object> model = new HashMap<String, Object>();
@@ -122,9 +117,9 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/signout")
-    public String doGetSignout(final SessionStatus sessionStatus,
+    public String doGetSignout(final HttpServletRequest request,
                                final HttpServletResponse response) {
-        sessionStatus.setComplete();
+        request.getSession().invalidate();
         this.autoLoginCookie.removeCookie(response);
         return "redirect:/";
     }
@@ -149,7 +144,7 @@ public class LoginController {
                                                                   model.asMap(),
                                                                   locale);
         if (result) {
-            request.getSession().setAttribute(LoginController.FORGOT_USER,
+            request.getSession().setAttribute(CommonConstants.FORGOT_USER,
                                               inputUser);
             return "login/forgot_change";
         } else {
@@ -161,7 +156,7 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.GET, value = "/forgot/change")
     public String doGetChangePassword(final HttpServletRequest request) {
         final HttpSession session = request.getSession();
-        session.removeAttribute(LoginController.FORGOT_USER);
+        session.removeAttribute(CommonConstants.FORGOT_USER);
         return "redirect:/forgot";
     }
 
@@ -172,9 +167,9 @@ public class LoginController {
                                        final Locale locale,
                                        final HttpServletRequest request) {
         final HttpSession session = request.getSession();
-        final UserBean userBean = (UserBean) session.getAttribute(LoginController.FORGOT_USER);
+        final UserBean userBean = (UserBean) session.getAttribute(CommonConstants.FORGOT_USER);
         if (userBean == null) {
-            session.removeAttribute(LoginController.FORGOT_USER);
+            session.removeAttribute(CommonConstants.FORGOT_USER);
             return "redirect:/forgot";
         }
 
@@ -182,7 +177,7 @@ public class LoginController {
         userBean.setPassword2(password2);
 
         if (this.loginService.doChangePassword(userBean, model.asMap(), locale)) {
-            session.removeAttribute(LoginController.FORGOT_USER);
+            session.removeAttribute(CommonConstants.FORGOT_USER);
             return "redirect:/forgot/finish";
         }
         return "login/forgot_change";

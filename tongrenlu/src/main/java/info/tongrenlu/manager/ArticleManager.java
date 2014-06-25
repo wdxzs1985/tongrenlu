@@ -55,7 +55,7 @@ public class ArticleManager {
         final Map<String, Object> param = new HashMap<>();
         param.put("id", articleBean.getId());
         param.put("title", articleBean.getTitle());
-        param.put("descrption", articleBean.getDescription());
+        param.put("description", articleBean.getDescription());
         this.articleMapper.update(param);
         if (articleBean instanceof MusicBean) {
             // this.musicMapper.update((MusicBean) articleBean);
@@ -102,9 +102,9 @@ public class ArticleManager {
         this.articleTagMapper.delete(articleTagBean);
     }
 
-    public MusicBean getMusicById(final Integer id) {
+    public MusicBean getMusicById(final Integer articleId) {
         final Map<String, Object> param = new HashMap<>();
-        param.put("id", id);
+        param.put("id", articleId);
         return this.musicMapper.fetchBean(param);
     }
 

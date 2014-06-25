@@ -17,16 +17,22 @@ var player = function(option) {
         		var title = track.name;
                 var artist = track.artist;
                 var original = track.original;
+                var instrumental = (track.instrumental == '1');
                 var mp3 = settings.filePath + '/f' + track.id + '.mp3';
                 var poster = settings.filePath + '/cover_400.jpg';
         		var playable = {
         				title: title,
         				artist: artist,
                         original: original,
+                        instrumental: instrumental,
         				mp3: mp3,
         				poster: poster
         		};
-        		playlist.push(playable);
+        		if(settings.filter) {
+        			settings.filter(playlist, playable)
+        		} else {
+        			playlist.push(playable);
+        		}
         	});
         	
         	var jPlaylist = new jPlayerPlaylist({

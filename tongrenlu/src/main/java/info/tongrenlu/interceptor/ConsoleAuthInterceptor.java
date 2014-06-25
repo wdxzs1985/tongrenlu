@@ -21,7 +21,7 @@ public class ConsoleAuthInterceptor extends HandlerInterceptorAdapter {
         }
         final HttpSession session = request.getSession();
         final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
-        if (loginUser != null) {
+        if (loginUser != null && !loginUser.isGuest()) {
             return true;
         }
         response.sendRedirect(request.getContextPath() + "/");
