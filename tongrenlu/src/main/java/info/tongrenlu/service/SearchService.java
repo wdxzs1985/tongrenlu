@@ -18,7 +18,10 @@ public class SearchService {
     public Page<ArticleDocument> findArticle(final String query,
                                              final Pageable pageable) {
         final String escapedQuery = ClientUtils.escapeQueryChars(query);
-        return this.articleRepository.findByTitleOrTags(escapedQuery, pageable);
+        return this.articleRepository.findByTitleOrTitleContainsOrTagsOrTagsContains(escapedQuery,
+                                                                                     escapedQuery,
+                                                                                     escapedQuery,
+                                                                                     escapedQuery,
+                                                                                     pageable);
     }
-
 }

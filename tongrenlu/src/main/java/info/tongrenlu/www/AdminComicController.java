@@ -1,76 +1,213 @@
 package info.tongrenlu.www;
 
-import info.tongrenlu.service.AdminComicService;
+import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.FileBean;
+import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.exception.PageNotFoundException;
+import info.tongrenlu.service.ConsoleComicService;
+import info.tongrenlu.service.FileService;
+import info.tongrenlu.support.PaginateSupport;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdminComicController {
 
     @Autowired
-    private AdminComicService comicService = null;
+    private MessageSource messageSource = null;
+    @Autowired
+    private ConsoleComicService comicService = null;
+    @Autowired
+    private FileService fileService = null;
+
+    private void throwExceptionWhenNotFound(final ComicBean comicBean) {
+        if (comicBean == null) {
+            throw new PageNotFoundException();
+        }
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/admin/comic")
-    public String doGetComicIndex(@RequestParam(required = false) final Integer page,
-                                  @RequestParam(required = false) final String q,
-                                  final Model model) {
-        return this.comicService.doGetComicIndex(page, q, model);
+    public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                             @RequestParam(value = "q", required = false) final String query,
+                             final Model model) {
+        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("query", query);
+        this.comicService.searchComic(page);
+        model.addAttribute("page", page);
+        return "admin/comic/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}")
-    public String doGetComicView(@PathVariable final String articleId,
-                                 final Model model) {
-        return this.comicService.doGetComicView(articleId, model);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/publish")
-    public String doPostComicPublish(@PathVariable final String articleId,
-                                     final Model model) {
-        return this.comicService.doPostComicPublish(articleId, model);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/upload")
-    public String doGetUpload(@PathVariable final String articleId,
-                              final Model model) {
-        return this.comicService.doGetUpload(articleId, model);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/file")
-    @ResponseBody
-    public Map<String, Object> doGetComicFile(@PathVariable final String articleId,
-                                              final HttpServletRequest request) {
-        return this.comicService.doGetComicFile(articleId, request);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/file")
-    @ResponseBody
-    public Map<String, Object> doPostComicFile(@PathVariable final String articleId,
-                                               @RequestParam(value = "files[]", required = false) final MultipartFile[] files,
-                                               final HttpServletRequest request) {
-        return this.comicService.doPostComicFile(articleId, files, request);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/sort")
-    public String doGetSort(@PathVariable final String articleId,
+    public String doGetView(@PathVariable final Integer articleId,
                             final Model model) {
-        return this.comicService.doGetSort(articleId, model);
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        final String[] tags = this.comicService.getTags(comicBean);
+
+        model.addAttribute("articleBean", comicBean);
+        model.addAttribute("tags", tags);
+
+        return "admin/comic/view";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/sort")
-    public String doPostSort(@PathVariable final String articleId,
-                             @RequestParam(value = "fileId[]", required = false) final String[] fileIdArray) {
-        return this.comicService.doPostSort(articleId, fileIdArray);
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/edit")
+    public String doGetEdit(@PathVariable final Integer articleId,
+                            final Model model) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        final String[] tags = this.comicService.getTags(comicBean);
+
+        model.addAttribute("articleBean", comicBean);
+        model.addAttribute("tags", tags);
+
+        return "admin/comic/edit";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/edit")
+    public String doPostEdit(@PathVariable final Integer articleId,
+                             final String title,
+                             final String description,
+                             @RequestParam(value = "tags[]", required = false) final String[] tags,
+                             @RequestParam final MultipartFile cover,
+                             final Model model,
+                             final Locale locale) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        comicBean.setTitle(title);
+        comicBean.setDescription(description);
+
+        final boolean result = this.comicService.doEdit(comicBean,
+                                                        tags,
+                                                        model.asMap(),
+                                                        locale);
+
+        if (result) {
+            this.fileService.saveCover(comicBean, cover);
+            return "redirect:/admin/comic/" + comicBean.getId();
+        }
+
+        model.addAttribute("articleBean", comicBean);
+        model.addAttribute("tags", tags);
+
+        return "admin/comic/edit";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/delete")
+    public String doGetDelete(@PathVariable final Integer articleId) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        this.comicService.doDelete(comicBean);
+
+        return "redirect:/admin/comic";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/{fileId}/delete")
+    @ResponseBody
+    public Map<String, Object> doPostFileDelete(@PathVariable final Integer articleId,
+                                                @PathVariable final Integer fileId) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        this.comicService.removeFile(fileId);
+
+        final Map<String, Object> model = new HashMap<String, Object>();
+        model.put("result", true);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/picture/upload")
+    public String doGetPictureUpload(@PathVariable final Integer articleId,
+                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                     final Model model) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        model.addAttribute("articleBean", comicBean);
+
+        return "admin/comic/picture_upload";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/picture/sort")
+    public String doGetPictureSort(@PathVariable final Integer articleId,
+                                   final Model model,
+                                   final RedirectAttributes redirectAttr,
+                                   final Locale locale) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        final List<FileBean> fileList = this.comicService.getPictureFileList(comicBean);
+        if (CollectionUtils.isNotEmpty(fileList)) {
+            model.addAttribute("articleBean", comicBean);
+            model.addAttribute("fileList", fileList);
+            return "console/comic/picture_sort";
+        } else {
+            final String error = this.messageSource.getMessage("console.article.sort.noFile",
+                                                               null,
+                                                               locale);
+            redirectAttr.addFlashAttribute("error", error);
+            return "redirect:/admin/comic/" + articleId + "/picture/upload";
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/picture/sort")
+    public String doPostPictureSort(@PathVariable final Integer articleId,
+                                    @RequestParam(value = "fileId[]") final Integer[] fileId,
+                                    final Model model,
+                                    final Locale locale) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        final List<FileBean> fileList = new ArrayList<FileBean>();
+        for (int i = 0; i < fileId.length; i++) {
+            final FileBean fileBean = new FileBean();
+            fileBean.setId(fileId[i]);
+            fileBean.setOrderNo(i + 1);
+
+            fileList.add(fileBean);
+        }
+
+        return "redirect:/admin/comic/" + articleId;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/publish")
+    public String doGetComicPublish(@PathVariable final Integer articleId,
+                                    final Model model) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotFound(comicBean);
+
+        this.comicService.publish(comicBean);
+
+        return "redirect:/admin/comic";
     }
 }

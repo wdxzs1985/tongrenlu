@@ -8,10 +8,10 @@ import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagManager;
+import info.tongrenlu.solr.ArticleDocument;
+import info.tongrenlu.solr.ArticleRepository;
 import info.tongrenlu.solr.MusicDocument;
-import info.tongrenlu.solr.MusicRepository;
 import info.tongrenlu.solr.TrackDocument;
-import info.tongrenlu.solr.TrackRepository;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -42,9 +42,7 @@ public class ConsoleMusicService {
     @Autowired
     private FileManager fileManager = null;
     @Autowired
-    private MusicRepository musicRepository = null;
-    @Autowired
-    private TrackRepository trackRepository = null;
+    private ArticleRepository articleRepository = null;
 
     @Transactional
     public boolean doCreate(final MusicBean inputMusic,
@@ -211,8 +209,8 @@ public class ConsoleMusicService {
     public void publish(final MusicBean musicBean) {
         this.articleManager.publish(musicBean);
 
-        final List<String> tagList = this.articleManager.getTags(musicBean);
-        this.saveMusicDocument(musicBean, tagList.toArray(new String[] {}));
+        final String[] tags = this.getTags(musicBean);
+        this.saveMusicDocument(musicBean, tags);
 
         for (final TrackBean trackBean : this.getTrackList(musicBean)) {
             this.saveTrackDocument(trackBean, musicBean);
@@ -276,8 +274,8 @@ public class ConsoleMusicService {
     @Transactional
     public void saveMusicDocument(final MusicBean musicBean, final String[] tags) {
         final Integer articleId = musicBean.getId();
-        final String id = "music" + articleId;
-        MusicDocument document = this.musicRepository.findOne(id);
+        final String id = "m" + articleId;
+        ArticleDocument document = this.articleRepository.findOne(id);
         if (document == null) {
             document = new MusicDocument();
             document.setId(id);
@@ -287,30 +285,30 @@ public class ConsoleMusicService {
         document.setDescription(musicBean.getDescription());
         document.setTags(tags);
 
-        this.musicRepository.save(document);
+        this.articleRepository.save(document);
 
-        for (final TrackDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
+        for (final ArticleDocument trackDocument : this.articleRepository.findTrackByArticleId(articleId)) {
             trackDocument.setTitle(musicBean.getTitle());
-            this.trackRepository.save(trackDocument);
+            this.articleRepository.save(trackDocument);
         }
     }
 
     @Transactional
     public void deleteMusicDocument(final MusicBean musicBean) {
         final Integer articleId = musicBean.getId();
-        final String id = "music" + articleId;
-        this.musicRepository.delete(id);
+        final String id = "m" + articleId;
+        this.articleRepository.delete(id);
 
-        for (final TrackDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
-            this.trackRepository.delete(trackDocument);
+        for (final ArticleDocument trackDocument : this.articleRepository.findTrackByArticleId(articleId)) {
+            this.articleRepository.delete(trackDocument);
         }
     }
 
     @Transactional
     public void saveTrackDocument(final TrackBean trackBean,
                                   final MusicBean musicBean) {
-        final String id = "track" + trackBean.getId();
-        TrackDocument document = this.trackRepository.findOne(id);
+        final String id = "t" + trackBean.getId();
+        ArticleDocument document = this.articleRepository.findOne(id);
         if (document == null) {
             document = new TrackDocument();
             document.setId(id);
@@ -321,14 +319,14 @@ public class ConsoleMusicService {
 
         document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
         document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
-        document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n\n"));
+        document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
 
-        this.trackRepository.save(document);
+        this.articleRepository.save(document);
     }
 
     @Transactional
     public void deleteTrackDocument(final TrackBean trackBean) {
-        final String id = "track" + trackBean.getId();
-        this.trackRepository.delete(id);
+        final String id = "t" + trackBean.getId();
+        this.articleRepository.delete(id);
     }
 }

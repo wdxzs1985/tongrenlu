@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
+<head>
+<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+</head>
   <body>
     <div class="container" layout:fragment="content">
         <div class="row">
@@ -22,10 +25,10 @@
                         <a class="pull-left" th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
                             th:alt-title="${articleDocument.title}">
                           <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
-                               th:src="@{/files/__${#strings.substring(articleDocument.category,0,1)}____${articleDocument.articleId}__/cover_120.jpg}"
+                               th:src="@{/files/__${articleDocument.id}__/cover_120.jpg}"
                                th:alt-title="${articleDocument.title}" />
                           <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
-                               th:src="@{/files/__${#strings.substring(articleDocument.category,0,1)}____${articleDocument.articleId}__/cover_60.jpg}"
+                               th:src="@{/files/__${articleDocument.id}__/cover_60.jpg}"
                                th:alt-title="${articleDocument.title}" />
                         </a>
                         <div class="media-body">
@@ -40,6 +43,7 @@
                         </div>
                       </li>
                     </ul>
+                    <hr />
                     <div id="jpaginate" class="hidden-xs hidden-sm"></div>
                 </th:block>
                 <div class="alert alert-warning" th:if="${#lists.isEmpty(searchResult.content)}">
@@ -62,5 +66,32 @@
         </th:block>
         </div>
     </div>
+<th:block layout:fragment="scripts-libs">
+<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+</th:block>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $("#jpaginate").paginate({
+        count       : /*[[${searchResult.totalPages}]]*/ 20,
+        start       : /*[[${searchResult.number}]]*/ 1,
+        display     : 10,
+        border                  : true,
+        border_color            : '#fff',
+        text_color              : '#fff',
+        background_color        : '#428bca',  
+        border_hover_color      : '#3498db',
+        text_hover_color        : '#fff',
+        background_hover_color  : '#2980b9', 
+        images                  : false,
+        onChange                : function (currval){
+            var url = /*[[@{/search(p='')}]]*/ '/search';
+            window.location.href = url + currval;
+            return false;
+        }
+    });
+});
+</script>
+</th:block>
   </body>
 </html>

@@ -10,4 +10,6 @@ public interface ArticleMapper {
 
     public void update(Map<String, Object> param);
 
+    public void delete(ArticleBean articleBean);
+
 }

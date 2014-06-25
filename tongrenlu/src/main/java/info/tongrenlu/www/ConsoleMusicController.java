@@ -37,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @SessionAttributes("LOGIN_USER")
+@RequestMapping("/console/music")
 public class ConsoleMusicController {
 
     @Autowired
@@ -46,8 +47,8 @@ public class ConsoleMusicController {
     @Autowired
     private FileService fileService = null;
 
-    private void throwExceptionWhenNotAllow(final MusicBean musicBean,
-                                            final UserBean loginUser) {
+    protected void throwExceptionWhenNotAllow(final MusicBean musicBean,
+                                              final UserBean loginUser) {
         if (musicBean == null) {
             throw new PageNotFoundException();
         }
@@ -56,7 +57,7 @@ public class ConsoleMusicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/input")
+    @RequestMapping(method = RequestMethod.GET, value = "/input")
     public String doGetInput(final Model model) {
         final MusicBean inputMusic = new MusicBean();
         final String[] tags = {};
@@ -65,7 +66,7 @@ public class ConsoleMusicController {
         return "console/music/input";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/input")
+    @RequestMapping(method = RequestMethod.POST, value = "/input")
     public String doPostInput(final String title,
                               final String description,
                               @RequestParam(value = "tags[]", required = false) final String[] tags,
@@ -92,7 +93,7 @@ public class ConsoleMusicController {
         return "console/music/input";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music")
+    @RequestMapping(method = RequestMethod.GET, value = "")
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
@@ -105,7 +106,7 @@ public class ConsoleMusicController {
         return "console/music/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
@@ -121,7 +122,7 @@ public class ConsoleMusicController {
         return "console/music/view";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/edit")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/edit")
     public String doGetEdit(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
@@ -137,7 +138,7 @@ public class ConsoleMusicController {
         return "console/music/edit";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/edit")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/edit")
     public String doPostEdit(@PathVariable final Integer articleId,
                              final String title,
                              final String description,
@@ -169,7 +170,7 @@ public class ConsoleMusicController {
         return "console/music/edit";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/delete")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/delete")
     public String doGetDelete(@PathVariable final Integer articleId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final MusicBean musicBean = this.musicService.getById(articleId);
@@ -181,7 +182,7 @@ public class ConsoleMusicController {
         return "redirect:/console/music";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/track/upload")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/upload")
     public String doGetTrackUpload(@PathVariable final Integer articleId,
                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                    final Model model) {
@@ -194,7 +195,7 @@ public class ConsoleMusicController {
         return "console/music/track_upload";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/track/file")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/file")
     @ResponseBody
     public Map<String, Object> doGetTrackFile(@PathVariable final Integer articleId,
                                               @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
@@ -208,7 +209,7 @@ public class ConsoleMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/track/file")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/track/file")
     @ResponseBody
     public Map<String, Object> doPostTrackFile(@PathVariable final Integer articleId,
                                                @RequestParam(value = "files[]") final MultipartFile[] uploads,
@@ -245,7 +246,7 @@ public class ConsoleMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/track/sort")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/sort")
     public String doGetTrackSort(@PathVariable final Integer articleId,
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                  final Model model,
@@ -269,7 +270,7 @@ public class ConsoleMusicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/track/sort")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/track/sort")
     public String doPostTrackSort(@PathVariable final Integer articleId,
                                   @RequestParam(value = "trackId[]") final Integer[] trackId,
                                   @RequestParam(value = "name[]") final String[] name,
@@ -318,7 +319,7 @@ public class ConsoleMusicController {
         return "redirect:/console/music/" + articleId;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/booklet/upload")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet/upload")
     public String doGetBookletUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                      final Model model) {
@@ -331,7 +332,7 @@ public class ConsoleMusicController {
         return "console/music/booklet_upload";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/booklet/file")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet/file")
     @ResponseBody
     public Map<String, Object> doGetBookletFile(@PathVariable final Integer articleId,
                                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
@@ -345,7 +346,7 @@ public class ConsoleMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/booklet/file")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/booklet/file")
     @ResponseBody
     public Map<String, Object> doPostBookletFile(@PathVariable final Integer articleId,
                                                  @RequestParam(value = "files[]") final MultipartFile[] uploads,
@@ -383,7 +384,7 @@ public class ConsoleMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/music/{articleId}/booklet/sort")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet/sort")
     public String doGetBookletSort(@PathVariable final Integer articleId,
                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                    final Model model,
@@ -407,7 +408,7 @@ public class ConsoleMusicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/console/music/{articleId}/booklet/sort")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/booklet/sort")
     public String doPostBookletSort(@PathVariable final Integer articleId,
                                     @RequestParam(value = "fileId[]") final Integer[] fileId,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,

@@ -2,12 +2,14 @@ package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ArticleTagBean;
+import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.mapper.ArticleMapper;
 import info.tongrenlu.mapper.ArticleTagMapper;
+import info.tongrenlu.mapper.ComicMapper;
 import info.tongrenlu.mapper.FileMapper;
 import info.tongrenlu.mapper.MusicMapper;
 import info.tongrenlu.mapper.TagMapper;
@@ -38,6 +40,8 @@ public class ArticleManager {
     @Autowired
     private MusicMapper musicMapper = null;
     @Autowired
+    private ComicMapper comicMapper = null;
+    @Autowired
     private TagMapper tagMapper = null;
     @Autowired
     private FileMapper fileMapper = null;
@@ -48,6 +52,8 @@ public class ArticleManager {
         this.articleMapper.insert(articleBean);
         if (articleBean instanceof MusicBean) {
             this.musicMapper.insert((MusicBean) articleBean);
+        } else if (articleBean instanceof ComicBean) {
+            this.comicMapper.insert((ComicBean) articleBean);
         }
     }
 
@@ -58,14 +64,17 @@ public class ArticleManager {
         param.put("description", articleBean.getDescription());
         this.articleMapper.update(param);
         if (articleBean instanceof MusicBean) {
-            // this.musicMapper.update((MusicBean) articleBean);
+            // this.musicMapper.update(param);
+        } else if (articleBean instanceof ComicBean) {
+            final ComicBean comicBean = (ComicBean) articleBean;
+            param.put("redFlg", comicBean.getRedFlg());
+            param.put("translateFlg", comicBean.getTranslateFlg());
+            this.comicMapper.update(param);
         }
     }
 
     public void delete(final ArticleBean articleBean) {
-        if (articleBean instanceof MusicBean) {
-            this.musicMapper.delete(articleBean);
-        }
+        this.articleMapper.delete(articleBean);
     }
 
     public void publish(final ArticleBean articleBean) {
@@ -76,11 +85,31 @@ public class ArticleManager {
     }
 
     public int countMusic(final Map<String, Object> params) {
-        return this.musicMapper.countForSearch(params);
+        return this.musicMapper.count(params);
     }
 
     public List<MusicBean> searchMusic(final Map<String, Object> params) {
-        return this.musicMapper.fetchListForSearch(params);
+        return this.musicMapper.fetchList(params);
+    }
+
+    public MusicBean getMusicById(final Integer articleId) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", articleId);
+        return this.musicMapper.fetchBean(param);
+    }
+
+    public int countComic(final Map<String, Object> params) {
+        return this.comicMapper.count(params);
+    }
+
+    public List<ComicBean> searchComic(final Map<String, Object> params) {
+        return this.comicMapper.fetchList(params);
+    }
+
+    public ComicBean getComicById(final Integer articleId) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", articleId);
+        return this.comicMapper.fetchBean(param);
     }
 
     public void addTag(final ArticleBean articleBean, final TagBean tagBean) {
@@ -100,12 +129,6 @@ public class ArticleManager {
         final ArticleTagBean articleTagBean = new ArticleTagBean();
         articleTagBean.setArticleBean(articleBean);
         this.articleTagMapper.delete(articleTagBean);
-    }
-
-    public MusicBean getMusicById(final Integer articleId) {
-        final Map<String, Object> param = new HashMap<>();
-        param.put("id", articleId);
-        return this.musicMapper.fetchBean(param);
     }
 
     public List<FileBean> getFiles(final Integer articleId,
@@ -179,7 +202,7 @@ public class ArticleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            ArticleManager.TITLE_LENGTH },
+                                                                  ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

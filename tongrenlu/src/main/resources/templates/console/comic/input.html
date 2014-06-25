@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+  <head>
+    <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" />
+  </head>
+  <body>
+    <div class="container" layout:fragment="content">
+      <ul class="nav nav-tabs">
+        <li class="active "><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
+        <li class=""><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
+      </ul>
+      <form class="" th:action="@{/console/comic/input}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-sm-8">
+              <div th:class="${#strings.isEmpty(titleError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                <label for="inputTitle" class=" control-label" 
+                    th:text="#{ArticleBean.title}">Title</label>
+                <div class="">
+                  <input type="text" class="form-control" 
+                    id="inputTitle" name="title"
+                    th:value="${articleBean.title}"
+                    th:placeholder="#{ArticleBean.title}"/>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                      th:unless="${#strings.isEmpty(titleError)}"></span>
+                  <p class="help-block" 
+                      th:unless="${#strings.isEmpty(titleError)}"
+                      th:text="${titleError}"></p>
+                </div>
+              </div>
+              <div th:class="${#strings.isEmpty(descriptionError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+               <label for="inputDescription" class=" control-label" 
+                   th:text="#{ArticleBean.description}">Description</label>
+                <div class="">
+                  <textarea class="form-control" rows="20"
+                   id="inputDescription" name="description"
+                   th:text="${articleBean.description}"
+                   th:placeholder="#{ArticleBean.description}"></textarea>
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                     th:unless="${#strings.isEmpty(descriptionError)}"></span>
+                  <p class="help-block" 
+                     th:unless="${#strings.isEmpty(descriptionError)}"
+                     th:text="${descriptionError}"></p>
+                </div>
+              </div>
+              <div class="form-group">
+               <label for="inputTag" class=" control-label" 
+                   th:text="#{ArticleBean.tag}">Tag</label>
+                  <div id="magicsuggest"></div>
+              </div>
+              <div class="form-group">
+                  <label class="radio-inline">
+                      <input type="radio" name="redFlg" value="0" th:checked="${!articleBean.red}" />
+                      <span class="label label-success" th:text="#{console.comic.normal}"></span>
+                  </label>
+                  <label class="radio-inline">
+                      <input type="radio" name="redFlg" value="1" th:checked="${articleBean.red}" />
+                      <span class="label label-danger" th:text="#{console.comic.red}"></span>
+                  </label>
+              </div>
+              <div class="form-group">
+                  <label class="radio-inline">
+                      <input type="radio" name="translateFlg" value="0" th:checked="${!articleBean.translate}" />
+                      <span class="label label-warning" th:text="#{console.comic.notTranslate}"></span>
+                  </label>
+                  <label class="radio-inline">
+                      <input type="radio" name="translateFlg" value="1" th:checked="${articleBean.translate}" />
+                      <span class="label label-info" th:text="#{console.comic.translate}"></span>
+                  </label>
+              </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                  <a href="javascript:;" >
+                    <img src="http://placehold.it/400x400" alt="..." 
+                         th:src="@{/files/default/cover_400.jpg}"/>
+                  </a>
+                  <div class="caption">
+                    <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+              <hr />
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
+                <a th:href="@{/console/comic}" class="btn btn-default" th:text="#{button.cancel}"></a>
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+<th:block layout:fragment="scripts-libs">
+<script src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+</th:block>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+	var initValue = /*[[${tags}]]*/ [];
+    var tagData = /*[[@{/tag/search}]]*/ '/tag/search';
+	var placeHolder = /*[[#{console.tag.help}]]*/'Make a selection';
+    $('#magicsuggest').magicSuggest({
+    	name: 'tags',
+    	method: 'get',
+        data: tagData,
+    	value: initValue,
+        valueField: 'tag',
+        hideTrigger: true,
+        placeholder: placeHolder,
+        typeDelay: 400
+    });
+});
+</script>
+</th:block>
+  </body>
+</html>

@@ -1,5 +1,7 @@
 package info.tongrenlu.domain;
 
+import info.tongrenlu.constants.CommonConstants;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -29,5 +31,13 @@ public class ComicBean extends ArticleBean {
 
     public void setTranslateFlg(final String translateFlg) {
         this.translateFlg = translateFlg;
+    }
+
+    public boolean isRed() {
+        return CommonConstants.is(this.redFlg);
+    }
+
+    public boolean isTranslate() {
+        return CommonConstants.is(this.translateFlg);
     }
 }

@@ -37,4 +37,14 @@
             id = #{id}
         </where>
     </update>
+    
+    <update id="delete">
+        UPDATE M_ARTICLE
+        <set>
+            del_flg = '1',
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
 </mapper>

@@ -10,13 +10,13 @@
         <div class="row">
             <div class="col-sm-8">
                 <ul class="nav nav-tabs">
-                  <li class="hidden-xs"><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
-                  <li class=""><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-                  <li class="active"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
+                  <li class="hidden-xs"><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
+                  <li class=""><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
+                  <li class="active"><a th:href="@{/admin/comic}" th:text="#{admin.comic}"></a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active">
-                        <form th:action="@{/admin/music}" method="get">
+                        <form th:action="@{/admin/comic}" method="get">
                             <div class="input-group">
                               <input type="text" class="form-control" name="q" th:value="${page.params.query}"/>
                               <div class="input-group-btn">
@@ -28,12 +28,12 @@
                         <th:block th:unless="${#lists.isEmpty(page.items)}">
                             <ul class="media-list">
                               <li class="media" th:each="articleBean : ${page.items}">
-                                <a class="pull-left" th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                <a class="pull-left" th:href="@{/admin/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                   <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
-                                       th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}"
+                                       th:src="@{/files/c__${articleBean.id}__/cover_120.jpg}"
                                        th:alt-title="${articleBean.title}" />
                                   <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
-                                       th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}"
+                                       th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}"
                                        th:alt-title="${articleBean.title}" />
                                 </a>
                                 <div class="media-body">
@@ -41,16 +41,15 @@
                                   <h4 class="media-heading text-single-line">
                                     <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
                                     <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                    <a th:href="@{/admin/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
+                                    <a th:href="@{/admin/comic/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
                                   </h4>
                                   <p th:text="${articleBean.description}"></p>
                                   </div>
                                   <ul class="list-inline text-right">
-                                    <li><a th:href="@{/admin/music/__${articleBean.id}__}" class="btn btn-sm btn-default" th:text="#{console.article.preview}"></a></li>
-                                    <li class="hidden-xs"><a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-sm btn-default" th:text="#{console.article.edit}"></a></li>
-                                    <li class="hidden-xs"><a th:href="@{/admin/music/__${articleBean.id}__/track/upload}" class="btn btn-sm btn-primary" th:text="#{console.music.track.upload}"></a></li>
-                                    <li class="hidden-xs"><a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}" class="btn btn-sm btn-primary" th:text="#{console.music.booklet.upload}"></a></li>
-                                    <li><a th:href="@{/admin/music/__${articleBean.id}__/delete}" class="btn btn-sm btn-danger" th:text="#{console.article.delete}"></a></li>
+                                    <li><a th:href="@{/admin/comic/__${articleBean.id}__}" class="btn btn-sm btn-default" th:text="#{console.article.preview}"></a></li>
+                                    <li class="hidden-xs"><a th:href="@{/admin/comic/__${articleBean.id}__/edit}" class="btn btn-sm btn-default" th:text="#{console.article.edit}"></a></li>
+                                    <li class="hidden-xs"><a th:href="@{/admin/comic/__${articleBean.id}__/picture/upload}" class="btn btn-sm btn-primary" th:text="#{console.comic.picture.upload}"></a></li>
+                                    <li><a th:href="@{/admin/comic/__${articleBean.id}__/delete}" class="btn btn-sm btn-danger" th:text="#{console.article.delete}"></a></li>
                                   </ul>
                                 </div>
                               </li>
@@ -60,7 +59,7 @@
                         </th:block>
                         <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                             <h4 th:text="#{console.article.noData}"></h4>
-                            <a th:href="@{/admin/music}" th:text="#{button.back}" class="btn btn-default"></a>
+                            <a th:href="@{/admin/comic}" th:text="#{button.back}" class="btn btn-default"></a>
                         </div>
                     </div>
                 </div>
@@ -88,7 +87,7 @@ $(function() {
         background_hover_color  : '#2980b9', 
         images                  : false,
         onChange                : function (currval){
-            var url = /*[[@{/admin/music(q=${page.params.query},p='')}]]*/ '/admin/music';
+            var url = /*[[@{/admin/comic(q=${page.params.query},p='')}]]*/ '/admin/comic';
             window.location.href = url + currval;
             return false;
         }

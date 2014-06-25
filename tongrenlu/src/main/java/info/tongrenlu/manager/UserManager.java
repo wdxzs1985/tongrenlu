@@ -18,7 +18,7 @@ public class UserManager {
 
     public static final int EMAIL_LENGTH = 200;
     public static final int NICKNAME_LENGTH = 20;
-    public static final int SIGNATURE_LENGTH = 20;
+    public static final int SIGNATURE_LENGTH = 80;
 
     public static final Pattern EMAIL_PATTERN = Pattern.compile("^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$");
 
@@ -93,7 +93,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            UserManager.EMAIL_LENGTH },
+                                                                  UserManager.EMAIL_LENGTH },
                                                     locale));
             isValid = false;
         } else if (!UserManager.EMAIL_PATTERN.matcher(email).matches()) {
@@ -159,7 +159,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.notSame",
                                                     new Object[] { fieldName1,
-                                                            fieldName2 },
+                                                                  fieldName2 },
                                                     locale));
             isValid = false;
         }
@@ -184,7 +184,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            UserManager.NICKNAME_LENGTH },
+                                                                  UserManager.NICKNAME_LENGTH },
                                                     locale));
             isValid = false;
         }
@@ -203,7 +203,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            UserManager.SIGNATURE_LENGTH },
+                                                                  UserManager.SIGNATURE_LENGTH },
                                                     locale));
             isValid = false;
         }

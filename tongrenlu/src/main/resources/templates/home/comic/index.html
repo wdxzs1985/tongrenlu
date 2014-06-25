@@ -21,18 +21,18 @@
                 <th:block th:unless="${#lists.isEmpty(page.items)}">
                     <ul class="media-list">
                       <li class="media" th:each="articleBean : ${page.items}">
-                        <a class="pull-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                        <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                           <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
-                               th:src="@{/files/m__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
+                               th:src="@{/files/c__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
                                th:alt-title="${articleBean.title}" />
                           <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
-                               th:src="@{/files/m__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
+                               th:src="@{/files/c__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
                                th:alt-title="${articleBean.title}" />
                         </a>
                         <div class="media-body">
                           <div class="article-list-item">
                           <h4 class="media-heading text-single-line">
-                            <a th:href="@{/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
+                            <a th:href="@{/comic/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
                           </h4>
                           <p th:text="${articleBean.description}"></p>
                           </div>
@@ -44,7 +44,7 @@
                 </th:block>
                 <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                     <h4 th:text="#{home.article.noData}"></h4>
-                    <a th:href="@{/music}" th:text="#{button.back}" class="btn btn-default"></a>
+                    <a th:href="@{/comic}" th:text="#{button.back}" class="btn btn-default"></a>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -70,7 +70,7 @@ $(function() {
         background_hover_color  : '#2980b9', 
         images                  : false,
         onChange                : function (currval){
-        	var url = /*[[@{/music(p='')}]]*/ '/music';
+        	var url = /*[[@{/comic(p='')}]]*/ '/comic';
             window.location.href = url + currval;
             return false;
         }

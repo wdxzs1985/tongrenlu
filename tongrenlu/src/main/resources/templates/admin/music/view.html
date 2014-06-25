@@ -129,7 +129,7 @@
           </div>
           <pre id="article-description" th:text="${articleBean.description}"></pre>
           <ul class="list-inline">
-              <li><strong>Tags :</strong></li>
+              <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
               <li th:each="tag : ${tags}">
                 <a href="#" class="btn btn-xs btn-default" >
                   <span th:text="${tag}"></span>
