@@ -188,6 +188,22 @@ public class ConsoleComicController {
         return "redirect:/console/comic";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/{fileId}/delete")
+    @ResponseBody
+    public Map<String, Object> doPostFileDelete(@PathVariable final Integer articleId,
+                                                @PathVariable final Integer fileId,
+                                                @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+
+        this.comicService.removeFile(fileId);
+
+        final Map<String, Object> model = new HashMap<String, Object>();
+        model.put("result", true);
+        return model;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/picture/upload")
     public String doGetPictureUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,

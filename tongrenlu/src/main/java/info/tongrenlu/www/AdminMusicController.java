@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/admin/music")
 public class AdminMusicController {
 
     @Autowired
@@ -47,7 +48,7 @@ public class AdminMusicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music")
+    @RequestMapping(method = RequestMethod.GET, value = "")
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
@@ -58,7 +59,7 @@ public class AdminMusicController {
         return "admin/music/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
@@ -73,7 +74,7 @@ public class AdminMusicController {
         return "admin/music/view";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}/edit")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/edit")
     public String doGetEdit(@PathVariable final Integer articleId,
                             final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
@@ -88,7 +89,7 @@ public class AdminMusicController {
         return "admin/music/edit";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/music/{articleId}/edit")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/edit")
     public String doPostEdit(@PathVariable final Integer articleId,
                              final String title,
                              final String description,
@@ -119,7 +120,7 @@ public class AdminMusicController {
         return "admin/music/edit";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}/delete")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/delete")
     public String doGetDelete(@PathVariable final Integer articleId) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
@@ -130,7 +131,7 @@ public class AdminMusicController {
         return "redirect:/admin/music";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}/track/upload")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/upload")
     public String doGetTrackUpload(@PathVariable final Integer articleId,
                                    final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
@@ -142,7 +143,7 @@ public class AdminMusicController {
         return "admin/music/track_upload";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/music/{articleId}/{fileId}/delete")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/{fileId}/delete")
     @ResponseBody
     public Map<String, Object> doPostTrackDelete(@PathVariable final Integer articleId,
                                                  @PathVariable final Integer fileId) {
@@ -157,7 +158,7 @@ public class AdminMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}/track/sort")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/sort")
     public String doGetTrackSort(@PathVariable final Integer articleId,
                                  final Model model,
                                  final RedirectAttributes redirectAttr,
@@ -180,7 +181,7 @@ public class AdminMusicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/music/{articleId}/track/sort")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/track/sort")
     public String doPostTrackSort(@PathVariable final Integer articleId,
                                   @RequestParam(value = "trackId[]") final Integer[] trackId,
                                   @RequestParam(value = "name[]") final String[] name,
@@ -227,7 +228,7 @@ public class AdminMusicController {
         return "redirect:/admin/music/" + articleId;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}/booklet/upload")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet/upload")
     public String doGetBookletUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                      final Model model) {
@@ -240,7 +241,7 @@ public class AdminMusicController {
         return "admin/music/booklet_upload";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}/booklet/sort")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet/sort")
     public String doGetBookletSort(@PathVariable final Integer articleId,
                                    final Model model,
                                    final RedirectAttributes redirectAttr,
@@ -263,7 +264,7 @@ public class AdminMusicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/music/{articleId}/booklet/sort")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/booklet/sort")
     public String doPostBookletSort(@PathVariable final Integer articleId,
                                     @RequestParam(value = "fileId[]") final Integer[] fileId,
                                     final Model model,
@@ -284,7 +285,7 @@ public class AdminMusicController {
         return "redirect:/admin/music/" + articleId;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/music/{articleId}/publish")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/publish")
     public String doGetMusicPublish(@PathVariable final Integer articleId,
                                     final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);

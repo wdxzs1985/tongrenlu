@@ -79,7 +79,7 @@ layout:decorator="console/layout">
       </div>
     </div>
     <!-- The blueimp Gallery widget -->
-    <div id="blueimp-gallery" class="blueimp-gallery" data-start-slideshow="true">
+    <div id="blueimp-gallery" class="blueimp-gallery">
         <div class="slides"></div>
         <h3 class="title"></h3>
         <a class="prev">&lsaquo;</a>
@@ -145,7 +145,7 @@ layout:decorator="console/layout">
         <td>
             {% if (!file.error) { %}
             <span class="preview">
-                <a href="/files/m{%=file.articleId%}/f{%=file.id%}_1200.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
+                <a href="/files/m{%=file.articleId%}/f{%=file.id%}_1080.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
                     <img src="/files/m{%=file.articleId%}/f{%=file.id%}_60.jpg" />
                 </a>
                 

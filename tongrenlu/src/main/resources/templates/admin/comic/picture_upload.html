@@ -12,7 +12,7 @@ layout:decorator="console/layout">
     <div class="page-header">
         <h3 >
           <span th:text="${articleBean.title}"></span>
-          <small th:text="#{console.music.booklet.upload}"></small>
+          <small th:text="#{console.comic.picture.upload}"></small>
         </h3>
     </div>
     <div class="row">
@@ -68,20 +68,20 @@ layout:decorator="console/layout">
     <hr />
     <div class="row">
       <div class="col-xs-6 text-left">
-        <a th:href="@{/admin/music/__${articleBean.id}__}" class="btn btn-default">
+        <a th:href="@{/admin/comic/__${articleBean.id}__}" class="btn btn-default">
             <span class="glyphicon glyphicon-chevron-left"></span>
             <span th:text="#{button.back}"></span>
         </a>
       </div>
       <div class="col-xs-6 text-right">
-        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/sort}" class="btn btn-success">
+        <a th:href="@{/admin/comic/__${articleBean.id}__/picture/sort}" class="btn btn-success">
             <span th:text="#{console.article.sort}"></span>
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
       </div>
     </div>
     <!-- The blueimp Gallery widget -->
-    <div id="blueimp-gallery" class="blueimp-gallery" data-start-slideshow="true">
+    <div id="blueimp-gallery" class="blueimp-gallery">
         <div class="slides"></div>
         <h3 class="title"></h3>
         <a class="prev">&lsaquo;</a>
@@ -147,8 +147,8 @@ layout:decorator="console/layout">
         <td>
             {% if (!file.error) { %}
             <span class="preview">
-                <a href="/files/m{%=file.articleId%}/f{%=file.id%}_1200.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
-                    <img src="/files/m{%=file.articleId%}/f{%=file.id%}_60.jpg" />
+                <a href="/files/c{%=file.articleId%}/f{%=file.id%}_1080.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
+                    <img src="/files/c{%=file.articleId%}/f{%=file.id%}_60.jpg" />
                 </a>
                 
             </span>
@@ -167,7 +167,7 @@ layout:decorator="console/layout">
         </td>
         <td>
             {% if (!file.error) { %}
-                <button class="btn btn-danger delete" data-type="POST" data-url="/console/music/{%=file.articleId%}/{%=file.id%}/delete">
+                <button class="btn btn-danger delete" data-type="POST" data-url="/admin/comic/{%=file.articleId%}/{%=file.id%}/delete">
                     <i class="glyphicon glyphicon-trash"></i>
                     <span th:text="#{console.article.upload.delete}">Delete</span>
                 </button>
@@ -188,7 +188,7 @@ layout:decorator="console/layout">
 $(function () {
     'use strict';
 
-    var url = /*[[@{/console/music/__${articleBean.id}__/booklet/file}]]*/ '';
+    var url = /*[[@{/console/comic/__${articleBean.id}__/picture/file}]]*/ '';
 
     new fileupload({
         url: url

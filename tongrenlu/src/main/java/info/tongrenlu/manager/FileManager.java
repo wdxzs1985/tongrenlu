@@ -32,12 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileManager {
 
-    public static final int[] COVER_SIZE_ARRAY = new int[] { 60,
-                                                            90,
-                                                            120,
-                                                            180,
-                                                            400 };
-    public static final int[] IMAGE_SIZE_ARRAY = new int[] { 1200, 1600 };
+    public static final int[] COVER_SIZE_ARRAY = new int[] { 60, 120, 180, 400 };
+    public static final int[] IMAGE_SIZE_ARRAY = new int[] { 480, 1080 };
 
     public static final String USER = "u";
     public static final String COMIC = "c";
@@ -192,8 +188,7 @@ public class FileManager {
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.getConvertPath());
         // create the operation, add images and operators/options
-        final IMOperation op = new IMOperation();
-        op.density(72).strip();
+        final IMOperation op = this.getImOperation();
         op.addImage(input.getAbsolutePath());
         op.adaptiveResize(size, size, '^');
         op.gravity("center");
@@ -246,10 +241,9 @@ public class FileManager {
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.getConvertPath());
         // create the operation, add images and operators/options
-        final IMOperation op = new IMOperation();
-        op.density(72).strip();
+        final IMOperation op = this.getImOperation();
         op.addImage(input.getAbsolutePath());
-        op.adaptiveResize(size, size, '>');
+        op.resize(null, size, '>');
         op.addImage(output.getAbsolutePath());
         // execute the operation
         try {
@@ -266,6 +260,12 @@ public class FileManager {
         } finally {
             // FileUtils.deleteQuietly(input);
         }
+    }
+
+    protected IMOperation getImOperation() {
+        final IMOperation operation = new IMOperation();
+        operation.density(72).quality(90d).strip();
+        return operation;
     }
 
     public void copyDefaultCover(final String dirId, final int size) {

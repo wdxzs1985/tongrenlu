@@ -9,10 +9,8 @@ import info.tongrenlu.service.FileService;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +22,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping(value = "/admin/comic")
 public class AdminComicController {
 
     @Autowired
@@ -44,7 +42,7 @@ public class AdminComicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic")
+    @RequestMapping(method = RequestMethod.GET, value = "")
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
@@ -55,7 +53,7 @@ public class AdminComicController {
         return "admin/comic/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             final Model model) {
         final ComicBean comicBean = this.comicService.getById(articleId);
@@ -70,7 +68,7 @@ public class AdminComicController {
         return "admin/comic/view";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/edit")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/edit")
     public String doGetEdit(@PathVariable final Integer articleId,
                             final Model model) {
         final ComicBean comicBean = this.comicService.getById(articleId);
@@ -85,7 +83,7 @@ public class AdminComicController {
         return "admin/comic/edit";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/edit")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/edit")
     public String doPostEdit(@PathVariable final Integer articleId,
                              final String title,
                              final String description,
@@ -116,7 +114,7 @@ public class AdminComicController {
         return "admin/comic/edit";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/delete")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/delete")
     public String doGetDelete(@PathVariable final Integer articleId) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
@@ -127,22 +125,7 @@ public class AdminComicController {
         return "redirect:/admin/comic";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/{fileId}/delete")
-    @ResponseBody
-    public Map<String, Object> doPostFileDelete(@PathVariable final Integer articleId,
-                                                @PathVariable final Integer fileId) {
-        final ComicBean comicBean = this.comicService.getById(articleId);
-
-        this.throwExceptionWhenNotFound(comicBean);
-
-        this.comicService.removeFile(fileId);
-
-        final Map<String, Object> model = new HashMap<String, Object>();
-        model.put("result", true);
-        return model;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/picture/upload")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/picture/upload")
     public String doGetPictureUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                      final Model model) {
@@ -155,7 +138,7 @@ public class AdminComicController {
         return "admin/comic/picture_upload";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/picture/sort")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/picture/sort")
     public String doGetPictureSort(@PathVariable final Integer articleId,
                                    final Model model,
                                    final RedirectAttributes redirectAttr,
@@ -178,7 +161,7 @@ public class AdminComicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/comic/{articleId}/picture/sort")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/picture/sort")
     public String doPostPictureSort(@PathVariable final Integer articleId,
                                     @RequestParam(value = "fileId[]") final Integer[] fileId,
                                     final Model model,
@@ -199,7 +182,7 @@ public class AdminComicController {
         return "redirect:/admin/comic/" + articleId;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/comic/{articleId}/publish")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/publish")
     public String doGetComicPublish(@PathVariable final Integer articleId,
                                     final Model model) {
         final ComicBean comicBean = this.comicService.getById(articleId);
