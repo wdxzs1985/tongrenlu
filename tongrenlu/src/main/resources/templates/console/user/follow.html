@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+<head>
+<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+</head>
+  <body>
+    <div class="container" layout:fragment="content">
+        <ul class="nav nav-tabs">
+          <li class="hidden-xs"><a th:href="@{/console/like/music}" th:text="#{console.like.music}"></a></li>
+          <li class="hidden-xs"><a th:href="@{/console/like/comic}" th:text="#{console.like.comic}"></a></li>
+          <li class="active"><a th:href="@{/console/follow}" th:text="#{console.follow}"></a></li>
+          <li class="hidden-xs"><a th:href="@{/console/follower}" th:text="#{console.follower}"></a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <th:block th:unless="${#lists.isEmpty(page.items)}">
+                    <ul class="media-list">
+                      <li class="media" th:each="userBean : ${page.items}">
+                        <a class="pull-left" th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
+                          <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
+                               th:src="@{/files/u__${userBean.id}__/cover_120.jpg}"
+                               th:alt-title="${userBean}" />
+                          <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
+                               th:src="@{/files/u__${userBean.id}__/cover_60.jpg}"
+                               th:alt-title="${userBean}" />
+                        </a>
+                        <div class="pull-right btn-group">
+                            <button type="button" class="btn btn-success">
+                              <span class="glyphicon glyphicon-heart"></span>
+                              <span class="hidden-xs like-button-text" th:text="#{home.user.following}"></span>
+                            </button>
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                              <li><a href="#" th:text="#{home.user.unfollow}"></a></li>
+                            </ul>
+                        </div>
+                        <div class="media-body">
+                          <div class="article-list-item">
+                              <h5 class="media-heading text-single-line">
+                                <a th:href="@{/user/__${userBean.id}__}" th:text="${userBean}" th:alt-title="${userBean}"></a>
+                              </h5>
+                              <p th:text="${userBean.signature}"></p>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                    <hr />
+                    <div id="jpaginate" class="hidden-xs hidden-sm"></div>
+                </th:block>
+                <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                    <h4 th:text="#{console.article.noData}"></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+<th:block layout:fragment="scripts-libs">
+<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+</th:block>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $("#jpaginate").paginate({
+        count       : /*[[${page.pageCount}]]*/ 20,
+        start       : /*[[${page.pageNumber}]]*/ 1,
+        display     : 10,
+        border                  : true,
+        border_color            : '#fff',
+        text_color              : '#fff',
+        background_color        : '#428bca',  
+        border_hover_color      : '#3498db',
+        text_hover_color        : '#fff',
+        background_hover_color  : '#2980b9', 
+        images                  : false,
+        onChange                : function (currval){
+            var url = /*[[@{/console/follow(p='')}]]*/ '/console/follow';
+            window.location.href = url + currval;
+            return false;
+        }
+    });
+});
+</script>
+</th:block>
+  </body>
+</html>
