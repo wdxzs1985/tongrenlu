@@ -52,6 +52,7 @@ public class LoginController {
                                            final HttpServletRequest request,
                                            final HttpServletResponse response) {
         final HttpSession session = request.getSession();
+        final String salt = (String) session.getAttribute("salt");
 
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("result", false);
@@ -59,7 +60,7 @@ public class LoginController {
         final UserBean userBean = new UserBean();
         userBean.setEmail(StringUtils.lowerCase(email));
         userBean.setPassword(password);
-        userBean.setSalt((String) session.getAttribute("salt"));
+        userBean.setSalt(salt);
 
         final UserBean loginUser = this.loginService.doSignIn(userBean,
                                                               model,

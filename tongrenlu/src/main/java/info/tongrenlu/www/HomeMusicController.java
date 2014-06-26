@@ -56,7 +56,7 @@ public class HomeMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
-                            @ModelAttribute final UserBean loginUser,
+                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
@@ -66,6 +66,8 @@ public class HomeMusicController {
 
         model.addAttribute("articleBean", musicBean);
         model.addAttribute("tags", tags);
+
+        this.musicService.addAccess(musicBean, loginUser);
 
         return "home/music/view";
     }

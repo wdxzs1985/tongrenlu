@@ -6,39 +6,50 @@
 <div class="navbar navbar-default navbar-static-top" layout:fragment="header">
   <div class="container">
     <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+        <span class="sr-only" th:text="#{application}"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
       <a class="navbar-brand" href="index.html"
         th:href="@{/}" 
         th:text="#{application}"></a>
     </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav navbar-left">
         <li ><a th:href="@{/music}" th:text="#{home.music}"></a></li>
         <li ><a th:href="@{/comic}" th:text="#{home.comic}"></a></li>
         <li ><a th:href="@{/search}" th:text="#{home.search}"></a></li>
         <li ><a th:href="@{/fm}" th:text="#{home.fm}"></a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li id="nav-signup" th:class="${session.LOGIN_USER.guest} ? 'show' : 'hidden'">
+      <ul id="nav-signin" class="nav navbar-nav navbar-right"
+        th:classappend="${session.LOGIN_USER.guest} ? 'show' : 'hidden'">
+        <li>
           <a th:href="@{/signup}" th:text="#{login.signup}">
             sign up
           </a>
         </li>
-        <li id="nav-signin" th:class="${session.LOGIN_USER.guest} ? 'show' : 'hidden'">
+        <li>
           <a href="#signinModal" data-toggle="modal"
              th:text="#{login.signin}">
             sign in
           </a>
         </li>
-        <li id="nav-console" th:class="${session.LOGIN_USER.guest} ? 'dropdown hidden' : 'dropdown show'">
+      </ul>
+      <ul id="nav-console" class="nav navbar-nav navbar-right"
+        th:classappend="${session.LOGIN_USER.guest} ? 'hidden' : 'show'">
+        <li ><a th:href="@{/console}" th:text="#{console}"></a></li>
+        <li>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span id="nav-nickname" th:text="${session.LOGIN_USER} ? ${session.LOGIN_USER} : #{UserBean.nickname}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li ><a th:href="@{/console}" th:text="#{console}"></a></li>
-            <li class="divider"></li>
             <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
           </ul>
         </li>
       </ul>
+    </div>
   </div>
 </div>
 <th:block layout:fragment="scripts-libs">
@@ -95,6 +106,11 @@
 <script src="http://static.tongrenlu.info/JavaScript-MD5-1.1.0/js/md5.min.js" ></script>
 <script type="text/javascript" th:inline="javascript">
 $(function(){
+	
+	var $signinModal = $('#signinModal').on('shown.bs.modal', function() {
+		$('#inputEmail').focus();
+	});
+	
 	var $loginForm = $('#login-form');
 	$loginForm.submit(function(e){
     	e.preventDefault();
@@ -124,11 +140,11 @@ $(function(){
     			$.post(signinUrl, $loginForm.serialize()).success(function(response) {
     				if(response) {
     					if(response.result) {
-    						$('#signinModal').modal('hide');
-    						$('#nav-signup').addClass('hidden').removeClass('show');
                             $('#nav-signin').addClass('hidden').removeClass('show');
                             $('#nav-console').addClass('show').removeClass('hidden');
                             $('#nav-nickname').text(response.loginUser.nickname + '#' + response.loginUser.id);
+                            $('#signinModal').modal('hide');
+                            $(document).trigger('signin', response.loginUser)
     					} else {
     						if(response.emailError) {
     							$formGroupEmail.addClass('has-error has-feedback')

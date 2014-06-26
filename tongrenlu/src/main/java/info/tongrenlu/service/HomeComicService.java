@@ -2,6 +2,7 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
+import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagManager;
@@ -41,6 +42,10 @@ public class HomeComicService {
 
     public String[] getTags(final ComicBean comicBean) {
         return this.articleManager.getTags(comicBean).toArray(new String[] {});
+    }
+
+    public void addAccess(final ComicBean comicBean, final UserBean loginUser) {
+        this.articleManager.addAccess(comicBean, loginUser);
     }
 
 }

@@ -9,34 +9,37 @@
 <div class="navbar navbar-default navbar-static-top" layout:fragment="header">
   <div class="container">
     <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+        <span class="sr-only" th:text="#{console}"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
       <a class="navbar-brand"
          th:href="@{/console}" th:text="#{console}"></a>
     </div>
-      <ul class="nav navbar-nav navbar-left">
-        <li id="nav-music" class="dropdown" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul id="nav-member" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.member}">
+        <li ><a th:href="@{/console/fav/music}" th:text="#{console.fav.music}"></a></li>
+        <li ><a th:href="@{/console/fav/comic}" th:text="#{console.fav.comic}"></a></li>
+      </ul>
+      <ul id="nav-editor" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
+        <li id="nav-music" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span th:text="#{console.music}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
             <li ><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-            <th:block th:if="${session.LOGIN_USER.admin}">
-            <li class="divider"></li>
-            <li ><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
-            </th:block>
           </ul>
         </li>
-        <li id="nav-comic" class="dropdown" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
+        <li id="nav-comic" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span th:text="#{console.comic}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
             <li ><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
-            <th:block th:if="${session.LOGIN_USER.admin}">
-            <li class="divider"></li>
-            <li ><a th:href="@{/admin/comic}" th:text="#{admin.comic}"></a></li>
-            </th:block>
           </ul>
         </li>
         <li id="nav-fav" class="dropdown">
@@ -62,6 +65,7 @@
           </ul>
         </li>
       </ul>
+    </div>
   </div>
 </div>
 </body>

@@ -55,7 +55,7 @@ public class HomeComicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/comic/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
-                            @ModelAttribute final UserBean loginUser,
+                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
@@ -65,6 +65,8 @@ public class HomeComicController {
 
         model.addAttribute("articleBean", comicBean);
         model.addAttribute("tags", tags);
+
+        this.comicService.addAccess(comicBean, loginUser);
 
         return "home/comic/view";
     }

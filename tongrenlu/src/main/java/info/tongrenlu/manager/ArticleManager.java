@@ -1,5 +1,6 @@
 package info.tongrenlu.manager;
 
+import info.tongrenlu.domain.AccessBean;
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ArticleTagBean;
 import info.tongrenlu.domain.ComicBean;
@@ -7,6 +8,8 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
+import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.mapper.AccessMapper;
 import info.tongrenlu.mapper.ArticleMapper;
 import info.tongrenlu.mapper.ArticleTagMapper;
 import info.tongrenlu.mapper.ComicMapper;
@@ -35,6 +38,8 @@ public class ArticleManager {
 
     @Autowired
     private ArticleMapper articleMapper = null;
+    @Autowired
+    private AccessMapper accessMapper = null;
     @Autowired
     private ArticleTagMapper articleTagMapper = null;
     @Autowired
@@ -82,6 +87,17 @@ public class ArticleManager {
         param.put("id", articleBean.getId());
         param.put("publishFlg", "1");
         this.articleMapper.update(param);
+    }
+
+    public void addAccess(final ArticleBean articleBean, final UserBean userBean) {
+        final AccessBean accessBean = new AccessBean();
+        accessBean.setArticleBean(articleBean);
+        accessBean.setUserBean(userBean);
+        this.accessMapper.insert(accessBean);
+
+        int accessCount = articleBean.getAccessCount();
+        accessCount++;
+        articleBean.setAccessCount(accessCount);
     }
 
     public int countMusic(final Map<String, Object> params) {
@@ -202,7 +218,7 @@ public class ArticleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  ArticleManager.TITLE_LENGTH },
+                                                            ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

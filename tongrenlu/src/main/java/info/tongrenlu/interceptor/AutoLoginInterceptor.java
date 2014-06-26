@@ -32,27 +32,30 @@ public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
-        final HttpSession session = request.getSession();
-        UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
-        if (loginUser == null) {
-            final Cookie[] cookies = request.getCookies();
-            if (ArrayUtils.isNotEmpty(cookies)) {
-                for (final Cookie cookie : request.getCookies()) {
-                    if (CommonConstants.FINGERPRINT.equals(cookie.getName())) {
-                        this.log.info("auto login...");
-                        String fingerprint = cookie.getValue();
-                        loginUser = this.loginService.doAutoLogin(fingerprint);
-                        if (loginUser != null) {
-                            session.setAttribute(CommonConstants.LOGIN_USER,
-                                                 loginUser);
-                            fingerprint = loginUser.getFingerprint();
-                            this.autoLoginCookie.addCookie(response,
-                                                           fingerprint);
-                            this.log.info("auto login ok.");
-                        } else {
-                            this.autoLoginCookie.removeCookie(response);
+
+        synchronized (this) {
+            final HttpSession session = request.getSession();
+            UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
+            if (loginUser == null) {
+                final Cookie[] cookies = request.getCookies();
+                if (ArrayUtils.isNotEmpty(cookies)) {
+                    for (final Cookie cookie : request.getCookies()) {
+                        if (CommonConstants.FINGERPRINT.equals(cookie.getName())) {
+                            this.log.info("auto login...");
+                            String fingerprint = cookie.getValue();
+                            loginUser = this.loginService.doAutoLogin(fingerprint);
+                            if (loginUser != null) {
+                                session.setAttribute(CommonConstants.LOGIN_USER,
+                                                     loginUser);
+                                fingerprint = loginUser.getFingerprint();
+                                this.autoLoginCookie.addCookie(response,
+                                                               fingerprint);
+                                this.log.info("auto login ok.");
+                            } else {
+                                this.autoLoginCookie.removeCookie(response);
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }

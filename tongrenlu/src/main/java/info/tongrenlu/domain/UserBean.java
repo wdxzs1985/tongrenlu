@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_DEFAULT)
 public class UserBean extends DtoBean {
 
-    public static final String ROLE_NORMAL = "0";
+    public static final String ROLE_MEMBER = "0";
 
     public static final String ROLE_EDITOR = "1";
 
@@ -147,6 +147,14 @@ public class UserBean extends DtoBean {
         return this.nickname;
     }
 
+    public boolean isGuest() {
+        return this.role == null;
+    }
+
+    public boolean isMember() {
+        return UserBean.ROLE_MEMBER.equals(this.role);
+    }
+
     public boolean isEditor() {
         return UserBean.ROLE_EDITOR.equals(this.role);
     }
@@ -166,9 +174,4 @@ public class UserBean extends DtoBean {
     public boolean isOnlyVocal() {
         return CommonConstants.is(this.onlyVocalFlg);
     }
-
-    public boolean isGuest() {
-        return this.role == null;
-    }
-
 }
