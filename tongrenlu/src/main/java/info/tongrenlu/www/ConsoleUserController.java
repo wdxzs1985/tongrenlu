@@ -154,7 +154,7 @@ public class ConsoleUserController {
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber);
-        page.addParam("likeId", loginUser.getId());
+        page.addParam("userBean", loginUser);
         this.userService.searchFollower(page);
         model.addAttribute("page", page);
 

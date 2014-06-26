@@ -67,12 +67,11 @@ public class HomeMusicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        boolean result = false;
+        int result = -1;
         if (this.validateUserForLike(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
-            final int count = this.likeManager.countLike(loginUser, musicBean);
-            if (count != 0) {
-                result = true;
+            if (!loginUser.equals(musicBean.getUserBean())) {
+                result = this.likeManager.countLike(loginUser, musicBean);
             }
         }
         model.put("result", result);
@@ -83,16 +82,19 @@ public class HomeMusicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        boolean result = false;
+        int result = -1;
         if (this.validateUserForLike(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
-            final int count = this.likeManager.countLike(loginUser, musicBean);
-            if (count != 0) {
-                this.likeManager.removeLike(loginUser, musicBean);
-                result = false;
-            } else {
-                this.likeManager.addLike(loginUser, musicBean);
-                result = true;
+            if (!loginUser.equals(musicBean.getUserBean())) {
+                final int count = this.likeManager.countLike(loginUser,
+                                                             musicBean);
+                if (count != 0) {
+                    this.likeManager.removeLike(loginUser, musicBean);
+                    result = 0;
+                } else {
+                    this.likeManager.addLike(loginUser, musicBean);
+                    result = 1;
+                }
             }
         }
         model.put("result", result);

@@ -1,5 +1,6 @@
 body {
 	padding-bottom: 70px;
+	background: #f7f7f7;
 }
 
 .nav-tabs {
@@ -38,7 +39,16 @@ body {
 }
 
 .article-list-item p{
-    height: 5.6em;
+    line-height: 1.4em;
+    height: 6.8em;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+h1.article-title {
+	font-size:24px;
+}
+
+#playler {
+	margin-bottom: 50px;
 }

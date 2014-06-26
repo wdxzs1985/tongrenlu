@@ -5,56 +5,29 @@
   <head>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
-    <style>
-        .container{
-            width: 100%;
-        }
-    </style>
   </head>
   <body>
     <div layout:fragment="content">
-      <div class="clearfix">
-          <div class="pull-left">
+        <div class="container">
             <div class="media">
                 <div class="media-heading pull-left">
-                    <img src="http://placehold.it/60x60" class="img-responsive visible-xs" 
+                    <img src="http://placehold.it/60x60" class="img-responsive img-rounded" 
                        th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
-                    <img src="http://placehold.it/120x120" class="img-responsive hidden-xs" 
-                       th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"/>
                 </div>
                 <div class="media-body">
-                    <h1><span th:text="${articleBean.title}"></span></h1>
-                    <p class="visible-xs">
-                        <strong th:text="#{home.article.owner} + ': '"></strong>
-                        <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
-                    </p>
-                </div>
-	        </div>
-	      </div>
-          <div class="pull-right well hidden-xs">
-            <div class="media">
-                <a class="pull-left" th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
-                  <img class="media-object" src="http://placehold.it/60x60" th:alt-title="${articleBean.userBean}" 
-                       th:src="@{/files/u__${articleBean.userBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}" />
-                </a>
-                <div class="media-body">
-                  <h5 class="media-heading" >
-                    <strong th:text="#{home.article.owner} + ': '"></strong>
-                    <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
-                  </h5>
-                  <p class="hidden-xs" th:text="${articleBean.userBean.signature}"></p>
+                <h1 class="article-title text-single-line" th:text="${articleBean.title}"></h1>
                 </div>
             </div>
-          </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
+        </div>
+        <div class="container">
           <div class="page-header">
               <a class="btn btn-default pull-right"
                 th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}"
                 th:text="#{console.music.booklet.upload}">upload</a>
               <h4 th:text="#{home.music.booklet}">booklet</h4>
           </div>
+        </div>
+        <div class="container-fuild">
           <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
               <div class="slides"></div>
               <h3 class="title"></h3>
@@ -64,6 +37,8 @@
               <ol class="indicator"></ol>
           </div>
         </div>
+    <div class="container">
+      <div class="row">
         <div class="col-sm-6">
           <div class="page-header">
               <a class="btn btn-default pull-right"
@@ -145,6 +120,7 @@
             <a th:href="@{/admin/music}" class="btn btn-default" th:text="#{button.back}"></a>
           </li>
       </ul>
+    </div>
     </div>
 <th:block layout:fragment="scripts-libs">
 <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>

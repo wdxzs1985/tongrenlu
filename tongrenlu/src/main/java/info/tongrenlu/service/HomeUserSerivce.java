@@ -25,12 +25,11 @@ public class HomeUserSerivce {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        boolean result = false;
+        int result = -1;
         if (this.validateUserForLike(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
-            final int count = this.likeManager.countLike(loginUser, userBean);
-            if (count != 0) {
-                result = true;
+            if (!loginUser.equals(userBean)) {
+                result = this.likeManager.countLike(loginUser, userBean);
             }
         }
         model.put("result", result);
@@ -40,16 +39,19 @@ public class HomeUserSerivce {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        boolean result = false;
+        int result = -1;
         if (this.validateUserForLike(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
-            final int count = this.likeManager.countLike(loginUser, userBean);
-            if (count != 0) {
-                this.likeManager.removeLike(loginUser, userBean);
-                result = false;
-            } else {
-                this.likeManager.addLike(loginUser, userBean);
-                result = true;
+            if (!loginUser.equals(userBean)) {
+                final int count = this.likeManager.countLike(loginUser,
+                                                             userBean);
+                if (count != 0) {
+                    this.likeManager.removeLike(loginUser, userBean);
+                    result = 0;
+                } else {
+                    this.likeManager.addLike(loginUser, userBean);
+                    result = 1;
+                }
             }
         }
         model.put("result", result);

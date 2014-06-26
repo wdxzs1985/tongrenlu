@@ -34,6 +34,10 @@
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
             <li ><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
+            <th:block th:if="${session.LOGIN_USER.admin}">
+                <li class="divider"></li>
+                <li ><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
+            </th:block>
           </ul>
         </li>
         <li id="nav-comic" class="dropdown">
@@ -43,6 +47,10 @@
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
             <li ><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
+            <th:block th:if="${session.LOGIN_USER.admin}">
+                <li class="divider"></li>
+                <li ><a th:href="@{/admin/comic}" th:text="#{admin.comic}"></a></li>
+            </th:block>
           </ul>
         </li>
         <li id="nav-fav" class="dropdown">

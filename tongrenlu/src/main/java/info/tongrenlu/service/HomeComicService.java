@@ -60,12 +60,11 @@ public class HomeComicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        boolean result = false;
+        int result = -1;
         if (this.validateUserForLike(loginUser, model, locale)) {
             final ComicBean comicBean = this.getById(articleId);
-            final int count = this.likeManager.countLike(loginUser, comicBean);
-            if (count != 0) {
-                result = true;
+            if (!loginUser.equals(comicBean.getUserBean())) {
+                result = this.likeManager.countLike(loginUser, comicBean);
             }
         }
         model.put("result", result);
@@ -76,16 +75,19 @@ public class HomeComicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        boolean result = false;
+        int result = -1;
         if (this.validateUserForLike(loginUser, model, locale)) {
             final ComicBean comicBean = this.getById(articleId);
-            final int count = this.likeManager.countLike(loginUser, comicBean);
-            if (count != 0) {
-                this.likeManager.removeLike(loginUser, comicBean);
-                result = false;
-            } else {
-                this.likeManager.addLike(loginUser, comicBean);
-                result = true;
+            if (!loginUser.equals(comicBean.getUserBean())) {
+                final int count = this.likeManager.countLike(loginUser,
+                                                             comicBean);
+                if (count != 0) {
+                    this.likeManager.removeLike(loginUser, comicBean);
+                    result = 0;
+                } else {
+                    this.likeManager.addLike(loginUser, comicBean);
+                    result = 1;
+                }
             }
         }
         model.put("result", result);

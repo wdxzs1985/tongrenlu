@@ -138,9 +138,51 @@
         </where>
     </select>
     
+    <select id="searchFollow" resultType="UserBean">
+        SELECT
+        <trim suffixOverrides=",">
+            v_user.id               as id,
+            v_user.nickname         as nickname,
+            v_user.signature        as signature,
+            v_user.musicCount       as musicCount,
+            v_user.comicCount       as comicCount,
+            v_user.followCount      as followCount,
+            v_user.followerCount    as followerCount,
+        </trim>
+        FROM
+            R_LIKE L
+        left join v_user on v_user.id = L.like_id
+        <where>
+            L.DEL_FLG = '0'
+        AND L.USER_ID = #{userBean.id}
+        AND L.CATEGORY = 'u'
+        </where>
+    </select>
+    
     <select id="countFollower" resultType="int">
         SELECT
             COUNT(L.ID)
+        FROM
+            R_LIKE L
+        left join v_user on v_user.id = L.user_id
+        <where>
+            L.DEL_FLG = '0'
+        AND L.LIKE_ID = #{userBean.id}
+        AND L.CATEGORY = 'u'
+        </where>
+    </select>
+    
+    <select id="searchFollower" resultType="UserBean">
+        SELECT
+        <trim suffixOverrides=",">
+            v_user.id               as id,
+            v_user.nickname         as nickname,
+            v_user.signature        as signature,
+            v_user.musicCount       as musicCount,
+            v_user.comicCount       as comicCount,
+            v_user.followCount      as followCount,
+            v_user.followerCount    as followerCount,
+        </trim>
         FROM
             R_LIKE L
         left join v_user on v_user.id = L.user_id
