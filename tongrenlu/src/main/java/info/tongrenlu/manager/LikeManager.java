@@ -7,6 +7,7 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.mapper.LikeMapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,30 @@ public class LikeManager {
             throw new IllegalArgumentException();
         }
         return category;
+    }
+
+    public int countMusic(final Map<String, Object> params) {
+        return this.likeMapper.countMusic(params);
+    }
+
+    public List<MusicBean> searchMusic(final Map<String, Object> params) {
+        return this.likeMapper.searchMusic(params);
+    }
+
+    public int countComic(final Map<String, Object> params) {
+        return this.likeMapper.countComic(params);
+    }
+
+    public List<ComicBean> searchComic(final Map<String, Object> params) {
+        return this.likeMapper.searchComic(params);
+    }
+
+    public int countUser(final Map<String, Object> params) {
+        return this.likeMapper.countUser(params);
+    }
+
+    public List<UserBean> searchUser(final Map<String, Object> params) {
+        return this.likeMapper.searchUser(params);
     }
 
 }

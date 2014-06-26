@@ -44,4 +44,5 @@
         AND L.CATEGORY = #{category}
         </where>
     </update>
+    
 </mapper>

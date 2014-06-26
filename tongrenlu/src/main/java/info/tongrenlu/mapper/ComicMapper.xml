@@ -16,85 +16,88 @@
         )
     </insert>
     
+    
     <select id="count" resultType="int">
         SELECT 
-            count(m_article.id)
+            count(v_comic.id)
         FROM
-            R_COMIC
-        left join m_article on R_COMIC.id = m_article.id
-        left join m_user on m_user.id = m_article.user_id
+            v_comic
         <where>
             <if test="userBean != null">
-            AND m_article.user_id = #{userBean.id}
+            AND v_comic.`userBean.id` = #{userBean.id}
             </if>
             <if test="publishFlg != null">
-            AND m_article.publish_flg = #{publishFlg}
+            AND v_comic.`publishFlg` = #{publishFlg}
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />
-            AND (m_article.title LIKE #{pattern}
-            OR  m_article.description LIKE #{pattern})
+            AND (v_comic.title LIKE #{pattern}
+            OR  v_comic.description LIKE #{pattern})
             </if>
-            AND m_article.del_flg = '0'
         </where>
     </select>
     
     <select id="fetchList" resultType="ComicBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_article.id            as id,
-            m_article.title         as title,
-            m_article.description   as description,
-            m_article.publish_flg   as publishFlg,
-            m_article.recommend_flg as recommendFlg,
-            R_COMIC.red_flg         as redFlg,
-            R_COMIC.translate_flg   as translateFlg,
-            m_user.id               as "userBean.id",
-            m_user.nickname         as "userBean.nickname",
+            v_comic.id                      as id,
+            v_comic.title                   as title,
+            v_comic.description             as description,
+            v_comic.publishFlg              as publishFlg,
+            v_comic.publishDate             as publishDate,
+            v_comic.recommendFlg            as recommendFlg,
+            v_comic.redFlg                  as redFlg,
+            v_comic.translateFlg            as translateFlg,
+            v_comic.`userBean.id`           as `userBean.id`,
+            v_comic.`userBean.nickname`     as `userBean.nickname`,
+            v_comic.`userBean.signature`    as `userBean.signature`,
+            v_comic.accessCount             as accessCount
         </trim>
         FROM
-            R_COMIC
-        left join m_article on R_COMIC.id = m_article.id
-        left join m_user on m_user.id = m_article.user_id
+            v_comic 
         <where>
             <if test="userBean != null">
-            AND m_article.user_id = #{userBean.id}
+            AND v_comic."userBean.id" = #{userBean.id}
             </if>
             <if test="publishFlg != null">
-            AND m_article.publish_flg = #{publishFlg}
+            AND v_comic.publishFlg = #{publishFlg}
+            </if>
+            <if test="redFlg != null">
+            AND v_comic.redFlg = #{redFlg}
+            </if>
+            <if test="translateFlg != null">
+            AND v_comic.publishFlg = #{translateFlg}
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />
-            AND (m_article.title LIKE #{pattern}
-            OR  m_article.description LIKE #{pattern})
+            AND (v_comic.title LIKE #{pattern}
+            OR  v_comic.description LIKE #{pattern})
             </if>
-            AND m_article.del_flg = '0'
         </where>
-        order by id desc
+        order by v_comic.id desc
         limit #{start}, #{pageSize}
     </select>
     
     <select id="fetchBean" resultType="ComicBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_article.id            as id,
-            m_article.title         as title,
-            m_article.description   as description,
-            m_article.publish_flg   as publishFlg,
-            m_article.recommend_flg as recommendFlg,
-            R_COMIC.red_flg         as redFlg,
-            R_COMIC.translate_flg   as translateFlg,
-            m_user.id               as "userBean.id",
-            m_user.nickname         as "userBean.nickname",
-            m_user.signature        as "userBean.signature",
+            v_comic.id                      as id,
+            v_comic.title                   as title,
+            v_comic.description             as description,
+            v_comic.publishFlg              as publishFlg,
+            v_comic.publishDate             as publishDate,
+            v_comic.recommendFlg            as recommendFlg,
+            v_comic.redFlg                  as redFlg,
+            v_comic.translateFlg            as translateFlg,
+            v_comic.`userBean.id`           as `userBean.id`,
+            v_comic.`userBean.nickname`     as `userBean.nickname`,
+            v_comic.`userBean.signature`    as `userBean.signature`,
+            v_comic.accessCount             as accessCount
         </trim>
         FROM
-            R_COMIC
-        left join m_article on R_COMIC.id = m_article.id
-        left join m_user on m_user.id = m_article.user_id
+            v_comic
         <where>
-                m_article.id = #{id}
-            AND m_article.del_flg = '0'
+            v_comic.id = #{id}
         </where>
     </select>
     

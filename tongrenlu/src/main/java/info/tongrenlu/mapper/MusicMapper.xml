@@ -18,79 +18,73 @@
     
     <select id="count" resultType="int">
         SELECT 
-            count(m_article.id)
+            count(v_music.id)
         FROM
-            r_music
-        left join m_article on r_music.id = m_article.id
-        left join m_user on m_user.id = m_article.user_id
+            v_music
         <where>
             <if test="userBean != null">
-            AND m_article.user_id = #{userBean.id}
+            AND v_music.`userBean.id` = #{userBean.id}
             </if>
             <if test="publishFlg != null">
-            AND m_article.publish_flg = #{publishFlg}
+            AND v_music.`publishFlg` = #{publishFlg}
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />
-            AND (m_article.title LIKE #{pattern}
-            OR  m_article.description LIKE #{pattern})
+            AND (v_music.title LIKE #{pattern}
+            OR  v_music.description LIKE #{pattern})
             </if>
-            AND m_article.del_flg = '0'
         </where>
     </select>
     
     <select id="fetchList" resultType="MusicBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_article.id            as id,
-            m_article.title         as title,
-            m_article.description   as description,
-            m_article.publish_flg   as publishFlg,
-            m_article.recommend_flg as recommendFlg,
-            m_user.id               as "userBean.id",
-            m_user.nickname         as "userBean.nickname",
+            v_music.id                      as id,
+            v_music.title                   as title,
+            v_music.description             as description,
+            v_music.publishFlg              as publishFlg,
+            v_music.recommendFlg            as recommendFlg,
+            v_music.`userBean.id`           as `userBean.id`,
+            v_music.`userBean.nickname`     as `userBean.nickname`,
+            v_music.accessCount             as accessCount,
         </trim>
         FROM
-            r_music
-        left join m_article on r_music.id = m_article.id
-        left join m_user on m_user.id = m_article.user_id
+            v_music 
         <where>
             <if test="userBean != null">
-            AND m_article.user_id = #{userBean.id}
+            AND v_music."userBean.id" = #{userBean.id}
             </if>
             <if test="publishFlg != null">
-            AND m_article.publish_flg = #{publishFlg}
+            AND v_music.publishFlg = #{publishFlg}
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />
-            AND (m_article.title LIKE #{pattern}
-            OR  m_article.description LIKE #{pattern})
+            AND (v_music.title LIKE #{pattern}
+            OR  v_music.description LIKE #{pattern})
             </if>
-            AND m_article.del_flg = '0'
         </where>
-        order by id desc
+        order by v_music.id desc
         limit #{start}, #{pageSize}
     </select>
     
     <select id="fetchBean" resultType="MusicBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_article.id            as id,
-            m_article.title         as title,
-            m_article.description   as description,
-            m_article.publish_flg   as publishFlg,
-            m_article.recommend_flg as recommendFlg,
-            m_user.id               as "userBean.id",
-            m_user.nickname         as "userBean.nickname",
-            m_user.signature        as "userBean.signature",
+            v_music.id                      as id,
+            v_music.title                   as title,
+            v_music.description             as description,
+            v_music.publishFlg              as publishFlg,
+            v_music.publishDate             as publishDate,
+            v_music.recommendFlg            as recommendFlg,
+            v_music.`userBean.id`           as `userBean.id`,
+            v_music.`userBean.nickname`     as `userBean.nickname`,
+            v_music.`userBean.signature`    as `userBean.signature`,
+            v_music.accessCount             as accessCount
         </trim>
         FROM
-            r_music
-        left join m_article on r_music.id = m_article.id
-        left join m_user on m_user.id = m_article.user_id
+            v_music
         <where>
-                m_article.id = #{id}
-            AND m_article.del_flg = '0'
+            v_music.id = #{id}
         </where>
     </select>
     

@@ -29,8 +29,9 @@
             <if test="description != null">
                 description = #{description},
             </if>
-            <if test="publishFlg != null">
+            <if test="publishFlg eq '1'">
                 publish_flg = #{publishFlg},
+                publish_date = CURRENT_TIMESTAMP,
             </if>
         </set>
         <where>

@@ -1,10 +1,14 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
+import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ConsoleUserService;
 import info.tongrenlu.service.FileService;
+import info.tongrenlu.support.PaginateSupport;
 
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
@@ -100,7 +104,6 @@ public class ConsoleUserController {
         inputUser.setPassword(password);
         inputUser.setPassword2(password2);
         if (this.userService.changePassword(inputUser, model.asMap(), locale)) {
-
             final String message = this.messageSource.getMessage("console.profile.password.finish",
                                                                  null,
                                                                  locale);
@@ -111,24 +114,57 @@ public class ConsoleUserController {
         return "console/profile/password";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/follow")
-    public String doGetFollow(@RequestParam(required = false) final Integer page,
-                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model) {
-        return this.userService.doGetConsoleFollow(loginUser, page, model);
+    @RequestMapping(method = RequestMethod.GET, value = "/console/like/music")
+    public String doGetLikeMusic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                 final Model model) {
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("userBean", loginUser);
+        this.userService.searchLikeMusic(page);
+        model.addAttribute("page", page);
+        return "console/user/music";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/fans")
-    public String doGetFans(@RequestParam(required = false) final Integer page,
-                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model) {
-        return this.userService.doGetConsoleFans(loginUser, page, model);
+    @RequestMapping(method = RequestMethod.GET, value = "/console/like/comic")
+    public String doGetLikeComic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                 final Model model) {
+        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("userBean", loginUser);
+        this.userService.searchLikeComic(page);
+        model.addAttribute("page", page);
+
+        return "console/user/comic";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/follow")
+    public String doGetFollow(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                              final Model model) {
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("userBean", loginUser);
+        this.userService.searchFollow(page);
+        model.addAttribute("page", page);
+
+        return "console/user/follow";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/console/follower")
+    public String doGetFollower(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                final Model model) {
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("likeId", loginUser.getId());
+        this.userService.searchFollower(page);
+        model.addAttribute("page", page);
+
+        return "console/user/follower";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/timeline")
     @ResponseBody
     public Map<String, Object> doGetTimeline(@RequestParam(required = false) final Integer page,
                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
-        return this.userService.doGetTimeline(loginUser, page);
+        return Collections.emptyMap();
     }
 }

@@ -27,7 +27,7 @@ public class ArticleBean extends DtoBean {
 
     private int accessCount = 0;
 
-    private int collectCount = 0;
+    private int likeCount = 0;
 
     private int commentCount = 0;
 
@@ -87,20 +87,20 @@ public class ArticleBean extends DtoBean {
         this.userBean = userBean;
     }
 
-    public Integer getCollectCount() {
-        return this.collectCount;
-    }
-
-    public void setCollectCount(final Integer collectCount) {
-        this.collectCount = collectCount;
-    }
-
     public String getRecommendFlg() {
         return this.recommendFlg;
     }
 
     public void setRecommendFlg(final String recommendFlg) {
         this.recommendFlg = recommendFlg;
+    }
+
+    public int getLikeCount() {
+        return this.likeCount;
+    }
+
+    public void setLikeCount(final int likeCount) {
+        this.likeCount = likeCount;
     }
 
 }

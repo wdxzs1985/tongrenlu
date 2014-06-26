@@ -20,8 +20,11 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul id="nav-member" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.member}">
-        <li ><a th:href="@{/console/fav/music}" th:text="#{console.fav.music}"></a></li>
-        <li ><a th:href="@{/console/fav/comic}" th:text="#{console.fav.comic}"></a></li>
+        <li ><a th:href="@{/console/like/music}" th:text="#{console.like.music}"></a></li>
+        <li ><a th:href="@{/console/like/comic}" th:text="#{console.like.comic}"></a></li>
+        <li class="divider"></li>
+        <li ><a th:href="@{/console/follow}" th:text="#{console.follow}"></a></li>
+        <li ><a th:href="@{/console/follower}" th:text="#{console.follower}"></a></li>
       </ul>
       <ul id="nav-editor" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
         <li id="nav-music" class="dropdown">
