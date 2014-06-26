@@ -26,6 +26,10 @@ public class LoginService {
     @Autowired
     private FileManager fileManager = null;
 
+    public String generateSalt() {
+        return RandomStringUtils.randomAlphanumeric(4);
+    }
+
     @Transactional
     public UserBean doSignIn(final UserBean inputUser,
                              final Map<String, Object> model,

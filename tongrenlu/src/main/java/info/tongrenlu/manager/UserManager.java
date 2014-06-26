@@ -93,7 +93,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  UserManager.EMAIL_LENGTH },
+                                                            UserManager.EMAIL_LENGTH },
                                                     locale));
             isValid = false;
         } else if (!UserManager.EMAIL_PATTERN.matcher(email).matches()) {
@@ -159,7 +159,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.notSame",
                                                     new Object[] { fieldName1,
-                                                                  fieldName2 },
+                                                            fieldName2 },
                                                     locale));
             isValid = false;
         }
@@ -184,7 +184,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  UserManager.NICKNAME_LENGTH },
+                                                            UserManager.NICKNAME_LENGTH },
                                                     locale));
             isValid = false;
         }
@@ -203,11 +203,10 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  UserManager.SIGNATURE_LENGTH },
+                                                            UserManager.SIGNATURE_LENGTH },
                                                     locale));
             isValid = false;
         }
         return isValid;
     }
-
 }

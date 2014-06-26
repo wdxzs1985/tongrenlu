@@ -23,10 +23,10 @@
                       <li class="media" th:each="articleBean : ${page.items}">
                         <a class="pull-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                           <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
-                               th:src="@{/files/m__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
+                               th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}"
                                th:alt-title="${articleBean.title}" />
                           <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
-                               th:src="@{/files/m__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
+                               th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}"
                                th:alt-title="${articleBean.title}" />
                         </a>
                         <div class="media-body">
@@ -51,10 +51,8 @@
             </div>
         </div>
     </div>
-<th:block layout:fragment="scripts-libs">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-</th:block>
 <th:block layout:fragment="scripts">
+<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     $("#jpaginate").paginate({

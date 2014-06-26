@@ -12,6 +12,7 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,12 +65,32 @@ public class HomeMusicController {
 
         final String[] tags = this.musicService.getTags(musicBean);
 
+        this.musicService.addAccess(musicBean, loginUser);
+
         model.addAttribute("articleBean", musicBean);
         model.addAttribute("tags", tags);
 
-        this.musicService.addAccess(musicBean, loginUser);
-
         return "home/music/view";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/like")
+    @ResponseBody
+    public Map<String, Object> doGetLike(@PathVariable final Integer articleId,
+                                         @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                         final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        this.musicService.isLike(articleId, loginUser, model, locale);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/music/{articleId}/like")
+    @ResponseBody
+    public Map<String, Object> doPostLike(@PathVariable final Integer articleId,
+                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                          final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        this.musicService.doLike(articleId, loginUser, model, locale);
+        return model;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/track")

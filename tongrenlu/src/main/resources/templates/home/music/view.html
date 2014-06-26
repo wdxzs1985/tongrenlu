@@ -13,46 +13,44 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <div class="clearfix">
-          <div class="pull-left">
+      <div class="row">
+          <div class="col-sm-8">
             <div class="media">
                 <div class="media-heading pull-left">
                     <img src="http://placehold.it/60x60" class="img-responsive visible-xs" 
-                       th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
+                        th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
                     <img src="http://placehold.it/120x120" class="img-responsive hidden-xs" 
-                       th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"/>
+                        th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"/>
+                    <button id="like-article" class="btn btn-block">
+                        <span class="glyphicon like-button-icon"></span>
+                        <span class="hidden-xs like-button-text"></span>
+                    </button>
                 </div>
                 <div class="media-body">
-                    <h1><span th:text="${articleBean.title}"></span></h1>
-                    <ul class="list-inline">
-                      <li>
-                        <a href="#" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-heart-empty"></span>
-                            <span th:text="#{home.article.addFavritor}"></span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#" class="btn btn-success">
-                            <span class="glyphicon glyphicon-heart"></span>
-                            <span th:text="#{home.article.removeFavritor}"></span>
-                        </a>
-                      </li>
-                    </ul>
-                    <p class="visible-xs">
+                    <h1 class="text-single-line"><span th:text="${articleBean.title}"></span></h1>
+                    <p class="visible-xs text-single-line">
                         <strong th:text="#{home.article.owner} + ': '"></strong>
                         <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
                     </p>
                 </div>
             </div>
           </div>
-          <div class="pull-right well hidden-xs">
+          <div class="col-sm-4 hidden-xs">
             <div class="media">
-                <a class="pull-left" th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
-                  <img class="media-object" src="http://placehold.it/60x60" th:alt-title="${articleBean.userBean}" 
-                       th:src="@{/files/u__${articleBean.userBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}" />
-                </a>
+                <div class="pull-left">
+                    <a th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
+                      <img class="media-object" src="http://placehold.it/60x60" th:alt-title="${articleBean.userBean}" 
+                           th:src="@{/files/u__${articleBean.userBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}" />
+                      
+                    </a>
+                    <button id="like-user" class="btn btn-xs">
+                      <span class="glyphicon like-button-icon"></span>
+                      <span class="hidden-xs like-button-text"></span>
+                    </button>
+                </div>
+                
                 <div class="media-body">
-                  <h5 class="media-heading" >
+                  <h5 class="media-heading text-single-line" >
                     <strong th:text="#{home.article.owner} + ': '"></strong>
                     <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}" th:alt-title="${articleBean.userBean}"></a>
                   </h5>
@@ -145,7 +143,7 @@
         </div>
       </div>
     </div>
-<th:block layout:fragment="scripts-libs">
+<th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
@@ -153,6 +151,7 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
 <li class="clearfix">
     <div class="pull-right">
@@ -177,8 +176,6 @@
     {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
 </div></li>
 </script>
-</th:block>
-<th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     var trackDataUrl = /*[[@{/music/__${articleBean.id}__/track}]]*/ '';
@@ -201,12 +198,28 @@ $(function() {
     		}
     	}
     });
+    
     new carousel({
         url: bookletDataUrl,
         filePath: filePath,
         startSlideshow: false
     });
+    
     $('#article-description').url();
+
+    new likebutton({
+    	selector: '#like-article',
+    	url: /*[[@{/music/__${articleBean.id}__/like}]]*/ '',
+    	likeText: likeText = /*[[#{home.article.like}]]*/ '',
+    	unlikeText: unlikeText = /*[[#{home.article.unlike}]]*/ ''
+    });
+    
+    new likebutton({
+        selector: '#like-user',
+        url: /*[[@{/user/__${articleBean.userBean.id}__/like}]]*/ '',
+        likeText: '',
+        unlikeText: ''
+    });
 });
 </script>
 </th:block>

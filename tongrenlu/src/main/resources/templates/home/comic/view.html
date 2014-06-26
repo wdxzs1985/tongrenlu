@@ -91,13 +91,11 @@
         </div>
       </div>
     </div>
-<th:block layout:fragment="scripts-libs">
+<th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
-</th:block>
-<th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     var pictureDataUrl = /*[[@{/comic/__${articleBean.id}__/picture}]]*/ '';

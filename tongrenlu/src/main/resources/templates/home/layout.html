@@ -23,8 +23,7 @@
         <li ><a th:href="@{/search}" th:text="#{home.search}"></a></li>
         <li ><a th:href="@{/fm}" th:text="#{home.fm}"></a></li>
       </ul>
-      <ul id="nav-signin" class="nav navbar-nav navbar-right"
-        th:classappend="${session.LOGIN_USER.guest} ? 'show' : 'hidden'">
+      <ul id="nav-signin" class="nav navbar-nav navbar-right hidden">
         <li>
           <a th:href="@{/signup}" th:text="#{login.signup}">
             sign up
@@ -37,12 +36,11 @@
           </a>
         </li>
       </ul>
-      <ul id="nav-console" class="nav navbar-nav navbar-right"
-        th:classappend="${session.LOGIN_USER.guest} ? 'hidden' : 'show'">
+      <ul id="nav-console" class="nav navbar-nav navbar-right hidden">
         <li ><a th:href="@{/console}" th:text="#{console}"></a></li>
         <li>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span id="nav-nickname" th:text="${session.LOGIN_USER} ? ${session.LOGIN_USER} : #{UserBean.nickname}"></span> <b class="caret"></b>
+            <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
@@ -104,88 +102,18 @@
   </div>
 </div>
 <script src="http://static.tongrenlu.info/JavaScript-MD5-1.1.0/js/md5.min.js" ></script>
+<script th:src="@{/tongrenlu/js/tongrenlu-login.js}" ></script>
 <script type="text/javascript" th:inline="javascript">
 $(function(){
-	
-	var $signinModal = $('#signinModal').on('shown.bs.modal', function() {
-		$('#inputEmail').focus();
-	});
-	
-	var $loginForm = $('#login-form');
-	$loginForm.submit(function(e){
-    	e.preventDefault();
-    	
-    	var saltUrl = /** [[@{/signin/salt}]] **/ '/signin/salt';
-    	$.get(saltUrl).success(function(response){
-    		if(response) {
-                var salt = response.salt;
-    			var p = $('#inputPassword').val();
-    			if(p){
-    	            $('#hiddenPassword').val(md5(md5(p) + salt));
-    	        }
-
-                var $formGroupEmail = $('#form-group-email');
-                $formGroupEmail.removeClass('has-error has-feedback');
-                $formGroupEmail.find('.form-control-feedback').remove();
-                $formGroupEmail.find('.help-block').remove();
-                
-                var $formGroupPassword = $('#form-group-password');
-                $formGroupPassword.removeClass('has-error has-feedback');
-                $formGroupPassword.find('.form-control-feedback').remove();
-                $formGroupPassword.find('.help-block').remove();
-                
-                hideLoginError();
-                
-    			var signinUrl = /** [[@{/signin}]] **/ '/signin';
-    			$.post(signinUrl, $loginForm.serialize()).success(function(response) {
-    				if(response) {
-    					if(response.result) {
-                            $('#nav-signin').addClass('hidden').removeClass('show');
-                            $('#nav-console').addClass('show').removeClass('hidden');
-                            $('#nav-nickname').text(response.loginUser.nickname + '#' + response.loginUser.id);
-                            $('#signinModal').modal('hide');
-                            $(document).trigger('signin', response.loginUser)
-    					} else {
-    						if(response.emailError) {
-    							$formGroupEmail.addClass('has-error has-feedback')
-    							 .find('.form-control')
-    							 .after('<span class="glyphicon glyphicon-remove form-control-feedback"></span>')
-                                 .after($('<p class="help-block"></p>').text(response.emailError));
-    						}
-                            if(response.passwordError) {
-                                $formGroupPassword.addClass('has-error has-feedback')
-                                .find('.form-control')
-                                .after('<span class="glyphicon glyphicon-remove form-control-feedback"></span>')
-                                .after($('<p class="help-block"></p>').text(response.passwordError));
-                            }
-                            if(response.error) {
-                            	showLoginError(response.error);
-                            }
-    					}
-    				} else {
-    					onNetworkError();
-    				}
-    			}).error(onLoginNetworkError);
-    		}
-    	}).error(onLoginNetworkError);
+    var _login = new login({
+    	saltUrl: /*[[@{/signin/salt}]]*/'/signin/salt',
+    	signinUrl: /*[[@{/signin}]]*/'/signin',
+    	networkErrorMessage: /*[[#{error.network}]]*/ 'network error'
+    }).signin({
+        id: /*[[${session.LOGIN_USER.id}]]*/ 0,
+        nickname: /*[[${session.LOGIN_USER.nickname}]]*/ '',
+        guest: /*[[${session.LOGIN_USER.guest}]]*/ true
     });
-    
-    var onLoginNetworkError = function(){
-        var message = /** [[#{error.network}]] **/ 'network error';
-        showLoginError(message);
-    };
-
-    var showLoginError = function(message){
-    	var $alert = $('<div class="alert alert-danger"></div>');
-        $alert.text(message);
-    	$alert.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
-    	$alert.prependTo($loginForm.find('.modal-body'));
-    	$alert.alert();
-    };
-
-    var hideLoginError = function(){
-        $loginForm.find('.alert').remove();
-    };
 })
 </script>
 </th:block>

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +36,7 @@ public class LoginController {
     @ResponseBody
     public Map<String, Object> doGetSalt(final HttpServletRequest request) {
         final Map<String, Object> model = new HashMap<String, Object>();
-        final String salt = RandomStringUtils.randomAlphanumeric(4);
+        final String salt = this.loginService.generateSalt();
         model.put("salt", salt);
         request.getSession().setAttribute("salt", salt);
         return model;

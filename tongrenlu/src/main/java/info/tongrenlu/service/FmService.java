@@ -1,6 +1,5 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.PlaylistBean;
 import info.tongrenlu.domain.PlaylistTrackBean;
 import info.tongrenlu.domain.TrackBean;
@@ -231,14 +230,7 @@ public class FmService {
 
             final int trackCount = this.playlistDao.countTrack(articleId);
 
-            for (int i = 0; i < fileIds.length; i++) {
-                final String fileId = fileIds[i];
-                final FileBean fileBean = this.fileDao.getFileInfo(fileId);
-                if (fileBean != null) {
-                    this.playlistDao.addTrack(playlistBean,
-                                              fileBean,
-                                              trackCount + i + 1);
-                }
+            for (final String fileId : fileIds) {
             }
             model.put("result", true);
         }
@@ -268,12 +260,12 @@ public class FmService {
                 model.put("error", "文件不存在");
                 return model;
             }
-            final FileBean fileBean = this.fileDao.getFileInfo(fileId);
-            if (fileBean == null) {
-                model.put("error", "文件不存在");
-                return model;
-            }
-            this.playlistDao.removeTrack(playlistBean, fileBean);
+            // final FileBean fileBean = this.fileDao.getFileInfo(fileId);
+            // if (fileBean == null) {
+            // model.put("error", "文件不存在");
+            // return model;
+            // }
+            // this.playlistDao.removeTrack(playlistBean, fileBean);
             model.put("result", true);
         }
         return model;
@@ -302,7 +294,8 @@ public class FmService {
         model.put("result", false);
         final PaginateSupport paginate = new PaginateSupport(page);
         model.put("searchQuery", searchQuery);
-        model.put("page", this.fileDao.searchMusicTracks(searchQuery, paginate));
+        // model.put("page", this.fileDao.searchMusicTracks(searchQuery,
+        // paginate));
 
         final List<Object> playlist = new ArrayList<Object>();
         final List<?> trackList = paginate.getItems();
