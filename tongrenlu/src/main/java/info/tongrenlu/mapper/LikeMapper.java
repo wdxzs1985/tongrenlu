@@ -17,14 +17,18 @@ public interface LikeMapper {
 
     int countMusic(Map<String, Object> params);
 
-    List<MusicBean> searchMusic(Map<String, Object> params);
-
     int countComic(Map<String, Object> params);
+
+    int countFollow(Map<String, Object> params);
+
+    int countFollower(Map<String, Object> params);
+
+    List<MusicBean> searchMusic(Map<String, Object> params);
 
     List<ComicBean> searchComic(Map<String, Object> params);
 
-    int countUser(Map<String, Object> params);
+    List<UserBean> searchFollow(Map<String, Object> params);
 
-    List<UserBean> searchUser(Map<String, Object> params);
+    List<UserBean> searchFollower(Map<String, Object> params);
 
 }

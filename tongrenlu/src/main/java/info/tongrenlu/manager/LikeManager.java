@@ -51,11 +51,11 @@ public class LikeManager {
     protected String getCategory(final DtoBean dtoBean) {
         String category = null;
         if (dtoBean instanceof UserBean) {
-            category = USER;
+            category = LikeManager.USER;
         } else if (dtoBean instanceof MusicBean) {
-            category = MUSIC;
+            category = LikeManager.MUSIC;
         } else if (dtoBean instanceof ComicBean) {
-            category = COMIC;
+            category = LikeManager.COMIC;
         } else {
             throw new IllegalArgumentException();
         }
@@ -78,12 +78,20 @@ public class LikeManager {
         return this.likeMapper.searchComic(params);
     }
 
-    public int countUser(final Map<String, Object> params) {
-        return this.likeMapper.countUser(params);
+    public int countFollow(final Map<String, Object> params) {
+        return this.likeMapper.countFollow(params);
     }
 
-    public List<UserBean> searchUser(final Map<String, Object> params) {
-        return this.likeMapper.searchUser(params);
+    public List<UserBean> searchFollow(final Map<String, Object> params) {
+        return this.likeMapper.searchFollow(params);
+    }
+
+    public int countFollower(final Map<String, Object> params) {
+        return this.likeMapper.countFollower(params);
+    }
+
+    public List<UserBean> searchFollower(final Map<String, Object> params) {
+        return this.likeMapper.searchFollower(params);
     }
 
 }

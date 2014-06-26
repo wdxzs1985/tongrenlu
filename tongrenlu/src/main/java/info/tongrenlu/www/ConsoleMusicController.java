@@ -182,6 +182,22 @@ public class ConsoleMusicController {
         return "redirect:/console/music";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/{fileId}/delete")
+    @ResponseBody
+    public Map<String, Object> doPostFileDelete(@PathVariable final Integer articleId,
+                                                @PathVariable final Integer fileId,
+                                                @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(musicBean, loginUser);
+
+        this.musicService.removeFile(fileId);
+
+        final Map<String, Object> model = new HashMap<String, Object>();
+        model.put("result", true);
+        return model;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/upload")
     public String doGetTrackUpload(@PathVariable final Integer articleId,
                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,

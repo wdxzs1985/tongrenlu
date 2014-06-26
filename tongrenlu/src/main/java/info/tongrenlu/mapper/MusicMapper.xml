@@ -47,12 +47,14 @@
             v_music.`userBean.id`           as `userBean.id`,
             v_music.`userBean.nickname`     as `userBean.nickname`,
             v_music.accessCount             as accessCount,
+            v_music.likeCount               as likeCount,
+            v_music.commentCount            as commentCount,
         </trim>
         FROM
             v_music 
         <where>
             <if test="userBean != null">
-            AND v_music."userBean.id" = #{userBean.id}
+            AND v_music.`userBean.id` = #{userBean.id}
             </if>
             <if test="publishFlg != null">
             AND v_music.publishFlg = #{publishFlg}
@@ -79,7 +81,9 @@
             v_music.`userBean.id`           as `userBean.id`,
             v_music.`userBean.nickname`     as `userBean.nickname`,
             v_music.`userBean.signature`    as `userBean.signature`,
-            v_music.accessCount             as accessCount
+            v_music.accessCount             as accessCount,
+            v_music.likeCount               as likeCount,
+            v_music.commentCount            as commentCount,
         </trim>
         FROM
             v_music

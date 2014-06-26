@@ -47,11 +47,14 @@
         </li>
         <li id="nav-fav" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span th:text="#{console.fav}"></span> <b class="caret"></b>
+            <span th:text="#{console.like}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li ><a th:href="@{/console/fav/music}" th:text="#{console.fav.music}"></a></li>
-            <li ><a th:href="@{/console/fav/comic}" th:text="#{console.fav.comic}"></a></li>
+            <li ><a th:href="@{/console/like/music}" th:text="#{console.like.music}"></a></li>
+            <li ><a th:href="@{/console/like/comic}" th:text="#{console.like.comic}"></a></li>
+            <li class="divider"></li>
+            <li ><a th:href="@{/console/follow}" th:text="#{console.follow}"></a></li>
+            <li ><a th:href="@{/console/follower}" th:text="#{console.follower}"></a></li>
           </ul>
         </li>
       </ul>

@@ -11,6 +11,7 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,26 @@ public class HomeComicController {
         final Map<String, Object> model = new HashMap<>();
         final List<FileBean> fileList = this.comicService.getPictureList(articleId);
         model.put("fileList", fileList);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/comic/{articleId}/like")
+    @ResponseBody
+    public Map<String, Object> doGetLike(@PathVariable final Integer articleId,
+                                         @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                         final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        this.comicService.isLike(articleId, loginUser, model, locale);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/comic/{articleId}/like")
+    @ResponseBody
+    public Map<String, Object> doPostLike(@PathVariable final Integer articleId,
+                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                          final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        this.comicService.doLike(articleId, loginUser, model, locale);
         return model;
     }
 }

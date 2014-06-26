@@ -205,8 +205,6 @@ $(function() {
         startSlideshow: false
     });
     
-    $('#article-description').url();
-
     new likebutton({
     	selector: '#like-article',
     	url: /*[[@{/music/__${articleBean.id}__/like}]]*/ '',
@@ -220,6 +218,9 @@ $(function() {
         likeText: '',
         unlikeText: ''
     });
+    
+    $('#article-description').url();
+
 });
 </script>
 </th:block>

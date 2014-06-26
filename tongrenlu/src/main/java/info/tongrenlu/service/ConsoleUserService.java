@@ -77,11 +77,11 @@ public class ConsoleUserService {
     public void searchFollow(final PaginateSupport<UserBean> paginate) {
         paginate.addParam("category", LikeManager.USER);
 
-        final int itemCount = this.likeManager.countUser(paginate.getParams());
+        final int itemCount = this.likeManager.countFollow(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<UserBean> items = this.likeManager.searchUser(paginate.getParams());
+        final List<UserBean> items = this.likeManager.searchFollow(paginate.getParams());
         paginate.setItems(items);
 
     }
@@ -89,11 +89,11 @@ public class ConsoleUserService {
     public void searchFollower(final PaginateSupport<UserBean> paginate) {
         paginate.addParam("category", LikeManager.USER);
 
-        final int itemCount = this.likeManager.countUser(paginate.getParams());
+        final int itemCount = this.likeManager.countFollower(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<UserBean> items = this.likeManager.searchUser(paginate.getParams());
+        final List<UserBean> items = this.likeManager.searchFollower(paginate.getParams());
         paginate.setItems(items);
     }
 

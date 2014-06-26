@@ -1,6 +1,6 @@
 CREATE TABLE `M_ARTICLE_COMMENT` (
   `id` int(11) NOT NULL auto_increment,
-  `sender_user_id` int(11) default NULL,
+  `user_id` int(11) default NULL,
   `article_id` int(11) default NULL,
   `Content` text,
   `upd_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,

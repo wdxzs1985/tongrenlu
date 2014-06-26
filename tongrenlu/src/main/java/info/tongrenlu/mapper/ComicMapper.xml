@@ -51,13 +51,15 @@
             v_comic.`userBean.id`           as `userBean.id`,
             v_comic.`userBean.nickname`     as `userBean.nickname`,
             v_comic.`userBean.signature`    as `userBean.signature`,
-            v_comic.accessCount             as accessCount
+            v_comic.accessCount             as accessCount,
+            v_comic.likeCount               as likeCount,
+            v_comic.commentCount            as commentCount,
         </trim>
         FROM
             v_comic 
         <where>
             <if test="userBean != null">
-            AND v_comic."userBean.id" = #{userBean.id}
+            AND v_comic.`userBean.id` = #{userBean.id}
             </if>
             <if test="publishFlg != null">
             AND v_comic.publishFlg = #{publishFlg}
@@ -92,7 +94,9 @@
             v_comic.`userBean.id`           as `userBean.id`,
             v_comic.`userBean.nickname`     as `userBean.nickname`,
             v_comic.`userBean.signature`    as `userBean.signature`,
-            v_comic.accessCount             as accessCount
+            v_comic.accessCount             as accessCount,
+            v_comic.likeCount               as likeCount,
+            v_comic.commentCount            as commentCount,
         </trim>
         FROM
             v_comic
