@@ -40,10 +40,10 @@ public class UserManager {
         return this.userMapper.fetchBean(param);
     }
 
-    public UserBean getById(final Integer id) {
+    public UserBean getProfileById(final Integer id) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("id", id);
-        return this.userMapper.fetchBean(param);
+        return this.userMapper.fetchProfile(param);
     }
 
     public void insert(final UserBean userBean) {

@@ -9,8 +9,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class HomeUserSerivce {
 
     @Autowired
@@ -18,13 +20,19 @@ public class HomeUserSerivce {
     @Autowired
     private LikeManager likeManager = null;
 
+    public UserBean getById(final Integer userId) {
+        final UserBean userBean = this.userManager.getProfileById(userId);
+        return userBean;
+    }
+
+    @Transactional
     public void isFollower(final Integer userId,
                            final UserBean loginUser,
                            final Map<String, Object> model,
                            final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
-            final UserBean userBean = this.userManager.getById(userId);
+            final UserBean userBean = this.userManager.getProfileById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 result = this.likeManager.countLike(loginUser, userBean);
             } else {
@@ -36,13 +44,14 @@ public class HomeUserSerivce {
         model.put("result", result);
     }
 
+    @Transactional
     public void doFollow(final Integer userId,
                          final UserBean loginUser,
                          final Map<String, Object> model,
                          final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
-            final UserBean userBean = this.userManager.getById(userId);
+            final UserBean userBean = this.userManager.getProfileById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 final int count = this.likeManager.countLike(loginUser,
                                                              userBean);
@@ -61,5 +70,4 @@ public class HomeUserSerivce {
         }
         model.put("result", result);
     }
-
 }

@@ -49,6 +49,24 @@
         </where>
     </select>
     
+    <select id="fetchProfile" resultType="UserBean">
+        SELECT
+        <trim suffixOverrides=",">
+            U.id                    as id,
+            U.NICKNAME              as nickname,
+            U.signature             as signature,
+            U.musicCount            as musicCount,
+            U.comicCount            as comicCount,
+            U.followCount           as followCount,
+            U.followerCount         as followerCount,
+        </trim>
+        FROM
+            V_USER U
+        <where>
+            U.id = #{id}
+        </where>
+    </select>
+    
     <update id="update">
         UPDATE
             M_USER

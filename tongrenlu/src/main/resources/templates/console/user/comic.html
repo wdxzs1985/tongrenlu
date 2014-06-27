@@ -7,62 +7,43 @@
 </head>
   <body>
     <div class="container" layout:fragment="content">
-        <ul class="nav nav-tabs">
-          <li class="hidden-xs"><a th:href="@{/console/like/music}" th:text="#{console.like.music}"></a></li>
-          <li class="active"><a th:href="@{/console/like/comic}" th:text="#{console.like.comic}"></a></li>
-          <li class="hidden-xs"><a th:href="@{/console/follow}" th:text="#{console.follow}"></a></li>
-          <li class="hidden-xs"><a th:href="@{/console/follower}" th:text="#{console.follower}"></a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active">
-                <th:block th:unless="${#lists.isEmpty(page.items)}">
-                    <ul class="media-list">
-                      <li class="media" th:each="articleBean : ${page.items}">
-                        <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                          <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
-                               th:src="@{/files/c__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
-                               th:alt-title="${articleBean.title}" />
-                          <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
-                               th:src="@{/files/c__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
-                               th:alt-title="${articleBean.title}" />
+        <div class="page-header visible-xs">
+            <h3 th:text="#{console.like.comic}"></h3>
+        </div>
+        <th:block th:unless="${#lists.isEmpty(page.items)}">
+            <ul class="media-list">
+              <li class="media" th:each="articleBean : ${page.items}">
+                <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                  <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
+                       th:src="@{/files/c__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
+                       th:alt-title="${articleBean.title}" />
+                  <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
+                       th:src="@{/files/c__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
+                       th:alt-title="${articleBean.title}" />
+                </a>
+                <div class="media-body">
+                  <div class="article-list-item">
+                      <h5 class="media-heading text-single-line">
+                        <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                        <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                        <span class="label label-danger" th:if="${articleBean.red}" th:text="#{ComicBean.redFlg.true}"></span>
+                        <span class="label label-success" th:unless="${articleBean.red}" th:text="#{ComicBean.redFlg.false}"></span>
+                        <span class="label label-info" th:if="${articleBean.translate}" th:text="#{ComicBean.translateFlg.true}"></span>
+                        <span class="label label-warning" th:unless="${articleBean.translate}" th:text="#{ComicBean.translateFlg.false}"></span>
+                        <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                            <strong th:text="${articleBean.title}" ></strong>
                         </a>
-                        <div class="pull-right btn-group">
-                          <button class="btn btn-success">
-                              <span class="glyphicon glyphicon-heart"></span>
-                              <span class="hidden-xs like-button-text" th:text="#{home.article.like}"></span>
-                          </button>
-                          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                          </button>
-                          <ul class="dropdown-menu pull-right" role="menu">
-                            <li><a href="#" th:text="#{home.article.unlike}"></a></li>
-                          </ul>
-                       </div>
-                        <div class="media-body">
-                          <div class="article-list-item">
-                              <h5 class="media-heading text-single-line">
-                                <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                                <span class="label label-danger" th:if="${articleBean.red}" th:text="#{ComicBean.redFlg.true}"></span>
-                                <span class="label label-success" th:unless="${articleBean.red}" th:text="#{ComicBean.redFlg.false}"></span>
-                                <span class="label label-info" th:if="${articleBean.translate}" th:text="#{ComicBean.translateFlg.true}"></span>
-                                <span class="label label-warning" th:unless="${articleBean.translate}" th:text="#{ComicBean.translateFlg.false}"></span>
-                                <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                    <strong th:text="${articleBean.title}" ></strong>
-                                </a>
-                              </h5>
-                              <p th:text="${articleBean.description}"></p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                    <hr />
-                    <div id="jpaginate" class="hidden-xs hidden-sm"></div>
-                </th:block>
-                <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                    <h4 th:text="#{console.article.noData}"></h4>
+                      </h5>
+                      <p th:text="${articleBean.description}"></p>
+                  </div>
                 </div>
-            </div>
+              </li>
+            </ul>
+            <hr />
+            <div id="jpaginate" class="hidden-xs hidden-sm"></div>
+        </th:block>
+        <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+            <h4 th:text="#{console.article.noData}"></h4>
         </div>
     </div>
 <th:block layout:fragment="scripts-libs">

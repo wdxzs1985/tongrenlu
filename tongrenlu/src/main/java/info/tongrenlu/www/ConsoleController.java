@@ -22,7 +22,7 @@ public class ConsoleController {
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
         final Integer id = loginUser.getId();
-        final UserBean userBean = this.userService.getById(id);
+        final UserBean userBean = this.userService.getProfileById(id);
         model.addAttribute("userBean", userBean);
         return "console/index";
     }
