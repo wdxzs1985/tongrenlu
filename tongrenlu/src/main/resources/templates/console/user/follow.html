@@ -41,7 +41,9 @@
                         <div class="media-body">
                           <div class="article-list-item">
                               <h5 class="media-heading text-single-line">
-                                <a th:href="@{/user/__${userBean.id}__}" th:text="${userBean}" th:alt-title="${userBean}"></a>
+                                <a th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
+                                    <strong th:text="${userBean}" ></strong>
+                                </a>
                               </h5>
                               <p th:text="${userBean.signature}"></p>
                           </div>

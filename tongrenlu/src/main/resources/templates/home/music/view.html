@@ -14,7 +14,7 @@
               <img src="http://placehold.it/60x60" class="img-responsive img-rounded" 
                   th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
           </div>
-          <div class="pull-right btn-group" th:unless="${session.LOGIN_USER eq articleBean.userBean}">
+          <div class="pull-right btn-group">
               <button id="like-article" class="btn btn-danger" th:attr="data-url=@{/music/__${articleBean.id}__/like},data-text-not-like=#{home.article.notlike},data-text-like=#{home.article.likeing}">
                   <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
                   <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
@@ -100,9 +100,15 @@
 	          <ul class="list-inline">
 	              <li>
 	                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-	                <a th:href="@{/user/__${articleBean.userBean.id}__}" th:alt-title="${articleBean.userBean}">
-	                    <strong th:text="${articleBean.userBean}"></strong>
-	                </a>
+                    <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                        th:alt-title="${articleBean.userBean}"
+                        th:attr="data-content=${articleBean.userBean.signature}"
+                        class="popover-dismiss"
+                        data-toggle="popover" 
+                        data-placement="top" 
+                        data-trigger="hover" >
+                        <strong th:text="${articleBean.userBean}"></strong>
+                    </a>
 	              </li>
 	              <li>
 	                <span th:text="#{ArticleBean.accessCount} + ' :'">Access :</span>
@@ -118,14 +124,9 @@
 	              </li>
 	          </ul>
 	          <pre id="article-description" th:text="${articleBean.description}"></pre>
-	          <ul class="list-inline">
-	              <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
-	              <li th:each="tag : ${tags}">
-	                <a href="#" class="btn btn-xs btn-default" >
-	                  <span th:text="${tag}"></span>
-	                </a>
-	              </li>
-	          </ul>
+	          <ul class="list-inline tag-container">
+                  <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
+              </ul>
             </div>
             <div class="tab-pane" id="comment">...</div>
           </div>
@@ -142,7 +143,8 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
-<script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
+<script id="template-playlist-item" type="text/x-tmpl">
 <li class="clearfix">
     <div class="pull-right">
         <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
@@ -165,6 +167,13 @@
     </div>
     {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
 </div></li>
+</script>
+<script id="template-tag-item" type="text/x-tmpl">
+<li>
+    <a href="{%=o.tagPath%}/{%=o.tag%}" class="btn btn-xs btn-default">
+        {%=o.tag%} ({%=o.articleCount%})
+    </a>
+</li>
 </script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
@@ -195,10 +204,17 @@ $(function() {
         startSlideshow: false
     });
     
+    new tag({
+        url: /*[[@{/music/__${articleBean.id}__/tag}]]*/ '/music/1/tag',
+        tagPath: /*[[@{/tag}]]*/'/tag',
+        template: 'template-tag-item'
+    });
+    
     $('#article-description').url();
 
     $('#like-article').likebutton();
-
+    
+    $('.popover-dismiss').popover();
 });
 </script>
 </th:block>

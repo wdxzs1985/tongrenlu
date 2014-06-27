@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -48,9 +49,11 @@ public class ConsoleComicService {
                             final Locale locale) {
         if (this.validateForCreate(inputComic, model, locale)) {
             this.articleManager.insert(inputComic);
-            for (final String tag : tags) {
-                final TagBean tagBean = this.tagManager.create(tag);
-                this.articleManager.addTag(inputComic, tagBean);
+            if (ArrayUtils.isNotEmpty(tags)) {
+                for (final String tag : tags) {
+                    final TagBean tagBean = this.tagManager.create(tag);
+                    this.articleManager.addTag(inputComic, tagBean);
+                }
             }
             return true;
         }
@@ -65,9 +68,11 @@ public class ConsoleComicService {
         if (this.validateForEdit(comicBean, model, locale)) {
             this.articleManager.update(comicBean);
             this.articleManager.removeTags(comicBean);
-            for (final String tag : tags) {
-                final TagBean tagBean = this.tagManager.create(tag);
-                this.articleManager.addTag(comicBean, tagBean);
+            if (ArrayUtils.isNotEmpty(tags)) {
+                for (final String tag : tags) {
+                    final TagBean tagBean = this.tagManager.create(tag);
+                    this.articleManager.addTag(comicBean, tagBean);
+                }
             }
 
             if (CommonConstants.is(comicBean.getPublishFlg())) {
@@ -99,7 +104,12 @@ public class ConsoleComicService {
     }
 
     public String[] getTags(final ComicBean comicBean) {
-        return this.articleManager.getTags(comicBean).toArray(new String[] {});
+        final List<TagBean> tagList = this.articleManager.getTags(comicBean);
+        final List<String> tags = new ArrayList<String>();
+        for (final TagBean tagBean : tagList) {
+            tags.add(tagBean.getTag());
+        }
+        return tags.toArray(new String[] {});
     }
 
     public List<FileBean> getPictureFileList(final ComicBean comicBean) {

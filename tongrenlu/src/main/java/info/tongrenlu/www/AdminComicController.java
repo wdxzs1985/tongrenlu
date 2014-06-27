@@ -60,10 +60,7 @@ public class AdminComicController {
 
         this.throwExceptionWhenNotFound(comicBean);
 
-        final String[] tags = this.comicService.getTags(comicBean);
-
         model.addAttribute("articleBean", comicBean);
-        model.addAttribute("tags", tags);
 
         return "admin/comic/view";
     }
@@ -87,6 +84,8 @@ public class AdminComicController {
     public String doPostEdit(@PathVariable final Integer articleId,
                              final String title,
                              final String description,
+                             final String redFlg,
+                             final String translateFlg,
                              @RequestParam(value = "tags[]", required = false) final String[] tags,
                              @RequestParam final MultipartFile cover,
                              final Model model,
@@ -97,6 +96,8 @@ public class AdminComicController {
 
         comicBean.setTitle(title);
         comicBean.setDescription(description);
+        comicBean.setRedFlg(redFlg);
+        comicBean.setTranslateFlg(translateFlg);
 
         final boolean result = this.comicService.doEdit(comicBean,
                                                         tags,

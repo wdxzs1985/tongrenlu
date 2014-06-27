@@ -116,10 +116,7 @@ public class ConsoleComicController {
 
         this.throwExceptionWhenNotAllow(comicBean, loginUser);
 
-        final String[] tags = this.comicService.getTags(comicBean);
-
         model.addAttribute("articleBean", comicBean);
-        model.addAttribute("tags", tags);
 
         return "console/comic/view";
     }

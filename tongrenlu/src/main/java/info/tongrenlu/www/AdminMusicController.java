@@ -66,10 +66,7 @@ public class AdminMusicController {
 
         this.throwExceptionWhenNotFound(musicBean);
 
-        final String[] tags = this.musicService.getTags(musicBean);
-
         model.addAttribute("articleBean", musicBean);
-        model.addAttribute("tags", tags);
 
         return "admin/music/view";
     }

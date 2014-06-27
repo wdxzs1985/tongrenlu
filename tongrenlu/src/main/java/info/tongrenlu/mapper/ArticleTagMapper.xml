@@ -18,16 +18,18 @@
         )
     </insert>
     
-    <select id="fetchTags" resultType="string">
+    <select id="fetchTagList" resultType="TagBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_tag.tag           as tag,
+            v_tag.id           as id,
+            v_tag.tag           as tag,
+            v_tag.cnt           as articleCount,
         </trim>
         FROM 
             r_article_tag
         LEFT JOIN 
-            m_tag 
-        ON r_article_tag.tag_id = m_tag.id
+            v_tag 
+        ON r_article_tag.tag_id = v_tag.id
         LEFT JOIN 
             m_article 
         ON r_article_tag.article_id = m_article.id

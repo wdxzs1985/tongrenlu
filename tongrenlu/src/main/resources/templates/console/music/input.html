@@ -9,7 +9,7 @@
     <div class="container" layout:fragment="content">
       <ul class="nav nav-tabs">
         <li class="active "><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
-        <li class=""><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
+        <li class="hidden-xs"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
       </ul>
       <form class="" th:action="@{/console/music/input}" method="post" enctype="multipart/form-data">
         <div class="row">

@@ -46,24 +46,31 @@
                 th:text="#{button.edit}">edit</a>
               <h4 th:text="${articleBean.title}"></h4>
           </div>
-          <pre id="article-description" th:text="${articleBean.description}"></pre>
           <ul class="list-inline">
-              <li><strong>Tags :</strong></li>
-              <li th:each="tag : ${tags}">
-                <a href="#" class="btn btn-xs btn-default" >
-                  <span th:text="${tag}"></span>
+              <li>
+                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                    th:alt-title="${articleBean.userBean}"
+                    th:attr="data-content=${articleBean.userBean.signature}"
+                        class="popover-dismiss"
+                        data-toggle="popover" 
+                        data-placement="top" 
+                        data-trigger="hover" >
+                    <strong th:text="${articleBean.userBean}"></strong>
                 </a>
               </li>
+          </ul>
+          <pre id="article-description" th:text="${articleBean.description}"></pre>
+          <ul class="list-inline tag-container">
+              <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
           </ul>
         </div>
       </div>
       <hr />
-      <ul class="list-inline">
-          <li>
-            <a th:href="@{/admin/comic/__${articleBean.id}__/publish}" class="btn btn-success" th:text="#{admin.article.publish}"></a>
-            <a th:href="@{/admin/comic}" class="btn btn-default" th:text="#{button.back}"></a>
-          </li>
-      </ul>
+      <div>
+        <a th:href="@{/admin/comic/__${articleBean.id}__/publish}" class="btn btn-success" th:text="#{admin.article.publish}"></a>
+        <a th:href="@{/admin/comic}" class="btn btn-default" th:text="#{button.back}"></a>
+      </div>
     </div>
     </div>
 <th:block layout:fragment="scripts-libs">
@@ -74,6 +81,7 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
 <script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
 <li><div>
     <a href="javascript:;" class="{%=o.itemClass%}">
@@ -85,6 +93,13 @@
     </a>
     {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
 </div></li>
+</script>
+<script id="template-tag-item" type="text/x-tmpl" th:inline="text">
+<li>
+    <a href="{%=o.tagPath%}/{%=o.tag%}" class="btn btn-xs btn-default">
+        {%=o.tag%} ({%=o.articleCount%})
+    </a>
+</li>
 </script>
 </th:block>
 <th:block layout:fragment="scripts">
@@ -99,7 +114,15 @@ $(function() {
         startSlideshow: false
     });
     
+    new tag({
+        url: /*[[@{/comic/__${articleBean.id}__/tag}]]*/ '/comic/1/tag',
+        tagPath: /*[[@{/tag}]]*/'/tag',
+        template: 'template-tag-item'
+    });
+    
     $('#article-description').url();
+    
+    $('.popover-dismiss').popover();
 });
 </script>
 </th:block>

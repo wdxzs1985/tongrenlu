@@ -7,8 +7,6 @@
 </head>
   <body>
     <div class="container" layout:fragment="content">
-        <div class="row">
-            <div class="col-sm-8">
                 <form th:action="@{/search}" method="get">
                     <div class="input-group">
                       <input type="text" class="form-control" name="q"/>
@@ -31,9 +29,15 @@
                         </a>
                         <div class="media-body">
                           <div class="article-list-item">
-                          <h4 class="media-heading text-single-line">
-                            <a th:href="@{/comic/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
-                          </h4>
+                          <h5 class="media-heading text-single-line">
+                            <span class="label label-danger" th:if="${articleBean.red}" th:text="#{ComicBean.redFlg.true}"></span>
+                            <span class="label label-success" th:unless="${articleBean.red}" th:text="#{ComicBean.redFlg.false}"></span>
+                            <span class="label label-info" th:if="${articleBean.translate}" th:text="#{ComicBean.translateFlg.true}"></span>
+                            <span class="label label-warning" th:unless="${articleBean.translate}" th:text="#{ComicBean.translateFlg.false}"></span>
+                            <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                <strong th:text="${articleBean.title}" ></strong>
+                            </a>
+                          </h5>
                           <p th:text="${articleBean.description}"></p>
                           </div>
                         </div>
@@ -47,10 +51,6 @@
                     <a th:href="@{/comic}" th:text="#{button.back}" class="btn btn-default"></a>
                 </div>
             </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
-    </div>
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:inline="javascript">

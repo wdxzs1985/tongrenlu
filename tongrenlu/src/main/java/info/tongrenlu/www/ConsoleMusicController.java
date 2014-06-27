@@ -114,10 +114,7 @@ public class ConsoleMusicController {
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser);
 
-        final String[] tags = this.musicService.getTags(musicBean);
-
         model.addAttribute("articleBean", musicBean);
-        model.addAttribute("tags", tags);
 
         return "console/music/view";
     }

@@ -3,6 +3,7 @@ package info.tongrenlu.www;
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("LOGIN_USER")
+@RequestMapping(value = "/music")
 public class HomeMusicController {
 
     @Autowired
@@ -41,7 +43,7 @@ public class HomeMusicController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/music")
+    @RequestMapping(method = RequestMethod.GET, value = "")
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
@@ -55,7 +57,7 @@ public class HomeMusicController {
         return "home/music/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
@@ -63,17 +65,14 @@ public class HomeMusicController {
 
         this.throwExceptionWhenNotAllow(musicBean);
 
-        final String[] tags = this.musicService.getTags(musicBean);
-
         this.musicService.addAccess(musicBean, loginUser);
 
         model.addAttribute("articleBean", musicBean);
-        model.addAttribute("tags", tags);
 
         return "home/music/view";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/track")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track")
     @ResponseBody
     public Map<String, Object> doGetTrack(@PathVariable final Integer articleId) {
         final Map<String, Object> model = new HashMap<>();
@@ -82,7 +81,7 @@ public class HomeMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/booklet")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet")
     @ResponseBody
     public Map<String, Object> doGetBooklet(@PathVariable final Integer articleId) {
         final Map<String, Object> model = new HashMap<>();
@@ -91,7 +90,7 @@ public class HomeMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/like")
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/like")
     @ResponseBody
     public Map<String, Object> doGetLike(@PathVariable final Integer articleId,
                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
@@ -101,13 +100,22 @@ public class HomeMusicController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/music/{articleId}/like")
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/like")
     @ResponseBody
     public Map<String, Object> doPostLike(@PathVariable final Integer articleId,
                                           @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                           final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
         this.musicService.doLike(articleId, loginUser, model, locale);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/tag")
+    @ResponseBody
+    public Map<String, Object> doGetTag(@PathVariable final Integer articleId) {
+        final Map<String, Object> model = new HashMap<>();
+        final List<TagBean> tagList = this.musicService.getTagList(articleId);
+        model.put("tagList", tagList);
         return model;
     }
 }

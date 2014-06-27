@@ -7,11 +7,9 @@
 </head>
   <body>
     <div class="container" layout:fragment="content">
-        <div class="row">
-            <div class="col-sm-8">
                 <ul class="nav nav-tabs">
                   <li class="hidden-xs"><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
-                  <li class=""><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
+                  <li class="hidden-xs"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
                   <li class="active"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
                 </ul>
                 <div class="tab-content">
@@ -36,22 +34,68 @@
                                        th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}"
                                        th:alt-title="${articleBean.title}" />
                                 </a>
+                                <div class="btn-toolbar pull-right hidden-xs" role="toolbar">
+                                    <div class="btn-group">
+                                      <a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                        <span class="hidden-sm" th:text="#{console.article.edit}"></span>
+                                      </a>
+                                    </div>
+                                    <div class="btn-group">
+                                      <a th:href="@{/admin/music/__${articleBean.id}__/track/upload}" class="btn btn-info hidden-xs">
+                                        <span class="glyphicon glyphicon-music"></span>
+                                        <span class="hidden-sm" th:text="#{console.music.track.upload}"></span>
+                                      </a>
+                                      <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}" class="btn btn-info hidden-xs">
+                                        <span class="glyphicon glyphicon-picture"></span>
+                                        <span class="hidden-sm" th:text="#{console.music.booklet.upload}"></span>
+                                      </a>
+                                    </div>
+                                    <div class="btn-group pull-right">
+                                      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        <span class="hidden-sm" th:text="#{console.article.delete}"></span>
+                                        <span class="caret"></span>
+                                      </button>
+                                      <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a th:href="@{/admin/music/__${articleBean.id}__/delete}" >
+                                                <span class="glyphicon glyphicon-ok"></span>&nbsp;
+                                                <span th:text="#{button.ok}"></span>
+                                            </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                </div>
+                                <div class="btn-group pull-right visible-xs">
+                                  <div class="btn-group">
+                                    <a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-default">
+                                      <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+                                  </div>
+                                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                  </button>
+                                  <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a th:href="@{/admin/music/__${articleBean.id}__/delete}" >
+                                            <span class="glyphicon glyphicon-trash"></span>&nbsp;
+                                            <span th:text="#{console.article.delete}"></span>
+                                        </a>
+                                    </li>
+                                  </ul>
+                                </div>
                                 <div class="media-body">
                                   <div class="article-list-item">
-                                  <h4 class="media-heading text-single-line">
-                                    <span class="label label-warning" th:if="${articleBean.publishFlg eq '0'}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                                    <span class="label label-success" th:if="${articleBean.publishFlg eq '1'}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                    <a th:href="@{/admin/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
-                                  </h4>
+                                  <h5 class="media-heading text-single-line">
+                                    <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                    <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                                    <a th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                        <strong th:text="${articleBean.title}" ></strong>
+                                    </a>
+                                  </h5>
                                   <p th:text="${articleBean.description}"></p>
                                   </div>
-                                  <ul class="list-inline text-right">
-                                    <li><a th:href="@{/admin/music/__${articleBean.id}__}" class="btn btn-sm btn-default" th:text="#{console.article.preview}"></a></li>
-                                    <li class="hidden-xs"><a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-sm btn-default" th:text="#{console.article.edit}"></a></li>
-                                    <li class="hidden-xs"><a th:href="@{/admin/music/__${articleBean.id}__/track/upload}" class="btn btn-sm btn-primary" th:text="#{console.music.track.upload}"></a></li>
-                                    <li class="hidden-xs"><a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}" class="btn btn-sm btn-primary" th:text="#{console.music.booklet.upload}"></a></li>
-                                    <li><a th:href="@{/admin/music/__${articleBean.id}__/delete}" class="btn btn-sm btn-danger" th:text="#{console.article.delete}"></a></li>
-                                  </ul>
                                 </div>
                               </li>
                             </ul>
@@ -65,10 +109,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
-    </div>
 <th:block layout:fragment="scripts-libs">
 <script th:src="@{/jquery.jpaginate/jquery.paginate.js}"></script>
 </th:block>

@@ -6,9 +6,6 @@ import info.tongrenlu.service.SearchService;
 import info.tongrenlu.solr.ArticleDocument;
 import info.tongrenlu.support.PaginateSupport;
 
-import java.util.Collections;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,11 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
@@ -61,26 +56,4 @@ public class IndexController {
         return "home/search";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/article/{articleId}/collect")
-    @ResponseBody
-    public Map<String, Object> doPostArticleCollect(@PathVariable final String articleId,
-                                                    @ModelAttribute final UserBean loginUser) {
-        return Collections.emptyMap();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/article/{articleId}/comment")
-    @ResponseBody
-    public Map<String, Object> doGetArticleComment(@PathVariable final String articleId,
-                                                   @RequestParam final Integer page,
-                                                   @ModelAttribute final UserBean loginUser) {
-        return Collections.emptyMap();
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/article/{articleId}/comment")
-    @ResponseBody
-    public Map<String, Object> doPostArticleComment(@PathVariable final String articleId,
-                                                    final String content,
-                                                    @ModelAttribute final UserBean loginUser) {
-        return Collections.emptyMap();
-    }
 }

@@ -3,6 +3,7 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
@@ -51,8 +52,9 @@ public class HomeMusicService {
         return this.articleManager.getMusicById(id);
     }
 
-    public String[] getTags(final MusicBean musicBean) {
-        return this.articleManager.getTags(musicBean).toArray(new String[] {});
+    public List<TagBean> getTagList(final Integer articleId) {
+        final MusicBean musicBean = this.getById(articleId);
+        return this.articleManager.getTags(musicBean);
     }
 
     @Transactional

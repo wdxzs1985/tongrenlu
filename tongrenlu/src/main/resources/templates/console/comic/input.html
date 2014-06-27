@@ -9,7 +9,7 @@
     <div class="container" layout:fragment="content">
       <ul class="nav nav-tabs">
         <li class="active "><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
-        <li class=""><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
+        <li class="hidden-xs"><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
       </ul>
       <form class="" th:action="@{/console/comic/input}" method="post" enctype="multipart/form-data">
         <div class="row">
@@ -45,28 +45,28 @@
                 </div>
               </div>
               <div class="form-group">
-               <label for="inputTag" class=" control-label" 
+                  <label for="inputTag" class=" control-label" 
                    th:text="#{ArticleBean.tag}">Tag</label>
                   <div id="magicsuggest"></div>
               </div>
               <div class="form-group">
                   <label class="radio-inline">
                       <input type="radio" name="redFlg" value="0" th:checked="${!articleBean.red}" />
-                      <span class="label label-success" th:text="#{console.comic.normal}"></span>
+                      <span class="label label-success" th:text="#{ComicBean.redFlg.false}"></span>
                   </label>
                   <label class="radio-inline">
                       <input type="radio" name="redFlg" value="1" th:checked="${articleBean.red}" />
-                      <span class="label label-danger" th:text="#{console.comic.red}"></span>
+                      <span class="label label-danger" th:text="#{ComicBean.redFlg.true}"></span>
                   </label>
               </div>
               <div class="form-group">
                   <label class="radio-inline">
                       <input type="radio" name="translateFlg" value="0" th:checked="${!articleBean.translate}" />
-                      <span class="label label-warning" th:text="#{console.comic.notTranslate}"></span>
+                      <span class="label label-warning" th:text="#{ComicBean.translateFlg.false}"></span>
                   </label>
                   <label class="radio-inline">
                       <input type="radio" name="translateFlg" value="1" th:checked="${articleBean.translate}" />
-                      <span class="label label-info" th:text="#{console.comic.translate}"></span>
+                      <span class="label label-info" th:text="#{ComicBean.translateFlg.true}"></span>
                   </label>
               </div>
             </div>

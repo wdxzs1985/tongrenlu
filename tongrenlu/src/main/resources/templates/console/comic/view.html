@@ -46,14 +46,23 @@
                     th:text="#{button.edit}">edit</a>
                   <h4 th:text="#{console.article.info}"></h4>
               </div>
-              <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
               <ul class="list-inline">
-                  <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
-                  <li th:each="tag : ${tags}">
-                    <a href="#" class="btn btn-xs btn-default" >
-                      <span th:text="${tag}"></span>
+                  <li>
+                    <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                    <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                        th:alt-title="${articleBean.userBean}"
+                        th:attr="data-content=${articleBean.userBean.signature}"
+                            class="popover-dismiss"
+                            data-toggle="popover" 
+                            data-placement="top" 
+                            data-trigger="hover" >
+                        <strong th:text="${articleBean.userBean}"></strong>
                     </a>
                   </li>
+              </ul>
+              <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
+              <ul class="list-inline tag-container">
+                  <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
               </ul>
             </div>
           </div>
@@ -66,36 +75,35 @@
 <th:block layout:fragment="scripts-libs">
 <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
-<script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
-<li><div>
-    <a href="javascript:;" class="{%=o.itemClass%}">
-      <h5>
-        {%=o.file.title%}
-        {% if (o.file.artist) { %}<span class="label label-info"> by {%=o.file.artist%}</span>{% } %}
-        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
-      </h5>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
+<script id="template-tag-item" type="text/x-tmpl" th:inline="text">
+<li>
+    <a href="{%=o.tagPath%}/{%=o.tag%}" class="btn btn-xs btn-default">
+        {%=o.tag%} ({%=o.articleCount%})
     </a>
-    {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
-</div></li>
+</li>
 </script>
 </th:block>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    var dataUrl = /*[[@{/comic/__${articleBean.id}__/picture}]]*/ '';
-    var filePath = /*[[@{/files/c__${articleBean.id}__}]]*/'';
-    
     new carousel({
-        url: dataUrl,
-        filePath: filePath,
+        url: /*[[@{/comic/__${articleBean.id}__/picture}]]*/ '',
+        filePath: /*[[@{/files/c__${articleBean.id}__}]]*/'',
         startSlideshow: false
     });
+    
+    new tag({
+        url: /*[[@{/music/__${articleBean.id}__/tag}]]*/ '/music/1/tag',
+        tagPath: /*[[@{/tag}]]*/'/tag',
+        template: 'template-tag-item'
+    });
+    
     $('#article-description').url();
+    
+    $('.popover-dismiss').popover();
 });
 </script>
 </th:block>

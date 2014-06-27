@@ -102,7 +102,12 @@ public class ConsoleMusicService {
     }
 
     public String[] getTags(final MusicBean musicBean) {
-        return this.articleManager.getTags(musicBean).toArray(new String[] {});
+        final List<TagBean> tagList = this.articleManager.getTags(musicBean);
+        final List<String> tags = new ArrayList<String>();
+        for (final TagBean tagBean : tagList) {
+            tags.add(tagBean.getTag());
+        }
+        return tags.toArray(new String[] {});
     }
 
     public List<FileBean> getTrackFileList(final MusicBean musicBean) {

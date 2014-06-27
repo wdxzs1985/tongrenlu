@@ -135,10 +135,10 @@ public class ArticleManager {
         this.articleTagMapper.insert(articleTagBean);
     }
 
-    public List<String> getTags(final ArticleBean articleBean) {
+    public List<TagBean> getTags(final ArticleBean articleBean) {
         final Map<String, Object> param = new HashMap<>();
         param.put("articleBean", articleBean);
-        return this.articleTagMapper.fetchTags(param);
+        return this.articleTagMapper.fetchTagList(param);
     }
 
     public void removeTags(final ArticleBean articleBean) {

@@ -41,7 +41,9 @@
                        <div class="media-body">
                          <div class="article-list-item">
                              <h5 class="media-heading text-single-line">
-                               <a th:href="@{/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
+                               <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                    <strong th:text="${articleBean.title}" ></strong>
+                                </a>
                              </h5>
                              <p th:text="${articleBean.description}"></p>
                          </div>
