@@ -60,12 +60,17 @@ public class HomeComicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        int result = -1;
-        if (this.validateUserForLike(loginUser, model, locale)) {
+        int result = LikeManager.RESULT_NOT_LIKE;
+        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final ComicBean comicBean = this.getById(articleId);
-            if (!loginUser.equals(comicBean.getUserBean())) {
+            if (this.likeManager.validateUserNotSame(loginUser,
+                                                     comicBean.getUserBean())) {
                 result = this.likeManager.countLike(loginUser, comicBean);
+            } else {
+                result = LikeManager.RESULT_SELF;
             }
+        } else {
+            result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
     }
@@ -75,35 +80,27 @@ public class HomeComicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        int result = -1;
-        if (this.validateUserForLike(loginUser, model, locale)) {
+        int result = LikeManager.RESULT_NOT_LIKE;
+        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final ComicBean comicBean = this.getById(articleId);
-            if (!loginUser.equals(comicBean.getUserBean())) {
+            if (this.likeManager.validateUserNotSame(loginUser,
+                                                     comicBean.getUserBean())) {
                 final int count = this.likeManager.countLike(loginUser,
                                                              comicBean);
-                if (count != 0) {
-                    this.likeManager.removeLike(loginUser, comicBean);
-                    result = 0;
-                } else {
+                if (count == 0) {
                     this.likeManager.addLike(loginUser, comicBean);
-                    result = 1;
+                    result = LikeManager.RESULT_LIKE;
+                } else {
+                    this.likeManager.removeLike(loginUser, comicBean);
+                    result = LikeManager.RESULT_NOT_LIKE;
                 }
+            } else {
+                result = LikeManager.RESULT_SELF;
             }
+        } else {
+            result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
     }
 
-    private boolean validateUserForLike(final UserBean loginUser,
-                                        final Map<String, Object> model,
-                                        final Locale locale) {
-        boolean isValid = true;
-        if (loginUser.isGuest()) {
-            final String error = this.messageSource.getMessage("error.needSignin",
-                                                               null,
-                                                               locale);
-            model.put("error", error);
-            isValid = false;
-        }
-        return isValid;
-    }
 }

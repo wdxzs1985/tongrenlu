@@ -23,23 +23,23 @@ public class HomeUserController {
     @Autowired
     private HomeUserSerivce userService = null;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}/like")
+    @RequestMapping(method = RequestMethod.GET, value = "/user/{userId}/follow")
     @ResponseBody
     public Map<String, Object> doGetLike(@PathVariable final Integer userId,
                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                          final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
-        this.userService.isLike(userId, loginUser, model, locale);
+        this.userService.isFollower(userId, loginUser, model, locale);
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/user/{userId}/like")
+    @RequestMapping(method = RequestMethod.POST, value = "/user/{userId}/follow")
     @ResponseBody
     public Map<String, Object> doPostLike(@PathVariable final Integer userId,
                                           @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                           final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
-        this.userService.doLike(userId, loginUser, model, locale);
+        this.userService.doFollow(userId, loginUser, model, locale);
         return model;
     }
 

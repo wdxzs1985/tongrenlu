@@ -16,7 +16,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class HomeMusicService {
 
-    @Autowired
-    private MessageSource messageSource = null;
     @Autowired
     private ArticleManager articleManager = null;
     @Autowired
@@ -67,12 +64,17 @@ public class HomeMusicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        int result = -1;
-        if (this.validateUserForLike(loginUser, model, locale)) {
+        int result = LikeManager.RESULT_NOT_LIKE;
+        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
-            if (!loginUser.equals(musicBean.getUserBean())) {
+            if (this.likeManager.validateUserNotSame(loginUser,
+                                                     musicBean.getUserBean())) {
                 result = this.likeManager.countLike(loginUser, musicBean);
+            } else {
+                result = LikeManager.RESULT_SELF;
             }
+        } else {
+            result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
     }
@@ -82,35 +84,26 @@ public class HomeMusicService {
                        final UserBean loginUser,
                        final Map<String, Object> model,
                        final Locale locale) {
-        int result = -1;
-        if (this.validateUserForLike(loginUser, model, locale)) {
+        int result = LikeManager.RESULT_NOT_LIKE;
+        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
-            if (!loginUser.equals(musicBean.getUserBean())) {
+            if (this.likeManager.validateUserNotSame(loginUser,
+                                                     musicBean.getUserBean())) {
                 final int count = this.likeManager.countLike(loginUser,
                                                              musicBean);
-                if (count != 0) {
-                    this.likeManager.removeLike(loginUser, musicBean);
-                    result = 0;
-                } else {
+                if (count == 0) {
                     this.likeManager.addLike(loginUser, musicBean);
-                    result = 1;
+                    result = LikeManager.RESULT_LIKE;
+                } else {
+                    this.likeManager.removeLike(loginUser, musicBean);
+                    result = LikeManager.RESULT_NOT_LIKE;
                 }
+            } else {
+                result = LikeManager.RESULT_SELF;
             }
+        } else {
+            result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
-    }
-
-    private boolean validateUserForLike(final UserBean loginUser,
-                                        final Map<String, Object> model,
-                                        final Locale locale) {
-        boolean isValid = true;
-        if (loginUser.isGuest()) {
-            final String error = this.messageSource.getMessage("error.needSignin",
-                                                               null,
-                                                               locale);
-            model.put("error", error);
-            isValid = false;
-        }
-        return isValid;
     }
 }

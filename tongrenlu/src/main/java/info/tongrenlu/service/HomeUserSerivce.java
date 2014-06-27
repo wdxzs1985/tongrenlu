@@ -8,66 +8,58 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HomeUserSerivce {
 
     @Autowired
-    private MessageSource messageSource = null;
-    @Autowired
     private UserManager userManager = null;
     @Autowired
     private LikeManager likeManager = null;
 
-    public void isLike(final Integer userId,
-                       final UserBean loginUser,
-                       final Map<String, Object> model,
-                       final Locale locale) {
-        int result = -1;
-        if (this.validateUserForLike(loginUser, model, locale)) {
+    public void isFollower(final Integer userId,
+                           final UserBean loginUser,
+                           final Map<String, Object> model,
+                           final Locale locale) {
+        int result = LikeManager.RESULT_NOT_LIKE;
+        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
-            if (!loginUser.equals(userBean)) {
+            if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 result = this.likeManager.countLike(loginUser, userBean);
+            } else {
+                result = LikeManager.RESULT_SELF;
             }
+        } else {
+            result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
     }
 
-    public void doLike(final Integer userId,
-                       final UserBean loginUser,
-                       final Map<String, Object> model,
-                       final Locale locale) {
-        int result = -1;
-        if (this.validateUserForLike(loginUser, model, locale)) {
+    public void doFollow(final Integer userId,
+                         final UserBean loginUser,
+                         final Map<String, Object> model,
+                         final Locale locale) {
+        int result = LikeManager.RESULT_NOT_LIKE;
+        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
-            if (!loginUser.equals(userBean)) {
+            if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 final int count = this.likeManager.countLike(loginUser,
                                                              userBean);
-                if (count != 0) {
-                    this.likeManager.removeLike(loginUser, userBean);
-                    result = 0;
-                } else {
+                if (count == 0) {
                     this.likeManager.addLike(loginUser, userBean);
-                    result = 1;
+                    result = LikeManager.RESULT_LIKE;
+                } else {
+                    this.likeManager.removeLike(loginUser, userBean);
+                    result = LikeManager.RESULT_NOT_LIKE;
                 }
+            } else {
+                result = LikeManager.RESULT_SELF;
             }
+        } else {
+            result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
     }
 
-    private boolean validateUserForLike(final UserBean loginUser,
-                                        final Map<String, Object> model,
-                                        final Locale locale) {
-        boolean isValid = true;
-        if (loginUser.isGuest()) {
-            final String error = this.messageSource.getMessage("error.needSignin",
-                                                               null,
-                                                               locale);
-            model.put("error", error);
-            isValid = false;
-        }
-        return isValid;
-    }
 }

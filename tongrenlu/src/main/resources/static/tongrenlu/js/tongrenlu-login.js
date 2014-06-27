@@ -9,6 +9,7 @@ var login = function(options){
 				$('#nav-signin').addClass('hidden').removeClass('show');
 		        $('#nav-console').addClass('show').removeClass('hidden');
 		        $('#nav-nickname').text(loginUser.nickname + '#' + loginUser.id);
+		        $(document).trigger('signin', loginUser);
 			} else {
 				$('#nav-console').addClass('hidden').removeClass('show');
 		        $('#nav-signin').addClass('show').removeClass('hidden');
@@ -84,6 +85,8 @@ var login = function(options){
 	
     $signinModal.on('shown.bs.modal', function() {
     	that.onShown();
+    }).on('showerror', function(event, error) {
+    	that.showError(error);
     });
     
     $loginForm.submit(function(e){
