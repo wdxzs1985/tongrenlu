@@ -4,21 +4,28 @@
   layout:decorator="console/layout">
   <body>
     <div class="container" layout:fragment="content">
-      <form class="form-horizontal" th:action="@{/console/setting}" method="post" enctype="multipart/form-data">
+      <form class="" th:action="@{/console/setting}" method="post" enctype="multipart/form-data">
         <div class="row">
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/400x400" alt="..." 
+                         th:src="@{/files/u__${userBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
+                  <div class="caption">
+                    <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
+                  </div>
+                </div>
+            </div>
             <div class="col-sm-8">
-                <div class="alert alert-success" 
-                     th:unless="${#strings.isEmpty(message)}"
-                     th:text="${message}" >
-                </div>
-            
-                <div class="page-header">
-                    <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
-                </div>
+              <div class="alert alert-success" 
+                   th:unless="${#strings.isEmpty(message)}"
+                   th:text="${message}" >
+              </div>
+		      <div class="page-header">
+		          <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
+		      </div>
                 <div th:class="${#strings.isEmpty(nicknameError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-                  <label for="inputNickname" class="col-sm-2 control-label" 
+                  <label for="inputNickname" class="control-label" 
                       th:text="#{UserBean.nickname}">Nickname</label>
-                  <div class="col-sm-10">
                     <input type="text" class="form-control" 
                       id="inputNickname" name="nickname"
                       th:value="${userBean.nickname}"
@@ -28,12 +35,10 @@
                     <p class="help-block" 
                         th:unless="${#strings.isEmpty(nicknameError)}"
                         th:text="${nicknameError}"></p>
-                  </div>
                 </div>
              <div th:class="${#strings.isEmpty(signatureError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-               <label for="inputSignature" class="col-sm-2 control-label" 
+               <label for="inputSignature" class=" control-label" 
                    th:text="#{UserBean.signature}">Signature</label>
-               <div class="col-sm-10">
                  <input class="form-control"
                    id="inputSignature" name="signature"
                    th:value="${userBean.signature}"
@@ -43,13 +48,11 @@
                  <p class="help-block" 
                      th:unless="${#strings.isEmpty(signatureError)}"
                      th:text="${signatureError}"></p>
-               </div>
               </div>
               <div class="page-header">
                   <h4 th:text="#{console.profile.setting.customize}"></h4>
               </div>
               <div class="form-group">
-               <div class="col-sm-10 col-sm-offset-2">
                   <label class="checkbox-inline">
                       <input type="checkbox" name="includeRedFlg" value="1" th:checked="${userBean.includeRed}" />
                       <span th:text="#{console.profile.setting.includeRed}"></span>
@@ -62,22 +65,13 @@
                       <input type="checkbox" name="onlyVocalFlg" value="1" th:checked="${userBean.onlyVocal}" />
                       <span th:text="#{console.profile.setting.onlyVocal}"></span>
                   </label>
-                </div>
+              </div>
+              <div class="page-header">
+                  <h4 ></h4>
               </div>
                 <div class="form-group">
-                    <div class="col-sm-10 col-sm-offset-2">
                       <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
                       <a th:href="@{/console}" class="btn btn-default" th:text="#{button.cancel}"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/400x400" alt="..." 
-                         th:src="@{/files/u__${userBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
-                  <div class="caption">
-                    <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
-                  </div>
                 </div>
             </div>
         </div>

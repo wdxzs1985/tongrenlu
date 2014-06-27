@@ -27,8 +27,8 @@ public class ConsoleUserService {
     @Autowired
     private MessageSource messageSource = null;
 
-    public UserBean getProfileById(final Integer id) {
-        return this.userManager.getProfileById(id);
+    public UserBean getById(final Integer id) {
+        return this.userManager.getById(id);
     }
 
     public boolean saveSetting(final UserBean inputUser,

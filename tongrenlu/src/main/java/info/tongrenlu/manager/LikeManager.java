@@ -120,7 +120,7 @@ public class LikeManager {
     public boolean validateUserNotSame(final UserBean loginUser,
                                        final UserBean userBean) {
         boolean isValid = true;
-        if (loginUser.equals(userBean)) {
+        if (loginUser.getId().equals(userBean.getId())) {
             isValid = false;
         }
         return isValid;

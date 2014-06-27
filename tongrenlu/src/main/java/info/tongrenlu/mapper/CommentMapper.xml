@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.CommentMapper">
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_comment(
+        <trim suffixOverrides=",">
+            ARTICLE_ID,
+            USER_ID,
+            content,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{articleBean.id},
+            #{userBean.id},
+            #{content},
+        </trim>
+        )
+    </insert>
+    
+    <select id="count" resultType="int">
+        SELECT 
+            count(m_comment.id)
+        FROM 
+            tongrenlu.m_comment
+        left join v_user on v_user.id = m_comment.user_id
+        left join m_article on m_article.id = m_comment.article_id
+        <where>
+        and m_article.id = #{articleId}
+        and m_article.del_flg = '0'
+        and m_comment.del_flg = '0'
+        </where>
+    </select>
+    
+    <select id="fetchList" resultType="CommentBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            m_comment.id            as id,
+            m_comment.content       as content,
+            m_comment.create_date   as createDate,
+            v_user.id               as "userBean.id",
+            v_user.nickname         as "userBean.nickname",
+            m_article.id            as "articleBean.id",
+            m_article.title         as "articleBean.title",
+        </trim>
+        FROM 
+            tongrenlu.m_comment
+        left join v_user on v_user.id = m_comment.user_id
+        left join m_article on m_article.id = m_comment.article_id
+        <where>
+        and m_article.id = #{articleId}
+        and m_article.del_flg = '0'
+        and m_comment.del_flg = '0'
+        </where>
+        order by m_comment.id desc
+        limit #{start}, #{pageSize}
+    </select>
+</mapper>

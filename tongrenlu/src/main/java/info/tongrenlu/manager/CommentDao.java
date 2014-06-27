@@ -1,7 +1,7 @@
 package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.ArticleBean;
-import info.tongrenlu.domain.ArticleCommentBean;
+import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -40,7 +40,7 @@ public class CommentDao {
     public void addArticleComment(final UserBean sender,
                                   final ArticleBean articleBean,
                                   final String content) {
-        final ArticleCommentBean commentBean = new ArticleCommentBean();
+        final CommentBean commentBean = new CommentBean();
         commentBean.setContent(content);
         commentBean.setArticleBean(articleBean);
         commentBean.setUserBean(sender);

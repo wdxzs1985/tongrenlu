@@ -1,6 +1,7 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
+import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
@@ -96,7 +97,11 @@ public class HomeMusicController {
                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                          final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
-        this.musicService.isLike(articleId, loginUser, model, locale);
+        final int result = this.musicService.isLike(articleId,
+                                                    loginUser,
+                                                    model,
+                                                    locale);
+        model.put("result", result);
         return model;
     }
 
@@ -106,7 +111,11 @@ public class HomeMusicController {
                                           @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                           final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
-        this.musicService.doLike(articleId, loginUser, model, locale);
+        final int result = this.musicService.doLike(articleId,
+                                                    loginUser,
+                                                    model,
+                                                    locale);
+        model.put("result", result);
         return model;
     }
 
@@ -116,6 +125,40 @@ public class HomeMusicController {
         final Map<String, Object> model = new HashMap<>();
         final List<TagBean> tagList = this.musicService.getTagList(articleId);
         model.put("tagList", tagList);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/comment")
+    @ResponseBody
+    public Map<String, Object> doGetComment(@PathVariable final Integer articleId,
+                                            @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                            final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final PaginateSupport<CommentBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("articleId", articleId);
+        this.musicService.searchComment(page);
+        model.put("page", page);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/comment")
+    @ResponseBody
+    public Map<String, Object> doPostComment(@PathVariable final Integer articleId,
+                                             final String content,
+                                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                             final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        final CommentBean commentBean = new CommentBean();
+        commentBean.setArticleBean(musicBean);
+        commentBean.setUserBean(loginUser);
+        commentBean.setContent(content);
+
+        final boolean result = this.musicService.doComment(commentBean,
+                                                           model,
+                                                           locale);
+        model.put("result", result);
         return model;
     }
 }

@@ -5,7 +5,39 @@
   <body>
     <div class="container" layout:fragment="content">
         <div class="row">
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                  <a th:href="@{/user/__${userBean.id}__}" class="">
+                    <img src="http://placehold.it/400x400" class="img-400" 
+                         th:src="@{/files/u__${userBean.id}__/cover_400.jpg}" th:alt-title="${userBean}"/>
+                  </a>
+                  <div class="caption">
+                    <h5 th:text="${userBean}" class="text-center text-single-line"></h5>
+                    <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
+                    <div class="text-center">
+                        <button id="follow-user" class="btn btn-danger hidden"
+                          th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
+                            <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                            <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <a th:href="@{/user/__${userBean.id}__/music}" class="list-group-item">
+                    <span th:text="#{home.user.musicCount}"></span>
+                    <span class="badge pull-right" th:text="${userBean.musicCount}"></span>
+                  </a>
+                  <a th:href="@{/user/__${userBean.id}__/comic}" class="list-group-item">
+                    <span th:text="#{home.user.comicCount}"></span>
+                    <span class="badge pull-right" th:text="${userBean.comicCount}"></span>
+                  </a>
+                </div>
+            </div>
             <div class="col-sm-8">
+                <div class="page-header">
+                    <h3 th:text="#{home.user.timeline}"></h3>
+                </div>
                 <ul class="media-list">
                   <li class="media" th:each="i : ${#numbers.sequence(1,6)}">
                     <a class="pull-left" href="#">
@@ -29,34 +61,6 @@
                     </div>
                   </li>
                 </ul>
-            </div>
-            <div class="col-sm-4">
-                <div class="thumbnail">
-                  <a th:href="@{/console/setting}" class="">
-                    <img src="http://placehold.it/400x400" class="img-400" 
-                         th:src="@{/files/u__${userBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
-                  </a>
-                  <div class="caption">
-                    <h5 th:text="${userBean}" class="text-center text-single-line"></h5>
-                    <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
-                    <div class="text-center">
-                        <button id="follow-user" class="btn btn-danger hidden"
-                          th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
-                            <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                            <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-                        </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="list-group" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
-                  <a href="#" class="list-group-item active">
-                    Cras justo odio
-                  </a>
-                  <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                  <a href="#" class="list-group-item">Morbi leo risus</a>
-                  <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                  <a href="#" class="list-group-item">Vestibulum at eros</a>
-                </div>
             </div>
         </div>
     </div>

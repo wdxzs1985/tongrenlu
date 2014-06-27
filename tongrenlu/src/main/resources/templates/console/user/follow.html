@@ -7,7 +7,7 @@
 </head>
   <body>
     <div class="container" layout:fragment="content">
-        <div class="page-header visible-xs">
+        <div class="page-header">
             <h3 th:text="#{console.follow}"></h3>
         </div>
         <th:block th:unless="${#lists.isEmpty(page.items)}">

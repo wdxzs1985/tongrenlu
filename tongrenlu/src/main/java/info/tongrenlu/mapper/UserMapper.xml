@@ -49,7 +49,7 @@
         </where>
     </select>
     
-    <select id="fetchProfile" resultType="UserBean">
+    <select id="fetchProfile" resultType="UserProfileBean">
         SELECT
         <trim suffixOverrides=",">
             U.id                    as id,

@@ -7,7 +7,7 @@
 </head>
   <body>
     <div class="container" layout:fragment="content">
-        <div class="page-header visible-xs">
+        <div class="page-header">
             <h3 th:text="#{console.like.comic}"></h3>
         </div>
         <th:block th:unless="${#lists.isEmpty(page.items)}">
@@ -24,8 +24,6 @@
                 <div class="media-body">
                   <div class="article-list-item">
                       <h5 class="media-heading text-single-line">
-                        <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                        <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
                         <span class="label label-danger" th:if="${articleBean.red}" th:text="#{ComicBean.redFlg.true}"></span>
                         <span class="label label-success" th:unless="${articleBean.red}" th:text="#{ComicBean.redFlg.false}"></span>
                         <span class="label label-info" th:if="${articleBean.translate}" th:text="#{ComicBean.translateFlg.true}"></span>

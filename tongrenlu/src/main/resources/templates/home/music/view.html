@@ -4,7 +4,8 @@
   layout:decorator="home/layout">
   <head>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" type="text/css"/>
   </head>
   <body>
     <div layout:fragment="content">
@@ -91,13 +92,23 @@
         </div>
         <div class="col-sm-6">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#baseinfo" data-toggle="tab" th:text="#{console.article.info}"></a></li>
-            <li><a href="#comment" data-toggle="tab" th:text="#{home.article.comment}">Comments</a></li>
+            <li>
+                <a href="#baseinfo" data-toggle="tab">
+                    <span class="glyphicon glyphicon-file"></span>
+                    <span th:text="#{console.article.info}"></span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="#comment" data-toggle="tab">
+                    <span class="glyphicon glyphicon-comment"></span>
+                    <span th:text="#{home.article.comment}"></span>
+                </a>
+            </li>
           </ul>
           
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane active" id="baseinfo">
+            <div class="tab-pane " id="baseinfo">
 	          <ul class="list-inline">
 	              <li>
 	                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
@@ -126,10 +137,37 @@
 	          </ul>
 	          <pre id="article-description" th:text="${articleBean.description}"></pre>
 	          <ul class="list-inline tag-container">
-                  <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
+                  <li>
+                    <span class="glyphicon glyphicon-tags"></span>&nbsp;
+                    <strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong>
+                  </li>
               </ul>
             </div>
-            <div class="tab-pane" id="comment">...</div>
+            <div class="tab-pane active" id="comment">
+              <div class="comment-container">
+                <div class="comment-list-content hidden">
+                    <ul class="media-list"></ul>
+                    <ul class="comment-paginate pager">
+                      <li class="previous disabled"><a href="#">&larr; Older</a></li>
+                      <li class="next"><a href="#">Newer &rarr;</a></li>
+                    </ul>
+                </div>
+                <div class="comment-empty alert alert-warning hidden" 
+                     th:text="#{home.article.comment.empty}">
+                </div>
+              </div>
+              <form class="comment-form" th:action="@{/music/__${articleBean.id}__/comment}" method="post" >
+                  <div class="form-group">
+                      <textarea class="comment-content form-control" th:placeholder="#{home.article.comment.placeholder}" rows="8"></textarea>
+                  </div>
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-send"></span>&nbsp;
+                        <span th:text="#{home.article.comment.send}"></span>
+                      </button>
+                  </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -140,11 +178,13 @@
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
 <script id="template-playlist-item" type="text/x-tmpl">
 <li class="clearfix">
     <div class="pull-right">
@@ -176,17 +216,31 @@
     </a>
 </li>
 </script>
+<script id="template-comment-item" type="text/x-tmpl" th:inline="text">
+        <li class="media">
+            <a href="/user/{%=o.userBean.id%}" class="pull-left cover">
+                <span class="center-img">
+                    <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" />
+                </span>
+            </a>
+            <div class="media-body">
+                <div class="media-heading">
+                    <a href="/user/{%=o.userBean.id%}" target="_blank">
+                        {%=o.userBean.nickname%}#{%=o.userBean.id%}
+                    </a>
+                    <span class="muted"> 发表于 {%=o.createDate%}</span>
+                </div>
+                <pre>{%=o.content%}</pre>
+            </div>
+        </li>
+</script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    var trackDataUrl = /*[[@{/music/__${articleBean.id}__/track}]]*/ '';
-    var bookletDataUrl = /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '';
-    var filePath = /*[[@{/files/m__${articleBean.id}__}]]*/'';
-    var swfPath = /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js';
     
     new player({
-    	url: trackDataUrl,
-    	filePath: filePath,
-    	swfPath: swfPath,
+    	url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
+    	filePath: /*[[@{/files/m__${articleBean.id}__}]]*/'',
+    	swfPath: /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js',
     	filter: function(playList, playable) {
     		var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
     		if(onlyVocal) {
@@ -200,8 +254,8 @@ $(function() {
     });
     
     new carousel({
-        url: bookletDataUrl,
-        filePath: filePath,
+        url: /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '',
+        filePath: /*[[@{/files/m__${articleBean.id}__}]]*/'',
         startSlideshow: false
     });
     
@@ -211,11 +265,12 @@ $(function() {
         template: 'template-tag-item'
     });
     
-    $('#article-description').url();
-
-    $('#like-article').likebutton();
+    new comment({
+    	emptyText: /*[[#{home.article.comment.empty}]]*/'',
+    });
     
-    $('.popover-dismiss').popover();
+    $('#article-description').url();
+    $('#like-article').likebutton();
 });
 </script>
 </th:block>

@@ -1,6 +1,7 @@
 package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.mapper.UserMapper;
 
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class UserManager {
         return this.userMapper.fetchBean(param);
     }
 
-    public UserBean getProfileById(final Integer id) {
+    public UserProfileBean getById(final Integer id) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("id", id);
         return this.userMapper.fetchProfile(param);
@@ -93,7 +94,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            UserManager.EMAIL_LENGTH },
+                                                                  UserManager.EMAIL_LENGTH },
                                                     locale));
             isValid = false;
         } else if (!UserManager.EMAIL_PATTERN.matcher(email).matches()) {
@@ -159,7 +160,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.notSame",
                                                     new Object[] { fieldName1,
-                                                            fieldName2 },
+                                                                  fieldName2 },
                                                     locale));
             isValid = false;
         }
@@ -184,7 +185,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            UserManager.NICKNAME_LENGTH },
+                                                                  UserManager.NICKNAME_LENGTH },
                                                     locale));
             isValid = false;
         }
@@ -203,7 +204,7 @@ public class UserManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            UserManager.SIGNATURE_LENGTH },
+                                                                  UserManager.SIGNATURE_LENGTH },
                                                     locale));
             isValid = false;
         }

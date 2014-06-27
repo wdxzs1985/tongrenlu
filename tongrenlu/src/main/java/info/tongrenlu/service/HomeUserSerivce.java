@@ -1,6 +1,7 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.UserManager;
 
@@ -20,9 +21,8 @@ public class HomeUserSerivce {
     @Autowired
     private LikeManager likeManager = null;
 
-    public UserBean getById(final Integer userId) {
-        final UserBean userBean = this.userManager.getProfileById(userId);
-        return userBean;
+    public UserProfileBean getById(final Integer userId) {
+        return this.userManager.getById(userId);
     }
 
     @Transactional
@@ -32,7 +32,7 @@ public class HomeUserSerivce {
                            final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
-            final UserBean userBean = this.userManager.getProfileById(userId);
+            final UserBean userBean = this.userManager.getById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 result = this.likeManager.countLike(loginUser, userBean);
             } else {
@@ -51,7 +51,7 @@ public class HomeUserSerivce {
                          final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
-            final UserBean userBean = this.userManager.getProfileById(userId);
+            final UserBean userBean = this.userManager.getById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 final int count = this.likeManager.countLike(loginUser,
                                                              userBean);
