@@ -6,18 +6,26 @@
     <div class="container" layout:fragment="content">
         <div class="row">
             <div class="col-sm-8">
-                <div class="page-header">
-                    <h3>timeline</h3>
-                </div>
                 <ul class="media-list">
                   <li class="media" th:each="i : ${#numbers.sequence(1,6)}">
                     <a class="pull-left" href="#">
-                      <img class="media-object img-60" 
-                        src="http://placehold.it/60x60" alt="..." />
+                      <img class="media-object img-60 visible-xs" 
+                           src="http://placehold.it/60x60" alt="..." />
+                      <img class="media-object img-120 hidden-xs" 
+                           src="http://placehold.it/120x120" alt="..." />
                     </a>
                     <div class="media-body">
-                      <h4 class="media-heading">Media heading</h4>
-                      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                      <h5 class="media-heading">
+                        <strong>Media heading</strong>
+                      </h5>
+                      <div class="article-list-item">
+                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
+                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
+                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
+                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
+                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
+                          Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                      </div>
                     </div>
                   </li>
                 </ul>
@@ -39,7 +47,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="list-group" th:if="${session.LOGIN_USER.editor}">
+                <div class="list-group" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
                   <a href="#" class="list-group-item active">
                     Cras justo odio
                   </a>

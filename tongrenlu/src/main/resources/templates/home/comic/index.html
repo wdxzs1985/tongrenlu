@@ -7,6 +7,8 @@
 </head>
   <body>
     <div class="container" layout:fragment="content">
+        <div class="row">
+            <div class="col-sm-8">
                 <form th:action="@{/search}" method="get">
                     <div class="input-group">
                       <input type="text" class="form-control" name="q"/>
@@ -51,6 +53,10 @@
                     <a th:href="@{/comic}" th:text="#{button.back}" class="btn btn-default"></a>
                 </div>
             </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+    </div>
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:inline="javascript">

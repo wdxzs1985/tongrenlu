@@ -34,11 +34,19 @@ $.fn.likebutton = function() {
 				}
 				
 				$this.click(that.post);
+				$this.hover(function(){
+					if(that.like == constants.LIKE) {
+						that.render(constants.NOT_LIKE);
+						$this.find('.like-button-text').text(settings.unlikeText);
+					}
+				}, function(){
+					that.render(that.like);
+				});
 			},
 			render: function(like) {
-				switch(that.like) {
+				switch(like) {
 				case constants.LIKE:
-					$this
+					$this.removeClass('hidden')
 						.removeClass('btn-danger')
 						.addClass('btn-success');
 					$this.find('.like-button-icon')
@@ -49,7 +57,7 @@ $.fn.likebutton = function() {
 				case constants.NEED_SIGN:
 					$('#signinModal').modal('show');
 				case constants.NOT_LIKE:
-					$this
+					$this.removeClass('hidden')
 						.removeClass('btn-success')
 						.addClass('btn-danger');
 					$this.find('.like-button-icon')
@@ -65,19 +73,19 @@ $.fn.likebutton = function() {
 			get: function() {
 				$.getJSON(settings.url).done(function(response){
 					that.like = response.result;
-					that.render();
+					that.render(that.like);
 				}).error(function(){
 					that.like = constants.ERROR;
-					that.render()
+					that.render(that.like)
 				});
 			},
 			post: function() {
 				$.post(settings.url).done(function(response){
 					that.like = response.result;
-					that.render();
+					that.render(that.like);
 				}).error(function(){
 					that.like = constants.ERROR;
-					that.render()
+					that.render(that.like)
 				});
 			}
 	}

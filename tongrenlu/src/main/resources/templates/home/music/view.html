@@ -15,7 +15,8 @@
                   th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
           </div>
           <div class="pull-right btn-group">
-              <button id="like-article" class="btn btn-danger" th:attr="data-url=@{/music/__${articleBean.id}__/like},data-text-not-like=#{home.article.notlike},data-text-like=#{home.article.likeing}">
+              <button id="like-article" class="btn btn-danger hidden"
+                th:attr="data-url=@{/music/__${articleBean.id}__/like},,data-notlike-text=#{home.article.notlike},data-like-text=#{home.article.like},data-unlike-text=#{home.article.unlike}">
                   <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
                   <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
               </button>
