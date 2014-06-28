@@ -46,10 +46,13 @@ public class HomeComicController {
     @RequestMapping(method = RequestMethod.GET, value = "")
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
 
         final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("query", query);
+        page.addParam("includeRedFlg", loginUser.getIncludeRedFlg());
+        page.addParam("onlyTranslateFlg", loginUser.getOnlyTranslateFlg());
         page.addParam("publishFlg", CommonConstants.CHR_TRUE);
         this.comicService.searchComic(page);
         model.addAttribute("page", page);

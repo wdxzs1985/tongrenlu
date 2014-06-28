@@ -33,8 +33,9 @@ public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
 
+        final HttpSession session = request.getSession();
+
         synchronized (this) {
-            final HttpSession session = request.getSession();
             UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
             if (loginUser == null) {
                 final Cookie[] cookies = request.getCookies();

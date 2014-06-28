@@ -1,10 +1,13 @@
 package info.tongrenlu.manager;
 
+import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.domain.UserProfileBean;
+import info.tongrenlu.mapper.TimelineMapper;
 import info.tongrenlu.mapper.UserMapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -28,6 +31,9 @@ public class UserManager {
 
     @Autowired
     private UserMapper userMapper = null;
+
+    @Autowired
+    private TimelineMapper timelineMapper = null;
 
     public UserBean getByEmail(final String email) {
         final Map<String, Object> param = new HashMap<String, Object>();
@@ -209,5 +215,21 @@ public class UserManager {
             isValid = false;
         }
         return isValid;
+    }
+
+    public int countUserTimeline(final Map<String, Object> params) {
+        return this.timelineMapper.countUserTimeline(params);
+    }
+
+    public List<TimelineBean> searchUserTimeline(final Map<String, Object> params) {
+        return this.timelineMapper.searchUserTimeline(params);
+    }
+
+    public int countFollowTimeline(final Map<String, Object> params) {
+        return this.timelineMapper.countFollowTimeline(params);
+    }
+
+    public List<TimelineBean> searchFollowTimeline(final Map<String, Object> params) {
+        return this.timelineMapper.searchFollowTimeline(params);
     }
 }

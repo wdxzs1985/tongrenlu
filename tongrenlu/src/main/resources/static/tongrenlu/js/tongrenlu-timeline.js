@@ -1,4 +1,4 @@
-var comment = function(options) {
+var timeline = function(options) {
 	
 	var settings = $.extend({
 		pageNumber: 1,
@@ -21,22 +21,7 @@ var comment = function(options) {
 	
 	var that = {
 		init: function() {
-			$('#comment').on('submit', '.comment-form', function(e){
-				e.preventDefault();
-			    var $content = $(this).find('.comment-content');
-			    if($content.hasClass('disabled')){
-			        return;
-			    }
-			    $content.addClass('disabled');
-			    var content = $content.val();
-			    
-			    if(content.length > 0){
-			        var action = $(this).prop('action');
-			        that.send(action, content);
-			    } else {
-			        alert('你一个字都没打。');
-			    }
-			}).on('click', '.previous a', function(e){
+			$('#timeline').on('click', '.previous a', function(e){
 				e.preventDefault();
 				that.load(settings.pageNumber - 1);
 			}).on('click', '.next a', function(e){
@@ -47,8 +32,8 @@ var comment = function(options) {
 			that.load();
 		},
 		load: function(page){
-			var $commentForm = $('#comment .comment-form');
-			var href = $commentForm.attr('action');
+			var $timeline = $('#timeline');
+			var href = $timeline.data('href');
 			var data = {
 			        p : settings.pageNumber
 			    }
@@ -59,8 +44,8 @@ var comment = function(options) {
 				if(response.page){
 					settings.pageNumber = response.page.pageNumber;
 					
-					var $listContent = $('#comment .comment-list-content').addClass('hidden');
-					var $empty = $('#comment .comment-empty').addClass('hidden');
+					var $listContent = $('#timeline .timeline-list-content').addClass('hidden');
+					var $empty = $('#timeline .timeline-empty').addClass('hidden');
 
 					var $previous = $listContent.find('.previous').addClass('hidden');
 					var $next = $listContent.find('.next').addClass('hidden');
@@ -72,7 +57,7 @@ var comment = function(options) {
 						for(var i = 0; i < response.page.items.length; i++){
 							var item = response.page.items[i];
 							item.createDate = that.formatDate(item.createDate, settings.i18n);
-							$list.append(tmpl('template-comment-item', item));
+							$list.append(tmpl('template-timeline-item', item));
 						}
 						if(!response.page.first) {
 							$previous.removeClass('hidden');
@@ -84,7 +69,6 @@ var comment = function(options) {
 					}
 				}
 			});
-			
 		},
 		formatDate: function(date, i18n){
 		    var now = new Date();
@@ -101,21 +85,6 @@ var comment = function(options) {
 		    }else {
 		        return i18n.JUST_BEFORE;
 		    }
-		},
-		send:  function(action, content){
-		    var $content = $('#content');
-		    var data = {'content': content};
-		    $.post(action, data, function(response){
-		        if(response.result){
-		            that.load(1);
-		            $('#content').val('');
-		        }else {
-		            alert(response.error);
-		        }
-		        $content.removeClass('disabled');
-		    }).error(function(){
-		        alert('服务器⑨了');
-		    });
 		}
 	};
 	

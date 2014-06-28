@@ -50,12 +50,7 @@
                   <li>
                     <span th:text="#{home.article.owner} + ' :'">Owner :</span>
                     <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                        th:alt-title="${articleBean.userBean}"
-                        th:attr="data-content=${articleBean.userBean.signature}"
-                            class="popover-dismiss"
-                            data-toggle="popover" 
-                            data-placement="top" 
-                            data-trigger="hover" >
+                        th:alt-title="${articleBean.userBean}">
                         <strong th:text="${articleBean.userBean}"></strong>
                     </a>
                   </li>
@@ -103,7 +98,6 @@ $(function() {
     
     $('#article-description').url();
     
-    $('.popover-dismiss').popover();
 });
 </script>
 </th:block>

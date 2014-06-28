@@ -114,11 +114,11 @@ public class HomeMusicService {
     }
 
     public void searchComment(final PaginateSupport<CommentBean> paginate) {
-        final int itemCount = this.commentManager.count(paginate.getParams());
+        final int itemCount = this.commentManager.countMusicComment(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<CommentBean> items = this.commentManager.search(paginate.getParams());
+        final List<CommentBean> items = this.commentManager.searchMusicComment(paginate.getParams());
         paginate.setItems(items);
     }
 

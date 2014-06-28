@@ -8,10 +8,14 @@
         INSERT INTO R_COMIC(
         <trim suffixOverrides=",">
             id,
+            red_flg,
+            translate_flg,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
             #{id},
+            #{redFlg},
+            #{translateFlg},
         </trim>
         )
     </insert>
@@ -25,6 +29,12 @@
         <where>
             <if test="userBean != null">
             AND v_comic.`userBean.id` = #{userBean.id}
+            </if>
+            <if test="includeRedFlg eq 0">
+            AND v_comic.`redFlg` = '0'
+            </if>
+            <if test="onlyTranslateFlg eq 1">
+            AND v_comic.`translateFlg` = '1'
             </if>
             <if test="publishFlg != null">
             AND v_comic.`publishFlg` = #{publishFlg}
@@ -64,11 +74,11 @@
             <if test="publishFlg != null">
             AND v_comic.publishFlg = #{publishFlg}
             </if>
-            <if test="redFlg != null">
-            AND v_comic.redFlg = #{redFlg}
+            <if test="includeRedFlg eq 0">
+            AND v_comic.`redFlg` = '0'
             </if>
-            <if test="translateFlg != null">
-            AND v_comic.publishFlg = #{translateFlg}
+            <if test="onlyTranslateFlg eq 1">
+            AND v_comic.`translateFlg` = '1'
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />

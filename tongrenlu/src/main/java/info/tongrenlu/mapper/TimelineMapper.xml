@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.TimelineMapper">
+    
+    <select id="countUserTimeline" resultType="int">
+        SELECT 
+            count(v_timeline.createDate)
+        FROM 
+            v_timeline
+        <where>
+            v_timeline.`followId` = #{userId}
+        and (   redFlg = '0' 
+            OR  redFlg is NULL
+            <if test="loginUser.includeRed">
+            OR  redFlg = '1'
+            </if>)
+        <if test="loginUser.onlyTranslate">
+        and (v_timeline.`translateFlg` = '1' 
+        OR  v_timeline.`translateFlg` is NULL)
+        </if>
+        </where>
+    </select>
+    
+    <select id="searchUserTimeline" resultType="TimelineBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_timeline.`articleBean.id`         as `articleBean.id`,
+            v_timeline.`articleBean.title`      as `articleBean.title`,
+            v_timeline.`userBean.id`            as `userBean.id`,
+            v_timeline.`userBean.nickname`      as `userBean.nickname`,
+            v_timeline.content                  as content,
+            v_timeline.createDate               as createDate,
+            v_timeline.action                   as action,
+        </trim>
+        FROM 
+            v_timeline
+        <where>
+            v_timeline.`followId` = #{userId}
+        and (   redFlg = '0' 
+            OR  redFlg is NULL
+            <if test="loginUser.includeRed">
+            OR  redFlg = '1'
+            </if>)
+        <if test="loginUser.onlyTranslate">
+        and (v_timeline.`translateFlg` = '1' 
+        OR  v_timeline.`translateFlg` is NULL)
+        </if>
+        </where>
+        order by v_timeline.createDate desc
+        limit #{start}, #{pageSize}
+    </select>
+    
+    
+    <select id="countFollowTimeline" resultType="int">
+        SELECT 
+            count(v_timeline.createDate)
+        FROM 
+            r_like
+        left join v_timeline on v_timeline.followId = r_like.like_id
+        and r_like.category = 'u'
+        and r_like.del_flg = '0'
+        <where>
+        and user_id = #{loginUser.id}
+        and (   redFlg = '0' 
+            OR  redFlg is NULL
+            <if test="loginUser.includeRed">
+            OR  redFlg = '1'
+            </if>)
+        <if test="loginUser.onlyTranslate">
+        and (v_timeline.`translateFlg` = '1' 
+        OR  v_timeline.`translateFlg` is NULL)
+        </if>
+        </where>
+    </select>
+    
+    <select id="searchFollowTimeline" resultType="TimelineBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_timeline.`articleBean.id`        as `articleBean.id`,
+            v_timeline.`articleBean.title`     as `articleBean.title`,
+            v_timeline.`userBean.id`           as `userBean.id`,
+            v_timeline.`userBean.nickname`     as `userBean.nickname`,
+            v_timeline.content                 as content,
+            v_timeline.createDate              as createDate,
+            v_timeline.action                   as action,
+        </trim>
+        FROM 
+            r_like
+        left join v_timeline on v_timeline.followId = r_like.like_id
+        and r_like.category = 'u'
+        and r_like.del_flg = '0'
+        <where>
+        and user_id = #{loginUser.id}
+        and (   redFlg = '0' 
+            OR  redFlg is NULL
+            <if test="loginUser.includeRed">
+            OR  redFlg = '1'
+            </if>)
+        <if test="loginUser.onlyTranslate">
+        and (v_timeline.`translateFlg` = '1' 
+        OR  v_timeline.`translateFlg` is NULL)
+        </if>
+        </where>
+        order by v_timeline.createDate desc
+        limit #{start}, #{pageSize}
+    </select>
+</mapper>

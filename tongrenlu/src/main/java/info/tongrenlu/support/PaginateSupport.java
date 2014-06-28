@@ -11,7 +11,7 @@ public class PaginateSupport<T> {
 
     private int pageNumber = 1;
 
-    private int pageSize = PAGESIZE;
+    private int pageSize = PaginateSupport.PAGESIZE;
 
     private int pageCount = 0;
 
@@ -36,13 +36,14 @@ public class PaginateSupport<T> {
     public void compute() {
         // init
         this.itemCount = Math.max(this.itemCount, 0);
-        this.pageNumber = Math.max(this.pageNumber, 1);
+        this.pageNumber = Math.max(this.pageNumber, 0);
         this.pageSize = Math.max(this.pageSize, 10);
         this.pageCount = 0;
 
         // pageCount
         final int mod = this.itemCount % this.pageSize;
-        this.pageCount = (this.itemCount - mod) / this.pageSize + 1;
+        final int offset = mod == 0 ? 0 : 1;
+        this.pageCount = (this.itemCount - mod) / this.pageSize + offset;
         this.pageNumber = Math.min(this.pageNumber, this.pageCount);
 
         this.params.put("start", this.getStart());
@@ -50,11 +51,11 @@ public class PaginateSupport<T> {
     }
 
     public int getStart() {
-        return (this.pageNumber - 1) * this.pageSize;
+        return (Math.max(this.pageNumber, 1) - 1) * this.pageSize;
     }
 
     public boolean isFirst() {
-        return this.pageNumber == 1;
+        return this.pageNumber == Math.max(this.pageNumber, 0);
     }
 
     public boolean isLast() {

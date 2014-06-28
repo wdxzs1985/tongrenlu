@@ -2,6 +2,7 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.UserManager;
@@ -95,6 +96,16 @@ public class ConsoleUserService {
 
         final List<UserBean> items = this.likeManager.searchFollower(paginate.getParams());
         paginate.setItems(items);
+    }
+
+    public void searchTimeline(final PaginateSupport<TimelineBean> paginate) {
+        final int itemCount = this.userManager.countFollowTimeline(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<TimelineBean> items = this.userManager.searchFollowTimeline(paginate.getParams());
+        paginate.setItems(items);
+
     }
 
     public boolean validateForSaveSetting(final UserBean userBean,

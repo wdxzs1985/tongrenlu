@@ -1,7 +1,9 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.HomeUserSerivce;
+import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -54,4 +57,18 @@ public class HomeUserController {
         return model;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}/timeline")
+    @ResponseBody
+    public Map<String, Object> doGetTimeline(@PathVariable final Integer userId,
+                                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                             final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final PaginateSupport<TimelineBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("userId", userId);
+        page.addParam("loginUser", loginUser);
+        this.userService.searchTimeline(page);
+        model.put("page", page);
+        return model;
+    }
 }

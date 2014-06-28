@@ -45,31 +45,86 @@
                 <div class="page-header">
                     <h3 th:text="#{console.user.timeline}"></h3>
                 </div>
-                <ul class="media-list">
-                  <li class="media" th:each="i : ${#numbers.sequence(1,6)}">
-                    <a class="pull-left" href="#">
-                      <img class="media-object img-60 visible-xs" 
-                           src="http://placehold.it/60x60" alt="..." />
-                      <img class="media-object img-120 hidden-xs" 
-                           src="http://placehold.it/120x120" alt="..." />
-                    </a>
-                    <div class="media-body">
-                      <h5 class="media-heading">
-                        <strong>Media heading</strong>
-                      </h5>
-                      <div class="article-list-item">
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque 
-                          Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                      </div>
-                    </div>
-                  </li>
-                </ul>
+                <div id="timeline" class="timeline-container"
+                  th:attr="data-href=@{/console/timeline}">
+                  <div class="timeline-list-content hidden">
+                    <ul class="media-list"></ul>
+                    <ul class="pager">
+                      <li class="previous">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span th:text="#{button.previousPage}"></span>
+                        </a>
+                      </li>
+                      <li class="next">
+                        <a href="#">
+                            <span th:text="#{button.nextPage}"></span>
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
+                <div class="timeline-empty alert alert-info hidden" 
+                     th:text="#{console.user.timeline.empty}">
+                </div>
+              </div>
             </div>
         </div>
     </div>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-timeline.js}" ></script>
+<script id="template-timeline-item" type="text/x-tmpl" th:inline="text">
+        <li class="media">
+            {% if (o.action == 'publish_comic') { %}
+            <a href="/comic/{%=o.articleBean.id%}" class="pull-left" target="_blank">
+                <img src="/files/c{%=o.articleBean.id%}/cover_60.jpg" class="img-rounded"/>
+            </a>
+            {% } else if (o.action == 'publish_music') { %}
+            <a href="/music/{%=o.articleBean.id%}" class="pull-left" target="_blank">
+                <img src="/files/m{%=o.articleBean.id%}/cover_60.jpg" class="img-rounded"/>
+            </a>
+            {% } else { %}
+            <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
+                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class="img-rounded"/>
+            </a>
+            {% } %}
+            <div class="media-body">
+                <h5 class="media-heading text-single-line">
+                    <a href="/user/{%=o.userBean.id%}" target="_blank">
+                        <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
+                    </a>
+                    {% if (o.action == 'publish_comic') { %}
+                    <span th:text="#{home.user.timeline.publish}"></span>
+                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">
+                        {%=o.articleBean.title%}
+                    </a>
+                    {% } else if (o.action == 'publish_music') { %}
+                    <span th:text="#{home.user.timeline.publish}"></span>
+                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">
+                        {%=o.articleBean.title%}
+                    </a>
+                    {% } else if (o.action == 'comment_comic') { %}
+                    <span th:text="#{home.user.timeline.comment}"></span>
+                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">
+                        {%=o.articleBean.title%}
+                    </a>
+                    {% } else if (o.action == 'comment_music') { %}
+                    <span th:text="#{home.user.timeline.comment}"></span>
+                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">
+                        {%=o.articleBean.title%}
+                    </a>
+                    {% } %}
+                </h5>
+                <pre>{%=o.content%}</pre>
+            </div>
+        </li>
+</script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    new timeline({});
+});
+</script>
+</th:block>
   </body>
 </html>

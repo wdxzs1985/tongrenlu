@@ -190,7 +190,7 @@ public class FileManager {
         // create the operation, add images and operators/options
         final IMOperation op = this.getImOperation();
         op.addImage(input.getAbsolutePath());
-        op.adaptiveResize(size, size, '^');
+        op.resize(size, size, '^');
         op.gravity("center");
         op.extent(size, size);
         op.addImage(output.getAbsolutePath());

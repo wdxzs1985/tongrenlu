@@ -20,41 +20,64 @@
         )
     </insert>
     
-    <select id="count" resultType="int">
+    <select id="countComicComment" resultType="int">
         SELECT 
-            count(m_comment.id)
+            count(v_comic_comment.id)
         FROM 
-            tongrenlu.m_comment
-        left join v_user on v_user.id = m_comment.user_id
-        left join m_article on m_article.id = m_comment.article_id
+            v_comic_comment
         <where>
-        and m_article.id = #{articleId}
-        and m_article.del_flg = '0'
-        and m_comment.del_flg = '0'
+            v_comic_comment.`articleBean.id` = #{articleId}
         </where>
     </select>
     
-    <select id="fetchList" resultType="CommentBean">
+    <select id="fetchComicComment" resultType="CommentBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_comment.id            as id,
-            m_comment.content       as content,
-            m_comment.create_date   as createDate,
-            v_user.id               as "userBean.id",
-            v_user.nickname         as "userBean.nickname",
-            m_article.id            as "articleBean.id",
-            m_article.title         as "articleBean.title",
+            v_comic_comment.id                      as id,
+            v_comic_comment.content                 as content,
+            v_comic_comment.createDate              as createDate,
+            v_comic_comment.`userBean.id`           as `userBean.id`,
+            v_comic_comment.`userBean.nickname`     as "userBean.nickname",
+            v_comic_comment.`articleBean.id`        as `articleBean.id`,
+            v_comic_comment.`articleBean.title`     as `articleBean.title`,
         </trim>
         FROM 
-            tongrenlu.m_comment
-        left join v_user on v_user.id = m_comment.user_id
-        left join m_article on m_article.id = m_comment.article_id
+            v_comic_comment
         <where>
-        and m_article.id = #{articleId}
-        and m_article.del_flg = '0'
-        and m_comment.del_flg = '0'
+            v_comic_comment.`articleBean.id` = #{articleId}
         </where>
-        order by m_comment.id desc
+        order by v_comic_comment.id desc
+        limit #{start}, #{pageSize}
+    </select>
+    
+    
+    <select id="countMusicComment" resultType="int">
+        SELECT 
+            count(v_music_comment.id)
+        FROM 
+            v_music_comment
+        <where>
+            v_music_comment.`articleBean.id` = #{articleId}
+        </where>
+    </select>
+    
+    <select id="fetchMusicComment" resultType="CommentBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_music_comment.id                      as id,
+            v_music_comment.content                 as content,
+            v_music_comment.createDate              as createDate,
+            v_music_comment.`userBean.id`           as `userBean.id`,
+            v_music_comment.`userBean.nickname`     as "userBean.nickname",
+            v_music_comment.`articleBean.id`        as `articleBean.id`,
+            v_music_comment.`articleBean.title`     as `articleBean.title`,
+        </trim>
+        FROM 
+            v_music_comment
+        <where>
+            v_music_comment.`articleBean.id` = #{articleId}
+        </where>
+        order by v_music_comment.id desc
         limit #{start}, #{pageSize}
     </select>
 </mapper>

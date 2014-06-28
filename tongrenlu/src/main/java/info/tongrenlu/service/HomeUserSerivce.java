@@ -1,10 +1,13 @@
 package info.tongrenlu.service;
 
+import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.UserManager;
+import info.tongrenlu.support.PaginateSupport;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -69,5 +72,14 @@ public class HomeUserSerivce {
             result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
+    }
+
+    public void searchTimeline(final PaginateSupport<TimelineBean> paginate) {
+        final int itemCount = this.userManager.countUserTimeline(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<TimelineBean> items = this.userManager.searchUserTimeline(paginate.getParams());
+        paginate.setItems(items);
     }
 }
