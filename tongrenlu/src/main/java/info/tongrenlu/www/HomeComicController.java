@@ -2,6 +2,7 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
@@ -106,6 +107,40 @@ public class HomeComicController {
         final Map<String, Object> model = new HashMap<>();
         final List<TagBean> tagList = this.comicService.getTagList(articleId);
         model.put("tagList", tagList);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/comment")
+    @ResponseBody
+    public Map<String, Object> doGetComment(@PathVariable final Integer articleId,
+                                            @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                            final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final PaginateSupport<CommentBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("articleId", articleId);
+        this.comicService.searchComment(page);
+        model.put("page", page);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/comment")
+    @ResponseBody
+    public Map<String, Object> doPostComment(@PathVariable final Integer articleId,
+                                             final String content,
+                                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                             final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final ComicBean comicBean = this.comicService.getById(articleId);
+
+        final CommentBean commentBean = new CommentBean();
+        commentBean.setArticleBean(comicBean);
+        commentBean.setUserBean(loginUser);
+        commentBean.setContent(content);
+
+        final boolean result = this.comicService.doComment(commentBean,
+                                                           model,
+                                                           locale);
+        model.put("result", result);
         return model;
     }
 }

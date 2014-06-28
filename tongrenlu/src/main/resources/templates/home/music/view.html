@@ -92,13 +92,13 @@
         </div>
         <div class="col-sm-6">
           <ul class="nav nav-tabs">
-            <li>
+            <li class="active">
                 <a href="#baseinfo" data-toggle="tab">
                     <span class="glyphicon glyphicon-file"></span>
                     <span th:text="#{console.article.info}"></span>
                 </a>
             </li>
-            <li class="active">
+            <li class="">
                 <a href="#comment" data-toggle="tab">
                     <span class="glyphicon glyphicon-comment"></span>
                     <span th:text="#{home.article.comment}"></span>
@@ -108,7 +108,7 @@
           
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane " id="baseinfo">
+            <div class="tab-pane active" id="baseinfo">
 	          <ul class="list-inline">
 	              <li>
 	                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
@@ -143,13 +143,23 @@
                   </li>
               </ul>
             </div>
-            <div class="tab-pane active" id="comment">
+            <div class="tab-pane " id="comment">
               <div class="comment-container">
                 <div class="comment-list-content hidden">
                     <ul class="media-list"></ul>
-                    <ul class="comment-paginate pager">
-                      <li class="previous disabled"><a href="#">&larr; Older</a></li>
-                      <li class="next"><a href="#">Newer &rarr;</a></li>
+                    <ul class="pager">
+                      <li class="previous">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span th:text="#{button.previousPage}"></span>
+                        </a>
+                      </li>
+                      <li class="next">
+                        <a href="#">
+                            <span th:text="#{button.nextPage}"></span>
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                      </li>
                     </ul>
                 </div>
                 <div class="comment-empty alert alert-warning hidden" 
@@ -218,18 +228,20 @@
 </script>
 <script id="template-comment-item" type="text/x-tmpl" th:inline="text">
         <li class="media">
-            <a href="/user/{%=o.userBean.id%}" class="pull-left cover">
-                <span class="center-img">
-                    <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" />
-                </span>
+            <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
+                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" />
             </a>
             <div class="media-body">
-                <div class="media-heading">
+                <h5 class="media-heading">
                     <a href="/user/{%=o.userBean.id%}" target="_blank">
-                        {%=o.userBean.nickname%}#{%=o.userBean.id%}
+                        <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
                     </a>
-                    <span class="muted"> 发表于 {%=o.createDate%}</span>
-                </div>
+                    <span class="text-muted"> {%=o.createDate%}</span>
+                    <button class="btn btn-info btn-xs hidden" >
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                        <span th:text="#{home.article.comment.reply}"></span>
+                    </button>
+                </h5>
                 <pre>{%=o.content%}</pre>
             </div>
         </li>
@@ -266,7 +278,6 @@ $(function() {
     });
     
     new comment({
-    	emptyText: /*[[#{home.article.comment.empty}]]*/'',
     });
     
     $('#article-description').url();

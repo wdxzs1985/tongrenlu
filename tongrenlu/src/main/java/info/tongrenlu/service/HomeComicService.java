@@ -1,10 +1,12 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
+import info.tongrenlu.manager.CommentManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.TagManager;
@@ -31,6 +33,8 @@ public class HomeComicService {
     private TagManager tagManager = null;
     @Autowired
     private LikeManager likeManager = null;
+    @Autowired
+    private CommentManager commentManager = null;
 
     public List<FileBean> getPictureList(final Integer articleId) {
         return this.articleManager.getFiles(articleId, FileManager.IMAGE);
@@ -103,6 +107,38 @@ public class HomeComicService {
             result = LikeManager.RESULT_NEED_SIGN;
         }
         model.put("result", result);
+    }
+
+    public void searchComment(final PaginateSupport<CommentBean> paginate) {
+        final int itemCount = this.commentManager.count(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<CommentBean> items = this.commentManager.search(paginate.getParams());
+        paginate.setItems(items);
+    }
+
+    public boolean doComment(final CommentBean commentBean,
+                             final Map<String, Object> model,
+                             final Locale locale) {
+        if (this.validateForComment(commentBean, model, locale)) {
+            this.commentManager.addComment(commentBean);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validateForComment(final CommentBean commentBean,
+                                       final Map<String, Object> model,
+                                       final Locale locale) {
+        boolean isValid = true;
+        if (!this.commentManager.validateContent(commentBean.getContent(),
+                                                 "error",
+                                                 model,
+                                                 locale)) {
+            isValid = false;
+        }
+        return isValid;
     }
 
 }

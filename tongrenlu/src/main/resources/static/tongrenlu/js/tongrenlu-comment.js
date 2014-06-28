@@ -36,9 +36,12 @@ var comment = function(options) {
 			    } else {
 			        alert('你一个字都没打。');
 			    }
-			}).on('click', '.pagination a', function(e){
+			}).on('click', '.previous a', function(e){
 				e.preventDefault();
-				that.load($(this).data("page"));
+				that.load(settings.pageNumber - 1);
+			}).on('click', '.next a', function(e){
+				e.preventDefault();
+				that.load(settings.pageNumber + 1);
 			});
 			
 			that.load();
@@ -58,6 +61,9 @@ var comment = function(options) {
 					
 					var $listContent = $('#comment .comment-list-content').addClass('hidden');
 					var $empty = $('#comment .comment-empty').addClass('hidden');
+
+					var $previous = $listContent.find('.previous').addClass('hidden');
+					var $next = $listContent.find('.next').addClass('hidden');
 					
 					if(response.page.items.length == 0) {
 						$empty.removeClass('hidden');
@@ -67,6 +73,12 @@ var comment = function(options) {
 							var item = response.page.items[i];
 							item.createDate = that.formatDate(item.createDate, settings.i18n);
 							$list.append(tmpl('template-comment-item', item));
+						}
+						if(!response.page.first) {
+							$previous.removeClass('hidden');
+						}
+						if(!response.page.last) {
+							$next.removeClass('hidden');
 						}
 						$listContent.removeClass('hidden');
 					}

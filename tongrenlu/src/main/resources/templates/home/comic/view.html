@@ -84,7 +84,41 @@
           </ul>
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane active" id="comment">...</div>
+            <div class="tab-pane active" id="comment">
+              <div class="comment-container">
+                <div class="comment-list-content hidden">
+                    <ul class="media-list"></ul>
+                    <ul class="pager">
+                      <li class="previous">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span th:text="#{button.previousPage}"></span>
+                        </a>
+                      </li>
+                      <li class="next">
+                        <a href="#">
+                            <span th:text="#{button.nextPage}"></span>
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
+                <div class="comment-empty alert alert-warning hidden" 
+                     th:text="#{home.article.comment.empty}">
+                </div>
+              </div>
+              <form class="comment-form" th:action="@{/comic/__${articleBean.id}__/comment}" method="post" >
+                  <div class="form-group">
+                      <textarea class="comment-content form-control" th:placeholder="#{home.article.comment.placeholder}" rows="8"></textarea>
+                  </div>
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-send"></span>&nbsp;
+                        <span th:text="#{home.article.comment.send}"></span>
+                      </button>
+                  </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -97,12 +131,33 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
 <script id="template-tag-item" type="text/x-tmpl" th:inline="text">
 <li>
     <a href="{%=o.tagPath%}/{%=o.tag%}" class="btn btn-xs btn-default">
         {%=o.tag%} ({%=o.articleCount%})
     </a>
 </li>
+</script>
+<script id="template-comment-item" type="text/x-tmpl" th:inline="text">
+        <li class="media">
+            <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
+                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" />
+            </a>
+            <div class="media-body">
+                <h5 class="media-heading">
+                    <a href="/user/{%=o.userBean.id%}" target="_blank">
+                        <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
+                    </a>
+                    <span class="text-muted"> {%=o.createDate%}</span>
+                    <button class="btn btn-info btn-xs hidden" >
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                        <span th:text="#{home.article.comment.reply}"></span>
+                    </button>
+                </h5>
+                <pre>{%=o.content%}</pre>
+            </div>
+        </li>
 </script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
@@ -119,6 +174,9 @@ $(function() {
         url: /*[[@{/comic/__${articleBean.id}__/tag}]]*/ '/comic/1/tag',
         tagPath: /*[[@{/tag}]]*/'/tag',
         template: 'template-tag-item'
+    });
+    
+    new comment({
     });
     
     $('#article-description').url();
