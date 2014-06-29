@@ -54,14 +54,15 @@
         </th:block>
         <th:block th:unless="${searchResult}">
             <div class="col-sm-6 col-sm-offset-3">
-                <form th:action="@{/search}" method="get">
-                    <div class="input-group">
-                      <input type="text" class="form-control" name="q"/>
-                      <div class="input-group-btn">
-                        <button type="submit" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
-                      </div><!-- /btn-group -->
-                    </div><!-- /input-group -->
-                </form>
+                    <form th:action="@{/search}" method="get">
+                        <h1 th:text="#{home.search}" class="text-center"></h1>
+                        <div class="input-group">
+                          <input type="text" class="form-control" name="q"/>
+                          <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
+                          </div><!-- /btn-group -->
+                        </div><!-- /input-group -->
+                    </form>
             </div>
         </th:block>
         </div>

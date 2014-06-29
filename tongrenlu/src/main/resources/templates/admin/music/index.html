@@ -94,6 +94,16 @@
                                         <strong th:text="${articleBean.title}" ></strong>
                                     </a>
                                   </h5>
+                                      <div class="text-muted">
+                                        <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                                        <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                                            th:alt-title="${articleBean.userBean}" target="_blank">
+                                            <strong th:text="${articleBean.userBean}"></strong>
+                                        </a>
+                                        <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                                        <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
+                                        <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                                      </div>
                                   <p th:text="${articleBean.description}"></p>
                                   </div>
                                 </div>

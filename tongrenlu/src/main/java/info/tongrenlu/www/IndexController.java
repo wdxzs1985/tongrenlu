@@ -1,6 +1,10 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.service.HomeComicService;
+import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
 import info.tongrenlu.solr.ArticleDocument;
 import info.tongrenlu.support.PaginateSupport;
@@ -25,6 +29,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class IndexController {
 
     @Autowired
+    private HomeComicService comicService = null;
+    @Autowired
+    private HomeMusicService musicService = null;
+    @Autowired
     private SearchService searchService = null;
 
     private Log log = LogFactory.getLog(this.getClass());
@@ -32,6 +40,20 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String doGetIndex(@ModelAttribute final UserBean loginUser,
                              final Model model) {
+
+        final PaginateSupport<MusicBean> musicPage = new PaginateSupport<>(1,
+                                                                           30);
+        musicPage.addParam("loginUser", loginUser);
+        this.musicService.searchMusic(musicPage);
+
+        final PaginateSupport<ComicBean> comicPage = new PaginateSupport<>(1,
+                                                                           20);
+        comicPage.addParam("loginUser", loginUser);
+        this.comicService.searchComic(comicPage);
+
+        model.addAttribute("musicPage", musicPage);
+        model.addAttribute("comicPage", comicPage);
+
         return "home/index";
     }
 

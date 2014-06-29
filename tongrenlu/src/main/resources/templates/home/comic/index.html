@@ -9,15 +9,6 @@
     <div class="container" layout:fragment="content">
         <div class="row">
             <div class="col-sm-8">
-                <form th:action="@{/search}" method="get">
-                    <div class="input-group">
-                      <input type="text" class="form-control" name="q"/>
-                      <div class="input-group-btn">
-                        <button type="submit" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
-                      </div><!-- /btn-group -->
-                    </div><!-- /input-group -->
-                </form>
-                <hr />
                 <th:block th:unless="${#lists.isEmpty(page.items)}">
                     <ul class="media-list">
                       <li class="media" th:each="articleBean : ${page.items}">
@@ -40,6 +31,16 @@
                                     <strong th:text="${articleBean.title}" ></strong>
                                 </a>
                               </h5>
+                              <div class="text-muted">
+                                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                                <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                                    th:alt-title="${articleBean.userBean}" target="_blank">
+                                    <strong th:text="${articleBean.userBean}"></strong>
+                                </a>
+                                <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                                <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
+                                <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                              </div>
                               <p th:text="${articleBean.description}"></p>
                           </div>
                         </div>

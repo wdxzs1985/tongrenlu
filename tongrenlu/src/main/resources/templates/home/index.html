@@ -2,9 +2,241 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
-  <body>
+  <head>
+  <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-gallery.css}" />
+  </head>
+  <body >
         <div layout:fragment="content">
-            
+          <div class="container-fluid" style="background: #f7f7f7; margin-top: -20px; margin-bottom: 20px; padding-top: 20px;">
+            <div id="gallery" class="gallery media-list clearfix">
+                <th:block  th:each="articleBean,iterStat : ${musicPage.items}">
+                    <div class="media large pull-left " th:if="${iterStat.index == 0}">
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:alt-title="${articleBean.title}"
+                            class="">
+                            <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
+                                 th:alt-title="${articleBean.title}" />
+                        </a>
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:text="${articleBean.title}"
+                           th:alt-title="${articleBean.title}"
+                           class="overlay">
+                        </a>
+                    </div>
+                    <div class="media large pull-right " th:if="${iterStat.index == 22}">
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:alt-title="${articleBean.title}"
+                            class="">
+                            <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
+                                 th:alt-title="${articleBean.title}" />
+                        </a>
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:text="${articleBean.title}"
+                           th:alt-title="${articleBean.title}"
+                           class="overlay">
+                        </a>
+                    </div>
+                    <div class="media pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:alt-title="${articleBean.title}"
+                            class="">
+                            <img th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}"
+                                 th:alt-title="${articleBean.title}" />
+                        </a>
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:text="${articleBean.title}"
+                           th:alt-title="${articleBean.title}"
+                           class="overlay">
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+          </div>
+          <div class="container">
+            <div class="page-header">
+                <h3 th:text="#{home.music.reitaisai}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2" th:each="i,iterStat : ${#numbers.sequence(11,1)}">
+                    <a class="btn btn-block append-bottom" 
+                       th:classappend="${iterStat.index == 0} ? 'btn-danger' : 'btn-default'"
+                       th:href="@{/tag/__#{home.music.reitaisai.button(${i})}__/music}" 
+                       th:text="#{home.music.reitaisai.button(${i})}"></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/__#{home.music.reitaisai.button(SP2)}__/music}" 
+                       th:text="#{home.music.reitaisai.button(SP2)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/__#{home.music.reitaisai.button(SP)}__/music}" 
+                       th:text="#{home.music.reitaisai.button(SP)}"></a>
+                </div>
+            </div>
+            <div class="page-header">
+                <h3 th:text="#{home.music.comike}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2" th:each="i,iterStat : ${#numbers.sequence(86,66)}">
+                    <a class="btn btn-block append-bottom" 
+                       th:classappend="${iterStat.index == 0} ? 'btn-primary' : 'btn-default'"
+                       th:href="@{/tag/__#{home.music.comike.button(${i})}__/music}" 
+                       th:text="#{home.music.comike.button(${i})}"></a>
+                </div>
+            </div>
+            <div class="page-header">
+                <h3 th:text="#{home.music.other}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/__#{home.music.other.m3}__/music}" 
+                       th:text="#{home.music.other.m3}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/__#{home.music.other.kouroumu}__/music}" 
+                       th:text="#{home.music.other.kouroumu}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/__#{home.music.other.niigatatohosai}__/music}" 
+                       th:text="#{home.music.other.niigatatohosai}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/__#{home.music.other.dai9tohosai}__/music}" 
+                       th:text="#{home.music.other.dai9tohosai}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/__#{home.music.other.tohoyarinsai}__/music}" 
+                       th:text="#{home.music.other.tohoyarinsai}"></a>
+                </div>
+            </div>
+          </div>
+          <div class="container-fluid" style="background: #f7f7f7; margin-top: 20px; margin-bottom: 20px; padding-top: 20px;">
+          <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="page-header">
+                        <h3 th:text="#{home.comic}"></h3>
+                    </div>
+                    <div class="row">
+                        <th:block th:each="articleBean,iterStat : ${comicPage.items}">
+                            <div class="col-sm-6 visible-xs visible-sm">
+                                <div class="media">
+                                    <a th:href="@{/comic/__${articleBean.id}__}" class="pull-left">
+	                                    <img th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}"
+	                                     th:alt-title="${articleBean.title}"
+	                                     class="img-60"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <h5 class="media-heading text-single-line">
+                                            <a th:href="@{/comic/__${articleBean.id}__}"
+                                                th:text="${articleBean.title}" >
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 hidden-xs hidden-sm">
+                                <div class="thumbnail">
+                                    <a th:href="@{/comic/__${articleBean.id}__}">
+                                        <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}"
+                                         th:alt-title="${articleBean.title}"
+                                         class="img-180"/>
+                                    </a>
+                                    <div class="caption">
+                                        <h5 class="media-heading text-single-line">
+                                            <a th:href="@{/comic/__${articleBean.id}__}"
+                                                th:text="${articleBean.title}" >
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <iframe width="100%" height="780" class="share_self"  frameborder="0" scrolling="no" 
+                        th:src="@{http://widget.weibo.com/weiboshow/index.php(language='',width=0,height=780,fansRow=2,ptype=1,speed=0,skin=1,isTitle=0,noborder=1,isWeibo=1,isFans=0,uid=2803325782,verifier=6daf321a,dpc=1)}">
+                    </iframe>
+                </div>
+            </div>
+          </div>
+          </div>
+          <div class="container">
+            <div class="page-header">
+                <h3 th:text="#{home.links}"></h3>
+            </div>
+          <div class="row " >
+            <div class="col-md-4 col-lg-4 ">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="">
+                            <a href="http://down.thwiki.cc/" target="_blank" title="THBWiki下载站">THBWiki下载站</a>
+                        </h3>
+                        <p class="text-muted">音乐资源花样下载</p>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-4 col-lg-4 ">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="">
+                            <a href="http://bbs.nyasama.com/" target="_blank" title="喵玉殿论坛">喵玉殿论坛</a>
+                        </h3>
+                        <p class="text-muted">东方Project主题论坛</p>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-4 col-lg-4 ">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="">
+                            <a href="http://thvideo.tv/" target="_blank" title="TouhouVideo弹幕视频网">TouhouVideo弹幕视频网</a>
+                        </h3>
+                        <p class="text-muted">东方Project专门弹幕视频网站</p>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-4 col-lg-4 ">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="">
+                            <a th:href="@{http://tieba.baidu.com/f(kw='%B6%AB%B7%BD')}" target="_blank" title="东方吧">东方吧</a>
+                        </h3>
+                        <p class="text-muted">不解释</p>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-4 col-lg-4 ">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="">
+                            <a href="http://mengmao.org/" target="_blank" title="萌猫导航">萌猫导航</a>
+                        </h3>
+                        <p class="text-muted">喵～</p>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-4 col-lg-4 ">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="">
+                            <a href="http://app.tongrenlu.info/" target="_blank" title="APP下载">APP下载</a>
+                        </h3>
+                        <p class="text-muted">东方同人录安卓音乐客户端</p>
+                    </div>
+                </div>
+            </div>
         </div>
+     </div>
+     </div>
   </body>
 </html>

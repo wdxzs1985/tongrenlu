@@ -12,19 +12,15 @@
 <div layout:fragment="header"></div>
 <div layout:fragment="content"></div>
 <th:block layout:fragment="footer">
-<div class="navbar navbar-static-bottom visible-xs">
+<div class="navbar navbar-fixed-bottom navbar-inverse" >
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="index.html"
         th:href="@{/}" th:text="#{application}"></a>
     </div>
-  </div>
-</div>
-<div class="navbar navbar-fixed-bottom navbar-inverse hidden-xs" >
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="index.html"
-        th:href="@{/}" th:text="#{application}"></a>
+    <div class="navbar-text navbar-right hidden-xs">
+        <p th:text="#{home.footer}"></p>
+        <p th:text="#{home.footer.contact}"></p>
     </div>
   </div>
 </div>

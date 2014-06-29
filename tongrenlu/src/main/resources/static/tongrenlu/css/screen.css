@@ -1,5 +1,7 @@
 body {
-	padding-bottom: 70px;
+	padding-bottom: 120px;
+	font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif !important;
+    font-size: 14px;
 }
 
 .nav-tabs {
@@ -50,6 +52,10 @@ body {
     height: 6.8em;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.append-bottom {
+	margin: 5px;
 }
 
 h1.article-title {
