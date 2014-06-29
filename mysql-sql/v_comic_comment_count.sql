@@ -6,7 +6,7 @@ VIEW `v_comic_comment` AS
     select 
         `m_comment`.`id` AS `id`,
         `m_comment`.`content` AS `content`,
-        `m_comment`.`create_date` AS `createDate`,
+        `m_comment`.`upd_date` AS `createDate`,
         `v_user`.`id` AS `userBean.id`,
         `v_user`.`nickname` AS `userBean.nickname`,
         `v_comic`.`id` AS `articleBean.id`,

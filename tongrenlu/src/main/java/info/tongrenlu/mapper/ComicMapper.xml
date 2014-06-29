@@ -176,7 +176,7 @@
             FROM
                 tongrenlu.m_comment
             WHERE
-                create_date > CURRENT_DATE - 7
+                upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
             GROUP BY article_id) V_comment_Cnt ON V_comic.id = V_comment_Cnt.article_id
                 LEFT JOIN
