@@ -16,8 +16,8 @@ VIEW `v_comic` AS
         `u`.`nickname` AS `userBean.nickname`,
         `u`.`signature` AS `userBean.signature`,
         ifnull(`ac`.`cnt`, 0) AS `accessCount`,
-        ifnull(`cc`.`cnt`, 0) AS `commentCount`,
-        ifnull(`lc`.`cnt`, 0) AS `likeCount`
+        ifnull(`lc`.`cnt`, 0) AS `likeCount`,
+        ifnull(`cc`.`cnt`, 0) AS `commentCount`
     from
         (((((`r_comic` `c`
         left join `m_article` `a` ON ((`a`.`id` = `c`.`id`)))
@@ -26,4 +26,4 @@ VIEW `v_comic` AS
         left join `v_article_comment_count` `cc` ON ((`c`.`id` = `cc`.`articleId`)))
         left join `v_comic_like_count` `lc` ON ((`c`.`id` = `lc`.`articleId`)))
     where
-        (`a`.`del_flg` = '0')
+        (`a`.`del_flg` = '0');

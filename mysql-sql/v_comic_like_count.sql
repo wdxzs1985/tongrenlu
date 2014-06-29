@@ -11,4 +11,4 @@ VIEW `v_comic_like_count` AS
     where
         ((`r_like`.`category` = 'c')
             and (`r_like`.`del_flg` = '0'))
-    group by `r_like`.`like_id`
+    group by `r_like`.`like_id`;

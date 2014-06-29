@@ -1,6 +1,6 @@
-CREATE TABLE `R_MUSIC` (
+CREATE TABLE `r_music` (
   `id` int(11) NOT NULL,
-  `upd_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `del_flg` char(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
+  `upd_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `del_flg` char(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

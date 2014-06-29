@@ -1,4 +1,7 @@
 CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
 VIEW `v_music_like_count` AS
     select 
         `r_like`.`like_id` AS `articleId`,
@@ -8,4 +11,4 @@ VIEW `v_music_like_count` AS
     where
         ((`r_like`.`category` = 'm')
             and (`r_like`.`del_flg` = '0'))
-    group by `r_like`.`like_id`
+    group by `r_like`.`like_id`;

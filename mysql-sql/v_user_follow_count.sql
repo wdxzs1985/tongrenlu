@@ -11,4 +11,4 @@ VIEW `v_user_follow_count` AS
     where
         ((`r_like`.`category` = 'u')
             and (`r_like`.`del_flg` = '0'))
-    group by `r_like`.`user_id`
+    group by `r_like`.`user_id`;

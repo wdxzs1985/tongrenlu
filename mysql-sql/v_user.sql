@@ -13,9 +13,9 @@ VIEW `v_user` AS
         ifnull(`fc2`.`cnt`, 0) AS `followerCount`
     from
         ((((`m_user` `u`
-        left join `v_user_music_count` `mc` ON ((`u`.`id` = `mc`.`userId`)))
-        left join `v_user_comic_count` `cc` ON ((`u`.`id` = `cc`.`userId`)))
+        left join `v_user_music_count` `mc` ON ((`u`.`id` = `mc`.`userBean.id`)))
+        left join `v_user_comic_count` `cc` ON ((`u`.`id` = `cc`.`userBean.id`)))
         left join `v_user_follow_count` `fc1` ON ((`u`.`id` = `fc1`.`followerId`)))
         left join `v_user_follower_count` `fc2` ON ((`u`.`id` = `fc2`.`followId`)))
     where
-        (`u`.`del_flg` = '0')
+        (`u`.`del_flg` = '0');

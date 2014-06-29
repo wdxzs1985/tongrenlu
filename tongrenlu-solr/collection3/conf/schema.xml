@@ -3,9 +3,9 @@
  <fields>
    
    <field name="_version_" type="long" indexed="true" stored="true" />
+   <field name="category" type="string" indexed="true" stored="true"/>
 
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
-   <field name="category" type="string" indexed="true" stored="true"/>
 
    <field name="articleId" type="int" indexed="true" stored="true"/>
    <field name="title" type="text_ja" indexed="true" stored="true"/>
