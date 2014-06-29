@@ -1,5 +1,7 @@
 package info.tongrenlu;
 
+import info.tongrenlu.constants.CommonConstants;
+
 import java.util.Collections;
 
 import javax.servlet.ServletContext;
@@ -14,12 +16,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.util.CookieGenerator;
 
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@ImportResource({ "config/spring-context.xml", "config/servlet-context.xml" })
+@ImportResource("config/spring-context.xml")
 public class Application {
 
     public static void main(final String[] args) {
@@ -38,10 +41,16 @@ public class Application {
         @Override
         public void onStartup(final ServletContext servletContext)
                 throws ServletException {
-
             servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
-
         }
 
+    }
+
+    @Bean
+    public CookieGenerator autoLoginCookie() {
+        final CookieGenerator autoLoginCookie = new CookieGenerator();
+        autoLoginCookie.setCookieName("fingerprint");
+        autoLoginCookie.setCookieMaxAge((int) CommonConstants.WEEK);
+        return autoLoginCookie;
     }
 }

@@ -13,10 +13,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import org.springframework.web.util.CookieGenerator;
 
+@Component
 public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
 
     private Log log = LogFactory.getLog(AutoLoginInterceptor.class);

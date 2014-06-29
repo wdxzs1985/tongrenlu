@@ -5,13 +5,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+@Component
 public class TimerInterceptor implements HandlerInterceptor {
 
     protected Log log = LogFactory.getLog(TimerInterceptor.class);
 
+    @Override
     public boolean preHandle(final HttpServletRequest request,
                              final HttpServletResponse response,
                              final Object controller) throws Exception {
@@ -21,6 +24,7 @@ public class TimerInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    @Override
     public void postHandle(final HttpServletRequest request,
                            final HttpServletResponse response,
                            final Object controller,
@@ -32,6 +36,7 @@ public class TimerInterceptor implements HandlerInterceptor {
                                      endtime - starttime));
     }
 
+    @Override
     public void afterCompletion(final HttpServletRequest request,
                                 final HttpServletResponse response,
                                 final Object controller,

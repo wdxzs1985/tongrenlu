@@ -29,22 +29,5 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="info.tongrenlu.mapper" />
     </bean>
-    
-    <bean id="autoLoginCookie" class="org.springframework.web.util.CookieGenerator">
-        <property name="cookieName" value="fingerprint"></property>
-        <property name="cookieMaxAge" value="604800"></property>
-    </bean>
-    
-    <!-- 
-    <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
-        <constructor-arg name="baseURL" value="http://local.app:8983/solr/collection2"></constructor-arg>
-        <property name="maxRetries" value="1"></property>
-        <property name="connectionTimeout" value="5000"></property>
-        <property name="soTimeout" value="1000"></property>
-        <property name="defaultMaxConnectionsPerHost" value="100"></property>
-        <property name="maxTotalConnections" value="100"></property>
-        <property name="followRedirects" value="false"></property>
-        <property name="allowCompression" value="true"></property>
-    </bean>
-     -->
+
 </beans>

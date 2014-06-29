@@ -8,9 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
+@Component
 public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     public static final String ACCESS_COUNT = "accessCount";
