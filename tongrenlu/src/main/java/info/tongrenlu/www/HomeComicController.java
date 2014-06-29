@@ -56,6 +56,9 @@ public class HomeComicController {
         this.comicService.searchComic(page);
         model.addAttribute("page", page);
 
+        final List<ComicBean> ranking = this.comicService.getRanking();
+        model.addAttribute("ranking", ranking);
+
         return "home/comic/index";
     }
 

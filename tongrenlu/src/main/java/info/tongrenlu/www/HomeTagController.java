@@ -4,7 +4,6 @@ import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.service.TagService;
 import info.tongrenlu.support.PaginateSupport;
@@ -72,7 +71,8 @@ public class HomeTagController {
         final TagBean tagBean = this.tagService.getTagByTag(tag);
 
         if (tagBean == null) {
-            throw new PageNotFoundException();
+            model.addAttribute("tag", tag);
+            return "home/tag/error";
         }
 
         final PaginateSupport<MusicBean> musicPage = new PaginateSupport<>(1,
@@ -101,7 +101,8 @@ public class HomeTagController {
         final TagBean tagBean = this.tagService.getTagByTag(tag);
 
         if (tagBean == null) {
-            throw new PageNotFoundException();
+            model.addAttribute("tag", tag);
+            return "home/tag/error";
         }
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
@@ -122,7 +123,8 @@ public class HomeTagController {
         final TagBean tagBean = this.tagService.getTagByTag(tag);
 
         if (tagBean == null) {
-            throw new PageNotFoundException();
+            model.addAttribute("tag", tag);
+            return "home/tag/error";
         }
 
         final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);

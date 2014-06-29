@@ -139,4 +139,59 @@
             id = #{id}
         </where>
     </update>
+    
+    <select id="fetchRanking" resultType="MusicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_comic.id                      as id,
+            v_comic.title                   as title,
+            v_comic.description             as description,
+            v_comic.publishFlg              as publishFlg,
+            v_comic.publishDate             as publishDate,
+            v_comic.recommendFlg            as recommendFlg,
+            v_comic.redFlg                  as redFlg,
+            v_comic.translateFlg            as translateFlg,
+            v_comic.`userBean.id`           as `userBean.id`,
+            v_comic.`userBean.nickname`     as `userBean.nickname`,
+            v_comic.`userBean.signature`    as `userBean.signature`,
+            v_comic.accessCount             as accessCount,
+            v_comic.likeCount               as likeCount,
+            v_comic.commentCount            as commentCount,
+            IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) AS pt
+        </trim>
+        FROM
+            V_comic
+                LEFT JOIN
+            (SELECT 
+                article_id, COUNT(id) AS pt
+            FROM
+                tongrenlu.m_access
+            WHERE
+                upd_date > CURRENT_DATE - 7
+                    AND del_flg = '0'
+            GROUP BY article_id) V_access_Cnt ON V_comic.id = V_access_Cnt.article_id
+                LEFT JOIN
+            (SELECT 
+                article_id, COUNT(id) * 10 AS pt
+            FROM
+                tongrenlu.m_comment
+            WHERE
+                create_date > CURRENT_DATE - 7
+                    AND del_flg = '0'
+            GROUP BY article_id) V_comment_Cnt ON V_comic.id = V_comment_Cnt.article_id
+                LEFT JOIN
+            (SELECT 
+                like_id, COUNT(id) * 5 AS pt
+            FROM
+                tongrenlu.r_like
+            WHERE
+                upd_date > CURRENT_DATE - 7
+                    AND del_flg = '0'
+                    AND category = 'm'
+            GROUP BY like_id) V_like_Cnt ON V_comic.id = V_like_Cnt.like_id
+        where 
+            V_comic.redFlg = '0'
+        ORDER BY IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) DESC
+        LIMIT 0 , 10
+    </select>
 </mapper>

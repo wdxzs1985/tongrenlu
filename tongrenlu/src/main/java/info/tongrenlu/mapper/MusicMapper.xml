@@ -92,4 +92,54 @@
         </where>
     </select>
     
+    <select id="fetchRanking" resultType="MusicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_music.id                      as id,
+            v_music.title                   as title,
+            v_music.description             as description,
+            v_music.publishFlg              as publishFlg,
+            v_music.publishDate             as publishDate,
+            v_music.recommendFlg            as recommendFlg,
+            v_music.`userBean.id`           as `userBean.id`,
+            v_music.`userBean.nickname`     as `userBean.nickname`,
+            v_music.`userBean.signature`    as `userBean.signature`,
+            v_music.accessCount             as accessCount,
+            v_music.likeCount               as likeCount,
+            v_music.commentCount            as commentCount,
+            IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) AS pt
+        </trim>
+        FROM
+            V_music
+                LEFT JOIN
+            (SELECT 
+                article_id, COUNT(id) AS pt
+            FROM
+                tongrenlu.m_access
+            WHERE
+                upd_date > CURRENT_DATE - 7
+                    AND del_flg = '0'
+            GROUP BY article_id) V_access_Cnt ON V_music.id = V_access_Cnt.article_id
+                LEFT JOIN
+            (SELECT 
+                article_id, COUNT(id) * 10 AS pt
+            FROM
+                tongrenlu.m_comment
+            WHERE
+                create_date > CURRENT_DATE - 7
+                    AND del_flg = '0'
+            GROUP BY article_id) V_comment_Cnt ON V_music.id = V_comment_Cnt.article_id
+                LEFT JOIN
+            (SELECT 
+                like_id, COUNT(id) * 5 AS pt
+            FROM
+                tongrenlu.r_like
+            WHERE
+                upd_date > CURRENT_DATE - 7
+                    AND del_flg = '0'
+                    AND category = 'm'
+            GROUP BY like_id) V_like_Cnt ON V_music.id = V_like_Cnt.like_id
+        ORDER BY IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) DESC, V_music.id DESC
+        LIMIT 0 , 10
+    </select>
 </mapper>

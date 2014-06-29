@@ -52,6 +52,10 @@ public class HomeMusicService {
         paginate.setItems(items);
     }
 
+    public List<MusicBean> getRanking() {
+        return this.articleManager.getMusicRanking();
+    }
+
     public MusicBean getById(final Integer id) {
         return this.articleManager.getMusicById(id);
     }

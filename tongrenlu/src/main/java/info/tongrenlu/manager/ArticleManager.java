@@ -225,4 +225,12 @@ public class ArticleManager {
         return isValid;
     }
 
+    public List<MusicBean> getMusicRanking() {
+        return this.musicMapper.fetchRanking();
+    }
+
+    public List<ComicBean> getComicRanking() {
+        return this.comicMapper.fetchRanking();
+    }
+
 }

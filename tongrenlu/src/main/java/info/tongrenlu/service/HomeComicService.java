@@ -49,6 +49,10 @@ public class HomeComicService {
         paginate.setItems(items);
     }
 
+    public List<ComicBean> getRanking() {
+        return this.articleManager.getComicRanking();
+    }
+
     public ComicBean getById(final Integer id) {
         return this.articleManager.getComicById(id);
     }

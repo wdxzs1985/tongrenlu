@@ -15,4 +15,6 @@ public interface MusicMapper {
 
     public MusicBean fetchBean(Map<String, Object> param);
 
+    public List<MusicBean> fetchRanking();
+
 }
