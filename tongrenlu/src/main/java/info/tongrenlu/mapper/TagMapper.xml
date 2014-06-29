@@ -4,23 +4,38 @@
 
 <mapper namespace="info.tongrenlu.mapper.TagMapper">
     
-    <select id="fetchListByTag" resultType="TagBean">
+    <select id="count" resultType="int">
         <bind name="pattern" value="'%' + _parameter.tag + '%'" />
         SELECT
-            A.id        as id
-        ,   A.TAG       as tag
+            count(A.id)
         FROM
             M_TAG A
         <where>
             A.TAG LIKE #{pattern}
         </where>
-        limit 0, 10
+    </select>
+    
+    <select id="search" resultType="TagBean">
+        <bind name="pattern" value="'%' + _parameter.tag + '%'" />
+        SELECT
+        <trim suffixOverrides=",">
+            A.id        as id,
+            A.TAG       as tag,
+        </trim>
+        FROM
+            M_TAG A
+        <where>
+            A.TAG LIKE #{pattern}
+        </where>
+        limit #{start}, #{pageSize}
     </select>
     
     <select id="fetchBean" resultType="TagBean">
         SELECT
-            A.id        as id
-        ,   A.TAG       as tag
+        <trim suffixOverrides=",">
+            A.id        as id,
+            A.TAG       as tag,
+        </trim>
         FROM
             M_TAG A
         <where>

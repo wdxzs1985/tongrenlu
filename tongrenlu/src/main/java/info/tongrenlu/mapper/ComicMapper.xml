@@ -30,11 +30,16 @@
             <if test="userBean != null">
             AND v_comic.`userBean.id` = #{userBean.id}
             </if>
-            <if test="includeRedFlg eq 0">
-            AND v_comic.`redFlg` = '0'
-            </if>
-            <if test="onlyTranslateFlg eq 1">
-            AND v_comic.`translateFlg` = '1'
+            <if test="loginUser != null">
+                and (   v_comic.redFlg = '0' 
+                    OR  v_comic.redFlg is NULL
+                    <if test="loginUser.includeRed">
+                    OR  v_comic.redFlg = '1'
+                    </if>)
+                <if test="loginUser.onlyTranslate">
+                and (v_comic.`translateFlg` = '1' 
+                OR  v_comic.`translateFlg` is NULL)
+                </if>
             </if>
             <if test="publishFlg != null">
             AND v_comic.`publishFlg` = #{publishFlg}
@@ -74,11 +79,16 @@
             <if test="publishFlg != null">
             AND v_comic.publishFlg = #{publishFlg}
             </if>
-            <if test="includeRedFlg eq 0">
-            AND v_comic.`redFlg` = '0'
-            </if>
-            <if test="onlyTranslateFlg eq 1">
-            AND v_comic.`translateFlg` = '1'
+            <if test="loginUser != null">
+                and (   v_comic.redFlg = '0' 
+                    OR  v_comic.redFlg is NULL
+                    <if test="loginUser.includeRed">
+                    OR  v_comic.redFlg = '1'
+                    </if>)
+                <if test="loginUser.onlyTranslate">
+                and (v_comic.`translateFlg` = '1' 
+                OR  v_comic.`translateFlg` is NULL)
+                </if>
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />

@@ -1,8 +1,11 @@
 package info.tongrenlu.service;
 
+import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.domain.UserProfileBean;
+import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
@@ -21,6 +24,8 @@ public class HomeUserSerivce {
 
     @Autowired
     private UserManager userManager = null;
+    @Autowired
+    private ArticleManager articleManager = null;
     @Autowired
     private LikeManager likeManager = null;
 
@@ -81,5 +86,25 @@ public class HomeUserSerivce {
 
         final List<TimelineBean> items = this.userManager.searchUserTimeline(paginate.getParams());
         paginate.setItems(items);
+    }
+
+    public void searchComic(final PaginateSupport<ComicBean> paginate) {
+        final int itemCount = this.articleManager.countComic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<ComicBean> items = this.articleManager.searchComic(paginate.getParams());
+        paginate.setItems(items);
+
+    }
+
+    public void searchMusic(final PaginateSupport<MusicBean> paginate) {
+        final int itemCount = this.articleManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
+
     }
 }

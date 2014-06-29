@@ -91,27 +91,10 @@
           </div>
         </div>
         <div class="col-sm-6">
-          <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#baseinfo" data-toggle="tab">
-                    <span class="glyphicon glyphicon-file"></span>
-                    <span th:text="#{console.article.info}"></span>
-                </a>
-            </li>
-            <li class="">
-                <a href="#comment" data-toggle="tab">
-                    <span class="glyphicon glyphicon-comment"></span>
-                    <span th:text="#{home.article.comment}"></span>
-                </a>
-            </li>
-          </ul>
-          
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div class="tab-pane active" id="baseinfo">
-	          <ul class="list-inline">
-	              <li>
-	                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+            <div id="baseinfo">
+              <ul class="list-inline">
+                  <li>
+                    <span th:text="#{home.article.owner} + ' :'">Owner :</span>
                     <a th:href="@{/user/__${articleBean.userBean.id}__}" 
                         th:alt-title="${articleBean.userBean}"
                         th:attr="data-content=${articleBean.userBean.signature}"
@@ -143,7 +126,13 @@
                   </li>
               </ul>
             </div>
-            <div class="tab-pane " id="comment">
+            <div class="page-header">
+                <h5>
+                    <span class="glyphicon glyphicon-comment"></span>
+                    <span th:text="#{home.article.comment}"></span>
+                </h5>
+            </div>
+            <div id="comment">
               <div class="comment-container">
                 <div class="comment-list-content hidden">
                     <ul class="media-list"></ul>
@@ -178,7 +167,6 @@
                   </div>
               </form>
             </div>
-          </div>
         </div>
       </div>
     </div>

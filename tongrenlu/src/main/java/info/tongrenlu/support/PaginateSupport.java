@@ -55,7 +55,7 @@ public class PaginateSupport<T> {
     }
 
     public boolean isFirst() {
-        return this.pageNumber == Math.max(this.pageNumber, 0);
+        return this.pageNumber == 1;
     }
 
     public boolean isLast() {

@@ -51,8 +51,7 @@ public class HomeComicController {
 
         final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("query", query);
-        page.addParam("includeRedFlg", loginUser.getIncludeRedFlg());
-        page.addParam("onlyTranslateFlg", loginUser.getOnlyTranslateFlg());
+        page.addParam("loginUser", loginUser);
         page.addParam("publishFlg", CommonConstants.CHR_TRUE);
         this.comicService.searchComic(page);
         model.addAttribute("page", page);

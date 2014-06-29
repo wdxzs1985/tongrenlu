@@ -1,9 +1,13 @@
 package info.tongrenlu.manager;
 
+import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
+import info.tongrenlu.mapper.ArticleTagMapper;
 import info.tongrenlu.mapper.TagMapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,16 @@ public class TagManager {
 
     @Autowired
     private TagMapper tagMapper = null;
+    @Autowired
+    private ArticleTagMapper articleTagMapper = null;
+
+    public int countTag(final Map<String, Object> params) {
+        return this.tagMapper.count(params);
+    }
+
+    public List<TagBean> searchTag(final Map<String, Object> params) {
+        return this.tagMapper.search(params);
+    }
 
     public TagBean getByTag(final String tag) {
         final Map<String, Object> param = new HashMap<>();
@@ -29,6 +43,22 @@ public class TagManager {
             this.tagMapper.insert(tagBean);
         }
         return tagBean;
+    }
+
+    public int countMusic(final Map<String, Object> params) {
+        return this.articleTagMapper.countMusic(params);
+    }
+
+    public List<MusicBean> searchMusic(final Map<String, Object> params) {
+        return this.articleTagMapper.searchMusic(params);
+    }
+
+    public int countComic(final Map<String, Object> params) {
+        return this.articleTagMapper.countComic(params);
+    }
+
+    public List<ComicBean> searchComic(final Map<String, Object> params) {
+        return this.articleTagMapper.searchComic(params);
     }
 
 }

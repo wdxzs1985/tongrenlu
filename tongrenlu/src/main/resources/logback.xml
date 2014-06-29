@@ -5,7 +5,7 @@
 
 	<!-- logger name="org.springframework" level="DEBUG"/-->
     <logger name="java.sql" level="DEBUG" />
-    <logger name="org.mybatis" level="DEBUG" />
+    <logger name="org.mybatis" level="INFO" />
     <logger name="info.tongrenlu" level="DEBUG" />
 
 </configuration>

@@ -1,7 +1,10 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.ComicBean;
+import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.HomeUserSerivce;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -33,8 +36,57 @@ public class HomeUserController {
                              final Model model,
                              final Locale locale) {
         final UserBean userBean = this.userService.getById(userId);
+
+        if (userBean == null) {
+            throw new PageNotFoundException();
+        }
+
         model.addAttribute("userBean", userBean);
         return "home/user/index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}/music")
+    public String doGetMusic(@PathVariable final Integer userId,
+                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model,
+                             final Locale locale) {
+        final UserBean userBean = this.userService.getById(userId);
+
+        if (userBean == null) {
+            throw new PageNotFoundException();
+        }
+
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("userBean", userBean);
+        page.addParam("loginUser", loginUser);
+        this.userService.searchMusic(page);
+
+        model.addAttribute("userBean", userBean);
+        model.addAttribute("page", page);
+        return "home/user/music";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}/comic")
+    public String doGetComic(@PathVariable final Integer userId,
+                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model,
+                             final Locale locale) {
+        final UserBean userBean = this.userService.getById(userId);
+
+        if (userBean == null) {
+            throw new PageNotFoundException();
+        }
+
+        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("userBean", userBean);
+        page.addParam("loginUser", loginUser);
+        this.userService.searchComic(page);
+
+        model.addAttribute("userBean", userBean);
+        model.addAttribute("page", page);
+        return "home/user/comic";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{userId}/follow")

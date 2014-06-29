@@ -7,7 +7,9 @@ import java.util.Map;
 
 public interface TagMapper {
 
-    public List<TagBean> fetchListByTag(Map<String, Object> param);
+    public int count(Map<String, Object> param);
+
+    public List<TagBean> search(Map<String, Object> params);
 
     public TagBean fetchBean(Map<String, Object> param);
 

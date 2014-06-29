@@ -73,8 +73,6 @@
             <span id="nav-nickname" th:text="${session.LOGIN_USER}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li ><a th:href="@{/console/setting}" th:text="#{console.profile.setting}"></a></li>
-            <li class="divider"></li>
             <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
           </ul>
         </li>

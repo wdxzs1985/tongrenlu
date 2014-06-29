@@ -14,10 +14,10 @@
             <ul class="media-list">
               <li class="media" th:each="articleBean : ${page.items}">
                 <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                  <img class="media-object img-120 hidden-xs" src="http://placehold.it/120x120" 
+                  <img class="media-object img-120 img-rounded img-thumbnail hidden-xs" src="http://placehold.it/120x120" 
                        th:src="@{/files/c__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
                        th:alt-title="${articleBean.title}" />
-                  <img class="media-object img-60 visible-xs" src="http://placehold.it/60x60" 
+                  <img class="media-object img-60 img-rounded img-thumbnail visible-xs" src="http://placehold.it/60x60" 
                        th:src="@{/files/c__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
                        th:alt-title="${articleBean.title}" />
                 </a>

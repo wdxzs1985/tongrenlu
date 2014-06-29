@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
+  <head>
+  <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-timeline.css}" />
+  </head>
   <body>
     <div class="container" layout:fragment="content">
         <div class="row">
@@ -42,13 +45,10 @@
                 </div>
             </div>
             <div class="col-sm-8">
-                <div class="page-header">
-                    <h3 th:text="#{console.user.timeline}"></h3>
-                </div>
                 <div id="timeline" class="timeline-container"
                   th:attr="data-href=@{/console/timeline}">
                   <div class="timeline-list-content hidden">
-                    <ul class="media-list"></ul>
+                    <ul class="cbp_tmtimeline"></ul>
                     <ul class="pager">
                       <li class="previous">
                         <a href="#">
@@ -75,22 +75,22 @@
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-timeline.js}" ></script>
 <script id="template-timeline-item" type="text/x-tmpl" th:inline="text">
-        <li class="media">
+        <li class="">
             {% if (o.action == 'publish_comic') { %}
-            <a href="/comic/{%=o.articleBean.id%}" class="pull-left" target="_blank">
-                <img src="/files/c{%=o.articleBean.id%}/cover_60.jpg" class="img-rounded"/>
+            <a href="/comic/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
+                <img src="/files/c{%=o.articleBean.id%}/cover_60.jpg" class=""/>
             </a>
             {% } else if (o.action == 'publish_music') { %}
-            <a href="/music/{%=o.articleBean.id%}" class="pull-left" target="_blank">
-                <img src="/files/m{%=o.articleBean.id%}/cover_60.jpg" class="img-rounded"/>
+            <a href="/music/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
+                <img src="/files/m{%=o.articleBean.id%}/cover_60.jpg" class=""/>
             </a>
             {% } else { %}
-            <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
-                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class="img-rounded"/>
+            <a href="/user/{%=o.userBean.id%}" class="cbp_tmicon" target="_blank">
+                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class=""/>
             </a>
             {% } %}
-            <div class="media-body">
-                <h5 class="media-heading text-single-line">
+            <div class="cbp_tmlabel">
+                <h5 class="text-single-line">
                     <a href="/user/{%=o.userBean.id%}" target="_blank">
                         <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
                     </a>

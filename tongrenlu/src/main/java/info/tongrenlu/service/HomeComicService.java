@@ -69,12 +69,7 @@ public class HomeComicService {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final ComicBean comicBean = this.getById(articleId);
-            if (this.likeManager.validateUserNotSame(loginUser,
-                                                     comicBean.getUserBean())) {
-                result = this.likeManager.countLike(loginUser, comicBean);
-            } else {
-                result = LikeManager.RESULT_SELF;
-            }
+            result = this.likeManager.countLike(loginUser, comicBean);
         } else {
             result = LikeManager.RESULT_NEED_SIGN;
         }
@@ -89,19 +84,13 @@ public class HomeComicService {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
             final ComicBean comicBean = this.getById(articleId);
-            if (this.likeManager.validateUserNotSame(loginUser,
-                                                     comicBean.getUserBean())) {
-                final int count = this.likeManager.countLike(loginUser,
-                                                             comicBean);
-                if (count == 0) {
-                    this.likeManager.addLike(loginUser, comicBean);
-                    result = LikeManager.RESULT_LIKE;
-                } else {
-                    this.likeManager.removeLike(loginUser, comicBean);
-                    result = LikeManager.RESULT_NOT_LIKE;
-                }
+            final int count = this.likeManager.countLike(loginUser, comicBean);
+            if (count == 0) {
+                this.likeManager.addLike(loginUser, comicBean);
+                result = LikeManager.RESULT_LIKE;
             } else {
-                result = LikeManager.RESULT_SELF;
+                this.likeManager.removeLike(loginUser, comicBean);
+                result = LikeManager.RESULT_NOT_LIKE;
             }
         } else {
             result = LikeManager.RESULT_NEED_SIGN;

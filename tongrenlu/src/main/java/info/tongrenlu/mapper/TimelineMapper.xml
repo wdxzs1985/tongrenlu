@@ -11,10 +11,10 @@
             v_timeline
         <where>
             v_timeline.`followId` = #{userId}
-        and (   redFlg = '0' 
-            OR  redFlg is NULL
+        and (   v_timeline.redFlg = '0' 
+            OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">
-            OR  redFlg = '1'
+            OR  v_timeline.redFlg = '1'
             </if>)
         <if test="loginUser.onlyTranslate">
         and (v_timeline.`translateFlg` = '1' 
@@ -38,10 +38,10 @@
             v_timeline
         <where>
             v_timeline.`followId` = #{userId}
-        and (   redFlg = '0' 
-            OR  redFlg is NULL
+        and (   v_timeline.redFlg = '0' 
+            OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">
-            OR  redFlg = '1'
+            OR  v_timeline.redFlg = '1'
             </if>)
         <if test="loginUser.onlyTranslate">
         and (v_timeline.`translateFlg` = '1' 
@@ -57,16 +57,18 @@
         SELECT 
             count(v_timeline.createDate)
         FROM 
-            r_like
-        left join v_timeline on v_timeline.followId = r_like.like_id
-        and r_like.category = 'u'
-        and r_like.del_flg = '0'
+            v_timeline
+                left join
+            r_like ON v_timeline.followId = r_like.like_id
+                and r_like.category = 'u'
+                and r_like.del_flg = '0'
         <where>
-        and user_id = #{loginUser.id}
-        and (   redFlg = '0' 
-            OR  redFlg is NULL
+        and (user_id = #{loginUser.id}
+            OR  v_timeline.followId = #{loginUser.id})
+        and (   v_timeline.redFlg = '0' 
+            OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">
-            OR  redFlg = '1'
+            OR  v_timeline.redFlg = '1'
             </if>)
         <if test="loginUser.onlyTranslate">
         and (v_timeline.`translateFlg` = '1' 
@@ -87,16 +89,18 @@
             v_timeline.action                   as action,
         </trim>
         FROM 
-            r_like
-        left join v_timeline on v_timeline.followId = r_like.like_id
-        and r_like.category = 'u'
-        and r_like.del_flg = '0'
+            v_timeline
+                left join
+            r_like ON v_timeline.followId = r_like.like_id
+                and r_like.category = 'u'
+                and r_like.del_flg = '0'
         <where>
-        and user_id = #{loginUser.id}
-        and (   redFlg = '0' 
-            OR  redFlg is NULL
+        and (user_id = #{loginUser.id}
+            OR  v_timeline.followId = #{loginUser.id})
+        and (   v_timeline.redFlg = '0' 
+            OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">
-            OR  redFlg = '1'
+            OR  v_timeline.redFlg = '1'
             </if>)
         <if test="loginUser.onlyTranslate">
         and (v_timeline.`translateFlg` = '1' 

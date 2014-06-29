@@ -53,7 +53,7 @@ var timeline = function(options) {
 					if(response.page.pageCount == 0) {
 						$empty.removeClass('hidden');
 					} else {
-						var $list = $listContent.find('.media-list').empty();
+						var $list = $listContent.find('.cbp_tmtimeline').empty();
 						for(var i = 0; i < response.page.items.length; i++){
 							var item = response.page.items[i];
 							item.createDate = that.formatDate(item.createDate, settings.i18n);

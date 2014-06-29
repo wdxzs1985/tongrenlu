@@ -26,6 +26,14 @@ body {
     height: 60px;
 }
 
+.img-thumbnail {
+    padding:0;
+}
+
+.img-thumbnail:hover {
+    border :1px solid #428bca;
+}
+
 .text-single-line {
 	height: 1.4em;
 	overflow: hidden;

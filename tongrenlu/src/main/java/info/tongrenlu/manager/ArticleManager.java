@@ -138,7 +138,7 @@ public class ArticleManager {
     public List<TagBean> getTags(final ArticleBean articleBean) {
         final Map<String, Object> param = new HashMap<>();
         param.put("articleBean", articleBean);
-        return this.articleTagMapper.fetchTagList(param);
+        return this.articleTagMapper.fetchList(param);
     }
 
     public void removeTags(final ArticleBean articleBean) {
@@ -218,7 +218,7 @@ public class ArticleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            ArticleManager.TITLE_LENGTH },
+                                                                  ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

@@ -18,7 +18,7 @@
         )
     </insert>
     
-    <select id="fetchTagList" resultType="TagBean">
+    <select id="fetchList" resultType="TagBean">
         SELECT 
         <trim suffixOverrides=",">
             v_tag.id           as id,
@@ -50,4 +50,112 @@
         </if>
         </where>
     </update>
+    
+    <select id="countComic" resultType="int">
+        SELECT 
+            count(v_comic.id)
+        FROM
+            v_comic
+                LEFT JOIN
+            r_article_tag ON r_article_tag.article_id = v_comic.id
+                LEFT JOIN
+            v_tag ON r_article_tag.tag_id = v_tag.id
+        <where>
+        AND r_article_tag.tag_id = #{tagBean.id}
+        AND r_article_tag.del_flg = '0'
+        AND v_comic.publishFlg = '1'
+        and (   v_comic.redFlg = '0' 
+            OR  v_comic.redFlg is NULL
+            <if test="loginUser.includeRed">
+            OR  v_comic.redFlg = '1'
+            </if>)
+        <if test="loginUser.onlyTranslate">
+        and (v_comic.`translateFlg` = '1' 
+        OR  v_comic.`translateFlg` is NULL)
+        </if>
+        </where>
+    </select>
+    
+    <select id="searchComic" resultType="ComicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_comic.id                      as id,
+            v_comic.title                   as title,
+            v_comic.description             as description,
+            v_comic.publishFlg              as publishFlg,
+            v_comic.publishDate             as publishDate,
+            v_comic.recommendFlg            as recommendFlg,
+            v_comic.redFlg                  as redFlg,
+            v_comic.translateFlg            as translateFlg,
+            v_comic.`userBean.id`           as `userBean.id`,
+            v_comic.`userBean.nickname`     as `userBean.nickname`,
+            v_comic.`userBean.signature`    as `userBean.signature`,
+            v_comic.accessCount             as accessCount,
+            v_comic.likeCount               as likeCount,
+            v_comic.commentCount            as commentCount,
+        </trim>
+        FROM
+            v_comic
+                LEFT JOIN
+            r_article_tag ON r_article_tag.article_id = v_comic.id
+                LEFT JOIN
+            v_tag ON r_article_tag.tag_id = v_tag.id
+        <where>
+        AND r_article_tag.tag_id = #{tagBean.id}
+        AND r_article_tag.del_flg = '0'
+        AND v_comic.publishFlg = '1'
+        and (   v_comic.redFlg = '0' 
+        OR  v_comic.redFlg is NULL
+        <if test="loginUser.includeRed">
+        OR  v_comic.redFlg = '1'
+        </if>)
+        <if test="loginUser.onlyTranslate">
+        and (v_comic.`translateFlg` = '1' 
+        OR  v_comic.`translateFlg` is NULL)
+        </if>
+        </where>
+    </select>
+    
+    <select id="countMusic" resultType="int">
+        SELECT 
+            count(v_music.id)
+        FROM
+            v_music
+                LEFT JOIN
+            r_article_tag ON r_article_tag.article_id = v_music.id
+                LEFT JOIN
+            v_tag ON r_article_tag.tag_id = v_tag.id
+        <where>
+        AND r_article_tag.tag_id = #{tagBean.id}
+        AND r_article_tag.del_flg = '0'
+        AND v_music.publishFlg = '1'
+        </where>
+    </select>
+    
+    <select id="searchMusic" resultType="MusicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_music.id                      as id,
+            v_music.title                   as title,
+            v_music.description             as description,
+            v_music.publishFlg              as publishFlg,
+            v_music.recommendFlg            as recommendFlg,
+            v_music.`userBean.id`           as `userBean.id`,
+            v_music.`userBean.nickname`     as `userBean.nickname`,
+            v_music.accessCount             as accessCount,
+            v_music.likeCount               as likeCount,
+            v_music.commentCount            as commentCount,
+        </trim>
+        FROM
+            v_music
+                LEFT JOIN
+            r_article_tag ON r_article_tag.article_id = v_music.id
+                LEFT JOIN
+            v_tag ON r_article_tag.tag_id = v_tag.id
+        <where>
+        AND r_article_tag.tag_id = #{tagBean.id}
+        AND r_article_tag.del_flg = '0'
+        AND v_music.publishFlg = '1'
+        </where>
+    </select>
 </mapper>

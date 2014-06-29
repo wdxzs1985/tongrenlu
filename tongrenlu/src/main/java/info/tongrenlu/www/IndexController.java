@@ -1,7 +1,6 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.SearchService;
 import info.tongrenlu.solr.ArticleDocument;
 import info.tongrenlu.support.PaginateSupport;
@@ -27,9 +26,6 @@ public class IndexController {
 
     @Autowired
     private SearchService searchService = null;
-
-    @Autowired
-    private CommentService commentService = null;
 
     private Log log = LogFactory.getLog(this.getClass());
 
