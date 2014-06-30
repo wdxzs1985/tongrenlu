@@ -157,10 +157,10 @@
             v_comic.accessCount             as accessCount,
             v_comic.likeCount               as likeCount,
             v_comic.commentCount            as commentCount,
-            IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) AS pt
+            IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) AS pt
         </trim>
         FROM
-            V_comic
+            v_comic
                 LEFT JOIN
             (SELECT 
                 article_id, COUNT(id) AS pt
@@ -169,7 +169,7 @@
             WHERE
                 upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
-            GROUP BY article_id) V_access_Cnt ON V_comic.id = V_access_Cnt.article_id
+            GROUP BY article_id) v_access_cnt ON v_comic.id = v_access_cnt.article_id
                 LEFT JOIN
             (SELECT 
                 article_id, COUNT(id) * 10 AS pt
@@ -178,7 +178,7 @@
             WHERE
                 upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
-            GROUP BY article_id) V_comment_Cnt ON V_comic.id = V_comment_Cnt.article_id
+            GROUP BY article_id) v_comment_cnt ON v_comic.id = v_comment_cnt.article_id
                 LEFT JOIN
             (SELECT 
                 like_id, COUNT(id) * 5 AS pt
@@ -188,10 +188,12 @@
                 upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
                     AND category = 'm'
-            GROUP BY like_id) V_like_Cnt ON V_comic.id = V_like_Cnt.like_id
-        where 
-            V_comic.redFlg = '0'
-        ORDER BY IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) DESC
+            GROUP BY like_id) v_like_cnt ON v_comic.id = v_like_cnt.like_id
+        <where>
+        and v_comic.publishFlg = '1'
+        and v_comic.redFlg = '0'
+        </where>
+        ORDER BY IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC
         LIMIT 0 , 10
     </select>
 </mapper>

@@ -118,7 +118,7 @@
 	                <strong th:text="${articleBean.commentCount}"></strong>
 	              </li>
 	          </ul>
-	          <pre id="article-description" th:text="${articleBean.description}"></pre>
+              <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
 	          <ul class="list-inline tag-container">
                   <li>
                     <span class="glyphicon glyphicon-tags"></span>&nbsp;

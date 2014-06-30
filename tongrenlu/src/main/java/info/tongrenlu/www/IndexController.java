@@ -1,5 +1,6 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
@@ -44,11 +45,13 @@ public class IndexController {
         final PaginateSupport<MusicBean> musicPage = new PaginateSupport<>(1,
                                                                            30);
         musicPage.addParam("loginUser", loginUser);
+        musicPage.addParam("publishFlg", CommonConstants.CHR_TRUE);
         this.musicService.searchMusic(musicPage);
 
         final PaginateSupport<ComicBean> comicPage = new PaginateSupport<>(1,
                                                                            20);
         comicPage.addParam("loginUser", loginUser);
+        musicPage.addParam("publishFlg", CommonConstants.CHR_TRUE);
         this.comicService.searchComic(comicPage);
 
         model.addAttribute("musicPage", musicPage);

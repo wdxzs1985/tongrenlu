@@ -190,22 +190,24 @@ public class FileManager {
         // create the operation, add images and operators/options
         final IMOperation op = this.getImOperation();
         op.addImage(input.getAbsolutePath());
-        op.resize(size, size, '^');
+        op.resize(size, size, "^");
         op.gravity("center");
         op.extent(size, size);
         op.addImage(output.getAbsolutePath());
         // execute the operation
+        this.log.info(this.getConvertPath());
+        this.log.info(op.toString());
         try {
             cmd.run(op);
         } catch (final IOException e) {
             // throw new RuntimeException(e);
-            FileUtils.deleteQuietly(output);
+            this.log.error(e, e);
         } catch (final InterruptedException e) {
             // throw new RuntimeException(e);
-            FileUtils.deleteQuietly(output);
+            this.log.error(e, e);
         } catch (final IM4JavaException e) {
             // throw new RuntimeException(e);
-            FileUtils.deleteQuietly(output);
+            this.log.error(e, e);
         } finally {
             // FileUtils.deleteQuietly(input);
         }
@@ -243,20 +245,22 @@ public class FileManager {
         // create the operation, add images and operators/options
         final IMOperation op = this.getImOperation();
         op.addImage(input.getAbsolutePath());
-        op.resize(null, size, '>');
+        op.resize(null, size, "^");
         op.addImage(output.getAbsolutePath());
         // execute the operation
+        this.log.info(this.getConvertPath());
+        this.log.info(op.toString());
         try {
             cmd.run(op);
         } catch (final IOException e) {
             // throw new RuntimeException(e);
-            FileUtils.deleteQuietly(output);
+            this.log.error(e, e);
         } catch (final InterruptedException e) {
             // throw new RuntimeException(e);
-            FileUtils.deleteQuietly(output);
+            this.log.error(e, e);
         } catch (final IM4JavaException e) {
             // throw new RuntimeException(e);
-            FileUtils.deleteQuietly(output);
+            this.log.error(e, e);
         } finally {
             // FileUtils.deleteQuietly(input);
         }

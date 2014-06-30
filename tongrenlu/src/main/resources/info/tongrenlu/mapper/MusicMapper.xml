@@ -107,10 +107,10 @@
             v_music.accessCount             as accessCount,
             v_music.likeCount               as likeCount,
             v_music.commentCount            as commentCount,
-            IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) AS pt
+            IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) AS pt
         </trim>
         FROM
-            V_music
+            v_music
                 LEFT JOIN
             (SELECT 
                 article_id, COUNT(id) AS pt
@@ -119,7 +119,7 @@
             WHERE
                 upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
-            GROUP BY article_id) V_access_Cnt ON V_music.id = V_access_Cnt.article_id
+            GROUP BY article_id) v_access_cnt ON v_music.id = v_access_cnt.article_id
                 LEFT JOIN
             (SELECT 
                 article_id, COUNT(id) * 10 AS pt
@@ -128,7 +128,7 @@
             WHERE
                 upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
-            GROUP BY article_id) V_comment_Cnt ON V_music.id = V_comment_Cnt.article_id
+            GROUP BY article_id) v_comment_cnt ON v_music.id = v_comment_cnt.article_id
                 LEFT JOIN
             (SELECT 
                 like_id, COUNT(id) * 5 AS pt
@@ -138,8 +138,11 @@
                 upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
                     AND category = 'm'
-            GROUP BY like_id) V_like_Cnt ON V_music.id = V_like_Cnt.like_id
-        ORDER BY IFNULL(V_access_Cnt.pt, 0) + IFNULL(V_comment_Cnt.pt, 0) + IFNULL(V_like_Cnt.pt, 0) DESC, V_music.id DESC
+            GROUP BY like_id) v_like_cnt ON v_music.id = v_like_cnt.like_id
+        <where>
+        and v_music.publishFlg = '1'
+        </where>
+        ORDER BY IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_music.id DESC
         LIMIT 0 , 10
     </select>
 </mapper>

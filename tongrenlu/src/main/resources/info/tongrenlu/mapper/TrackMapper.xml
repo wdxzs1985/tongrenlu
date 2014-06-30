@@ -44,11 +44,11 @@
     <select id="fetchList" resultType="TrackBean">
         SELECT
         <trim suffixOverrides=",">
-            M_TRACK.ID              as "id",
-            M_TRACK.NAME            as "name",
-            M_TRACK.ARTIST          as "artist",
-            M_TRACK.INSTRUMENTAL    as "instrumental",
-            M_TRACK.ORIGINAL        as "original",
+            m_track.ID              as "id",
+            m_track.NAME            as "name",
+            m_track.ARTIST          as "artist",
+            m_track.INSTRUMENTAL    as "instrumental",
+            m_track.ORIGINAL        as "original",
         </trim>
         FROM
             m_file 
@@ -57,7 +57,7 @@
         <where>
             m_article.ID = #{articleId}
         AND m_file.DEL_FLG='0'
-        AND M_TRACK.DEL_FLG='0'
+        AND m_track.DEL_FLG='0'
         </where>
         ORDER BY m_file.ORDER_NO
     </select>
