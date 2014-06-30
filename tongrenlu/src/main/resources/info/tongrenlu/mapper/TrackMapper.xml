@@ -5,7 +5,7 @@
 <mapper namespace="info.tongrenlu.mapper.TrackMapper">
 
     <insert id="insert" flushCache="true">
-        INSERT INTO M_TRACK(
+        INSERT INTO m_track(
         <trim suffixOverrides=",">
             id,
             name,
@@ -19,7 +19,7 @@
     </insert>
     
     <update id="update" flushCache="true">
-        UPDATE M_TRACK
+        UPDATE m_track
         <set>
             name = #{name},
             artist = #{artist},
@@ -32,7 +32,7 @@
     </update>
     
     <update id="delete" flushCache="true">
-        UPDATE M_TRACK
+        UPDATE m_track
         <set>
             del_flg = '1'
         </set>
@@ -51,14 +51,14 @@
             M_TRACK.ORIGINAL        as "original",
         </trim>
         FROM
-            M_FILE 
-        LEFT JOIN M_TRACK ON M_FILE.ID = M_TRACK.ID
-        LEFT JOIN M_ARTICLE ON M_FILE.ARTICLE_ID = M_ARTICLE.ID
+            m_file 
+        LEFT JOIN m_track ON m_file.ID = m_track.ID
+        LEFT JOIN m_article ON m_file.ARTICLE_ID = m_article.ID
         <where>
-            M_ARTICLE.ID = #{articleId}
-        AND M_FILE.DEL_FLG='0'
+            m_article.ID = #{articleId}
+        AND m_file.DEL_FLG='0'
         AND M_TRACK.DEL_FLG='0'
         </where>
-        ORDER BY M_FILE.ORDER_NO
+        ORDER BY m_file.ORDER_NO
     </select>
 </mapper>

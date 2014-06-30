@@ -5,7 +5,7 @@
 <mapper namespace="info.tongrenlu.mapper.ArticleTagMapper">
     
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO R_ARTICLE_TAG(
+        INSERT INTO r_article_tag(
         <trim suffixOverrides=",">
             TAG_ID,
             ARTICLE_ID,
@@ -40,7 +40,7 @@
     </select>
     
     <update id="delete">
-        UPDATE R_ARTICLE_TAG
+        UPDATE r_article_tag
         <set>
             DEL_FLG = '1'
         </set>

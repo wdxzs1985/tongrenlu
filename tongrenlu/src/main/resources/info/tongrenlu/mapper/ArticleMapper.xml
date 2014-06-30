@@ -5,7 +5,7 @@
 <mapper namespace="info.tongrenlu.mapper.ArticleMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO M_ARTICLE(
+        INSERT INTO m_article(
         <trim suffixOverrides=",">
             user_id,
             title,
@@ -21,7 +21,7 @@
     </insert>
     
     <update id="update">
-        UPDATE M_ARTICLE
+        UPDATE m_article
         <set>
             <if test="title != null">
                 title = #{title},
@@ -40,7 +40,7 @@
     </update>
     
     <update id="delete">
-        UPDATE M_ARTICLE
+        UPDATE m_article
         <set>
             del_flg = '1',
         </set>

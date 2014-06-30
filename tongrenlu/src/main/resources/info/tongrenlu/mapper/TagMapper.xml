@@ -9,7 +9,7 @@
         SELECT
             count(A.id)
         FROM
-            M_TAG A
+            m_tag A
         <where>
             A.TAG LIKE #{pattern}
         </where>
@@ -23,7 +23,7 @@
             A.TAG       as tag,
         </trim>
         FROM
-            M_TAG A
+            m_tag A
         <where>
             A.TAG LIKE #{pattern}
         </where>
@@ -37,14 +37,14 @@
             A.TAG       as tag,
         </trim>
         FROM
-            M_TAG A
+            m_tag A
         <where>
             A.TAG = #{tag}
         </where>
     </select>
     
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO M_TAG(
+        INSERT INTO m_tag(
         <trim suffixOverrides=",">
             TAG,
         </trim>

@@ -5,7 +5,7 @@
 <mapper namespace="info.tongrenlu.mapper.FileMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-        INSERT INTO M_FILE(
+        INSERT INTO m_file(
         <trim suffixOverrides=",">
             NAME,
             EXTENSION,
@@ -32,7 +32,7 @@
             A.ORDER_NO      as orderNo,
         </trim>
         FROM
-            M_FILE A
+            m_file A
         <where>
             A.ARTICLE_ID = #{articleId}
         <if test="contentType">
@@ -55,7 +55,7 @@
             A.ORDER_NO      as orderNo,
         </trim>
         FROM
-            M_FILE A
+            m_file A
         <where>
             A.ID = #{id}
         AND A.DEL_FLG = '0'
@@ -63,7 +63,7 @@
     </select>
     
     <update id="delete" flushCache="true">
-        UPDATE M_FILE A
+        UPDATE m_file A
         <set>
             DEL_FLG = '1'
         </set>
@@ -74,7 +74,7 @@
     </update>
     
     <update id="update" flushCache="true">
-        UPDATE M_FILE A
+        UPDATE m_file A
         <set>
             ORDER_NO = #{orderNo}
         </set>

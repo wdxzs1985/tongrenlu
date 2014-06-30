@@ -5,7 +5,7 @@
 <mapper namespace="info.tongrenlu.mapper.ComicMapper">
 
     <insert id="insert">
-        INSERT INTO R_COMIC(
+        INSERT INTO r_comic(
         <trim suffixOverrides=",">
             id,
             red_flg,
@@ -126,7 +126,7 @@
     </select>
     
     <update id="update">
-        UPDATE R_COMIC
+        UPDATE r_comic
         <set>
             <if test="redFlg != null">
                 red_flg = #{redFlg},

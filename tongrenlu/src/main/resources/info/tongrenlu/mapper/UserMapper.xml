@@ -5,7 +5,7 @@
 <mapper namespace="info.tongrenlu.mapper.UserMapper">
     
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO M_USER(
+        INSERT INTO m_user(
         <trim suffixOverrides=",">
            EMAIL,
            PASSWORD,
@@ -34,7 +34,7 @@
             U.only_vocal_flg        as onlyVocalFlg,
         </trim>
         FROM
-            M_USER U
+            m_user U
         <where>
             U.DEL_FLG = '0'
         <if test="fingerprint != null">
@@ -61,7 +61,7 @@
             U.followerCount         as followerCount,
         </trim>
         FROM
-            V_USER U
+            v_user U
         <where>
             U.id = #{id}
         </where>
@@ -69,7 +69,7 @@
     
     <update id="update">
         UPDATE
-            M_USER
+            m_user
         <set>
             <if test="password != null">
                 PASSWORD = #{password},
