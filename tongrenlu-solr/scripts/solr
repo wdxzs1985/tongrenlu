@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# chkconfig: 35 92 08
+# description: Starts and stops Apache Solr
+
+PROG=solr
+SOLR_HOME="/usr/local/solr-4.9.0/example"
+DAEMON="java -DSTOP.PORT=8079 -DSTOP.KEY=mustard -jar start.jar"
+PIDFILE=/var/run/$PROG.pid
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+case $1 in
+    start)
+        echo -n Starting $PROG:
+        cd $SOLR_HOME
+        $DAEMON >/dev/null 2>/dev/null &
+        RETVAL=$?
+        if [ $RETVAL -eq 0 ]; then
+            echo $! > $PIDFILE
+            touch /var/lock/subsys/$PROG
+        fi
+        [ $RETVAL -eq 0 ] && success $”$PROG startup” || failure $”$PROG startup”
+        echo
+        ;;
+    stop)
+        echo -n Shutting down $PROG:
+        cd $SOLR_HOME
+        $DAEMON --stop > /dev/null
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$PROG
+        echo
+        ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    status)
+        status $PROG -p $PIDFILE
+        RETVAL=$?
+        ;;
+    *)
+        echo ”Usage: $0 {start|stop|restart|status}”
+        RETVAL=1
+        ;;
+esac
+
+exit $RETVAL
