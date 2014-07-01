@@ -1,11 +1,18 @@
 package info.tongrenlu.solr;
 
+import java.io.Serializable;
+
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 @SolrDocument(solrCoreName = "collection3")
-public class ArticleDocument {
+public class ArticleDocument implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Field
