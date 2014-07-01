@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+#main-container {
+	position: relative;
+}
+
+.page {
+    width:320px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+}

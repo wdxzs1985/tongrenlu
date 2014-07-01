@@ -12,6 +12,7 @@ import info.tongrenlu.solr.ArticleDocument;
 import info.tongrenlu.solr.ArticleRepository;
 import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.solr.TrackDocument;
+import info.tongrenlu.solr.TrackRepository;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class ConsoleMusicService {
     private FileManager fileManager = null;
     @Autowired
     private ArticleRepository articleRepository = null;
+    @Autowired
+    private TrackRepository trackRepository = null;
 
     @Transactional
     public boolean doCreate(final MusicBean inputMusic,
@@ -205,7 +208,7 @@ public class ConsoleMusicService {
             this.articleManager.updateFile(trackBean.getFileBean());
 
             if (isPublish) {
-                this.saveTrackDocument(trackBean, musicBean);
+                this.updateTrackDocument(trackBean);
             }
         }
     }
@@ -225,7 +228,7 @@ public class ConsoleMusicService {
         this.saveMusicDocument(musicBean, tags);
 
         for (final TrackBean trackBean : this.getTrackList(musicBean)) {
-            this.saveTrackDocument(trackBean, musicBean);
+            this.saveTrackDocument(trackBean, musicBean, tags);
         }
     }
 
@@ -299,8 +302,9 @@ public class ConsoleMusicService {
 
         this.articleRepository.save(document);
 
-        for (final ArticleDocument trackDocument : this.articleRepository.findTrackByArticleId(articleId)) {
+        for (final ArticleDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
             trackDocument.setTitle(musicBean.getTitle());
+            trackDocument.setTags(tags);
             this.articleRepository.save(trackDocument);
         }
     }
@@ -311,14 +315,15 @@ public class ConsoleMusicService {
         final String id = "m" + articleId;
         this.articleRepository.delete(id);
 
-        for (final ArticleDocument trackDocument : this.articleRepository.findTrackByArticleId(articleId)) {
+        for (final ArticleDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
             this.articleRepository.delete(trackDocument);
         }
     }
 
     @Transactional
     public void saveTrackDocument(final TrackBean trackBean,
-                                  final MusicBean musicBean) {
+                                  final MusicBean musicBean,
+                                  final String[] tags) {
         final String id = "t" + trackBean.getId();
         ArticleDocument document = this.articleRepository.findOne(id);
         if (document == null) {
@@ -327,8 +332,25 @@ public class ConsoleMusicService {
             document.setFileId(trackBean.getId());
             document.setArticleId(musicBean.getId());
             document.setTitle(musicBean.getTitle());
+            document.setTags(tags);
         }
 
+        document.setTrack(trackBean.getName());
+        document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
+        document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
+        document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
+
+        this.articleRepository.save(document);
+    }
+
+    private void updateTrackDocument(final TrackBean trackBean) {
+        final String id = "t" + trackBean.getId();
+        final ArticleDocument document = this.articleRepository.findOne(id);
+        if (document == null) {
+            return;
+        }
+
+        document.setTrack(trackBean.getName());
         document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
         document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
         document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
