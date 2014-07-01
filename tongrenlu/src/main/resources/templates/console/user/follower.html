@@ -34,32 +34,24 @@
               </li>
             </ul>
             <hr />
-            <div id="jpaginate" class="hidden-xs hidden-sm"></div>
+            <div id="jpaginate" class="hidden-xs"></div>
+            <div id="select-paginate" class="form-group visible-xs"></div>
+
         </th:block>
         <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
             <h4 th:text="#{console.article.noData}"></h4>
         </div>
     </div>
-<th:block layout:fragment="scripts-libs">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-</th:block>
 <th:block layout:fragment="scripts">
+<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    $("#jpaginate").paginate({
+    new paginate({
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
-        display     : 10,
-        border                  : true,
-        border_color            : '#fff',
-        text_color              : '#fff',
-        background_color        : '#428bca',  
-        border_hover_color      : '#3498db',
-        text_hover_color        : '#fff',
-        background_hover_color  : '#2980b9', 
-        images                  : false,
         onChange                : function (currval){
-            var url = /*[[@{/console/follow(p='')}]]*/ '/console/follow';
+            var url = /*[[@{/console/follower(p='')}]]*/ '/console/follower';
             window.location.href = url + currval;
             return false;
         }

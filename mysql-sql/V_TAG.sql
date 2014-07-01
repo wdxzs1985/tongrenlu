@@ -1,6 +1,6 @@
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
+    DEFINER = `tongrenlu`@`%` 
     SQL SECURITY DEFINER
 VIEW `v_tag` AS
     select 
@@ -13,6 +13,7 @@ VIEW `v_tag` AS
         left join `m_article` ON ((`m_article`.`id` = `r_article_tag`.`article_id`)))
     where
         ((`m_article`.`del_flg` = 0)
+            and (`m_article`.`publish_flg` = 0)
             and (`m_tag`.`del_flg` = 0)
             and (`r_article_tag`.`del_flg` = 0))
-    group by `m_tag`.`id` , `m_tag`.`tag`;
+    group by `m_tag`.`id` , `m_tag`.`tag`
