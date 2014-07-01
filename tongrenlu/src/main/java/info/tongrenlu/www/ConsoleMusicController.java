@@ -439,6 +439,7 @@ public class ConsoleMusicController {
 
             fileList.add(fileBean);
         }
+        this.musicService.updateBookletFile(fileList);
 
         return "redirect:/console/music/" + articleId;
     }

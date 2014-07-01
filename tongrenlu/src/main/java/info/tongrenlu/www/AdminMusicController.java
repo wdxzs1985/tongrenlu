@@ -278,6 +278,7 @@ public class AdminMusicController {
 
             fileList.add(fileBean);
         }
+        this.musicService.updateBookletFile(fileList);
 
         return "redirect:/admin/music/" + articleId;
     }

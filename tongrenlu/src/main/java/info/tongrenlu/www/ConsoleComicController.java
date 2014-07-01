@@ -309,6 +309,8 @@ public class ConsoleComicController {
             fileList.add(fileBean);
         }
 
+        this.comicService.updatePictureFile(fileList);
+
         return "redirect:/console/comic/" + articleId;
     }
 }

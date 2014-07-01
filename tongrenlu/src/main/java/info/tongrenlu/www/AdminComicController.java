@@ -179,6 +179,7 @@ public class AdminComicController {
 
             fileList.add(fileBean);
         }
+        this.comicService.updatePictureFile(fileList);
 
         return "redirect:/admin/comic/" + articleId;
     }

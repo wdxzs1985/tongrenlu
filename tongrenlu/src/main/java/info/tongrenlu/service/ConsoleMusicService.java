@@ -211,6 +211,13 @@ public class ConsoleMusicService {
     }
 
     @Transactional
+    public void updateBookletFile(final List<FileBean> fileList) {
+        for (final FileBean fileBean : fileList) {
+            this.articleManager.updateFile(fileBean);
+        }
+    }
+
+    @Transactional
     public void publish(final MusicBean musicBean) {
         this.articleManager.publish(musicBean);
 

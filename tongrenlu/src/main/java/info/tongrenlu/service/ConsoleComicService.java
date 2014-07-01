@@ -152,6 +152,13 @@ public class ConsoleComicService {
     }
 
     @Transactional
+    public void updatePictureFile(final List<FileBean> fileList) {
+        for (final FileBean fileBean : fileList) {
+            this.articleManager.updateFile(fileBean);
+        }
+    }
+
+    @Transactional
     public void removeFile(final Integer fileId) {
         final FileBean fileBean = this.articleManager.getFile(fileId);
         if (fileBean != null) {
