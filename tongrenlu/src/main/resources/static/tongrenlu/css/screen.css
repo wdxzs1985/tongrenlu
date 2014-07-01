@@ -51,6 +51,7 @@ body {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	display: block;
 }
 
 .article-list-item:even {
