@@ -16,7 +16,9 @@ VIEW `v_timeline` AS
         `v_comic`.`translateFlg` AS `translateFlg`,
         'publish_comic' AS `action`
     from
-        `v_comic` 
+        `v_comic`
+    where
+        (`v_comic`.`publishFlg` = '1') 
     union select 
         `v_comic_comment`.`articleBean.id` AS `articleBean.id`,
         `v_comic_comment`.`articleBean.title` AS `articleBean.title`,
@@ -44,7 +46,9 @@ VIEW `v_timeline` AS
         NULL AS `translateFlg`,
         'publish_music' AS `action`
     from
-        `v_music` 
+        `v_music`
+    where
+        (`v_music`.`publishFlg` = '1') 
     union select 
         `v_music_comment`.`articleBean.id` AS `articleBean.id`,
         `v_music_comment`.`articleBean.title` AS `articleBean.title`,
@@ -58,4 +62,4 @@ VIEW `v_timeline` AS
         NULL AS `translateFlg`,
         'comment_music' AS `action`
     from
-        `v_music_comment`;
+        `v_music_comment`
