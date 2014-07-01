@@ -1,7 +1,8 @@
 var carousel=function(option){
 	var settings = $.extend({
 		container: '#blueimp-gallery-carousel',
-        carousel: true,
+		fullscreenButton: '#blueimp-gallery-fullscreen',
+		fullscreenContainer: '#blueimp-gallery',
         startSlideshow: false,
         links: []
 	}, option);
@@ -16,6 +17,18 @@ var carousel=function(option){
     	if(settings.links.length == 0) {
     		settings.links.push(settings.filePath + "/cover_400.jpg");
     	}
-        var gallery = blueimp.Gallery(settings.links, settings);
+        var gallery = blueimp.Gallery(settings.links, {
+        	container: settings.container,
+        	startSlideshow: settings.startSlideshow,
+        	carousel:true
+        });
+        
+        $(settings.fullscreenButton).click(function(){
+        	var fullscreenGallery = blueimp.Gallery(settings.links, {
+            	container: settings.fullscreenContainer,
+            	startSlideshow: settings.startSlideshow,
+            	carousel:false
+            });
+        });
     });
 }
