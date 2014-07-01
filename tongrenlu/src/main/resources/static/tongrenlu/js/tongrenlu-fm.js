@@ -51,8 +51,8 @@ var fm = function(options) {
 			}
 		},
 		reset: function() {
-		    $('.page').hide();
-		    $('.nav li').removeClass('active');
+		    $('.fm-page').addClass('hidden');
+		    $('.navbar li').removeClass('active');
 		    
 		    var $navbatToggle = $('.navbar-toggle');
 		    var $toggleTarget = $($navbatToggle.data('target'));
@@ -62,7 +62,7 @@ var fm = function(options) {
 		},
 		index: function() {
 			that.reset();
-			var $indexPage = $('#index').show();
+			var $indexPage = $('#fm-index').removeClass('hidden');
 			if(!$indexPage.data('page')) {
 				that.music($indexPage, 1);
 			}
@@ -73,7 +73,7 @@ var fm = function(options) {
 			};
 			$.getJSON(settings.musicUrl, params).done(function(response) {
 				if(response.page) {
-					$page.data('page', response.page);
+					$page.data('fm-page', response.page);
 					
 					var $listContent = $page.find('.list-content').addClass('hidden');
 					var $empty = $page.find('.empty').addClass('hidden');
@@ -87,6 +87,16 @@ var fm = function(options) {
 						var $list = $listContent.find('.media-list').empty();
 						for(var i = 0; i < response.page.items.length; i++){
 							var item = response.page.items[i];
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
+							$list.append(tmpl('template-music-item', item));
 							$list.append(tmpl('template-music-item', item));
 						}
 						if(!response.page.first) {
@@ -105,7 +115,7 @@ var fm = function(options) {
 		},
 		player: function() {
 			that.reset();
-			$('#player').show();
+			$('#fm-player').removeClass('hidden');
 		}
 	};
 	
