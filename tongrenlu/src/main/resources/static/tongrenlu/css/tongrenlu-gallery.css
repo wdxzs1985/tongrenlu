@@ -25,6 +25,10 @@ gallery
     position: relative;
 }
 
+.gallery > .media a{
+    text-decoration: none;
+}
+
 .gallery > .media img{
     width: 100px;
     height: 100px;
@@ -45,46 +49,48 @@ gallery
     left: 0;
     bottom: 0;
     display: block;
-    background: -moz-linear-gradient(top,  rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.35) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.35)), color-stop(100%,rgba(0,0,0,0.35))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.35) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.35) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.35) 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.35) 100%); /* W3C */
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0.5))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
     color: #ffffff;
-    height: 0;
     padding:0 10px;
-    transition: height .2s ease-out .2s;
+    height: 0;
+    opacity: 0;
+    transition: height .2s ease-out .2s,opacity .2s ease-out .2s;
 }
 
 .gallery > .media img{
-    transition: margin-top .2s ease-out .2s;
 }
 
 .gallery > .media .overlay{
     width: 100px;
+    height: 0;
 }
 
 .gallery > .large .overlay{
     font-size: 18px;
     width: 200px;
+    height: 0;
 }
 
 .gallery > .media:hover .overlay{
     height: 60px;
+    opacity: 1;
 }
 
 .gallery > .large:hover .overlay{
-    height: 100px;
+    height: 200px;
+    opacity: 1;
 }
 
 .gallery > .media:hover img{
-    margin-top: -60px;
 }
 
 .gallery > .large:hover img{
-    margin-top: -100px;
 }
 
 
@@ -131,7 +137,6 @@ gallery
 }
 
 .gallery > .large:hover img{
-    margin-top: -125px;
 }
 
 }
@@ -180,7 +185,6 @@ gallery
 }
 
 .gallery > .large:hover img{
-    margin-top: -115px;
 }
 
 
