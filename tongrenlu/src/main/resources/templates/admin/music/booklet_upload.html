@@ -91,7 +91,7 @@ layout:decorator="console/layout">
         <ol class="indicator"></ol>
     </div>
 </div>
-<th:block layout:fragment="scripts-libs">
+<th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/vendor/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Load-Image-1.11.1/js/load-image.min.js"></script>
@@ -182,8 +182,6 @@ layout:decorator="console/layout">
     </tr>
 {% } %}
 </script>
-</th:block>
-<th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function () {
     'use strict';

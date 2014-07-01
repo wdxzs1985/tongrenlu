@@ -2,11 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
-  <head>
-    <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload.css" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload-ui.css" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
-  </head>
   <body>
     <div class="container" layout:fragment="content">
       <div class="page-header">
@@ -104,13 +99,11 @@
         </div>
       </form>
     </div>
-<th:block layout:fragment="scripts-libs">
+<th:block layout:fragment="scripts">
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.core.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.widget.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.mouse.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.sortable.min.js}"></script>
-</th:block>
-<th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function(){
     var $sortableList = $( '#sortable-list' ).sortable()

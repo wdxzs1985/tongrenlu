@@ -55,13 +55,11 @@
         </div>
       </form>
     </div>
-<th:block layout:fragment="scripts-libs">
+<th:block layout:fragment="scripts">
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.core.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.widget.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.mouse.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.sortable.min.js}"></script>
-</th:block>
-<th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function(){
     var $sortableList = $( '#sortable-list' ).sortable()

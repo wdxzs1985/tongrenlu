@@ -2,11 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
-  <head>
-    <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload.css" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload-ui.css" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
-  </head>
   <body>
     <div class="container" layout:fragment="content">
       <div class="page-header">
@@ -48,8 +43,8 @@
       <form th:action="@{/console/music/__${articleBean.id}__/track/sort}" method="POST">
         <div id="sortable-list" class="media-list">
             <div class="col-sm-4 col-md-2 sortable-object" 
-                 th:each="track : ${trackList}"
-                 th:attr="data-id=${track.id},data-name=${track.name}">
+                 th:attr="data-id=${track.id},data-name=${track.name}"
+                 th:each="track : ${trackList}">
                 <div class="thumbnail">
                     <img class="media-object visible-xs" th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" />
                     <img class="media-object hidden-xs" th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}" />
@@ -104,13 +99,11 @@
         </div>
       </form>
     </div>
-<th:block layout:fragment="scripts-libs">
+<th:block layout:fragment="scripts">
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.core.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.widget.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.mouse.min.js}"></script>
 <script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.sortable.min.js}"></script>
-</th:block>
-<th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
 $(function(){
     var $sortableList = $( '#sortable-list' ).sortable()
@@ -144,8 +137,8 @@ $(function(){
     // $( "#sort-file-list" ).disableSelection();
     
     $( "#sortable-list-expand" ).click(function(e){
-    	e.preventDefault();
-    	$sortableList.trigger('expand');
+        e.preventDefault();
+        $sortableList.trigger('expand');
     });
     $( "#sortable-list-collapse" ).click(function(e){
         e.preventDefault();
