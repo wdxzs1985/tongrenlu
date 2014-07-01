@@ -2,6 +2,8 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TrackBean;
+import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
 import info.tongrenlu.solr.MusicDocument;
@@ -9,6 +11,7 @@ import info.tongrenlu.solr.TrackDocument;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +54,26 @@ public class FmController {
         this.musicService.searchMusic(page);
 
         model.put("page", page);
+
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}")
+    @ResponseBody
+    public Map<String, Object> music(@PathVariable final Integer articleId) {
+
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        if (musicBean == null) {
+            throw new PageNotFoundException();
+        }
+
+        final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
+
+        model.put("musicBean", musicBean);
+        model.put("trackList", trackList);
 
         return model;
     }

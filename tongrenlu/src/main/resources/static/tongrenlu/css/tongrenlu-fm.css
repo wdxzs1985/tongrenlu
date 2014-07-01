@@ -2,19 +2,71 @@
 
 html, body { height: 100%; }
 
+hr { visibility: hidden}
+
 #fm-main {
 	position: relative;
 	height: 100%;
 }
 
 .fm-page {
-    position: absolute;
+    position: fixed;
     top: 50px;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #f7f7f7;
     overflow: auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.fm-page-active  {
+    z-index: 999;
+}
+
+.fm-page .btn-link {
+    color: #fff;
+}
+
+.fm-page .btn-link:hover {
+    color: #ccc;
+}
+
+.media-list > .media {
+	padding: 8px 16px;
+	margin: 0;
+    background-color: #fff;
+    border-top: #fff solid 1px;
+    border-bottom: #f7f7f7 solid 1px;
+}
+
+.media-list > .media:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.media-list > .media .media-heading {
+    margin-top: 20px;
+}
+
+#fm-index {
+    z-index: 1;
+}
+
+#fm-music {
+    z-index: 2;
+    left: 2999px;
+    transition: left .5s ease-in 0s;
+    color: #fff;
+    background-color: rgba(0,0,0,0.8);
+    background-size:cover;
+}
+
+#fm-music.fm-page-active {
+    left: 0;
+}
+
+#fm-player {
+    z-index: 9;
+    top: auto;
+    display: none;
 }

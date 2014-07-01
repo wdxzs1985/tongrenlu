@@ -60,7 +60,6 @@
 </div>
 <div id="fm-main" class="" layout:fragment="content">
     <div id="fm-index" class="fm-page">
-        <div class="container">
             <div class="list-content hidden">
                 <ul class="media-list"></ul>
                 <ul class="pager">
@@ -81,79 +80,124 @@
             <div class="empty alert alert-warning hidden" 
                  th:text="#{home.article.comment.empty}">
             </div>
+    </div>
+    <div id="fm-music" class="fm-page container-fluid">
+        <div class="page-header">
+            <a href="#index" class="btn btn-lg btn-link pull-right">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            <h1>title</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-sm-3">
+                <img class="img-responsive" src="/files/m13/cover_400.jpg" />
+            </div>
+            <div class="col-xs-8 col-sm-9">
+                <div class="btn-tools">
+                    <div class="btn-group">
+                        <button class="btn  btn-default">
+                            <span class="glyphicon glyphicon-play"></span>
+                            <span class="hidden-xs">Play</span>
+                        </button>
+                        <button class="btn  btn-default">
+                            <span class="glyphicon glyphicon-heart"></span>
+                            <span class="hidden-xs">Like</span>
+                        </button>
+                        <button class="btn  btn-default">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            <span class="hidden-xs">Add to playlist</span>
+                        </button>
+                    </div>
+                </div>
+                <hr />
+                <ol class="list-unstyled">
+                  <li class="media" th:each="i : ${#numbers.sequence(1, 10)}">
+                    <div class="media-body">
+					    <h4 class="media-heading text-single-line">
+                            <span class="glyphicon glyphicon-play"></span>
+                            <span th:text="'Track' + ${i}">Track</span>
+					    </h4>
+					</div>
+                  </li>
+                </ol>
+            </div>
         </div>
     </div>
-<div id="fm-library" class="fm-page"></div>
-<div id="fm-playlist" class="fm-page"></div>
-<div id="fm-player" class="fm-page">
-    <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-    <div id="jp_container_1" class="jp-audio">
-      <div class="jp-type-playlist">
-          <div class="jp-playlist">
-              <ul>
-                  <!-- The method Playlist.displayPlaylist() uses this unordered list -->
-                  <li></li>
-              </ul>
-          </div>
-          <div class="jp-gui">
-              <div class="jp-interface">
-                    <div class="jp-progress">
-                        <div class="jp-current-time"></div>
-                        <div class="jp-duration"></div>
-                        <div class="jp-seek-bar">
-                            <div class="jp-play-bar"></div>
-                        </div>
-                    </div>
-                    <ul class="jp-toggles">
-                        <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a></li>
-                        <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a></li>
-                        <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                        <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                    </ul>
-                    <ul class="jp-controls">
-                        <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a></li>
-                        <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a></li>
-                        <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a></li>
-                        <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a></li>
-                        <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a></li>
-                    </ul>
-                    <ul class="jp-volumn hidden-xs">
-                        <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
-                        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
-                        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
-                    </ul>
-                    <div class="jp-volume-bar hidden-xs">
-                            <div class="jp-volume-bar-value"></div>
-                    </div>
+    <div id="fm-library" class="fm-page"></div>
+    <div id="fm-playlist" class="fm-page"></div>
+    <div id="fm-player" class="fm-page">
+        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+        <div id="jp_container_1" class="jp-audio">
+          <div class="jp-type-playlist">
+              <div class="jp-playlist">
+                  <ul>
+                      <!-- The method Playlist.displayPlaylist() uses this unordered list -->
+                      <li></li>
+                  </ul>
               </div>
-          </div>
-          <div class="jp-no-solution">
-              <span>Update Required</span>
-              To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-          </div>
+              <div class="jp-gui">
+                  <div class="jp-interface">
+                        <div class="jp-progress">
+                            <div class="jp-current-time"></div>
+                            <div class="jp-duration"></div>
+                            <div class="jp-seek-bar">
+                                <div class="jp-play-bar"></div>
+                            </div>
+                        </div>
+                        <ul class="jp-toggles">
+                            <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a></li>
+                            <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a></li>
+                            <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
+                            <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
+                        </ul>
+                        <ul class="jp-controls">
+                            <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a></li>
+                            <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a></li>
+                            <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a></li>
+                            <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a></li>
+                            <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a></li>
+                        </ul>
+                        <ul class="jp-volumn hidden-xs">
+                            <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
+                            <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
+                            <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
+                        </ul>
+                        <div class="jp-volume-bar hidden-xs">
+                                <div class="jp-volume-bar-value"></div>
+                        </div>
+                  </div>
+              </div>
+              <div class="jp-no-solution">
+                  <span>Update Required</span>
+                  To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+              </div>
+            </div>
         </div>
     </div>
-</div>
 </div>
 <div layout:fragment="footer"></div>
 <th:block layout:fragment="scripts">
 <script id="template-music-item" type="text/x-tmpl">
 <li class="media">
     <a class="pull-left" href="#music/{%=o.id%}" title="{%=o.title%}">
-      <img class="media-object img-60 img-rounded img-thumbnail "
+      <img class="media-object img-120 img-rounded img-thumbnail hidden-xs"
+           src="/files/m{%=o.id%}/cover_120.jpg"
+           alt="{%=o.title%}" />
+      <img class="media-object img-60 img-rounded img-thumbnail visible-xs"
            src="/files/m{%=o.id%}/cover_60.jpg"
            alt="{%=o.title%}" />
     </a>
-    <div class="media-body hidden-xs">
-      <div class="article-list-item">
-      <h5 class="media-heading text-single-line">
-        <a href="#music/{%=o.id%}" title="{%=o.title%}">
-            <strong>{%=o.title%}</strong>
-        </a>
+    <div class="media-body">
+      <h3 class="media-heading text-single-line hidden-xs">
+        <a href="#music/{%=o.id%}" title="{%=o.title%}">{%=o.title%}</a>
+      </h3>
+      <h5 class="media-heading text-single-line visible-xs">
+        <a href="#music/{%=o.id%}" title="{%=o.title%}">{%=o.title%}</a>
       </h5>
-      </div>
     </div>
   </li>
+</script>
+<script id="template-music-page" type="text/x-tmpl">
 </script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>

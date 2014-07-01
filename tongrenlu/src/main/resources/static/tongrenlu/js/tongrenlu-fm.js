@@ -15,6 +15,8 @@ var fm = function(options) {
 			
 			that.initJPlayer();
 			
+			that.initEventHandler();
+			
 			$window.bind('hashchange', that.onHashChange)
 		    $window.trigger('hashchange');
 		},
@@ -37,6 +39,9 @@ var fm = function(options) {
 		        loop: true
 		    });
 		},
+		initEventHandler: function() {
+			
+		},
 		onHashChange: function() {
 			var hash = window.location.hash;
 			if(hash.match(/^#library$/)) {
@@ -45,13 +50,16 @@ var fm = function(options) {
 			} else if(hash.match(/^#player$/)) {
 				/* index */
 				that.player();
+			} else if(hash.match(/^#music\/\d+$/)) {
+				/* index */
+				that.music(hash.match(/\d+/)[0]);
 			} else {
 				/* index */
 				that.index();
 			}
 		},
 		reset: function() {
-		    $('.fm-page').addClass('hidden');
+		    $('.fm-page').removeClass('fm-page-active');
 		    $('.navbar li').removeClass('active');
 		    
 		    var $navbatToggle = $('.navbar-toggle');
@@ -62,12 +70,12 @@ var fm = function(options) {
 		},
 		index: function() {
 			that.reset();
-			var $indexPage = $('#fm-index').removeClass('hidden');
+			var $indexPage = $('#fm-index').addClass('fm-page-active');
 			if(!$indexPage.data('page')) {
-				that.music($indexPage, 1);
+				that.musiclist($indexPage, 1);
 			}
 		},
-		music: function($page, p) {
+		musiclist: function($page, p) {
 			var params = {
 					p: p
 			};
@@ -88,16 +96,6 @@ var fm = function(options) {
 						for(var i = 0; i < response.page.items.length; i++){
 							var item = response.page.items[i];
 							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
-							$list.append(tmpl('template-music-item', item));
 						}
 						if(!response.page.first) {
 							$previous.removeClass('hidden');
@@ -110,12 +108,17 @@ var fm = function(options) {
 				}
 			});
 		},
+		music: function(p) {
+			that.reset();
+			that.index();
+			var $musicPage = $('#fm-music').show().addClass('fm-page-active');
+		},
 		library: function() {
 			that.reset();
 		},
 		player: function() {
 			that.reset();
-			$('#fm-player').removeClass('hidden');
+			$('#fm-player').addClass('fm-page-active');
 		}
 	};
 	
