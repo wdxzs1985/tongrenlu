@@ -72,7 +72,7 @@ public class FmController {
 
         final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
 
-        model.put("musicBean", musicBean);
+        model.put("music", musicBean);
         model.put("trackList", trackList);
 
         return model;

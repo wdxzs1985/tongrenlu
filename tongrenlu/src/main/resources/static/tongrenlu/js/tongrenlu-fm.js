@@ -3,21 +3,13 @@ var fm = function(options) {
 		exitConfirm: '',
 		swfPath: ''
 	}, options);
+
+	var $window = $(window);
 	
 	var that = {
 		init: function() {
-			var $window = $(window);
-			if(settings.exitConfirm) {
-			    $window.bind('beforeunload', function(event) {
-					return settings.exitConfirm;
-				});
-			}
-			
-			that.initJPlayer();
-			
 			that.initEventHandler();
-			
-			$window.bind('hashchange', that.onHashChange)
+			that.initJPlayer();
 		    $window.trigger('hashchange');
 		},
 		initJPlayer: function() {
@@ -35,12 +27,61 @@ var fm = function(options) {
 		        smoothPlayBar: true,
 		        keyEnabled: true,
 		        audioFullScreen: true,
-		        volume : 0.5,
+		        volume: 0.5,
+		        preload: 'none',
 		        loop: true
 		    });
+		    that.playerInstance['_createListItem'] = function(file) {
+                var c = this;
+                var d = tmpl('template-playlist-item', { 
+                	removeItemClass: this.options.playlistOptions.removeItemClass,
+                	itemClass: this.options.playlistOptions.itemClass,
+                	file: file
+                });
+                return d;
+            }
 		},
 		initEventHandler: function() {
-			
+			/* window */
+			$window.on('hashchange', that.onHashChange);
+			if(settings.exitConfirm) {
+			    $window.on('beforeunload', function(event) {
+					return settings.exitConfirm;
+				});
+			}
+			/* fm-music */
+			var $musicPage = $('#fm-music').on('click', '.fm-play-tracks', function(e){
+				var music = $musicPage.data('music');
+				var playlist = [];
+	        	$.each($musicPage.data('trackList'), function(index, track) {
+	        		var title = track.name;
+	                var artist = track.artist;
+	                var original = track.original;
+	                var instrumental = (track.instrumental == '1');
+	                var mp3 = settings.filePath + '/m' + music.id + '/f' + track.id + '.mp3';
+	                var poster = settings.filePath + '/m' + music.id + '/cover_400.jpg';
+	        		var playable = {
+	        				title: title,
+	        				artist: artist,
+	                        original: original,
+	                        instrumental: instrumental,
+	        				mp3: mp3,
+	        				poster: poster
+	        		};
+	        		if(settings.filter) {
+	        			settings.filter(playlist, playable)
+	        		} else {
+	        			playlist.push(playable);
+	        		}
+	        	});
+
+				var index = $(this).data('index');
+				
+				that.playerInstance.setPlaylist(playlist);
+				that.playerInstance.play(index ? index : 0);
+				
+				that.player();
+			});
 		},
 		onHashChange: function() {
 			var hash = window.location.hash;
@@ -108,20 +149,28 @@ var fm = function(options) {
 				}
 			});
 		},
-		music: function(p) {
+		music: function(artcleId) {
 			that.reset();
 			that.index();
-			var $musicPage = $('#fm-music').show().addClass('fm-page-active');
+			var $musicPage = $('#fm-music').addClass('fm-page-active');
+			$musicPage.empty();
+			$.getJSON(settings.musicUrl + '/' + artcleId).done(function(response){
+				$musicPage.data(response);
+				$musicPage.append(tmpl('template-music-page', response));
+			});
 		},
 		library: function() {
 			that.reset();
 		},
 		player: function() {
-			that.reset();
-			$('#fm-player').addClass('fm-page-active');
+			if(that.playerInstance.playlist.length > 0) {
+				that.reset();
+				$('#fm-player').addClass('fm-page-active');
+			} else {
+				window.location.hash = '#index';
+			}
 		}
 	};
-	
 	
 	that.init();
 };

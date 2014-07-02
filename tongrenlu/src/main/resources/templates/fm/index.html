@@ -81,60 +81,13 @@
                  th:text="#{home.article.comment.empty}">
             </div>
     </div>
-    <div id="fm-music" class="fm-page container-fluid">
-        <div class="page-header">
-            <a href="#index" class="btn btn-lg btn-link pull-right">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
-            <h1>title</h1>
-        </div>
-        <div class="row">
-            <div class="col-xs-4 col-sm-3">
-                <img class="img-responsive" src="/files/m13/cover_400.jpg" />
-            </div>
-            <div class="col-xs-8 col-sm-9">
-                <div class="btn-tools">
-                    <div class="btn-group">
-                        <button class="btn  btn-default">
-                            <span class="glyphicon glyphicon-play"></span>
-                            <span class="hidden-xs">Play</span>
-                        </button>
-                        <button class="btn  btn-default">
-                            <span class="glyphicon glyphicon-heart"></span>
-                            <span class="hidden-xs">Like</span>
-                        </button>
-                        <button class="btn  btn-default">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            <span class="hidden-xs">Add to playlist</span>
-                        </button>
-                    </div>
-                </div>
-                <hr />
-                <ol class="list-unstyled">
-                  <li class="media" th:each="i : ${#numbers.sequence(1, 10)}">
-                    <div class="media-body">
-					    <h4 class="media-heading text-single-line">
-                            <span class="glyphicon glyphicon-play"></span>
-                            <span th:text="'Track' + ${i}">Track</span>
-					    </h4>
-					</div>
-                  </li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <div id="fm-music" class="fm-page fm-page-overlay"></div>
     <div id="fm-library" class="fm-page"></div>
     <div id="fm-playlist" class="fm-page"></div>
     <div id="fm-player" class="fm-page">
         <div id="jquery_jplayer_1" class="jp-jplayer"></div>
         <div id="jp_container_1" class="jp-audio">
           <div class="jp-type-playlist">
-              <div class="jp-playlist">
-                  <ul>
-                      <!-- The method Playlist.displayPlaylist() uses this unordered list -->
-                      <li></li>
-                  </ul>
-              </div>
               <div class="jp-gui">
                   <div class="jp-interface">
                         <div class="jp-progress">
@@ -167,6 +120,12 @@
                         </div>
                   </div>
               </div>
+              <div class="jp-playlist">
+                  <ul>
+                      <!-- The method Playlist.displayPlaylist() uses this unordered list -->
+                      <li></li>
+                  </ul>
+              </div>
               <div class="jp-no-solution">
                   <span>Update Required</span>
                   To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
@@ -198,6 +157,86 @@
   </li>
 </script>
 <script id="template-music-page" type="text/x-tmpl">
+<div class="container-fluid">
+<div class="page-header">
+    <a href="#index" class="btn btn-link pull-right">
+        <span class="glyphicon glyphicon-remove"></span>
+    </a>
+    <h1 class="hidden-xs">{%=o.music.title%}</h1>
+    <div class="media visible-xs">
+        <a href="#player" class="pull-left fm-play-tracks">
+            <img class="img-rounded img-responsive"
+                 src="/files/m{%=o.music.id%}/cover_60.jpg" />
+        </a>
+        <h4 class="media-heading">{%=o.music.title%}</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="hidden-xs col-sm-3">
+        <a href="#player" class="pull-left fm-play-tracks">
+            <img class="img-rounded img-responsive" 
+                 src="/files/m{%=o.music.id%}/cover_400.jpg" />
+        </a>
+    </div>
+    <div class="col-sm-9 ">
+        <div class="btn-tools">
+            <div class="btn-group">
+                <a href="#player" class="btn btn-primary fm-play-tracks">
+                    <span class="glyphicon glyphicon-play"></span>
+                    <span class="">Play</span>
+                </a>
+                <button class="btn  btn-default">
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="hidden-xs">Like</span>
+                </button>
+                <button class="btn  btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="hidden-xs">Add to playlist</span>
+                </button>
+            </div>
+        </div>
+        <hr />
+        <ol class="list-unstyled">
+            {% for (var i=0, track; track=o.trackList[i]; i++) { %}
+                <li class="media">
+                    <div class="media-body">
+                        <div class="text-single-line">
+                            <a href="#player" class="fm-play-tracks" id-index="{%=i%}">
+                                <span>{%=track.name%}</span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            {% } %}
+        </ol>
+    </div>
+</div>
+</div>
+</script>
+<script id="template-playlist-item" type="text/x-tmpl">
+<li class="clearfix">
+    <h5>
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
+                <span class="glyphicon glyphicon-headphones"></span>
+            </a>
+            <a href="javascript:;" class="btn btn-xs btn-default hidden">
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+            <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+        <a href="javascript:;" class="{%=o.itemClass%}">
+            {%=o.file.title%}
+        </a>
+    </h5>
+    <div>
+        {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
+        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
+    </div>
+    {% if (o.file.original) { %}<pre class="hidden-xs">{%=o.file.original%}</pre>{% } %}
+</li>
 </script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
@@ -206,7 +245,8 @@
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new fm({
-    	musicUrl: /*[[@{/fm/music}]]*/''
+    	musicUrl: /*[[@{/fm/music}]]*/'',
+        filePath: /*[[@{/files}]]*/''
     });
 });
 </script>

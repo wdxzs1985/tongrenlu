@@ -7,7 +7,8 @@ var player = function(option) {
         smoothPlayBar: true,
         keyEnabled: true,
         audioFullScreen: true,
-        volume : 0.5
+        volume: 0.5,
+        preload: 'none'
 	}, option);
 	
     $.getJSON(settings.url).done(function(response){

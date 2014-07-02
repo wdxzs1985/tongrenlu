@@ -18,17 +18,25 @@ hr { visibility: hidden}
     overflow: auto;
     padding-top: 0;
     padding-bottom: 0;
+    background: #fff;
 }
 
 .fm-page-active  {
     z-index: 999;
 }
 
-.fm-page .btn-link {
+.fm-page-overlay {
     color: #fff;
+    background-color: rgba(0,0,0,0.8);
+    background-size:cover;
 }
 
-.fm-page .btn-link:hover {
+.fm-page-overlay a, .fm-page-overlay .btn-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.fm-page-overlay a:hover, .fm-page-overlay .btn-link:hover {
     color: #ccc;
 }
 
@@ -54,19 +62,32 @@ hr { visibility: hidden}
 
 #fm-music {
     z-index: 2;
-    left: 2999px;
-    transition: left .5s ease-in 0s;
-    color: #fff;
-    background-color: rgba(0,0,0,0.8);
-    background-size:cover;
+    margin-left: 1999px;
+    margin-right: -1999px;
+    transition: all .5s ease-in 0s;
 }
 
 #fm-music.fm-page-active {
-    left: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 #fm-player {
+	left:auto;
+	width: 480px;
     z-index: 9;
-    top: auto;
-    display: none;
+    margin-left: 1999px;
+    margin-right: -1999px;
+    transition: all .5s ease-in 0s;
+    border-left: 1px solid #ddd;
+}
+
+
+#fm-player .jp-audio{
+    border: none;
+}
+
+#fm-player.fm-page-active {
+    margin-left: 0;
+    margin-right: 0;
 }
