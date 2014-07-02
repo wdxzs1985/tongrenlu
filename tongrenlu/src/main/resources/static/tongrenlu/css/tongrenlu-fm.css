@@ -31,12 +31,12 @@ hr { visibility: hidden}
     background-size:cover;
 }
 
-.fm-page-overlay a, .fm-page-overlay .btn-link {
-    color: #fff;
+.fm-page-overlay .btn-link {
     text-decoration: none;
+    color: #fff;
 }
 
-.fm-page-overlay a:hover, .fm-page-overlay .btn-link:hover {
+.fm-page-overlay .btn-link:hover {
     color: #ccc;
 }
 
@@ -62,11 +62,9 @@ hr { visibility: hidden}
 }
 
 #fm-index {
-    z-index: 1;
 }
 
 #fm-music {
-    z-index: 2;
     margin-left: 1999px;
     margin-right: -1999px;
     transition: all .5s ease-in 0s;
@@ -80,7 +78,6 @@ hr { visibility: hidden}
 #fm-player {
 	left:auto;
 	width: 480px;
-    z-index: 9;
     margin-left: 1999px;
     margin-right: -1999px;
     transition: all .5s ease-in 0s;

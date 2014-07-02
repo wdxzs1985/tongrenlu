@@ -21,19 +21,18 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav navbar-left">
-        <li ><a href="#search" th:text="#{home.fm.search}"></a></li>
-        <li ><a href="#playlist" th:text="#{home.fm.playlist}"></a></li>
         <li ><a href="#player" th:text="#{home.fm.player}"></a></li>
       </ul>
       <form id="fm-search-form" class="navbar-form navbar-left" role="form">
         <div class="form-group">
-          <label class="sr-only" for="inputSearch" th:text="#{fm.search}"></label>
-          <input type="text" class="form-control" name="q" id="inputSearch" th:placeholder="#{fm.search}" />
+          <label class="sr-only" for="inputSearch" th:text="#{home.fm.search}"></label>
+          <input type="text" class="form-control" name="q" th:placeholder="#{home.fm.search}" />
+          <input type="hidden" name="p" value="1" />
         </div>
         <button type="submit" class="btn btn-default" th:text="#{button.search}">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" th:text="#{application}"></a></li>
+        <li><a th:href="@{/}" th:text="#{application}"></a></li>
         <li>
         </li>
         <li id="nav-signin" class="hidden">
@@ -58,7 +57,7 @@
   </div>
 </div>
 <div id="fm-main" class="" layout:fragment="content">
-    <div id="fm-index" class="fm-page">
+    <div id="fm-index" class="fm-page fm-page-1">
       <div class="list-content hidden">
           <ul class="media-list"></ul>
           <ul class="pager">
@@ -87,8 +86,8 @@
         </div>
       </div>
     </div>
-    <div id="fm-music" class="fm-page fm-page-overlay"></div>
-    <div id="fm-search" class="fm-page">
+    <div id="fm-music" class="fm-page fm-page-overlay fm-page-2"></div>
+    <div id="fm-search" class="fm-page fm-page-1">
       <div class="list-content hidden">
           <ul class="media-list"></ul>
           <ul class="pager">
@@ -117,8 +116,8 @@
         </div>
       </div>
     </div>
-    <div id="fm-playlist" class="fm-page"></div>
-    <div id="fm-player" class="fm-page">
+    <div id="fm-playlist" class="fm-page fm-page-1"></div>
+    <div id="fm-player" class="fm-page fm-page-3">
         <div id="jquery_jplayer_1" class="jp-jplayer"></div>
         <div id="jp_container_1" class="jp-audio">
           <div class="jp-type-playlist">
@@ -217,19 +216,15 @@
             <div class="btn-group">
                 <a href="#player" class="btn btn-primary fm-play-tracks">
                     <span class="glyphicon glyphicon-play"></span>
-                    <span class="">Play</span>
+                    <span class="" th:text="#{home.fm.article.play}">Play</span>
                 </a>
-                <button class="btn  btn-default">
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="hidden-xs">Like</span>
-                </button>
-                <button class="btn  btn-default">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span class="hidden-xs">Add to playlist</span>
-                </button>
-                <button class="btn  btn-default">
+                <a th:href="@{/music} + '/{%=o.music.id%}'" class="btn btn-default" target="_blank">
                     <span class="glyphicon glyphicon glyphicon-share-alt"></span>
-                    <span class="hidden-xs">Go to Album</span>
+                    <span class="hidden-xs" th:text="#{home.fm.article.goToAlbum}">Go to Album</span>
+                </a>
+                <button class="btn btn-default likebutton" th:attr="data-url=@{/music} + '/{%=o.music.id%}/like',data-notlike-text=#{home.article.notlike},data-like-text=#{home.article.like},data-unlike-text=#{home.article.unlike}">
+                    <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                    <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
                 </button>
             </div>
         </div>
@@ -238,12 +233,10 @@
             {% for (var i=0, track; track=o.trackList[i]; i++) { %}
                 <li class="media">
                     <div class="media-body">
-                        <h5 class="text-single-line">
-                            <a href="#player" class="fm-play-tracks" id-index="{%=i%}">
+                            <a href="#player" class="btn btn-link fm-play-tracks" id-index="{%=i%}">
                                 <span>{%=track.name%}</span>
                                 <span class="label label-info">{%=track.artist%}</span>
                             </a>
-                        </h5>
                     </div>
                 </li>
             {% } %}
@@ -280,7 +273,6 @@
 </script>
 <script id="template-playlist-item" type="text/x-tmpl">
 <li class="clearfix">
-    <h5>
         <div class="pull-right">
             <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
                 <span class="glyphicon glyphicon-headphones"></span>
@@ -292,6 +284,7 @@
                 <span class="glyphicon glyphicon-remove"></span>
             </a>
         </div>
+    <h5>
         <a href="javascript:;" class="{%=o.itemClass%}">
             {%=o.file.title%}
         </a>
@@ -306,6 +299,7 @@
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
 <script th:src="@{/tongrenlu/js/tongrenlu-fm.js}" ></script>
+<script th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new fm({

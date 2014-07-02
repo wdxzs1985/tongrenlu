@@ -49,6 +49,9 @@ var fm = function(options) {
 					return settings.exitConfirm;
 				});
 			}
+			/* navbar */
+			$('.navbar').on('click', 'a', function(){
+			});
 			/* fm-music */
 			var $musicPage = $('#fm-music').on('click', '.fm-play-tracks', function(e){
 				e.preventDefault();
@@ -87,7 +90,8 @@ var fm = function(options) {
 			var $searchForm = $('#fm-search-form');
 			$searchForm.on('submit', function(e) {
 				e.preventDefault();
-				that.search($(this).serialize());
+				var data = $(this).serialize();
+				window.location.hash='#search/' + data;
 			});
 			/* fm-search */
 			var $searchPage = $('#fm-search').on('click', '.fm-play-track', function(e){
@@ -116,10 +120,18 @@ var fm = function(options) {
 			});
 		},
 		onHashChange: function() {
+			var $navbatToggle = $('.navbar-toggle');
+		    var $toggleTarget = $($navbatToggle.data('target'));
+		    if($toggleTarget.hasClass('in')) {
+		    	$navbatToggle.trigger('click')
+		    }
+		    
 			var hash = window.location.hash;
-			if(hash.match(/^#search$/)) {
+			if(hash.match(/^#search\/q=(.*?)&p=(\d+)$/)) {
 				/*...*/
-				that.search();
+				var q = hash.match(/^#search\/q=(.*?)&p=(\d+)$/)[1];
+				var p = hash.match(/^#search\/q=(.*?)&p=(\d+)$/)[2];
+				that.search({q: q, p: p - 1});
 			} else if(hash.match(/^#player$/)) {
 				/* index */
 				that.player();
@@ -131,18 +143,13 @@ var fm = function(options) {
 				that.index();
 			}
 		},
-		reset: function() {
-		    $('.fm-page').removeClass('fm-page-active');
-		    $('.navbar li').removeClass('active');
-		    
-		    var $navbatToggle = $('.navbar-toggle');
-		    var $toggleTarget = $($navbatToggle.data('target'));
-		    if($toggleTarget.hasClass('in')) {
-		    	$navbatToggle.trigger('click')
-		    }
+		reset: function(levels) {
+		    $.each(levels, function(index, element){
+		    	$(element).removeClass('fm-page-active');
+		    })
 		},
 		index: function() {
-			that.reset();
+			that.reset(['.fm-page-1','.fm-page-2','.fm-page-3']);
 			var $page = $('#fm-index').addClass('fm-page-active');
 			if(!$page.data('page')) {
 				that.musiclist($page, 1);
@@ -184,47 +191,47 @@ var fm = function(options) {
 			});
 		},
 		music: function(artcleId) {
+			that.reset(['.fm-page-2','.fm-page-3']);
 			var $musicPage = $('#fm-music').addClass('fm-page-active');
 			$musicPage.empty();
 			$.getJSON(settings.musicUrl + '/' + artcleId).done(function(response){
 				$musicPage.data(response);
 				$musicPage.append(tmpl('template-music-page', response));
+				
+				$musicPage.find('.likebutton').likebutton();
 			});
 		},
 		search: function(data) {
-			that.reset();
+			that.reset(['.fm-page-1','.fm-page-2','.fm-page-3']);
 			var $page = $('#fm-search').addClass('fm-page-active');
+			
 			var $listContent = $page.find('.list-content').addClass('hidden');
 			var $empty = $page.find('.empty').addClass('hidden');
 
-			if(data){
+			if(data.q){
 				$.getJSON(settings.searchUrl, data).done(function(response){
 					$page.data(response);
-
-					var $listContent = $page.find('.list-content').addClass('hidden');
-					var $empty = $page.find('.empty').addClass('hidden');
-
-					var $previous = $listContent.find('.previous').addClass('hidden');
-					var $next = $listContent.find('.next').addClass('hidden');
-					
-					if(response.searchResult.totalPages == 0) {
-						$empty.removeClass('hidden');
-					} else {
-						var $list = $listContent.find('.media-list').empty();
-						for(var i = 0; i < response.searchResult.content.length; i++){
-							var item = response.searchResult.content[i];
-							var $listItem = $(tmpl('template-search-item', item));
-							$listItem.data(item);
-							$list.append($listItem);
+						var $previous = $listContent.find('.previous').addClass('hidden');
+						var $next = $listContent.find('.next').addClass('hidden');
+						
+						if(response.searchResult.totalPages == 0) {
+							$empty.removeClass('hidden');
+						} else {
+							var $list = $listContent.find('.media-list').empty();
+							for(var i = 0; i < response.searchResult.content.length; i++){
+								var item = response.searchResult.content[i];
+								var $listItem = $(tmpl('template-search-item', item));
+								$listItem.data(item);
+								$list.append($listItem);
+							}
+							if(!response.searchResult.firstPage) {
+								$previous.removeClass('hidden');
+							}
+							if(!response.searchResult.lastPage) {
+								$next.removeClass('hidden');
+							}
+							$listContent.removeClass('hidden');
 						}
-						if(!response.searchResult.firstPage) {
-							$previous.removeClass('hidden');
-						}
-						if(!response.searchResult.lastPage) {
-							$next.removeClass('hidden');
-						}
-						$listContent.removeClass('hidden');
-					}
 				});
 			} else {
 				$empty.removeClass('hidden');
