@@ -17,6 +17,8 @@
         <property name="maxActive" value="${spring.datasource.max-active}"/>
         <property name="maxIdle" value="${spring.datasource.max-idle}"/>
         <property name="minIdle" value="${spring.datasource.min-idle}"/>
+        <property name="validationQuery" value="select 1"/>
+        <property name="testOnBorrow" value="true"/>
     </bean>
     
     <!-- define the SqlSessionFactory -->
