@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -88,10 +89,12 @@ public class FmController {
         final Pageable pageable = new PageRequest(pageNumber,
                                                   PaginateSupport.PAGESIZE);
 
-        final Page<MusicDocument> searchResult = this.searchService.findMusic(query,
-                                                                              pageable);
-        model.put("query", query);
-        model.put("searchResult", searchResult);
+        if (StringUtils.isNotBlank(query)) {
+            final Page<MusicDocument> searchResult = this.searchService.findMusic(query,
+                                                                                  pageable);
+            model.put("query", query);
+            model.put("searchResult", searchResult);
+        }
 
         return model;
     }
@@ -106,10 +109,12 @@ public class FmController {
         final Pageable pageable = new PageRequest(pageNumber,
                                                   PaginateSupport.PAGESIZE);
 
-        final Page<TrackDocument> searchResult = this.searchService.findTrack(query,
-                                                                              pageable);
-        model.put("query", query);
-        model.put("searchResult", searchResult);
+        if (StringUtils.isNotBlank(query)) {
+            final Page<TrackDocument> searchResult = this.searchService.findTrack(query,
+                                                                                  pageable);
+            model.put("query", query);
+            model.put("searchResult", searchResult);
+        }
 
         return model;
     }

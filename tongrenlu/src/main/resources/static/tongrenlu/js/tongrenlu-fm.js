@@ -51,6 +51,8 @@ var fm = function(options) {
 			}
 			/* fm-music */
 			var $musicPage = $('#fm-music').on('click', '.fm-play-tracks', function(e){
+				e.preventDefault();
+				
 				var music = $musicPage.data('music');
 				var playlist = [];
 	        	$.each($musicPage.data('trackList'), function(index, track) {
@@ -63,7 +65,6 @@ var fm = function(options) {
 	        		var playable = {
 	        				title: title,
 	        				artist: artist,
-	                        original: original,
 	                        instrumental: instrumental,
 	        				mp3: mp3,
 	        				poster: poster
@@ -80,14 +81,45 @@ var fm = function(options) {
 				that.playerInstance.setPlaylist(playlist);
 				that.playerInstance.play(index ? index : 0);
 				
-				that.player();
+				window.location.hash = '#player';
+			});
+			/* search form */
+			var $searchForm = $('#fm-search-form');
+			$searchForm.on('submit', function(e) {
+				e.preventDefault();
+				that.search($(this).serialize());
+			});
+			/* fm-search */
+			var $searchPage = $('#fm-search').on('click', '.fm-play-track', function(e){
+				e.preventDefault();
+				
+				var searchResult = $searchPage.data('searchResult');
+				
+				var track = $(this).closest('.media').data();
+        		var title = track.track;
+                var artist = track.artist ? track.artist.join(',') : '';
+                var instrumental = (track.instrumental);
+                var mp3 = settings.filePath + '/m' + track.articleId + '/f' + track.fileId + '.mp3';
+                var poster = settings.filePath + '/m' + track.articleId + '/cover_400.jpg';
+				var playable = {
+						title: title,
+        				artist: artist,
+                        instrumental: instrumental,
+        				mp3: mp3,
+        				poster: poster
+				};
+				var index = $(this).data('index');
+				that.playerInstance.add(playable);
+				that.playerInstance.play(-1);
+
+				window.location.hash = '#player';
 			});
 		},
 		onHashChange: function() {
 			var hash = window.location.hash;
-			if(hash.match(/^#library$/)) {
+			if(hash.match(/^#search$/)) {
 				/*...*/
-				that.library();
+				that.search();
 			} else if(hash.match(/^#player$/)) {
 				/* index */
 				that.player();
@@ -111,9 +143,9 @@ var fm = function(options) {
 		},
 		index: function() {
 			that.reset();
-			var $indexPage = $('#fm-index').addClass('fm-page-active');
-			if(!$indexPage.data('page')) {
-				that.musiclist($indexPage, 1);
+			var $page = $('#fm-index').addClass('fm-page-active');
+			if(!$page.data('page')) {
+				that.musiclist($page, 1);
 			}
 		},
 		musiclist: function($page, p) {
@@ -122,7 +154,7 @@ var fm = function(options) {
 			};
 			$.getJSON(settings.musicUrl, params).done(function(response) {
 				if(response.page) {
-					$page.data('fm-page', response.page);
+					$page.data(response);
 					
 					var $listContent = $page.find('.list-content').addClass('hidden');
 					var $empty = $page.find('.empty').addClass('hidden');
@@ -136,7 +168,9 @@ var fm = function(options) {
 						var $list = $listContent.find('.media-list').empty();
 						for(var i = 0; i < response.page.items.length; i++){
 							var item = response.page.items[i];
-							$list.append(tmpl('template-music-item', item));
+							var $listItem = $(tmpl('template-music-item', item));
+							$listItem.data(item);
+							$list.append($listItem);
 						}
 						if(!response.page.first) {
 							$previous.removeClass('hidden');
@@ -150,8 +184,6 @@ var fm = function(options) {
 			});
 		},
 		music: function(artcleId) {
-			that.reset();
-			that.index();
 			var $musicPage = $('#fm-music').addClass('fm-page-active');
 			$musicPage.empty();
 			$.getJSON(settings.musicUrl + '/' + artcleId).done(function(response){
@@ -159,12 +191,47 @@ var fm = function(options) {
 				$musicPage.append(tmpl('template-music-page', response));
 			});
 		},
-		library: function() {
+		search: function(data) {
 			that.reset();
+			var $page = $('#fm-search').addClass('fm-page-active');
+			var $listContent = $page.find('.list-content').addClass('hidden');
+			var $empty = $page.find('.empty').addClass('hidden');
+
+			if(data){
+				$.getJSON(settings.searchUrl, data).done(function(response){
+					$page.data(response);
+
+					var $listContent = $page.find('.list-content').addClass('hidden');
+					var $empty = $page.find('.empty').addClass('hidden');
+
+					var $previous = $listContent.find('.previous').addClass('hidden');
+					var $next = $listContent.find('.next').addClass('hidden');
+					
+					if(response.searchResult.totalPages == 0) {
+						$empty.removeClass('hidden');
+					} else {
+						var $list = $listContent.find('.media-list').empty();
+						for(var i = 0; i < response.searchResult.content.length; i++){
+							var item = response.searchResult.content[i];
+							var $listItem = $(tmpl('template-search-item', item));
+							$listItem.data(item);
+							$list.append($listItem);
+						}
+						if(!response.searchResult.firstPage) {
+							$previous.removeClass('hidden');
+						}
+						if(!response.searchResult.lastPage) {
+							$next.removeClass('hidden');
+						}
+						$listContent.removeClass('hidden');
+					}
+				});
+			} else {
+				$empty.removeClass('hidden');
+			}
 		},
 		player: function() {
 			if(that.playerInstance.playlist.length > 0) {
-				that.reset();
 				$('#fm-player').addClass('fm-page-active');
 			} else {
 				window.location.hash = '#index';

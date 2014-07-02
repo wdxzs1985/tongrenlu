@@ -40,6 +40,11 @@ hr { visibility: hidden}
     color: #ccc;
 }
 
+.fm-page .empty{
+  margin-top: 50px;
+}
+
+
 .media-list > .media {
 	padding: 8px 16px;
 	margin: 0;
@@ -53,7 +58,7 @@ hr { visibility: hidden}
 }
 
 .media-list > .media .media-heading {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 #fm-index {
@@ -82,7 +87,6 @@ hr { visibility: hidden}
     border-left: 1px solid #ddd;
 }
 
-
 #fm-player .jp-audio{
     border: none;
 }
@@ -90,4 +94,11 @@ hr { visibility: hidden}
 #fm-player.fm-page-active {
     margin-left: 0;
     margin-right: 0;
+}
+
+@MEDIA (max-width: 767px) {
+	#fm-player {
+    left: 0;
+    width: auto;
+	}
 }

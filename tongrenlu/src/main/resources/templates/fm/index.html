@@ -21,23 +21,31 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav navbar-left">
-        <li ><a href="#library" th:text="#{home.fm.library}"></a></li>
+        <li ><a href="#search" th:text="#{home.fm.search}"></a></li>
         <li ><a href="#playlist" th:text="#{home.fm.playlist}"></a></li>
         <li ><a href="#player" th:text="#{home.fm.player}"></a></li>
       </ul>
-      <ul id="nav-signin" class="nav navbar-nav navbar-right hidden">
+      <form id="fm-search-form" class="navbar-form navbar-left" role="form">
+        <div class="form-group">
+          <label class="sr-only" for="inputSearch" th:text="#{fm.search}"></label>
+          <input type="text" class="form-control" name="q" id="inputSearch" th:placeholder="#{fm.search}" />
+        </div>
+        <button type="submit" class="btn btn-default" th:text="#{button.search}">Search</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" th:text="#{application}"></a></li>
         <li>
-          <a th:href="@{/signup}" th:text="#{login.signup}" target="_blank"></a>
         </li>
-        <li>
-          <a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a>
+        <li id="nav-signin" class="hidden">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+            <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a th:href="@{/signup}" th:text="#{login.signup}" target="_blank"></a></li>
+            <li><a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a></li>
+          </ul>
         </li>
-        <li>
-          <a th:href="@{/}" th:text="#{application}"></a>
-        </li>
-      </ul>
-      <ul id="nav-console" class="nav navbar-nav navbar-right hidden">
-        <li>
+        <li id="nav-console" class="hidden">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
             <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
           </a>
@@ -45,44 +53,70 @@
             <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
           </ul>
         </li>
-        <li>
-          <a th:href="@{/}" th:text="#{application}"></a>
-        </li>
       </ul>
-      <form th:action="@{/search}" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" name="q" class="form-control" th:placeholder="#{button.search}"/>
-        </div>
-        <button type="submit" class="btn btn-default" th:text="#{button.search}">Submit</button>
-      </form>
     </div>
   </div>
 </div>
 <div id="fm-main" class="" layout:fragment="content">
     <div id="fm-index" class="fm-page">
-            <div class="list-content hidden">
-                <ul class="media-list"></ul>
-                <ul class="pager">
-                  <li class="previous">
-                    <a href="#">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                        <span th:text="#{button.previousPage}"></span>
-                    </a>
-                  </li>
-                  <li class="next">
-                    <a href="#">
-                        <span th:text="#{button.nextPage}"></span>
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
-                  </li>
-                </ul>
+      <div class="list-content hidden">
+          <ul class="media-list"></ul>
+          <ul class="pager">
+            <li class="previous">
+              <a href="#">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span th:text="#{button.previousPage}"></span>
+              </a>
+            </li>
+            <li class="next">
+              <a href="#">
+                  <span th:text="#{button.nextPage}"></span>
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+              </a>
+            </li>
+          </ul>
+      </div>
+      <div class="empty container hidden">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <div class="alert alert-info">
+                <h4>Search</h4>
+                <p>To align components in navbars with utility classes, use .navbar-left or .navbar-right instead. See the navbar docs for details.</p>
             </div>
-            <div class="empty alert alert-warning hidden" 
-                 th:text="#{home.article.comment.empty}">
-            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="fm-music" class="fm-page fm-page-overlay"></div>
-    <div id="fm-library" class="fm-page"></div>
+    <div id="fm-search" class="fm-page">
+      <div class="list-content hidden">
+          <ul class="media-list"></ul>
+          <ul class="pager">
+            <li class="previous">
+              <a href="#">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span th:text="#{button.previousPage}"></span>
+              </a>
+            </li>
+            <li class="next">
+              <a href="#">
+                  <span th:text="#{button.nextPage}"></span>
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+              </a>
+            </li>
+          </ul>
+      </div>
+      <div class="empty container hidden">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <div class="alert alert-info">
+                <h4>Search</h4>
+                <p>To align components in navbars with utility classes, use .navbar-left or .navbar-right instead. See the navbar docs for details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="fm-playlist" class="fm-page"></div>
     <div id="fm-player" class="fm-page">
         <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -193,6 +227,10 @@
                     <span class="glyphicon glyphicon-plus"></span>
                     <span class="hidden-xs">Add to playlist</span>
                 </button>
+                <button class="btn  btn-default">
+                    <span class="glyphicon glyphicon glyphicon-share-alt"></span>
+                    <span class="hidden-xs">Go to Album</span>
+                </button>
             </div>
         </div>
         <hr />
@@ -200,11 +238,12 @@
             {% for (var i=0, track; track=o.trackList[i]; i++) { %}
                 <li class="media">
                     <div class="media-body">
-                        <div class="text-single-line">
+                        <h5 class="text-single-line">
                             <a href="#player" class="fm-play-tracks" id-index="{%=i%}">
                                 <span>{%=track.name%}</span>
+                                <span class="label label-info">{%=track.artist%}</span>
                             </a>
-                        </div>
+                        </h5>
                     </div>
                 </li>
             {% } %}
@@ -212,6 +251,32 @@
     </div>
 </div>
 </div>
+</script>
+<script id="template-search-item" type="text/x-tmpl">
+<li class="media">
+    <a class="pull-left fm-play-track" href="#player"
+       title="{%=o.title%}">
+      <img class="media-object img-120 img-rounded img-thumbnail hidden-xs"
+           src="/files/m{%=o.articleId%}/cover_120.jpg"
+           alt="{%=o.track%}" />
+      <img class="media-object img-60 img-rounded img-thumbnail visible-xs"
+           src="/files/m{%=o.articleId%}/cover_60.jpg"
+           alt="{%=o.track%}" />
+    </a>
+    <div class="media-body">
+      <h3 class="media-heading text-single-line hidden-xs">
+        <a href="#player" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a>
+      </h3>
+      <h5 class="media-heading text-single-line visible-xs">
+        <a href="#player" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a>
+      </h5>
+      <p class="media-body text-single-line">
+        <a href="#music/{%=o.articleId%}" title="{%=o.title%}">
+            > {%=o.title%}
+        </a>
+      </p>
+    </div>
+  </li>
 </script>
 <script id="template-playlist-item" type="text/x-tmpl">
 <li class="clearfix">
@@ -235,7 +300,6 @@
         {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
         {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
     </div>
-    {% if (o.file.original) { %}<pre class="hidden-xs">{%=o.file.original%}</pre>{% } %}
 </li>
 </script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
@@ -246,7 +310,8 @@
 $(function() {
     new fm({
     	musicUrl: /*[[@{/fm/music}]]*/'',
-        filePath: /*[[@{/files}]]*/''
+        filePath: /*[[@{/files}]]*/'',
+        searchUrl: /*[[@{/fm/search/track}]]*/''
     });
 });
 </script>
