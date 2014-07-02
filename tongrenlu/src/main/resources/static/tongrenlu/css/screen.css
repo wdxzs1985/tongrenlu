@@ -16,8 +16,6 @@ body {
 	margin-bottom: 15px;
 }
 
-
-
 .img-400 {
     width: 400px;
     height: 400px;
@@ -65,16 +63,22 @@ body {
     text-overflow: ellipsis;
 }
 
+.container-wrap {
+	background: #f7f7f7; 
+	margin-top: -20px; 
+	padding: 20px 0 60px;
+}
+
 .append-bottom-xs {
-    margin: 5px;
+    margin-bottom: 5px;
 }
 
 .append-bottom {
-	margin: 10px;
+	margin-bottom: 10px;
 }
 
 .append-bottom-lg {
-    margin: 20px;
+    margin-bottom: 20px;
 }
 
 h1.article-title {

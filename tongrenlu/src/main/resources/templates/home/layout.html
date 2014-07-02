@@ -24,17 +24,8 @@
         <li ><a th:href="@{/tongrenlu/ost.html}" th:text="#{home.ost}" target="_blank"></a></li>
       </ul>
       <ul id="nav-signin" class="nav navbar-nav navbar-right hidden">
-        <li>
-          <a th:href="@{/signup}" th:text="#{login.signup}">
-            sign up
-          </a>
-        </li>
-        <li>
-          <a href="#signinModal" data-toggle="modal"
-             th:text="#{login.signin}">
-            sign in
-          </a>
-        </li>
+        <li><a th:href="@{/signup}" th:text="#{login.signup}"></a></li>
+        <li><a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a></li>
       </ul>
       <ul id="nav-console" class="nav navbar-nav navbar-right hidden">
         <li ><a th:href="@{/console}" th:text="#{console}"></a></li>
@@ -47,12 +38,6 @@
           </ul>
         </li>
       </ul>
-      <form th:action="@{/search}" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" name="q" class="form-control" th:placeholder="#{button.search}"/>
-        </div>
-        <button type="submit" class="btn btn-default" th:text="#{button.search}">Submit</button>
-      </form>
     </div>
   </div>
 </div>

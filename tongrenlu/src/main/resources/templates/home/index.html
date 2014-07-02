@@ -5,9 +5,23 @@
   <head>
   <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-gallery.css}" />
   </head>
-  <body >
-        <div layout:fragment="content">
-          <div class="container-fluid" style="background: #f7f7f7; margin-top: -20px; margin-bottom: 20px; padding-top: 20px;">
+  <body>
+    <div layout:fragment="content">
+        <div class="container-wrap">
+            <div class="container append-bottom-lg">
+                <div class="row">
+                  <div class="col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8">
+                    <form th:action="@{/search}" method="get" role="search">
+                    <div class="input-group">
+                      <input type="text" name="q" class="form-control" th:placeholder="#{home.search}"/>
+                      <span class="input-group-btn">
+                        <button class="btn btn-warning" type="submit" th:text="#{button.search}"></button>
+                      </span>
+                    </div><!-- /input-group -->
+                    </form>
+                  </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+            </div>
             <div id="gallery" class="gallery media-list clearfix">
                 <th:block  th:each="articleBean,iterStat : ${musicPage.items}">
                     <div class="media large pull-left " th:if="${iterStat.index == 0}">
@@ -51,7 +65,8 @@
                     </div>
                 </th:block>
             </div>
-          </div>
+        </div>
+        <div class="container-wrap" style="background: #fff;">
           <div class="container">
             <div class="page-header">
                 <h3 th:text="#{home.music.reitaisai}"></h3>
@@ -118,7 +133,8 @@
                 </div>
             </div>
           </div>
-          <div class="container-fluid" style="background: #f7f7f7; margin-top: 20px; margin-bottom: 20px; padding-top: 20px;">
+        </div>
+        <div class="container-wrap">
           <div class="container">
             <div class="row">
                 <div class="col-sm-8">
@@ -127,33 +143,20 @@
                     </div>
                     <div class="row">
                         <th:block th:each="articleBean,iterStat : ${comicPage.items}">
-                            <div class="col-sm-6 visible-xs visible-sm">
-                                <div class="media">
-                                    <a th:href="@{/comic/__${articleBean.id}__}" class="pull-left">
-	                                    <img th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}"
-	                                     th:alt-title="${articleBean.title}"
-	                                     class="img-60"/>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="thumbnail media">
+                                    <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left">
+                                        <img th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"
+                                             class="media-object"/>
                                     </a>
-                                    <div class="media-body">
-                                        <h5 class="media-heading text-single-line">
-                                            <a th:href="@{/comic/__${articleBean.id}__}"
-                                                th:text="${articleBean.title}" >
-                                            </a>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 hidden-xs hidden-sm">
-                                <div class="thumbnail">
-                                    <a th:href="@{/comic/__${articleBean.id}__}">
-                                        <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}"
-                                         th:alt-title="${articleBean.title}"
-                                         class="img-180"/>
+                                    <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs">
+                                        <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                             class="img-180 "/>
                                     </a>
                                     <div class="caption">
                                         <h5 class="media-heading text-single-line">
                                             <a th:href="@{/comic/__${articleBean.id}__}"
-                                                th:text="${articleBean.title}" >
+                                               th:text="${articleBean.title}" >
                                             </a>
                                         </h5>
                                     </div>
@@ -169,7 +172,8 @@
                 </div>
             </div>
           </div>
-          </div>
+        </div>
+        <div class="container-wrap" style="background: #fff;">
           <div class="container">
             <div class="page-header">
                 <h3 th:text="#{home.links}"></h3>
@@ -236,7 +240,8 @@
                 </div>
             </div>
         </div>
-     </div>
-     </div>
+      </div>
+    </div>
+  </div>
   </body>
 </html>
