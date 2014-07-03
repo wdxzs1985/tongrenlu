@@ -2,6 +2,10 @@
 
 html, body { height: 100%; }
 
+body {
+    background-color: #f9f9f9;
+}
+
 hr { visibility: hidden}
 
 #fm-main {
@@ -15,87 +19,91 @@ hr { visibility: hidden}
     bottom: 0;
     left: 0;
     right: 0;
+    background: #ffffff;
+    box-shadow: rgba(0,0,0,0.1) 0 0 20px;
     overflow: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    background: #fff;
+    transition: all .2s ease-in 0s;
+    margin: 10px 10px 0 10px;
+    border: #e7e7e7 1px solid;
 }
 
 .fm-page-active  {
     z-index: 999;
+    display: block;
 }
 
-.fm-page-overlay {
-    color: #fff;
-    background-color: rgba(0,0,0,0.8);
-    background-size:cover;
-}
-
-.fm-page-overlay .btn-link {
-    text-decoration: none;
-    color: #fff;
-}
-
-.fm-page-overlay .btn-link:hover {
-    color: #ccc;
+.fm-page .page-header {
+    margin-top: 20px;
 }
 
 .fm-page .empty{
   margin-top: 50px;
 }
 
+fm-page-nav {
+    margin-top: 10px;
+}
+
+.media-list {
+    margin-bottom: 0;
+}
 
 .media-list > .media {
 	padding: 8px 16px;
 	margin: 0;
     background-color: #fff;
     border-top: #fff solid 1px;
-    border-bottom: #f7f7f7 solid 1px;
+    border-bottom: #e7e7e7 solid 1px;
 }
 
-.media-list > .media:nth-child(even) {
+.media-list > .media:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
 .media-list > .media .media-heading {
-    margin-top: 10px;
+    line-height: 60px;
+    height: 60px;
 }
 
-#fm-index {
-}
-
-#fm-music {
-    margin-left: 1999px;
-    margin-right: -1999px;
-    transition: all .5s ease-in 0s;
-}
-
-#fm-music.fm-page-active {
-    margin-left: 0;
-    margin-right: 0;
+.media h4 {
+    text-wrap: break-word;
+    word-break: break-all;
 }
 
 #fm-player {
-	left:auto;
-	width: 480px;
-    margin-left: 1999px;
-    margin-right: -1999px;
-    transition: all .5s ease-in 0s;
-    border-left: 1px solid #ddd;
+    z-index: 998;   
 }
-
 #fm-player .jp-audio{
     border: none;
 }
 
-#fm-player.fm-page-active {
-    margin-left: 0;
-    margin-right: 0;
+.fm-page-1 {
+    left: 0;
+    right: 67%;
+    top: 50px;
 }
 
+.fm-page-2 {
+    left: 33%;
+    right: 33%;
+}
+
+.fm-page-3 {
+    left: 67%;
+    right: 0;
+}
+
+
 @MEDIA (max-width: 767px) {
-	#fm-player {
-    left: 0;
-    width: auto;
-	}
+    .fm-page {
+        left: 0;
+        right: 0;
+        width: auto;
+        display: none;
+    }
+
+    .fm-page-active  {
+        z-index: 999;
+        display: block;
+    }
 }

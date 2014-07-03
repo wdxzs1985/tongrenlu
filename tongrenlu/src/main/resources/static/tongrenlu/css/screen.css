@@ -99,3 +99,7 @@ h1.article-title {
     padding: 6px 12px;
     border-radius: 4px;
 }
+.navbar-default {
+  background-color: #fff;
+  border-color: #e7e7e7;
+}

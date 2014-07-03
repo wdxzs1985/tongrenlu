@@ -1,314 +1,275 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="home/layout">
+
 <head>
-<link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-fm.css}" media="screen"/>
-<link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" media="screen"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/bootstrap-3.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/tongrenlu/css/screen.css}" href="../../static/tongrenlu/css/screen.css" />
+    <script th:src="@{/tongrenlu/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js}" src="../../static/tongrenlu/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-fm.css}" href="../../static/tongrenlu/css/tongrenlu-fm.css" media="screen" />
+    <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" href="../../static/tongrenlu/css/jplayer.tongrenlu.css" media="screen" />
 </head>
+
 <body>
-<div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-        <span class="sr-only" th:text="#{application}"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand"
-         href="#index" th:text="#{home.fm}"></a>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar-collapse">
-      <ul class="nav navbar-nav navbar-left">
-        <li ><a href="#player" th:text="#{home.fm.player}"></a></li>
-      </ul>
-      <form id="fm-search-form" class="navbar-form navbar-left" role="form">
-        <div class="form-group">
-          <label class="sr-only" for="inputSearch" th:text="#{home.fm.search}"></label>
-          <input type="text" class="form-control" name="q" th:placeholder="#{home.fm.search}" />
-          <input type="hidden" name="p" value="1" />
-        </div>
-        <button type="submit" class="btn btn-default" th:text="#{button.search}">Search</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a th:href="@{/}" th:text="#{application}"></a></li>
-        <li>
-        </li>
-        <li id="nav-signin" class="hidden">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a th:href="@{/signup}" th:text="#{login.signup}" target="_blank"></a></li>
-            <li><a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a></li>
-          </ul>
-        </li>
-        <li id="nav-console" class="hidden">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-<div id="fm-main" class="" layout:fragment="content">
-    <div id="fm-index" class="fm-page fm-page-1">
-      <div class="list-content hidden">
-          <ul class="media-list"></ul>
-          <ul class="pager">
-            <li class="previous">
-              <a href="#">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-                  <span th:text="#{button.previousPage}"></span>
-              </a>
-            </li>
-            <li class="next">
-              <a href="#">
-                  <span th:text="#{button.nextPage}"></span>
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
-            </li>
-          </ul>
-      </div>
-      <div class="empty container hidden">
-        <div class="row">
-          <div class="col-sm-6 col-sm-offset-3">
-            <div class="alert alert-info">
-                <h4>Search</h4>
-                <p>To align components in navbars with utility classes, use .navbar-left or .navbar-right instead. See the navbar docs for details.</p>
+    <div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only" th:text="#{application}"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#index" th:text="#{home.fm}">FM</a>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="fm-music" class="fm-page fm-page-overlay fm-page-2"></div>
-    <div id="fm-search" class="fm-page fm-page-1">
-      <div class="list-content hidden">
-          <ul class="media-list"></ul>
-          <ul class="pager">
-            <li class="previous">
-              <a href="#">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-                  <span th:text="#{button.previousPage}"></span>
-              </a>
-            </li>
-            <li class="next">
-              <a href="#">
-                  <span th:text="#{button.nextPage}"></span>
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
-            </li>
-          </ul>
-      </div>
-      <div class="empty container hidden">
-        <div class="row">
-          <div class="col-sm-6 col-sm-offset-3">
-            <div class="alert alert-info">
-                <h4>Search</h4>
-                <p>To align components in navbars with utility classes, use .navbar-left or .navbar-right instead. See the navbar docs for details.</p>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="#player" th:text="#{home.fm.player}">playing</a>
+                    </li>
+                </ul>
+                <form id="fm-search-form" class="navbar-form navbar-left" role="form">
+                    <div class="form-group">
+                        <label class="sr-only" for="inputSearch" th:text="#{home.fm.search}">Search</label>
+                        <input type="text" class="form-control" name="q" th:placeholder="#{home.fm.search}" />
+                    </div>
+                    <button type="submit" class="btn btn-default" th:text="#{button.search}">Search</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a th:href="@{/}" th:text="#{application}">Application</a>
+                    </li>
+                    <li id="nav-signin" class="hidden">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span id="nav-nickname" th:text="#{UserBean.nickname}">Guest</span>  <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a th:href="@{/signup}" th:text="#{login.signup}" target="_blank">Sign up</a>
+                            </li>
+                            <li>
+                                <a href="#signinModal" data-toggle="modal" th:text="#{login.signin}">Sign in</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="nav-console" class="hidden">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span id="nav-nickname" th:text="#{UserBean.nickname}">Name</span>  <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a th:href="@{/signout}" th:text="#{login.signout}">Sign Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <div id="fm-playlist" class="fm-page fm-page-1"></div>
-    <div id="fm-player" class="fm-page fm-page-3">
-        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-        <div id="jp_container_1" class="jp-audio">
-          <div class="jp-type-playlist">
-              <div class="jp-gui">
-                  <div class="jp-interface">
-                        <div class="jp-progress">
-                            <div class="jp-current-time"></div>
-                            <div class="jp-duration"></div>
-                            <div class="jp-seek-bar">
-                                <div class="jp-play-bar"></div>
-                            </div>
+    <div id="fm-main" layout:fragment="content">
+        <div id="fm-index" class="fm-page fm-page-1">
+            <div class="list-content">
+                <ul class="media-list"></ul>
+                <ul class="pager">
+                    <li class="">
+                        <a href="#">
+                            <span th:text="#{button.more}">Show more</span>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="empty container hidden">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="alert alert-info">
+                            <h4>Search</h4>
+                            <p>To align components in navbars with utility classes, use .navbar-left or .navbar-right instead. See the navbar docs for details.</p>
                         </div>
-                        <ul class="jp-toggles">
-                            <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a></li>
-                            <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a></li>
-                            <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                            <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                        </ul>
-                        <ul class="jp-controls">
-                            <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a></li>
-                            <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a></li>
-                            <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a></li>
-                            <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a></li>
-                            <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a></li>
-                        </ul>
-                        <ul class="jp-volumn hidden-xs">
-                            <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
-                            <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
-                            <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
-                        </ul>
-                        <div class="jp-volume-bar hidden-xs">
-                                <div class="jp-volume-bar-value"></div>
-                        </div>
-                  </div>
-              </div>
-              <div class="jp-playlist">
-                  <ul>
-                      <!-- The method Playlist.displayPlaylist() uses this unordered list -->
-                      <li></li>
-                  </ul>
-              </div>
-              <div class="jp-no-solution">
-                  <span>Update Required</span>
-                  To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-              </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div layout:fragment="footer"></div>
-<th:block layout:fragment="scripts">
-<script id="template-music-item" type="text/x-tmpl">
-<li class="media">
-    <a class="pull-left" href="#music/{%=o.id%}" title="{%=o.title%}">
-      <img class="media-object img-120 img-rounded img-thumbnail hidden-xs"
-           src="/files/m{%=o.id%}/cover_120.jpg"
-           alt="{%=o.title%}" />
-      <img class="media-object img-60 img-rounded img-thumbnail visible-xs"
-           src="/files/m{%=o.id%}/cover_60.jpg"
-           alt="{%=o.title%}" />
-    </a>
-    <div class="media-body">
-      <h3 class="media-heading text-single-line hidden-xs">
-        <a href="#music/{%=o.id%}" title="{%=o.title%}">{%=o.title%}</a>
-      </h3>
-      <h5 class="media-heading text-single-line visible-xs">
-        <a href="#music/{%=o.id%}" title="{%=o.title%}">{%=o.title%}</a>
-      </h5>
-    </div>
-  </li>
-</script>
-<script id="template-music-page" type="text/x-tmpl">
-<div class="container-fluid">
-<div class="page-header">
-    <a href="#index" class="btn btn-link pull-right">
-        <span class="glyphicon glyphicon-remove"></span>
-    </a>
-    <h1 class="hidden-xs">{%=o.music.title%}</h1>
-    <div class="media visible-xs">
-        <a href="#player" class="pull-left fm-play-tracks">
-            <img class="img-rounded img-responsive"
-                 src="/files/m{%=o.music.id%}/cover_60.jpg" />
-        </a>
-        <h4 class="media-heading">{%=o.music.title%}</h4>
-    </div>
-</div>
-<div class="row">
-    <div class="hidden-xs col-sm-3">
-        <a href="#player" class="pull-left fm-play-tracks">
-            <img class="img-rounded img-responsive" 
-                 src="/files/m{%=o.music.id%}/cover_400.jpg" />
-        </a>
-    </div>
-    <div class="col-sm-9 ">
-        <div class="btn-tools">
-            <div class="btn-group">
-                <a href="#player" class="btn btn-primary fm-play-tracks">
-                    <span class="glyphicon glyphicon-play"></span>
-                    <span class="" th:text="#{home.fm.article.play}">Play</span>
-                </a>
-                <a th:href="@{/music} + '/{%=o.music.id%}'" class="btn btn-default" target="_blank">
-                    <span class="glyphicon glyphicon glyphicon-share-alt"></span>
-                    <span class="hidden-xs" th:text="#{home.fm.article.goToAlbum}">Go to Album</span>
-                </a>
-                <button class="btn btn-default likebutton" th:attr="data-url=@{/music} + '/{%=o.music.id%}/like',data-notlike-text=#{home.article.notlike},data-like-text=#{home.article.like},data-unlike-text=#{home.article.unlike}">
-                    <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                    <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
+        <div id="fm-music" class="fm-page fm-page-2 hidden">
+            <div class="fm-page-nav visible-xs">
+                <button class="btn btn-link">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span>Back</span>
                 </button>
             </div>
-        </div>
-        <hr />
-        <ol class="list-unstyled">
-            {% for (var i=0, track; track=o.trackList[i]; i++) { %}
-                <li class="media">
-                    <div class="media-body">
-                            <a href="#player" class="btn btn-link fm-play-tracks" id-index="{%=i%}">
-                                <span>{%=track.name%}</span>
-                                <span class="label label-info">{%=track.artist%}</span>
-                            </a>
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="media">
+                        <img src="http://placehold.it/60x60" class="pull-left media-object" />
+                        <div class="media-body">
+                            <h4 class="">Title</h4>
+                        </div>
+                        
                     </div>
-                </li>
-            {% } %}
-        </ol>
-    </div>
-</div>
-</div>
-</script>
-<script id="template-search-item" type="text/x-tmpl">
-<li class="media">
-    <a class="pull-left fm-play-track" href="#player"
-       title="{%=o.title%}">
-      <img class="media-object img-120 img-rounded img-thumbnail hidden-xs"
-           src="/files/m{%=o.articleId%}/cover_120.jpg"
-           alt="{%=o.track%}" />
-      <img class="media-object img-60 img-rounded img-thumbnail visible-xs"
-           src="/files/m{%=o.articleId%}/cover_60.jpg"
-           alt="{%=o.track%}" />
-    </a>
-    <div class="media-body">
-      <h3 class="media-heading text-single-line hidden-xs">
-        <a href="#player" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a>
-      </h3>
-      <h5 class="media-heading text-single-line visible-xs">
-        <a href="#player" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a>
-      </h5>
-      <p class="media-body text-single-line">
-        <a href="#music/{%=o.articleId%}" title="{%=o.title%}">
-            > {%=o.title%}
-        </a>
-      </p>
-    </div>
-  </li>
-</script>
-<script id="template-playlist-item" type="text/x-tmpl">
-<li class="clearfix">
-        <div class="pull-right">
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
-                <span class="glyphicon glyphicon-headphones"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default hidden">
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
+                </div>
+                <div class="btn-tools append-bottom">
+                    <div class="btn-group">
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-play"></span>
+                            <span class="">Play</span>
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-share-alt"></span>
+                            <span class="">Page</span>
+                        </button>
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-heart"></span>
+                            <span class="">Like</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-    <h5>
-        <a href="javascript:;" class="{%=o.itemClass%}">
-            {%=o.file.title%}
-        </a>
-    </h5>
-    <div>
-        {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
-        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
+        <div id="fm-search" class="fm-page fm-page-1 hidden">
+            <div class="fm-page-nav visible-xs">
+                <a href="#index" class="btn btn-link">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span>Back</span>
+                </a>
+            </div>
+            <div class="list-content hidden">
+                <ul class="media-list"></ul>
+                <ul class="pager">
+                    <li class="">
+                        <a href="#">
+                            <span th:text="#{button.more}">Show more</span>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="empty container hidden">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="alert alert-info">
+                            <h4>Search</h4>
+                            <p>To align components in navbars with utility classes, use .navbar-left or .navbar-right instead. See the navbar docs for details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="fm-playlist" class="fm-page fm-page-1 hidden">
+            <div class="fm-page-content">
+                <h1>Title</h1>
+            </div>
+        </div>
+        <div id="fm-player" class="fm-page fm-page-3">
+            <div class="fm-page-nav visible-xs">
+                <a href="javascript:history.go(-1);" class="btn btn-link">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span th:text="#{button.back}">Back</span>
+                </a>
+            </div>
+            <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+            <div id="jp_container_1" class="jp-audio">
+                <div class="jp-type-playlist">
+                    <div class="jp-gui">
+                        <div class="jp-interface">
+                            <div class="jp-progress">
+                                <div class="jp-current-time"></div>
+                                <div class="jp-duration"></div>
+                                <div class="jp-seek-bar">
+                                    <div class="jp-play-bar"></div>
+                                </div>
+                            </div>
+                            <ul class="jp-toggles">
+                                <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a>
+                                </li>
+                            </ul>
+                            <ul class="jp-controls">
+                                <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a>
+                                </li>
+                            </ul>
+                            <ul class="jp-volumn hidden-xs">
+                                <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a>
+                                </li>
+                                <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a>
+                                </li>
+                            </ul>
+                            <div class="jp-volume-bar hidden-xs">
+                                <div class="jp-volume-bar-value"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jp-playlist">
+                        <ul>
+                            <!-- The method Playlist.displayPlaylist() uses this unordered list -->
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="jp-no-solution">
+                        <span>Update Required</span>
+                        To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</li>
-</script>
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
-<script th:src="@{/tongrenlu/js/tongrenlu-fm.js}" ></script>
-<script th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
-<script type="text/javascript" th:inline="javascript">
-$(function() {
-    new fm({
-    	musicUrl: /*[[@{/fm/music}]]*/'',
-        filePath: /*[[@{/files}]]*/'',
-        searchUrl: /*[[@{/fm/search/track}]]*/''
-    });
-});
-</script>
-</th:block>
-  </body>
+    <div layout:fragment="footer"></div>
+    <script type="text/javascript" src="http://static.tongrenlu.info/jquery/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="http://static.tongrenlu.info/bootstrap-3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-MD5-1.1.0/js/md5.min.js"></script>
+    <div layout:fragment="scripts">
+        <div th:replace="x-tmpl/fm::template-music-item"></div>
+        <div th:replace="x-tmpl/fm::template-music-page"></div>
+        <div th:replace="x-tmpl/fm::template-search-item"></div>
+        <div th:replace="x-tmpl/fm::template-playlist-item"></div>
+
+        <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+        <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js"></script>
+        <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js"></script>
+        <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-login.js}" src="../../static/tongrenlu/js/tongrenlu-login.js"></script>
+        <script type="text/javascript" th:inline="javascript">
+            $(function () {
+                var _login = new login({
+                    saltUrl: /*[[@{/signin/salt}]]*/ '/signin/salt',
+                    signinUrl: /*[[@{/signin}]]*/ '/signin',
+                    networkErrorMessage: /*[[#{error.network}]]*/ 'network error'
+                }).signin({
+                    id: /*[[${session.LOGIN_USER.id}]]*/ 0,
+                    nickname: /*[[${session.LOGIN_USER.nickname}]]*/ 'Guest',
+                    guest: /*[[${session.LOGIN_USER.guest}]]*/ true
+                });
+            })
+        </script>
+        <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-fm.js}" src="../../static/tongrenlu/js/tongrenlu-fm-ui.js"></script>
+        <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" src="../../static/tongrenlu/js/tongrenlu-likebutton.js"></script>
+        <script type="text/javascript" th:inline="javascript">
+            $(function () {
+                new fm({
+                    musicUrl: /*[[@{/fm/music}]]*/ '',
+                    filePath: /*[[@{/files}]]*/ '',
+                    searchUrl: /*[[@{/fm/search/track}]]*/ ''
+                });
+            });
+        </script>
+    </div>
+</body>
+
 </html>

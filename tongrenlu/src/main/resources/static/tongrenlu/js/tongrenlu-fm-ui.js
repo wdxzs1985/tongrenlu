@@ -49,16 +49,6 @@ var fm = function(options) {
 					return settings.exitConfirm;
 				});
 			}
-			/* navbar */
-			$('.navbar').on('click', 'a', function(){
-			});
-			/* fm-index */
-			var $indexPage = $('#fm-index').on('click', '.pager a', function(e){
-				e.preventDefault();
-				
-				var page = $indexPage.data('page');
-				that.loadIndex(page.pageNumber + 1);
-			});
 			/* fm-music */
 			var $musicPage = $('#fm-music').on('click', '.fm-play-tracks', function(e){
 				e.preventDefault();
@@ -124,11 +114,6 @@ var fm = function(options) {
 				that.playerInstance.play(-1);
 
 				window.location.hash = '#player';
-			}).on('click', '.pager a', function(e){
-				e.preventDefault();
-				var query = $searchPage.data('query');
-				var pageNumber = $searchPage.data('searchResult.totalPages');
-				that.loadSearch(query, pageNumber);
 			});
 		},
 		onHashChange: function() {
@@ -139,140 +124,119 @@ var fm = function(options) {
 		    }
 		    
 			var hash = window.location.hash;
-			if(hash.match(/^#search\/q=(.*?)$/)) {
+			if(hash.match(/^#search\/q=(.*?)&p=(\d+)$/)) {
 				/*...*/
-				that.search(hash.match(/^#search\/q=(.*?)$/)[1]);
+				var q = hash.match(/^#search\/q=(.*?)&p=(\d+)$/)[1];
+				var p = hash.match(/^#search\/q=(.*?)&p=(\d+)$/)[2];
+				that.search({q: q, p: p - 1});
 			} else if(hash.match(/^#player$/)) {
 				/* index */
 				that.player();
-			} else if(hash.match(/^#music\/(\d+)$/)) {
+			} else if(hash.match(/^#music\/\d+$/)) {
 				/* index */
-				that.music(hash.match(/^#music\/(\d+)$/)[1]);
+				that.music(hash.match(/\d+/)[0]);
 			} else {
 				/* index */
 				that.index();
 			}
 		},
+		reset: function(levels) {
+		    $.each(levels, function(index, element){
+		    	$(element).removeClass('fm-page-active');
+		    })
+		},
 		index: function() {
-			$('#fm-search, #fm-music').removeClass('fm-page-active').addClass('hidden');
-			that.hidePlayerWhenNotPlaying();
-			var $page = $('#fm-index').addClass('fm-page-active').removeClass('hidden');
+			that.reset(['.fm-page-1','.fm-page-2','.fm-page-3']);
+			var $page = $('#fm-index').addClass('fm-page-active');
 			if(!$page.data('page')) {
-				that.loadIndex(1);
+				settings.provider.musiclist({
+					p: 1
+				}, that.onMusiclistDone);
 			}
 		},
-		load: function(adapter) {
-			var $container = $(adapter.container);
-			$.getJSON(adapter.url, adapter.params).done(function(response) {
-				if(response.result) {
-					$container.data(response);
-					var $empty = $container.find('.empty').addClass('hidden');
-					var $listContent = $container.find('.list-content').addClass('hidden');
-					var $pager = $container.find('.pager').addClass('hidden');
-					
-					if(adapter.isEmpty(response)) {
-						$empty.removeClass('hidden');
-					} else {
-						var $list = $listContent.find('.media-list');
-						for(var i = 0; i < adapter.items(response).length; i++){
-							$list.append(adapter.view(response, i));
-						}
-						if(!adapter.isLast(response)) {
-							$pager.removeClass('hidden');
-						}
-						$listContent.removeClass('hidden');
+		onMusiclistDone: function(response) {
+			var $page = $('#fm-index');
+			if(response.page) {
+				$page.data(response);
+				
+				var $listContent = $page.find('.list-content').addClass('hidden');
+				var $empty = $page.find('.empty').addClass('hidden');
+
+				var $previous = $listContent.find('.previous').addClass('hidden');
+				var $next = $listContent.find('.next').addClass('hidden');
+				
+				if(response.page.pageCount == 0) {
+					$empty.removeClass('hidden');
+				} else {
+					var $list = $listContent.find('.media-list');
+					for(var i = 0; i < response.page.items.length; i++){
+						var item = response.page.items[i];
+						var $listItem = $(tmpl('template-music-item', item));
+						$listItem.data(item);
+						$list.append($listItem);
 					}
+					if(!response.page.first) {
+						$previous.removeClass('hidden');
+					}
+					if(!response.page.last) {
+						$next.removeClass('hidden');
+					}
+					$listContent.removeClass('hidden');
 				}
-			});
-		},
-		loadIndex: function(pageNumber) {
-			that.load({
-				container: '#fm-index',
-				url: settings.musicUrl,
-				params: {
-					p: pageNumber
-				},
-				isEmpty: function(response) {
-					return response.page.pageCount == 0;
-				},
-				isLast: function(response) {
-					return response.page.last;
-				},
-				items: function(response) {
-					return response.page.items;
-				},
-				view: function(response, i) {
-					var item = this.items(response)[i];
-					var $listItem = $(tmpl('template-music-item', item));
-					$listItem.data(item);
-					return $listItem;
-				}
-			});
-		},
-		loadSearch: function(query, pageNumber) {
-			that.load({
-				container: '#fm-search',
-				url: settings.searchUrl,
-				params: {
-					q: query,
-					p: pageNumber
-				},
-				isEmpty: function(response) {
-					return response.searchResult.totalPages == 0;
-				},
-				isLast: function(response) {
-					return response.searchResult.lastPage;
-				},
-				items: function(response) {
-					return response.searchResult.content;
-				},
-				view: function(response, i) {
-					var item = this.items(response)[i];
-					var $listItem = $(tmpl('template-search-item', item));
-					$listItem.data(item);
-					return $listItem;
-				}
-			});
+			}
 		},
 		music: function(artcleId) {
-			that.index();
-			$('#fm-index, #fm-search, #fm-music').removeClass('fm-page-active').addClass('hidden');
-			$('#fm-index').removeClass('hidden');
-			that.hidePlayerWhenNotPlaying();
-			var $musicPage = $('#fm-music').addClass('fm-page-active').removeClass('hidden');
+			that.reset(['.fm-page-2','.fm-page-3']);
+			var $musicPage = $('#fm-music').addClass('fm-page-active');
 			$musicPage.empty();
 			$.getJSON(settings.musicUrl + '/' + artcleId).done(function(response){
 				$musicPage.data(response);
 				$musicPage.append(tmpl('template-music-page', response));
+				
 				$musicPage.find('.likebutton').likebutton();
 			});
 		},
-		search: function(query) {
-			$('#fm-index, #fm-search, #fm-music').removeClass('fm-page-active').addClass('hidden');
+		search: function(data) {
+			that.reset(['.fm-page-1','.fm-page-2','.fm-page-3']);
+			var $page = $('#fm-search').addClass('fm-page-active');
 			
-			var $page = $('#fm-search').addClass('fm-page-active').removeClass('hidden');
-			
-			if(query){
-				var lastQuery = $page.data('query');
-				if(query != lastQuery) {
-					that.loadSearch(query, 0);
-				}
+			var $listContent = $page.find('.list-content').addClass('hidden');
+			var $empty = $page.find('.empty').addClass('hidden');
+
+			if(data.q){
+				$.getJSON(settings.searchUrl, data).done(function(response){
+					$page.data(response);
+						var $previous = $listContent.find('.previous').addClass('hidden');
+						var $next = $listContent.find('.next').addClass('hidden');
+						
+						if(response.searchResult.totalPages == 0) {
+							$empty.removeClass('hidden');
+						} else {
+							var $list = $listContent.find('.media-list').empty();
+							for(var i = 0; i < response.searchResult.content.length; i++){
+								var item = response.searchResult.content[i];
+								var $listItem = $(tmpl('template-search-item', item));
+								$listItem.data(item);
+								$list.append($listItem);
+							}
+							if(!response.searchResult.firstPage) {
+								$previous.removeClass('hidden');
+							}
+							if(!response.searchResult.lastPage) {
+								$next.removeClass('hidden');
+							}
+							$listContent.removeClass('hidden');
+						}
+				});
 			} else {
 				$empty.removeClass('hidden');
 			}
 		},
 		player: function() {
-			$('.fm-page').removeClass('fm-page-active');
-			that.hidePlayerWhenNotPlaying();
-			if(that.playerInstance.playlist.length == 0) {
-				window.location.hash = '#index';
-			}
-		},
-		hidePlayerWhenNotPlaying: function(){
 			if(that.playerInstance.playlist.length > 0) {
-				$('#fm-player').addClass('fm-page-active').removeClass('hidden');
+				$('#fm-player').addClass('fm-page-active');
 			} else {
-				$('#fm-player').removeClass('fm-page-active').addClass('hidden');
+				window.location.hash = '#index';
 			}
 		}
 	};

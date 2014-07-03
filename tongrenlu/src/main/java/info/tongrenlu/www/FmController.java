@@ -55,6 +55,7 @@ public class FmController {
         this.musicService.searchMusic(page);
 
         model.put("page", page);
+        model.put("result", true);
 
         return model;
     }
@@ -94,8 +95,10 @@ public class FmController {
                                                                                   pageable);
             model.put("query", query);
             model.put("searchResult", searchResult);
+            model.put("result", true);
+        } else {
+            model.put("result", false);
         }
-
         return model;
     }
 
@@ -114,8 +117,10 @@ public class FmController {
                                                                                   pageable);
             model.put("query", query);
             model.put("searchResult", searchResult);
+            model.put("result", true);
+        } else {
+            model.put("result", false);
         }
-
         return model;
     }
 }
