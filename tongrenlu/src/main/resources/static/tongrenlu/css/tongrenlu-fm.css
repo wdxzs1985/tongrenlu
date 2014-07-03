@@ -67,8 +67,9 @@ hr { visibility: hidden}
 }
 
 #fm-player {
-    z-index: 998;   
+    z-index: 1000;   
 }
+
 #fm-player .jp-audio{
     border: none;
 }
@@ -99,7 +100,6 @@ hr { visibility: hidden}
     }
 
     .fm-page-active  {
-        z-index: 999;
         display: block;
     }
 }

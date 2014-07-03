@@ -35,7 +35,7 @@
     </div>
     <div class="btn-tools append-bottom-lg">
         <div class="btn-group">
-            <a href="#player" class="btn btn-primary fm-play-tracks" data-index="0">
+            <a href="javascript:;" class="btn btn-primary fm-play-tracks" data-index="0">
                 <span class="glyphicon glyphicon-play"></span>
                 <span class="" th:text="#{home.fm.article.play}">Play</span>
             </a>
@@ -52,7 +52,7 @@
 {% for (var i=0, track; track=o.trackList[i]; i++) { %}
     <li class="media">
         <h5>
-            <a href="#player" class="fm-play-tracks" data-index="{%=i%}">
+            <a href="javascript:;" class="fm-play-tracks" data-index="{%=i%}">
                 {%=track.name%}
                 <small>{%=track.artist%}</small>
             </a>
@@ -63,7 +63,7 @@
 </script>
 <script id="template-search-item" type="text/x-tmpl" th:fragment="template-search-item">
 <li class="media">
-    <a class="pull-left fm-play-track" href="#player"
+    <a class="pull-left fm-play-track" href="javascript:;"
        title="{%=o.title%}">
       <img class="media-object img-60 img-rounded"
            src="/files/m{%=o.articleId%}/cover_60.jpg"
@@ -71,7 +71,7 @@
     </a>
     <div class="media-body">
       <h5 class="">
-        <a href="#player" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a>
+        <a href="javascript:;" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a>
       </h5>
       <a href="#music/{%=o.articleId%}" title="{%=o.title%}">
         <small>> {%=o.title%}</small>

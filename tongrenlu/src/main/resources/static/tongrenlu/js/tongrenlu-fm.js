@@ -50,7 +50,13 @@ var fm = function(options) {
 				});
 			}
 			/* navbar */
-			$('.navbar').on('click', 'a', function(){
+			$('.navbar').on('click', '#nav-player', function(){
+				var $plaerPage = $('#fm-player');
+				if($plaerPage.hasClass('hidden')) {
+					$plaerPage.removeClass('hidden');
+				} else {
+					$plaerPage.addClass('hidden');
+				}
 			});
 			/* fm-index */
 			var $indexPage = $('#fm-index').on('click', '.pager a', function(e){
@@ -91,7 +97,8 @@ var fm = function(options) {
 				that.playerInstance.setPlaylist(playlist);
 				that.playerInstance.play(index ? index : 0);
 				
-				window.location.hash = '#player';
+				//window.location.hash = '#player';
+				that.showPlayerWhenPlaying();
 			});
 			/* search form */
 			var $searchForm = $('#fm-search-form');
@@ -123,13 +130,19 @@ var fm = function(options) {
 				that.playerInstance.add(playable);
 				that.playerInstance.play(-1);
 
-				window.location.hash = '#player';
+				that.showPlayerWhenPlaying();
+				
 			}).on('click', '.pager a', function(e){
 				e.preventDefault();
 				var query = $searchPage.data('query');
 				var pageNumber = $searchPage.data('searchResult.totalPages');
 				that.loadSearch(query, pageNumber);
 			});
+			
+			var $playerPage = $('#fm-player').on('click', '.fm-page-nav a', function(e){
+				e.preventDefault();
+				$playerPage.removeClass('fm-page-active');
+			})
 		},
 		onHashChange: function() {
 			var $navbatToggle = $('.navbar-toggle');
@@ -142,19 +155,19 @@ var fm = function(options) {
 			if(hash.match(/^#search\/q=(.*?)$/)) {
 				/*...*/
 				that.search(hash.match(/^#search\/q=(.*?)$/)[1]);
-			} else if(hash.match(/^#player$/)) {
-				/* index */
-				that.player();
 			} else if(hash.match(/^#music\/(\d+)$/)) {
 				/* index */
 				that.music(hash.match(/^#music\/(\d+)$/)[1]);
-			} else {
+			} else if(hash.match(/^#index$/)) {
 				/* index */
 				that.index();
+			} else {
+				window.location.hash = '#index';
 			}
 		},
 		index: function() {
-			$('#fm-search, #fm-music').removeClass('fm-page-active').addClass('hidden');
+			$('#fm-search').removeClass('fm-page-active').addClass('hidden');
+			$('#fm-music').removeClass('fm-page-active');
 			that.hidePlayerWhenNotPlaying();
 			var $page = $('#fm-index').addClass('fm-page-active').removeClass('hidden');
 			if(!$page.data('page')) {
@@ -249,7 +262,6 @@ var fm = function(options) {
 		},
 		search: function(query) {
 			$('#fm-index, #fm-search, #fm-music').removeClass('fm-page-active').addClass('hidden');
-			
 			var $page = $('#fm-search').addClass('fm-page-active').removeClass('hidden');
 			
 			if(query){
@@ -261,17 +273,13 @@ var fm = function(options) {
 				$empty.removeClass('hidden');
 			}
 		},
-		player: function() {
-			$('.fm-page').removeClass('fm-page-active');
-			that.hidePlayerWhenNotPlaying();
-			if(that.playerInstance.playlist.length == 0) {
-				window.location.hash = '#index';
+		showPlayerWhenPlaying: function(){
+			if(that.playerInstance.playlist.length > 0) {
+				$('#fm-player').addClass('fm-page-active').removeClass('hidden');
 			}
 		},
 		hidePlayerWhenNotPlaying: function(){
-			if(that.playerInstance.playlist.length > 0) {
-				$('#fm-player').addClass('fm-page-active').removeClass('hidden');
-			} else {
+			if(that.playerInstance.playlist.length == 0) {
 				$('#fm-player').removeClass('fm-page-active').addClass('hidden');
 			}
 		}
