@@ -51,11 +51,11 @@ var fm = function(options) {
 			}
 			/* navbar */
 			$('.navbar').on('click', '#nav-player', function(){
-				var $plaerPage = $('#fm-player');
-				if($plaerPage.hasClass('hidden')) {
-					$plaerPage.removeClass('hidden');
+				var $playerPage = $('#fm-player');
+				if($playerPage.hasClass('hidden')) {
+					that.showPlayerWhenPlaying();
 				} else {
-					$plaerPage.addClass('hidden');
+					$('#fm-player').removeClass('fm-page-active').addClass('hidden');
 				}
 			});
 			/* fm-index */
@@ -141,7 +141,7 @@ var fm = function(options) {
 			
 			var $playerPage = $('#fm-player').on('click', '.fm-page-nav a', function(e){
 				e.preventDefault();
-				$playerPage.removeClass('fm-page-active');
+				$playerPage.removeClass('fm-page-active').addClass('hidden');
 			})
 		},
 		onHashChange: function() {
