@@ -10,9 +10,9 @@
            alt="{%=o.title%}" />
     </a>
     <div class="media-body">
-        <h4 class="media-heading text-single-line">
+        <h5 class="media-heading">
             <a href="#music/{%=o.id%}" title="{%=o.title%}">{%=o.title%}</a>
-        </h4>
+        </h5>
     </div>
 </li>
 </script>
@@ -29,7 +29,7 @@
             <img class="img-rounded img-60 media-object pull-left"
                  src="/files/m{%=o.music.id%}/cover_60.jpg" />
             <div class="media-body">
-                <h4 class="">{%=o.music.title%}</h4>
+                <h5 class="">{%=o.music.title%}</h5>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
 {% for (var i=0, track; track=o.trackList[i]; i++) { %}
     <li class="media">
         <h5>
-            <a href="javascript:;" class="fm-play-tracks" data-index="{%=i%}">
+            <a href="javascript:;" class="fm-play-track" data-index="{%=i%}">
                 {%=track.name%}
                 <small>{%=track.artist%}</small>
             </a>

@@ -92,10 +92,35 @@ var fm = function(options) {
 	        		}
 	        	});
 
-				var index = $(this).data('index');
 				
 				that.playerInstance.setPlaylist(playlist);
 				that.playerInstance.play(index ? index : 0);
+				
+				//window.location.hash = '#player';
+				that.showPlayerWhenPlaying();
+			}).on('click', '.fm-play-track', function(e){
+				e.preventDefault();
+
+				var music = $musicPage.data('music');
+				var trackList = $musicPage.data('trackList');
+				var index = $(this).data('index');
+				var track = trackList[index];
+        		var title = track.name;
+                var artist = track.artist;
+                var original = track.original;
+                var instrumental = (track.instrumental == '1');
+                var mp3 = settings.filePath + '/m' + music.id + '/f' + track.id + '.mp3';
+                var poster = settings.filePath + '/m' + music.id + '/cover_400.jpg';
+        		var playable = {
+        				title: title,
+        				artist: artist,
+                        instrumental: instrumental,
+        				mp3: mp3,
+        				poster: poster
+        		};
+
+				that.playerInstance.add(playable);
+				that.playerInstance.play(-1);
 				
 				//window.location.hash = '#player';
 				that.showPlayerWhenPlaying();

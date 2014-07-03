@@ -57,13 +57,7 @@ hr { visibility: hidden}
 }
 
 .media-list > .media .media-heading {
-    line-height: 60px;
-    height: 60px;
-}
-
-.media h4 {
-    text-wrap: break-word;
-    word-break: break-all;
+    margin-top: 15px;
 }
 
 #fm-player {
