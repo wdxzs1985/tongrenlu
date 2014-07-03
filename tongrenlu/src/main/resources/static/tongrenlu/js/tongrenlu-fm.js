@@ -236,8 +236,8 @@ var fm = function(options) {
 		},
 		music: function(artcleId) {
 			that.index();
-			$('#fm-index, #fm-search, #fm-music').removeClass('fm-page-active').addClass('hidden');
-			$('#fm-index').removeClass('hidden');
+			$('#fm-search, #fm-music').removeClass('fm-page-active').addClass('hidden');
+			$('#fm-index').addClass('fm-page-active').removeClass('hidden');
 			that.hidePlayerWhenNotPlaying();
 			var $musicPage = $('#fm-music').addClass('fm-page-active').removeClass('hidden');
 			$musicPage.empty();
