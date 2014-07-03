@@ -1,1 +1,1 @@
-java target/tongrenlu-0.0.1-SNAPSHOT.jar --server.port=9000 
+java -jar target/tongrenlu-0.0.1-SNAPSHOT.jar --server.port=9000 -DSTOP.PORT=8079 -DSTOP.KEY=mustard
