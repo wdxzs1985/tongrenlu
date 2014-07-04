@@ -1,53 +1,46 @@
-package info.tongrenlu.oracle.entity;
+package info.tongrenlu.entity;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity(name = "M_USER")
-public class User implements Serializable {
+public class UserEntity extends DtoBean {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "USER_ID")
-    String userId;
+    public UserEntity() {
+    }
 
-    @Column(name = "NICKNAME")
+    public UserEntity(final Integer id, final String objectId, final String nickname, final String email, final String password, final String adminFlg, final String redFlg, final String translateFlg, final String signature) {
+        super(id, objectId);
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.adminFlg = adminFlg;
+        this.redFlg = redFlg;
+        this.translateFlg = translateFlg;
+        this.signature = signature;
+    }
+
     String nickname;
 
-    @Column(name = "EMAIL")
     String email;
 
-    @Column(name = "PASSWORD")
     String password;
 
-    @Column(name = "ADMIN_FLG")
     String adminFlg;
 
-    @Column(name = "RED_FLG")
     String redFlg;
 
-    @Column(name = "TRANSLATE_FLG")
     String translateFlg;
 
-    @Column(name = "SIGNATURE")
     String signature;
 
-    @Column(name = "DEL_FLG")
-    String delFlg;
-
     public String getUserId() {
-        return this.userId;
+        return this.getObjectId();
     }
 
     public void setUserId(final String userId) {
-        this.userId = userId;
+        this.setObjectId(userId);
     }
 
     public String getNickname() {
@@ -104,14 +97,6 @@ public class User implements Serializable {
 
     public void setSignature(final String signature) {
         this.signature = signature;
-    }
-
-    public String getDelFlg() {
-        return this.delFlg;
-    }
-
-    public void setDelFlg(final String delFlg) {
-        this.delFlg = delFlg;
     }
 
 }
