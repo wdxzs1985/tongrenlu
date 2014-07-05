@@ -7,8 +7,8 @@ public class MusicEntity extends DtoBean {
      */
     private static final long serialVersionUID = 1L;
 
-    public MusicEntity(final Integer id, final String objectId) {
-        super(id, objectId);
+    public MusicEntity(final String objectId) {
+        super(0, objectId);
     }
 
     public MusicEntity() {

@@ -18,7 +18,8 @@
                   <div class="col-xs-6 col-md-2" th:each="articleBean : ${musicPage.items}">
                     <a href="#" class="thumbnail">
                       <img th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}"
-                           th:alt-title="${articleBean.title}" />
+                           th:alt-title="${articleBean.title}"  
+                           class="img-180"/>
                     </a>
                     <h5 class="text-single-line">
                         <a th:href="@{/music/__${articleBean.id}__}"
@@ -41,7 +42,8 @@
                   <div class="col-xs-6 col-md-2" th:each="articleBean : ${comicPage.items}">
                     <a href="#" class="thumbnail">
                       <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}"
-                           th:alt-title="${articleBean.title}" />
+                           th:alt-title="${articleBean.title}" 
+                           class="img-180"/>
                     </a>
                     <h5 class="text-single-line">
                         <a th:href="@{/comic/__${articleBean.id}__}"

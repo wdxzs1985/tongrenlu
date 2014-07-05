@@ -26,8 +26,10 @@ public class FileEntity extends DtoBean {
         return this.getObjectId();
     }
 
-    public FileEntity(final Integer id, final String objectId, final String name, final String extension, final String articleId, final Integer orderNo) {
-        super(id, objectId);
+    public FileEntity(final String objectId, final String name,
+            final String extension, final String articleId,
+            final Integer orderNo) {
+        super(0, objectId);
         this.name = name;
         this.extension = extension;
         this.articleId = articleId;
@@ -79,10 +81,10 @@ public class FileEntity extends DtoBean {
     }
 
     public String getContentType() {
-        return contentType;
+        return this.contentType;
     }
 
-    public void setContentType(String contentType) {
+    public void setContentType(final String contentType) {
         this.contentType = contentType;
     }
 

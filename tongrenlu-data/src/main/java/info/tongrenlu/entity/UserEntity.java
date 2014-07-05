@@ -10,8 +10,11 @@ public class UserEntity extends DtoBean {
     public UserEntity() {
     }
 
-    public UserEntity(final Integer id, final String objectId, final String nickname, final String email, final String password, final String adminFlg, final String redFlg, final String translateFlg, final String signature) {
-        super(id, objectId);
+    public UserEntity(final String objectId, final String nickname,
+            final String email, final String password, final String adminFlg,
+            final String redFlg, final String translateFlg,
+            final String signature) {
+        super(0, objectId);
         this.nickname = nickname;
         this.email = email;
         this.password = password;

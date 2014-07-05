@@ -1,23 +1,36 @@
 package info.tongrenlu;
 
+import info.tongrenlu.entity.AccessEntity;
 import info.tongrenlu.entity.ArticleEntity;
+import info.tongrenlu.entity.ArticleTagEntity;
+import info.tongrenlu.entity.CollectEntity;
 import info.tongrenlu.entity.ComicEntity;
+import info.tongrenlu.entity.CommentEntity;
 import info.tongrenlu.entity.DtoBean;
 import info.tongrenlu.entity.FileEntity;
+import info.tongrenlu.entity.FollowEntity;
 import info.tongrenlu.entity.MusicEntity;
+import info.tongrenlu.entity.TagEntity;
 import info.tongrenlu.entity.TrackEntity;
 import info.tongrenlu.entity.UserEntity;
-import info.tongrenlu.service.ArticleRepository;
-import info.tongrenlu.service.ComicRepository;
-import info.tongrenlu.service.FileRepository;
-import info.tongrenlu.service.MusicRepository;
-import info.tongrenlu.service.ObjectRepository;
-import info.tongrenlu.service.TrackRepository;
-import info.tongrenlu.service.UserRepository;
+import info.tongrenlu.jdbc.AccessManager;
+import info.tongrenlu.jdbc.ArticleManager;
+import info.tongrenlu.jdbc.ArticleTagManager;
+import info.tongrenlu.jdbc.CollectManager;
+import info.tongrenlu.jdbc.ComicManager;
+import info.tongrenlu.jdbc.CommentManager;
+import info.tongrenlu.jdbc.FileManager;
+import info.tongrenlu.jdbc.FollowManager;
+import info.tongrenlu.jdbc.MusicManager;
+import info.tongrenlu.jdbc.ObjectManager;
+import info.tongrenlu.jdbc.TagManager;
+import info.tongrenlu.jdbc.TrackManager;
+import info.tongrenlu.jdbc.UserManager;
 
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +43,33 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransferService implements CommandLineRunner {
 
     @Autowired
-    private ObjectRepository objectRepository = null;
+    private ObjectManager objectManager = null;
     @Autowired
-    private UserRepository userRepository = null;
+    private UserManager userManager = null;
     @Autowired
-    private ArticleRepository articleRepository = null;
+    private ArticleManager articleManager = null;
     @Autowired
-    private MusicRepository musicRepository = null;
+    private MusicManager musicManager = null;
     @Autowired
-    private ComicRepository comicRepository = null;
+    private ComicManager comicManager = null;
     @Autowired
-    private FileRepository fileRepository = null;
+    private FileManager fileManager = null;
     @Autowired
-    private TrackRepository trackRepository = null;
+    private TrackManager trackManager = null;
+    @Autowired
+    private ArticleTagManager articleTagManager = null;
+    @Autowired
+    private TagManager tagManager = null;
+    @Autowired
+    private AccessManager accessManager = null;
+    @Autowired
+    private CommentManager commentManager = null;
+    @Autowired
+    private CollectManager collectManager = null;
+    @Autowired
+    private FollowManager followManager = null;
+    @Autowired
+    private info.tongrenlu.solr.ArticleRepository articleRepository = null;
 
     private Log log = LogFactory.getLog(this.getClass());
 
@@ -54,10 +81,6 @@ public class TransferService implements CommandLineRunner {
         this.transferUser();
         this.log.info("Transfer User...ok");
 
-        this.log.info("Transfer Article...");
-        this.transferArticle();
-        this.log.info("Transfer Article...ok");
-
         this.log.info("Transfer Music...");
         this.transferMusic();
         this.log.info("Transfer Music...ok");
@@ -66,133 +89,280 @@ public class TransferService implements CommandLineRunner {
         this.transferComic();
         this.log.info("Transfer Comic...ok");
 
-        this.log.info("Transfer File...");
-        this.transferFile();
-        this.log.info("Transfer File...ok");
-
-        this.log.info("Transfer Track...");
-        this.transferTrack();
-        this.log.info("Transfer Track...ok");
-
     }
 
     @Transactional
     public void begin() {
-        this.objectRepository.deleteAll();
+        this.articleTagManager.deleteAll();
+        this.accessManager.deleteAll();
+        this.collectManager.deleteAll();
+        this.followManager.deleteAll();
     }
 
     @Transactional
     public void transferUser() {
-        this.userRepository.deleteAll();
-        final List<UserEntity> userList = this.userRepository.findAll();
+        final List<UserEntity> userList = this.userManager.findAll();
         if (CollectionUtils.isNotEmpty(userList)) {
             for (final UserEntity user : userList) {
-                this.userRepository.save(user);
-                this.objectRepository.save(user);
+                final UserEntity userEntity = this.findUser(user.getUserId());
+                if (userEntity == null) {
+                    this.userManager.save(user);
+                    this.objectManager.save(user);
+                } else {
+                    user.setId(userEntity.getId());
+                }
 
+                this.transferFollow(user);
                 // copy files
             }
         }
     }
 
-    @Transactional
-    public void transferArticle() {
-        this.articleRepository.deleteAll();
-        final List<ArticleEntity> articleList = this.articleRepository.findAll();
-        if (CollectionUtils.isNotEmpty(articleList)) {
-            for (final ArticleEntity article : articleList) {
-
-                article.setUser(this.findUser(article.getUserId()));
-
-                this.articleRepository.save(article);
-                this.objectRepository.save(article);
+    private void transferFollow(final UserEntity user) {
+        final String userId = user.getUserId();
+        final List<FollowEntity> followEntities = this.followManager.findByUserId(userId);
+        if (CollectionUtils.isNotEmpty(followEntities)) {
+            for (final FollowEntity followEntity : followEntities) {
+                final UserEntity follow = this.findUser(followEntity.getFollowId());
+                if (follow != null) {
+                    followEntity.setUser(user);
+                    followEntity.setFollow(follow);
+                    followEntity.setCategory("u");
+                    this.followManager.save(followEntity);
+                }
             }
         }
     }
 
     @Transactional
     public void transferMusic() {
-        this.musicRepository.deleteAll();
-        final List<MusicEntity> musicList = this.musicRepository.findAll();
+        final List<MusicEntity> musicList = this.musicManager.findAll();
         if (CollectionUtils.isNotEmpty(musicList)) {
             for (final MusicEntity music : musicList) {
+                final String articleId = music.getArticleId();
+                final ArticleEntity article = this.articleManager.findByArticleId(articleId);
+                if (article != null) {
 
-                final ArticleEntity article = this.findArticle(music.getArticleId());
-                music.setId(article.getId());
+                    final ArticleEntity articleEntity = this.findArticle(article.getArticleId());
+                    if (articleEntity == null) {
+                        article.setUser(this.findUser(article.getUserId()));
+                        this.articleManager.save(article);
+                        this.objectManager.save(article);
 
-                this.musicRepository.save(music);
+                        music.setId(article.getId());
+                        this.musicManager.save(music);
+                    } else {
+                        article.setId(articleEntity.getId());
+                        music.setId(articleEntity.getId());
+                    }
 
-                // copy files
+                    this.transferTag(article);
+                    this.transferFile(article);
+                    this.transferAccess(article);
+                    this.transferComment(article);
+                    this.transferCollect(article, "m");
+                    // copy files
+                }
             }
         }
     }
 
     @Transactional
     public void transferComic() {
-        this.comicRepository.deleteAll();
-        final List<ComicEntity> comicList = this.comicRepository.findAll();
+        final List<ComicEntity> comicList = this.comicManager.findAll();
         if (CollectionUtils.isNotEmpty(comicList)) {
             for (final ComicEntity comic : comicList) {
+                final String articleId = comic.getArticleId();
+                final ArticleEntity article = this.articleManager.findByArticleId(articleId);
+                if (article != null) {
+                    final ArticleEntity articleEntity = this.findArticle(article.getArticleId());
+                    if (articleEntity == null) {
+                        article.setUser(this.findUser(article.getUserId()));
+                        this.articleManager.save(article);
+                        this.objectManager.save(article);
 
-                final ArticleEntity article = this.findArticle(comic.getArticleId());
-                comic.setId(article.getId());
-
-                this.comicRepository.save(comic);
-
-                // copy cover files
+                        comic.setId(article.getId());
+                        this.comicManager.save(comic);
+                    } else {
+                        article.setId(articleEntity.getId());
+                        comic.setId(articleEntity.getId());
+                    }
+                    this.transferTag(article);
+                    this.transferFile(article);
+                    this.transferAccess(article);
+                    this.transferComment(article);
+                    this.transferCollect(article, "c");
+                    // copy files
+                }
             }
         }
     }
 
-    @Transactional
-    private void transferFile() {
-        this.fileRepository.deleteAll();
-        final List<FileEntity> fileList = this.fileRepository.findAll();
+    private void transferTag(final ArticleEntity article) {
+        final String articleId = article.getArticleId();
+        final List<ArticleTagEntity> articleTagEntities = this.articleTagManager.findByArticleId(articleId);
+        if (CollectionUtils.isNotEmpty(articleTagEntities)) {
+            for (final ArticleTagEntity articleTagEntity : articleTagEntities) {
+                articleTagEntity.setArticle(article);
+
+                final String tagId = articleTagEntity.getTagId();
+                TagEntity tag = this.findTag(tagId);
+                if (tag == null) {
+                    tag = this.tagManager.findByTagId(tagId);
+                    this.tagManager.save(tag);
+                    this.objectManager.save(tag);
+
+                }
+                articleTagEntity.setTag(tag);
+
+                this.articleTagManager.save(articleTagEntity);
+            }
+        }
+    }
+
+    private void transferFile(final ArticleEntity article) {
+        final String articleId = article.getArticleId();
+        final List<FileEntity> fileList = this.fileManager.findByArticleId(articleId);
         if (CollectionUtils.isNotEmpty(fileList)) {
             for (final FileEntity file : fileList) {
-
-                final ArticleEntity article = this.findArticle(file.getArticleId());
                 file.setArticle(article);
-
                 file.setContentType(this.getContentType(file.getExtension()));
 
-                this.fileRepository.save(file);
-                this.objectRepository.save(file);
+                final String fileId = file.getFileId();
+                final FileEntity fileEntity = this.findFile(fileId);
+                if (fileEntity == null) {
+                    this.fileManager.save(file);
+                    this.objectManager.save(file);
+
+                    if ("audio".equals(file.getContentType())) {
+                        this.transferTrack(file);
+                    }
+                } else {
+                    file.setId(fileEntity.getId());
+                }
+
                 // copy files
             }
         }
     }
 
-    private void transferTrack() {
-        this.trackRepository.deleteAll();
-        final List<TrackEntity> trackList = this.trackRepository.findAll();
-        if (CollectionUtils.isNotEmpty(trackList)) {
-            for (final TrackEntity track : trackList) {
+    private void transferTrack(final FileEntity file) {
+        final String fileId = file.getFileId();
+        final TrackEntity track = this.trackManager.findByFileId(fileId);
+        if (track != null) {
+            track.setFile(file);
+            this.trackManager.save(track);
+        }
+    }
 
-                final FileEntity file = this.findFile(track.getFileId());
-                track.setFile(file);
+    private void transferAccess(final ArticleEntity article) {
+        final String articleId = article.getArticleId();
+        final List<AccessEntity> accessEntities = this.accessManager.findByArticleId(articleId);
+        if (CollectionUtils.isNotEmpty(accessEntities)) {
+            for (final AccessEntity accessEntity : accessEntities) {
+                accessEntity.setArticle(article);
+                if (StringUtils.isNotBlank(accessEntity.getUserId())) {
+                    final UserEntity user = this.findUser(accessEntity.getUserId());
+                    if (user != null) {
+                        accessEntity.setUser(user);
+                    } else {
+                        accessEntity.setUser(new UserEntity());
+                    }
+                } else {
+                    accessEntity.setUser(new UserEntity());
+                }
 
-                this.trackRepository.save(track);
+                this.accessManager.save(accessEntity);
             }
         }
     }
 
-    protected UserEntity findUser(final String objectId) {
-        final DtoBean userObject = this.objectRepository.findOne(objectId);
-        return this.userRepository.findOne(userObject.getId());
+    private void transferComment(final ArticleEntity article) {
+        final String articleId = article.getArticleId();
+        final List<CommentEntity> commentEntities = this.commentManager.findByArticleId(articleId);
+        if (CollectionUtils.isNotEmpty(commentEntities)) {
+            for (final CommentEntity comment : commentEntities) {
+                final String commentId = comment.getCommentId();
+                final CommentEntity commentEntity = this.findComment(commentId);
+                if (commentEntity == null) {
+                    comment.setArticle(article);
+                    if (StringUtils.isNotBlank(comment.getUserId())) {
+                        final UserEntity user = this.findUser(comment.getUserId());
+                        if (user != null) {
+                            comment.setUser(user);
+                        } else {
+                            comment.setUser(new UserEntity());
+                        }
+                    } else {
+                        comment.setUser(new UserEntity());
+                    }
+                    this.commentManager.save(comment);
+                    this.objectManager.save(comment);
+                } else {
+                    comment.setId(commentEntity.getId());
+                }
+            }
+        }
     }
 
-    protected ArticleEntity findArticle(final String objectId) {
-        final DtoBean articleObject = this.objectRepository.findOne(objectId);
-        return this.articleRepository.findOne(articleObject.getId());
+    private void transferCollect(final ArticleEntity article,
+                                 final String category) {
+        final String articleId = article.getArticleId();
+        final List<CollectEntity> collectEntities = this.collectManager.findByArticleId(articleId);
+        if (CollectionUtils.isNotEmpty(collectEntities)) {
+            for (final CollectEntity collectEntity : collectEntities) {
+                collectEntity.setArticle(article);
+                collectEntity.setCategory(category);
+                final UserEntity user = this.findUser(collectEntity.getUserId());
+                if (user != null) {
+                    collectEntity.setUser(user);
+                    this.collectManager.save(collectEntity);
+                }
+            }
+        }
     }
 
-    protected FileEntity findFile(final String objectId) {
-        final DtoBean fileObject = this.objectRepository.findOne(objectId);
-        return this.fileRepository.findOne(fileObject.getId());
+    private UserEntity findUser(final String objectId) {
+        final DtoBean userObject = this.objectManager.findOne(objectId);
+        if (userObject == null) {
+            return null;
+        }
+        return this.userManager.findOne(userObject.getId());
     }
 
-    protected String getContentType(final String extension) {
+    private ArticleEntity findArticle(final String objectId) {
+        final DtoBean articleObject = this.objectManager.findOne(objectId);
+        if (articleObject == null) {
+            return null;
+        }
+        return this.articleManager.findOne(articleObject.getId());
+    }
+
+    private FileEntity findFile(final String objectId) {
+        final DtoBean fileObject = this.objectManager.findOne(objectId);
+        if (fileObject == null) {
+            return null;
+        }
+        return this.fileManager.findOne(fileObject.getId());
+    }
+
+    private TagEntity findTag(final String objectId) {
+        final DtoBean tagObject = this.objectManager.findOne(objectId);
+        if (tagObject == null) {
+            return null;
+        }
+        return this.tagManager.findOne(tagObject.getId());
+    }
+
+    private CommentEntity findComment(final String objectId) {
+        final DtoBean commentObject = this.objectManager.findOne(objectId);
+        if (commentObject == null) {
+            return null;
+        }
+        return this.commentManager.findOne(commentObject.getId());
+    }
+
+    private String getContentType(final String extension) {
         if (extension.equals("mp3")) {
             return "audio";
         } else {

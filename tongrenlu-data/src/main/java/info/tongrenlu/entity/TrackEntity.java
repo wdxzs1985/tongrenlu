@@ -7,8 +7,9 @@ public class TrackEntity extends DtoBean {
      */
     private static final long serialVersionUID = 1L;
 
-    public TrackEntity(final Integer id, final String objectId, final String name, final String artist, final String original) {
-        super(id, objectId);
+    public TrackEntity(final String objectId, final String name,
+            final String artist, final String original) {
+        super(0, objectId);
         this.name = name;
         this.artist = artist;
         this.original = original;

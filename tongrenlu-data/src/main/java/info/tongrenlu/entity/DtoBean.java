@@ -20,7 +20,7 @@ public class DtoBean implements Serializable {
         this.objectId = objectId;
     }
 
-    private Integer id;
+    private Integer id = 0;
 
     private String objectId;
 

@@ -11,7 +11,7 @@
     <div class="container">
       <div class="media">
           <div class="media-heading pull-left">
-              <img src="http://placehold.it/60x60" class="img-responsive img-rounded" 
+              <img src="http://placehold.it/60x60" class="img-responsive img-rounded img-60" 
                  th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
           </div>
           <div class="pull-right btn-group ">
@@ -152,7 +152,7 @@
 <script id="template-comment-item" type="text/x-tmpl" th:inline="text">
         <li class="media">
             <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
-                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" />
+                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class="img-60" />
             </a>
             <div class="media-body">
                 <h5 class="media-heading">

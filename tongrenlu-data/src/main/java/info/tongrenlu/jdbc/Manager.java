@@ -1,8 +1,8 @@
-package info.tongrenlu.service;
+package info.tongrenlu.jdbc;
 
 import java.util.List;
 
-public interface Repository<T, I> {
+public interface Manager<T, I> {
 
     public List<T> findAll();
 

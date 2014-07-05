@@ -7,8 +7,9 @@ public class ComicEntity extends DtoBean {
      */
     private static final long serialVersionUID = 1L;
 
-    public ComicEntity(final Integer id, final String objectId, final String redFlg, final String translateFlg) {
-        super(id, objectId);
+    public ComicEntity(final String objectId, final String redFlg,
+            final String translateFlg) {
+        super(0, objectId);
         this.redFlg = redFlg;
         this.translateFlg = translateFlg;
     }

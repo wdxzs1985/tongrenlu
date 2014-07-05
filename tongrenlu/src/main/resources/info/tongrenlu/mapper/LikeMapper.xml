@@ -82,6 +82,8 @@
         AND L.USER_ID = #{userBean.id}
         AND L.CATEGORY = 'm'
         </where>
+        order by L.id desc
+        limit #{start}, #{pageSize}
     </select>
     
     <select id="countComic" resultType="int">
@@ -123,6 +125,8 @@
         AND L.USER_ID = #{userBean.id}
         AND L.CATEGORY = 'c'
         </where>
+        order by L.id desc
+        limit #{start}, #{pageSize}
     </select>
     
     <select id="countFollow" resultType="int">
@@ -157,6 +161,8 @@
         AND L.USER_ID = #{userBean.id}
         AND L.CATEGORY = 'u'
         </where>
+        order by L.id desc
+        limit #{start}, #{pageSize}
     </select>
     
     <select id="countFollower" resultType="int">
@@ -191,6 +197,8 @@
         AND L.LIKE_ID = #{userBean.id}
         AND L.CATEGORY = 'u'
         </where>
+        order by L.id desc
+        limit #{start}, #{pageSize}
     </select>
     
 </mapper>

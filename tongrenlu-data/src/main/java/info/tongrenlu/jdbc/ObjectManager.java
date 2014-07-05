@@ -1,4 +1,4 @@
-package info.tongrenlu.service;
+package info.tongrenlu.jdbc;
 
 import info.tongrenlu.entity.DtoBean;
 
@@ -9,7 +9,7 @@ import org.apache.http.MethodNotSupportedException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ObjectRepository extends RepositorySupport implements Repository<DtoBean, String> {
+public class ObjectManager extends ManagerSupport implements Manager<DtoBean, String> {
 
     @Override
     public void save(final DtoBean objectBean) {

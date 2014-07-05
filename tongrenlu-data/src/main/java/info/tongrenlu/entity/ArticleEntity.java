@@ -9,8 +9,11 @@ public class ArticleEntity extends DtoBean {
      */
     private static final long serialVersionUID = 1L;
 
-    public ArticleEntity(final Integer id, final String objectId, final String title, final String description, final String userId, final String publishFlg, final Date publishDate, final String recommend) {
-        super(id, objectId);
+    public ArticleEntity(final String objectId, final String title,
+            final String description, final String userId,
+            final String publishFlg, final Date publishDate,
+            final String recommend) {
+        super(0, objectId);
         this.title = title;
         this.description = description;
         this.userId = userId;

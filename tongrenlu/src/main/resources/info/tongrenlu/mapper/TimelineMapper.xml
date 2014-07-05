@@ -58,13 +58,14 @@
             count(v_timeline.createDate)
         FROM 
             v_timeline
-                left join
-            r_like ON v_timeline.followId = r_like.like_id
-                and r_like.category = 'u'
-                and r_like.del_flg = '0'
         <where>
-        and (user_id = #{loginUser.id}
-            OR  v_timeline.followId = #{loginUser.id})
+            (v_timeline.followId = #{loginUser.id}
+	        or v_timeline.followId in (select 
+	            like_id
+	        from
+	            r_like
+	        where
+	            user_id = #{loginUser.id}))
         and (   v_timeline.redFlg = '0' 
             OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">
@@ -90,13 +91,14 @@
         </trim>
         FROM 
             v_timeline
-                left join
-            r_like ON v_timeline.followId = r_like.like_id
-                and r_like.category = 'u'
-                and r_like.del_flg = '0'
         <where>
-        and (user_id = #{loginUser.id}
-            OR  v_timeline.followId = #{loginUser.id})
+            (v_timeline.followId = #{loginUser.id}
+            or v_timeline.followId in (select 
+                like_id
+            from
+                r_like
+            where
+                user_id = #{loginUser.id}))
         and (   v_timeline.redFlg = '0' 
             OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">

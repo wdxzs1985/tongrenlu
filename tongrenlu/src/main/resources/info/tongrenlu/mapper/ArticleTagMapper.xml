@@ -114,6 +114,8 @@
         OR  v_comic.`translateFlg` is NULL)
         </if>
         </where>
+        order by v_comic.id desc
+        limit #{start}, #{pageSize}
     </select>
     
     <select id="countMusic" resultType="int">
@@ -157,5 +159,7 @@
         AND r_article_tag.del_flg = '0'
         AND v_music.publishFlg = '1'
         </where>
+        order by v_music.id desc
+        limit #{start}, #{pageSize}
     </select>
 </mapper>

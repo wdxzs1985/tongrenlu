@@ -78,15 +78,15 @@
         <li class="">
             {% if (o.action == 'publish_comic') { %}
             <a href="/comic/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="/files/c{%=o.articleBean.id%}/cover_60.jpg" class=""/>
+                <img src="/files/c{%=o.articleBean.id%}/cover_60.jpg" class=" img-60"/>
             </a>
             {% } else if (o.action == 'publish_music') { %}
             <a href="/music/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="/files/m{%=o.articleBean.id%}/cover_60.jpg" class=""/>
+                <img src="/files/m{%=o.articleBean.id%}/cover_60.jpg" class=" img-60"/>
             </a>
             {% } else { %}
             <a href="/user/{%=o.userBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class=""/>
+                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class=" img-60"/>
             </a>
             {% } %}
             <div class="cbp_tmlabel">
