@@ -26,27 +26,36 @@ public class SearchService {
     public Page<ArticleDocument> findArticle(final String query,
                                              final Pageable pageable) {
         final String escapedQuery = ClientUtils.escapeQueryChars(query);
-        return this.articleRepository.findByTitleContainsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
-                                                                                            escapedQuery,
-                                                                                            pageable);
+        return this.articleRepository.findByTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
+                                                                                                         escapedQuery,
+                                                                                                         escapedQuery,
+                                                                                                         escapedQuery,
+                                                                                                         pageable);
     }
 
     public Page<MusicDocument> findMusic(final String query,
                                          final Pageable pageable) {
         final String escapedQuery = ClientUtils.escapeQueryChars(query);
-        return this.musicRepository.findByTitleContainsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
-                                                                                          escapedQuery,
-                                                                                          pageable);
+        return this.musicRepository.findByTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
+                                                                                                       escapedQuery,
+                                                                                                       escapedQuery,
+                                                                                                       escapedQuery,
+                                                                                                       pageable);
     }
 
     public Page<TrackDocument> findTrack(final String query,
                                          final Pageable pageable) {
         final String escapedQuery = ClientUtils.escapeQueryChars(query);
-        return this.trackRepository.findByTrackContainsOrArtistContainsOrOriginalOrTitleContainsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
-                                                                                                                                   escapedQuery,
-                                                                                                                                   escapedQuery,
-                                                                                                                                   escapedQuery,
-                                                                                                                                   escapedQuery,
-                                                                                                                                   pageable);
+        return this.trackRepository.findByTrackOrTrackContainsOrArtistOrArtistContainsOrOriginalOrOriginalOrTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         escapedQuery,
+                                                                                                                                                                         pageable);
     }
 }

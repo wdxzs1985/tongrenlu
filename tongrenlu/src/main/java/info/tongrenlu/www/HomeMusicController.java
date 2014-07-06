@@ -165,4 +165,10 @@ public class HomeMusicController {
         model.put("result", result);
         return model;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/lucky")
+    public String doGetLucky() {
+        final MusicBean musicBean = this.musicService.getRandomMusic();
+        return "redirect:/music/" + musicBean.getId();
+    }
 }

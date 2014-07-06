@@ -77,7 +77,7 @@ public class UserManager extends ManagerSupport implements
     @Override
     public UserEntity findOne(final Integer id) {
         final String sql = "Select " + "id      as id"
-                           + "        from M_USER "
+                           + "        from m_user "
                            + "     where "
                            + "             id = ?";
         this.log.info("[sql] = " + sql);

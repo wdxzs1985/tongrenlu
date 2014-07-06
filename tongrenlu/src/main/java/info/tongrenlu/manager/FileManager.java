@@ -268,7 +268,7 @@ public class FileManager {
 
     protected IMOperation getImOperation() {
         final IMOperation operation = new IMOperation();
-        operation.density(72).quality(90d).strip();
+        operation.density(72).quality(90d);
         return operation;
     }
 

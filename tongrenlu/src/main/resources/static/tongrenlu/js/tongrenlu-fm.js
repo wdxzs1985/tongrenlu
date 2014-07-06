@@ -51,13 +51,17 @@ var fm = function(options) {
 			}
 			/* navbar */
 			$('.navbar').on('click', '#nav-player', function(){
+				that.closeNavbar();
 				var $playerPage = $('#fm-player');
 				if($playerPage.hasClass('in')) {
 					$('#fm-player').removeClass('fm-page-active in');
 				} else {
 					that.hidePlayerWhenNotPlaying();
 				}
-			});
+			}).on('click', '#nav-lucky', function(){
+				that.closeNavbar();
+				that.lucky();
+			})
 			/* fm-index */
 			var $indexPage = $('#fm-index').on('click', '.pager a', function(e){
 				e.preventDefault();
@@ -160,8 +164,8 @@ var fm = function(options) {
 			}).on('click', '.pager a', function(e){
 				e.preventDefault();
 				var query = $searchPage.data('query');
-				var pageNumber = $searchPage.data('searchResult.totalPages');
-				that.loadSearch(query, pageNumber);
+				var searchResult = $searchPage.data('searchResult');
+				that.loadSearch(query, searchResult.number + 1);
 			});
 			
 			var $playerPage = $('#fm-player').on('click', '.fm-page-nav a', function(e){
@@ -169,13 +173,16 @@ var fm = function(options) {
 				$playerPage.removeClass('fm-page-active in');
 			})
 		},
-		onHashChange: function() {
+		closeNavbar: function() {
 			var $navbatToggle = $('.navbar-toggle');
 		    var $toggleTarget = $($navbatToggle.data('target'));
 		    if($toggleTarget.hasClass('in')) {
 		    	$navbatToggle.trigger('click')
 		    }
-		    
+		},
+		onHashChange: function() {
+			that.closeNavbar();
+			
 			var hash = window.location.hash;
 			if(hash.match(/^#search\/q=(.*?)$/)) {
 				/*...*/
@@ -285,6 +292,19 @@ var fm = function(options) {
 				$musicPage.find('.likebutton').likebutton();
 			});
 		},
+		lucky: function() {
+			that.index();
+			$('#fm-search, #fm-music').removeClass('fm-page-active in');
+			$('#fm-index').addClass('in');
+			that.hidePlayerWhenNotPlaying();
+			var $musicPage = $('#fm-music').addClass('fm-page-active in');
+			$musicPage.empty();
+			$.getJSON(settings.luckyUrl).done(function(response){
+				$musicPage.data(response);
+				$musicPage.append(tmpl('template-music-page', response));
+				$musicPage.find('.likebutton').likebutton();
+			});
+		},
 		search: function(query) {
 			$('#fm-index, #fm-search, #fm-music').removeClass('fm-page-active in');
 			var $page = $('#fm-search').addClass('fm-page-active in');
@@ -292,10 +312,11 @@ var fm = function(options) {
 			if(query){
 				var lastQuery = $page.data('query');
 				if(query != lastQuery) {
+					$page.find('.list-content .media-list').empty();
 					that.loadSearch(query, 0);
 				}
 			} else {
-				$empty.removeClass('hidden');
+				$page.find('.empty').removeClass('hidden');
 			}
 		},
 		showPlayerWhenPlaying: function(){

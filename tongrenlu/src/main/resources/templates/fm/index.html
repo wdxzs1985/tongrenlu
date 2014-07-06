@@ -27,7 +27,8 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="javascript:;" id="nav-player" class="" th:text="#{home.fm.player}">playing</a></li>
+                    <li><a href="javascript:;" id="nav-lucky" th:text="#{home.music.lucky}">lucky</a></li>
+                    <li><a href="javascript:;" id="nav-player" th:text="#{home.fm.player}">playing</a></li>
                 </ul>
                 <form id="fm-search-form" class="navbar-form navbar-left" role="form">
                     <div class="form-group">
@@ -41,7 +42,7 @@
                     </li>
                     <li id="nav-signin" class="hidden">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span id="nav-nickname" th:text="#{UserBean.nickname}">Guest</span>  <b class="caret"></b>
+                            <span th:text="#{UserBean.nickname}">Guest</span>  <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -148,8 +149,8 @@
             <div class="empty hidden">
                 <div class="container-fluid">
                     <div class="alert alert-info">
-                        <h4 th:text="home.fm.search">Search</h4>
-                        <p th:text="home.fm.search.emtpy">Empty</p>
+                        <h4 th:text="#{home.fm.search}">Search</h4>
+                        <p th:text="#{home.fm.search.emtpy}">Empty</p>
                     </div>
                 </div>
             </div>
@@ -211,6 +212,11 @@
                             <div class="jp-volume-bar hidden-xs">
                                 <div class="jp-volume-bar-value"></div>
                             </div>
+                            <div class="jp-details">
+                                <ul>
+                                    <li><span class="jp-title"></span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="jp-playlist">
@@ -259,9 +265,10 @@
         <script type="text/javascript" th:inline="javascript">
             $(function () {
                 new fm({
-                    musicUrl: /*[[@{/fm/music}]]*/ '',
                     filePath: /*[[@{/files}]]*/ '',
-                    searchUrl: /*[[@{/fm/search/track}]]*/ ''
+                    musicUrl: /*[[@{/fm/music}]]*/ '',
+                    searchUrl: /*[[@{/fm/search/track}]]*/ '',
+                    luckyUrl: /*[[@{/fm/lucky}]]*/ ''
                 });
             });
         </script>

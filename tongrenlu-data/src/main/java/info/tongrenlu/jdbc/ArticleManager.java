@@ -64,7 +64,7 @@ public class ArticleManager extends ManagerSupport implements
     @Override
     public ArticleEntity findOne(final Integer id) {
         final String sql = "Select " + "id      as id"
-                           + "        from M_article "
+                           + "        from m_article "
                            + "     where "
                            + "             id = ?";
         this.log.info("[sql] = " + sql);

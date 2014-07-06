@@ -45,11 +45,13 @@ hr { visibility: hidden}
 }
 
 .media-list > .media {
+	display: block;
 	padding: 8px 16px;
 	margin: 0;
     background-color: #fff;
     border-top: #fff solid 1px;
     border-bottom: #e7e7e7 solid 1px;
+    text-decoration: none;
 }
 
 .media-list > .media:nth-child(odd) {

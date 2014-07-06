@@ -5,11 +5,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.repository.Query;
 import org.springframework.data.solr.repository.SolrCrudRepository;
 
-public interface ArticleRepository extends SolrCrudRepository<ArticleDocument, String> {
+public interface ArticleRepository extends
+        SolrCrudRepository<ArticleDocument, String> {
 
     @Query(filters = "-category:track")
-    Page<ArticleDocument> findByTitleContainsOrTagsContainsOrderByArticleIdDesc(String titleContains,
-                                                                                String tagsContains,
-                                                                                Pageable pageable);
+    Page<ArticleDocument> findByTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(String title,
+                                                                                             String titleContains,
+                                                                                             String tags,
+                                                                                             String tagsContains,
+                                                                                             Pageable pageable);
 
 }

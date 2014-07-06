@@ -66,7 +66,7 @@ public class FileManager extends ManagerSupport implements
     @Override
     public FileEntity findOne(final Integer id) {
         final String sql = "Select " + "id      as id"
-                           + "        from M_file "
+                           + "        from m_file "
                            + "     where "
                            + "             id = ?";
         this.log.info("[sql] = " + sql);

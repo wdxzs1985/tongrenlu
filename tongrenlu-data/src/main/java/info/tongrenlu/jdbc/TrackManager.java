@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.MethodNotSupportedException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -55,7 +56,21 @@ public class TrackManager extends ManagerSupport implements
 
     @Override
     public TrackEntity findOne(final Integer id) {
-        throw new RuntimeException(new MethodNotSupportedException(""));
+        final String sql = "Select " + "id      as id"
+                           + "        from m_track "
+                           + "     where "
+                           + "             id = ?";
+        this.log.info("[sql] = " + sql);
+        this.log.info("[id] = " + id);
+        try {
+            final Map<String, Object> result = this.getMysqlDao()
+                                                   .queryForMap(sql, id);
+            final TrackEntity bean = new TrackEntity();
+            bean.setId((Integer) result.get("id"));
+            return bean;
+        } catch (final EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -77,7 +92,9 @@ public class TrackManager extends ManagerSupport implements
 
     @Override
     public void save(final TrackEntity track) {
-        this.insert(track);
+        if (this.findOne(track.getFile().getId()) == null) {
+            this.insert(track);
+        }
     }
 
     @Override

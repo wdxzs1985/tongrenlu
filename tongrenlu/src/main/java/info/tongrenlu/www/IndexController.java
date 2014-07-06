@@ -63,12 +63,12 @@ public class IndexController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
-    public String doGetSearch(@RequestParam(value = "p", defaultValue = "0") final Integer pageNumber,
+    public String doGetSearch(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                               @RequestParam(value = "q", required = false) final String query,
                               final Model model) {
         if (StringUtils.isNotBlank(query)) {
 
-            final Pageable pageable = new PageRequest(pageNumber,
+            final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
                                                       PaginateSupport.PAGESIZE);
 
             final Page<ArticleDocument> searchResult = this.searchService.findArticle(query,

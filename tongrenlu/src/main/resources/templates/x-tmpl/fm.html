@@ -3,18 +3,14 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <body>
 <script id="template-music-item" type="text/x-tmpl" th:fragment="template-music-item">
-<li class="media">
-    <a class="pull-left" href="#music/{%=o.id%}" title="{%=o.title%}">
-        <img class="media-object img-60 img-rounded img-thumbnail"
+<a class="media" href="#music/{%=o.id%}" title="{%=o.title%}">
+        <img class="pull-left media-object img-60 img-rounded img-thumbnail"
            src="/files/m{%=o.id%}/cover_60.jpg"
            alt="{%=o.title%}" />
-    </a>
     <div class="media-body">
-        <h5 class="media-heading">
-            <a href="#music/{%=o.id%}" title="{%=o.title%}">{%=o.title%}</a>
-        </h5>
+        <h5 class="media-heading">{%=o.title%}</h5>
     </div>
-</li>
+</a>
 </script>
 <script id="template-music-page" type="text/x-tmpl" th:fragment="template-music-page">
 <div class="fm-page-nav visible-xs">
@@ -50,14 +46,9 @@
 </div>
 <ul class="media-list">
 {% for (var i=0, track; track=o.trackList[i]; i++) { %}
-    <li class="media">
-        <h5>
-            <a href="javascript:;" class="fm-play-track" data-index="{%=i%}">
-                {%=track.name%}
-                <small>{%=track.artist%}</small>
-            </a>
-        </h5>
-    </li>
+    <a href="javascript:;" class="media fm-play-track" data-index="{%=i%}">
+        <h5>{%=track.name%} <small>{%=track.artist%}</small></h5>
+    </a>
 {% } %}
 </ul>
 </script>
@@ -70,9 +61,7 @@
            alt="{%=o.track%}" />
     </a>
     <div class="media-body">
-      <h5 class="">
-        <a href="javascript:;" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a>
-      </h5>
+      <h5 class=""><a href="javascript:;" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a></h5>
       <a href="#music/{%=o.articleId%}" title="{%=o.title%}">
         <small>> {%=o.title%}</small>
       </a>

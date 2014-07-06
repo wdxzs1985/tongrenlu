@@ -13,6 +13,7 @@ import info.tongrenlu.entity.MusicEntity;
 import info.tongrenlu.entity.TagEntity;
 import info.tongrenlu.entity.TrackEntity;
 import info.tongrenlu.entity.UserEntity;
+import info.tongrenlu.file.FileService;
 import info.tongrenlu.jdbc.AccessManager;
 import info.tongrenlu.jdbc.ArticleManager;
 import info.tongrenlu.jdbc.ArticleTagManager;
@@ -26,7 +27,13 @@ import info.tongrenlu.jdbc.ObjectManager;
 import info.tongrenlu.jdbc.TagManager;
 import info.tongrenlu.jdbc.TrackManager;
 import info.tongrenlu.jdbc.UserManager;
+import info.tongrenlu.solr.ArticleDocument;
+import info.tongrenlu.solr.ArticleRepository;
+import info.tongrenlu.solr.MusicDocument;
+import info.tongrenlu.solr.TrackDocument;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -34,13 +41,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
-public class TransferService implements CommandLineRunner {
+public class JdbcTransfer {
 
     @Autowired
     private ObjectManager objectManager = null;
@@ -69,16 +74,17 @@ public class TransferService implements CommandLineRunner {
     @Autowired
     private FollowManager followManager = null;
     @Autowired
-    private info.tongrenlu.solr.ArticleRepository articleRepository = null;
+    private ArticleRepository articleRepository = null;
+    @Autowired
+    private FileService fileService = null;
 
     private Log log = LogFactory.getLog(this.getClass());
 
-    @Override
-    public void run(final String... arg0) throws Exception {
+    public void doTransfer() {
         this.begin();
 
         this.log.info("Transfer User...");
-        this.transferUser();
+        // this.transferUser();
         this.log.info("Transfer User...ok");
 
         this.log.info("Transfer Music...");
@@ -93,6 +99,7 @@ public class TransferService implements CommandLineRunner {
 
     @Transactional
     public void begin() {
+        this.articleRepository.deleteAll();
         this.articleTagManager.deleteAll();
         this.accessManager.deleteAll();
         this.collectManager.deleteAll();
@@ -113,7 +120,8 @@ public class TransferService implements CommandLineRunner {
                 }
 
                 this.transferFollow(user);
-                // copy files
+
+                this.transferCover(user, "u");
             }
         }
     }
@@ -156,12 +164,29 @@ public class TransferService implements CommandLineRunner {
                         music.setId(articleEntity.getId());
                     }
 
-                    this.transferTag(article);
-                    this.transferFile(article);
+                    final String id = "m" + article.getId();
+                    ArticleDocument document = this.articleRepository.findOne(id);
+                    if (document == null) {
+                        document = new MusicDocument();
+                        document.setId(id);
+                        document.setArticleId(article.getId());
+                    }
+                    document.setTitle(article.getTitle());
+                    document.setDescription(article.getDescription());
+
+                    final List<String> tagList = new ArrayList<String>();
+                    this.transferTag(article, tagList);
+                    document.setTags(tagList.toArray(new String[] {}));
+                    this.articleRepository.save(document);
+                    this.transferCover(article, "m");
+
+                    this.transferFile(article, document, "m");
+
                     this.transferAccess(article);
                     this.transferComment(article);
                     this.transferCollect(article, "m");
                     // copy files
+
                 }
             }
         }
@@ -187,18 +212,37 @@ public class TransferService implements CommandLineRunner {
                         article.setId(articleEntity.getId());
                         comic.setId(articleEntity.getId());
                     }
-                    this.transferTag(article);
-                    this.transferFile(article);
+
+                    final String id = "c" + article.getId();
+                    ArticleDocument document = this.articleRepository.findOne(id);
+                    if (document == null) {
+                        document = new MusicDocument();
+                        document.setId(id);
+                        document.setArticleId(article.getId());
+                    }
+                    document.setTitle(article.getTitle());
+                    document.setDescription(article.getDescription());
+
+                    final List<String> tagList = new ArrayList<String>();
+                    this.transferTag(article, tagList);
+                    document.setTags(tagList.toArray(new String[] {}));
+                    this.articleRepository.save(document);
+                    this.transferCover(article, "c");
+
+                    this.transferFile(article, null, "c");
+
                     this.transferAccess(article);
                     this.transferComment(article);
                     this.transferCollect(article, "c");
                     // copy files
+
                 }
             }
         }
     }
 
-    private void transferTag(final ArticleEntity article) {
+    private void transferTag(final ArticleEntity article,
+                             final List<String> tagList) {
         final String articleId = article.getArticleId();
         final List<ArticleTagEntity> articleTagEntities = this.articleTagManager.findByArticleId(articleId);
         if (CollectionUtils.isNotEmpty(articleTagEntities)) {
@@ -211,16 +255,19 @@ public class TransferService implements CommandLineRunner {
                     tag = this.tagManager.findByTagId(tagId);
                     this.tagManager.save(tag);
                     this.objectManager.save(tag);
-
                 }
                 articleTagEntity.setTag(tag);
 
                 this.articleTagManager.save(articleTagEntity);
+
+                tagList.add(tag.getTag());
             }
         }
     }
 
-    private void transferFile(final ArticleEntity article) {
+    private void transferFile(final ArticleEntity article,
+                              final ArticleDocument document,
+                              final String category) {
         final String articleId = article.getArticleId();
         final List<FileEntity> fileList = this.fileManager.findByArticleId(articleId);
         if (CollectionUtils.isNotEmpty(fileList)) {
@@ -234,24 +281,45 @@ public class TransferService implements CommandLineRunner {
                     this.fileManager.save(file);
                     this.objectManager.save(file);
 
-                    if ("audio".equals(file.getContentType())) {
-                        this.transferTrack(file);
-                    }
                 } else {
                     file.setId(fileEntity.getId());
                 }
+
+                if ("audio".equals(file.getContentType())) {
+                    this.transferTrack(file, document);
+                }
+
+                this.transferFiles(article, file, category);
 
                 // copy files
             }
         }
     }
 
-    private void transferTrack(final FileEntity file) {
+    private void transferTrack(final FileEntity file,
+                               final ArticleDocument document) {
         final String fileId = file.getFileId();
         final TrackEntity track = this.trackManager.findByFileId(fileId);
         if (track != null) {
             track.setFile(file);
             this.trackManager.save(track);
+
+            final String id = "t" + file.getId();
+            ArticleDocument tdocument = this.articleRepository.findOne(id);
+            if (tdocument == null) {
+                tdocument = new TrackDocument();
+                tdocument.setId(id);
+                tdocument.setFileId(file.getId());
+                tdocument.setArticleId(document.getArticleId());
+                tdocument.setTitle(document.getTitle());
+                tdocument.setTags(document.getTags());
+            }
+            tdocument.setTrack(track.getName());
+            tdocument.setInstrumental(false);
+            tdocument.setArtist(StringUtils.split(track.getArtist(), ","));
+            tdocument.setOriginal(StringUtils.split(track.getOriginal(), "\n"));
+
+            this.articleRepository.save(tdocument);
         }
     }
 
@@ -319,6 +387,48 @@ public class TransferService implements CommandLineRunner {
                     this.collectManager.save(collectEntity);
                 }
             }
+        }
+    }
+
+    private void transferCover(final DtoBean dtoBean, final String category) {
+        File input = new File(this.fileService.getInputPath(),
+                              dtoBean.getObjectId() + "/" + FileService.COVER);
+        if (!input.exists()) {
+            input = new File(this.fileService.getInputPath(),
+                             "default" + "/" + FileService.COVER);
+        }
+
+        final String dirId = category + dtoBean.getId();
+        final File output = new File(this.fileService.getOutputPath(),
+                                     dirId + "/" + FileService.COVER);
+        this.fileService.saveFile(input, output);
+        this.fileService.convertCover(output, dirId);
+    }
+
+    private void transferFiles(final ArticleEntity article,
+                               final FileEntity file,
+                               final String category) {
+        final File input = new File(this.fileService.getInputPath(),
+                                    article.getArticleId() + "/"
+                                            + file.getFileId()
+                                            + "."
+                                            + file.getExtension());
+
+        if (!input.exists()) {
+            return;
+        }
+
+        final String dirId = category + article.getId();
+        final String fileId = FileService.FILE + file.getId();
+        final File output = new File(this.fileService.getOutputPath(),
+                                     dirId   + "/"
+                                             + fileId
+                                             + "."
+                                             + file.getExtension());
+        this.fileService.saveFile(input, output);
+
+        if ("image".equals(file.getContentType())) {
+            this.fileService.convertImage(category, file);
         }
     }
 

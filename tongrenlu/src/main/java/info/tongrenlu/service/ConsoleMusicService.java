@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -54,9 +55,11 @@ public class ConsoleMusicService {
                             final Locale locale) {
         if (this.validateForCreate(inputMusic, model, locale)) {
             this.articleManager.insert(inputMusic);
-            for (final String tag : tags) {
-                final TagBean tagBean = this.tagManager.create(tag);
-                this.articleManager.addTag(inputMusic, tagBean);
+            if (ArrayUtils.isNotEmpty(tags)) {
+                for (final String tag : tags) {
+                    final TagBean tagBean = this.tagManager.create(tag);
+                    this.articleManager.addTag(inputMusic, tagBean);
+                }
             }
             return true;
         }
@@ -71,9 +74,11 @@ public class ConsoleMusicService {
         if (this.validateForEdit(musicBean, model, locale)) {
             this.articleManager.update(musicBean);
             this.articleManager.removeTags(musicBean);
-            for (final String tag : tags) {
-                final TagBean tagBean = this.tagManager.create(tag);
-                this.articleManager.addTag(musicBean, tagBean);
+            if (ArrayUtils.isNotEmpty(tags)) {
+                for (final String tag : tags) {
+                    final TagBean tagBean = this.tagManager.create(tag);
+                    this.articleManager.addTag(musicBean, tagBean);
+                }
             }
 
             if (CommonConstants.is(musicBean.getPublishFlg())) {

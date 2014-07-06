@@ -14,9 +14,11 @@ import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,23 @@ public class HomeMusicService {
 
         final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
         paginate.setItems(items);
+    }
+
+    public MusicBean getRandomMusic() {
+        final Map<String, Object> params = new HashMap<>();
+        final int itemCount = this.articleManager.countMusic(params);
+
+        if (itemCount == 0) {
+            return null;
+        }
+
+        final int start = new Random(System.currentTimeMillis()).nextInt(itemCount);
+
+        params.put("start", start);
+        params.put("pageSize", 1);
+
+        final List<MusicBean> items = this.articleManager.searchMusic(params);
+        return items.get(0);
     }
 
     public List<MusicBean> getRanking() {
@@ -137,4 +156,5 @@ public class HomeMusicService {
         }
         return isValid;
     }
+
 }

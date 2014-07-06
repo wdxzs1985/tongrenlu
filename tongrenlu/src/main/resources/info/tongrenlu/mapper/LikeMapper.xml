@@ -4,6 +4,8 @@
 
 <mapper namespace="info.tongrenlu.mapper.LikeMapper">
     
+    <cache flushInterval="3600000" size="512" readOnly="true"/>
+    
     <insert id="insert">
         INSERT INTO r_like(
         <trim suffixOverrides=",">
