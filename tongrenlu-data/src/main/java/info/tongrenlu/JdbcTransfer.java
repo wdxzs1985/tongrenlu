@@ -134,12 +134,12 @@ public class JdbcTransfer implements TransferService {
 
         if (this.transferUser) {
             this.followManager.deleteAll();
+            this.collectManager.deleteAll();
         }
 
         if (this.transferArticle) {
             this.articleTagManager.deleteAll();
             this.accessManager.deleteAll();
-            this.collectManager.deleteAll();
         }
     }
 

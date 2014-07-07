@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-body {
-	font-family: Helvetica, Tahoma, Arial, STXihei, "Microsoft YaHei", SimSun, Heiti, sans-serif !important;
+body {;
+    font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif !important;
     font-size: 14px;
 }
 
@@ -106,4 +106,9 @@ h1.article-title {
 
 .share_self {
 	background: #fff;
+}
+
+.list-inline {
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
