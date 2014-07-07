@@ -82,6 +82,7 @@ public class LoginService {
                                                loginUser,
                                                model,
                                                locale)) {
+                inputUser.setId(loginUser.getId());
                 return true;
             }
         }
