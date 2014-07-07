@@ -142,7 +142,7 @@
         </where>
     </update>
     
-    <select id="fetchRanking" resultType="MusicBean">
+    <select id="fetchRanking" resultType="ComicBean">
         SELECT 
         <trim suffixOverrides=",">
             v_comic.id                      as id,
@@ -153,9 +153,6 @@
             v_comic.recommendFlg            as recommendFlg,
             v_comic.redFlg                  as redFlg,
             v_comic.translateFlg            as translateFlg,
-            v_comic.`userBean.id`           as `userBean.id`,
-            v_comic.`userBean.nickname`     as `userBean.nickname`,
-            v_comic.`userBean.signature`    as `userBean.signature`,
             v_comic.accessCount             as accessCount,
             v_comic.likeCount               as likeCount,
             v_comic.commentCount            as commentCount,
@@ -189,13 +186,13 @@
             WHERE
                 upd_date > CURRENT_DATE - 7
                     AND del_flg = '0'
-                    AND category = 'm'
+                    AND category = 'c'
             GROUP BY like_id) v_like_cnt ON v_comic.id = v_like_cnt.like_id
         <where>
         and v_comic.publishFlg = '1'
         and v_comic.redFlg = '0'
         </where>
-        ORDER BY IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC
+        ORDER BY IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_comic.id DESC
         limit 0, #{pageSize}
     </select>
 </mapper>

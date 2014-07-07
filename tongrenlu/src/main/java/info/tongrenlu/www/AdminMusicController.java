@@ -44,9 +44,12 @@ public class AdminMusicController {
     @Autowired
     private FileService fileService = null;
 
-    private void throwExceptionWhenNotFound(final MusicBean musicBean) {
+    private void throwExceptionWhenNotFound(final MusicBean musicBean,
+                                            final Locale locale) {
         if (musicBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
     }
 
@@ -63,10 +66,11 @@ public class AdminMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         model.addAttribute("articleBean", musicBean);
 
@@ -75,10 +79,11 @@ public class AdminMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/edit")
     public String doGetEdit(@PathVariable final Integer articleId,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         final String[] tags = this.musicService.getTags(musicBean);
 
@@ -98,7 +103,7 @@ public class AdminMusicController {
                              final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         musicBean.setTitle(title);
         musicBean.setDescription(description);
@@ -120,10 +125,11 @@ public class AdminMusicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/delete")
-    public String doGetDelete(@PathVariable final Integer articleId) {
+    public String doGetDelete(@PathVariable final Integer articleId,
+                              final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         this.musicService.doDelete(musicBean);
 
@@ -132,10 +138,11 @@ public class AdminMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/upload")
     public String doGetTrackUpload(@PathVariable final Integer articleId,
-                                   final Model model) {
+                                   final Model model,
+                                   final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         model.addAttribute("articleBean", musicBean);
 
@@ -145,10 +152,11 @@ public class AdminMusicController {
     @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/{fileId}/delete")
     @ResponseBody
     public Map<String, Object> doPostTrackDelete(@PathVariable final Integer articleId,
-                                                 @PathVariable final Integer fileId) {
+                                                 @PathVariable final Integer fileId,
+                                                 final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         this.musicService.removeFile(fileId);
 
@@ -164,7 +172,7 @@ public class AdminMusicController {
                                  final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         final List<TrackBean> trackList = this.musicService.getTrackList(musicBean);
         if (CollectionUtils.isNotEmpty(trackList)) {
@@ -191,7 +199,7 @@ public class AdminMusicController {
                                   final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         model.addAttribute("articleBean", musicBean);
 
@@ -230,10 +238,11 @@ public class AdminMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet/upload")
     public String doGetBookletUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                     final Model model) {
+                                     final Model model,
+                                     final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         model.addAttribute("articleBean", musicBean);
 
@@ -247,7 +256,7 @@ public class AdminMusicController {
                                    final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         final List<FileBean> fileList = this.musicService.getBookletFileList(musicBean);
         if (CollectionUtils.isNotEmpty(fileList)) {
@@ -270,7 +279,7 @@ public class AdminMusicController {
                                     final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         final List<FileBean> fileList = new ArrayList<FileBean>();
         for (int i = 0; i < fileId.length; i++) {
@@ -287,10 +296,11 @@ public class AdminMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/publish")
     public String doGetMusicPublish(@PathVariable final Integer articleId,
-                                    final Model model) {
+                                    final Model model,
+                                    final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(musicBean);
+        this.throwExceptionWhenNotFound(musicBean, locale);
 
         this.musicService.publish(musicBean);
 

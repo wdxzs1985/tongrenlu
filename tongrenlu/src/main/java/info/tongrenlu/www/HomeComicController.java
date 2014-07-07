@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -35,13 +36,20 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class HomeComicController {
 
     @Autowired
+    private MessageSource messageSource = null;
+    @Autowired
     private HomeComicService comicService = null;
 
-    protected void throwExceptionWhenNotAllow(final ComicBean comicBean) {
+    protected void throwExceptionWhenNotAllow(final ComicBean comicBean,
+                                              final Locale locale) {
         if (comicBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         } else if (!CommonConstants.is(comicBean.getPublishFlg())) {
-            throw new ForbiddenException();
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
+                                                                       null,
+                                                                       locale));
         }
     }
 
@@ -67,10 +75,11 @@ public class HomeComicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean);
+        this.throwExceptionWhenNotAllow(comicBean, locale);
 
         model.addAttribute("articleBean", comicBean);
 

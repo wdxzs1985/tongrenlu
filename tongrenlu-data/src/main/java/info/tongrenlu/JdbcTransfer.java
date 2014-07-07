@@ -455,10 +455,10 @@ public class JdbcTransfer implements TransferService {
 
     private void transferCover(final DtoBean dtoBean, final String category) {
         File input = new File(this.fileService.getInputPath(),
-                              dtoBean.getObjectId() + "/" + FileService.COVER);
+                              dtoBean.getObjectId() + "/avatar.jpg");
         if (!input.exists()) {
-            input = new File(this.fileService.getInputPath(), "default" + "/"
-                    + FileService.COVER);
+            input = new File(this.fileService.getOutputPath(),
+                             "default" + "/" + FileService.COVER);
         }
 
         final String dirId = category + dtoBean.getId();
@@ -484,7 +484,7 @@ public class JdbcTransfer implements TransferService {
         final String dirId = category + article.getId();
         final String fileId = FileService.FILE + file.getId();
         final File output = new File(this.fileService.getOutputPath(),
-                                     dirId + "/"
+                                     dirId   + "/"
                                              + fileId
                                              + "."
                                              + file.getExtension());

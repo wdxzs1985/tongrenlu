@@ -7,6 +7,10 @@ import info.tongrenlu.solr.MusicRepository;
 import info.tongrenlu.solr.TrackDocument;
 import info.tongrenlu.solr.TrackRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,37 +29,30 @@ public class SearchService {
 
     public Page<ArticleDocument> findArticle(final String query,
                                              final Pageable pageable) {
-        final String escapedQuery = ClientUtils.escapeQueryChars(query);
-        return this.articleRepository.findByTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
-                                                                                                         escapedQuery,
-                                                                                                         escapedQuery,
-                                                                                                         escapedQuery,
-                                                                                                         pageable);
+        final List<String> queries = new ArrayList<>();
+        for (final String text : StringUtils.split(query)) {
+            queries.add(ClientUtils.escapeQueryChars(text));
+        }
+        return this.articleRepository.findAllOrderByArticleIdDesc(queries,
+                                                                  pageable);
     }
 
     public Page<MusicDocument> findMusic(final String query,
                                          final Pageable pageable) {
-        final String escapedQuery = ClientUtils.escapeQueryChars(query);
-        return this.musicRepository.findByTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
-                                                                                                       escapedQuery,
-                                                                                                       escapedQuery,
-                                                                                                       escapedQuery,
-                                                                                                       pageable);
+        final List<String> queries = new ArrayList<>();
+        for (final String text : StringUtils.split(query)) {
+            queries.add(ClientUtils.escapeQueryChars(text));
+        }
+        return this.musicRepository.findMusicOrderByArticleIdDesc(queries,
+                                                                  pageable);
     }
 
     public Page<TrackDocument> findTrack(final String query,
                                          final Pageable pageable) {
-        final String escapedQuery = ClientUtils.escapeQueryChars(query);
-        return this.trackRepository.findByTrackOrTrackContainsOrArtistOrArtistContainsOrOriginalOrOriginalOrTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         escapedQuery,
-                                                                                                                                                                         pageable);
+        final List<String> queries = new ArrayList<>();
+        for (final String text : StringUtils.split(query)) {
+            queries.add(ClientUtils.escapeQueryChars(text));
+        }
+        return this.trackRepository.findTrackByArticleIdDesc(queries, pageable);
     }
 }

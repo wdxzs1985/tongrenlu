@@ -16,10 +16,10 @@ public class Launcher implements CommandLineRunner {
 
     @Override
     public void run(final String... arg0) throws Exception {
-        // this.jdbcTransfer.doTransfer();
+        this.jdbcTransfer.doTransfer();
 
         // this.solrTransfer.doTransfer();
 
-        this.dummyTransfer.doTransfer();
+        // this.dummyTransfer.doTransfer();
     }
 }

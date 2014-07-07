@@ -16,7 +16,7 @@
                 </div>
                 <ul class="media-list">
                     <th:block  th:each="articleBean,iterStat : ${ranking}">
-                    <li class="media" th:if="${iterStat.index} lt 5">
+                    <li class="media" th:if="${iterStat.index} lt 10">
                         <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                           <img class="media-object img-60 img-rounded img-thumbnail" src="http://placehold.it/60x60" 
                                th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}"
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="media" th:if="${iterStat.index} gt 4">
+                    <li class="media" th:if="${iterStat.index} gt 9">
                         <div class="media-body">
                             <h5 class="media-heading text-single-line">
                               <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">

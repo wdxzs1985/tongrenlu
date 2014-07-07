@@ -3,6 +3,24 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout_article_view">
   <body>
+    <div class="container" layout:fragment="article-header">
+      <div class="media">
+          <div class="media-heading pull-left">
+              <img src="http://placehold.it/60x60" class="img-responsive img-rounded img-60" 
+                  th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
+          </div>
+          <div class="pull-right btn-group">
+              <button id="like-article" class="btn btn-danger hidden">
+                  <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                  <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
+              </button>
+          </div>
+          <div class="media-body">
+              <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
+              <h5 class="article-title visible-xs" th:text="${articleBean.title}"></h5>
+          </div>
+      </div>
+    </div>
     <div class="container" layout:fragment="article-info">
       <div class="row">
         <div class="col-sm-6">

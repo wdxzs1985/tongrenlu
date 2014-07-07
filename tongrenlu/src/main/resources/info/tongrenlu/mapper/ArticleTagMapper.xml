@@ -54,11 +54,9 @@
         SELECT 
             count(v_comic.id)
         FROM
-            v_comic
-                LEFT JOIN
-            r_article_tag ON r_article_tag.article_id = v_comic.id
-                LEFT JOIN
-            v_tag ON r_article_tag.tag_id = v_tag.id
+            r_article_tag
+                JOIN
+            v_comic ON r_article_tag.article_id = v_music.id
         <where>
         AND r_article_tag.tag_id = #{tagBean.id}
         AND r_article_tag.del_flg = '0'
@@ -94,11 +92,9 @@
             v_comic.commentCount            as commentCount,
         </trim>
         FROM
-            v_comic
-                LEFT JOIN
-            r_article_tag ON r_article_tag.article_id = v_comic.id
-                LEFT JOIN
-            v_tag ON r_article_tag.tag_id = v_tag.id
+            r_article_tag
+                JOIN
+            v_comic ON r_article_tag.article_id = v_music.id
         <where>
         AND r_article_tag.tag_id = #{tagBean.id}
         AND r_article_tag.del_flg = '0'
@@ -121,11 +117,9 @@
         SELECT 
             count(v_music.id)
         FROM
-            v_music
-                LEFT JOIN
-            r_article_tag ON r_article_tag.article_id = v_music.id
-                LEFT JOIN
-            v_tag ON r_article_tag.tag_id = v_tag.id
+            r_article_tag
+                JOIN
+            v_music ON r_article_tag.article_id = v_music.id
         <where>
         AND r_article_tag.tag_id = #{tagBean.id}
         AND r_article_tag.del_flg = '0'
@@ -148,11 +142,9 @@
             v_music.commentCount            as commentCount,
         </trim>
         FROM
-            v_music
-                LEFT JOIN
-            r_article_tag ON r_article_tag.article_id = v_music.id
-                LEFT JOIN
-            v_tag ON r_article_tag.tag_id = v_tag.id
+            r_article_tag
+                JOIN
+            v_music ON r_article_tag.article_id = v_music.id
         <where>
         AND r_article_tag.tag_id = #{tagBean.id}
         AND r_article_tag.del_flg = '0'

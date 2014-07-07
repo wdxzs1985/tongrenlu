@@ -38,6 +38,9 @@
                 </div>
             </div>
             <div class="col-sm-8">
+                <div class="page-header">
+                    <h3 th:text="#{home.user.comicCount}"></h3>
+                </div>
                 <th:block th:unless="${#lists.isEmpty(page.items)}">
                     <ul class="media-list">
                       <li class="media" th:each="articleBean : ${page.items}">

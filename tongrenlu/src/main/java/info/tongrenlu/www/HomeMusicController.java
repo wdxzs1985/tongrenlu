@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -36,13 +37,20 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class HomeMusicController {
 
     @Autowired
+    private MessageSource messageSource = null;
+    @Autowired
     private HomeMusicService musicService = null;
 
-    protected void throwExceptionWhenNotAllow(final MusicBean musicBean) {
+    protected void throwExceptionWhenNotAllow(final MusicBean musicBean,
+                                              final Locale locale) {
         if (musicBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         } else if (!CommonConstants.is(musicBean.getPublishFlg())) {
-            throw new ForbiddenException();
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
+                                                                       null,
+                                                                       locale));
         }
     }
 
@@ -65,10 +73,11 @@ public class HomeMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(musicBean);
+        this.throwExceptionWhenNotAllow(musicBean, locale);
 
         this.musicService.addAccess(musicBean, loginUser);
 

@@ -53,8 +53,8 @@
             m_track.ORIGINAL        as "original",
         </trim>
         FROM
-            m_file 
-        LEFT JOIN m_track ON m_file.ID = m_track.ID
+            m_track 
+        LEFT JOIN m_file ON m_file.ID = m_track.ID
         LEFT JOIN m_article ON m_file.ARTICLE_ID = m_article.ID
         <where>
             m_article.ID = #{articleId}

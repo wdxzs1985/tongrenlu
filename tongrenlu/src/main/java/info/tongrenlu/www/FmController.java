@@ -12,10 +12,12 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/fm")
 @Transactional
 public class FmController {
+
+    @Autowired
+    private MessageSource messageSource = null;
 
     @Autowired
     private HomeMusicService musicService = null;
@@ -64,14 +69,17 @@ public class FmController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}")
     @ResponseBody
-    public Map<String, Object> music(@PathVariable final Integer articleId) {
+    public Map<String, Object> music(@PathVariable final Integer articleId,
+                                     final Locale locale) {
 
         final Map<String, Object> model = new HashMap<String, Object>();
 
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         if (musicBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         final List<TrackBean> trackList = this.musicService.getTrackList(articleId);

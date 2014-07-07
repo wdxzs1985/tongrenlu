@@ -38,9 +38,12 @@ public class AdminComicController {
     @Autowired
     private FileService fileService = null;
 
-    private void throwExceptionWhenNotFound(final ComicBean comicBean) {
+    private void throwExceptionWhenNotFound(final ComicBean comicBean,
+                                            final Locale locale) {
         if (comicBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
     }
 
@@ -57,10 +60,11 @@ public class AdminComicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         model.addAttribute("articleBean", comicBean);
 
@@ -69,10 +73,11 @@ public class AdminComicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/edit")
     public String doGetEdit(@PathVariable final Integer articleId,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         final String[] tags = this.comicService.getTags(comicBean);
 
@@ -94,7 +99,7 @@ public class AdminComicController {
                              final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         comicBean.setTitle(title);
         comicBean.setDescription(description);
@@ -118,10 +123,11 @@ public class AdminComicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/delete")
-    public String doGetDelete(@PathVariable final Integer articleId) {
+    public String doGetDelete(@PathVariable final Integer articleId,
+                              final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         this.comicService.doDelete(comicBean);
 
@@ -131,10 +137,11 @@ public class AdminComicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/picture/upload")
     public String doGetPictureUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                     final Model model) {
+                                     final Model model,
+                                     final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         model.addAttribute("articleBean", comicBean);
 
@@ -148,7 +155,7 @@ public class AdminComicController {
                                    final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         final List<FileBean> fileList = this.comicService.getPictureFileList(comicBean);
         if (CollectionUtils.isNotEmpty(fileList)) {
@@ -171,7 +178,7 @@ public class AdminComicController {
                                     final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         final List<FileBean> fileList = new ArrayList<FileBean>();
         for (int i = 0; i < fileId.length; i++) {
@@ -188,10 +195,11 @@ public class AdminComicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/publish")
     public String doGetComicPublish(@PathVariable final Integer articleId,
-                                    final Model model) {
+                                    final Model model,
+                                    final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotFound(comicBean);
+        this.throwExceptionWhenNotFound(comicBean, locale);
 
         this.comicService.publish(comicBean);
 

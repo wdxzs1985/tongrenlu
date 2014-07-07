@@ -1,5 +1,6 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.HomeComicService;
@@ -47,8 +48,8 @@ public class IndexController {
         final List<MusicBean> musicRanking = this.musicService.getRanking(30);
         model.addAttribute("musicRanking", musicRanking);
 
-        final List<MusicBean> comicRanking = this.musicService.getRanking(20);
-        model.addAttribute("comicPage", comicRanking);
+        final List<ComicBean> comicRanking = this.comicService.getRanking(20);
+        model.addAttribute("comicRanking", comicRanking);
 
         return "home/index";
     }
@@ -66,8 +67,9 @@ public class IndexController {
                                                                                       pageable);
             model.addAttribute("query", query);
             model.addAttribute("searchResult", searchResult);
+            return "home/search";
+        } else {
+            return "redirect:/";
         }
-        return "home/search";
     }
-
 }

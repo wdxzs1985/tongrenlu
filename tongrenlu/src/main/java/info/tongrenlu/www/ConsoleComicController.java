@@ -48,12 +48,17 @@ public class ConsoleComicController {
     private ConsoleComicService comicService = null;
 
     protected void throwExceptionWhenNotAllow(final ComicBean comicBean,
-                                              final UserBean loginUser) {
+                                              final UserBean loginUser,
+                                              final Locale locale) {
         if (comicBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
         if (!loginUser.equals(comicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException();
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
+                                                                       null,
+                                                                       locale));
         }
     }
 
@@ -113,10 +118,11 @@ public class ConsoleComicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         model.addAttribute("articleBean", comicBean);
 
@@ -126,10 +132,11 @@ public class ConsoleComicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/edit")
     public String doGetEdit(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model) {
+                            final Model model,
+                            final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         final String[] tags = this.comicService.getTags(comicBean);
 
@@ -152,7 +159,7 @@ public class ConsoleComicController {
                              final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         comicBean.setTitle(title);
         comicBean.setDescription(description);
@@ -177,10 +184,11 @@ public class ConsoleComicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/delete")
     public String doGetDelete(@PathVariable final Integer articleId,
-                              @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                              final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         this.comicService.doDelete(comicBean);
 
@@ -191,10 +199,11 @@ public class ConsoleComicController {
     @ResponseBody
     public Map<String, Object> doPostFileDelete(@PathVariable final Integer articleId,
                                                 @PathVariable final Integer fileId,
-                                                @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+                                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                                final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         this.comicService.removeFile(fileId);
 
@@ -206,10 +215,11 @@ public class ConsoleComicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/picture/upload")
     public String doGetPictureUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                     final Model model) {
+                                     final Model model,
+                                     final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         model.addAttribute("articleBean", comicBean);
 
@@ -219,10 +229,11 @@ public class ConsoleComicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/picture/file")
     @ResponseBody
     public Map<String, Object> doGetPictureFile(@PathVariable final Integer articleId,
-                                                @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+                                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                                final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         final Map<String, Object> model = new HashMap<String, Object>();
         final List<FileBean> fileList = this.comicService.getPictureFileList(comicBean);
@@ -238,7 +249,7 @@ public class ConsoleComicController {
                                                  final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         final Map<String, Object> model = new HashMap<String, Object>();
         final List<Map<String, Object>> files = new ArrayList<>();
@@ -276,7 +287,7 @@ public class ConsoleComicController {
                                    final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         final List<FileBean> fileList = this.comicService.getPictureFileList(comicBean);
         if (CollectionUtils.isNotEmpty(fileList)) {
@@ -300,7 +311,7 @@ public class ConsoleComicController {
                                     final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
 
-        this.throwExceptionWhenNotAllow(comicBean, loginUser);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
 
         final List<FileBean> fileList = new ArrayList<FileBean>();
         for (int i = 0; i < fileId.length; i++) {

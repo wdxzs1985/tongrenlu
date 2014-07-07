@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class HomeUserController {
 
     @Autowired
+    private MessageSource messageSource = null;
+    @Autowired
     private HomeUserSerivce userService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
@@ -40,7 +43,9 @@ public class HomeUserController {
         final UserBean userBean = this.userService.getById(userId);
 
         if (userBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         model.addAttribute("userBean", userBean);
@@ -56,7 +61,9 @@ public class HomeUserController {
         final UserBean userBean = this.userService.getById(userId);
 
         if (userBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
@@ -78,7 +85,9 @@ public class HomeUserController {
         final UserBean userBean = this.userService.getById(userId);
 
         if (userBean == null) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);

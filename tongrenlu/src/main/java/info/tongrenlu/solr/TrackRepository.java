@@ -13,17 +13,8 @@ public interface TrackRepository extends
     @Query(filters = "category:track")
     List<TrackDocument> findByArticleId(Integer articleId);
 
-    @Query(filters = "category:track")
-    Page<TrackDocument> findByTrackOrTrackContainsOrArtistOrArtistContainsOrOriginalOrOriginalOrTitleOrTitleContainsOrTagsOrTagsContainsOrderByArticleIdDesc(String track,
-                                                                                                                                                             String trackContains,
-                                                                                                                                                             String artist,
-                                                                                                                                                             String artistContains,
-                                                                                                                                                             String original,
-                                                                                                                                                             String originalContains,
-                                                                                                                                                             String title,
-                                                                                                                                                             String titleContains,
-                                                                                                                                                             String tags,
-                                                                                                                                                             String tagsContains,
-                                                                                                                                                             Pageable pageable);
+    @Query(value = "track:?0 OR artist:?0 OR original:?0 OR title:?0 OR track:*?0* OR artist:*?0* OR original:*?0* OR title:*?0*", filters = "category:track")
+    Page<TrackDocument> findTrackByArticleIdDesc(List<String> queries,
+                                                 Pageable pageable);
 
 }
