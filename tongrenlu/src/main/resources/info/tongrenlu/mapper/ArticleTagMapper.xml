@@ -56,7 +56,7 @@
         FROM
             r_article_tag
                 JOIN
-            v_comic ON r_article_tag.article_id = v_music.id
+            v_comic ON r_article_tag.article_id = v_comic.id
         <where>
         AND r_article_tag.tag_id = #{tagBean.id}
         AND r_article_tag.del_flg = '0'
@@ -94,7 +94,7 @@
         FROM
             r_article_tag
                 JOIN
-            v_comic ON r_article_tag.article_id = v_music.id
+            v_comic ON r_article_tag.article_id = v_comic.id
         <where>
         AND r_article_tag.tag_id = #{tagBean.id}
         AND r_article_tag.del_flg = '0'
