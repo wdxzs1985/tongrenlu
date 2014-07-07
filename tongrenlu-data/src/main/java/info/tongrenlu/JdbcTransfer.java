@@ -41,6 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,32 +79,56 @@ public class JdbcTransfer {
     @Autowired
     private FileService fileService = null;
 
+    @Value("jdbc.transfer.user:false")
+    private boolean transferUser = false;
+
+    @Value("jdbc.transfer.article:false")
+    private boolean transferArticle = false;
+
+    @Value("solr.transfer:false")
+    private boolean transferSolr = false;
+
+    @Value("file.transfer:false")
+    private boolean transferFile = false;
+
     private Log log = LogFactory.getLog(this.getClass());
 
     public void doTransfer() {
         this.begin();
 
-        this.log.info("Transfer User...");
-        // this.transferUser();
-        this.log.info("Transfer User...ok");
+        if (this.transferUser) {
+            this.log.info("Transfer User...");
+            this.transferUser();
+            this.log.info("Transfer User...ok");
+        }
 
-        this.log.info("Transfer Music...");
-        this.transferMusic();
-        this.log.info("Transfer Music...ok");
+        if (this.transferArticle) {
+            this.log.info("Transfer Music...");
+            this.transferMusic();
+            this.log.info("Transfer Music...ok");
 
-        this.log.info("Transfer Comic...");
-        this.transferComic();
-        this.log.info("Transfer Comic...ok");
+            this.log.info("Transfer Comic...");
+            this.transferComic();
+            this.log.info("Transfer Comic...ok");
+        }
 
     }
 
     @Transactional
     public void begin() {
-        this.articleRepository.deleteAll();
-        this.articleTagManager.deleteAll();
-        this.accessManager.deleteAll();
-        this.collectManager.deleteAll();
-        this.followManager.deleteAll();
+        if (this.transferSolr) {
+            this.articleRepository.deleteAll();
+        }
+
+        if (this.transferUser) {
+            this.followManager.deleteAll();
+        }
+
+        if (this.transferArticle) {
+            this.articleTagManager.deleteAll();
+            this.accessManager.deleteAll();
+            this.collectManager.deleteAll();
+        }
     }
 
     @Transactional
@@ -118,10 +143,11 @@ public class JdbcTransfer {
                 } else {
                     user.setId(userEntity.getId());
                 }
-
                 this.transferFollow(user);
 
-                this.transferCover(user, "u");
+                if (this.transferFile) {
+                    this.transferCover(user, "u");
+                }
             }
         }
     }
@@ -178,9 +204,11 @@ public class JdbcTransfer {
                     this.transferTag(article, tagList);
                     document.setTags(tagList.toArray(new String[] {}));
                     this.articleRepository.save(document);
-                    this.transferCover(article, "m");
 
-                    this.transferFile(article, document, "m");
+                    if (this.transferFile) {
+                        this.transferCover(article, "m");
+                        this.transferFile(article, document, "m");
+                    }
 
                     this.transferAccess(article);
                     this.transferComment(article);
@@ -227,9 +255,11 @@ public class JdbcTransfer {
                     this.transferTag(article, tagList);
                     document.setTags(tagList.toArray(new String[] {}));
                     this.articleRepository.save(document);
-                    this.transferCover(article, "c");
 
-                    this.transferFile(article, null, "c");
+                    if (this.transferFile) {
+                        this.transferCover(article, "c");
+                        this.transferFile(article, null, "c");
+                    }
 
                     this.transferAccess(article);
                     this.transferComment(article);
@@ -248,19 +278,22 @@ public class JdbcTransfer {
         if (CollectionUtils.isNotEmpty(articleTagEntities)) {
             for (final ArticleTagEntity articleTagEntity : articleTagEntities) {
                 articleTagEntity.setArticle(article);
-
                 final String tagId = articleTagEntity.getTagId();
-                TagEntity tag = this.findTag(tagId);
-                if (tag == null) {
-                    tag = this.tagManager.findByTagId(tagId);
-                    this.tagManager.save(tag);
-                    this.objectManager.save(tag);
+                final TagEntity tag = this.tagManager.findByTagId(tagId);
+                if (tag != null) {
+                    final TagEntity tagEntity = this.findTag(tagId);
+                    if (tagEntity == null) {
+                        this.tagManager.save(tag);
+                        this.objectManager.save(tag);
+                    } else {
+                        tag.setId(tagEntity.getId());
+                    }
+                    articleTagEntity.setTag(tag);
+
+                    this.articleTagManager.save(articleTagEntity);
+
+                    tagList.add(tag.getTag());
                 }
-                articleTagEntity.setTag(tag);
-
-                this.articleTagManager.save(articleTagEntity);
-
-                tagList.add(tag.getTag());
             }
         }
     }
@@ -394,8 +427,8 @@ public class JdbcTransfer {
         File input = new File(this.fileService.getInputPath(),
                               dtoBean.getObjectId() + "/" + FileService.COVER);
         if (!input.exists()) {
-            input = new File(this.fileService.getInputPath(),
-                             "default" + "/" + FileService.COVER);
+            input = new File(this.fileService.getInputPath(), "default" + "/"
+                    + FileService.COVER);
         }
 
         final String dirId = category + dtoBean.getId();
@@ -421,7 +454,7 @@ public class JdbcTransfer {
         final String dirId = category + article.getId();
         final String fileId = FileService.FILE + file.getId();
         final File output = new File(this.fileService.getOutputPath(),
-                                     dirId   + "/"
+                                     dirId + "/"
                                              + fileId
                                              + "."
                                              + file.getExtension());

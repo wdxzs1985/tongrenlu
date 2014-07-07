@@ -10,8 +10,7 @@ import org.apache.http.MethodNotSupportedException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommentManager extends ManagerSupport implements
-        Manager<CommentEntity, Integer> {
+public class CommentManager extends ManagerSupport implements Manager<CommentEntity, Integer> {
 
     @Override
     public List<CommentEntity> findAll() {
@@ -21,13 +20,14 @@ public class CommentManager extends ManagerSupport implements
     public List<CommentEntity> findByArticleId(final String articleId) {
         final List<CommentEntity> result = new ArrayList<CommentEntity>();
         final String sql = "Select " + "COMMENT_ID      as commentId"
-                           + "    ,     ARTICLE_ID      as articleId"
-                           + "    ,     SENDER_USER_ID  as userId"
-                           + "    ,     CONTENT         as content"
-                           + "        from M_ARTICLE_COMMENT "
-                           + "  where   "
-                           + "      ARTICLE_ID = ?  "
-                           + "  and DEL_FLG = '0'";
+                + "    ,     ARTICLE_ID      as articleId"
+                + "    ,     SENDER_USER_ID  as userId"
+                + "    ,     CONTENT         as content"
+                + "        from M_ARTICLE_COMMENT "
+                + "  where   "
+                + "      ARTICLE_ID = ?  "
+                + "  and DEL_FLG = '0'"
+                + "  order by comment_id asc";
         this.log.info("[sql] = " + sql);
         this.log.info("[id] = " + articleId);
         final List<Map<String, Object>> resultList = this.getOracleDao()
@@ -49,9 +49,9 @@ public class CommentManager extends ManagerSupport implements
     @Override
     public CommentEntity findOne(final Integer id) {
         final String sql = "Select " + "id      as id"
-                           + "        from m_comment "
-                           + "     where "
-                           + "             id = ?";
+                + "        from m_comment "
+                + "     where "
+                + "             id = ?";
         this.log.info("[sql] = " + sql);
         this.log.info("[id] = " + id);
         final Map<String, Object> result = this.getMysqlDao().queryForMap(sql,
@@ -64,12 +64,12 @@ public class CommentManager extends ManagerSupport implements
     @Override
     public void insert(final CommentEntity bean) {
         final String sql = "INSERT INTO " + "m_comment ("
-                           + "article_id,"
-                           + "user_id,"
-                           + "content"
-                           + ") VALUES ("
-                           + "?,?,?"
-                           + ")";
+                + "article_id,"
+                + "user_id,"
+                + "content"
+                + ") VALUES ("
+                + "?,?,?"
+                + ")";
         this.getMysqlDao().update(sql,
                                   bean.getArticle().getId(),
                                   bean.getUser().getId(),
