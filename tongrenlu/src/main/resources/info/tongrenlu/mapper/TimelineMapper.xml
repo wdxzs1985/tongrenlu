@@ -14,14 +14,7 @@
         <where>
             v_timeline.`followId` = #{userId}
         and (   v_timeline.redFlg = '0' 
-            OR  v_timeline.redFlg is NULL
-            <if test="loginUser.includeRed">
-            OR  v_timeline.redFlg = '1'
-            </if>)
-        <if test="loginUser.onlyTranslate">
-        and (v_timeline.`translateFlg` = '1' 
-        OR  v_timeline.`translateFlg` is NULL)
-        </if>
+            OR  v_timeline.redFlg is NULL)
         </where>
     </select>
     
@@ -41,14 +34,7 @@
         <where>
             v_timeline.`followId` = #{userId}
         and (   v_timeline.redFlg = '0' 
-            OR  v_timeline.redFlg is NULL
-            <if test="loginUser.includeRed">
-            OR  v_timeline.redFlg = '1'
-            </if>)
-        <if test="loginUser.onlyTranslate">
-        and (v_timeline.`translateFlg` = '1' 
-        OR  v_timeline.`translateFlg` is NULL)
-        </if>
+            OR  v_timeline.redFlg is NULL)
         </where>
         order by v_timeline.createDate desc
         limit #{start}, #{pageSize}

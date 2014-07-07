@@ -120,7 +120,6 @@ public class HomeUserController {
         final Map<String, Object> model = new HashMap<>();
         final PaginateSupport<TimelineBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("userId", userId);
-        page.addParam("loginUser", loginUser);
         this.userService.searchTimeline(page);
         model.put("page", page);
         return model;
