@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="home/layout">
+<head>
+<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+</head>
+  <body>
+    <div class="container" layout:fragment="content">
+        <div class="row">
+            <div class="col-sm-8" layout:fragment="list-content">
+            </div>
+            <div class="col-sm-4" layout:fragment="ranking">
+                <div class="page-header">
+                    <h3 th:text="#{home.music.ranking}"></h3>
+                </div>
+                <ul class="media-list">
+                    <th:block  th:each="articleBean,iterStat : ${ranking}">
+                    <li class="media" th:if="${iterStat.index} lt 5">
+                        <a class="pull-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                          <img class="media-object img-60 img-rounded img-thumbnail" src="http://placehold.it/60x60" 
+                               th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}"
+                               th:alt-title="${articleBean.title}" />
+                        </a>
+                        <div class="media-body">
+                            <h5 class="media-heading text-single-line">
+                              <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                  <strong th:text="${articleBean.title}" ></strong>
+                              </a>
+                            </h5>
+                            <div class="text-muted">
+                              <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                              <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
+                              <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="media" th:if="${iterStat.index} gt 4">
+                        <div class="media-body">
+                            <h5 class="media-heading text-single-line">
+                              <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                  <strong th:text="${articleBean.title}" ></strong>
+                              </a>
+                            </h5>
+                        </div>
+                    </li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
