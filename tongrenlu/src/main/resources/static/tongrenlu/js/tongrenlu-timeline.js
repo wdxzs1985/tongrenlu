@@ -16,7 +16,9 @@ var timeline = function(options) {
 		    MINUTES_BEFORE : "{0}分前",
 		    SECONDS_BEFORE : "{0}秒前",
 		    JUST_BEFORE : "刚刚"
-		}
+		},
+		duration : 1000,
+		easing   : 'easeOutQuint'
 	}, options);
 	
 	var that = {
@@ -24,12 +26,54 @@ var timeline = function(options) {
 			$('#timeline').on('click', '.previous a', function(e){
 				e.preventDefault();
 				that.load(settings.pageNumber - 1);
+				that.scroll('#timeline');
 			}).on('click', '.next a', function(e){
 				e.preventDefault();
 				that.load(settings.pageNumber + 1);
+				that.scroll('#timeline');
 			});
 			
+
+			if ( window.addEventListener )
+				window.addEventListener( 'DOMMouseScroll', settings.scrollStop, false );
+			window.onmousewheel = document.onmousewheel = settings.scrollStop;
+			
 			that.load();
+		},
+		scroll: function(hash) {
+			var offset = $( hash ).eq( 0 ).offset();
+			if ( offset == null ) {
+				return;
+			}
+
+			var wst = $( window ).scrollTop();
+			if ( wst === 0 ) {
+				$( window ).scrollTop( wst + 1 );
+			}
+
+			var targetBody = that.getTargetBody();
+			if ( typeof targetBody === 'undefined' )
+				return;
+			
+			targetBody.animate(
+				{
+					scrollTop: offset.top - 50
+				},
+				settings.duration,
+				settings.easing
+			);
+		},
+		scrollStop: function() {
+			that.getTargetBody().stop( true );
+		},
+		getTargetBody: function() {
+			var targetBody;
+			if ( $( 'html' ).scrollTop() > 0 ) {
+				targetBody = $( 'html' );
+			} else if ( $( 'body' ).scrollTop() > 0 ) {
+				targetBody = $( 'body' );
+			}
+			return targetBody;
 		},
 		load: function(page){
 			var $timeline = $('#timeline');
