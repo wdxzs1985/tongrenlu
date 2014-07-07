@@ -62,6 +62,7 @@
             v_timeline
         <where>
             (v_timeline.followId = #{loginUser.id}
+            or v_timeline.followerId = #{loginUser.id}
 	        or v_timeline.followId in (select 
 	            like_id
 	        from
@@ -95,6 +96,7 @@
             v_timeline
         <where>
             (v_timeline.followId = #{loginUser.id}
+            or v_timeline.followerId = #{loginUser.id}
             or v_timeline.followId in (select 
                 like_id
             from

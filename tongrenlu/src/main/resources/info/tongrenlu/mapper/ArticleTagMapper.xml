@@ -32,11 +32,8 @@
         LEFT JOIN 
             v_tag 
         ON r_article_tag.tag_id = v_tag.id
-        LEFT JOIN 
-            m_article 
-        ON r_article_tag.article_id = m_article.id
         <where>
-            m_article.id = #{articleBean.id}
+            r_article_tag.article_id = #{articleBean.id}
         AND r_article_tag.del_flg = '0'
         </where>
     </select>

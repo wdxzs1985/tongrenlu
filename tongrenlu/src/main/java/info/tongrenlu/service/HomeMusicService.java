@@ -71,8 +71,8 @@ public class HomeMusicService {
         return items.get(0);
     }
 
-    public List<MusicBean> getRanking() {
-        return this.articleManager.getMusicRanking();
+    public List<MusicBean> getRanking(final int pageSize) {
+        return this.articleManager.getMusicRanking(pageSize);
     }
 
     public MusicBean getById(final Integer id) {

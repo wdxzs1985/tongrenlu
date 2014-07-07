@@ -17,5 +17,5 @@ public interface ComicMapper {
 
     public void update(Map<String, Object> param);
 
-    public List<ComicBean> fetchRanking();
+    public List<ComicBean> fetchRanking(Map<String, Object> param);
 }

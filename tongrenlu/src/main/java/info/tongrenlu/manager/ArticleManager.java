@@ -114,6 +114,12 @@ public class ArticleManager {
         return this.musicMapper.fetchBean(param);
     }
 
+    public List<MusicBean> getMusicRanking(final int pageSize) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("pageSize", pageSize);
+        return this.musicMapper.fetchRanking(param);
+    }
+
     public int countComic(final Map<String, Object> params) {
         return this.comicMapper.count(params);
     }
@@ -126,6 +132,12 @@ public class ArticleManager {
         final Map<String, Object> param = new HashMap<>();
         param.put("id", articleId);
         return this.comicMapper.fetchBean(param);
+    }
+
+    public List<ComicBean> getComicRanking(final int pageSize) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("pageSize", pageSize);
+        return this.comicMapper.fetchRanking(param);
     }
 
     public void addTag(final ArticleBean articleBean, final TagBean tagBean) {
@@ -218,19 +230,11 @@ public class ArticleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  ArticleManager.TITLE_LENGTH },
+                                                            ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }
         return isValid;
-    }
-
-    public List<MusicBean> getMusicRanking() {
-        return this.musicMapper.fetchRanking();
-    }
-
-    public List<ComicBean> getComicRanking() {
-        return this.comicMapper.fetchRanking();
     }
 
 }

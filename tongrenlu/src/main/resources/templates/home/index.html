@@ -27,7 +27,7 @@
                 </div><!-- /.row -->
             </div>
             <div id="gallery" class="gallery media-list clearfix">
-                <th:block  th:each="articleBean,iterStat : ${musicPage.items}">
+                <th:block  th:each="articleBean,iterStat : ${musicRanking}">
                     <div class="media large pull-left " th:if="${iterStat.index == 0}">
                         <a th:href="@{/music/__${articleBean.id}__}" 
                            th:alt-title="${articleBean.title}"
@@ -146,7 +146,7 @@
                         <h3 th:text="#{home.comic}"></h3>
                     </div>
                     <div class="row">
-                        <th:block th:each="articleBean,iterStat : ${comicPage.items}">
+                        <th:block th:each="articleBean,iterStat : ${comicRanking}">
                             <div class="col-sm-6 col-md-3">
                                 <div class="thumbnail media">
                                     <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left">

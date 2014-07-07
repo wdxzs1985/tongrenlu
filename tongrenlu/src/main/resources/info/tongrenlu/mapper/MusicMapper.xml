@@ -145,6 +145,6 @@
         and v_music.publishFlg = '1'
         </where>
         ORDER BY IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_music.id DESC
-        LIMIT 0 , 10
+        limit 0, #{pageSize}
     </select>
 </mapper>

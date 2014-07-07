@@ -49,8 +49,8 @@ public class HomeComicService {
         paginate.setItems(items);
     }
 
-    public List<ComicBean> getRanking() {
-        return this.articleManager.getComicRanking();
+    public List<ComicBean> getRanking(final int pageSize) {
+        return this.articleManager.getComicRanking(pageSize);
     }
 
     public ComicBean getById(final Integer id) {

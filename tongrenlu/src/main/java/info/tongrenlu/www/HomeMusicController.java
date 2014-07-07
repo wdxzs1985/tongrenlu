@@ -57,7 +57,7 @@ public class HomeMusicController {
         this.musicService.searchMusic(page);
         model.addAttribute("page", page);
 
-        final List<MusicBean> ranking = this.musicService.getRanking();
+        final List<MusicBean> ranking = this.musicService.getRanking(20);
         model.addAttribute("ranking", ranking);
         return "home/music/index";
     }
