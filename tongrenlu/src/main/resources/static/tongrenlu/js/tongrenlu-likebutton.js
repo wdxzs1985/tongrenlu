@@ -1,4 +1,4 @@
-$.fn.likebutton = function() {
+$.fn.likebutton = function(options) {
 
 	var $this = $(this);
 	
@@ -6,7 +6,7 @@ $.fn.likebutton = function() {
 		notlikeText: 'like it',
 		likeText: 'i\'m like',
 		unlikeText: 'unlike'
-	}, $this.data());
+	}, options);
 	
 	var constants = {
 			LIKE: 1,

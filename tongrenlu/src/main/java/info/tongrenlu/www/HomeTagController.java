@@ -5,6 +5,8 @@ import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
+import info.tongrenlu.service.HomeComicService;
+import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.TagService;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -35,6 +37,10 @@ public class HomeTagController {
 
     @Autowired
     private TagService tagService = null;
+    @Autowired
+    private HomeMusicService musicService = null;
+    @Autowired
+    private HomeComicService comicService = null;
     @Autowired
     private ArticleManager articleManager = null;
 
@@ -114,6 +120,10 @@ public class HomeTagController {
 
         model.addAttribute("tagBean", tagBean);
         model.addAttribute("page", page);
+
+        final List<MusicBean> ranking = this.musicService.getRanking(20);
+        model.addAttribute("ranking", ranking);
+
         return "home/tag/music";
     }
 
@@ -136,6 +146,10 @@ public class HomeTagController {
 
         model.addAttribute("tagBean", tagBean);
         model.addAttribute("page", page);
+
+        final List<ComicBean> ranking = this.comicService.getRanking(20);
+        model.addAttribute("ranking", ranking);
+
         return "home/tag/comic";
     }
 }

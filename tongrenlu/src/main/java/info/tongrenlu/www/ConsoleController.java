@@ -54,7 +54,8 @@ public class ConsoleController {
     public String doGetLikeMusic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                  final Model model) {
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
+                                                                      20);
         page.addParam("userBean", loginUser);
         this.userService.searchLikeMusic(page);
         model.addAttribute("page", page);
@@ -65,7 +66,8 @@ public class ConsoleController {
     public String doGetLikeComic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                  final Model model) {
-        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
+        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber,
+                                                                      20);
         page.addParam("userBean", loginUser);
         this.userService.searchLikeComic(page);
         model.addAttribute("page", page);
@@ -77,7 +79,8 @@ public class ConsoleController {
     public String doGetFollow(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
+                                                                     20);
         page.addParam("userBean", loginUser);
         this.userService.searchFollow(page);
         model.addAttribute("page", page);
@@ -89,7 +92,8 @@ public class ConsoleController {
     public String doGetFollower(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
+                                                                     20);
         page.addParam("userBean", loginUser);
         this.userService.searchFollower(page);
         model.addAttribute("page", page);

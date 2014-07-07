@@ -31,8 +31,15 @@ var comment = function(options) {
 			    var content = $content.val();
 			    
 			    if(content.length > 0){
-			        var action = $(this).prop('action');
-			        that.send(action, content);
+			        that.send(content, function(response) {
+			        	if(response.result) {
+			        		that.load(1);
+			        		$content.removeClass('disabled');
+			        		$content.val('');
+			        	} else {
+			        		alert(response.error)
+			        	}
+			        });
 			    } else {
 			        alert('你一个字都没打。');
 			    }
@@ -48,14 +55,13 @@ var comment = function(options) {
 		},
 		load: function(page){
 			var $commentForm = $('#comment .comment-form');
-			var href = $commentForm.attr('action');
 			var data = {
 			        p : settings.pageNumber
 			    }
 			if(page) {
 				data.p = page;
 			}
-			$.getJSON(href, data).done(function(response){
+			$.getJSON(settings.url, data).done(function(response){
 				if(response.page){
 					settings.pageNumber = response.page.pageNumber;
 					
@@ -102,20 +108,9 @@ var comment = function(options) {
 		        return i18n.JUST_BEFORE;
 		    }
 		},
-		send:  function(action, content){
-		    var $content = $('#content');
+		send:  function(content, callback){
 		    var data = {'content': content};
-		    $.post(action, data, function(response){
-		        if(response.result){
-		            that.load(1);
-		            $('#content').val('');
-		        }else {
-		            alert(response.error);
-		        }
-		        $content.removeClass('disabled');
-		    }).error(function(){
-		        alert('服务器⑨了');
-		    });
+		    $.post(settings.url, data).done(callback);
 		}
 	};
 	

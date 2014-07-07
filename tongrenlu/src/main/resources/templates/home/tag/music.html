@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout">
+  layout:decorator="home/layout_music_index">
 <head>
 <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
   <body>
-    <div class="container" layout:fragment="content">
+    <div class="container" >
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-8" layout:fragment="list-content">
                 <ol class="breadcrumb">
                   <li><a th:href="@{/tag/__${tagBean.tag}__}" th:text="${tagBean.tag}">Home</a></li>
                   <li  class="active" th:text="#{home.tag.music(${tagBean.tag})}">Home</li>
@@ -29,14 +29,24 @@
                           <h5 class="media-heading text-single-line">
                             <a th:href="@{/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
                           </h5>
+                          <div class="text-muted">
+                            <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                            <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                                th:alt-title="${articleBean.userBean}" target="_blank">
+                                <strong th:text="${articleBean.userBean}"></strong>
+                            </a>
+                            <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                            <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
+                            <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                          </div>
                           <p th:text="${articleBean.description}"></p>
                           </div>
                         </div>
                       </li>
                     </ul>
                     <hr />
-                            <div id="jpaginate" class="hidden-xs"></div>
-                            <div id="select-paginate" class="form-group visible-xs"></div>
+                    <div id="jpaginate" class="hidden-xs"></div>
+                    <div id="select-paginate" class="form-group visible-xs"></div>
                 </th:block>
                 <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                     <h4 th:text="#{home.article.noData}"></h4>
@@ -56,7 +66,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/tag/__${tagBean.tag}__/music(p='')}]]*/ '/console/music';
+            var url = /*[[@{/tag/__${tagBean.tag}__/music(p='')}]]*/ '';
             window.location.href = url + currval;
             return false;
         }

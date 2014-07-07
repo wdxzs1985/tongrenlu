@@ -1,141 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout">
-  <head>
-    <link rel="stylesheet" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
-  </head>
+  layout:decorator="home/layout_article_view">
   <body>
-    <div layout:fragment="content">
-    <div class="container">
-      <div class="media">
-          <div class="media-heading pull-left">
-              <img src="http://placehold.it/60x60" class="img-responsive img-rounded img-60" 
-                 th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
-          </div>
-          <div class="pull-right btn-group ">
-              <button id="like-article" class="btn btn-danger hidden" 
-                th:attr="data-url=@{/comic/__${articleBean.id}__/like},data-notlike-text=#{home.article.notlike},data-like-text=#{home.article.like},data-unlike-text=#{home.article.unlike}">
-                  <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                  <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-              </button>
-          </div>
-          <div class="media-body">
-              <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
-              <h5 class="article-title visible-xs" th:text="${articleBean.title}"></h5>
-          </div>
-      </div>
-    </div>
-    <div class="container-fuild">
-      <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
-          <div class="slides"></div>
-          <h3 class="title"></h3>
-          <a class="prev">&lsaquo;</a>
-          <a class="next">&rsaquo;</a>
-          <a class="play-pause"></a>
-          <ol class="indicator"></ol>
-      </div>
-      <div id="blueimp-gallery" class="blueimp-gallery">
-          <div class="slides"></div>
-          <h3 class="title"></h3>
-          <a class="prev">&lsaquo;</a>
-          <a class="next">&rsaquo;</a>
-          <h3 class="title"></h3>
-          <a class="close">&times;</a>
-          <a class="play-pause"></a>
-          <ol class="indicator"></ol>
-      </div>
-      <div class="text-center append-bottom-lg">
-            <button id="blueimp-gallery-fullscreen" class="btn btn-primary" >
-                <span class="glyphicon glyphicon-fullscreen"></span>
-                <span th:text="#{home.article.fullscreen}"></span>
-            </button>
-      </div>
-    </div>
-    <div class="container">
+    <div class="container" layout:fragment="article-info">
       <div class="row">
         <div class="col-sm-6">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#baseinfo" data-toggle="tab" th:text="#{console.article.info}"></a></li>
-          </ul>
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div class="tab-pane active" id="baseinfo">
-              <ul class="list-inline">
-                  <li>
-                    <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-                    <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                        th:alt-title="${articleBean.userBean}">
-                        <strong th:text="${articleBean.userBean}"></strong>
-                    </a>
-                  </li>
-                  <li>
-                    <span th:text="#{ArticleBean.accessCount} + ' :'">Access :</span>
-                    <strong th:text="${articleBean.accessCount}"></strong>
-                  </li>
-                  <li>
-                    <span th:text="#{ArticleBean.likeCount} + ' :'">Access :</span>
-                    <strong th:text="${articleBean.likeCount}"></strong>
-                  </li>
-                  <li>
-                    <span th:text="#{ArticleBean.commentCount} + ' :'">Access :</span>
-                    <strong th:text="${articleBean.commentCount}"></strong>
-                  </li>
-              </ul>
-              <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
-              <ul class="list-inline tag-container">
-                  <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
-              </ul>
-            </div>
-          </div>
+            <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
         </div>
         <div class="col-sm-6">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#comment" data-toggle="tab" th:text="#{home.article.comment}"></a></li>
-          </ul>
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div class="tab-pane active" id="comment">
-              <div class="comment-container">
-                <div class="comment-list-content hidden">
-                    <ul class="media-list"></ul>
-                    <ul class="pager">
-                      <li class="previous">
-                        <a href="#">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span th:text="#{button.previousPage}"></span>
-                        </a>
-                      </li>
-                      <li class="next">
-                        <a href="#">
-                            <span th:text="#{button.nextPage}"></span>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
-                      </li>
-                    </ul>
-                </div>
-                <div class="comment-empty alert alert-warning hidden" 
-                     th:text="#{home.article.comment.empty}">
-                </div>
-              </div>
-              <form class="comment-form" th:action="@{/comic/__${articleBean.id}__/comment}" method="post" >
-                  <div class="form-group">
-                      <textarea class="comment-content form-control" th:placeholder="#{home.article.comment.placeholder}" rows="8"></textarea>
-                  </div>
-                  <div class="form-group">
-                      <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-send"></span>&nbsp;
-                        <span th:text="#{home.article.comment.send}"></span>
-                      </button>
-                  </div>
-              </form>
-            </div>
-          </div>
+            <div id="comment" th:include="home/layout_article_view::article-comment"></div>
         </div>
       </div>
     </div>
-  </div>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
@@ -153,15 +30,17 @@
 </script>
 <script id="template-comment-item" type="text/x-tmpl" th:inline="text">
         <li class="media">
-            <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
+            <a href="/user/{%=o.userBean.id%}" title="{%=o.userBean.nickname%}#{%=o.userBean.id%}" class="pull-left" target="_blank">
                 <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class="img-60" />
             </a>
             <div class="media-body">
                 <h5 class="media-heading">
-                    <a href="/user/{%=o.userBean.id%}" target="_blank">
+                    <a href="/user/{%=o.userBean.id%}"
+                       title="{%=o.userBean.nickname%}#{%=o.userBean.id%}" 
+                       target="_blank">
                         <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
                     </a>
-                    <span class="text-muted"> {%=o.createDate%}</span>
+                    <small class="text-muted"> {%=o.createDate%}</small>
                     <button class="btn btn-info btn-xs hidden" >
                         <span class="glyphicon glyphicon-share-alt"></span>
                         <span th:text="#{home.article.comment.reply}"></span>
@@ -188,11 +67,18 @@ $(function() {
         template: 'template-tag-item'
     });
     
-    new comment({});
+    new comment({
+    	url: /*[[@{/comic/__${articleBean.id}__/comment}]]*/''
+    });
     
     $('#article-description').url();
-
-    $('#like-article').likebutton();
+    
+    $('#like-article').likebutton({
+        url: /*[[@{/comic/__${articleBean.id}__/like}]]*/ '',
+        notlikeText: /*[[#{home.article.notlike}]]*/ '',
+        likeText: /*[[#{home.article.like}]]*/ '',
+        unlikeText: /*[[#{home.article.unlike}]]*/ ''
+    });
 
 });
 </script>

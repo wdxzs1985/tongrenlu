@@ -149,17 +149,18 @@
                         <th:block th:each="articleBean,iterStat : ${comicRanking}">
                             <div class="col-sm-6 col-md-3">
                                 <div class="thumbnail media">
-                                    <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left">
+                                    <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left" th:alt-title="${articleBean.title}">
                                         <img th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"
                                              class="media-object img-60 img-rounded"/>
                                     </a>
-                                    <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs">
+                                    <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs" th:alt-title="${articleBean.title}">
                                         <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
                                              class="img-180 img-rounded"/>
                                     </a>
                                     <div class="caption">
                                         <h5 class="media-heading text-single-line">
                                             <a th:href="@{/comic/__${articleBean.id}__}"
+                                               th:alt-title="${articleBean.title}"
                                                th:text="${articleBean.title}" >
                                             </a>
                                         </h5>

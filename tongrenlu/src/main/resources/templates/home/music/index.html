@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout">
-<head>
-<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
-</head>
+  layout:decorator="home/layout_music_index">
   <body>
-    <div class="container" layout:fragment="content">
+    <div class="container" >
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-8" layout:fragment="list-content">
+                <form th:action="@{/search}" method="get">
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="q" th:value="${query}"/>
+                      <div class="input-group-btn">
+                        <button class="btn btn-warning" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                            <span th:text="#{button.search}"></span>
+                        </button>
+                      </div><!-- /btn-group -->
+                    </div><!-- /input-group -->
+                </form>
+                <hr />
                 <th:block th:unless="${#lists.isEmpty(page.items)}">
                     <ul class="media-list">
                       <li class="media" th:each="articleBean : ${page.items}">
@@ -52,30 +61,6 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="page-header">
-                    <h3 th:text="#{home.music.ranking}"></h3>
-                </div>
-                <ul class="media-list">
-                    <li class="media" th:each="articleBean : ${ranking}">
-                        <a class="pull-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                          <img class="media-object img-60 img-rounded img-thumbnail" src="http://placehold.it/60x60" 
-                               th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}"
-                               th:alt-title="${articleBean.title}" />
-                        </a>
-                        <div class="media-body">
-                            <h5 class="media-heading text-single-line">
-                              <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                  <strong th:text="${articleBean.title}" ></strong>
-                              </a>
-                            </h5>
-                            <div class="text-muted">
-                              <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                              <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
-                              <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
@@ -88,7 +73,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/music(p='')}]]*/ '/console/music';
+            var url = /*[[@{/music(p='')}]]*/ '/music';
             window.location.href = url + currval;
             return false;
         }

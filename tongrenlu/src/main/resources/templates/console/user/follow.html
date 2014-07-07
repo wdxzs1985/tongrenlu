@@ -11,32 +11,34 @@
             <h3 th:text="#{console.follow}"></h3>
         </div>
         <th:block th:unless="${#lists.isEmpty(page.items)}">
-            <ul class="media-list">
-              <li class="media" th:each="userBean : ${page.items}">
-                <a class="pull-left" th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
-                  <img class="media-object img-120 img-rounded img-thumbnail hidden-xs" src="http://placehold.it/120x120" 
-                       th:src="@{/files/u__${userBean.id}__/cover_120.jpg}"
-                       th:alt-title="${userBean}" />
-                  <img class="media-object img-60 img-rounded img-thumbnail visible-xs" src="http://placehold.it/60x60" 
-                       th:src="@{/files/u__${userBean.id}__/cover_60.jpg}"
-                       th:alt-title="${userBean}" />
-                </a>
-                <div class="media-body">
-                  <div class="article-list-item">
-                      <h5 class="media-heading text-single-line">
-                        <a th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
-                            <strong th:text="${userBean}" ></strong>
+            <div class="row">
+                <div class="col-sm-6 col-md-3 col-lg-2" th:each="userBean : ${page.items}">
+                    <div class="thumbnail media">
+                        <a class="visible-sm visible-xs pull-left" target="_blank" 
+                           th:href="@{/user/__${userBean.id}__}" 
+                           th:alt-title="${userBean}">
+                            <img th:src="@{/files/u__${userBean.id}__/cover_60.jpg}" th:alt-title="${userBean}"
+                                 class="media-object img-60 img-rounded"/>
                         </a>
-                      </h5>
-                      <p th:text="${userBean.signature}"></p>
-                  </div>
+                        <a class="hidden-sm hidden-xs" target="_blank" 
+                           th:href="@{/user/__${userBean.id}__}">
+                            <img th:src="@{/files/u__${userBean.id}__/cover_180.jpg}" th:alt-title="${userBean}"
+                                 class="img-180 img-rounded"/>
+                        </a>
+                        <div class="caption">
+                            <h5 class="media-heading text-single-line">
+                                <a target="_blank" 
+                                   th:href="@{/user/__${userBean.id}__}"
+                                   th:text="${userBean}" >
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
                 </div>
-              </li>
-            </ul>
+            </div>
             <hr />
-                            <div id="jpaginate" class="hidden-xs"></div>
-                            <div id="select-paginate" class="form-group visible-xs"></div>
-
+            <div id="jpaginate" class="hidden-xs"></div>
+            <div id="select-paginate" class="form-group visible-xs"></div>
         </th:block>
         <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
             <h4 th:text="#{console.article.noData}"></h4>
