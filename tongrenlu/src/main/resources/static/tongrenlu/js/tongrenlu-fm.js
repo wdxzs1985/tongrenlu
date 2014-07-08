@@ -280,9 +280,14 @@ var fm = function(options) {
 			});
 		},
 		music: function(artcleId) {
-			that.index();
-			$('#fm-search, #fm-music').removeClass('fm-page-active in');
-			$('#fm-index').addClass('in');
+			$('#fm-music').removeClass('fm-page-active in');
+			if($('#fm-search').hasClass('fm-page-active')) {
+				$('#fm-search').removeClass('fm-page-active');
+			} else if($('#fm-index').hasClass('fm-page-active')){
+				$('#fm-search').removeClass('fm-page-active');
+			} else {
+				that.index();
+			}
 			that.hidePlayerWhenNotPlaying();
 			var $musicPage = $('#fm-music').addClass('fm-page-active in');
 			$musicPage.empty();
