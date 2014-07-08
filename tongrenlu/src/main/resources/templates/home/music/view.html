@@ -47,7 +47,6 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
 <script id="template-playlist-item" type="text/x-tmpl">
 <li class="clearfix">
-    <h5>
         <div class="pull-right">
             <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
                 <span class="glyphicon glyphicon-headphones"></span>
@@ -59,6 +58,7 @@
                 <span class="glyphicon glyphicon-remove"></span>
             </a>
         </div>
+    <h5>
         <a href="javascript:;" class="{%=o.itemClass%}">
             {%=o.file.title%}
         </a>
