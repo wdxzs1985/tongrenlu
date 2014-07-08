@@ -10,6 +10,8 @@ import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.solr.TrackDocument;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -109,14 +111,16 @@ public class FmController {
     @RequestMapping(method = RequestMethod.GET, value = "/search/music")
     @ResponseBody
     public Map<String, Object> musicSearch(@RequestParam(value = "p", defaultValue = "0") final Integer pageNumber,
-                                           @RequestParam(value = "q", required = true) final String query) {
+                                           @RequestParam(value = "q", required = true) final String q)
+            throws UnsupportedEncodingException {
 
         final Map<String, Object> model = new HashMap<String, Object>();
 
         final Pageable pageable = new PageRequest(pageNumber,
                                                   PaginateSupport.PAGESIZE);
 
-        if (StringUtils.isNotBlank(query)) {
+        if (StringUtils.isNotBlank(q)) {
+            final String query = URLDecoder.decode(q, "utf-8");
             final Page<MusicDocument> searchResult = this.searchService.findMusic(query,
                                                                                   pageable);
             model.put("query", query);
@@ -131,14 +135,16 @@ public class FmController {
     @RequestMapping(method = RequestMethod.GET, value = "/search/track")
     @ResponseBody
     public Map<String, Object> trackSearch(@RequestParam(value = "p", defaultValue = "0") final Integer pageNumber,
-                                           @RequestParam(value = "q", required = true) final String query) {
+                                           @RequestParam(value = "q", required = true) final String q)
+            throws UnsupportedEncodingException {
 
         final Map<String, Object> model = new HashMap<String, Object>();
 
         final Pageable pageable = new PageRequest(pageNumber,
                                                   PaginateSupport.PAGESIZE);
 
-        if (StringUtils.isNotBlank(query)) {
+        if (StringUtils.isNotBlank(q)) {
+            final String query = URLDecoder.decode(q, "utf-8");
             final Page<TrackDocument> searchResult = this.searchService.findTrack(query,
                                                                                   pageable);
             model.put("query", query);

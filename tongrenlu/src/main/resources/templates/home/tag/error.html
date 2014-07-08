@@ -3,7 +3,9 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
   <body>
-        <div class="container" layout:fragment="content">
+    <div layout:fragment="content">
+        <div class="container-wrap" >
+            <div class="container">
             <div class="page-header">
                 <h3 th:text="#{home.tag.noResult}"></h3>
             </div>
@@ -16,5 +18,7 @@
                   </form>
             </div>
         </div>
+        </div>
+    </div>
   </body>
 </html>

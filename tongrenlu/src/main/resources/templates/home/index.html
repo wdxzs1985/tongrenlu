@@ -7,7 +7,7 @@
   </head>
   <body>
     <div layout:fragment="content">
-        <div class="container-wrap">
+        <div class="container-wrap" >
             <div class="container append-bottom-lg">
                 <div class="row">
                   <div class="col-md-6 col-md-offset-6">
@@ -24,10 +24,10 @@
                             <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
                         </a>
                       </span>
-                    </div><!-- /input-group -->
+                    </div>
                     </form>
-                  </div><!-- /.col-lg-6 -->
-                </div><!-- /.row -->
+                  </div>
+                </div>
             </div>
             <div id="gallery" class="gallery clearfix">
                 <th:block th:each="articleBean,iterStat : ${musicRanking}">
@@ -52,7 +52,7 @@
                         </a>
                     </div>
                     <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
-                        <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
+                        <img th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}"
                              th:alt-title="${articleBean.title}" />
                         <div class="gallery-overlay">
                             <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
@@ -64,7 +64,7 @@
                 </th:block>
             </div>
         </div>
-        <div class="container-wrap" style="background: #fff;">
+        <div class="container-wrap" >
           <div class="container">
             <div class="page-header">
                 <h3 th:text="#{home.music.reitaisai}"></h3>
@@ -106,27 +106,27 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-3 col-md-2">
                     <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/__#{home.music.other.m3}__/music}" 
+                       th:href="@{/search(q=#{home.music.other.m3})}" 
                        th:text="#{home.music.other.m3}"></a>
                 </div>
                 <div class="col-xs-6 col-sm-3 col-md-2">
                     <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/__#{home.music.other.kouroumu}__/music}" 
+                       th:href="@{/search(q=#{home.music.other.kouroumu})}" 
                        th:text="#{home.music.other.kouroumu}"></a>
                 </div>
                 <div class="col-xs-6 col-sm-3 col-md-2">
                     <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/__#{home.music.other.niigatatohosai}__/music}" 
+                       th:href="@{/search(q=#{home.music.other.niigatatohosai})}" 
                        th:text="#{home.music.other.niigatatohosai}"></a>
                 </div>
                 <div class="col-xs-6 col-sm-3 col-md-2">
                     <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/__#{home.music.other.dai9tohosai}__/music}" 
+                       th:href="@{/search(q=#{home.music.other.dai9tohosai})}" 
                        th:text="#{home.music.other.dai9tohosai}"></a>
                 </div>
                 <div class="col-xs-6 col-sm-3 col-md-2">
                     <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/__#{home.music.other.tohoyarinsai}__/music}" 
+                       th:href="@{/search(q=#{home.music.other.tohoyarinsai})}" 
                        th:text="#{home.music.other.tohoyarinsai}"></a>
                 </div>
             </div>
@@ -170,7 +170,7 @@
             </div>
           </div>
         </div>
-        <div class="container-wrap" style="background: #fff;">
+        <div class="container-wrap" >
           <div class="container">
             <div class="page-header">
                 <h3 th:text="#{home.links}"></h3>

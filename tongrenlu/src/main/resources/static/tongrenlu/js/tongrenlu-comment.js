@@ -54,20 +54,16 @@ var comment = function(options) {
 				that.scroll('#comment');
 			}).on('click', 'button.comment-reply', function(e){
 				e.preventDefault();
-				$('#comment .comment-form').addClass('hidden');
-				$(this).closest('.media').find('.comment-form').removeClass('hidden');
-			}).on('click', 'button.comment-reply-cancel', function(e){
-				e.preventDefault();
-				that.reset();
+				var repo = $(this).data('repo');
+				$comment.find('.comment-form textarea').text(repo).focus();
 			});
 			
 			that.load();
 		},
 		reset: function() {
-			$('#comment .comment-form').each(function(index, element) {
+			$comment.find('.comment-form').each(function(index, element) {
 				element.reset();
-			}).addClass('hidden');
-			$('#comment .comment-form:last').removeClass('hidden');
+			});
 		},
 		scroll: function(hash) {
 			var offset = $( hash ).eq( 0 ).offset();

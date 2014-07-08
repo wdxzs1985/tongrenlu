@@ -67,7 +67,6 @@ body {;
 .navbar-static-bottom {
 	border-radius: 0;
 	margin-bottom: 0;
-	margin-top: 20px;
 	border-top: 1px #ddd solid;
 }
 
@@ -111,10 +110,6 @@ body {;
 	display: block;
 }
 
-.article-list-item:even {
-	background: #ddd;
-}
-
 .article-list-item p{
     line-height: 1.4em;
     height: 6.8em;
@@ -124,8 +119,11 @@ body {;
 
 .container-wrap {
 	background: #f7f7f7; 
-	margin-top: -20px; 
 	padding: 20px 0 60px;
+}
+
+.container-wrap:nth-child(odd) {
+    background: #fff; 
 }
 
 .append-bottom-xs {
