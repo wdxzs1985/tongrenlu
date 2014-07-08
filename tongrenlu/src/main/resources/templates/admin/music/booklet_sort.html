@@ -2,58 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout_article_sort">
-  <body>
-    <div class="container" layout:fragment="content">
-      <div class="page-header">
-          <h3 >
-            <span th:text="${articleBean.title}"></span>
-            <small th:text="#{console.article.sort}"></small>
-          </h3>
-      </div>
-      <div class="btn-toolbar">
-          <div class="btn-group ">
-              <button class="btn btn-success" id="sort-by-name">
-                  <span class="glyphicon glyphicon-sort-by-alphabet"></span>
-                  <span th:text="#{console.article.sort.byName}" class="hidden-xs"></span>
-              </button>
-              <button class="btn btn-info" id="sort-by-time">
-                  <span class="glyphicon glyphicon-sort-by-order"></span>
-                  <span th:text="#{console.article.sort.byTime}" class="hidden-xs"></span>
-              </button>
-          </div>
-      </div>
-      <hr />
-      <form th:action="@{/admin/music/__${articleBean.id}__/booklet/sort}" method="POST">
-        <div id="sortable-list" class="row">
-            <div class="col-xs-4 col-sm-2 sortable-object" 
-                 th:each="file : ${fileList}"
-                 th:attr="data-id=${file.id},data-name=${file.name}">
-                <div class="thumbnail">
-                    <img class="visible-xs" th:src="@{/files/m__${articleBean.id}__/f__${file.id}___60.jpg}" />
-                    <img class="hidden-xs" th:src="@{/files/m__${articleBean.id}__/f__${file.id}___180.jpg}" />
-                    <div class="caption">
-                        <span class="text-center text-single-line" th:text="${file.name}"></span>
-                        <input type="hidden" name="fileId[]" th:value="${file.id}" />
-                    </div>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap" >
+        <div class="container">
+            <div class="page-header">
+                <h3 >
+                  <span th:text="${articleBean.title}"></span>
+                  <small th:text="#{console.article.sort}"></small>
+                </h3>
+            </div>
+            <div class="btn-toolbar">
+                <div class="btn-group ">
+                    <button class="btn btn-success" id="sort-by-name">
+                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                        <span th:text="#{console.article.sort.byName}" class="hidden-xs"></span>
+                    </button>
+                    <button class="btn btn-info" id="sort-by-time">
+                        <span class="glyphicon glyphicon-sort-by-order"></span>
+                        <span th:text="#{console.article.sort.byTime}" class="hidden-xs"></span>
+                    </button>
                 </div>
             </div>
+            <hr />
+            <form th:action="@{/admin/music/__${articleBean.id}__/booklet/sort}" method="POST">
+              <div id="sortable-list" class="row">
+                  <div class="col-xs-4 col-sm-2 sortable-object" 
+                       th:each="file : ${fileList}"
+                       th:attr="data-id=${file.id},data-name=${file.name}">
+                      <div class="thumbnail">
+                          <img class="visible-xs" th:src="@{/files/m__${articleBean.id}__/f__${file.id}___60.jpg}" />
+                          <img class="hidden-xs" th:src="@{/files/m__${articleBean.id}__/f__${file.id}___180.jpg}" />
+                          <div class="caption">
+                              <span class="text-center text-single-line" th:text="${file.name}"></span>
+                              <input type="hidden" name="fileId[]" th:value="${file.id}" />
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-xs-6 text-left">
+                  <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}" class="btn btn-default">
+                      <span class="glyphicon glyphicon-chevron-left"></span>
+                      <span th:text="#{console.music.booklet.upload}"></span>
+                  </a>
+                </div>
+                <div class="col-xs-6 text-right">
+                  <button type="submit" class="btn btn-success">
+                      <span class="glyphicon glyphicon-ok"></span>
+                      <span th:text="#{button.save}"></span>
+                  </button>
+                </div>
+              </div>
+            </form>
         </div>
-        <hr />
-        <div class="row">
-          <div class="col-xs-6 text-left">
-            <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}" class="btn btn-default">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span th:text="#{console.music.booklet.upload}"></span>
-            </a>
-          </div>
-          <div class="col-xs-6 text-right">
-            <button type="submit" class="btn btn-success">
-                <span class="glyphicon glyphicon-ok"></span>
-                <span th:text="#{button.save}"></span>
-            </button>
-          </div>
-        </div>
-      </form>
     </div>
-  </body>
+</div>
+</body>
 </html>
