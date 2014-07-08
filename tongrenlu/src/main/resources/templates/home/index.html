@@ -10,61 +10,55 @@
         <div class="container-wrap">
             <div class="container append-bottom-lg">
                 <div class="row">
-                  <div class="col-sm-6 col-sm-offset-6 col-md-5 col-md-offset-7">
+                  <div class="col-md-6 col-md-offset-6">
                     <form th:action="@{/search}" method="get" role="search">
                     <div class="input-group">
                       <input type="text" name="q" class="form-control" th:placeholder="#{home.search}"/>
                       <span class="input-group-btn">
                         <button class="btn btn-warning" type="submit">
                             <span class="glyphicon glyphicon-search"></span>
-                            <span th:text="#{button.search}"></span>
+                            <span class="hidden-xs" th:text="#{button.search}"></span>
                         </button>
-                        <a th:href="@{/music/lucky}" class="btn btn-info" th:text="#{home.music.lucky}"></a>
+                        <a th:href="@{/music/lucky}" class="btn btn-info">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
+                        </a>
                       </span>
                     </div><!-- /input-group -->
                     </form>
                   </div><!-- /.col-lg-6 -->
                 </div><!-- /.row -->
             </div>
-            <div id="gallery" class="gallery media-list clearfix">
-                <th:block  th:each="articleBean,iterStat : ${musicRanking}">
-                    <div class="media large pull-left " th:if="${iterStat.index == 0}">
+            <div id="gallery" class="gallery clearfix">
+                <th:block th:each="articleBean,iterStat : ${musicRanking}">
+                    <div class="large pull-left " th:if="${iterStat.index == 0}">
+                        <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
+                             th:alt-title="${articleBean.title}" />
+                        <div class="gallery-overlay">
+                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                        </div>
                         <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}"
-                            class="">
-                            <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
-                                 th:alt-title="${articleBean.title}" />
-                        </a>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:text="${articleBean.title}"
-                           th:alt-title="${articleBean.title}"
-                           class="overlay">
+                           th:alt-title="${articleBean.title}" >
                         </a>
                     </div>
-                    <div class="media large pull-right " th:if="${iterStat.index == 22}">
+                    <div class="large pull-right " th:if="${iterStat.index == 22}">
+                        <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
+                             th:alt-title="${articleBean.title}" />
+                        <div class="gallery-overlay">
+                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                        </div>
                         <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}"
-                            class="">
-                            <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
-                                 th:alt-title="${articleBean.title}" />
-                        </a>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:text="${articleBean.title}"
-                           th:alt-title="${articleBean.title}"
-                           class="overlay">
+                           th:alt-title="${articleBean.title}" >
                         </a>
                     </div>
-                    <div class="media pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
+                    <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
+                        <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
+                             th:alt-title="${articleBean.title}" />
+                        <div class="gallery-overlay">
+                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                        </div>
                         <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}"
-                            class="">
-                            <img th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}"
-                                 th:alt-title="${articleBean.title}" />
-                        </a>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:text="${articleBean.title}"
-                           th:alt-title="${articleBean.title}"
-                           class="overlay">
+                           th:alt-title="${articleBean.title}" >
                         </a>
                     </div>
                 </th:block>

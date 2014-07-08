@@ -45,58 +45,11 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
-<script id="template-playlist-item" type="text/x-tmpl">
-<li class="clearfix">
-        <div class="pull-right">
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
-                <span class="glyphicon glyphicon-headphones"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default hidden">
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
-        </div>
-    <h5>
-        <a href="javascript:;" class="{%=o.itemClass%}">
-            {%=o.file.title%}
-        </a>
-    </h5>
-    <div>
-        {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
-        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
-    </div>
-    {% if (o.file.original) { %}<pre class="hidden-xs">{%=o.file.original%}</pre>{% } %}
-</li>
-</script>
-<script id="template-tag-item" type="text/x-tmpl">
-<li>
-    <a href="{%=o.tagPath%}/{%=o.tag%}" class="btn btn-xs btn-default">
-        {%=o.tag%} ({%=o.articleCount%})
-    </a>
-</li>
-</script>
-<script id="template-comment-item" type="text/x-tmpl" th:inline="text">
-        <li class="media">
-            <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
-                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class="img-60" />
-            </a>
-            <div class="media-body">
-                <h5 class="media-heading">
-                    <a href="/user/{%=o.userBean.id%}" target="_blank">
-                        <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
-                    </a>
-                    <span class="text-muted"> {%=o.createDate%}</span>
-                    <button class="btn btn-info btn-xs hidden" >
-                        <span class="glyphicon glyphicon-share-alt"></span>
-                        <span th:text="#{home.article.comment.reply}"></span>
-                    </button>
-                </h5>
-                <pre>{%=o.content%}</pre>
-            </div>
-        </li>
-</script>
+
+<div th:replace="x-tmpl/article-view::template-playlist-item"></div>
+<div th:replace="x-tmpl/article-view::template-tag-item"></div>
+<div th:replace="x-tmpl/article-view::template-comment-item"></div>
+
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     

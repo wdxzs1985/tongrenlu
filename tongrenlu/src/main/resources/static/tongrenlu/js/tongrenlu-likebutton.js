@@ -27,7 +27,7 @@ $.fn.likebutton = function(options) {
 				if(loginUser && !loginUser.guest) {
 					that.get();
 				} else {
-					that.render(false);
+					that.render(constants.NOT_LIKE);
 					$(document).on('signin', function(event, loginUser) {
 						that.get();
 					});

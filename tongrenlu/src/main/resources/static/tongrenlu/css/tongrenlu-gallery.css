@@ -16,7 +16,7 @@ gallery
 .gallery .page-header > h1{
 }
 
-.gallery > .media{
+.gallery > div {
     width: 100px;
     height: 100px;
     margin: 0;
@@ -25,72 +25,54 @@ gallery
     position: relative;
 }
 
-.gallery > .media a{
-    text-decoration: none;
-}
-
-.gallery > .media img{
-    width: 100px;
-    height: 100px;
-}
-
-.gallery > .large{
+.gallery > div.large{
     width: 200px;
     height: 200px;
 }
 
-.gallery > .large img{
-    width: 200px;
-    height: 200px;
+.gallery > div img,
+.gallery > div a {
+	position: absolute;
+	top: 0;
+	left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.gallery > .media .overlay{
+.gallery > div .gallery-overlay {
     position: absolute;
     left: 0;
+    right: 0;
     bottom: 0;
-    display: block;
-    background: -moz-linear-gradient(top,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0.5))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
-    color: #ffffff;
-    padding:0 10px;
-    height: 0;
+    height:0;
     opacity: 0;
-    transition: height .2s ease-out .2s,opacity .2s ease-out .2s;
+    padding: 8px;
+    
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 100%);
+    
+    -webkit-transition: opacity 0.35s, height 0.35s;
+    transition: opacity 0.35s, height 0.35s;
 }
 
-.gallery > .media img{
+.gallery > div:hover .gallery-overlay {
+    opacity: 1;
+    height: 50%;
 }
 
-.gallery > .media .overlay{
-    width: 100px;
-    height: 0;
+
+.gallery > div .gallery-title {
+    font-size: 14px;
+    margin: 0;
+    color: #fff;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
-.gallery > .large .overlay{
+.gallery > div.large .gallery-title {
     font-size: 18px;
-    width: 200px;
-    height: 0;
-}
-
-.gallery > .media:hover .overlay{
-    height: 60px;
-    opacity: 1;
-}
-
-.gallery > .large:hover .overlay{
-    height: 200px;
-    opacity: 1;
-}
-
-.gallery > .media:hover img{
-}
-
-.gallery > .large:hover img{
+    color: #fff;
 }
 
 
@@ -102,41 +84,14 @@ gallery
     width: 1125px;
 }
 
-.gallery > .media{
-    width: 125px;
-    height: 125px;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-.gallery > .media img{
+.gallery > div {
     width: 125px;
     height: 125px;
 }
 
-.gallery > .large{
+.gallery > div.large{
     width: 250px;
     height: 250px;
-}
-
-.gallery > .large img{
-    width: 250px;
-    height: 250px;
-}
-
-.gallery > .media .overlay{
-    width: 125px;
-}
-.gallery > .large .overlay{
-    width: 250px;
-}
-
-.gallery > .large:hover .overlay{
-    height: 125px;
-}
-
-.gallery > .large:hover img{
 }
 
 }
@@ -149,44 +104,15 @@ gallery
     margin: 0 auto;
 }
 
-.gallery > .media{
-    width: 115px;
-    height: 115px;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-.gallery > .media img{
+.gallery > div {
     width: 115px;
     height: 115px;
 }
 
-.gallery > .large{
+.gallery > div.large{
     width: 230px;
     height: 230px;
 }
-
-.gallery > .large img{
-    width: 230px;
-    height: 230px;
-}
-
-.gallery > .media .overlay{
-    width: 115px;
-}
-
-.gallery > .large .overlay{
-    width: 230px;
-}
-
-.gallery > .large:hover .overlay{
-    height: 115px;
-}
-
-.gallery > .large:hover img{
-}
-
 
 }
 
@@ -210,23 +136,9 @@ gallery
     height: 120px;
 }
 
-.gallery > .large{
-    width: 240px;
-    height: 240px;
-}
 
-.gallery > .large img{
-    width: 240px;
-    height: 240px;
-}
-
-.gallery > .media .overlay{
-    display: none;
-}
-
-.gallery > .media:hover img{
-    margin-top: 0;
-}
+.gallery > div .gallery-overlay {
+	display: none;
 
 }
 
@@ -235,29 +147,17 @@ gallery
 **************/
 @media (max-width: 480px) {
 .gallery {
-    width: 270px;
-    margin: 0 auto;
+    width: 300px;
 }
 
-.gallery > .media{
-    width: 90px;
-    height: 90px;
+.gallery > div{
+    width: 100px;
+    height: 100px;
 }
 
-.gallery > .media img{
-    width: 90px;
-    height: 90px;
+.gallery > div.large{
+    width: 200px;
+    height: 200px;
 }
-
-.gallery > .large{
-    width: 180px;
-    height: 180px;
-}
-
-.gallery > .large img{
-    width: 180px;
-    height: 180px;
-}
-
 
 }

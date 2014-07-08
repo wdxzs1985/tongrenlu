@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Transactional
 public class ConsoleController {
 
+    public static int PAGE_SIZE = 24;
+
     @Autowired
     private ConsoleUserService userService = null;
 
@@ -55,7 +57,7 @@ public class ConsoleController {
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                  final Model model) {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      20);
+                                                                      PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchLikeMusic(page);
         model.addAttribute("page", page);
@@ -67,7 +69,7 @@ public class ConsoleController {
                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                  final Model model) {
         final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      20);
+                                                                      PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchLikeComic(page);
         model.addAttribute("page", page);
@@ -80,7 +82,7 @@ public class ConsoleController {
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     20);
+                                                                     PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollow(page);
         model.addAttribute("page", page);
@@ -93,7 +95,7 @@ public class ConsoleController {
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     20);
+                                                                     PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollower(page);
         model.addAttribute("page", page);
