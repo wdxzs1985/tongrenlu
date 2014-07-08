@@ -52,7 +52,7 @@
             COUNT(L.ID)
         FROM
             r_like L
-        left join v_music on v_music.id = L.like_id
+        join m_article on m_article.id = L.like_id
         <where>
             L.DEL_FLG = '0'
         AND L.USER_ID = #{userBean.id}
@@ -63,22 +63,12 @@
     <select id="searchMusic" resultType="MusicBean">
         SELECT
         <trim suffixOverrides=",">
-            v_music.id                      as id,
-            v_music.title                   as title,
-            v_music.description             as description,
-            v_music.publishFlg              as publishFlg,
-            v_music.publishDate             as publishDate,
-            v_music.recommendFlg            as recommendFlg,
-            v_music.`userBean.id`           as `userBean.id`,
-            v_music.`userBean.nickname`     as `userBean.nickname`,
-            v_music.`userBean.signature`    as `userBean.signature`,
-            v_music.accessCount             as accessCount,
-            v_music.likeCount               as likeCount,
-            v_music.commentCount            as commentCount,
+            m_article.id                      as id,
+            m_article.title                   as title
         </trim>
         FROM
             r_like L
-        left join v_music on v_music.id = L.like_id
+        join m_article on m_article.id = L.like_id
         <where>
             L.DEL_FLG = '0'
         AND L.USER_ID = #{userBean.id}
@@ -93,7 +83,7 @@
             COUNT(L.ID)
         FROM
             r_like L
-        left join v_comic on v_comic.id = L.like_id
+        join m_article on m_article.id = L.like_id
         <where>
             L.DEL_FLG = '0'
         AND L.USER_ID = #{userBean.id}
@@ -104,24 +94,12 @@
     <select id="searchComic" resultType="ComicBean">
         SELECT
         <trim suffixOverrides=",">
-            v_comic.id                      as id,
-            v_comic.title                   as title,
-            v_comic.description             as description,
-            v_comic.publishFlg              as publishFlg,
-            v_comic.publishDate             as publishDate,
-            v_comic.recommendFlg            as recommendFlg,
-            v_comic.redFlg                  as redFlg,
-            v_comic.translateFlg            as translateFlg,
-            v_comic.`userBean.id`           as `userBean.id`,
-            v_comic.`userBean.nickname`     as `userBean.nickname`,
-            v_comic.`userBean.signature`    as `userBean.signature`,
-            v_comic.accessCount             as accessCount,
-            v_comic.likeCount               as likeCount,
-            v_comic.commentCount            as commentCount,
+            m_article.id                      as id,
+            m_article.title                   as title,
         </trim>
         FROM
             r_like L
-        left join v_comic on v_comic.id = L.like_id
+        join m_article on m_article.id = L.like_id
         <where>
             L.DEL_FLG = '0'
         AND L.USER_ID = #{userBean.id}
@@ -147,17 +125,12 @@
     <select id="searchFollow" resultType="UserBean">
         SELECT
         <trim suffixOverrides=",">
-            v_user.id               as id,
-            v_user.nickname         as nickname,
-            v_user.signature        as signature,
-            v_user.musicCount       as musicCount,
-            v_user.comicCount       as comicCount,
-            v_user.followCount      as followCount,
-            v_user.followerCount    as followerCount,
+            m_user.id               as id,
+            m_user.nickname         as nickname,
         </trim>
         FROM
             r_like L
-        left join v_user on v_user.id = L.like_id
+        left join m_user on m_user.id = L.like_id
         <where>
             L.DEL_FLG = '0'
         AND L.USER_ID = #{userBean.id}
@@ -172,7 +145,7 @@
             COUNT(L.ID)
         FROM
             r_like L
-        left join v_user on v_user.id = L.user_id
+        left join m_user on m_user.id = L.user_id
         <where>
             L.DEL_FLG = '0'
         AND L.LIKE_ID = #{userBean.id}
@@ -183,17 +156,12 @@
     <select id="searchFollower" resultType="UserBean">
         SELECT
         <trim suffixOverrides=",">
-            v_user.id               as id,
-            v_user.nickname         as nickname,
-            v_user.signature        as signature,
-            v_user.musicCount       as musicCount,
-            v_user.comicCount       as comicCount,
-            v_user.followCount      as followCount,
-            v_user.followerCount    as followerCount,
+            m_user.id               as id,
+            m_user.nickname         as nickname,
         </trim>
         FROM
             r_like L
-        left join v_user on v_user.id = L.user_id
+        left join m_user on m_user.id = L.user_id
         <where>
             L.DEL_FLG = '0'
         AND L.LIKE_ID = #{userBean.id}

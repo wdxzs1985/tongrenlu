@@ -6,44 +6,48 @@
 <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
   <body>
-    <div class="container" layout:fragment="content">
-        <div class="page-header">
-            <h3 th:text="#{console.follow}"></h3>
-        </div>
-        <th:block th:unless="${#lists.isEmpty(page.items)}">
-            <div class="row">
-                <div class="col-sm-6 col-md-3 col-lg-2" th:each="userBean : ${page.items}">
-                    <div class="thumbnail media">
-                        <a class="visible-sm visible-xs pull-left" target="_blank" 
-                           th:href="@{/user/__${userBean.id}__}" 
-                           th:alt-title="${userBean}">
-                            <img th:src="@{/files/u__${userBean.id}__/cover_60.jpg}" th:alt-title="${userBean}"
-                                 class="media-object img-60 img-rounded"/>
-                        </a>
-                        <a class="hidden-sm hidden-xs" target="_blank" 
-                           th:href="@{/user/__${userBean.id}__}">
-                            <img th:src="@{/files/u__${userBean.id}__/cover_180.jpg}" th:alt-title="${userBean}"
-                                 class="img-180 img-rounded"/>
-                        </a>
-                        <div class="caption">
-                            <h5 class="media-heading text-single-line">
-                                <a target="_blank" 
-                                   th:href="@{/user/__${userBean.id}__}"
-                                   th:text="${userBean}" >
-                                </a>
-                            </h5>
+<div layout:fragment="content">
+    <div class="container-wrap" >
+        <div class="container">
+            <div class="page-header">
+                <h3 th:text="#{console.follow}"></h3>
+            </div>
+            <th:block th:unless="${#lists.isEmpty(page.items)}">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 col-lg-2" th:each="userBean : ${page.items}">
+                        <div class="thumbnail media">
+                            <a class="visible-sm visible-xs pull-left" target="_blank" 
+                               th:href="@{/user/__${userBean.id}__}" 
+                               th:alt-title="${userBean}">
+                                <img th:src="@{/files/u__${userBean.id}__/cover_60.jpg}" th:alt-title="${userBean}"
+                                     class="media-object img-60 img-rounded"/>
+                            </a>
+                            <a class="hidden-sm hidden-xs" target="_blank" 
+                               th:href="@{/user/__${userBean.id}__}">
+                                <img th:src="@{/files/u__${userBean.id}__/cover_180.jpg}" th:alt-title="${userBean}"
+                                     class="img-180 img-rounded"/>
+                            </a>
+                            <div class="caption">
+                                <h5 class="media-heading text-single-line">
+                                    <a target="_blank" 
+                                       th:href="@{/user/__${userBean.id}__}"
+                                       th:text="${userBean}" >
+                                    </a>
+                                </h5>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <hr />
+                <div id="jpaginate" class="hidden-xs"></div>
+                <div id="select-paginate" class="form-group visible-xs"></div>
+            </th:block>
+            <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                <h4 th:text="#{console.article.noData}"></h4>
             </div>
-            <hr />
-            <div id="jpaginate" class="hidden-xs"></div>
-            <div id="select-paginate" class="form-group visible-xs"></div>
-        </th:block>
-        <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-            <h4 th:text="#{console.article.noData}"></h4>
         </div>
     </div>
+</div>
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>

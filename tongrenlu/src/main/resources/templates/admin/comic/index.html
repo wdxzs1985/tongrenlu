@@ -6,7 +6,9 @@
 <link rel="stylesheet" type="text/css" th:href="@{/jquery.jpaginate/css/style.css}" media="screen"/>
 </head>
   <body>
-    <div class="container" layout:fragment="content">
+<div layout:fragment="content">
+    <div class="container-wrap" >
+        <div class="container">
                 <ul class="nav nav-tabs">
                   <li class="hidden-xs"><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
                   <li class="hidden-xs"><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
@@ -121,6 +123,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>

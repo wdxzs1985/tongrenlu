@@ -1,5 +1,6 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
@@ -69,6 +70,7 @@ public class HomeUserController {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("userBean", userBean);
         page.addParam("loginUser", loginUser);
+        page.addParam("publishFlg", CommonConstants.CHR_TRUE);
         this.userService.searchMusic(page);
 
         model.addAttribute("userBean", userBean);
@@ -93,6 +95,7 @@ public class HomeUserController {
         final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("userBean", userBean);
         page.addParam("loginUser", loginUser);
+        page.addParam("publishFlg", CommonConstants.CHR_TRUE);
         this.userService.searchComic(page);
 
         model.addAttribute("userBean", userBean);

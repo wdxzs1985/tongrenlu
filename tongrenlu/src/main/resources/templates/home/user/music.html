@@ -74,8 +74,9 @@
         </div>
     </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-<script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -86,6 +87,12 @@ $(function() {
             window.location.href = url + currval;
             return false;
         }
+    });
+    $('#follow-user').likebutton({
+        url: /*[[@{/user/__${userBean.id}__/follow}]]*/ '',
+        notlikeText: /*[[#{home.user.notfollow}]]*/ '',
+        likeText: /*[[#{home.user.follow}]]*/ '',
+        unlikeText: /*[[#{home.user.unfollow}]]*/ ''
     });
 });
 </script>

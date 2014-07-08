@@ -117,7 +117,12 @@
 </script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    $('#follow-user').likebutton();
+    $('#follow-user').likebutton({
+        url: /*[[@{/user/__${userBean.id}__/follow}]]*/ '',
+        notlikeText: /*[[#{home.user.notfollow}]]*/ '',
+        likeText: /*[[#{home.user.follow}]]*/ '',
+        unlikeText: /*[[#{home.user.unfollow}]]*/ ''
+    });
 
     new timeline({});
 });

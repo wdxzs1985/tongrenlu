@@ -6,7 +6,9 @@
     <link href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" rel="stylesheet" />
   </head>
   <body>
-    <div class="container" layout:fragment="content">
+<div layout:fragment="content">
+    <div class="container-wrap" >
+        <div class="container">
       <ul class="nav nav-tabs">
         <li class="active"><a th:href="@{/console/comic/__${articleBean.id}__}" th:text="#{console.article.edit}"></a></li>
         <li class="hidden-xs"><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
@@ -87,6 +89,8 @@
         </div>
       </form>
     </div>
+    </div>
+</div>
 <th:block layout:fragment="scripts-libs">
 <script src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
 </th:block>
