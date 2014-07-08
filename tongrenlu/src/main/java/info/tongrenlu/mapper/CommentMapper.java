@@ -17,4 +17,6 @@ public interface CommentMapper {
 
     List<CommentBean> fetchMusicComment(Map<String, Object> params);
 
+    CommentBean fetchBean(Map<String, Object> params);
+
 }

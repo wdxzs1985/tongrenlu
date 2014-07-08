@@ -12,15 +12,38 @@
             ARTICLE_ID,
             USER_ID,
             content,
+            parent_id,
+            root_id,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
             #{articleBean.id},
             #{userBean.id},
             #{content},
+            #{parent.id},
+            #{root.id},
         </trim>
         )
     </insert>
+    
+    <select id="fetchBean" resultType="CommentBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            m_comment.id                      as id,
+            m_comment.content                 as content,
+            m_comment.`root_id`               as `root.id`,
+            m_comment.`parent_id`             as `parent.id`,
+        </trim>
+        FROM 
+            m_comment
+                left join
+            m_comment root ON root.id = m_comment.root_id
+                left join
+            m_comment parent ON parent.id = m_comment.parent_id
+        <where>
+            m_comment.`id` = #{id}
+        </where>
+    </select>
     
     <select id="countComicComment" resultType="int">
         SELECT 

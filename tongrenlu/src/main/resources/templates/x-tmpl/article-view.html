@@ -48,12 +48,29 @@
                         <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
                     </a>
                     <span class="text-muted"> {%=o.createDate%}</span>
-                    <button class="btn btn-info btn-xs hidden" >
+                    <button class="btn btn-info btn-xs comment-reply" >
                         <span class="glyphicon glyphicon-share-alt"></span>
                         <span th:text="#{home.article.comment.reply}"></span>
                     </button>
                 </h5>
                 <pre>{%=o.content%}</pre>
+                <form class="comment-form hidden" method="post" >
+                    <div class="form-group">
+                        <input type="hidden" name="parentId" value="{%=o.id%}" />
+                        <textarea name="content" class="form-control" rows="4"
+                                  th:placeholder="#{home.article.comment.placeholder}" ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <span class="glyphicon glyphicon-send"></span>&nbsp;
+                            <span th:text="#{home.article.comment.send}"></span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-default comment-reply-cancel">
+                            <span class="glyphicon glyphicon-remove"></span>&nbsp;
+                            <span th:text="#{button.cancel}"></span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </li>
 </script>

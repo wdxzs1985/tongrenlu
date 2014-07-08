@@ -9,6 +9,7 @@ import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
+import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -40,6 +41,8 @@ public class HomeMusicController {
     private MessageSource messageSource = null;
     @Autowired
     private HomeMusicService musicService = null;
+    @Autowired
+    private CommentService commentService = null;
 
     protected void throwExceptionWhenNotAllow(final MusicBean musicBean,
                                               final Locale locale) {
@@ -149,7 +152,7 @@ public class HomeMusicController {
         final Map<String, Object> model = new HashMap<>();
         final PaginateSupport<CommentBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("articleId", articleId);
-        this.musicService.searchComment(page);
+        this.commentService.searchComment(page);
         model.put("page", page);
         return model;
     }
@@ -158,19 +161,34 @@ public class HomeMusicController {
     @ResponseBody
     public Map<String, Object> doPostComment(@PathVariable final Integer articleId,
                                              final String content,
+                                             @RequestParam(required = false) final Integer parentId,
                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                              final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
         final MusicBean musicBean = this.musicService.getById(articleId);
+
+        this.throwExceptionWhenNotAllow(musicBean, locale);
 
         final CommentBean commentBean = new CommentBean();
         commentBean.setArticleBean(musicBean);
         commentBean.setUserBean(loginUser);
         commentBean.setContent(content);
 
-        final boolean result = this.musicService.doComment(commentBean,
-                                                           model,
-                                                           locale);
+        if (parentId != null) {
+            final CommentBean parent = this.commentService.getComment(parentId);
+            if (parent == null) {
+                throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                              null,
+                                                                              locale));
+            }
+            commentBean.setParent(parent);
+        } else {
+            commentBean.setRoot(commentBean);
+        }
+
+        final boolean result = this.commentService.doComment(commentBean,
+                                                             model,
+                                                             locale);
         model.put("result", result);
         return model;
     }

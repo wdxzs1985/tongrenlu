@@ -3,6 +3,7 @@ package info.tongrenlu.manager;
 import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.mapper.CommentMapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -38,6 +39,12 @@ public class CommentManager {
 
     public void addComment(final CommentBean commentBean) {
         this.commentMapper.insert(commentBean);
+    }
+
+    public CommentBean getComment(final Integer commentId) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id", commentId);
+        return this.commentMapper.fetchBean(params);
     }
 
     public boolean validateContent(final String content,

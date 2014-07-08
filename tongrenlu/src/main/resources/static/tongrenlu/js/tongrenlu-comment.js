@@ -23,29 +23,27 @@ var comment = function(options) {
 	
 	var that = {
 		init: function() {
-			$('#comment').on('submit', '.comment-form', function(e){
+			var $comment = $('#comment').on('submit', '.comment-form', function(e){
 				e.preventDefault();
-			    var $content = $(this).find('.comment-content');
-			    if($content.hasClass('disabled')){
+				var $form = $(this);
+			    var data = $form.serialize();
+			    
+			    if($comment.data('sending')){
 			        return;
 			    }
-			    $content.addClass('disabled');
-			    var content = $content.val();
+			    $comment.data('sending', true);
 			    
-			    if(content.length > 0){
-			        that.send(content, function(response) {
-			        	if(response.result) {
-			        		that.load(1);
-							that.scroll('#comment');
-			        		$content.removeClass('disabled');
-			        		$content.val('');
-			        	} else {
-			        		alert(response.error)
-			        	}
-			        });
-			    } else {
-			        alert('你一个字都没打。');
-			    }
+		    	$.post(settings.url, data).done(function(response) {
+		        	if(response.result) {
+		        		that.load(1);
+						that.scroll('#comment');
+						that.reset();
+		        	} else {
+		        		alert(response.error)
+		        	}
+		        }).always(function(){
+				    $comment.data('sending', false);
+		        });
 			}).on('click', '.previous a', function(e){
 				e.preventDefault();
 				that.load(settings.pageNumber - 1);
@@ -54,9 +52,22 @@ var comment = function(options) {
 				e.preventDefault();
 				that.load(settings.pageNumber + 1);
 				that.scroll('#comment');
+			}).on('click', 'button.comment-reply', function(e){
+				e.preventDefault();
+				$('#comment .comment-form').addClass('hidden');
+				$(this).closest('.media').find('.comment-form').removeClass('hidden');
+			}).on('click', 'button.comment-reply-cancel', function(e){
+				e.preventDefault();
+				that.reset();
 			});
 			
 			that.load();
+		},
+		reset: function() {
+			$('#comment .comment-form').each(function(index, element) {
+				element.reset();
+			}).addClass('hidden');
+			$('#comment .comment-form:last').removeClass('hidden');
 		},
 		scroll: function(hash) {
 			var offset = $( hash ).eq( 0 ).offset();
@@ -146,10 +157,6 @@ var comment = function(options) {
 		    }else {
 		        return i18n.JUST_BEFORE;
 		    }
-		},
-		send:  function(content, callback){
-		    var data = {'content': content};
-		    $.post(settings.url, data).done(callback);
 		}
 	};
 	

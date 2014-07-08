@@ -21,6 +21,10 @@ public class CommentBean extends DtoBean {
 
     private UserBean userBean = null;
 
+    private CommentBean parent = null;
+
+    private CommentBean root = null;
+
     public String getContent() {
         return this.content;
     }
@@ -51,6 +55,22 @@ public class CommentBean extends DtoBean {
 
     public void setCreateDate(final Date createDate) {
         this.createDate = createDate;
+    }
+
+    public CommentBean getParent() {
+        return this.parent;
+    }
+
+    public void setParent(final CommentBean parent) {
+        this.parent = parent;
+    }
+
+    public CommentBean getRoot() {
+        return this.root;
+    }
+
+    public void setRoot(final CommentBean root) {
+        this.root = root;
     }
 
 }

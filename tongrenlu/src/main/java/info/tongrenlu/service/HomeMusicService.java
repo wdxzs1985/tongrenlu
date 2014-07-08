@@ -1,7 +1,6 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ArticleBean;
-import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
@@ -123,38 +122,6 @@ public class HomeMusicService {
             result = LikeManager.RESULT_NEED_SIGN;
         }
         return result;
-    }
-
-    public void searchComment(final PaginateSupport<CommentBean> paginate) {
-        final int itemCount = this.commentManager.countMusicComment(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<CommentBean> items = this.commentManager.searchMusicComment(paginate.getParams());
-        paginate.setItems(items);
-    }
-
-    public boolean doComment(final CommentBean commentBean,
-                             final Map<String, Object> model,
-                             final Locale locale) {
-        if (this.validateForComment(commentBean, model, locale)) {
-            this.commentManager.addComment(commentBean);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean validateForComment(final CommentBean commentBean,
-                                       final Map<String, Object> model,
-                                       final Locale locale) {
-        boolean isValid = true;
-        if (!this.commentManager.validateContent(commentBean.getContent(),
-                                                 "error",
-                                                 model,
-                                                 locale)) {
-            isValid = false;
-        }
-        return isValid;
     }
 
 }
