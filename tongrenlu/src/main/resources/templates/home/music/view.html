@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout_article_view">
+  <head>
+    <title th:inline="text">[[${articleBean.title} + ' | ' + #{application}]]</title>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
+  </head>
   <body>
     <div class="container" layout:fragment="article-header">
       <div class="media">
@@ -10,7 +14,7 @@
                   th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
           </div>
           <div class="pull-right btn-group">
-              <button id="like-article" class="btn btn-danger hidden">
+              <button class="like-article btn btn-danger hidden">
                   <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
                   <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
               </button>
@@ -86,13 +90,57 @@ $(function() {
     });
     
     $('#article-description').url();
-    $('#like-article').likebutton({
+    
+    $('.like-article').likebutton({
     	url: /*[[@{/music/__${articleBean.id}__/like}]]*/ '',
     	notlikeText: /*[[#{home.article.notlike}]]*/ '',
     	likeText: /*[[#{home.article.like}]]*/ '',
     	unlikeText: /*[[#{home.article.unlike}]]*/ ''
     });
+
+
+    var title = /*[[${articleBean.title}]]*/ '';
+    var share_url = /*[['http://www.tongrenlu.info/music/' + ${articleBean.id}]]*/ 'http://www.tongrenlu.info/comic.jpg';
+    var image_url = /*[['http://www.tongrenlu.info/files/m' + ${articleBean.id} + '/cover_400.jpg']]*/ 'http://www.tongrenlu.info/';
+    WB2.anyWhere(function(W){
+            W.widget.publish({
+                toolbar: 'face',
+                action:'publish',
+                type:'web',
+                language:'zh_cn',
+                button_type:'red',
+                button_size:'middle',
+                uid:'2803325782',
+                default_text: title + ' ' + share_url,
+                tag: /*[[#{home.article.share.text}]]*/ '',
+                refer:'y',
+                default_image: image_url,
+                appkey:'2ZiUc5',
+                id: 'share_article',
+                position: 'c'
+            });
+        });
+        WB2.anyWhere(function(W){
+            W.widget.publish({
+                toolbar: 'face',
+                action:'publish',
+                type:'web',
+                language:'zh_cn',
+                button_type:'red',
+                button_size:'middle',
+                uid:'2803325782',
+                default_text: title + ' ' + share_url,
+                tag: /*[[#{home.article.request.text}]]*/ '',
+                refer:'y',
+                default_image: image_url,
+                appkey:'2ZiUc5',
+                id: 'request_article',
+                position: 'c'
+            });
+        });
 });
+</script>
+<script type="text/javascript" th:inline="javascript">
 </script>
 </th:block>
   </body>

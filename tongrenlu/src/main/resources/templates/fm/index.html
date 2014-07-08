@@ -90,6 +90,38 @@
                 </div>
             </div>
         </div>
+        <div id="fm-search" class="fm-page fm-page-1 fade">
+            <div class="fm-page-nav visible-xs">
+                <a href="#index" class="btn btn-link">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span>Back</span>
+                </a>
+            </div>
+            <div class="list-content hidden">
+                <ul class="media-list"></ul>
+                <ul class="pager">
+                    <li class="">
+                        <a href="#">
+                            <span th:text="#{button.more}">Show more</span>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="empty hidden">
+                <div class="container-fluid">
+                    <div class="alert alert-info">
+                        <h4 th:text="#{home.fm.search}">Search</h4>
+                        <p th:text="#{home.fm.search.emtpy}">Empty</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="fm-playlist" class="fm-page fm-page-1 fade">
+            <div class="fm-page-content">
+                <h1>Title</h1>
+            </div>
+        </div>
         <div id="fm-music" class="fm-page fm-page-2 fade">
             <div class="fm-page-nav visible-xs">
                 <button class="btn btn-link">
@@ -125,38 +157,6 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div id="fm-search" class="fm-page fm-page-1 fade">
-            <div class="fm-page-nav visible-xs">
-                <a href="#index" class="btn btn-link">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <span>Back</span>
-                </a>
-            </div>
-            <div class="list-content hidden">
-                <ul class="media-list"></ul>
-                <ul class="pager">
-                    <li class="">
-                        <a href="#">
-                            <span th:text="#{button.more}">Show more</span>
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="empty hidden">
-                <div class="container-fluid">
-                    <div class="alert alert-info">
-                        <h4 th:text="#{home.fm.search}">Search</h4>
-                        <p th:text="#{home.fm.search.emtpy}">Empty</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="fm-playlist" class="fm-page fm-page-1 fade">
-            <div class="fm-page-content">
-                <h1>Title</h1>
             </div>
         </div>
         <div id="fm-player" class="fm-page fm-page-3 fade">

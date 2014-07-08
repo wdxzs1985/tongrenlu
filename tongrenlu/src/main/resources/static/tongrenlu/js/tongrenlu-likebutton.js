@@ -40,7 +40,9 @@ $.fn.likebutton = function(options) {
 						$this.find('.like-button-text').text(settings.unlikeText);
 					}
 				}, function(){
-					that.render(that.like);
+					if(that.like == constants.LIKE) {
+						that.render(that.like);
+					}
 				});
 			},
 			render: function(like) {
