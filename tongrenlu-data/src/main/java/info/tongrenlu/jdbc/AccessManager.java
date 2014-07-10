@@ -81,4 +81,14 @@ public class AccessManager extends ManagerSupport implements
         throw new RuntimeException(new MethodNotSupportedException(""));
     }
 
+    public List<Map<String, Object>> countByArticleId() {
+        final String sql = "Select " + "ARTICLE_ID      as articleId"
+                           + "    ,   count(id)                  as cnt"
+                           + "        from m_access "
+                           + "  where DEL_FLG = '0'"
+                           + "  group by   "
+                           + "      ARTICLE_ID   ";
+        return this.getMysqlDao().queryForList(sql);
+    }
+
 }

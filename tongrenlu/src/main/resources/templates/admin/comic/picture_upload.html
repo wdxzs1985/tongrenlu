@@ -151,8 +151,8 @@ layout:decorator="console/layout">
         <td>
             {% if (!file.error) { %}
             <span class="preview">
-                <a href="/files/c{%=file.articleId%}/f{%=file.id%}_1080.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
-                    <img src="/files/c{%=file.articleId%}/f{%=file.id%}_60.jpg" />
+                <a href="http://files.tongrenlu.info/c{%=file.articleId%}/f{%=file.id%}_1080.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
+                    <img src="http://files.tongrenlu.info/c{%=file.articleId%}/f{%=file.id%}_120.jpg" class="img-60"/>
                 </a>
                 
             </span>
@@ -171,7 +171,7 @@ layout:decorator="console/layout">
         </td>
         <td>
             {% if (!file.error) { %}
-                <button class="btn btn-danger delete" data-type="POST" data-url="/admin/comic/{%=file.articleId%}/{%=file.id%}/delete">
+                <button class="btn btn-danger delete" data-type="POST" data-url="/console/comic/{%=file.articleId%}/{%=file.id%}/delete">
                     <i class="glyphicon glyphicon-trash"></i>
                     <span th:text="#{console.article.upload.delete}">Delete</span>
                 </button>

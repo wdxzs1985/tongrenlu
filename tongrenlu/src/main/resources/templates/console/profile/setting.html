@@ -11,7 +11,7 @@
                     <div class="col-sm-4">
                         <div class="thumbnail">
                             <img src="http://placehold.it/400x400" alt="..." class="img-400"
-                                 th:src="@{/files/u__${userBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
+                                 th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
                             <div class="caption">
                                 <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
                             </div>

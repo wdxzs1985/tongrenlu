@@ -18,7 +18,7 @@
 	                <div class="row">
 	                  <div class="col-xs-6 col-md-2" th:each="articleBean : ${musicPage.items}">
 	                    <a th:href="@{/music/__${articleBean.id}__}" class="thumbnail">
-	                      <img th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}"
+	                      <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
 	                           th:alt-title="${articleBean.title}"  
 	                           class="img-180"/>
 	                    </a>
@@ -41,7 +41,7 @@
 	                <div class="row">
 	                  <div class="col-xs-6 col-md-2" th:each="articleBean : ${comicPage.items}">
 	                    <a th:href="@{/comic/__${articleBean.id}__}" class="thumbnail">
-	                      <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}"
+	                      <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}"
 	                           th:alt-title="${articleBean.title}" 
 	                           class="img-180"/>
 	                    </a>

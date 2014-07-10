@@ -9,60 +9,65 @@
   <body>
     <div layout:fragment="content">
         <div class="container-wrap" >
-            <div class="container append-bottom-lg">
+            <div class="container">
                 <div class="row">
-                  <div class="col-md-6 col-md-offset-6">
-                    <form th:action="@{/search}" method="get" role="search">
-                    <div class="input-group">
-                      <input type="text" name="q" class="form-control" th:placeholder="#{home.search}"/>
-                      <span class="input-group-btn">
-                        <button class="btn btn-warning" type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                            <span class="hidden-xs" th:text="#{button.search}"></span>
-                        </button>
-                        <a th:href="@{/music/lucky}" class="btn btn-info">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
-                        </a>
-                      </span>
+                    <div class="col-md-6 col-md-offset-6">
+                        <form th:action="@{/search}" method="get" role="search">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" th:placeholder="#{home.search}"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning" type="submit">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span class="hidden-xs" th:text="#{button.search}"></span>
+                                    </button>
+                                    <a th:href="@{/music/lucky}" class="btn btn-info">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
+                                    </a>
+                                </span>
+                            </div>
+                        </form>
                     </div>
-                    </form>
-                  </div>
                 </div>
             </div>
-            <div id="gallery" class="gallery clearfix">
-                <th:block th:each="articleBean,iterStat : ${musicRanking}">
-                    <div class="large pull-left " th:if="${iterStat.index == 0}">
-                        <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
-                             th:alt-title="${articleBean.title}" />
-                        <div class="gallery-overlay">
-                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+            <div id="top-music" class="container">
+                <div class="page-header">
+                    <h3 ><a th:href="@{/comic}" th:text="#{home.music} + ' >>'"></a></h3>
+                </div>
+                <div id="gallery" class="gallery clearfix">
+                    <th:block th:each="articleBean,iterStat : ${musicRanking}">
+                        <div class="large pull-left " th:if="${iterStat.index == 0}">
+                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                                 th:alt-title="${articleBean.title}" />
+                            <div class="gallery-overlay">
+                                <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                            </div>
+                            <a th:href="@{/music/__${articleBean.id}__}" 
+                               th:alt-title="${articleBean.title}" >
+                            </a>
                         </div>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}" >
-                        </a>
-                    </div>
-                    <div class="large pull-right " th:if="${iterStat.index == 22}">
-                        <img th:src="@{/files/m__${articleBean.id}__/cover_400.jpg}"
-                             th:alt-title="${articleBean.title}" />
-                        <div class="gallery-overlay">
-                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                        <div class="large pull-right " th:if="${iterStat.index == 22}">
+                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                                 th:alt-title="${articleBean.title}" />
+                            <div class="gallery-overlay">
+                                <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                            </div>
+                            <a th:href="@{/music/__${articleBean.id}__}" 
+                               th:alt-title="${articleBean.title}" >
+                            </a>
                         </div>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}" >
-                        </a>
-                    </div>
-                    <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
-                        <img th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}"
-                             th:alt-title="${articleBean.title}" />
-                        <div class="gallery-overlay">
-                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                        <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
+                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
+                                 th:alt-title="${articleBean.title}" />
+                            <div class="gallery-overlay">
+                                <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                            </div>
+                            <a th:href="@{/music/__${articleBean.id}__}" 
+                               th:alt-title="${articleBean.title}" >
+                            </a>
                         </div>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}" >
-                        </a>
-                    </div>
-                </th:block>
+                    </th:block>
+                </div>
             </div>
         </div>
         <div class="container-wrap" >
@@ -138,17 +143,17 @@
             <div class="row">
                 <div class="col-sm-8">
                     <div class="page-header">
-                        <h3 ><a th:href="@{/comic}" th:text="#{home.comic}"></a></h3>
+                        <h3 ><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h3>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-3" th:each="articleBean,iterStat : ${comicRanking}">
                             <div class="thumbnail media">
                                 <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left" th:alt-title="${articleBean.title}">
-                                    <img th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"
+                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
                                          class="media-object img-60 img-rounded"/>
                                 </a>
                                 <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs" th:alt-title="${articleBean.title}">
-                                    <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
                                          class="img-180 img-rounded"/>
                                 </a>
                                 <div class="caption">

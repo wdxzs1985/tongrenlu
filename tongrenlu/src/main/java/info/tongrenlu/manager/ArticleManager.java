@@ -94,6 +94,7 @@ public class ArticleManager {
         accessBean.setArticleBean(articleBean);
         accessBean.setUserBean(userBean);
         this.accessMapper.insert(accessBean);
+        this.accessMapper.updateArticle(accessBean);
 
         int accessCount = articleBean.getAccessCount();
         accessCount++;
@@ -230,7 +231,7 @@ public class ArticleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                            ArticleManager.TITLE_LENGTH },
+                                                                  ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

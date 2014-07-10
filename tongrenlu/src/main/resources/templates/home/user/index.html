@@ -1,69 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout">
-  <head>
-  <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-timeline.css}" />
-  </head>
-  <body>
-    <div class="container" layout:fragment="content">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="thumbnail">
-                  <a th:href="@{/user/__${userBean.id}__}" class="">
-                    <img src="http://placehold.it/400x400" class="img-400" 
-                         th:src="@{/files/u__${userBean.id}__/cover_400.jpg}" th:alt-title="${userBean}"/>
-                  </a>
-                  <div class="caption">
-                    <h5 th:text="${userBean}" class="text-center text-single-line"></h5>
-                    <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
-                    <div class="text-center">
-                        <button id="follow-user" class="btn btn-danger hidden"
-                          th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
-                            <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                            <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-                        </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="list-group">
-                  <a th:href="@{/user/__${userBean.id}__/music}" class="list-group-item">
-                    <span th:text="#{home.user.musicCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.musicCount}"></span>
-                  </a>
-                  <a th:href="@{/user/__${userBean.id}__/comic}" class="list-group-item">
-                    <span th:text="#{home.user.comicCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.comicCount}"></span>
-                  </a>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div id="timeline" class="timeline-container"
-                  th:attr="data-href=@{/user/__${userBean.id}__/timeline}">
-                  <div class="timeline-list-content hidden">
-                    <ul class="cbp_tmtimeline"></ul>
-                    <ul class="pager">
-                      <li class="previous">
+  layout:decorator="home/user/layout">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-timeline.css}" />
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-8" layout:fragment="main-content">
+        <div id="timeline" class="timeline-container"
+            th:attr="data-href=@{/user/__${userBean.id}__/timeline}">
+            <div class="timeline-list-content hidden">
+                <ul class="cbp_tmtimeline"></ul>
+                <ul class="pager">
+                    <li class="previous">
                         <a href="#">
                             <span class="glyphicon glyphicon-chevron-left"></span>
                             <span th:text="#{button.previousPage}"></span>
                         </a>
-                      </li>
-                      <li class="next">
+                    </li>
+                    <li class="next">
                         <a href="#">
                             <span th:text="#{button.nextPage}"></span>
                             <span class="glyphicon glyphicon-chevron-right"></span>
                         </a>
-                      </li>
-                    </ul>
-                </div>
-                <div class="timeline-empty alert alert-warning hidden" 
-                     th:text="#{home.user.timeline.empty}">
-                </div>
-              </div>
+                  </li>
+                </ul>
+            </div>
+            <div class="timeline-empty alert alert-warning hidden" 
+                 th:text="#{home.user.timeline.empty}">
             </div>
         </div>
     </div>
+</div>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
@@ -72,43 +41,33 @@
 <script id="template-timeline-item" type="text/x-tmpl" th:inline="text">
         <li class="">
             {% if (o.action == 'publish_comic') { %}
-            <a href="/comic/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="/files/c{%=o.articleBean.id%}/cover_60.jpg" class="img-rounded img-thumbnail img-60"/>
+            <a href="/comic/{%=o.articleBean.id%}" class="cbp_tmicon">
+                <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_120.jpg" class="img-rounded img-60"/>
             </a>
             {% } else if (o.action == 'publish_music') { %}
-            <a href="/music/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="/files/m{%=o.articleBean.id%}/cover_60.jpg" class="img-rounded img-thumbnail img-60"/>
+            <a href="/music/{%=o.articleBean.id%}" class="cbp_tmicon">
+                <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_120.jpg" class="img-rounded img-60"/>
             </a>
             {% } else { %}
-            <a href="/user/{%=o.userBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="/files/u{%=o.userBean.id%}/cover_60.jpg" class="img-rounded img-thumbnail img-60"/>
+            <a href="/user/{%=o.userBean.id%}" class="cbp_tmicon">
+                <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="img-rounded img-60"/>
             </a>
             {% } %}
             <div class="cbp_tmlabel">
                 <h5 class="text-single-line">
-                    <a href="/user/{%=o.userBean.id%}" target="_blank">
-                        <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
-                    </a>
+                    <a href="/user/{%=o.userBean.id%}"><strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong></a>
                     {% if (o.action == 'publish_comic') { %}
                     <span th:text="#{home.user.timeline.publish}"></span>
-                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/comic/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
                     {% } else if (o.action == 'publish_music') { %}
                     <span th:text="#{home.user.timeline.publish}"></span>
-                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/music/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
                     {% } else if (o.action == 'comment_comic') { %}
                     <span th:text="#{home.user.timeline.comment}"></span>
-                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/comic/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
                     {% } else if (o.action == 'comment_music') { %}
                     <span th:text="#{home.user.timeline.comment}"></span>
-                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/music/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
                     {% } %}
                 </h5>
                 <pre>{%=o.content%}</pre>
@@ -123,10 +82,9 @@ $(function() {
         likeText: /*[[#{home.user.follow}]]*/ '',
         unlikeText: /*[[#{home.user.unfollow}]]*/ ''
     });
-
     new timeline({});
 });
 </script>
 </th:block>
-  </body>
+</body>
 </html>

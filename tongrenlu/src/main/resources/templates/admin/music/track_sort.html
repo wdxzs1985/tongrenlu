@@ -48,8 +48,7 @@
                         th:attr="data-id=${track.id},data-name=${track.name}"
                         th:each="track : ${trackList}">
                         <div class="thumbnail">
-                            <img class="media-object visible-xs" th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" />
-                            <img class="media-object hidden-xs" th:src="@{/files/m__${articleBean.id}__/cover_180.jpg}" />
+                            <img class="media-object" th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" />
                             <div class="caption">
                                 <span class="text-center text-single-line" th:text="${track.name}"></span>
                                 <input type="hidden" name="trackId[]" th:value="${track.id}" />

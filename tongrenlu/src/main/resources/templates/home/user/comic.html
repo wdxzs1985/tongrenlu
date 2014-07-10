@@ -1,84 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout">
+  layout:decorator="home/user/layout">
 <head>
 <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
-  <body>
-    <div class="container" layout:fragment="content">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="thumbnail">
-                  <a th:href="@{/user/__${userBean.id}__}" class="">
-                    <img src="http://placehold.it/400x400" class="img-400" 
-                         th:src="@{/files/u__${userBean.id}__/cover_400.jpg}" th:alt-title="${userBean}"/>
-                  </a>
-                  <div class="caption">
-                    <h5 th:text="${userBean}" class="text-center text-single-line"></h5>
-                    <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
-                    <div class="text-center">
-                        <button id="follow-user" class="btn btn-danger hidden"
-                          th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
-                            <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                            <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-                        </button>
+<body>
+<div>
+    <div class="container-wrap" >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8" layout:fragment="main-content">
+                    <div class="page-header">
+                        <h3 th:text="#{home.user.comicCount}"></h3>
                     </div>
-                  </div>
-                </div>
-                <div class="list-group">
-                  <a th:href="@{/user/__${userBean.id}__/music}" class="list-group-item">
-                    <span th:text="#{home.user.musicCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.musicCount}"></span>
-                  </a>
-                  <a th:href="@{/user/__${userBean.id}__/comic}" class="list-group-item">
-                    <span th:text="#{home.user.comicCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.comicCount}"></span>
-                  </a>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="page-header">
-                    <h3 th:text="#{home.user.comicCount}"></h3>
-                </div>
-                <th:block th:unless="${#lists.isEmpty(page.items)}">
-                    <ul class="media-list">
-                      <li class="media" th:each="articleBean : ${page.items}">
-                        <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                          <img class="media-object img-120 img-rounded img-thumbnail hidden-xs" src="http://placehold.it/120x120" 
-                               th:src="@{/files/c__${articleBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}"
-                               th:alt-title="${articleBean.title}" />
-                          <img class="media-object img-60 img-rounded img-thumbnail visible-xs" src="http://placehold.it/60x60" 
-                               th:src="@{/files/c__${articleBean.id}__/cover_60.jpg(nocache=${#dates.createNow()})}"
-                               th:alt-title="${articleBean.title}" />
-                        </a>
-                        <div class="media-body">
-                          <div class="article-list-item">
-                              <h5 class="media-heading text-single-line">
-                                <span class="label label-danger" th:if="${articleBean.red}" th:text="#{ComicBean.redFlg.true}"></span>
-                                <span class="label label-success" th:unless="${articleBean.red}" th:text="#{ComicBean.redFlg.false}"></span>
-                                <span class="label label-info" th:if="${articleBean.translate}" th:text="#{ComicBean.translateFlg.true}"></span>
-                                <span class="label label-warning" th:unless="${articleBean.translate}" th:text="#{ComicBean.translateFlg.false}"></span>
-                                <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                    <strong th:text="${articleBean.title}" ></strong>
-                                </a>
-                              </h5>
-                              <p th:text="${articleBean.description}"></p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                    <hr />
-                            <div id="jpaginate" class="hidden-xs"></div>
-                            <div id="select-paginate" class="form-group visible-xs"></div>
-                </th:block>
-                <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                    <h4 th:text="#{home.article.noData}"></h4>
-                    <a th:href="@{/user/__${userBean.id}__}" th:text="#{button.back}" class="btn btn-default"></a>
+                    <div th:include="home/layout_comic_index::list-content"></div>
+                    <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                        <h4 th:text="#{home.article.noData}"></h4>
+                        <a th:href="@{/user/__${userBean.id}__}" th:text="#{button.back}" class="btn btn-default"></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
@@ -103,5 +48,5 @@ $(function() {
 });
 </script>
 </th:block>
-  </body>
+</body>
 </html>

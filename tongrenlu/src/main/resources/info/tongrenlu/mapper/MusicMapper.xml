@@ -109,19 +109,10 @@
             v_music.accessCount             as accessCount,
             v_music.likeCount               as likeCount,
             v_music.commentCount            as commentCount,
-            IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) AS pt
+            IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) AS pt
         </trim>
         FROM
             v_music
-                LEFT JOIN
-            (SELECT 
-                article_id, COUNT(id) AS pt
-            FROM
-                tongrenlu.m_access
-            WHERE
-                upd_date > CURRENT_DATE - 7
-                    AND del_flg = '0'
-            GROUP BY article_id) v_access_cnt ON v_music.id = v_access_cnt.article_id
                 LEFT JOIN
             (SELECT 
                 article_id, COUNT(id) * 10 AS pt
@@ -144,7 +135,7 @@
         <where>
         and v_music.publishFlg = '1'
         </where>
-        ORDER BY IFNULL(v_access_cnt.pt, 0) + IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_music.id DESC
+        ORDER BY IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_music.id DESC
         limit 0, #{pageSize}
     </select>
 </mapper>

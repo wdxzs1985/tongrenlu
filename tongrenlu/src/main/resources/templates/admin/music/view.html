@@ -12,8 +12,8 @@
         <div class="container">
             <div class="media">
                 <div class="media-heading pull-left">
-                    <img src="http://placehold.it/60x60" class="img-responsive img-60 img-rounded" 
-                        th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
+                    <img class="img-60 img-rounded" th:alt-title="${articleBean.title}"
+                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" />
                 </div>
                 <div class="media-body">
                     <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
@@ -30,30 +30,7 @@
             </div>
         </div>
         <div class="container-fluid" >
-            <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
-                <div class="slides"></div>
-                <h3 class="title"></h3>
-                <a class="prev">&lsaquo;</a>
-                <a class="next">&rsaquo;</a>
-                <a class="play-pause"></a>
-                <ol class="indicator"></ol>
-            </div>
-            <div id="blueimp-gallery" class="blueimp-gallery">
-                <div class="slides"></div>
-                <h3 class="title"></h3>
-                <a class="prev">&lsaquo;</a>
-                <a class="next">&rsaquo;</a>
-                <h3 class="title"></h3>
-                <a class="close">&times;</a>
-                <a class="play-pause"></a>
-                <ol class="indicator"></ol>
-            </div>
-            <div class="text-center append-bottom-lg">
-                <button id="blueimp-gallery-fullscreen" class="btn btn-primary" >
-                    <span class="glyphicon glyphicon-fullscreen"></span>
-                    <span th:text="#{home.article.fullscreen}"></span>
-                </button>
-            </div>
+            <div th:replace="home/layout_article_view::article-gallery"></div>
         </div>
         <div class="container">
             <div class="row">
@@ -64,54 +41,7 @@
                             th:text="#{console.music.track.upload}">upload</a>
                         <h4 th:text="#{home.music.track}">player</h4>
                     </div>
-                    <div id="player" class="">
-                        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-                        <div id="jp_container_1" class="jp-audio">
-                            <div class="jp-type-playlist">
-                                <div class="jp-gui">
-                                <div class="jp-interface">
-                                    <div class="jp-progress">
-                                        <div class="jp-current-time"></div>
-                                        <div class="jp-duration"></div>
-                                        <div class="jp-seek-bar">
-                                            <div class="jp-play-bar"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="jp-toggles">
-                                        <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                                    </ul>
-                                    <ul class="jp-controls">
-                                        <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a></li>
-                                    </ul>
-                                    <ul class="jp-volumn hidden-xs">
-                                        <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
-                                    </ul>
-                                    <div class="jp-volume-bar hidden-xs">
-                                            <div class="jp-volume-bar-value"></div>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="jp-playlist">
-                                    <ul>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <div class="jp-no-solution">
-                                    <span>Update Required</span>
-                                    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="player" th:include="home/layout_article_view::article-player"></div>
                 </div>
                 <div class="col-sm-6">
                     <div class="page-header">
@@ -120,24 +50,7 @@
                           th:text="#{button.edit}">edit</a>
                         <h4 th:text="${articleBean.title}"></h4>
                     </div>
-                    <ul class="list-inline">
-                        <li>
-                          <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-                          <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                              th:alt-title="${articleBean.userBean}"
-                              th:attr="data-content=${articleBean.userBean.signature}"
-                                  class="popover-dismiss"
-                                  data-toggle="popover" 
-                                  data-placement="top" 
-                                  data-trigger="hover" >
-                              <strong th:text="${articleBean.userBean}"></strong>
-                          </a>
-                        </li>
-                    </ul>
-                    <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
-                    <ul class="list-inline tag-container">
-                        <li><strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong></li>
-                    </ul>
+                    <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
                 </div>
             </div>
             <hr />
@@ -148,7 +61,7 @@
         </div>
     </div>
 </div>
-<th:block layout:fragment="scripts-libs">
+<th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
@@ -157,32 +70,15 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
-<script id="template-playlist-item" type="text/x-tmpl" th:inline="text">
-<li><div>
-    <a href="javascript:;" class="{%=o.itemClass%}">
-      <h5>
-        {%=o.file.title%}
-        {% if (o.file.artist) { %}<span class="label label-info"> by {%=o.file.artist%}</span>{% } %}
-        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
-      </h5>
-    </a>
-    {% if (o.file.original) { %}<pre>{%=o.file.original%}</pre>{% } %}
-</div></li>
-</script>
-<script id="template-tag-item" type="text/x-tmpl" th:inline="text">
-<li>
-    <a href="{%=o.tagPath%}/{%=o.tag%}" class="btn btn-xs btn-default">
-        {%=o.tag%} ({%=o.articleCount%})
-    </a>
-</li>
-</script>
-</th:block>
-<th:block layout:fragment="scripts">
+
+<div th:replace="x-tmpl/article-view::template-playlist-item"></div>
+<div th:replace="x-tmpl/article-view::template-tag-item"></div>
+
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     var trackDataUrl = /*[[@{/music/__${articleBean.id}__/track}]]*/ '';
     var bookletDataUrl = /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '';
-    var filePath = /*[[@{/files/m__${articleBean.id}__}]]*/'';
+    var filePath = /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'';
     var swfPath = /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js';
 
     new player({

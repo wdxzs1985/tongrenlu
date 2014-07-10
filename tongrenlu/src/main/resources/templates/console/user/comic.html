@@ -19,14 +19,14 @@
                              <a class="visible-sm visible-xs pull-left" target="_blank" 
                                 th:href="@{/comic/__${articleBean.id}__}"
                                 th:alt-title="${articleBean.title}">
-                                 <img th:src="@{/files/c__${articleBean.id}__/cover_60.jpg}" 
+                                 <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" 
                                       th:alt-title="${articleBean.title}"
                                       class="media-object img-60 img-rounded"/>
                              </a>
                              <a class="hidden-sm hidden-xs" target="_blank" 
                                 th:href="@{/comic/__${articleBean.id}__}" 
                                 th:alt-title="${articleBean.title}">
-                                 <img th:src="@{/files/c__${articleBean.id}__/cover_180.jpg}" 
+                                 <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" 
                                       th:alt-title="${articleBean.title}"
                                       class="img-180 img-rounded"/>
                              </a>

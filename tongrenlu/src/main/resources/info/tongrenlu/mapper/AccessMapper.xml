@@ -17,4 +17,13 @@
         </trim>
         )
     </insert>
+    
+    <update id="updateArticle">
+        UPDATE
+            m_article
+        SET
+            access_cnt = access_cnt + 1
+        WHERE
+            id = #{articleBean.id}
+    </update>
 </mapper>

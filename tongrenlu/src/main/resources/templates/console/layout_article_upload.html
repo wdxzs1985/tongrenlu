@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-layout:decorator="console/layout">
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
 <head>
   <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload.css" />
   <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload-ui.css" />
@@ -11,10 +11,9 @@ layout:decorator="console/layout">
 <div layout:fragment="content">
     <div class="container-wrap" >
         <div class="container">
-            <div class="page-header">
+            <div class="page-header" layout:fragment="page-header">
                 <h3 >
-                  <span th:text="${articleBean.title}"></span>
-                  <small th:text="#{console.comic.picture.upload}"></small>
+                    <span th:text="${articleBean.title}"></span>
                 </h3>
             </div>
             <div class="col-sm-6 col-sm-offset-3" th:unless="${#strings.isEmpty(error)}">
@@ -34,7 +33,7 @@ layout:decorator="console/layout">
                         <span class="btn btn-success fileinput-button">
                             <i class="glyphicon glyphicon-plus"></i>
                             <span th:text="#{console.article.upload.addFile}">Add files...</span>
-                            <input type="file" name="files[]" th:multiple="true" accept="image/jpeg, image/png"/>
+                            <input type="file" name="files[]" th:multiple="true" accept="audio/mp3"/>
                         </span>
                         <button type="submit" class="btn btn-primary start">
                             <i class="glyphicon glyphicon-upload"></i>
@@ -66,34 +65,34 @@ layout:decorator="console/layout">
                 <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
             </form>
             <hr />
-            <div class="row">
+            <div class="row" layout:fragment="page-footer">
                 <div class="col-xs-6 text-left">
-                    <a th:href="@{/console/comic/__${articleBean.id}__}" class="btn btn-default">
+                    <a class="btn btn-default">
                         <span class="glyphicon glyphicon-chevron-left"></span>
                         <span th:text="#{button.back}"></span>
                     </a>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <a th:href="@{/console/comic/__${articleBean.id}__/picture/sort}" class="btn btn-success">
+                    <a class="btn btn-success">
                         <span th:text="#{console.article.sort}"></span>
                         <span class="glyphicon glyphicon-chevron-right"></span>
                     </a>
                 </div>
             </div>
-            <!-- The blueimp Gallery widget -->
-            <div id="blueimp-gallery" class="blueimp-gallery">
-                <div class="slides"></div>
-                <h3 class="title"></h3>
-                <a class="prev">&lsaquo;</a>
-                <a class="next">&rsaquo;</a>
-                <a class="close">&times;</a>
-                <a class="play-pause"></a>
-                <ol class="indicator"></ol>
-            </div>
         </div>
     </div>
+    <!-- The blueimp Gallery widget -->
+    <div id="blueimp-gallery" class="blueimp-gallery" >
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">&lsaquo;</a>
+        <a class="next">&rsaquo;</a>
+        <a class="close">&times;</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
 </div>
-<th:block layout:fragment="scripts">
+<th:block layout:fragment="scripts-libs">
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/vendor/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Load-Image-1.11.1/js/load-image.min.js"></script>
@@ -108,94 +107,6 @@ layout:decorator="console/layout">
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-validate.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-ui.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-fileupload.js}"></script>
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl" th:inline="text">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td>
-            <span class="preview"></span>
-        </td>
-        <td>
-            <p class="name">{%=file.name%}</p>
-            <strong class="error text-danger"></strong>
-        </td>
-        <td>
-            <p class="size" th:text="#{console.article.upload.processing}">Processing...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-            </div>
-        </td>
-        <td>
-            {% if (!i) { %}
-            {% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary start" th:disabled="true">
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span th:text="#{console.article.upload.start}">Start</span>
-                </button>
-            {% } %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span th:text="#{console.article.upload.cancel}">Cancel</span>
-                </button>
-            {% } %}
-        </td>
-    </tr>
-{% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl" th:inline="text">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        <td>
-            {% if (!file.error) { %}
-            <span class="preview">
-                <a href="http://files.tongrenlu.info/c{%=file.articleId%}/f{%=file.id%}_1080.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
-                    <img src="http://files.tongrenlu.info/c{%=file.articleId%}/f{%=file.id%}_60.jpg" />
-                </a>
-                
-            </span>
-            {% } %}
-        </td>
-        <td>
-            <p class="name">
-                <span>{%=file.name%}</span>
-            </p>
-            {% if (file.error) { %}
-                <div><span class="label label-danger" th:text="#{console.article.upload.error}">Error</span> {%=file.error%}</div>
-            {% } %}
-        </td>
-        <td>
-            <span class="size"></span>
-        </td>
-        <td>
-            {% if (!file.error) { %}
-                <button class="btn btn-danger delete" data-type="POST" data-url="/console/comic/{%=file.articleId%}/{%=file.id%}/delete">
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span th:text="#{console.article.upload.delete}">Delete</span>
-                </button>
-                <input type="checkbox" name="delete" value="1" class="toggle hidden" th:checked="true" />
-            {% } else { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span th:text="#{console.article.upload.cancel}">Cancel</span>
-                </button>
-            {% } %}
-        </td>
-    </tr>
-{% } %}
-</script>
-<script type="text/javascript" th:inline="javascript">
-$(function () {
-    'use strict';
-
-    var url = /*[[@{/console/comic/__${articleBean.id}__/picture/file}]]*/ '';
-
-    new fileupload({
-        url: url
-    });
-
-});
-</script>
 </th:block>
-  </body>
+</body>
 </html>

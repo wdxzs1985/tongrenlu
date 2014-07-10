@@ -6,4 +6,5 @@ public interface AccessMapper {
 
     void insert(AccessBean accessBean);
 
+    void updateArticle(AccessBean accessBean);
 }

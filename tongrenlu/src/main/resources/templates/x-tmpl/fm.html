@@ -5,7 +5,7 @@
 <script id="template-music-item" type="text/x-tmpl" th:fragment="template-music-item">
 <a class="media" href="#music/{%=o.id%}" title="{%=o.title%}">
         <img class="pull-left media-object img-60 img-rounded img-thumbnail"
-           src="/files/m{%=o.id%}/cover_60.jpg"
+           src="http://files.tongrenlu.info/m{%=o.id%}/cover_120.jpg"
            alt="{%=o.title%}" />
     <div class="media-body">
         <h5 class="media-heading">{%=o.title%}</h5>
@@ -23,7 +23,7 @@
     <div class="page-header">
         <div class="media">
             <img class="img-rounded img-60 media-object pull-left"
-                 src="/files/m{%=o.music.id%}/cover_60.jpg" />
+                 src="http://files.tongrenlu.info/m{%=o.music.id%}/cover_120.jpg" />
             <div class="media-body">
                 <h5 class="">{%=o.music.title%}</h5>
             </div>
@@ -57,7 +57,7 @@
     <a class="pull-left fm-play-track" href="javascript:;"
        title="{%=o.title%}">
       <img class="media-object img-60 img-rounded"
-           src="/files/m{%=o.articleId%}/cover_60.jpg"
+           src="http://files.tongrenlu.info/m{%=o.articleId%}/cover_120.jpg"
            alt="{%=o.track%}" />
     </a>
     <div class="media-body">

@@ -30,8 +30,7 @@
                          th:each="file : ${fileList}"
                          th:attr="data-id=${file.id},data-name=${file.name}">
                         <div class="thumbnail">
-                            <img class="visible-xs" th:src="@{/files/m__${articleBean.id}__/f__${file.id}___60.jpg}" />
-                            <img class="hidden-xs" th:src="@{/files/m__${articleBean.id}__/f__${file.id}___180.jpg}" />
+                            <img class="" th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/f__${file.id}___180.jpg}" />
                             <div class="caption">
                                 <span class="text-center text-single-line" th:text="${file.name}"></span>
                                 <input type="hidden" name="fileId[]" th:value="${file.id}" />

@@ -11,7 +11,7 @@
       <div class="media">
           <div class="media-heading pull-left">
               <img src="http://placehold.it/60x60" class="img-responsive img-rounded img-60" 
-                  th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}" th:alt-title="${articleBean.title}"/>
+                  th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"/>
           </div>
           <div class="pull-right btn-group">
               <button class="like-article btn btn-danger hidden">
@@ -32,6 +32,7 @@
         </div>
         <div class="col-sm-6">
             <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
+            <div th:include="home/layout_article_view::article-share"></div>
             <div id="comment" th:include="home/layout_article_view::article-comment"></div>
         </div>
       </div>
@@ -59,7 +60,7 @@ $(function() {
     
     new player({
     	url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
-    	filePath: /*[[@{/files/m__${articleBean.id}__}]]*/'',
+    	filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
     	swfPath: /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js',
     	filter: function(playList, playable) {
     		var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
@@ -75,7 +76,7 @@ $(function() {
     
     new carousel({
         url: /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '',
-        filePath: /*[[@{/files/m__${articleBean.id}__}]]*/'',
+        filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
         startSlideshow: false
     });
     
@@ -98,10 +99,9 @@ $(function() {
     	unlikeText: /*[[#{home.article.unlike}]]*/ ''
     });
 
-
     var title = /*[[${articleBean.title}]]*/ '';
-    var share_url = /*[['http://www.tongrenlu.info/music/' + ${articleBean.id}]]*/ 'http://www.tongrenlu.info/comic.jpg';
-    var image_url = /*[['http://www.tongrenlu.info/files/m' + ${articleBean.id} + '/cover_400.jpg']]*/ 'http://www.tongrenlu.info/';
+    var share_url = /*[[@{http://www.tongrenlu.info/music/__${articleBean.id}__}]]*/ '';
+    var image_url = /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}]]*/ '';
     WB2.anyWhere(function(W){
             W.widget.publish({
                 toolbar: 'face',
@@ -138,8 +138,6 @@ $(function() {
             });
         });
 });
-</script>
-<script type="text/javascript" th:inline="javascript">
 </script>
 </th:block>
   </body>

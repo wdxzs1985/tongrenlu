@@ -117,4 +117,15 @@ public class ArticleManager extends ManagerSupport implements
     public void update(final ArticleEntity bean) {
         throw new RuntimeException(new MethodNotSupportedException(""));
     }
+
+    public void updateAccessCnt(final Map<String, Object> map) {
+        final String sql = "update " + "m_article"
+                           + "        set access_cnt = ? "
+                           + "     where "
+                           + "             id = ?";
+        this.log.info("[sql] = " + sql);
+        this.log.info("[access_cnt] = " + map.get("cnt"));
+        this.log.info("[id] = " + map.get("articleId"));
+        this.getMysqlDao().update(sql, map.get("cnt"), map.get("articleId"));
+    }
 }

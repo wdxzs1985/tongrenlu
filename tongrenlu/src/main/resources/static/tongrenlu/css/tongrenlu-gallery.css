@@ -48,8 +48,8 @@ gallery
     opacity: 0;
     padding: 8px;
     
-    background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 100%);
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 100%);
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.5) 95%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.5) 95%);
     
     -webkit-transition: opacity 0.35s, height 0.35s;
     transition: opacity 0.35s, height 0.35s;

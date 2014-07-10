@@ -1,62 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout_music_index">
+  layout:decorator="home/layout">
 <head>
 <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
-  <body>
-    <div class="container" >
-        <div class="row">
-            <div class="col-sm-8" layout:fragment="list-content">
-                <ol class="breadcrumb">
-                  <li><a th:href="@{/tag/__${tagBean.tag}__}" th:text="${tagBean.tag}">Home</a></li>
-                  <li  class="active" th:text="#{home.tag.music(${tagBean.tag})}">Home</li>
-                </ol>
-                <th:block th:unless="${#lists.isEmpty(page.items)}">
-                    <ul class="media-list">
-                      <li class="media" th:each="articleBean : ${page.items}">
-                        <a class="pull-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                          <img class="media-object img-120 img-rounded img-thumbnail hidden-xs" src="http://placehold.it/120x120" 
-                               th:src="@{/files/m__${articleBean.id}__/cover_120.jpg}"
-                               th:alt-title="${articleBean.title}" />
-                          <img class="media-object img-60 img-rounded img-thumbnail visible-xs" src="http://placehold.it/60x60" 
-                               th:src="@{/files/m__${articleBean.id}__/cover_60.jpg}"
-                               th:alt-title="${articleBean.title}" />
-                        </a>
-                        <div class="media-body">
-                          <div class="article-list-item">
-                          <h5 class="media-heading text-single-line">
-                            <a th:href="@{/music/__${articleBean.id}__}" th:text="${articleBean.title}" th:alt-title="${articleBean.title}"></a>
-                          </h5>
-                          <div class="text-muted">
-                            <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-                            <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                                th:alt-title="${articleBean.userBean}" target="_blank">
-                                <strong th:text="${articleBean.userBean}"></strong>
-                            </a>
-                            <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                            <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
-                            <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
-                          </div>
-                          <p th:text="${articleBean.description}"></p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                    <hr />
-                    <div id="jpaginate" class="hidden-xs"></div>
-                    <div id="select-paginate" class="form-group visible-xs"></div>
-                </th:block>
-                <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                    <h4 th:text="#{home.article.noData}"></h4>
-                    <a th:href="@{/tag/__${tagBean.tag}__}" th:text="#{button.back}" class="btn btn-default"></a>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap" >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/tag/__${tagBean.tag}__}" th:text="${tagBean.tag}">Home</a></li>
+                        <li class="active" th:text="#{home.tag.music(${tagBean.tag})}">Home</li>
+                    </ol>
+                    <div th:include="home/layout_music_index::list-content"></div>
+                    <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                        <h4 th:text="#{home.article.noData}"></h4>
+                        <a th:href="@{/tag/__${tagBean.tag}__}" th:text="#{button.back}" class="btn btn-default"></a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
+                <div id="ranking" class="col-sm-4">
+                    <div th:include="home/layout_music_index::ranking"></div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
@@ -74,5 +45,5 @@ $(function() {
 });
 </script>
 </th:block>
-  </body>
+</body>
 </html>
