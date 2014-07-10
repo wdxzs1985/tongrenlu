@@ -15,6 +15,13 @@ body {;
     border-color: #fff;
 }
 
+.navbar-default .navbar-collapse, 
+.navbar-default .navbar-form,
+.navbar-inverse .navbar-collapse, 
+.navbar-inverse .navbar-form {
+    border-color: #fff;
+}
+
 .navbar-default .navbar-brand,
 .navbar-inverse .navbar-brand {
     color: #fff;
@@ -57,6 +64,20 @@ body {;
 .navbar-inverse .navbar-nav .open .dropdown-menu>li>a:focus {
     color: #555;
     background-color: #fff;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu,
+.navbar-inverse .navbar-nav .open .dropdown-menu {
+    background-color: #fff;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu .divider,
+.navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+    background-color: #e5e5e5;
+}
+
+.navbar-default .navbar-toggle,
+.navbar-inverse .navbar-toggle {
+    border-color: #fff;
 }
 
 .navbar-default .navbar-toggle .icon-bar,

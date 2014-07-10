@@ -81,42 +81,32 @@
         <li class="">
             {% if (o.action == 'publish_comic') { %}
             <a href="/comic/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_60.jpg" class=" img-60"/>
+                <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_120.jpg" class=" img-60"/>
             </a>
             {% } else if (o.action == 'publish_music') { %}
             <a href="/music/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_60.jpg" class=" img-60"/>
+                <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_120.jpg" class=" img-60"/>
             </a>
             {% } else { %}
             <a href="/user/{%=o.userBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_60.jpg" class=" img-60"/>
+                <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class=" img-60"/>
             </a>
             {% } %}
             <div class="cbp_tmlabel">
                 <h5 class="text-single-line">
-                    <a href="/user/{%=o.userBean.id%}" target="_blank">
-                        <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
-                    </a>
+                    <a href="/user/{%=o.userBean.id%}" target="_blank"><strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong></a>
                     {% if (o.action == 'publish_comic') { %}
                     <span th:text="#{home.user.timeline.publish}"></span>
-                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
                     {% } else if (o.action == 'publish_music') { %}
                     <span th:text="#{home.user.timeline.publish}"></span>
-                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
                     {% } else if (o.action == 'comment_comic') { %}
                     <span th:text="#{home.user.timeline.comment}"></span>
-                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
                     {% } else if (o.action == 'comment_music') { %}
                     <span th:text="#{home.user.timeline.comment}"></span>
-                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">
-                        {%=o.articleBean.title%}
-                    </a>
+                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
                     {% } %}
                 </h5>
                 <pre>{%=o.content%}</pre>
