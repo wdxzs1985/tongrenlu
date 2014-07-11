@@ -30,7 +30,7 @@ public class ArticleDocument implements Serializable {
     @Field
     private String description;
 
-    @Field("tags")
+    @Field
     private String[] tags;
 
     @Field
@@ -84,14 +84,6 @@ public class ArticleDocument implements Serializable {
         this.description = description;
     }
 
-    public String[] getTags() {
-        return this.tags;
-    }
-
-    public void setTags(final String[] tags) {
-        this.tags = tags;
-    }
-
     @Override
     public String toString() {
         return "ArticleBean" + " ["
@@ -120,6 +112,26 @@ public class ArticleDocument implements Serializable {
         this.track = track;
     }
 
+    public Boolean getInstrumental() {
+        return this.instrumental;
+    }
+
+    public void setInstrumental(final Boolean instrumental) {
+        this.instrumental = instrumental;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String[] getTags() {
+        return this.tags;
+    }
+
+    public void setTags(final String[] tags) {
+        this.tags = tags;
+    }
+
     public String[] getArtist() {
         return this.artist;
     }
@@ -134,17 +146,5 @@ public class ArticleDocument implements Serializable {
 
     public void setOriginal(final String[] original) {
         this.original = original;
-    }
-
-    public Boolean getInstrumental() {
-        return this.instrumental;
-    }
-
-    public void setInstrumental(final Boolean instrumental) {
-        this.instrumental = instrumental;
-    }
-
-    public String getId() {
-        return this.id;
     }
 }

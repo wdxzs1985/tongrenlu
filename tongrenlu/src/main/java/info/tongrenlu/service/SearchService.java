@@ -53,6 +53,6 @@ public class SearchService {
         for (final String text : StringUtils.split(query)) {
             queries.add(ClientUtils.escapeQueryChars(text));
         }
-        return this.trackRepository.findTrackByArticleIdDesc(queries, pageable);
+        return this.trackRepository.findTrackOrderById(queries, pageable);
     }
 }

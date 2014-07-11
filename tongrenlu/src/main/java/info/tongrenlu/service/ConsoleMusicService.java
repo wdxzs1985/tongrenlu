@@ -16,11 +16,14 @@ import info.tongrenlu.solr.TrackRepository;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -82,7 +85,8 @@ public class ConsoleMusicService {
             }
 
             if (CommonConstants.is(musicBean.getPublishFlg())) {
-                this.saveMusicDocument(musicBean, tags);
+                final List<TrackBean> trackList = this.getTrackList(musicBean);
+                this.saveMusicDocument(musicBean, trackList, tags);
             }
             return true;
         }
@@ -206,14 +210,13 @@ public class ConsoleMusicService {
     @Transactional
     public void updateTrackList(final List<TrackBean> trackList,
                                 final MusicBean musicBean) {
-        final boolean isPublish = CommonConstants.is(musicBean.getPublishFlg());
-
         for (final TrackBean trackBean : trackList) {
             this.articleManager.updateTrack(trackBean);
             this.articleManager.updateFile(trackBean.getFileBean());
 
-            if (isPublish) {
-                this.updateTrackDocument(trackBean);
+            if (CommonConstants.is(musicBean.getPublishFlg())) {
+                final String[] tags = this.getTags(musicBean);
+                this.saveMusicDocument(musicBean, trackList, tags);
             }
         }
     }
@@ -230,11 +233,11 @@ public class ConsoleMusicService {
         this.articleManager.publish(musicBean);
 
         final String[] tags = this.getTags(musicBean);
-        this.saveMusicDocument(musicBean, tags);
 
-        for (final TrackBean trackBean : this.getTrackList(musicBean)) {
-            this.saveTrackDocument(trackBean, musicBean, tags);
-        }
+        final List<TrackBean> trackList = this.getTrackList(musicBean);
+
+        this.saveMusicDocument(musicBean, trackList, tags);
+
     }
 
     private boolean validateForCreate(final MusicBean inputArticle,
@@ -292,26 +295,51 @@ public class ConsoleMusicService {
     }
 
     @Transactional
-    public void saveMusicDocument(final MusicBean musicBean, final String[] tags) {
+    public void saveMusicDocument(final MusicBean musicBean,
+                                  final List<TrackBean> trackList,
+                                  final String[] tags) {
         final Integer articleId = musicBean.getId();
-        final String id = "m" + articleId;
-        ArticleDocument document = this.articleRepository.findOne(id);
-        if (document == null) {
-            document = new MusicDocument();
-            document.setId(id);
-            document.setArticleId(articleId);
+        ArticleDocument articleDocument = this.articleRepository.findOne("m" + articleId);
+        if (articleDocument == null) {
+            articleDocument = new MusicDocument(articleId);
         }
-        document.setTitle(musicBean.getTitle());
-        document.setDescription(musicBean.getDescription());
-        document.setTags(tags);
+        articleDocument.setTitle(musicBean.getTitle());
+        articleDocument.setDescription(musicBean.getDescription());
 
-        this.articleRepository.save(document);
+        final Set<String> tagSet = new HashSet<String>();
 
-        for (final ArticleDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
-            trackDocument.setTitle(musicBean.getTitle());
-            trackDocument.setTags(tags);
-            this.articleRepository.save(trackDocument);
+        if (ArrayUtils.isNotEmpty(tags)) {
+            tagSet.addAll(Arrays.asList(tags));
         }
+
+        if (CollectionUtils.isNotEmpty(trackList)) {
+            for (final TrackBean track : trackList) {
+                final Integer fileId = track.getId();
+                ArticleDocument trackDocument = this.articleRepository.findOne("t" + fileId);
+                if (trackDocument == null) {
+                    trackDocument = new TrackDocument(fileId);
+                    trackDocument.setArticleId(articleId);
+                    trackDocument.setTitle(articleDocument.getTitle());
+                }
+
+                trackDocument.setTrack(track.getName());
+                trackDocument.setInstrumental(CommonConstants.is(track.getInstrumental()));
+                trackDocument.setArtist(StringUtils.split(track.getArtist(),
+                                                          ","));
+                trackDocument.setOriginal(StringUtils.split(track.getOriginal(),
+                                                            "\n"));
+
+                this.articleRepository.save(trackDocument);
+
+                tagSet.add(trackDocument.getTrack());
+                tagSet.addAll(Arrays.asList(trackDocument.getArtist()));
+                tagSet.addAll(Arrays.asList(trackDocument.getOriginal()));
+            }
+        }
+
+        articleDocument.setTags(tagSet.toArray(new String[] {}));
+
+        this.articleRepository.save(articleDocument);
     }
 
     @Transactional
@@ -325,43 +353,43 @@ public class ConsoleMusicService {
         }
     }
 
-    @Transactional
-    public void saveTrackDocument(final TrackBean trackBean,
-                                  final MusicBean musicBean,
-                                  final String[] tags) {
-        final String id = "t" + trackBean.getId();
-        ArticleDocument document = this.articleRepository.findOne(id);
-        if (document == null) {
-            document = new TrackDocument();
-            document.setId(id);
-            document.setFileId(trackBean.getId());
-            document.setArticleId(musicBean.getId());
-            document.setTitle(musicBean.getTitle());
-            document.setTags(tags);
-        }
+    // @Transactional
+    // public void saveTrackDocument(final TrackBean trackBean,
+    // final MusicBean musicBean,
+    // final String[] tags) {
+    // final String id = "t" + trackBean.getId();
+    // ArticleDocument document = this.articleRepository.findOne(id);
+    // if (document == null) {
+    // document = new TrackDocument();
+    // document.setId(id);
+    // document.setFileId(trackBean.getId());
+    // document.setArticleId(musicBean.getId());
+    // document.setTitle(musicBean.getTitle());
+    // document.setTags(tags);
+    // }
+    //
+    // document.setTrack(trackBean.getName());
+    // document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
+    // document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
+    // document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
+    //
+    // this.articleRepository.save(document);
+    // }
 
-        document.setTrack(trackBean.getName());
-        document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
-        document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
-        document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
-
-        this.articleRepository.save(document);
-    }
-
-    private void updateTrackDocument(final TrackBean trackBean) {
-        final String id = "t" + trackBean.getId();
-        final ArticleDocument document = this.articleRepository.findOne(id);
-        if (document == null) {
-            return;
-        }
-
-        document.setTrack(trackBean.getName());
-        document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
-        document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
-        document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
-
-        this.articleRepository.save(document);
-    }
+    // private void updateTrackDocument(final TrackBean trackBean) {
+    // final String id = "t" + trackBean.getId();
+    // final ArticleDocument document = this.articleRepository.findOne(id);
+    // if (document == null) {
+    // return;
+    // }
+    //
+    // document.setTrack(trackBean.getName());
+    // document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
+    // document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
+    // document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
+    //
+    // this.articleRepository.save(document);
+    // }
 
     @Transactional
     public void deleteTrackDocument(final TrackBean trackBean) {

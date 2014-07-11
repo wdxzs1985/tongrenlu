@@ -22,8 +22,10 @@ import info.tongrenlu.solr.ComicDocument;
 import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.solr.TrackDocument;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -94,9 +96,8 @@ public class SolrTransfer {
                         }
                         document.setTitle(article.getTitle());
                         document.setDescription(article.getDescription());
-                        document.setTags(this.findTagByArticleId(articleId));
 
-                        this.articleRepository.save(document);
+                        final Set<String> tagSet = this.findTagByArticleId(articleId);
 
                         final List<FileEntity> fileList = this.fileManager.findByArticleId(articleId);
                         if (CollectionUtils.isNotEmpty(fileList)) {
@@ -119,17 +120,25 @@ public class SolrTransfer {
                                             tdocument.setTitle(document.getTitle());
                                             tdocument.setTags(document.getTags());
                                         }
-                                        tdocument.setTrack(track.getName());
                                         tdocument.setInstrumental(false);
+
+                                        tdocument.setTrack(track.getName());
                                         tdocument.setArtist(StringUtils.split(track.getArtist(),
                                                                               ","));
                                         tdocument.setOriginal(StringUtils.split(track.getOriginal(),
                                                                                 "\n"));
                                         this.articleRepository.save(tdocument);
+
+                                        tagSet.add(tdocument.getTrack());
+                                        tagSet.addAll(Arrays.asList(tdocument.getArtist()));
+                                        tagSet.addAll(Arrays.asList(tdocument.getOriginal()));
                                     }
                                 }
                             }
                         }
+
+                        document.setTags(tagSet.toArray(new String[] {}));
+                        this.articleRepository.save(document);
                     }
                 }
             }
@@ -155,7 +164,8 @@ public class SolrTransfer {
                         }
                         document.setTitle(article.getTitle());
                         document.setDescription(article.getDescription());
-                        document.setTags(this.findTagByArticleId(articleId));
+                        document.setTags(this.findTagByArticleId(articleId)
+                                             .toArray(new String[] {}));
 
                         this.articleRepository.save(document);
                     }
@@ -164,17 +174,17 @@ public class SolrTransfer {
         }
     }
 
-    private String[] findTagByArticleId(final String articleId) {
-        final List<String> tagList = new ArrayList<>();
+    private Set<String> findTagByArticleId(final String articleId) {
+        final Set<String> tags = new HashSet<>();
         final List<ArticleTagEntity> articleTagEntities = this.articleTagManager.findByArticleId(articleId);
         for (final ArticleTagEntity articleTagEntity : articleTagEntities) {
             final String tagId = articleTagEntity.getTagId();
             final TagEntity tagEntity = this.tagManager.findByTagId(tagId);
             if (tagEntity != null) {
-                tagList.add(tagEntity.getTag());
+                tags.add(tagEntity.getTag());
             }
         }
-        return tagList.toArray(new String[] {});
+        return tags;
     }
 
     private ArticleEntity findArticle(final String objectId) {

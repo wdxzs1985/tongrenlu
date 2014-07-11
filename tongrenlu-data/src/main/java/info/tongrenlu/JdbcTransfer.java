@@ -27,13 +27,8 @@ import info.tongrenlu.jdbc.ObjectManager;
 import info.tongrenlu.jdbc.TagManager;
 import info.tongrenlu.jdbc.TrackManager;
 import info.tongrenlu.jdbc.UserManager;
-import info.tongrenlu.solr.ArticleDocument;
-import info.tongrenlu.solr.ArticleRepository;
-import info.tongrenlu.solr.MusicDocument;
-import info.tongrenlu.solr.TrackDocument;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -74,8 +69,6 @@ public class JdbcTransfer implements TransferService {
     private CollectManager collectManager = null;
     @Autowired
     private FollowManager followManager = null;
-    @Autowired
-    private ArticleRepository articleRepository = null;
     @Autowired
     private FileService fileService = null;
 
@@ -128,10 +121,6 @@ public class JdbcTransfer implements TransferService {
     @Override
     @Transactional
     public void begin() {
-        if (this.transferSolr) {
-            this.articleRepository.deleteAll();
-        }
-
         if (this.transferUser) {
             this.followManager.deleteAll();
             this.collectManager.deleteAll();
@@ -214,24 +203,9 @@ public class JdbcTransfer implements TransferService {
                         music.setId(articleEntity.getId());
                     }
 
-                    final String id = "m" + article.getId();
-                    ArticleDocument document = this.articleRepository.findOne(id);
-                    if (document == null) {
-                        document = new MusicDocument();
-                        document.setId(id);
-                        document.setArticleId(article.getId());
-                    }
-                    document.setTitle(article.getTitle());
-                    document.setDescription(article.getDescription());
-
-                    final List<String> tagList = new ArrayList<String>();
-                    this.transferTag(article, tagList);
-                    document.setTags(tagList.toArray(new String[] {}));
-                    this.articleRepository.save(document);
-
                     if (this.transferFile) {
                         this.transferCover(article, "m");
-                        this.transferFile(article, document, "m");
+                        this.transferFile(article, "m");
                     }
 
                     this.transferAccess(article);
@@ -271,24 +245,9 @@ public class JdbcTransfer implements TransferService {
                         comic.setId(articleEntity.getId());
                     }
 
-                    final String id = "c" + article.getId();
-                    ArticleDocument document = this.articleRepository.findOne(id);
-                    if (document == null) {
-                        document = new MusicDocument();
-                        document.setId(id);
-                        document.setArticleId(article.getId());
-                    }
-                    document.setTitle(article.getTitle());
-                    document.setDescription(article.getDescription());
-
-                    final List<String> tagList = new ArrayList<String>();
-                    this.transferTag(article, tagList);
-                    document.setTags(tagList.toArray(new String[] {}));
-                    this.articleRepository.save(document);
-
                     if (this.transferFile) {
                         this.transferCover(article, "c");
-                        this.transferFile(article, null, "c");
+                        this.transferFile(article, "c");
                     }
 
                     this.transferAccess(article);
@@ -328,9 +287,7 @@ public class JdbcTransfer implements TransferService {
         }
     }
 
-    private void transferFile(final ArticleEntity article,
-                              final ArticleDocument document,
-                              final String category) {
+    private void transferFile(final ArticleEntity article, final String category) {
         final String articleId = article.getArticleId();
         final List<FileEntity> fileList = this.fileManager.findByArticleId(articleId);
         if (CollectionUtils.isNotEmpty(fileList)) {
@@ -349,7 +306,7 @@ public class JdbcTransfer implements TransferService {
                 }
 
                 if ("audio".equals(file.getContentType())) {
-                    this.transferTrack(file, document);
+                    this.transferTrack(file);
                 }
 
                 this.transferFiles(article, file, category);
@@ -359,30 +316,12 @@ public class JdbcTransfer implements TransferService {
         }
     }
 
-    private void transferTrack(final FileEntity file,
-                               final ArticleDocument document) {
+    private void transferTrack(final FileEntity file) {
         final String fileId = file.getFileId();
         final TrackEntity track = this.trackManager.findByFileId(fileId);
         if (track != null) {
             track.setFile(file);
             this.trackManager.save(track);
-
-            final String id = "t" + file.getId();
-            ArticleDocument tdocument = this.articleRepository.findOne(id);
-            if (tdocument == null) {
-                tdocument = new TrackDocument();
-                tdocument.setId(id);
-                tdocument.setFileId(file.getId());
-                tdocument.setArticleId(document.getArticleId());
-                tdocument.setTitle(document.getTitle());
-                tdocument.setTags(document.getTags());
-            }
-            tdocument.setTrack(track.getName());
-            tdocument.setInstrumental(false);
-            tdocument.setArtist(StringUtils.split(track.getArtist(), ","));
-            tdocument.setOriginal(StringUtils.split(track.getOriginal(), "\n"));
-
-            this.articleRepository.save(tdocument);
         }
     }
 
@@ -457,8 +396,8 @@ public class JdbcTransfer implements TransferService {
         File input = new File(this.fileService.getInputPath(),
                               dtoBean.getObjectId() + "/avatar.jpg");
         if (!input.exists()) {
-            input = new File(this.fileService.getOutputPath(),
-                             "default" + "/" + FileService.COVER);
+            input = new File(this.fileService.getOutputPath(), "default" + "/"
+                    + FileService.COVER);
         }
 
         final String dirId = category + dtoBean.getId();
@@ -484,7 +423,7 @@ public class JdbcTransfer implements TransferService {
         final String dirId = category + article.getId();
         final String fileId = FileService.FILE + file.getId();
         final File output = new File(this.fileService.getOutputPath(),
-                                     dirId   + "/"
+                                     dirId + "/"
                                              + fileId
                                              + "."
                                              + file.getExtension());

@@ -20,4 +20,10 @@ public class TrackDocument extends ArticleDocument {
         this.setCategory(TRACK);
     }
 
+    public TrackDocument(final Integer fileId) {
+        this.setCategory(TRACK);
+        this.setId("t" + fileId);
+        this.setFileId(fileId);
+    }
+
 }

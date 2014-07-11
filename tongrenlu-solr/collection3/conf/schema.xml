@@ -8,19 +8,28 @@
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
 
    <field name="articleId" type="int" indexed="true" stored="true"/>
-   <field name="title" type="text_ja" indexed="true" stored="true"/>
-   <field name="description" type="text_ja" indexed="true" stored="true"/>
-   <field name="tags" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+   <field name="title" type="text_ja" indexed="false" stored="true"/>
+   <field name="description" type="text_ja" indexed="false" stored="true"/>
+   <field name="tags" type="text_ja" indexed="false" stored="true" multiValued="true"/>
 
    <field name="fileId" type="int" indexed="true" stored="true" />
-   <field name="track" type="text_ja" indexed="true" stored="true" />
-   <field name="trackNumber" type="int" indexed="false" stored="true" />
+   <field name="track" type="text_ja" indexed="false" stored="true"/>
+   <field name="trackNumber" type="int" indexed="true" stored="true" />
    <field name="instrumental" type="boolean" indexed="true" stored="true" />
 
-   <field name="artist" type="text_ja" indexed="true" stored="true" multiValued="true"/>
-   <field name="original" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+   <field name="artist" type="text_ja" indexed="false" stored="true" multiValued="true"/>
+   <field name="original" type="text_ja" indexed="false" stored="true" multiValued="true"/>
    
    <dynamicField name="*" type="ignored"/>
+   
+   <field name="xtag" type="text_ja" indexed="true" stored="true" multiValued="true"/>
+   
+   <copyField source="title" dest="xtag"/>
+   <copyField source="tags" dest="xtag"/>
+   <copyField source="track" dest="xtag"/>
+   <copyField source="artist" dest="xtag"/>
+   <copyField source="original" dest="xtag"/>
+   
  </fields>
 
  <solrQueryParser defaultOperator="OR"/>

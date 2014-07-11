@@ -218,17 +218,17 @@ public class ConsoleComicService {
     public void saveComicDocument(final ComicBean comicBean, final String[] tags) {
         final Integer articleId = comicBean.getId();
         final String id = "c" + articleId;
-        ArticleDocument document = this.articleRepository.findOne(id);
-        if (document == null) {
-            document = new ComicDocument();
-            document.setId(id);
-            document.setArticleId(articleId);
+        ArticleDocument articleDocument = this.articleRepository.findOne(id);
+        if (articleDocument == null) {
+            articleDocument = new ComicDocument();
+            articleDocument.setId(id);
+            articleDocument.setArticleId(articleId);
         }
-        document.setTitle(comicBean.getTitle());
-        document.setDescription(comicBean.getDescription());
-        document.setTags(tags);
+        articleDocument.setTitle(comicBean.getTitle());
+        articleDocument.setDescription(comicBean.getDescription());
+        articleDocument.setTags(tags);
 
-        this.articleRepository.save(document);
+        this.articleRepository.save(articleDocument);
     }
 
     @Transactional

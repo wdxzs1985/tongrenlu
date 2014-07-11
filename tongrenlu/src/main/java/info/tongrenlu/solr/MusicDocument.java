@@ -19,4 +19,10 @@ public class MusicDocument extends ArticleDocument {
     public MusicDocument() {
         this.setCategory(MUSIC);
     }
+
+    public MusicDocument(final Integer articleId) {
+        this.setCategory(MUSIC);
+        this.setId("m" + articleId);
+        this.setArticleId(articleId);
+    }
 }

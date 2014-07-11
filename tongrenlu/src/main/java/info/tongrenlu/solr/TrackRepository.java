@@ -7,14 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.repository.Query;
 import org.springframework.data.solr.repository.SolrCrudRepository;
 
-public interface TrackRepository extends
-        SolrCrudRepository<ArticleDocument, String> {
+public interface TrackRepository extends SolrCrudRepository<ArticleDocument, String> {
 
     @Query(filters = "category:track")
     List<TrackDocument> findByArticleId(Integer articleId);
 
-    @Query(value = "track:?0 OR artist:?0 OR original:?0 OR title:?0 OR track:*?0* OR artist:*?0* OR original:*?0* OR title:*?0*", filters = "category:track")
-    Page<TrackDocument> findTrackByArticleIdDesc(List<String> queries,
-                                                 Pageable pageable);
+    @Query(value = "xtag:?0 OR xtag:*?0*", filters = "category:track")
+    Page<TrackDocument> findTrackOrderById(List<String> queries,
+                                           Pageable pageable);
 
 }
