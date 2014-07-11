@@ -19,4 +19,10 @@ public class ComicDocument extends ArticleDocument {
     public ComicDocument() {
         this.setCategory(ComicDocument.COMIC);
     }
+
+    public ComicDocument(final Integer articleId) {
+        this.setCategory(ComicDocument.COMIC);
+        this.setId("c" + articleId);
+        this.setArticleId(articleId);
+    }
 }

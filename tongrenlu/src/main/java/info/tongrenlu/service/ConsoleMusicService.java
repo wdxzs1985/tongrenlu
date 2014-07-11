@@ -332,8 +332,13 @@ public class ConsoleMusicService {
                 this.articleRepository.save(trackDocument);
 
                 tagSet.add(trackDocument.getTrack());
-                tagSet.addAll(Arrays.asList(trackDocument.getArtist()));
-                tagSet.addAll(Arrays.asList(trackDocument.getOriginal()));
+
+                if (ArrayUtils.isNotEmpty(trackDocument.getArtist())) {
+                    tagSet.addAll(Arrays.asList(trackDocument.getArtist()));
+                }
+                if (ArrayUtils.isNotEmpty(trackDocument.getOriginal())) {
+                    tagSet.addAll(Arrays.asList(trackDocument.getOriginal()));
+                }
             }
         }
 

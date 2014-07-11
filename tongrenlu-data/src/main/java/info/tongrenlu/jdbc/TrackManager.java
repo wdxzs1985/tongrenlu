@@ -48,10 +48,14 @@ public class TrackManager extends ManagerSupport implements
     }
 
     private TrackEntity mapToBean(final Map<String, Object> map) {
-        return new TrackEntity((String) map.get("fileId"),
-                               (String) map.get("name"),
-                               (String) map.get("artist"),
-                               (String) map.get("original"));
+        final TrackEntity entity = new TrackEntity();
+        entity.setId((Integer) map.get("id"));
+        entity.setFileId((String) map.get("fileId"));
+        entity.setName((String) map.get("name"));
+        entity.setArtist((String) map.get("artist"));
+        entity.setOriginal((String) map.get("original"));
+        entity.setInstrumental((String) map.get("instrumental"));
+        return entity;
     }
 
     @Override
@@ -110,5 +114,29 @@ public class TrackManager extends ManagerSupport implements
     @Override
     public void update(final TrackEntity bean) {
         throw new RuntimeException(new MethodNotSupportedException(""));
+    }
+
+    public List<TrackEntity> findByArticleId(final Integer articleId) {
+        final List<TrackEntity> result = new ArrayList<TrackEntity>();
+        final String sql = "Select " + "m_track.id      as id"
+                           + "    ,   m_track.name                  as name"
+                           + "    ,   m_track.artist                 as artist"
+                           + "    ,   m_track.original                 as original"
+                           + "    ,   m_track.instrumental                 as instrumental"
+                           + "        from m_track"
+                           + " join m_file on  m_track.id = m_file.id"
+                           + "  where "
+                           + "      m_file.article_id = ?  "
+                           + "  and m_file.DEL_FLG = '0'"
+                           + "  and m_track.DEL_FLG = '0'";
+        this.log.info("[sql] = " + sql);
+        this.log.info("[id] = " + articleId);
+        final List<Map<String, Object>> resultList = this.getMysqlDao()
+                                                         .queryForList(sql,
+                                                                       articleId);
+        for (final Map<String, Object> map : resultList) {
+            result.add(this.mapToBean(map));
+        }
+        return result;
     }
 }

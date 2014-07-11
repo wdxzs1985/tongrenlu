@@ -21,10 +21,10 @@ public class Launcher implements CommandLineRunner {
     public void run(final String... arg0) throws Exception {
         // this.jdbcTransfer.doTransfer();
 
-        // this.solrTransfer.doTransfer();
+        this.solrTransfer.doTransfer();
 
         // this.dummyTransfer.doTransfer();
 
-        this.accessCounter.doSerivce();
+        // this.accessCounter.doSerivce();
     }
 }

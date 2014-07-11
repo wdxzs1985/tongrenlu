@@ -23,7 +23,7 @@ public class ArticleDocument {
     @Field
     private String description;
 
-    @Field("tags")
+    @Field
     private String[] tags;
 
     @Field
@@ -88,13 +88,13 @@ public class ArticleDocument {
     @Override
     public String toString() {
         return this.category + " ["
-                + "articleId="
-                + this.articleId
-                + ", title="
-                + this.title
-                + ", description="
-                + this.description
-                + "]";
+               + "articleId="
+               + this.articleId
+               + ", title="
+               + this.title
+               + ", description="
+               + this.description
+               + "]";
     }
 
     public Integer getFileId() {

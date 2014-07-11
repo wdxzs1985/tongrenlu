@@ -1,6 +1,6 @@
 package info.tongrenlu.entity;
 
-public class ComicEntity extends DtoBean {
+public class ComicEntity extends ArticleEntity {
 
     /**
      * 
@@ -9,7 +9,6 @@ public class ComicEntity extends DtoBean {
 
     public ComicEntity(final String objectId, final String redFlg,
             final String translateFlg) {
-        super(0, objectId);
         this.redFlg = redFlg;
         this.translateFlg = translateFlg;
     }
@@ -21,10 +20,12 @@ public class ComicEntity extends DtoBean {
 
     private String translateFlg;
 
+    @Override
     public String getArticleId() {
         return this.getObjectId();
     }
 
+    @Override
     public void setArticleId(final String articleId) {
         this.setObjectId(articleId);
     }

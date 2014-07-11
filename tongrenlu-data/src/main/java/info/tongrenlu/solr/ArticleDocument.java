@@ -1,18 +1,11 @@
 package info.tongrenlu.solr;
 
-import java.io.Serializable;
-
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 @SolrDocument(solrCoreName = "collection3")
-public class ArticleDocument implements Serializable {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+public class ArticleDocument {
 
     @Id
     @Field
@@ -84,16 +77,24 @@ public class ArticleDocument implements Serializable {
         this.description = description;
     }
 
+    public String[] getTags() {
+        return this.tags;
+    }
+
+    public void setTags(final String[] tags) {
+        this.tags = tags;
+    }
+
     @Override
     public String toString() {
-        return "ArticleBean" + " ["
-                + "articleId="
-                + this.articleId
-                + ", title="
-                + this.title
-                + ", description="
-                + this.description
-                + "]";
+        return this.category + " ["
+               + "articleId="
+               + this.articleId
+               + ", title="
+               + this.title
+               + ", description="
+               + this.description
+               + "]";
     }
 
     public Integer getFileId() {
@@ -102,26 +103,6 @@ public class ArticleDocument implements Serializable {
 
     public void setFileId(final Integer fileId) {
         this.fileId = fileId;
-    }
-
-    public Boolean getInstrumental() {
-        return this.instrumental;
-    }
-
-    public void setInstrumental(final Boolean instrumental) {
-        this.instrumental = instrumental;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public String[] getTags() {
-        return this.tags;
-    }
-
-    public void setTags(final String[] tags) {
-        this.tags = tags;
     }
 
     public String getTrack() {
@@ -148,4 +129,15 @@ public class ArticleDocument implements Serializable {
         this.original = original;
     }
 
+    public Boolean getInstrumental() {
+        return this.instrumental;
+    }
+
+    public void setInstrumental(final Boolean instrumental) {
+        this.instrumental = instrumental;
+    }
+
+    public String getId() {
+        return this.id;
+    }
 }

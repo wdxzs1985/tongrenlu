@@ -8,11 +8,16 @@ public class TrackDocument extends ArticleDocument {
     public static final String TRACK = "track";
 
     public static boolean isTrack(final ArticleDocument articleDocument) {
-        return TRACK.equals(articleDocument.getCategory());
+        return TrackDocument.TRACK.equals(articleDocument.getCategory());
     }
 
     public TrackDocument() {
-        this.setCategory(TRACK);
+        this.setCategory(TrackDocument.TRACK);
     }
 
+    public TrackDocument(final Integer fileId) {
+        this.setCategory(TrackDocument.TRACK);
+        this.setId("t" + fileId);
+        this.setArticleId(fileId);
+    }
 }

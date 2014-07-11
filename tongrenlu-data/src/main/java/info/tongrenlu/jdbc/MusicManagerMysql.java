@@ -10,17 +10,22 @@ import org.apache.http.MethodNotSupportedException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MusicManager extends ManagerSupport implements
+public class MusicManagerMysql extends ManagerSupport implements
         Manager<MusicEntity, Integer> {
 
     @Override
     public List<MusicEntity> findAll() {
         final List<MusicEntity> result = new ArrayList<MusicEntity>();
-        final String sql = "Select " + "ARTICLE_ID      as articleId"
-                           + "        from R_MUSIC "
-                           + "         where DEL_FLG = '0'"
-                           + "      order by articleId asc";
-        final List<Map<String, Object>> resultList = this.getOracleDao()
+        final String sql = "Select " + "m_article.id      as id "
+                           + "    ,   m_article.TITLE         as title"
+                           + "    ,   m_article.DESCRIPTION       as description"
+                           + "        from "
+                           + "      r_music join m_article on r_music.id = m_article.id"
+                           + "  where "
+                           + "  r_music.DEL_FLG = '0' "
+                           + "  and m_article.del_flg = '0' "
+                           + "      order by id asc ";
+        final List<Map<String, Object>> resultList = this.getMysqlDao()
                                                          .queryForList(sql);
         for (final Map<String, Object> map : resultList) {
             result.add(this.mapToBean(map));
@@ -29,9 +34,11 @@ public class MusicManager extends ManagerSupport implements
     }
 
     private MusicEntity mapToBean(final Map<String, Object> map) {
-        final MusicEntity bean = new MusicEntity();
-        bean.setId((Integer) map.get("id"));
-        return bean;
+        final MusicEntity entity = new MusicEntity();
+        entity.setId((Integer) map.get("id"));
+        entity.setTitle((String) map.get("title"));
+        entity.setDescription((String) map.get("description"));
+        return entity;
     }
 
     @Override
