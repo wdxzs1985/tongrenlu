@@ -11,7 +11,7 @@
 	            </div>
 	            <div class="panel panel-default" th:unless="${#lists.isEmpty(musicPage.items)}">
 	              <div class="panel-heading clearfix">
-	                <a th:href="@{/tag/__${tagBean.tag}__/music}" th:text="#{button.more} + ' >>'" class="pull-right"></a>
+	                <a th:href="@{/tag/__${tagBean.id}__/music}" th:text="#{button.more} + ' >>'" class="pull-right"></a>
 	                <h3 class="panel-title" th:text="#{home.tag.music(${tagBean.tag})}"></h3>
 	              </div>
 	              <div class="panel-body">
@@ -34,7 +34,7 @@
 	            </div>
 	            <div class="panel panel-default" th:unless="${#lists.isEmpty(comicPage.items)}">
 	              <div class="panel-heading">
-	                <a th:href="@{/tag/__${tagBean.tag}__/comic}" th:text="#{button.more} + ' >>'" class="pull-right"></a>
+	                <a th:href="@{/tag/__${tagBean.id}__/comic}" th:text="#{button.more} + ' >>'" class="pull-right"></a>
 	                <h3 class="panel-title" th:text="#{home.tag.comic(${tagBean.tag})}"></h3>
 	              </div>
 	              <div class="panel-body">

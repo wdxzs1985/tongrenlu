@@ -29,6 +29,12 @@ public class TagManager {
         return this.tagMapper.search(params);
     }
 
+    public TagBean getById(final Integer tagId) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", tagId);
+        return this.tagMapper.fetchBean(param);
+    }
+
     public TagBean getByTag(final String tag) {
         final Map<String, Object> param = new HashMap<>();
         param.put("tag", tag);

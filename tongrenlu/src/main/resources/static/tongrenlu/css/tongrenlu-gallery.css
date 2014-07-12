@@ -4,7 +4,6 @@
 gallery
 **************/
 .gallery {
-    width: 900px;
     margin: 0 auto 30px ;
 }
 
@@ -60,7 +59,6 @@ gallery
     height: 50%;
 }
 
-
 .gallery > div .gallery-title {
     font-size: 14px;
     margin: 0;
@@ -75,89 +73,99 @@ gallery
     color: #fff;
 }
 
+/**************
+< 480px 
+**************/
+@media (max-width: 480px) {
+	.gallery {
+	    width: 300px;
+	}
+	
+	.gallery > div{
+	    width: 100px;
+	    height: 100px;
+	}
+	
+	.gallery > div.large{
+	    width: 200px;
+	    height: 200px;
+	}
+}
+
+/**************
+< 979px 
+**************/
+@media (min-width: 480px) {
+    .gallery {
+        width: 480px;
+        margin: 0 auto;
+    }
+    
+    .gallery > div {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .gallery > div.large{
+        width: 240px;
+        height: 240px;
+    }
+    
+}
+
+/**************
+< 979px 
+**************/
+@media (min-width: 768px) {
+    .gallery {
+        width: 690px;
+        margin: 0 auto;
+    }
+    
+    .gallery > div {
+        width: 115px;
+        height: 115px;
+    }
+    
+    .gallery > div.large{
+        width: 230px;
+        height: 230px;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .gallery {
+        width: 900px;
+    }
+    
+    .gallery > div {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .gallery > div.large{
+        width: 200px;
+        height: 200px;
+    }
+}
 
 /**************
 > 1200PX 
 **************/
 @media (min-width: 1200px) {
-.gallery {
-    width: 1125px;
-}
-
-.gallery > div {
-    width: 125px;
-    height: 125px;
-}
-
-.gallery > div.large{
-    width: 250px;
-    height: 250px;
-}
-
-}
-/**************
-< 979px 
-**************/
-@media (max-width: 979px) {
-.gallery {
-    width: 690px;
-    margin: 0 auto;
-}
-
-.gallery > div {
-    width: 115px;
-    height: 115px;
-}
-
-.gallery > div.large{
-    width: 230px;
-    height: 230px;
-}
-
-}
-
-/**************
-< 767px 
-**************/
-@media (max-width: 767px) {
-
-.gallery {
-    width: 480px;
-    margin: 0 auto;
-}
-
-.gallery > .media{
-    width: 120px;
-    height: 120px;
-}
-
-.gallery > .media img{
-    width: 120px;
-    height: 120px;
-}
-
-
-.gallery > div .gallery-overlay {
-	display: none;
-
-}
-
-/**************
-< 480px 
-**************/
-@media (max-width: 480px) {
-.gallery {
-    width: 300px;
-}
-
-.gallery > div{
-    width: 100px;
-    height: 100px;
-}
-
-.gallery > div.large{
-    width: 200px;
-    height: 200px;
-}
+	.gallery {
+	    width: 1125px;
+	}
+	
+	.gallery > div {
+	    width: 125px;
+	    height: 125px;
+	}
+	
+	.gallery > div.large{
+	    width: 250px;
+	    height: 250px;
+	}
 
 }

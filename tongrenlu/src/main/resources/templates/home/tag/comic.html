@@ -12,13 +12,13 @@
             <div class="row">
                 <div class="col-sm-8">
                     <ol class="breadcrumb">
-                        <li><a th:href="@{/tag/__${tagBean.tag}__}" th:text="${tagBean.tag}">Home</a></li>
+                        <li><a th:href="@{/tag/__${tagBean.id}__}" th:text="${tagBean.tag}">Home</a></li>
                         <li class="active" th:text="#{home.tag.comic(${tagBean.tag})}">Home</li>
                     </ol>
                     <div th:include="home/layout_comic_index::list-content"></div>
                     <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                         <h4 th:text="#{home.article.noData}"></h4>
-                        <a th:href="@{/tag/__${tagBean.tag}__}" th:text="#{button.back}" class="btn btn-default"></a>
+                        <a th:href="@{/tag/__${tagBean.id}__}" th:text="#{button.back}" class="btn btn-default"></a>
                     </div>
                 </div>
                 <div id="ranking" class="col-sm-4">

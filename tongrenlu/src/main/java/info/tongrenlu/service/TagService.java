@@ -28,6 +28,10 @@ public class TagService {
         paginate.setItems(items);
     }
 
+    public TagBean getTagById(final Integer tagId) {
+        return this.tagManager.getById(tagId);
+    }
+
     public TagBean getTagByTag(final String tag) {
         return this.tagManager.getByTag(tag);
     }

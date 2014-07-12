@@ -2,6 +2,7 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.CommentBean;
+import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
@@ -9,6 +10,7 @@ import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.CommentManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LikeManager;
+import info.tongrenlu.manager.ObjectManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -35,6 +37,8 @@ public class HomeComicService {
     private LikeManager likeManager = null;
     @Autowired
     private CommentManager commentManager = null;
+    @Autowired
+    private ObjectManager objectManager = null;
 
     public List<FileBean> getPictureList(final Integer articleId) {
         return this.articleManager.getFiles(articleId, FileManager.IMAGE);
@@ -132,6 +136,10 @@ public class HomeComicService {
             isValid = false;
         }
         return isValid;
+    }
+
+    public DtoBean getByOldArticleId(final String articleId) {
+        return this.objectManager.findByObjectId(articleId);
     }
 
 }

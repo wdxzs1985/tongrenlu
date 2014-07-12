@@ -41,7 +41,12 @@
         FROM
             m_tag A
         <where>
-            A.TAG = #{tag}
+        <if test="id != null">
+            A.id = #{id}
+        </if>
+        <if test="tag != null">
+        AND A.TAG = #{tag}
+        </if>
         </where>
     </select>
     

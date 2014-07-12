@@ -4,6 +4,7 @@ import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.service.HomeComicService;
 import info.tongrenlu.service.HomeMusicService;
@@ -13,12 +14,14 @@ import info.tongrenlu.support.PaginateSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -35,6 +38,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Transactional
 public class HomeTagController {
 
+    @Autowired
+    private MessageSource messageSource = null;
     @Autowired
     private TagService tagService = null;
     @Autowired
@@ -72,15 +77,17 @@ public class HomeTagController {
         return Collections.emptyList();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tag}")
-    public String doGetTag(@PathVariable final String tag,
+    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tagId}")
+    public String doGetTag(@PathVariable final Integer tagId,
                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                           final Model model) {
-        final TagBean tagBean = this.tagService.getTagByTag(tag);
+                           final Model model,
+                           final Locale locale) {
+        final TagBean tagBean = this.tagService.getTagById(tagId);
 
         if (tagBean == null) {
-            model.addAttribute("tag", tag);
-            return "home/tag/error";
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         final PaginateSupport<MusicBean> musicPage = new PaginateSupport<>(1,
@@ -101,16 +108,18 @@ public class HomeTagController {
         return "home/tag/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tag}/music")
-    public String doGetTagMusic(@PathVariable final String tag,
+    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tagId}/music")
+    public String doGetTagMusic(@PathVariable final Integer tagId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                final Model model) {
-        final TagBean tagBean = this.tagService.getTagByTag(tag);
+                                final Model model,
+                                final Locale locale) {
+        final TagBean tagBean = this.tagService.getTagById(tagId);
 
         if (tagBean == null) {
-            model.addAttribute("tag", tag);
-            return "home/tag/error";
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
@@ -127,16 +136,18 @@ public class HomeTagController {
         return "home/tag/music";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tag}/comic")
-    public String doGetTagComic(@PathVariable final String tag,
+    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tagId}/comic")
+    public String doGetTagComic(@PathVariable final Integer tagId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                final Model model) {
-        final TagBean tagBean = this.tagService.getTagByTag(tag);
+                                final Model model,
+                                final Locale locale) {
+        final TagBean tagBean = this.tagService.getTagById(tagId);
 
         if (tagBean == null) {
-            model.addAttribute("tag", tag);
-            return "home/tag/error";
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);

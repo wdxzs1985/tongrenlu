@@ -217,6 +217,14 @@ h1.article-title {
 	margin-top: -70px;
 }
 
+#top-tags .btn-group {
+    width: 100%;
+}
+
+#top-tags .btn-group > a.btn {
+	width: 80%;
+}
+
 #ranking .page-header {
 	margin-top: 0;
 }

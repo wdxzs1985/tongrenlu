@@ -2,6 +2,7 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.CommentBean;
+import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -73,20 +75,41 @@ public class HomeMusicController {
         return "home/music/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model,
                             final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-
         this.throwExceptionWhenNotAllow(musicBean, locale);
-
         this.musicService.addAccess(musicBean, loginUser);
-
         model.addAttribute("articleBean", musicBean);
-
         return "home/music/view";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
+    public String doGetViewByArticleId(@PathVariable final String articleId,
+                                       @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                       final Model model,
+                                       final Locale locale) {
+        if (StringUtils.length(articleId) == 15) {
+            final DtoBean bean = this.musicService.getByOldArticleId(articleId);
+            if (bean == null) {
+                throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                              null,
+                                                                              locale));
+            }
+            return "redirect:/music/" + bean.getId();
+        } else {
+            try {
+                final Integer id = Integer.valueOf(articleId);
+                return this.doGetView(id, loginUser, model, locale);
+            } catch (final Exception e) {
+                throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                              null,
+                                                                              locale));
+            }
+
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track")

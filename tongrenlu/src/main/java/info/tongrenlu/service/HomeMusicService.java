@@ -1,6 +1,7 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ArticleBean;
+import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
@@ -10,6 +11,7 @@ import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.CommentManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LikeManager;
+import info.tongrenlu.manager.ObjectManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -35,6 +37,8 @@ public class HomeMusicService {
     private LikeManager likeManager = null;
     @Autowired
     private CommentManager commentManager = null;
+    @Autowired
+    private ObjectManager objectManager = null;
 
     public List<TrackBean> getTrackList(final Integer articleId) {
         return this.articleManager.getTrackList(articleId);
@@ -122,6 +126,10 @@ public class HomeMusicService {
             result = LikeManager.RESULT_NEED_SIGN;
         }
         return result;
+    }
+
+    public DtoBean getByOldArticleId(final String articleId) {
+        return this.objectManager.findByObjectId(articleId);
     }
 
 }
