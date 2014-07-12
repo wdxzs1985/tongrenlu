@@ -22,6 +22,12 @@
                         <span th:text="#{console.article.sort.byTime}" class="hidden-xs"></span>
                     </button>
                 </div>
+                <div class="btn-group ">
+                    <button class="btn btn-primary" id="preview-gallery">
+                        <span class="glyphicon glyphicon-play-circle"></span>
+                        <span th:text="#{console.article.preview}" class="hidden-xs"></span>
+                    </button>
+                </div>
             </div>
             <hr />
             <form th:action="@{/admin/music/__${articleBean.id}__/booklet/sort}" method="POST">
@@ -30,7 +36,9 @@
                          th:each="file : ${fileList}"
                          th:attr="data-id=${file.id},data-name=${file.name}">
                         <div class="thumbnail">
-                            <img class="" th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/f__${file.id}___180.jpg}" />
+                            <a th:href="@{http://files.tongrenlu.info/c__${articleBean.id}__/f__${file.id}___1080.jpg}">
+                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/f__${file.id}___180.jpg}" />
+                            </a>
                             <div class="caption">
                                 <span class="text-center text-single-line" th:text="${file.name}"></span>
                                 <input type="hidden" name="fileId[]" th:value="${file.id}" />

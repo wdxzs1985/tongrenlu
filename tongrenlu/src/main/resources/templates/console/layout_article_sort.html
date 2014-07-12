@@ -2,12 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
+<head>
+  <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" type="text/css"/>
+</head>
 <body>
 <th:block layout:fragment="scripts-libs">
-<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.core.min.js}"></script>
-<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.widget.min.js}"></script>
-<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.mouse.min.js}"></script>
-<script th:src="@{/jquery-ui-1.10.4/js/jquery.ui.sortable.min.js}"></script>
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">&lsaquo;</a>
+    <a class="next">&rsaquo;</a>
+    <h3 class="title"></h3>
+    <a class="close">&times;</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.core.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.sortable.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function(){
     var $sortableList = $( '#sortable-list' ).sortable();
@@ -100,6 +114,39 @@ $(function(){
         });
         $tempFileList.children('.sortable-object').appendTo($sortableList);
     });
+}) ;
+</script>
+<script type="text/javascript" th:inline="javascript">
+$(function(){
+    $( '#preview-gallery' ).on('click', function(e){
+        e.preventDefault();
+        var fullscreenGallery = blueimp.Gallery(
+        document.getElementById('sortable-list').getElementsByTagName('a')
+        , {
+            container: '#blueimp-gallery',
+            startSlideshow: false,
+            carousel:false
+        });
+    });
+	$( '#sortable-list' ).on('click', 'a', function(e){
+		e.preventDefault();
+		
+		var $links = $('#sortable-list a');
+		var links = [];
+		$links.each(function(index, element) {
+			links.push($(element).prop('href'));
+		});
+		
+		var index = $links.index(this);
+		
+		var fullscreenGallery = blueimp.Gallery(
+			links, {
+            container: '#blueimp-gallery',
+            startSlideshow: false,
+            carousel:false,
+            index: index
+        });
+	});
 }) ;
 </script>
 </th:block>

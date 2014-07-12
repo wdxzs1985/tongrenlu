@@ -183,7 +183,7 @@
         and v_comic.publishFlg = '1'
         and v_comic.redFlg = '0'
         </where>
-        ORDER BY IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_comic.id DESC
+        ORDER BY IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_comic.publishDate DESC
         limit 0, #{pageSize}
     </select>
 </mapper>

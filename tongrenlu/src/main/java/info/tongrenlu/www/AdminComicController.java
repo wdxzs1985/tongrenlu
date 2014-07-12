@@ -161,7 +161,7 @@ public class AdminComicController {
         if (CollectionUtils.isNotEmpty(fileList)) {
             model.addAttribute("articleBean", comicBean);
             model.addAttribute("fileList", fileList);
-            return "console/comic/picture_sort";
+            return "admin/comic/picture_sort";
         } else {
             final String error = this.messageSource.getMessage("console.article.sort.noFile",
                                                                null,

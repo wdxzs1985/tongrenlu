@@ -262,7 +262,7 @@ public class AdminMusicController {
         if (CollectionUtils.isNotEmpty(fileList)) {
             model.addAttribute("articleBean", musicBean);
             model.addAttribute("fileList", fileList);
-            return "console/music/booklet_sort";
+            return "admin/music/booklet_sort";
         } else {
             final String error = this.messageSource.getMessage("console.article.sort.noFile",
                                                                null,
