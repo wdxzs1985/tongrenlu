@@ -1,1 +1,1 @@
-java -jar target/tongrenlu-0.0.1-SNAPSHOT.jar --server.port=9000 -DSTOP.PORT=8079 -DSTOP.KEY=mustard
+java -jar target/tongrenlu-1.0.1-RELEASE.jar --spring.config.name=application-prod

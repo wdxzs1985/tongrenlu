@@ -37,7 +37,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/tag/__${tagBean.tag}__/comic(p='')}]]*/ '/console/music';
+            var url = /*[[@{/tag/__${tagBean.id}__/comic(p='')}]]*/ '/console/music';
             window.location.href = url + currval;
             return false;
         }

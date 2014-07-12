@@ -37,7 +37,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/tag/__${tagBean.tag}__/music(p='')}]]*/ '';
+            var url = /*[[@{/tag/__${tagBean.id}__/music(p='')}]]*/ '';
             window.location.href = url + currval;
             return false;
         }
