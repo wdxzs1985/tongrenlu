@@ -54,9 +54,15 @@
                 </div>
             </div>
             <hr />
-            <ul class="list-inline">
-                <li><a th:href="@{/console/music}" class="btn btn-default" th:text="#{button.back}"></a></li>
-            </ul>
+            <div>
+                <a class="btn btn-success" 
+                    th:href="@{/admin/music/__${articleBean.id}__/publish}" 
+                    th:text="#{admin.article.publish}"
+                    th:if="${LOGIN_USER.admin}"></a>
+                <a class="btn btn-default"
+                    th:href="@{/console/music}" 
+                    th:text="#{button.back}"></a>
+            </div>
         </div>
     </div>
 </div>

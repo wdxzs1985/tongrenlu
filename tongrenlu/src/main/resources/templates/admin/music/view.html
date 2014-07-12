@@ -55,8 +55,12 @@
             </div>
             <hr />
             <div>
-              <a th:href="@{/admin/music/__${articleBean.id}__/publish}" class="btn btn-success" th:text="#{admin.article.publish}"></a>
-              <a th:href="@{/admin/music}" class="btn btn-default" th:text="#{button.back}"></a>
+                <a class="btn btn-success" 
+                    th:href="@{/admin/music/__${articleBean.id}__/publish}" 
+                    th:text="#{admin.article.publish}"></a>
+                <a class="btn btn-default" 
+                    th:href="@{/admin/music}" 
+                    th:text="#{button.back}"></a>
             </div>
         </div>
     </div>

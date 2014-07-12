@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+<head>
+  <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload.css" />
+  <link rel="stylesheet" href="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/css/jquery.fileupload-ui.css" />
+  <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap" >
+        <div class="container">
+            <div class="page-header" layout:fragment="page-header">
+                <h3 >
+                    <span th:text="${articleBean.title}"></span>
+                </h3>
+            </div>
+            <div class="col-sm-6 col-sm-offset-3" th:unless="${#strings.isEmpty(error)}">
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong th:text="${error}"></strong>
+                </div>
+            </div>
+            <!-- The file upload form used as target for the file upload widget -->
+            <form id="fileupload" method="POST" enctype="multipart/form-data">
+                <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/" /></noscript>
+                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                <div class="row fileupload-buttonbar">
+                    <div class="col-lg-7">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span th:text="#{console.article.upload.addFile}">Add files...</span>
+                            <input type="file" name="files[]" th:multiple="true" accept="audio/mp3"/>
+                        </span>
+                        <button type="submit" class="btn btn-primary start">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span th:text="#{console.article.upload.startAll}">Start upload</span>
+                        </button>
+                        <button type="reset" class="btn btn-warning cancel">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span th:text="#{console.article.upload.cancelAll}">Cancel upload</span>
+                        </button>
+                        <button type="button" class="btn btn-danger delete">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <span th:text="#{console.article.upload.deleteAll}">Delete</span>
+                        </button>
+                        <input type="checkbox" class="toggle hidden" />
+                        <!-- The global file processing state -->
+                        <span class="fileupload-process"></span>
+                    </div>
+                    <!-- The global progress state -->
+                    <div class="col-lg-5 fileupload-progress fade">
+                        <!-- The global progress bar -->
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                        </div>
+                        <!-- The extended global progress state -->
+                        <div class="progress-extended">&nbsp;</div>
+                    </div>
+                </div>
+                <!-- The table listing the files available for upload/download -->
+                <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+            </form>
+            <hr />
+            <div class="row" layout:fragment="page-footer">
+                <div class="col-xs-6 text-left">
+                    <a class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span th:text="#{button.back}"></span>
+                    </a>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <a class="btn btn-success">
+                        <span th:text="#{console.article.sort}"></span>
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="scripts-libs">
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/vendor/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Load-Image-1.11.1/js/load-image.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Canvas-to-Blob-2.1.0/js/canvas-to-blob.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-process.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-image.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-audio.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-video.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-validate.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-fileupload.js}"></script>
+</th:block>
+</body>
+</html>

@@ -45,9 +45,15 @@
                 </div>
             </div>
             <hr />
-            <ul class="list-inline">
-                <li><a th:href="@{/console/comic}" class="btn btn-default" th:text="#{button.back}"></a></li>
-            </ul>
+            <div>
+                <a class="btn btn-success" 
+                    th:href="@{/admin/comic/__${articleBean.id}__/publish}" 
+                    th:text="#{admin.article.publish}"
+                    th:if="${LOGIN_USER.admin}"></a>
+                <a class="btn btn-default" 
+                    th:href="@{/console/comic}" 
+                    th:text="#{button.back}"></a>
+            </div>
         </div>
     </div>
 </div>
