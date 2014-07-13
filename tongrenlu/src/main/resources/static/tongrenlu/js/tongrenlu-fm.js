@@ -282,7 +282,7 @@ var fm = function(options) {
 		music: function(artcleId) {
 			$('#fm-music').removeClass('fm-page-active in');
 			if($('#fm-search').hasClass('fm-page-active')) {
-				$('#fm-search').removeClass('fm-page-active');
+				$('#fm-index').removeClass('fm-page-active');
 			} else if($('#fm-index').hasClass('fm-page-active')){
 				$('#fm-search').removeClass('fm-page-active');
 			} else {
@@ -298,16 +298,7 @@ var fm = function(options) {
 			});
 		},
 		lucky: function() {
-			that.index();
-			$('#fm-search, #fm-music').removeClass('fm-page-active in');
-			$('#fm-index').addClass('in');
-			that.hidePlayerWhenNotPlaying();
-			var $musicPage = $('#fm-music').addClass('fm-page-active in');
-			$musicPage.empty();
 			$.getJSON(settings.luckyUrl).done(function(response){
-//				$musicPage.data(response);
-//				$musicPage.append(tmpl('template-music-page', response));
-//				$musicPage.find('.likebutton').likebutton();
 				location.hash = '#music/' + response.music.id;
 			});
 		},
