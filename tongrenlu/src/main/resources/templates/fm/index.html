@@ -27,8 +27,18 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="cl-effect-1"><a href="javascript:;" id="nav-lucky" th:text="#{home.music.lucky}">lucky</a></li>
-                    <li class="cl-effect-1"><a href="javascript:;" id="nav-player" th:text="#{home.fm.player}">playing</a></li>
+                    <li class="cl-effect-1">
+                        <a href="javascript:;" id="nav-lucky" >
+                            <span class="glyphicon glyphicon-gift"></span>
+                            <span class="hidden-sm" th:text="#{home.music.lucky}">lucky</span>
+                        </a>
+                    </li>
+                    <li class="cl-effect-1">
+                        <a href="javascript:;" id="nav-player" >
+                            <span class="glyphicon glyphicon-play-circle"></span>
+                            <span class="hidden-sm" th:text="#{home.fm.player}">playing</span>
+                        </a>
+                    </li>
                 </ul>
                 <form id="fm-search-form" class="navbar-form navbar-left" role="form">
                     <div class="form-group">
@@ -91,7 +101,7 @@
             </div>
         </div>
         <div id="fm-search" class="fm-page fm-page-1 fade">
-            <div class="fm-page-nav visible-xs">
+            <div class="fm-page-nav visible-xs visible-sm">
                 <a href="#index" class="btn btn-link">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                     <span>Back</span>
@@ -123,7 +133,7 @@
             </div>
         </div>
         <div id="fm-music" class="fm-page fm-page-2 fade">
-            <div class="fm-page-nav visible-xs">
+            <div class="fm-page-nav visible-xs visible-sm">
                 <button class="btn btn-link">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                     <span>Back</span>
@@ -160,7 +170,7 @@
             </div>
         </div>
         <div id="fm-player" class="fm-page fm-page-3 fade">
-            <div class="fm-page-nav visible-xs">
+            <div class="fm-page-nav visible-xs visible-sm">
                 <a href="javascript:;" class="btn btn-link">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                     <span th:text="#{button.back}">Back</span>
@@ -264,7 +274,7 @@
         <script type="text/javascript" th:inline="javascript">
             $(function () {
                 new fm({
-                    filePath: /*[[@{/files}]]*/ '',
+                    filePath: 'http://files.tongrenlu.info',
                     musicUrl: /*[[@{/fm/music}]]*/ '',
                     searchUrl: /*[[@{/fm/search/track}]]*/ '',
                     luckyUrl: /*[[@{/fm/lucky}]]*/ ''

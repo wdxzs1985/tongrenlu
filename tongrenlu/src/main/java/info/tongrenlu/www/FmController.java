@@ -95,16 +95,9 @@ public class FmController {
     @RequestMapping(method = RequestMethod.GET, value = "/lucky")
     @ResponseBody
     public Map<String, Object> lucky() {
-
         final Map<String, Object> model = new HashMap<String, Object>();
-
         final MusicBean musicBean = this.musicService.getRandomMusic();
-
-        final List<TrackBean> trackList = this.musicService.getTrackList(musicBean.getId());
-
         model.put("music", musicBean);
-        model.put("trackList", trackList);
-
         return model;
     }
 

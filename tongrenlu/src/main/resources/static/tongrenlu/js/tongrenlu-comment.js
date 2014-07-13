@@ -54,7 +54,8 @@ var comment = function(options) {
 				that.scroll('#comment');
 			}).on('click', 'button.comment-reply', function(e){
 				e.preventDefault();
-				var repo = $(this).data('repo');
+				var commentData = $(this).closest('.media').data();
+				var repo = " //@" + commentData.userBean.nickname + "#" + commentData.userBean.id + ' :' + commentData.content;
 				$comment.find('.comment-form textarea').text(repo).focus();
 			});
 			
@@ -124,7 +125,9 @@ var comment = function(options) {
 						for(var i = 0; i < response.page.items.length; i++){
 							var item = response.page.items[i];
 							item.createDate = that.formatDate(item.createDate, settings.i18n);
-							$list.append(tmpl('template-comment-item', item));
+							var $listItem = $(tmpl('template-comment-item', item));
+							$listItem.data(item);
+							$listItem.appendTo($list);
 						}
 						if(!response.page.first) {
 							$previous.removeClass('hidden');

@@ -87,7 +87,7 @@ hr { visibility: hidden}
 }
 
 
-@MEDIA (max-width: 767px) {
+@media (max-width: 768px) {
     .fm-page {
         left: 0;
         right: 0;

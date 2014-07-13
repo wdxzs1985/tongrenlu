@@ -56,7 +56,7 @@ var fm = function(options) {
 				if($playerPage.hasClass('in')) {
 					$('#fm-player').removeClass('fm-page-active in');
 				} else {
-					that.hidePlayerWhenNotPlaying();
+					that.showPlayerWhenPlaying();
 				}
 			}).on('click', '#nav-lucky', function(){
 				that.closeNavbar();
@@ -305,9 +305,10 @@ var fm = function(options) {
 			var $musicPage = $('#fm-music').addClass('fm-page-active in');
 			$musicPage.empty();
 			$.getJSON(settings.luckyUrl).done(function(response){
-				$musicPage.data(response);
-				$musicPage.append(tmpl('template-music-page', response));
-				$musicPage.find('.likebutton').likebutton();
+//				$musicPage.data(response);
+//				$musicPage.append(tmpl('template-music-page', response));
+//				$musicPage.find('.likebutton').likebutton();
+				location.hash = '#music/' + response.music.id;
 			});
 		},
 		search: function(query) {

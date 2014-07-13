@@ -35,40 +35,40 @@
                 <div class="page-header">
                     <h3 ><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h3>
                 </div>
-                <div id="gallery" class="gallery clearfix">
-                    <th:block th:each="articleBean,iterStat : ${musicRanking}">
-                        <div class="large pull-left " th:if="${iterStat.index == 0}">
-                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
-                                 th:alt-title="${articleBean.title}" />
-                            <div class="gallery-overlay">
-                                <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
-                            </div>
-                            <a th:href="@{/music/__${articleBean.id}__}" 
-                               th:alt-title="${articleBean.title}" >
-                            </a>
+            </div>
+            <div id="gallery" class="gallery clearfix">
+                <th:block th:each="articleBean,iterStat : ${musicRanking}">
+                    <div class="large pull-left " th:if="${iterStat.index == 0}">
+                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                             th:alt-title="${articleBean.title}" />
+                        <div class="gallery-overlay">
+                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
                         </div>
-                        <div class="large pull-right " th:if="${iterStat.index == 22}">
-                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
-                                 th:alt-title="${articleBean.title}" />
-                            <div class="gallery-overlay">
-                                <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
-                            </div>
-                            <a th:href="@{/music/__${articleBean.id}__}" 
-                               th:alt-title="${articleBean.title}" >
-                            </a>
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:alt-title="${articleBean.title}" >
+                        </a>
+                    </div>
+                    <div class="large pull-right " th:if="${iterStat.index == 22}">
+                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                             th:alt-title="${articleBean.title}" />
+                        <div class="gallery-overlay">
+                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
                         </div>
-                        <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
-                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
-                                 th:alt-title="${articleBean.title}" />
-                            <div class="gallery-overlay">
-                                <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
-                            </div>
-                            <a th:href="@{/music/__${articleBean.id}__}" 
-                               th:alt-title="${articleBean.title}" >
-                            </a>
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:alt-title="${articleBean.title}" >
+                        </a>
+                    </div>
+                    <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
+                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
+                             th:alt-title="${articleBean.title}" />
+                        <div class="gallery-overlay">
+                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
                         </div>
-                    </th:block>
-                </div>
+                        <a th:href="@{/music/__${articleBean.id}__}" 
+                           th:alt-title="${articleBean.title}" >
+                        </a>
+                    </div>
+                </th:block>
             </div>
         </div>
         <div id="top-tags" class="container-wrap" >
@@ -261,26 +261,26 @@
                 <div class="row">
                     <div class="col-xs-6 col-sm-4 col-md-2">
                         <div class="btn-group append-bottom">
-                            <a class="btn  btn-default" th:href="@{/tag/1838/music}">M3-33</a>
+                            <a class="btn  btn-default" th:href="@{/tag/1838/music}">M3</a>
                             <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1838/music}" >M3-33 (M3-2014春)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1838/music}" role="menuitem" tabindex="-1">M3-33 (M3-2014春)</a></li>
                                 <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-32 (M3-2013秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1333/music}" >M3-31 (M3-2013春)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1333/music}" role="menuitem" tabindex="-1">M3-31 (M3-2013春)</a></li>
                                 <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-30 (M3-2012秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1179/music}" >M3-29 (M3-2012春)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1179/music}" role="menuitem" tabindex="-1">M3-29 (M3-2012春)</a></li>
                                 <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-28 (M3-2011秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1439/music}" >M3-27 (M3-2011春)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1352/music}" >M3-26 (M3-2010秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1526/music}" >M3-25 (M3-2010春)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2135/music}" >M3-24 (M3-2009秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2125/music}" >M3-23 (M3-2009春)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2133/music}" >M3-22 (M3-2008秋)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1439/music}" role="menuitem" tabindex="-1">M3-27 (M3-2011春)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1352/music}" role="menuitem" tabindex="-1">M3-26 (M3-2010秋)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1526/music}" role="menuitem" tabindex="-1">M3-25 (M3-2010春)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/2135/music}" role="menuitem" tabindex="-1">M3-24 (M3-2009秋)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/2125/music}" role="menuitem" tabindex="-1">M3-23 (M3-2009春)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/2133/music}" role="menuitem" tabindex="-1">M3-22 (M3-2008秋)</a></li>
                                 <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-21 (M3-2008春)</a></li>
                                 <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-20 (M3-2007秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2131/music}" >M3-19 (M3-2007春)</a></li>
+                                <li role="presentation"><a th:href="@{/tag/2131/music}" role="menuitem" tabindex="-1">M3-19 (M3-2007春)</a></li>
                             </ul>
                         </div>
                     </div>
@@ -291,13 +291,13 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1727/music}" >東方紅楼夢9</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1250/music}" >東方紅楼夢8</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1431/music}" >東方紅楼夢7</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1430/music}" >東方紅楼夢6</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1183/music}" >東方紅楼夢5</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1182/music}" >東方紅楼夢4</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1815/music}" >東方紅楼夢3</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1727/music}" role="menuitem" tabindex="-1">東方紅楼夢9</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1250/music}" role="menuitem" tabindex="-1">東方紅楼夢8</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1431/music}" role="menuitem" tabindex="-1">東方紅楼夢7</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1430/music}" role="menuitem" tabindex="-1">東方紅楼夢6</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1183/music}" role="menuitem" tabindex="-1">東方紅楼夢5</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1182/music}" role="menuitem" tabindex="-1">東方紅楼夢4</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1815/music}" role="menuitem" tabindex="-1">東方紅楼夢3</a></li>
                             </ul>
                         </div>
                     </div>
@@ -308,10 +308,12 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1843/music}" >大⑨州東方祭9</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1843/music}" role="menuitem" tabindex="-1">大⑨州東方祭9</a></li>
                                 <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭8</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2136/music}" >大⑨州東方祭7</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1771/music}" >大⑨州東方祭6</a></li>
+                                <li role="presentation"><a th:href="@{/tag/2136/music}" role="menuitem" tabindex="-1">大⑨州東方祭7</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1771/music}" role="menuitem" tabindex="-1">大⑨州東方祭6</a></li>
+                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭5</a></li>
+                                <li role="presentation"><a th:href="@{/tag/2142/music}" role="menuitem" tabindex="-1">大⑨州東方祭4</a></li>
                             </ul>
                         </div>
                     </div>
@@ -322,9 +324,9 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1495/music}" >東方椰麟祭3</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1495/music}" role="menuitem" tabindex="-1">東方椰麟祭3</a></li>
                                 <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">東方椰麟祭2</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1217/music}" >東方椰麟祭</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1217/music}" role="menuitem" tabindex="-1">東方椰麟祭</a></li>
                             </ul>
                         </div>
                     </div>
@@ -335,7 +337,7 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" th:if="${false}">
-                                <li role="presentation"><a th:href="@{/tag/1329/music}" >新潟東方祭12</a></li>
+                                <li role="presentation"><a th:href="@{/tag/1329/music}" role="menuitem" tabindex="-1">新潟東方祭12</a></li>
                             </ul>
                         </div>
                     </div>
