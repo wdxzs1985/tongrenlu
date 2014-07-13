@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="console/layout_article_sort">
+  layout:decorator="console/layout_audio_sort">
 <body>
 <div layout:fragment="content">
     <div class="container-wrap" >
         <div class="container">
             <div class="page-header">
                 <h3 >
-                   <span th:text="${articleBean.title}"></span>
-                   <small th:text="#{console.article.sort}"></small>
+                    <span th:text="${articleBean.title}"></span>
+                    <small th:text="#{console.article.sort}"></small>
                 </h3>
             </div>
             <div class="btn-toolbar">
@@ -44,40 +44,40 @@
             <hr />
             <form th:action="@{/console/music/__${articleBean.id}__/track/sort}" method="POST">
                 <div id="sortable-list" class="media-list">
-                    <div class="col-sm-4 col-md-2 sortable-object" 
+                    <div class="sortable-object" 
                         th:attr="data-id=${track.id},data-name=${track.name}"
                         th:each="track : ${trackList}">
-                        <div class="thumbnail">
-                            <img class="media-object " th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" />
-                            <div class="caption">
-                                <span class="text-center text-single-line" th:text="${track.name}"></span>
+                        <div class="media thumbnail">
+                            <div class="pull-left">
+                                <img class="media-object" th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" />
                                 <input type="hidden" name="trackId[]" th:value="${track.id}" />
                             </div>
-                        </div>
-                        <div class="media-body">
-                            <div class="form-group">
-                                <div class="row ">
-                                    <div class="col-md-8 col-lg-8">
-                                        <input type="text" th:id="'track-name-' + ${track.id}" name="name[]" class="form-control" th:value="${track.name}" />
-                                    </div>
-                                    <div class="col-md-4 col-lg-4">
-                                        <div class="checkbox">
-                                            <label th:for="'track-instrumental-' + ${track.id}" >
-                                                <input type="checkbox" name="instrumental[]" th:value="${track.id}"
-                                                    th:id="'track-instrumental-' + ${track.id}" 
-                                                    th:checked="${track.instrumental} eq '1'" />
-                                                <span th:text="#{TrackBean.instrumental}"></span>
-                                            </label>
+                            <div class="media-body">
+                                <h5 class="media-heading" th:text="${track.name}"></h5>
+                                <div class="form-group">
+                                    <div class="row ">
+                                        <div class="col-md-8 col-lg-8">
+                                            <input type="text" th:id="'track-name-' + ${track.id}" name="name[]" class="form-control" th:value="${track.name}" />
+                                        </div>
+                                        <div class="col-md-4 col-lg-4">
+                                            <div class="checkbox">
+                                                <label th:for="'track-instrumental-' + ${track.id}" >
+                                                    <input type="checkbox" name="instrumental[]" th:value="${track.id}"
+                                                        th:id="'track-instrumental-' + ${track.id}" 
+                                                        th:checked="${track.instrumental} eq '1'" />
+                                                    <span th:text="#{TrackBean.instrumental}"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" th:for="'track-artist-' + ${track.id}" th:text="#{TrackBean.artist}"></label>
-                                    <input type="text" th:id="'track-artist-' + ${track.id}" name="artist[]" class="form-control" th:value="${track.artist}" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" th:for="'track-original-' + ${track.id}" th:text="#{TrackBean.original}"></label>
-                                    <textarea th:id="'track-original-' + ${track.id}" name="original[]" class="form-control" rows="3" th:text="${track.original}"></textarea>
+                                    <div class="form-group">
+                                        <label class="form-label" th:for="'track-artist-' + ${track.id}" th:text="#{TrackBean.artist}"></label>
+                                        <input type="text" th:id="'track-artist-' + ${track.id}" name="artist[]" class="form-control" th:value="${track.artist}" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" th:for="'track-original-' + ${track.id}" th:text="#{TrackBean.original}"></label>
+                                        <textarea th:id="'track-original-' + ${track.id}" name="original[]" class="form-control" rows="3" th:text="${track.original}"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>

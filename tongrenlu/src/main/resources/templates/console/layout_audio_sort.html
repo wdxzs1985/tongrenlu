@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+<head>
+  <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" type="text/css"/>
+</head>
+<body>
+<th:block layout:fragment="scripts-libs">
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">&lsaquo;</a>
+    <a class="next">&rsaquo;</a>
+    <h3 class="title"></h3>
+    <a class="close">&times;</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.core.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.sortable.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function(){
+    var $sortableList = $( '#sortable-list' ).sortable();
+    
+    $sortableList.on('expand', function() {
+        $sortableList.sortable( 'disable' );
+        $sortableList.removeClass('row').addClass('media-list');
+        var $listItem = $sortableList.find('.sortable-object');
+        $listItem.removeClass('col-sm-4 col-md-3');
+        
+        $listItem.find('.media').removeClass('thumbnail');
+        $listItem.find('.media-object').removeClass('img-60').addClass('img-120');
+        $listItem.find('.media-heading').removeClass('show').addClass('hidden');
+        $listItem.find('.form-group').removeClass('hidden').addClass('show');
+
+        $( "#sortable-list-expand" ).addClass('disabled btn-default').removeClass('btn-primary');
+        $( "#sortable-list-collapse" ).addClass('btn-primary').removeClass('disabled btn-default');
+    }).on('collapse', function(){
+        $sortableList.sortable( 'enable' );
+        $sortableList.removeClass('media-list').addClass('row');
+        
+        var $listItem = $sortableList.find('.sortable-object');
+        $listItem.addClass('col-sm-4 col-md-3');
+
+        $listItem.find('.media').addClass('thumbnail');
+        $listItem.find('.media-object').removeClass('img-120').addClass('img-60');
+        $listItem.find('.media-heading').removeClass('hidden').addClass('show')
+        .each(function(index, element) {
+            var $this = $(element);
+            var name = $(element).closest('.media').find('input[name="name[]"]').val();
+            $this.text(name);
+        });
+        $listItem.find('.form-group').removeClass('show').addClass('hidden');
+
+        $( "#sortable-list-collapse" ).addClass('disabled btn-default').removeClass('btn-primary');
+        $( "#sortable-list-expand" ).addClass('btn-primary').removeClass('disabled btn-default');
+    });
+    
+    // $( "#sort-file-list" ).disableSelection();
+    
+    $( "#sortable-list-expand" ).click(function(e){
+        e.preventDefault();
+        $sortableList.trigger('expand');
+    });
+    $( "#sortable-list-collapse" ).click(function(e){
+        e.preventDefault();
+        $sortableList.trigger('collapse');
+    });
+    
+    $("#sort-by-time").click(function(e){
+        e.preventDefault();
+        var $listItem = $sortableList.find('.sortable-object');
+        var $tempFileList = $('<div></div>');
+        $.each($listItem, function(i1, e1){
+            var $e1 =  $(e1);
+            var fileId1 = $e1.data("id");
+            var name1 = $e1.data("name");
+            
+            $tempFileList.prepend($e1);
+            $.each($tempFileList.children('.sortable-object'), function(i2, e2){
+                var $e2 =  $(e2);
+                var fileId2 = $e2.data("id");
+                var name2 = $e2.data("name");
+                if(fileId1 > fileId2){
+                    $e1.insertAfter($e2);
+                } else if(fileId1 == fileId2) {
+                    if(name1 > name2){
+                        $e1.insertAfter($e2);
+                    }
+                }
+            });
+        });
+        $tempFileList.children('.sortable-object').appendTo($sortableList);
+    });
+    $("#sort-by-name").click(function(e){
+        e.preventDefault();
+        var $listItem = $sortableList.find('.sortable-object');
+        var $tempFileList = $('<div></div>');
+        $.each($listItem, function(i1, e1){
+            var $e1 =  $(e1);
+            var fileId1 = $e1.data("id");
+            var name1 = $e1.data("name");
+            
+            $tempFileList.prepend($e1);
+            $.each($tempFileList.children('.sortable-object'), function(i2, e2){
+                var $e2 =  $(e2);
+                var fileId2 = $e2.data("id");
+                var name2 = $e2.data("name");
+                if(name1 > name2){
+                    $e1.insertAfter($e2);
+                } else if(name1 == name2){
+                    if(fileId1 > fileId2){
+                        $e1.insertAfter($e2);
+                    }
+                }
+            });
+        });
+        $tempFileList.children('.sortable-object').appendTo($sortableList);
+    });
+}) ;
+</script>
+<script type="text/javascript" th:inline="javascript">
+$(function(){
+    $( '#preview-gallery' ).on('click', function(e){
+        e.preventDefault();
+        var fullscreenGallery = blueimp.Gallery(
+        document.getElementById('sortable-list').getElementsByTagName('a')
+        , {
+            container: '#blueimp-gallery',
+            startSlideshow: false,
+            carousel:false
+        });
+    });
+	$( '#sortable-list' ).on('click', 'a', function(e){
+		e.preventDefault();
+		
+		var $links = $('#sortable-list a');
+		var links = [];
+		$links.each(function(index, element) {
+			links.push($(element).prop('href'));
+		});
+		
+		var index = $links.index(this);
+		
+		var fullscreenGallery = blueimp.Gallery(
+			links, {
+            container: '#blueimp-gallery',
+            startSlideshow: false,
+            carousel:false,
+            index: index
+        });
+	});
+}) ;
+</script>
+</th:block>
+</body>
+</html>

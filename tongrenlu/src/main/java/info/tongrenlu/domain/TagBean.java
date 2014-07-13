@@ -15,7 +15,7 @@ public class TagBean extends DtoBean {
 
     private String type = null;
 
-    private Integer articleCount = 0;
+    private int articleCount = 0;
 
     public String getTag() {
         return this.tag;

@@ -232,3 +232,7 @@ h1.article-title {
 #ranking .page-header h3 {
     margin-top: 10px;
 }
+
+#sortalbe-list .media-heading {
+	height: 4em;
+}

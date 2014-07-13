@@ -4,7 +4,6 @@
 	<include resource="org/springframework/boot/logging/logback/base.xml"/>
 
 	<!-- logger name="org.springframework" level="DEBUG"/-->
-    <logger name="java.sql" level="INFO" />
     <logger name="org.mybatis" level="INFO" />
     <logger name="info.tongrenlu" level="DEBUG" />
 
