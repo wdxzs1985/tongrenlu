@@ -6,7 +6,8 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.HomeComicService;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
-import info.tongrenlu.solr.ArticleDocument;
+import info.tongrenlu.solr.ComicDocument;
+import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.List;
@@ -54,20 +55,39 @@ public class IndexController {
         return "home/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/search")
-    public String doGetSearch(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                              @RequestParam(value = "q", required = false) final String query,
-                              final Model model) {
+    @RequestMapping(method = RequestMethod.GET, value = "/search/music")
+    public String doGetSearchMusic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                   @RequestParam(value = "q", required = false) final String query,
+                                   final Model model) {
         if (StringUtils.isNotBlank(query)) {
 
             final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
                                                       PaginateSupport.PAGESIZE);
 
-            final Page<ArticleDocument> searchResult = this.searchService.findArticle(query,
-                                                                                      pageable);
+            final Page<MusicDocument> searchResult = this.searchService.findMusic(query,
+                                                                                  pageable);
             model.addAttribute("query", query);
             model.addAttribute("searchResult", searchResult);
-            return "home/search";
+            return "home/search/music";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/search/comic")
+    public String doGetSearchComic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                   @RequestParam(value = "q", required = false) final String query,
+                                   final Model model) {
+        if (StringUtils.isNotBlank(query)) {
+
+            final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
+                                                      PaginateSupport.PAGESIZE);
+
+            final Page<ComicDocument> searchResult = this.searchService.findComic(query,
+                                                                                  pageable);
+            model.addAttribute("query", query);
+            model.addAttribute("searchResult", searchResult);
+            return "home/search/comic";
         } else {
             return "redirect:/";
         }

@@ -11,19 +11,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8" >
-                    <div th:fragment="search-form">
-                        <form th:action="@{/search}" method="get">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="q" th:value="${query}"/>
-                                <div class="input-group-btn">
-                                    <button class="btn btn-warning" type="submit">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                        <span th:text="#{button.search}"></span>
-                                    </button>
-                                </div><!-- /btn-group -->
-                            </div><!-- /input-group -->
-                        </form>
-                    </div>
+                    <form th:action="@{/search/music}" method="get" th:fragment="search-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" th:value="${query}"/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-warning" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    <span th:text="#{button.search}"></span>
+                                </button>
+                            </div><!-- /btn-group -->
+                        </div><!-- /input-group -->
+                    </form>
                     <hr />
                     <div th:fragment="list-content">
                         <th:block th:unless="${#lists.isEmpty(page.items)}">

@@ -13,13 +13,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 col-md-offset-6">
-                        <form th:action="@{/search}" method="get" role="search">
+                        <form th:action="@{/search/music}" method="get" role="search">
                             <div class="input-group">
-                                <input type="text" name="q" class="form-control" th:placeholder="#{home.search}"/>
+                                <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
                                 <span class="input-group-btn">
                                     <button class="btn btn-warning" type="submit">
                                         <span class="glyphicon glyphicon-search"></span>
-                                        <span class="hidden-xs" th:text="#{button.search}"></span>
+                                        <span class="hidden-xs" th:text="#{home.search.music}"></span>
                                     </button>
                                     <a th:href="@{/music/lucky}" class="btn btn-info">
                                         <span class="glyphicon glyphicon-star"></span>
@@ -345,12 +345,31 @@
             </div>
         </div>
         <div class="container-wrap">
-          <div class="container">
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="page-header">
-                        <h3 ><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h3>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-6">
+                        <form th:action="@{/search/comic}" method="get" role="search">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" th:placeholder="#{home.search.comic.hint}"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning" type="submit">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span class="hidden-xs" th:text="#{home.search.comic}"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
                     </div>
+                </div>
+            </div>
+            <div id="top-comic" class="container">
+                <div class="page-header">
+                    <h3 ><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h3>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                <div class="col-sm-8">
                     <div class="row">
                         <div class="col-sm-6 col-md-3" th:each="articleBean,iterStat : ${comicRanking}">
                             <div class="thumbnail media">

@@ -1,7 +1,7 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.solr.ArticleDocument;
-import info.tongrenlu.solr.ArticleRepository;
+import info.tongrenlu.solr.ComicDocument;
+import info.tongrenlu.solr.ComicRepository;
 import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.solr.MusicRepository;
 import info.tongrenlu.solr.TrackDocument;
@@ -21,21 +21,11 @@ import org.springframework.stereotype.Service;
 public class SearchService {
 
     @Autowired
-    private ArticleRepository articleRepository = null;
-    @Autowired
     private MusicRepository musicRepository = null;
     @Autowired
+    private ComicRepository comicRepository = null;
+    @Autowired
     private TrackRepository trackRepository = null;
-
-    public Page<ArticleDocument> findArticle(final String query,
-                                             final Pageable pageable) {
-        final List<String> queries = new ArrayList<>();
-        for (final String text : StringUtils.split(query)) {
-            queries.add(ClientUtils.escapeQueryChars(text));
-        }
-        return this.articleRepository.findAllOrderByArticleIdDesc(queries,
-                                                                  pageable);
-    }
 
     public Page<MusicDocument> findMusic(final String query,
                                          final Pageable pageable) {
@@ -43,8 +33,16 @@ public class SearchService {
         for (final String text : StringUtils.split(query)) {
             queries.add(ClientUtils.escapeQueryChars(text));
         }
-        return this.musicRepository.findMusicOrderByArticleIdDesc(queries,
-                                                                  pageable);
+        return this.musicRepository.findMusic(queries, pageable);
+    }
+
+    public Page<ComicDocument> findComic(final String query,
+                                         final Pageable pageable) {
+        final List<String> queries = new ArrayList<>();
+        for (final String text : StringUtils.split(query)) {
+            queries.add(ClientUtils.escapeQueryChars(text));
+        }
+        return this.comicRepository.findComic(queries, pageable);
     }
 
     public Page<TrackDocument> findTrack(final String query,

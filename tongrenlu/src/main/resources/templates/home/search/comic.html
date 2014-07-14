@@ -12,13 +12,16 @@
             <div class="row">
                 <th:block th:if="${searchResult}">
                     <div class="col-sm-8">
-                        <form th:action="@{/search}" method="get">
+                        <form th:action="@{/search/comic}" method="get" role="search">
                             <div class="input-group">
-                              <input type="text" class="form-control" name="q" th:value="${query}"/>
-                              <div class="input-group-btn">
-                                <button type="submit" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
-                              </div><!-- /btn-group -->
-                            </div><!-- /input-group -->
+                                <input type="text" name="q" class="form-control" th:value="${query}"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning" type="submit">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span class="hidden-xs" th:text="#{home.search.comic}"></span>
+                                    </button>
+                                </span>
+                            </div>
                         </form>
                         <hr />
                         <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
@@ -68,7 +71,7 @@ $(function() {
         count       : /*[[${searchResult.totalPages}]]*/ 20,
         start       : /*[[${searchResult.number} + 1]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/search(q=${query},p='')}]]*/ '/console/music';
+            var url = /*[[@{/search/comic(q=${query},p='')}]]*/ '/search/comic';
             window.location.href = url + currval;
             return false;
         }
