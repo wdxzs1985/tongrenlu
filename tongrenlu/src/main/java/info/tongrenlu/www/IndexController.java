@@ -79,7 +79,6 @@ public class IndexController {
                                    @RequestParam(value = "q", required = false) final String query,
                                    final Model model) {
         if (StringUtils.isNotBlank(query)) {
-
             final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
                                                       PaginateSupport.PAGESIZE);
 

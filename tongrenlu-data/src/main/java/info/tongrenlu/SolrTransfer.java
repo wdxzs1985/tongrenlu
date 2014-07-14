@@ -7,7 +7,7 @@ import info.tongrenlu.entity.TagEntity;
 import info.tongrenlu.entity.TrackEntity;
 import info.tongrenlu.jdbc.ArticleManagerMysql;
 import info.tongrenlu.jdbc.ArticleTagManagerMysql;
-import info.tongrenlu.jdbc.ComicManager;
+import info.tongrenlu.jdbc.ComicManagerMysql;
 import info.tongrenlu.jdbc.FileManager;
 import info.tongrenlu.jdbc.MusicManagerMysql;
 import info.tongrenlu.jdbc.ObjectManager;
@@ -48,7 +48,7 @@ public class SolrTransfer {
     @Autowired
     private MusicManagerMysql musicManager = null;
     @Autowired
-    private ComicManager comicManager = null;
+    private ComicManagerMysql comicManager = null;
     @Autowired
     private TrackManager trackManager = null;
     @Autowired
@@ -62,7 +62,7 @@ public class SolrTransfer {
         this.begin();
 
         this.log.info("Transfer Music...");
-        this.transferMusic();
+        // this.transferMusic();
         this.log.info("Transfer Music...ok");
 
         this.log.info("Transfer Comic...");

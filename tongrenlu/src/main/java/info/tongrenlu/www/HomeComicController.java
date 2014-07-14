@@ -43,12 +43,17 @@ public class HomeComicController {
     private HomeComicService comicService = null;
 
     protected void throwExceptionWhenNotAllow(final ComicBean comicBean,
+                                              final UserBean loginUser,
                                               final Locale locale) {
         if (comicBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
                                                                           null,
                                                                           locale));
-        } else if (!CommonConstants.is(comicBean.getPublishFlg())) {
+        } else if (!comicBean.isPublish()) {
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
+                                                                       null,
+                                                                       locale));
+        } else if (loginUser.isGuest() && comicBean.isRed()) {
             throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
                                                                        null,
                                                                        locale));
@@ -79,7 +84,7 @@ public class HomeComicController {
                             final Model model,
                             final Locale locale) {
         final ComicBean comicBean = this.comicService.getById(articleId);
-        this.throwExceptionWhenNotAllow(comicBean, locale);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
         model.addAttribute("articleBean", comicBean);
         this.comicService.addAccess(comicBean, loginUser);
         return "home/comic/view";
