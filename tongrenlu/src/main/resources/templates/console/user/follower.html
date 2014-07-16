@@ -17,7 +17,7 @@
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
                     <div class="col-sm-6 col-md-3 col-lg-2" th:each="userBean : ${page.items}">
-                        <div class="thumbnail media">
+                        <div class="thumbnail media card">
                             <a class="visible-sm visible-xs pull-left" target="_blank" 
                                th:href="@{/user/__${userBean.id}__}" 
                                th:alt-title="${userBean}">
