@@ -245,5 +245,6 @@ h1.article-title {
 	padding: 8px;
 	border-radius: 4px;
     background-color: #fff;
-    box-shadow:0 4px rgba(0,0,0,0.05);
+    border: solid 1px #e1e1e1;
+    box-shadow:0 4px #e1e1e1;
 }
