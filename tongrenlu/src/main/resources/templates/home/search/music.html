@@ -10,23 +10,30 @@
     <div class="container-wrap" >
         <div class="container">
             <div class="row">
+                <div class="col-sm-8">
+                    <form th:action="@{/search/music}" method="get" role="search">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" th:value="${query}"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-warning" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    <span class="hidden-xs" th:text="#{home.search.music}"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrap" >
+        <div class="container">
+            <div class="row">
                 <th:block th:if="${searchResult}">
                     <div class="col-sm-8">
-                        <form th:action="@{/search/music}" method="get" role="search">
-                            <div class="input-group">
-                                <input type="text" name="q" class="form-control" th:value="${query}"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning" type="submit">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                        <span class="hidden-xs" th:text="#{home.search.music}"></span>
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
-                        <hr />
                         <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
                             <ul class="media-list">
-                              <li class="media" th:each="articleDocument : ${searchResult.content}">
+                              <li class="media card" th:each="articleDocument : ${searchResult.content}">
                                 <a class="pull-left" th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
                                     th:alt-title="${articleDocument.title}">
                                   <img class="media-object img-120 img-thumbnail img-rounded hidden-xs"
