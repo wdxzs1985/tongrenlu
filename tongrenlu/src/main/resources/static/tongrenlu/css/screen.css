@@ -157,8 +157,8 @@ body {;
 }
 
 .container-wrap {
-	background: #f7f7f7; 
-	padding: 20px 0 60px;
+	background: #f1f1f1; 
+	padding: 20px 0 20px;
 }
 
 .container-wrap:nth-child(odd) {
@@ -235,4 +235,15 @@ h1.article-title {
 
 #sortalbe-list .media-heading {
 	height: 4em;
+}
+
+.card-list {
+}
+
+.card{
+	background: #fff;
+	padding: 8px;
+	border-radius: 4px;
+    background-color: #fff;
+    box-shadow:0 4px rgba(0,0,0,0.05);
 }

@@ -10,16 +10,25 @@
     <div class="container-wrap" >
         <div class="container">
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-8" >
                     <div th:replace="home/layout_music_index::search-form"></div>
-                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrap" >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
                     <div th:replace="home/layout_music_index::list-content"></div>
                     <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                         <h4 th:text="#{home.article.noData}"></h4>
                         <a th:href="@{/music}" th:text="#{button.back}" class="btn btn-default"></a>
                     </div>
                 </div>
-                <div th:replace="home/layout_music_index::ranking"></div>
+                <div class="col-sm-4" >
+                    <div th:replace="home/layout_music_index::ranking"></div>
+                </div>
             </div>
         </div>
     </div>

@@ -39,6 +39,9 @@
             <div id="gallery" class="gallery clearfix">
                 <th:block th:each="articleBean,iterStat : ${musicRanking}">
                     <div class="large pull-left " th:if="${iterStat.index == 0}">
+                        <div class="gallery-label gallery-label-left">
+                            <span class="glyphicon glyphicon-star"></span>
+                        </div>
                         <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
                              th:alt-title="${articleBean.title}" />
                         <div class="gallery-overlay">

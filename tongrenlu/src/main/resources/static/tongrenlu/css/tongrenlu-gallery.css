@@ -59,6 +59,37 @@ gallery
     height: 50%;
 }
 
+.gallery > div .gallery-label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery > div .gallery-label-left:after {
+  width: 0;
+  height: 0;
+  border-top: 40px solid #2ecc71;
+  border-left: 40px solid transparent;
+  position: absolute;
+  display: block;
+  left: auto;
+  right: 0;
+  content: " ";
+  color: #ffffff;
+  top: 0;
+  z-index: 1000;
+}
+
+.gallery > div .gallery-label-left span {
+  position: absolute;
+  display: block;
+  left: auto;
+  right: 4px;
+  color: #ffffff;
+  top: 4px;
+  z-index: 1001;
+}
+
 .gallery > div .gallery-title {
     font-size: 14px;
     margin: 0;
