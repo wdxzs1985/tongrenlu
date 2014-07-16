@@ -2,61 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
-  <body>
-    <div layout:fragment="content">
-        <div class="container-wrap" >
-            <div class="container">
-	            <div class="page-header">
-	                <h1 th:text="${tagBean.tag}"></h1>
-	            </div>
-	            <div class="panel panel-default" th:unless="${#lists.isEmpty(musicPage.items)}">
-	              <div class="panel-heading clearfix">
-	                <a th:href="@{/tag/__${tagBean.id}__/music}" th:text="#{button.more} + ' >>'" class="pull-right"></a>
-	                <h3 class="panel-title" th:text="#{home.tag.music(${tagBean.tag})}"></h3>
-	              </div>
-	              <div class="panel-body">
-	                <div class="row">
-	                  <div class="col-xs-6 col-md-2" th:each="articleBean : ${musicPage.items}">
-	                    <a th:href="@{/music/__${articleBean.id}__}" class="thumbnail">
-	                      <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
-	                           th:alt-title="${articleBean.title}"  
-	                           class="img-180"/>
-	                    </a>
-	                    <h5 class="text-single-line">
-	                        <a th:href="@{/music/__${articleBean.id}__}"
-	                            th:text="${articleBean.title}"
-	                            th:alt-title="${articleBean.title}" >
-	                        </a>
-	                    </h5>
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
-	            <div class="panel panel-default" th:unless="${#lists.isEmpty(comicPage.items)}">
-	              <div class="panel-heading">
-	                <a th:href="@{/tag/__${tagBean.id}__/comic}" th:text="#{button.more} + ' >>'" class="pull-right"></a>
-	                <h3 class="panel-title" th:text="#{home.tag.comic(${tagBean.tag})}"></h3>
-	              </div>
-	              <div class="panel-body">
-	                <div class="row">
-	                  <div class="col-xs-6 col-md-2" th:each="articleBean : ${comicPage.items}">
-	                    <a th:href="@{/comic/__${articleBean.id}__}" class="thumbnail">
-	                      <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}"
-	                           th:alt-title="${articleBean.title}" 
-	                           class="img-180"/>
-	                    </a>
-	                    <h5 class="text-single-line">
-	                        <a th:href="@{/comic/__${articleBean.id}__}"
-	                            th:text="${articleBean.title}"
-	                            th:alt-title="${articleBean.title}" >
-	                        </a>
-	                    </h5>
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
-	        </div>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap" >
+        <div class="container">
+            <h1 th:text="${tagBean.tag}"></h1>
         </div>
     </div>
-  </body>
+    <div class="container-wrap" >
+        <div class="container ">
+            <div class="panel panel-default" th:unless="${#lists.isEmpty(musicPage.items)}">
+                <div class="panel-heading ">
+                    <h2 class="panel-title" th:text="#{home.tag.music(${tagBean.tag})}"></h2>
+                </div>
+                <div class="panel-body ">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-2" th:each="articleBean : ${musicPage.items}">
+                            <a th:href="@{/music/__${articleBean.id}__}" class="thumbnail">
+                                <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
+                                    th:alt-title="${articleBean.title}"  
+                                    class="img-180"/>
+                            </a>
+                            <h5 class="text-single-line">
+                                <a th:href="@{/music/__${articleBean.id}__}"
+                                    th:text="${articleBean.title}"
+                                    th:alt-title="${articleBean.title}" >
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <a th:href="@{/tag/__${tagBean.id}__/music}" th:text="#{button.more} + ' >>'" class=""></a>
+                </div>
+            </div>
+            <div class="panel panel-default" th:unless="${#lists.isEmpty(comicPage.items)}">
+                <div class="panel-heading ">
+                    <h2 class="panel-title" th:text="#{home.tag.comic(${tagBean.tag})}"></h2>
+                </div>
+                <div class="panel-body ">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-2" th:each="articleBean : ${comicPage.items}">
+                            <a th:href="@{/comic/__${articleBean.id}__}" class="thumbnail">
+                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}"
+                                    th:alt-title="${articleBean.title}" 
+                                    class="img-180"/>
+                            </a>
+                            <h5 class="text-single-line">
+                                <a th:href="@{/comic/__${articleBean.id}__}"
+                                    th:text="${articleBean.title}"
+                                    th:alt-title="${articleBean.title}" >
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <a th:href="@{/tag/__${tagBean.id}__/comic}" th:text="#{button.more} + ' >>'" class=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>

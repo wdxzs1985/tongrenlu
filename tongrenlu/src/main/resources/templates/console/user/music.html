@@ -9,13 +9,15 @@
 <div layout:fragment="content">
     <div class="container-wrap" >
         <div class="container">
-            <div class="page-header">
-                <h3 th:text="#{console.like.music}"></h3>
-            </div>
+            <h2 th:text="#{console.like.music}"></h2>
+        </div>
+    </div>
+    <div class="container-wrap" >
+        <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
                      <div class="col-sm-6 col-md-3 col-lg-2" th:each="articleBean : ${page.items}">
-                         <div class="thumbnail media">
+                         <div class="thumbnail card">
                              <a class="visible-sm visible-xs pull-left" target="_blank" 
                                 th:href="@{/music/__${articleBean.id}__}" 
                                 th:alt-title="${articleBean.title}">

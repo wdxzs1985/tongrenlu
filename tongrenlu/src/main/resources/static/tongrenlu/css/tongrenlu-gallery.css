@@ -121,6 +121,10 @@ gallery
 	    width: 200px;
 	    height: 200px;
 	}
+	
+	.gallery > div .gallery-overlay {
+	    display: none;
+	}
 }
 
 /**************
@@ -140,6 +144,10 @@ gallery
     .gallery > div.large{
         width: 240px;
         height: 240px;
+    }
+    
+    .gallery > div .gallery-overlay {
+        display: none;
     }
     
 }
@@ -163,6 +171,9 @@ gallery
         height: 230px;
     }
 
+    .gallery > div .gallery-overlay {
+        display: block;
+    }
 }
 
 @media (min-width: 992px) {
@@ -178,6 +189,10 @@ gallery
     .gallery > div.large{
         width: 200px;
         height: 200px;
+    }
+
+    .gallery > div .gallery-overlay {
+        display: block;
     }
 }
 
@@ -198,5 +213,9 @@ gallery
 	    width: 250px;
 	    height: 250px;
 	}
+
+    .gallery > div .gallery-overlay {
+        display: block;
+    }
 
 }

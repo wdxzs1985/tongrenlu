@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-body {;
-    font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif !important;
+body, html {
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, "Microsoft YaHei", "微软雅黑", sans-serif;
     font-size: 14px;
 }
 
@@ -165,6 +165,18 @@ body {;
     background: #fff; 
 }
 
+.append-top-xs {
+    margin-top: 5px;
+}
+
+.append-top {
+    margin-top: 10px;
+}
+
+.append-top-lg {
+    margin-top: 20px;
+}
+
 .append-bottom-xs {
     margin-bottom: 5px;
 }
@@ -181,7 +193,9 @@ h1.article-title {
 	font-size:24px;
 }
 
-.jPaginate a,.jPaginate .jPag-pages span {
+.jPaginate a,
+.jPaginate li a,
+.jPaginate .jPag-pages span {
     border-radius: 4px;
     display: inline-block;
     margin-bottom: 0;
@@ -190,10 +204,11 @@ h1.article-title {
     vertical-align: middle;
     cursor: pointer;
     background-image: none;
-    border: 1px solid transparent;
     white-space: nowrap;
-    padding: 6px 12px;
+    padding: 6px 12px !important;
     border-radius: 4px;
+    border: solid 1px #e9e9e9;
+    box-shadow:0 2px #e9e9e9;
 }
 
 .share_self {
@@ -213,8 +228,8 @@ h1.article-title {
     margin-left: 4px;
 }
 
-#top-music, #top-comic {
-	margin-top: -70px;
+#top-music {
+	margin-top: -40px;
 }
 
 #top-tags .btn-group {
@@ -240,11 +255,10 @@ h1.article-title {
 .card-list {
 }
 
-.card{
-	background: #fff;
-	padding: 8px;
+.card {
+	padding: 4px;
 	border-radius: 4px;
     background-color: #fff;
-    border: solid 1px #e1e1e1;
-    box-shadow:0 4px #e1e1e1;
+    border: solid 1px #e9e9e9;
+    box-shadow:0 2px #e9e9e9;
 }

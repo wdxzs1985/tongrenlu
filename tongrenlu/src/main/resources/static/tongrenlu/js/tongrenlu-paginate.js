@@ -8,8 +8,8 @@ var paginate = function(options) {
         text_color              : '#333',
         background_color        : '#fff',  
         border_hover_color      : '#adadad',
-        text_hover_color        : '#333',
-        background_hover_color  : '#ebebeb', 
+        text_hover_color        : '#fff',
+        background_hover_color  : '#5bc0de', 
         images                  : false,
         onChange                : function (currval){
             return false;
