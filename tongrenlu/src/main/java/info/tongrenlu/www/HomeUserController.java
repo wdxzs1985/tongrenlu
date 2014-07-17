@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Transactional
 public class HomeUserController {
 
+    public static int PAGE_SIZE = 12;
     @Autowired
     private MessageSource messageSource = null;
     @Autowired
@@ -67,7 +68,8 @@ public class HomeUserController {
                                                                           locale));
         }
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
+                                                                      HomeUserController.PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("loginUser", loginUser);
         page.addParam("publishFlg", CommonConstants.CHR_TRUE);
@@ -92,7 +94,8 @@ public class HomeUserController {
                                                                           locale));
         }
 
-        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber);
+        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber,
+                                                                      HomeUserController.PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("loginUser", loginUser);
         page.addParam("publishFlg", CommonConstants.CHR_TRUE);

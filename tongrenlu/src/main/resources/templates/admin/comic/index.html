@@ -29,10 +29,10 @@
                             <ul class="media-list">
                               <li class="media" th:each="articleBean : ${page.items}">
                                 <a class="pull-left" th:href="@{/admin/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                  <img class="media-object img-120 img-rounded img-thumbnail hidden-xs" 
+                                  <img class="media-object img-120 img-rounded hidden-xs" 
                                        th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}"
                                        th:alt-title="${articleBean.title}" />
-                                  <img class="media-object img-60 img-rounded img-thumbnail visible-xs"
+                                  <img class="media-object img-60 img-rounded visible-xs"
                                        th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}"
                                        th:alt-title="${articleBean.title}" />
                                 </a>

@@ -8,467 +8,467 @@
   <meta property="wb:webmaster" content="8e90072a3b17c980" />
 </head>
 <body>
-    <div layout:fragment="content">
-        <div id="top-music" class="container-wrap" >
-            <div class="container">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h3 ><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h3>
-                        </div>
-                        <div class="col-md-6">
-                            <form class="append-top-lg" th:action="@{/search/music}" method="get" role="search">
-                                <div class="input-group">
-                                    <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-warning" type="submit">
-                                            <span class="glyphicon glyphicon-search"></span>
-                                            <span class="hidden-xs" th:text="#{home.search.music}"></span>
-                                        </button>
-                                        <a th:href="@{/music/lucky}" class="btn btn-info">
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
-                                        </a>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="gallery" class="gallery clearfix">
-                <th:block th:each="articleBean,iterStat : ${musicRanking}">
-                    <div class="large pull-left " th:if="${iterStat.index == 0}">
-                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
-                             th:alt-title="${articleBean.title}" />
-                        <div class="gallery-overlay">
-                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
-                        </div>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}" >
-                        </a>
-                    </div>
-                    <div class="large pull-right " th:if="${iterStat.index == 22}">
-                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
-                             th:alt-title="${articleBean.title}" />
-                        <div class="gallery-overlay">
-                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
-                        </div>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}" >
-                        </a>
-                    </div>
-                    <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
-                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
-                             th:alt-title="${articleBean.title}" />
-                        <div class="gallery-overlay">
-                            <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
-                        </div>
-                        <a th:href="@{/music/__${articleBean.id}__}" 
-                           th:alt-title="${articleBean.title}" >
-                        </a>
-                    </div>
-                </th:block>
-            </div>
-        </div>
-        <div id="top-tags" class="container-wrap" >
-            <div class="container">
-                <div class="page-header">
-                    <h3 th:text="#{home.music.reitaisai}"></h3>
-                </div>
+<div layout:fragment="content">
+    <div id="top-music" class="container-wrap" >
+        <div class="container">
+            <div class="page-header">
                 <div class="row">
-                    <div class="col-xs-6 col-sm-3 col-md-2 hidden">
-                        <a class="btn btn-block append-bottom btn-warning"
-                           th:disabled="true" 
-                           th:text="#{home.tag.coming}"></a>
+                    <div class="col-md-6">
+                        <h3 ><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h3>
                     </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-danger" 
-                           th:href="@{/tag/1826/music}" 
-                           th:text="#{home.music.reitaisai.button(11)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1350/music}" 
-                           th:text="#{home.music.reitaisai.button(10)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1030/music}" 
-                           th:text="#{home.music.reitaisai.button(9)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1045/music}" 
-                           th:text="#{home.music.reitaisai.button(8)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1045/music}" 
-                           th:text="#{home.music.reitaisai.button(7)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1186/music}" 
-                           th:text="#{home.music.reitaisai.button(6)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1047/music}" 
-                           th:text="#{home.music.reitaisai.button(5)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1212/music}" 
-                           th:text="#{home.music.reitaisai.button(4)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1180/music}" 
-                           th:text="#{home.music.reitaisai.button(3)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1348/music}" 
-                           th:text="#{home.music.reitaisai.button(2)}"></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block btn-default append-bottom" 
-                           th:href="@{/tag/1501/music}" 
-                           th:text="#{home.music.reitaisai.button(SP2)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block btn-default append-bottom" 
-                           th:href="@{/tag/1215/music}" 
-                           th:text="#{home.music.reitaisai.button(SP)}"></a>
-                    </div>
-                </div>
-                <div class="page-header">
-                    <h3 th:text="#{home.music.comike}"></h3>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-warning"
-                           th:disabled="true" 
-                           th:text="#{home.tag.coming}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-primary" 
-                           th:href="@{/tag/1783/music}" 
-                           th:text="#{home.music.comike.button(85)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1563/music}" 
-                           th:text="#{home.music.comike.button(84)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1082/music}" 
-                           th:text="#{home.music.comike.button(83)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1029/music}" 
-                           th:text="#{home.music.comike.button(82)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1028/music}" 
-                           th:text="#{home.music.comike.button(81)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1008/music}" 
-                           th:text="#{home.music.comike.button(80)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1042/music}" 
-                           th:text="#{home.music.comike.button(79)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1027/music}" 
-                           th:text="#{home.music.comike.button(78)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1025/music}" 
-                           th:text="#{home.music.comike.button(77)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1020/music}" 
-                           th:text="#{home.music.comike.button(76)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1006/music}" 
-                           th:text="#{home.music.comike.button(75)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1213/music}" 
-                           th:text="#{home.music.comike.button(74)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1004/music}" 
-                           th:text="#{home.music.comike.button(73)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1003/music}" 
-                           th:text="#{home.music.comike.button(72)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1001/music}" 
-                           th:text="#{home.music.comike.button(71)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1220/music}" 
-                           th:text="#{home.music.comike.button(70)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1221/music}" 
-                           th:text="#{home.music.comike.button(69)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1628/music}" 
-                           th:text="#{home.music.comike.button(68)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:disabled="true" 
-                           th:text="#{home.music.comike.button(67)}"></a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3 col-md-2">
-                        <a class="btn btn-block append-bottom btn-default" 
-                           th:href="@{/tag/1642/music}" 
-                           th:text="#{home.music.comike.button(66)}"></a>
-                    </div>
-                </div>
-                <div class="page-header">
-                    <h3 th:text="#{home.music.other}"></h3>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-4 col-md-2">
-                        <div class="btn-group append-bottom">
-                            <a class="btn  btn-default" th:href="@{/tag/1838/music}">M3</a>
-                            <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1838/music}" role="menuitem" tabindex="-1">M3-33 (M3-2014春)</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-32 (M3-2013秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1333/music}" role="menuitem" tabindex="-1">M3-31 (M3-2013春)</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-30 (M3-2012秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1179/music}" role="menuitem" tabindex="-1">M3-29 (M3-2012春)</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-28 (M3-2011秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1439/music}" role="menuitem" tabindex="-1">M3-27 (M3-2011春)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1352/music}" role="menuitem" tabindex="-1">M3-26 (M3-2010秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1526/music}" role="menuitem" tabindex="-1">M3-25 (M3-2010春)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2135/music}" role="menuitem" tabindex="-1">M3-24 (M3-2009秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2125/music}" role="menuitem" tabindex="-1">M3-23 (M3-2009春)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2133/music}" role="menuitem" tabindex="-1">M3-22 (M3-2008秋)</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-21 (M3-2008春)</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-20 (M3-2007秋)</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2131/music}" role="menuitem" tabindex="-1">M3-19 (M3-2007春)</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2">
-                        <div class="btn-group append-bottom">
-                            <a class="btn btn-default" th:href="@{/tag/1727/music}" >東方紅楼夢</a>
-                            <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1727/music}" role="menuitem" tabindex="-1">東方紅楼夢9</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1250/music}" role="menuitem" tabindex="-1">東方紅楼夢8</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1431/music}" role="menuitem" tabindex="-1">東方紅楼夢7</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1430/music}" role="menuitem" tabindex="-1">東方紅楼夢6</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1183/music}" role="menuitem" tabindex="-1">東方紅楼夢5</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1182/music}" role="menuitem" tabindex="-1">東方紅楼夢4</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1815/music}" role="menuitem" tabindex="-1">東方紅楼夢3</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2">
-                        <div class="btn-group append-bottom">
-                            <a class="btn btn-default" th:href="@{/tag/1843/music}" >大⑨州東方祭</a>
-                            <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1843/music}" role="menuitem" tabindex="-1">大⑨州東方祭9</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭8</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2136/music}" role="menuitem" tabindex="-1">大⑨州東方祭7</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1771/music}" role="menuitem" tabindex="-1">大⑨州東方祭6</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭5</a></li>
-                                <li role="presentation"><a th:href="@{/tag/2142/music}" role="menuitem" tabindex="-1">大⑨州東方祭4</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2">
-                        <div class="btn-group append-bottom">
-                            <a class="btn btn-default" th:href="@{/tag/1495/music}" >東方椰麟祭</a>
-                            <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li role="presentation"><a th:href="@{/tag/1495/music}" role="menuitem" tabindex="-1">東方椰麟祭3</a></li>
-                                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">東方椰麟祭2</a></li>
-                                <li role="presentation"><a th:href="@{/tag/1217/music}" role="menuitem" tabindex="-1">東方椰麟祭</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2">
-                        <div class="btn-group append-bottom">
-                            <a class="btn btn-default" th:href="@{/tag/1329/music}" >新潟東方祭</a>
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" th:if="${false}">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu" th:if="${false}">
-                                <li role="presentation"><a th:href="@{/tag/1329/music}" role="menuitem" tabindex="-1">新潟東方祭12</a></li>
-                            </ul>
-                        </div>
+                    <div class="col-md-6">
+                        <form class="append-top-lg" th:action="@{/search/music}" method="get" role="search">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning" type="submit">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span class="hidden-xs" th:text="#{home.search.music}"></span>
+                                    </button>
+                                    <a th:href="@{/music/lucky}" class="btn btn-info">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
+                                    </a>
+                                </span>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="top-comic" class="container-wrap">
-            <div class="container">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-md-6 ">
-                           <h3 ><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h3>
-                        </div>
-                        <div class="col-md-6 ">
-                            <form class="append-top-lg" th:action="@{/search/comic}" method="get" role="search">
-                                <div class="input-group">
-                                    <input type="text" name="q" class="form-control" th:placeholder="#{home.search.comic.hint}"/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-warning" type="submit">
-                                            <span class="glyphicon glyphicon-search"></span>
-                                            <span class="hidden-xs" th:text="#{home.search.comic}"></span>
-                                        </button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
+        <div id="gallery" class="gallery clearfix">
+            <th:block th:each="articleBean,iterStat : ${musicRanking}">
+                <div class="large pull-left " th:if="${iterStat.index == 0}">
+                    <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                         th:alt-title="${articleBean.title}" />
+                    <div class="gallery-overlay">
+                        <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                    </div>
+                    <a th:href="@{/music/__${articleBean.id}__}" 
+                       th:alt-title="${articleBean.title}" >
+                    </a>
+                </div>
+                <div class="large pull-right " th:if="${iterStat.index == 22}">
+                    <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                         th:alt-title="${articleBean.title}" />
+                    <div class="gallery-overlay">
+                        <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                    </div>
+                    <a th:href="@{/music/__${articleBean.id}__}" 
+                       th:alt-title="${articleBean.title}" >
+                    </a>
+                </div>
+                <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
+                    <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
+                         th:alt-title="${articleBean.title}" />
+                    <div class="gallery-overlay">
+                        <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
+                    </div>
+                    <a th:href="@{/music/__${articleBean.id}__}" 
+                       th:alt-title="${articleBean.title}" >
+                    </a>
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <div id="top-tags" class="container-wrap" >
+        <div class="container">
+            <div class="page-header">
+                <h3 th:text="#{home.music.reitaisai}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2 hidden">
+                    <a class="btn btn-block append-bottom btn-warning"
+                       th:disabled="true" 
+                       th:text="#{home.tag.coming}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-danger" 
+                       th:href="@{/tag/1826/music}" 
+                       th:text="#{home.music.reitaisai.button(11)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1350/music}" 
+                       th:text="#{home.music.reitaisai.button(10)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1030/music}" 
+                       th:text="#{home.music.reitaisai.button(9)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1045/music}" 
+                       th:text="#{home.music.reitaisai.button(8)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1045/music}" 
+                       th:text="#{home.music.reitaisai.button(7)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1186/music}" 
+                       th:text="#{home.music.reitaisai.button(6)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1047/music}" 
+                       th:text="#{home.music.reitaisai.button(5)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1212/music}" 
+                       th:text="#{home.music.reitaisai.button(4)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1180/music}" 
+                       th:text="#{home.music.reitaisai.button(3)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1348/music}" 
+                       th:text="#{home.music.reitaisai.button(2)}"></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/1501/music}" 
+                       th:text="#{home.music.reitaisai.button(SP2)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/1215/music}" 
+                       th:text="#{home.music.reitaisai.button(SP)}"></a>
+                </div>
+            </div>
+            <div class="page-header">
+                <h3 th:text="#{home.music.comike}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-warning"
+                       th:disabled="true" 
+                       th:text="#{home.tag.coming}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-primary" 
+                       th:href="@{/tag/1783/music}" 
+                       th:text="#{home.music.comike.button(85)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1563/music}" 
+                       th:text="#{home.music.comike.button(84)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1082/music}" 
+                       th:text="#{home.music.comike.button(83)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1029/music}" 
+                       th:text="#{home.music.comike.button(82)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1028/music}" 
+                       th:text="#{home.music.comike.button(81)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1008/music}" 
+                       th:text="#{home.music.comike.button(80)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1042/music}" 
+                       th:text="#{home.music.comike.button(79)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1027/music}" 
+                       th:text="#{home.music.comike.button(78)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1025/music}" 
+                       th:text="#{home.music.comike.button(77)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1020/music}" 
+                       th:text="#{home.music.comike.button(76)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1006/music}" 
+                       th:text="#{home.music.comike.button(75)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1213/music}" 
+                       th:text="#{home.music.comike.button(74)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1004/music}" 
+                       th:text="#{home.music.comike.button(73)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1003/music}" 
+                       th:text="#{home.music.comike.button(72)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1001/music}" 
+                       th:text="#{home.music.comike.button(71)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1220/music}" 
+                       th:text="#{home.music.comike.button(70)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1221/music}" 
+                       th:text="#{home.music.comike.button(69)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1628/music}" 
+                       th:text="#{home.music.comike.button(68)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:disabled="true" 
+                       th:text="#{home.music.comike.button(67)}"></a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1642/music}" 
+                       th:text="#{home.music.comike.button(66)}"></a>
+                </div>
+            </div>
+            <div class="page-header">
+                <h3 th:text="#{home.music.other}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-2">
+                    <div class="btn-group append-bottom">
+                        <a class="btn  btn-default" th:href="@{/tag/1838/music}">M3</a>
+                        <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation"><a th:href="@{/tag/1838/music}" role="menuitem" tabindex="-1">M3-33 (M3-2014春)</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-32 (M3-2013秋)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1333/music}" role="menuitem" tabindex="-1">M3-31 (M3-2013春)</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-30 (M3-2012秋)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1179/music}" role="menuitem" tabindex="-1">M3-29 (M3-2012春)</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-28 (M3-2011秋)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1439/music}" role="menuitem" tabindex="-1">M3-27 (M3-2011春)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1352/music}" role="menuitem" tabindex="-1">M3-26 (M3-2010秋)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1526/music}" role="menuitem" tabindex="-1">M3-25 (M3-2010春)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2135/music}" role="menuitem" tabindex="-1">M3-24 (M3-2009秋)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2125/music}" role="menuitem" tabindex="-1">M3-23 (M3-2009春)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2133/music}" role="menuitem" tabindex="-1">M3-22 (M3-2008秋)</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-21 (M3-2008春)</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-20 (M3-2007秋)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2131/music}" role="menuitem" tabindex="-1">M3-19 (M3-2007春)</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2">
+                    <div class="btn-group append-bottom">
+                        <a class="btn btn-default" th:href="@{/tag/1727/music}" >東方紅楼夢</a>
+                        <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation"><a th:href="@{/tag/1727/music}" role="menuitem" tabindex="-1">東方紅楼夢9</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1250/music}" role="menuitem" tabindex="-1">東方紅楼夢8</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1431/music}" role="menuitem" tabindex="-1">東方紅楼夢7</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1430/music}" role="menuitem" tabindex="-1">東方紅楼夢6</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1183/music}" role="menuitem" tabindex="-1">東方紅楼夢5</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1182/music}" role="menuitem" tabindex="-1">東方紅楼夢4</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1815/music}" role="menuitem" tabindex="-1">東方紅楼夢3</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2">
+                    <div class="btn-group append-bottom">
+                        <a class="btn btn-default" th:href="@{/tag/1843/music}" >大⑨州東方祭</a>
+                        <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation"><a th:href="@{/tag/1843/music}" role="menuitem" tabindex="-1">大⑨州東方祭9</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭8</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2136/music}" role="menuitem" tabindex="-1">大⑨州東方祭7</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1771/music}" role="menuitem" tabindex="-1">大⑨州東方祭6</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭5</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2142/music}" role="menuitem" tabindex="-1">大⑨州東方祭4</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2">
+                    <div class="btn-group append-bottom">
+                        <a class="btn btn-default" th:href="@{/tag/1495/music}" >東方椰麟祭</a>
+                        <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation"><a th:href="@{/tag/1495/music}" role="menuitem" tabindex="-1">東方椰麟祭3</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">東方椰麟祭2</a></li>
+                            <li role="presentation"><a th:href="@{/tag/1217/music}" role="menuitem" tabindex="-1">東方椰麟祭</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-md-2">
+                    <div class="btn-group append-bottom">
+                        <a class="btn btn-default" th:href="@{/tag/1329/music}" >新潟東方祭</a>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" th:if="${false}">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" th:if="${false}">
+                            <li role="presentation"><a th:href="@{/tag/1329/music}" role="menuitem" tabindex="-1">新潟東方祭12</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="container">
+        </div>
+    </div>
+    <div id="top-comic" class="container-wrap">
+        <div class="container">
+            <div class="page-header">
                 <div class="row">
-                <div class="col-sm-8">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3" th:each="articleBean,iterStat : ${comicRanking}">
-                            <div class="thumbnail media card">
-                                <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left" th:alt-title="${articleBean.title}">
-                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
-                                         class="media-object img-60 img-rounded"/>
-                                </a>
-                                <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs" th:alt-title="${articleBean.title}">
-                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                         class="img-180 img-rounded"/>
-                                </a>
-                                <div class="caption">
-                                    <h5 class="media-heading text-single-line">
-                                        <a th:href="@{/comic/__${articleBean.id}__}"
-                                           th:alt-title="${articleBean.title}"
-                                           th:text="${articleBean.title}" >
-                                        </a>
-                                    </h5>
-                                </div>
+                    <div class="col-md-6 ">
+                       <h3 ><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h3>
+                    </div>
+                    <div class="col-md-6 ">
+                        <form class="append-top-lg" th:action="@{/search/comic}" method="get" role="search">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" th:placeholder="#{home.search.comic.hint}"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning" type="submit">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span class="hidden-xs" th:text="#{home.search.comic}"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3" th:each="articleBean,iterStat : ${comicRanking}">
+                        <div class="thumbnail media card">
+                            <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left" th:alt-title="${articleBean.title}">
+                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
+                                     class="media-object img-60 img-rounded"/>
+                            </a>
+                            <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs" th:alt-title="${articleBean.title}">
+                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                     class="img-180 img-rounded"/>
+                            </a>
+                            <div class="caption">
+                                <h5 class="media-heading text-single-line">
+                                    <a th:href="@{/comic/__${articleBean.id}__}"
+                                       th:alt-title="${articleBean.title}"
+                                       th:text="${articleBean.title}" >
+                                    </a>
+                                </h5>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <iframe width="100%" height="780" class="share_self"  frameborder="0" scrolling="no" 
-                        th:src="@{http://widget.weibo.com/weiboshow/index.php(language='',width=0,height=780,fansRow=2,ptype=1,speed=0,skin=1,isTitle=0,noborder=1,isWeibo=1,isFans=0,uid=2803325782,verifier=6daf321a,dpc=1)}">
-                    </iframe>
-                </div>
             </div>
-          </div>
-        </div>
-        <div class="container-wrap" >
-          <div class="container">
-            <div class="page-header">
-                <h3 th:text="#{home.links}"></h3>
-            </div>
-          <div class="row " >
-            <div class="col-md-4 col-lg-4 ">
-                <div class="media">
-                    <div class="media-body">
-                        <h3 class="">
-                            <a href="http://down.thwiki.cc/" target="_blank" title="THBWiki下载站">THBWiki下载站</a>
-                        </h3>
-                        <p class="text-muted">音乐资源花样下载</p>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-md-4 col-lg-4 ">
-                <div class="media">
-                    <div class="media-body">
-                        <h3 class="">
-                            <a href="http://bbs.nyasama.com/" target="_blank" title="喵玉殿论坛">喵玉殿论坛</a>
-                        </h3>
-                        <p class="text-muted">东方Project主题论坛</p>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-md-4 col-lg-4 ">
-                <div class="media">
-                    <div class="media-body">
-                        <h3 class="">
-                            <a href="http://thvideo.tv/" target="_blank" title="TouhouVideo弹幕视频网">TouhouVideo弹幕视频网</a>
-                        </h3>
-                        <p class="text-muted">东方Project专门弹幕视频网站</p>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-md-4 col-lg-4 ">
-                <div class="media">
-                    <div class="media-body">
-                        <h3 class="">
-                            <a th:href="@{http://tieba.baidu.com/f(kw='%B6%AB%B7%BD')}" target="_blank" title="东方吧">东方吧</a>
-                        </h3>
-                        <p class="text-muted">不解释</p>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-md-4 col-lg-4 ">
-                <div class="media">
-                    <div class="media-body">
-                        <h3 class="">
-                            <a href="http://mengmao.org/" target="_blank" title="萌猫导航">萌猫导航</a>
-                        </h3>
-                        <p class="text-muted">喵～</p>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-md-4 col-lg-4 ">
-                <div class="media">
-                    <div class="media-body">
-                        <h3 class="">
-                            <a href="http://app.tongrenlu.info/" target="_blank" title="APP下载">APP下载</a>
-                        </h3>
-                        <p class="text-muted">东方同人录安卓音乐客户端</p>
-                    </div>
-                </div>
+            <div class="col-sm-4">
+                <iframe width="100%" height="780" class="share_self"  frameborder="0" scrolling="no" 
+                    th:src="@{http://widget.weibo.com/weiboshow/index.php(language='',width=0,height=780,fansRow=2,ptype=1,speed=0,skin=1,isTitle=0,noborder=1,isWeibo=1,isFans=0,uid=2803325782,verifier=6daf321a,dpc=1)}">
+                </iframe>
             </div>
         </div>
       </div>
+    </div>
+    <div id="top-links" class="container-wrap" >
+        <div class="container">
+            <div class="page-header">
+                <h3 th:text="#{home.links}"></h3>
+            </div>
+            <div class="row " >
+                <div class="col-md-4 col-lg-4 ">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="">
+                                <a href="http://down.thwiki.cc/" target="_blank" title="THBWiki下载站">THBWiki下载站</a>
+                            </h3>
+                            <p class="text-muted">音乐资源花样下载</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-4 col-lg-4 ">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="">
+                                <a href="http://bbs.nyasama.com/" target="_blank" title="喵玉殿论坛">喵玉殿论坛</a>
+                            </h3>
+                            <p class="text-muted">东方Project主题论坛</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-4 col-lg-4 ">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="">
+                                <a href="http://thvideo.tv/" target="_blank" title="TouhouVideo弹幕视频网">TouhouVideo弹幕视频网</a>
+                            </h3>
+                            <p class="text-muted">东方Project专门弹幕视频网站</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-4 col-lg-4 ">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="">
+                                <a th:href="@{http://tieba.baidu.com/f(kw='%B6%AB%B7%BD')}" target="_blank" title="东方吧">东方吧</a>
+                            </h3>
+                            <p class="text-muted">不解释</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-4 col-lg-4 ">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="">
+                                <a href="http://mengmao.org/" target="_blank" title="萌猫导航">萌猫导航</a>
+                            </h3>
+                            <p class="text-muted">喵～</p>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-4 col-lg-4 ">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="">
+                                <a href="http://app.tongrenlu.info/" target="_blank" title="APP下载">APP下载</a>
+                            </h3>
+                            <p class="text-muted">东方同人录安卓音乐客户端</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

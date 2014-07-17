@@ -10,12 +10,13 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="" >
+    <div class="container-wrap" >
         <div class="container" layout:fragment="article-header">
             <div class="media">
                 <div class="media-heading pull-left">
                     <img src="http://placehold.it/60x60" class="img-responsive img-rounded img-60" 
-                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"/>
+                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" 
+                        th:alt-title="${articleBean.title}"/>
                 </div>
                 <div class="pull-right btn-group">
                     <button class="like-article btn btn-danger hidden">
@@ -29,6 +30,7 @@
                 </div>
             </div>
         </div>
+    </div>
         <div class="container-fuild">
             <div th:fragment="article-gallery">
 	            <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
@@ -198,6 +200,5 @@
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>

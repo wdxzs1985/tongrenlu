@@ -28,44 +28,51 @@
     </div>
     <div class="container-wrap" >
         <div class="container">
-            <div class="row">
-                <th:block th:if="${searchResult}">
-                    <div class="col-sm-8">
-                        <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
-                            <ul class="media-list">
-                              <li class="media card" th:each="articleDocument : ${searchResult.content}">
-                                <a class="pull-left" th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
-                                    th:alt-title="${articleDocument.title}">
-                                  <img class="media-object img-120 img-thumbnail img-rounded hidden-xs"
-                                       th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
-                                       th:alt-title="${articleDocument.title}" />
-                                  <img class="media-object img-60 img-thumbnail img-rounded visible-xs"
-                                       th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
-                                       th:alt-title="${articleDocument.title}" />
-                                </a>
-                                <div class="media-body">
-                                  <div class="article-list-item">
-                                  <h5 class="media-heading text-single-line">
-                                    <a th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}" 
-                                       th:text="${articleDocument.title}" 
-                                       th:alt-title="${articleDocument.title}"></a>
-                                  </h5>
-                                  <p th:text="${articleDocument.description}"></p>
-                                  </div>
+            <th:block th:if="${searchResult}">
+                <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
+                    <ul class="media-list">
+                        <li class="media" th:each="articleDocument : ${searchResult.content}">
+                            <a class="pull-left" th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
+                                th:alt-title="${articleDocument.title}">
+                                <img class="media-object img-120  img-rounded hidden-xs"
+                                    th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
+                                    th:alt-title="${articleDocument.title}" />
+                                <img class="media-object img-60  img-rounded visible-xs"
+                                    th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
+                                    th:alt-title="${articleDocument.title}" />
+                            </a>
+                            <div class="media-body">
+                                <div class="article-list-item">
+                                    <h5 class="media-heading text-single-line">
+                                        <a th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}" 
+                                            th:text="${articleDocument.title}" 
+                                            th:alt-title="${articleDocument.title}"></a>
+                                    </h5>
+                                    <ul class="list-inline tag-container">
+                                        <li>
+                                            <span class="glyphicon glyphicon-tags"></span>&nbsp;
+                                            <strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong>
+                                        </li>
+                                        <li th:each="tag : ${articleDocument.tags}">
+                                            <a class="btn btn-xs btn-default" 
+                                                th:href="@{/search/music(q=${tag})}" 
+                                                th:text="${tag}">
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-                              </li>
-                            </ul>
-                            <hr />
-                            <div id="jpaginate" class="hidden-xs"></div>
-                            <div id="select-paginate" class="form-group visible-xs"></div>
-                        </th:block>
-                        <div class="alert alert-warning" th:if="${#lists.isEmpty(searchResult.content)}">
-                            <h4 th:text="#{home.article.noData}"></h4>
-                            <a th:href="@{/search}" th:text="#{button.back}" class="btn btn-default"></a>
-                        </div>
-                    </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <hr />
+                    <div id="jpaginate" class="hidden-xs"></div>
+                    <div id="select-paginate" class="form-group visible-xs"></div>
                 </th:block>
-            </div>
+                <div class="alert alert-warning" th:if="${#lists.isEmpty(searchResult.content)}">
+                    <h4 th:text="#{home.article.noData}"></h4>
+                    <a th:href="@{/search}" th:text="#{button.back}" class="btn btn-default"></a>
+                </div>
+            </th:block>
         </div>
     </div>
 </div>
