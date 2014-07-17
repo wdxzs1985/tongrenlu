@@ -102,7 +102,7 @@ public class HomeComicController {
                                                                               null,
                                                                               locale));
             }
-            return "redirect:/music/" + bean.getId();
+            return "redirect:/comic/" + bean.getId();
         } else {
             try {
                 final Integer id = Integer.valueOf(articleId);
