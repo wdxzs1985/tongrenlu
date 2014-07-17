@@ -69,9 +69,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2" >
-                    <div class="page-header">
-                        <h3 th:text="#{home.user.comicCount}"></h3>
-                    </div>
                     <div th:include="home/layout_comic_index::list-content"></div>
                     <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                         <h4 th:text="#{home.article.noData}"></h4>
