@@ -4,12 +4,6 @@ var paginate = function(options) {
         start       : 1,
         display     : 10,
         border                  : false,
-        border_color            : '#ccc',
-        text_color              : '#333',
-        background_color        : '#fff',  
-        border_hover_color      : '#adadad',
-        text_hover_color        : '#fff',
-        background_hover_color  : '#5bc0de', 
         images                  : false,
         onChange                : function (currval){
             return false;

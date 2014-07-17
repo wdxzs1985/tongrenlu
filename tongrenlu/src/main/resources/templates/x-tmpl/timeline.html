@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<body>
+
+<script id="template-timeline-item" type="text/x-tmpl" th:inline="text" th:fragment="template-timeline-item">
+<li class="media card">
+    {% if (o.action == 'publish_comic') { %}
+    <a href="/comic/{%=o.articleBean.id%}" class="pull-left">
+        <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_120.jpg" class="media-object img-60"/>
+    </a>
+    {% } else if (o.action == 'publish_music') { %}
+    <a href="/music/{%=o.articleBean.id%}" class="pull-left">
+        <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_120.jpg" class="media-object img-60"/>
+    </a>
+    {% } else { %}
+    <a href="/user/{%=o.userBean.id%}" class="pull-left">
+        <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="media-object img-rounded img-60"/>
+    </a>
+    {% } %}
+    <div class="media-body">
+        <h5 class="media-heading">
+            <a href="/user/{%=o.userBean.id%}"><strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong></a>
+            {% if (o.action == 'publish_comic') { %}
+            <span th:text="#{home.user.timeline.publish}"></span>
+            <a href="/comic/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
+            {% } else if (o.action == 'publish_music') { %}
+            <span th:text="#{home.user.timeline.publish}"></span>
+            <a href="/music/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
+            {% } else if (o.action == 'comment_comic') { %}
+            <span th:text="#{home.user.timeline.comment}"></span>
+            <a href="/comic/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
+            {% } else if (o.action == 'comment_music') { %}
+            <span th:text="#{home.user.timeline.comment}"></span>
+            <a href="/music/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
+            {% } %}
+        </h5>
+        <pre>{%=o.content%}</pre>
+    </div>
+</li>
+</script>
+
+</body>
+</html>

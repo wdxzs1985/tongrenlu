@@ -3,7 +3,8 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="layout">
 <head>
-  <title th:inline="text">[[#{console}]]</title>
+    <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-console.css}"/>
+    <title th:inline="text">[[#{console}]]</title>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-static-top" layout:fragment="header">
@@ -73,6 +74,8 @@
             <span id="nav-nickname" th:text="${session.LOGIN_USER}"></span> <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
+            <li ><a th:href="@{/console/setting}" th:text="#{console.profile.setting}"></a></li>
+            <li ><a th:href="@{/console/password}" th:text="#{console.profile.password}"></a></li>
             <li ><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
           </ul>
         </li>

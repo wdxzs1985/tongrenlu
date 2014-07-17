@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+.navbar-inverse {
+    background-color: #673ab7;
+    border-color: #673ab7;
+}
+
+.navbar-inverse .navbar-toggle,
+.navbar-inverse .navbar-collapse, 
+.navbar-inverse .navbar-form {
+    border-color: #673ab7;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-brand:hover, 
+.navbar-inverse .navbar-brand:focus {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover, 
+.navbar-inverse .navbar-nav>li>a:focus {
+	color: #fff;
+}
+
+.navbar-inverse .navbar-nav>.open>a, 
+.navbar-inverse .navbar-nav>.open>a:hover, 
+.navbar-inverse .navbar-nav>.open>a:focus {
+	background-color: transparent;
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a,
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a:hover, 
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a:focus {
+    color: #555;
+    background-color: #fff;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu,
+.navbar-inverse .navbar-nav .open .dropdown-menu {
+    background-color: #fff;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu .divider,
+.navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+    background-color: #e5e5e5;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+.navbar-inverse .navbar-toggle:hover, 
+.navbar-inverse .navbar-toggle:focus {
+    background-color: #fff;
+}
+
+.navbar-inverse .navbar-toggle:hover .icon-bar,
+.navbar-inverse .navbar-toggle:focus .icon-bar {
+    background-color: #673ab7;
+}
+
+.container-wrap {
+    background: #fff;
+}
+
+.container-header {
+    background: #7e57c2;
+    color: #fff;
+}
+
+.container-header a {
+    color: #ede7f6;
+}
+
+.container-header a:hover,
+.container-header a:active,
+.container-header a:focus {
+    color: #d1c4e9;
+}
+
+.container-header .badge {
+    background-color: #ede7f6;
+    color: #311b92;
+}
+
+.jPaginate a,
+.jPaginate li a,
+.jPaginate .jPag-pages span {
+    background-color: #fff !important;
+    color: #212121 !important;
+}
+
+.jPaginate a:hover,
+.jPaginate li a:hover,
+.jPaginate .jPag-pages span {
+    background-color: #e0e0e0 !important;
+    color: #424242 !important;
+}

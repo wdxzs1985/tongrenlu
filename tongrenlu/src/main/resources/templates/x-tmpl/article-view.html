@@ -37,24 +37,24 @@
 </script>
 
 <script id="template-comment-item" type="text/x-tmpl" th:inline="text" th:fragment="template-comment-item">
-        <li class="media">
-            <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
-                <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="img-60 img-rounded" />
+<li class="media card">
+    <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
+        <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="img-60 img-rounded" />
+    </a>
+    <div class="media-body">
+        <h5 class="media-heading">
+            <a href="/user/{%=o.userBean.id%}" target="_blank">
+                <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
             </a>
-            <div class="media-body">
-                <h5 class="media-heading">
-                    <a href="/user/{%=o.userBean.id%}" target="_blank">
-                        <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
-                    </a>
-                    <span class="text-muted"> {%=o.createDate%}</span>
-                    <button class="btn btn-info btn-xs comment-reply">
-                        <span class="glyphicon glyphicon-share-alt"></span>
-                        <span th:text="#{home.article.comment.reply}"></span>
-                    </button>
-                </h5>
-                <pre>{%=o.content%}</pre>
-            </div>
-        </li>
+            <span class="text-muted"> {%=o.createDate%}</span>
+            <button class="btn btn-info btn-xs comment-reply">
+                <span class="glyphicon glyphicon-share-alt"></span>
+                <span th:text="#{home.article.comment.reply}"></span>
+            </button>
+        </h5>
+        <pre>{%=o.content%}</pre>
+    </div>
+</li>
 </script>
   </body>
 </html>

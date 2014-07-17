@@ -10,7 +10,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-wrap" >
+    <div class="" >
         <div class="container" layout:fragment="article-header">
             <div class="media">
                 <div class="media-heading pull-left">
@@ -108,6 +108,9 @@
                 </div>
             </div>
             <div id="baseinfo" th:fragment="article-baseinfo">
+                <div class="page-header">
+                    <h5 th:text="${articleBean.title}"></h5>
+                </div>
                 <ul class="list-inline">
                   <li>
                     <span th:text="#{home.article.owner} + ' :'">Owner :</span>
@@ -136,20 +139,20 @@
                         <strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong>
                     </li>
                 </ul>
-                <div th:fragment="article-share">
-                    <button class="like-article btn btn-danger hidden">
-                        <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                        <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-                    </button>
-                    <button id="share_article" class="btn btn-info">
-                        <span class="glyphicon glyphicon-thumbs-up"></span>
-                        <span class="hidden-xs" th:text="#{home.article.share}"></span>
-                    </button>
-                    <button id="request_article" class="btn btn-warning">
-                        <span class="glyphicon glyphicon-bullhorn"></span>
-                        <span class="hidden-xs" th:text="#{home.article.request}"></span>
-                    </button>
-                </div>
+            </div>
+            <div id="share" th:fragment="article-share">
+                <button class="like-article btn btn-danger hidden">
+                    <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                    <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
+                </button>
+                <button id="share_article" class="btn btn-info">
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <span class="hidden-xs" th:text="#{home.article.share}"></span>
+                </button>
+                <button id="request_article" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-bullhorn"></span>
+                    <span class="hidden-xs" th:text="#{home.article.request}"></span>
+                </button>
             </div>
             <div id="comment" th:fragment="article-comment">
                 <div class="page-header">

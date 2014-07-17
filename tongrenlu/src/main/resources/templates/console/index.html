@@ -2,122 +2,92 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
-  <head>
-  <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-timeline.css}" />
-  </head>
-  <body>
-    <div class="container" layout:fragment="content">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="thumbnail">
-                  <a th:href="@{/console/setting}" class="">
-                    <img src="http://placehold.it/400x400" class="img-400" 
-                         th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_400.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
-                  </a>
-                  <div class="caption">
-                    <h5 th:text="${userBean}" class="text-center"></h5>
-                    <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
-                    <p class="text-right">
-                        <a th:href="@{/console/setting}" class="btn btn-link btn-xs" 
-                            th:text="#{console.profile.setting}"></a>
-                        <a th:href="@{/console/password}" class="btn btn-link btn-xs" 
-                            th:text="#{console.profile.password}"></a>
-                    </p>
-                  </div>
-                </div>
-                <div class="list-group" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
-                  <a th:href="@{/console/music}" class="list-group-item">
-                    <span th:text="#{UserBean.musicCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.musicCount}"></span>
-                  </a>
-                  <a th:href="@{/console/comic}" class="list-group-item">
-                    <span th:text="#{UserBean.comicCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.comicCount}"></span>
-                  </a>
-                  <a th:href="@{/console/follow}" class="list-group-item">
-                    <span th:text="#{UserBean.followCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.followCount}"></span>
-                  </a>
-                  <a th:href="@{/console/follower}" class="list-group-item">
-                    <span th:text="#{UserBean.followerCount}"></span>
-                    <span class="badge pull-right" th:text="${userBean.followerCount}"></span>
-                  </a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div id="timeline" class="timeline-container"
-                  th:attr="data-href=@{/console/timeline}">
-                  <div class="timeline-list-content hidden">
-                    <ul class="cbp_tmtimeline"></ul>
-                    <ul class="pager">
-                      <li class="previous">
-                        <a href="javascript:;">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span th:text="#{button.previousPage}"></span>
+<head>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="media">
+                        <a th:href="@{/console/setting}" class="pull-left">
+                            <img src="http://placehold.it/400x400" class="img-120 media-object" 
+                                th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg(nocache=${#dates.createNow()})}" th:alt-title="${userBean}"/>
                         </a>
-                      </li>
-                      <li class="next">
-                        <a href="javascript:;">
-                            <span th:text="#{button.nextPage}"></span>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
-                      </li>
-                    </ul>
+                        <div class="media-body">
+                            <h3 th:text="${userBean}" class="media-heading"></h3>
+                            <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="timeline-empty alert alert-info hidden" 
-                     th:text="#{console.user.timeline.empty}">
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-3">
             </div>
         </div>
     </div>
+    <div class="container-wrap">
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-4" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
+                    <div class="list-group">
+                        <a th:href="@{/console/music}" class="list-group-item">
+                            <span th:text="#{UserBean.musicCount}"></span>
+                            <span class="badge " th:text="${userBean.musicCount}"></span>
+                        </a>
+                        <a th:href="@{/console/comic}" class="list-group-item">
+                            <span th:text="#{UserBean.comicCount}"></span>
+                            <span class="badge " th:text="${userBean.comicCount}"></span>
+                        </a>
+                        <a th:href="@{/console/follow}" class="list-group-item">
+                            <span th:text="#{UserBean.followCount}"></span>
+                            <span class="badge " th:text="${userBean.followCount}"></span>
+                        </a>
+                        <a th:href="@{/console/follower}" class="list-group-item">
+                            <span th:text="#{UserBean.followerCount}"></span>
+                            <span class="badge " th:text="${userBean.followerCount}"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-8" th:classappend="${session.LOGIN_USER.member}? 'col-md-offset-2'">
+                    <div id="timeline" class="timeline-container"
+                        th:attr="data-href=@{/console/timeline}">
+                        <div class="timeline-list-content hidden">
+                            <ul class="cbp_tmtimeline media-list" ></ul>
+                            <ul class="pager">
+                                <li class="previous">
+                                    <a href="javascript:;">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                        <span th:text="#{button.previousPage}"></span>
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="javascript:;">
+                                        <span th:text="#{button.nextPage}"></span>
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="timeline-empty alert alert-info hidden" 
+                            th:text="#{console.user.timeline.empty}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-timeline.js}" ></script>
-<script id="template-timeline-item" type="text/x-tmpl" th:inline="text">
-        <li class="">
-            {% if (o.action == 'publish_comic') { %}
-            <a href="/comic/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_120.jpg" class=" img-60"/>
-            </a>
-            {% } else if (o.action == 'publish_music') { %}
-            <a href="/music/{%=o.articleBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_120.jpg" class=" img-60"/>
-            </a>
-            {% } else { %}
-            <a href="/user/{%=o.userBean.id%}" class="cbp_tmicon" target="_blank">
-                <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class=" img-60"/>
-            </a>
-            {% } %}
-            <div class="cbp_tmlabel">
-                <h5 class="text-single-line">
-                    <a href="/user/{%=o.userBean.id%}" target="_blank"><strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong></a>
-                    {% if (o.action == 'publish_comic') { %}
-                    <span th:text="#{home.user.timeline.publish}"></span>
-                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
-                    {% } else if (o.action == 'publish_music') { %}
-                    <span th:text="#{home.user.timeline.publish}"></span>
-                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
-                    {% } else if (o.action == 'comment_comic') { %}
-                    <span th:text="#{home.user.timeline.comment}"></span>
-                    <a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
-                    {% } else if (o.action == 'comment_music') { %}
-                    <span th:text="#{home.user.timeline.comment}"></span>
-                    <a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a>
-                    {% } %}
-                </h5>
-                <pre>{%=o.content%}</pre>
-            </div>
-        </li>
-</script>
+
+<div th:replace="x-tmpl/timeline::template-timeline-item"></div>
+
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new timeline({});
 });
 </script>
 </th:block>
-  </body>
+</body>
 </html>
