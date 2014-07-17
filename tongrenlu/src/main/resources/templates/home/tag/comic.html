@@ -9,10 +9,9 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header" >
         <div class="container">
-            <h1>
-                <a th:href="@{/tag/__${tagBean.id}__}" th:text="${tagBean.tag}">TAG</a>
-                <small th:text="' > ' + #{home.tag.comic(${tagBean.tag})}"></small>
-            </h1>
+            <h3><a th:href="@{/tag/__${tagBean.id}__}" th:text="${tagBean.tag}">TAG</a></h3>
+            <hr />
+            <p th:text="#{home.tag.comic(${tagBean.tag})}"></p>
         </div>
     </div>
     <div class="container-wrap" >

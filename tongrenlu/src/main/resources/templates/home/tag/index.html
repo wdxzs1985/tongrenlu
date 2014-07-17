@@ -17,19 +17,31 @@
                 </div>
                 <div class="panel-body ">
                     <div class="row">
-                        <div class="col-xs-6 col-md-2" th:each="articleBean : ${musicPage.items}">
-                            <a th:href="@{/music/__${articleBean.id}__}" class="thumbnail">
-                                <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
-                                    th:alt-title="${articleBean.title}"  
-                                    class="img-180"/>
-                            </a>
-                            <h5 class="text-single-line">
-                                <a th:href="@{/music/__${articleBean.id}__}"
-                                    th:text="${articleBean.title}"
-                                    th:alt-title="${articleBean.title}" >
-                                </a>
-                            </h5>
-                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-2" th:each="articleBean : ${musicPage.items}">
+                             <div class="thumbnail media card">
+                                 <a class="visible-sm visible-xs pull-left" target="_blank" 
+                                    th:href="@{/music/__${articleBean.id}__}" 
+                                    th:alt-title="${articleBean.title}">
+                                     <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
+                                          class="media-object img-60 img-rounded"/>
+                                 </a>
+                                 <a class="hidden-sm hidden-xs" target="_blank" 
+                                    th:href="@{/music/__${articleBean.id}__}" 
+                                    th:alt-title="${articleBean.title}">
+                                     <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                          class="img-180 img-rounded"/>
+                                 </a>
+                                 <div class="caption">
+                                     <h5 class="media-heading text-single-line">
+                                         <a target="_blank" 
+                                            th:href="@{/music/__${articleBean.id}__}"
+                                            th:alt-title="${articleBean.title}"
+                                            th:text="${articleBean.title}" >
+                                         </a>
+                                     </h5>
+                                 </div>
+                             </div>
+                         </div>
                     </div>
                 </div>
                 <div class="panel-footer text-right">
@@ -42,19 +54,33 @@
                 </div>
                 <div class="panel-body ">
                     <div class="row">
-                        <div class="col-xs-6 col-md-2" th:each="articleBean : ${comicPage.items}">
-                            <a th:href="@{/comic/__${articleBean.id}__}" class="thumbnail">
-                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}"
-                                    th:alt-title="${articleBean.title}" 
-                                    class="img-180"/>
-                            </a>
-                            <h5 class="text-single-line">
-                                <a th:href="@{/comic/__${articleBean.id}__}"
-                                    th:text="${articleBean.title}"
-                                    th:alt-title="${articleBean.title}" >
-                                </a>
-                            </h5>
-                        </div>
+                     <div class="col-sm-6 col-md-3 col-lg-2" th:each="articleBean : ${comicPage.items}">
+                         <div class="thumbnail media card">
+                             <a class="visible-sm visible-xs pull-left" target="_blank" 
+                                th:href="@{/comic/__${articleBean.id}__}"
+                                th:alt-title="${articleBean.title}">
+                                 <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" 
+                                      th:alt-title="${articleBean.title}"
+                                      class="media-object img-60 img-rounded"/>
+                             </a>
+                             <a class="hidden-sm hidden-xs" target="_blank" 
+                                th:href="@{/comic/__${articleBean.id}__}" 
+                                th:alt-title="${articleBean.title}">
+                                 <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" 
+                                      th:alt-title="${articleBean.title}"
+                                      class="img-180 img-rounded"/>
+                             </a>
+                             <div class="caption">
+                                 <h5 class="media-heading text-single-line">
+                                     <a target="_blank" 
+                                        th:href="@{/comic/__${articleBean.id}__}"
+                                        th:alt-title="${articleBean.title}"
+                                        th:text="${articleBean.title}" >
+                                     </a>
+                                 </h5>
+                             </div>
+                         </div>
+                     </div>
                     </div>
                 </div>
                 <div class="panel-footer text-right">
