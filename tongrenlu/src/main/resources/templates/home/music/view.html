@@ -62,7 +62,7 @@ $(function() {
     new player({
     	url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
     	filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
-    	swfPath: /*[[@{/jQuery.jPlayer.2.6.0/js}]]*/ '/jQuery.jPlayer.2.6.0/js',
+    	swfPath: 'http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js',
     	filter: function(playList, playable) {
     		var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
     		if(onlyVocal) {

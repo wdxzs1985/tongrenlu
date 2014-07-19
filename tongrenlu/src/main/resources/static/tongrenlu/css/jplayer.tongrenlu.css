@@ -164,6 +164,7 @@ div.jp-seeking-bg {
     height: 8px;
     overflow:hidden;
     cursor:pointer;
+    clear: both;
 }
 
 .jp-play-bar {
