@@ -4,7 +4,6 @@
   layout:decorator="home/layout_article_view">
 <head>
     <title th:inline="text">[[${articleBean.title} + ' | ' + #{application}]]</title>
-    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div class="container" layout:fragment="article-header">
@@ -100,46 +99,52 @@ $(function() {
     	unlikeText: /*[[#{home.article.unlike}]]*/ ''
     });
 
-    var title = /*[[${articleBean.title}]]*/ '';
+
+});
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    var title = /*[[${articleBean.title} + ' | ' #{application}]]*/ '';
     var share_url = /*[[@{http://www.tongrenlu.info/music/__${articleBean.id}__}]]*/ '';
     var image_url = /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}]]*/ '';
     WB2.anyWhere(function(W){
-            W.widget.publish({
-                toolbar: 'face',
-                action:'publish',
-                type:'web',
-                language:'zh_cn',
-                button_type:'red',
-                button_size:'middle',
-                default_text: title + ' ' + share_url,
-                tag: /*[[#{home.music.share.text}]]*/ '',
-                refer:'y',
-                default_image: image_url,
-                appkey:'2ZiUc5',
-                id: 'share_article',
-                position: 'c'
-            });
+        W.widget.publish({
+            toolbar: 'face',
+            action:'publish',
+            type:'web',
+            language:'zh_cn',
+            button_type:'red',
+            button_size:'middle',
+            default_text: title + ' ' + share_url,
+            tag: /*[[#{home.music.share.text}]]*/ '',
+            refer:'y',
+            default_image: image_url,
+            appkey:'2ZiUc5',
+            id: 'share_article',
+            position: 'c'
         });
-        WB2.anyWhere(function(W){
-            W.widget.publish({
-                toolbar: 'face',
-                action:'publish',
-                type:'web',
-                language:'zh_cn',
-                button_type:'red',
-                button_size:'middle',
-                uid:'2803325782',
-                default_text: title + ' ' + share_url,
-                tag: /*[[#{home.article.request.text}]]*/ '',
-                refer:'y',
-                default_image: image_url,
-                appkey:'2ZiUc5',
-                id: 'request_article',
-                position: 'c'
-            });
+    });
+    WB2.anyWhere(function(W){
+        W.widget.publish({
+            toolbar: 'face',
+            action:'publish',
+            type:'web',
+            language:'zh_cn',
+            button_type:'red',
+            button_size:'middle',
+            uid:'2803325782',
+            default_text: title + ' ' + share_url,
+            tag: /*[[#{home.article.request.text}]]*/ '',
+            refer:'y',
+            default_image: image_url,
+            appkey:'2ZiUc5',
+            id: 'request_article',
+            position: 'c'
         });
+    });
 });
 </script>
 </th:block>
-  </body>
+</body>
 </html>

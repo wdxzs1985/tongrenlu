@@ -12,7 +12,7 @@ div.jp-audio {
     line-height:1.6;
     padding: 3px;
     background: #fff;
-    border: 1px solid #bdc3c7;
+    border: 1px solid #e0e0e0;
 }
 
 div.jp-interface {
@@ -115,7 +115,7 @@ ul.jp-toggles li a{
 }
 
 .jp-repeat {
-    color: #bdc3c7;
+    color: #e0e0e0;
 }
 
 .jp-repeat:hover {
@@ -129,7 +129,7 @@ ul.jp-toggles li a{
 }
 
 .jp-shuffle {
-    color: #bdc3c7;
+    color: #e0e0e0;
 }
 
 .jp-shuffle:hover {
@@ -159,7 +159,7 @@ div.jp-seeking-bg {
 }
 
 .jp-seek-bar {
-    background: #bdc3c7;
+    background: #e0e0e0;
     width:0px;
     height: 8px;
     overflow:hidden;
@@ -226,7 +226,7 @@ div.jp-interface ul.jp-controls a.jp-volume-max:hover {
 }
 
 .jp-volume-bar {
-    background: #bdc3c7;
+    background: #e0e0e0;
     height: 4px;
     padding: 0;
     overflow: hidden;
@@ -314,7 +314,7 @@ div.jp-type-playlist div.jp-playlist a:hover {
 }
 
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
-    background-color: #ecf0f1;
+    background-color: #eeeeee;
 }
 
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
