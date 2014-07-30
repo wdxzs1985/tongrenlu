@@ -6,7 +6,7 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
-@SolrDocument(solrCoreName = "collection3")
+@SolrDocument
 public class ArticleDocument implements Serializable {
 
     /**

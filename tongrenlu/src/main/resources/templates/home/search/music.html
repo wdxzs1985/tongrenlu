@@ -70,7 +70,7 @@
                 </th:block>
                 <div class="alert alert-warning" th:if="${#lists.isEmpty(searchResult.content)}">
                     <h4 th:text="#{home.article.noData}"></h4>
-                    <a th:href="@{/search}" th:text="#{button.back}" class="btn btn-default"></a>
+                    <a th:href="@{/}" th:text="#{button.back}" class="btn btn-default"></a>
                 </div>
             </th:block>
         </div>

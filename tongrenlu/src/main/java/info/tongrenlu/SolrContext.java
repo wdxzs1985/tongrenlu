@@ -7,6 +7,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.data.solr.core.SolrTemplate;
 
 @Configuration
 public class SolrContext {
@@ -20,5 +21,10 @@ public class SolrContext {
     public SolrServer solrServer() {
         final String solrHost = this.environment.getRequiredProperty(SolrContext.SOLR_HOST);
         return new HttpSolrServer(solrHost);
+    }
+
+    @Bean
+    public SolrTemplate solrTemplate() {
+        return new SolrTemplate(this.solrServer(), "collection3");
     }
 }
