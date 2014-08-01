@@ -1,14 +1,14 @@
 @charset "UTF-8";
 
 .navbar-inverse {
-    background-color: #ff2d6f;
-    border-color: #ff2d6f;
+    background-color: #673ab7;
+    border-color: #673ab7;
 }
 
 .navbar-inverse .navbar-toggle,
 .navbar-inverse .navbar-collapse, 
 .navbar-inverse .navbar-form {
-    border-color: #ff2d6f;
+    border-color: #673ab7;
 }
 
 .navbar-inverse .navbar-brand {
@@ -64,20 +64,16 @@
 
 .navbar-inverse .navbar-toggle:hover .icon-bar,
 .navbar-inverse .navbar-toggle:focus .icon-bar {
-    background-color: #ff2d6f;
-}
-
-.container-wrap {
-    background: #fff;
+    background-color: #673ab7;
 }
 
 .container-header {
-    background: #ff7997;
+    background: #b39ddb;
     color: #fff;
 }
 
 .container-header a {
-    color: #fde0dc;
+    color: #ede7f6;
 }
 
 .container-header a:hover,
@@ -88,15 +84,15 @@
 
 .container-header small,
 .container-header .text-muted {
-    color: #fde0dc;
+    color: #ede7f6;
 }
 
 .container-tab {
-    background: #ff7997;
+    background: #b39ddb;
 }
 
 .container-tab .nav>li>a {
-    color: #fce4ec;
+    color: #ede7f6;
 }
 
 .container-tab .nav>li>a:hover, 
@@ -109,8 +105,8 @@
 }
 
 .container-tab .nav>li>a .badge {
-    background-color: #fce4ec;
-    color: #ff7997;
+    background-color: #ede7f6;
+    color: #b39ddb;
 }
 
 

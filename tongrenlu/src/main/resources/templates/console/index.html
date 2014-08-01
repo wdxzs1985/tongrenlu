@@ -8,24 +8,20 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header">
         <div class="container">
-            <div class="row">
-                <div class="col-md-8 " th:classappend="${session.LOGIN_USER.member}? 'col-md-offset-2'">
-                    <div class="media">
-                        <a th:href="@{/console/setting}" class="pull-left">
-                            <img class="img-60 img-circle media-object visible-xs" 
-                                th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                                th:alt-title="${userBean}"/>
-                            <img class="img-120 img-circle media-object hidden-xs" 
-                                th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                                th:alt-title="${userBean}"/>
-                        </a>
-                        <div class="media-body">
-                            <h3 th:text="${userBean}" class="media-heading"></h3>
-                            <p class="text-muted"
-                                th:unless="${#strings.isEmpty(userBean.signature)}" 
-                                th:text="${userBean.signature}"></p>
-                        </div>
-                    </div>
+            <div class="media">
+                <a th:href="@{/console/setting}" class="pull-left">
+                    <img class="img-60 img-circle media-object visible-xs" 
+                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
+                        th:alt-title="${userBean}"/>
+                    <img class="img-120 img-circle media-object hidden-xs" 
+                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
+                        th:alt-title="${userBean}"/>
+                </a>
+                <div class="media-body">
+                    <h3 th:text="${userBean}" class="media-heading"></h3>
+                    <p class="text-muted"
+                        th:unless="${#strings.isEmpty(userBean.signature)}" 
+                        th:text="${userBean.signature}"></p>
                 </div>
             </div>
         </div>
@@ -56,7 +52,7 @@
             </ul>
         </div>
     </div>
-    <div class="container-wrap">
+    <div class="container-wrap container-wrap-darker">
         <div class="container" >
             <div id="timeline" class="timeline-container"
                 th:attr="data-href=@{/console/timeline}">

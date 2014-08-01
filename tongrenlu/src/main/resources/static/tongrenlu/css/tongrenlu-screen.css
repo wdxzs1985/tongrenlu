@@ -129,6 +129,11 @@ body, html {
 
 .container-wrap {
 	padding: 20px 0 40px;
+	background-color: #ffffff;
+}
+
+.container-wrap-darker {
+    background-color: #f7f7f7;
 }
 
 .container-header {
@@ -278,46 +283,47 @@ h1.article-title {
 }
 
 #top-comic {
-    background: #fff;
+    background: #f9f9f9;
 }
 
 #top-tags, #top-links {
-    background: #f9f9f9;
+    background: #eeeeee;
 }
 
 #top-tags .btn-group {
     width: 100%;
 }
 
+
 #top-tags .btn-group > a.btn {
 	width: 80%;
 }
 
+#ranking {
+    padding: 1em;
+}
+
 #ranking .page-header {
-	margin-top: 1em;
+	margin-top: 0;
 }
 
 #ranking .page-header h3 {
-    margin-top: 10px;
-}
-
-#ranking {
-    padding-left: 1em;
-    padding-right: 1em;
+    margin-top: 0;
 }
 
 #sortalbe-list .media-heading {
 	height: 4em;
 }
 
-.card-list {
+.card {
+	padding: 0;
+	border-radius: 6px;
+    background-color: #fff;
+    border: none;
+    box-shadow:0 2px 1px 0 rgba(0,0,0,.13);
 }
 
-.card {
-	padding: 4px;
-	border-radius: 4px;
-    background-color: #fff;
-    border: solid 1px #f9f9f9;
-    box-shadow:0 2px 1px 0 rgba(0,0,0,.13);
+.card .media-body{
+    padding: .5em;
 }
 

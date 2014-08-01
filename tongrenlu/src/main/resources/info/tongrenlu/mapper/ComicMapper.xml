@@ -145,45 +145,21 @@
     <select id="fetchRanking" resultType="ComicBean">
         SELECT 
         <trim suffixOverrides=",">
-            v_comic.id                      as id,
-            v_comic.title                   as title,
-            v_comic.description             as description,
-            v_comic.publishFlg              as publishFlg,
-            v_comic.publishDate             as publishDate,
-            v_comic.recommendFlg            as recommendFlg,
-            v_comic.redFlg                  as redFlg,
-            v_comic.translateFlg            as translateFlg,
-            v_comic.accessCount             as accessCount,
-            v_comic.likeCount               as likeCount,
-            v_comic.commentCount            as commentCount,
-            IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) AS pt
+            v_comic_ranking.id                      as id,
+            v_comic_ranking.title                   as title,
+            v_comic_ranking.description             as description,
+            v_comic_ranking.publishFlg              as publishFlg,
+            v_comic_ranking.publishDate             as publishDate,
+            v_comic_ranking.recommendFlg            as recommendFlg,
+            v_comic_ranking.redFlg                  as redFlg,
+            v_comic_ranking.translateFlg            as translateFlg,
+            v_comic_ranking.accessCount             as accessCount,
+            v_comic_ranking.likeCount               as likeCount,
+            v_comic_ranking.commentCount            as commentCount,
+            v_comic_ranking.pt                      as pt
         </trim>
         FROM
-            v_comic
-                LEFT JOIN
-            (SELECT 
-                article_id, COUNT(id) * 10 AS pt
-            FROM
-                tongrenlu.m_comment
-            WHERE
-                upd_date > CURRENT_DATE - 7
-                    AND del_flg = '0'
-            GROUP BY article_id) v_comment_cnt ON v_comic.id = v_comment_cnt.article_id
-                LEFT JOIN
-            (SELECT 
-                like_id, COUNT(id) * 5 AS pt
-            FROM
-                tongrenlu.r_like
-            WHERE
-                upd_date > CURRENT_DATE - 7
-                    AND del_flg = '0'
-                    AND category = 'c'
-            GROUP BY like_id) v_like_cnt ON v_comic.id = v_like_cnt.like_id
-        <where>
-        and v_comic.publishFlg = '1'
-        and v_comic.redFlg = '0'
-        </where>
-        ORDER BY IFNULL(v_comment_cnt.pt, 0) + IFNULL(v_like_cnt.pt, 0) DESC, v_comic.publishDate DESC
+            v_comic_ranking
         limit 0, #{pageSize}
     </select>
 </mapper>

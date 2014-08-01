@@ -278,7 +278,7 @@
                             <li role="presentation"><a th:href="@{/tag/2135/music}" role="menuitem" tabindex="-1">M3-24 (M3-2009秋)</a></li>
                             <li role="presentation"><a th:href="@{/tag/2125/music}" role="menuitem" tabindex="-1">M3-23 (M3-2009春)</a></li>
                             <li role="presentation"><a th:href="@{/tag/2133/music}" role="menuitem" tabindex="-1">M3-22 (M3-2008秋)</a></li>
-                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-21 (M3-2008春)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2152/music}" role="menuitem" tabindex="-1">M3-21 (M3-2008春)</a></li>
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-20 (M3-2007秋)</a></li>
                             <li role="presentation"><a th:href="@{/tag/2131/music}" role="menuitem" tabindex="-1">M3-19 (M3-2007春)</a></li>
                         </ul>
@@ -374,12 +374,12 @@
                     <div class="col-sm-6 col-md-3" th:each="articleBean,iterStat : ${comicRanking}">
                         <div class="thumbnail media card">
                             <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left" th:alt-title="${articleBean.title}">
-                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
-                                     class="media-object img-60 img-rounded"/>
+                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                     class="media-object img-60 "/>
                             </a>
                             <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs" th:alt-title="${articleBean.title}">
                                 <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                     class="img-180 img-rounded"/>
+                                     class="img-180 "/>
                             </a>
                             <div class="caption">
                                 <h5 class="media-heading text-single-line">

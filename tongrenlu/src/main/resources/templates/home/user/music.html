@@ -57,7 +57,7 @@
             </ul>
         </div>
     </div>
-    <div class="container-wrap" >
+    <div class="container-wrap container-wrap-darker" >
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
@@ -66,14 +66,14 @@
                              <a class="visible-sm visible-xs pull-left" target="_blank" 
                                 th:href="@{/music/__${articleBean.id}__}" 
                                 th:alt-title="${articleBean.title}">
-                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
-                                      class="media-object img-60 img-rounded"/>
+                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                      class="media-object img-60 "/>
                              </a>
                              <a class="hidden-sm hidden-xs" target="_blank" 
                                 th:href="@{/music/__${articleBean.id}__}" 
                                 th:alt-title="${articleBean.title}">
                                  <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                      class="img-180 img-rounded"/>
+                                      class="img-180 "/>
                              </a>
                              <div class="caption">
                                  <h5 class="media-heading text-single-line">
