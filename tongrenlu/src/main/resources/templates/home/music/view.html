@@ -105,7 +105,7 @@ $(function() {
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    var title = /*[[${articleBean.title} + ' | ' #{application}]]*/ '';
+    var title = /*[[${articleBean.title} + ' | ' + #{application}]]*/ '';
     var share_url = /*[[@{http://www.tongrenlu.info/music/__${articleBean.id}__}]]*/ '';
     var image_url = /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}]]*/ '';
     WB2.anyWhere(function(W){
