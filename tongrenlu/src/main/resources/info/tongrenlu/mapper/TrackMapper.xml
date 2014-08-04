@@ -51,13 +51,15 @@
             m_track.ARTIST          as "artist",
             m_track.INSTRUMENTAL    as "instrumental",
             m_track.ORIGINAL        as "original",
+            ifnull(r_track_rate.rate, ifnull(v_track_rate.rate,3))  as rate
         </trim>
         FROM
             m_track 
         LEFT JOIN m_file ON m_file.ID = m_track.ID
-        LEFT JOIN m_article ON m_file.ARTICLE_ID = m_article.ID
+        LEFT JOIN v_track_rate ON m_track.ID = v_track_rate.track_id
+        LEFT JOIN r_track_rate ON m_track.ID = r_track_rate.track_id AND r_track_rate.user_id = 0
         <where>
-            m_article.ID = #{articleId}
+            m_file.ARTICLE_ID = #{articleId}
         AND m_file.DEL_FLG='0'
         AND m_track.DEL_FLG='0'
         </where>

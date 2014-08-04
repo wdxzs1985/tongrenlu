@@ -48,7 +48,27 @@ var player = function(option) {
                 	file: file
                 });
                 return d;
-            }
+            };
+            jPlaylist['_updateControls'] = function() {
+                if (this.options.playlistOptions.enableRemoveControls) {
+                	$(this.cssSelector.playlist + " ." + this.options.playlistOptions.removeItemClass).show()
+                } else {
+                	$(this.cssSelector.playlist + " ." + this.options.playlistOptions.removeItemClass).hide();
+                }
+                if(this.shuffled) {
+                	$(this.cssSelector.shuffleOff).show()
+                	$(this.cssSelector.shuffle).hide()
+                } else {
+                	$(this.cssSelector.shuffleOff).hide();
+                	$(this.cssSelector.shuffle).show()
+                }
+                
+                $('#jp_container_1 .jp-rate').tooltip({container: 'body'});
+            };
+            
+            $('#jp_container_1').on('click', '.jp-rate', function() {
+            	alert($(this).data('rate'));
+            });
         }
     });
 }

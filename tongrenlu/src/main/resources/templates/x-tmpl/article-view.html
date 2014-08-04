@@ -3,28 +3,40 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <body>
 <script id="template-playlist-item" type="text/x-tmpl" th:inline="text" th:fragment="template-playlist-item">
-<li class="clearfix">
-        <div class="pull-right">
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
-                <span class="glyphicon glyphicon-headphones"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default hidden">
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
-        </div>
-    <h5>
+<li class="media">
+    <div class="show-unless-current pull-right">
+        <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
+            <span class="glyphicon glyphicon-headphones"></span>
+        </a>
+        <a href="javascript:;" class="btn btn-xs btn-default hidden">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+        <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    </div>
+    <a class="pull-left show-if-current">
+        <img src="{%=o.file.poster%}" class="img-60 media-object" />
+    </a>
+    <div class="media-body">
         <a href="javascript:;" class="{%=o.itemClass%}">
             {%=o.file.title%}
         </a>
-    </h5>
-    <div>
-        {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
-        {% if (o.file.instrumental) { %}<span class="label label-warning" th:text="#{TrackBean.instrumental}">instrumental</span>{% } %}
+        <div>
+            {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
+            {% if (o.file.instrumental) { %}<span class="label label-warning" th:text="#{TrackBean.instrumental}">instrumental</span>{% } %}
+        </div>
+        <div class="show-if-current">
+            {% if (o.file.original) { %}<pre class="hidden-xs">{%=o.file.original%}</pre>{% } %}
+            <div class="btn-group">
+                <button class="btn btn-xs btn-link jp-rate" data-toggle="tooltip" data-rate="1" data-placement="top" title="1"><span class="glyphicon glyphicon-star"></span></button>
+                <button class="btn btn-xs btn-link jp-rate" data-toggle="tooltip" data-rate="2" data-placement="top" title="2"><span class="glyphicon glyphicon-star"></span></button>
+                <button class="btn btn-xs btn-link jp-rate" data-toggle="tooltip" data-rate="3" data-placement="top" title="3"><span class="glyphicon glyphicon-star"></span></button>
+                <button class="btn btn-xs btn-link jp-rate" data-toggle="tooltip" data-rate="4" data-placement="top" title="4"><span class="glyphicon glyphicon-star-empty"></span></button>
+                <button class="btn btn-xs btn-link jp-rate" data-toggle="tooltip" data-rate="5" data-placement="top" title="5"><span class="glyphicon glyphicon-star-empty"></span></button>
+            </div>
+        </div>
     </div>
-    {% if (o.file.original) { %}<pre class="hidden-xs">{%=o.file.original%}</pre>{% } %}
 </li>
 </script>
 
@@ -37,7 +49,7 @@
 </script>
 
 <script id="template-comment-item" type="text/x-tmpl" th:inline="text" th:fragment="template-comment-item">
-<li class="media card">
+<li class="media">
     <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
         <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="img-60" />
     </a>

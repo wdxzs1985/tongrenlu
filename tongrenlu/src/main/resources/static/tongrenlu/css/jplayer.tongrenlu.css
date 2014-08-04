@@ -313,14 +313,6 @@ div.jp-type-playlist div.jp-playlist a:hover {
     color: #3498db;
 }
 
-div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
-    background-color: #eeeeee;
-}
-
-div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
-    color: #3498db;
-}
-
 div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove {
     color:#95a5a6;
 }
@@ -328,19 +320,37 @@ div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove:hover {
     color:#e74c3c;
 }
 
+div.jp-type-playlist div.jp-playlist li .show-unless-current {
+    display: block;
+}
+
+div.jp-type-playlist div.jp-playlist li .show-if-current {
+    display: none;
+}
+
+
+div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
+    background-color: #f1f1f1;
+}
+
+div.jp-type-playlist div.jp-playlist li.jp-playlist-current .show-unless-current {
+    display: none;
+}
+
+div.jp-type-playlist div.jp-playlist li.jp-playlist-current .show-if-current {
+    display: block;
+}
+
+div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
+    color: #3498db;
+}
+
 .jp-playlist pre {
-	border: none;
-	background: none;
-	font-size: 12px;
-	display: none;
-}
-
-.jp-playlist li.jp-playlist-current pre {
-    display: block;
-}
-
-.jp-playlist li:hover pre {
-    display: block;
+    border: none;
+    background: none;
+    font-size: 12px;
+    padding: 0;
+    margin: 10px 0;
 }
 
 span.jp-artist {

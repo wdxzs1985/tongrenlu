@@ -62,7 +62,7 @@ public class SolrTransfer {
         this.begin();
 
         this.log.info("Transfer Music...");
-        // this.transferMusic();
+        this.transferMusic();
         this.log.info("Transfer Music...ok");
 
         this.log.info("Transfer Comic...");
