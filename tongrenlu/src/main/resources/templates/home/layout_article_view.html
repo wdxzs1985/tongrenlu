@@ -113,25 +113,25 @@
                 <div class="row">
                     <div class="col-xs-12  col-lg-6">
                         <h4>
-                            <small th:text="#{home.article.owner}">Owner</small>
+                            <small th:text="#{home.article.owner}">Owner</small><br />
                             <a th:href="@{/user/__${articleBean.userBean.id}__}" th:text="${articleBean.userBean}"></a>
                         </h4>
                     </div>
                     <div class="col-xs-4  col-lg-2">
                         <h4>
-                            <small th:text="#{ArticleBean.accessCount}">Access</small>
+                            <small th:text="#{ArticleBean.accessCount}">Access</small><br />
                             <span th:text="${articleBean.accessCount}"></span>
                         </h4>
                     </div>
                     <div class="col-xs-4  col-lg-2">
                         <h4>
-                            <small th:text="#{ArticleBean.likeCount}">Like</small>
+                            <small th:text="#{ArticleBean.likeCount}">Like</small><br />
                             <span th:text="${articleBean.likeCount}"></span>
                         </h4>
                     </div>
                     <div class="col-xs-4  col-lg-2">
                         <h4>
-                            <small th:text="#{ArticleBean.commentCount}">Comment</small>
+                            <small th:text="#{ArticleBean.commentCount}">Comment</small><br />
                             <span th:text="${articleBean.commentCount}"></span>
                         </h4>
                     </div>
