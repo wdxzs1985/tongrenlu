@@ -43,7 +43,7 @@ public class Application {
     public DataSource mysqlDataSource() {
         final BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://local.mysql/tongrenlu?useUnicode=yes&characterEncoding=UTF-8&autoReconnectForPools=true");
+        dataSource.setUrl("jdbc:mysql://127.0.0.1/tongrenlu?useUnicode=yes&characterEncoding=UTF-8&autoReconnectForPools=true");
         dataSource.setUsername("tongrenlu");
         dataSource.setPassword("tongrenlu$mysql");
         return dataSource;
