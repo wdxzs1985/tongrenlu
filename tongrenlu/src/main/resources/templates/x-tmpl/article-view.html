@@ -34,16 +34,16 @@
     </div>
 </li>
 </script>
-<script id="template-rate" type="text/x-tmpl" th:fragment="template-rate">
-    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="1" data-placement="top" title="1"><span class="glyphicon {% if (o.rate >= 1) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
-    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="2" data-placement="top" title="2"><span class="glyphicon {% if (o.rate >= 2) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
-    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="3" data-placement="top" title="3"><span class="glyphicon {% if (o.rate >= 3) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
-    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="4" data-placement="top" title="4"><span class="glyphicon {% if (o.rate >= 4) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
-    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="5" data-placement="top" title="5"><span class="glyphicon {% if (o.rate >= 5) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
+<script id="template-rate" type="text/x-tmpl" th:inline="text" th:fragment="template-rate">
+    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="1" data-placement="top" th:title="#{home.music.rate(1)}"><span class="glyphicon {% if (o.rate >= 1) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
+    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="2" data-placement="top" th:title="#{home.music.rate(2)}"><span class="glyphicon {% if (o.rate >= 2) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
+    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="3" data-placement="top" th:title="#{home.music.rate(3)}"><span class="glyphicon {% if (o.rate >= 3) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
+    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="4" data-placement="top" th:title="#{home.music.rate(4)}"><span class="glyphicon {% if (o.rate >= 4) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
+    <button class="btn btn-xs btn-link " data-toggle="tooltip" data-rate="5" data-placement="top" th:title="#{home.music.rate(5)}"><span class="glyphicon {% if (o.rate >= 5) { %} glyphicon-star {% } else { %} glyphicon-star-empty {% } %}"></span></button>
 </script>
 <script id="template-tag-item" type="text/x-tmpl" th:fragment="template-tag-item">
 <li>
-    <a href="{%=o.tagPath%}/{%=o.id%}" class="btn btn-xs btn-default">
+    <a href="{%=o.tagPath%}/{%=o.id%}" class="btn btn-xs btn-default" target="_blank">
         {%=o.tag%} ({%=o.articleCount%})
     </a>
 </li>

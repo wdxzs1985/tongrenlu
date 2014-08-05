@@ -13,6 +13,8 @@ div.jp-audio {
     padding: 3px;
     background: #fff;
     border: 1px solid #e0e0e0;
+    
+    margin-bottom: 20px;
 }
 
 div.jp-interface {
@@ -283,8 +285,9 @@ div.jp-audio .jp-interface .jp-volume-bar {
 .jp-details li,
 .jp-playlist li {
     position: relative;
-    padding: 8px 10px;
+    padding: 3px 3px 10px;
     overflow: hidden;
+    margin-top: 0;
 }
 
 .jp-playlist h5 {
@@ -329,6 +332,9 @@ div.jp-type-playlist div.jp-playlist li .show-if-current {
 }
 
 
+div.jp-type-playlist div.jp-playlist li:hover {
+    background-color: #f9f9f9;
+}
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
     background-color: #f1f1f1;
 }
