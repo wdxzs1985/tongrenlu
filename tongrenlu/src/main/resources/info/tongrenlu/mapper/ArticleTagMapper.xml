@@ -4,8 +4,6 @@
 
 <mapper namespace="info.tongrenlu.mapper.ArticleTagMapper">
     
-    <cache-ref namespace="info.tongrenlu.mapper.ArticleMapper"/>
-    
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO r_article_tag(
         <trim suffixOverrides=",">

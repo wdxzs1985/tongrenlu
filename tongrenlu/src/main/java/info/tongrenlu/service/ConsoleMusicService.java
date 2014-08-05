@@ -5,9 +5,11 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
+import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagManager;
+import info.tongrenlu.manager.TrackManager;
 import info.tongrenlu.solr.ArticleDocument;
 import info.tongrenlu.solr.ArticleRepository;
 import info.tongrenlu.solr.MusicDocument;
@@ -46,6 +48,8 @@ public class ConsoleMusicService {
     private TagManager tagManager = null;
     @Autowired
     private FileManager fileManager = null;
+    @Autowired
+    private TrackManager trackManager = null;
     @Autowired
     private ArticleRepository articleRepository = null;
     @Autowired
@@ -163,7 +167,7 @@ public class ConsoleMusicService {
             final TrackBean trackBean = new TrackBean();
             trackBean.setId(fileBean.getId());
             trackBean.setName(fileBean.getName());
-            this.articleManager.addTrack(trackBean);
+            this.trackManager.addTrack(trackBean);
             this.fileManager.saveFile(FileManager.MUSIC, fileBean, upload);
             return true;
         }
@@ -193,7 +197,7 @@ public class ConsoleMusicService {
             if (FileManager.AUDIO.equals(fileBean.getContentType())) {
                 final TrackBean trackBean = new TrackBean();
                 trackBean.setFileBean(fileBean);
-                this.articleManager.deleteTrack(trackBean);
+                this.trackManager.deleteTrack(trackBean);
 
                 this.deleteTrackDocument(trackBean);
             }
@@ -204,14 +208,14 @@ public class ConsoleMusicService {
 
     public List<TrackBean> getTrackList(final MusicBean musicBean) {
         final Integer articleId = musicBean.getId();
-        return this.articleManager.getTrackList(articleId);
+        return this.trackManager.getTrackList(articleId, new UserBean());
     }
 
     @Transactional
     public void updateTrackList(final List<TrackBean> trackList,
                                 final MusicBean musicBean) {
         for (final TrackBean trackBean : trackList) {
-            this.articleManager.updateTrack(trackBean);
+            this.trackManager.updateTrack(trackBean);
             this.articleManager.updateFile(trackBean.getFileBean());
 
             if (CommonConstants.is(musicBean.getPublishFlg())) {

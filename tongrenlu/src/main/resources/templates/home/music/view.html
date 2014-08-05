@@ -52,6 +52,7 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
 
 <div th:replace="x-tmpl/article-view::template-playlist-item"></div>
+<div th:replace="x-tmpl/article-view::template-rate"></div>
 <div th:replace="x-tmpl/article-view::template-tag-item"></div>
 <div th:replace="x-tmpl/article-view::template-comment-item"></div>
 
@@ -60,6 +61,7 @@ $(function() {
     
     new player({
     	url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
+        rateUrl: /*[[@{/music/rate}]]*/ '',
     	filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
     	swfPath: 'http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js',
     	filter: function(playList, playable) {

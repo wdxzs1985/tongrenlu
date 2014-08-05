@@ -8,7 +8,6 @@ import info.tongrenlu.mapper.LikeMapper;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,20 +100,6 @@ public class LikeManager {
 
     public List<UserBean> searchFollower(final Map<String, Object> params) {
         return this.likeMapper.searchFollower(params);
-    }
-
-    public boolean validateUserIsSignin(final UserBean loginUser,
-                                        final Map<String, Object> model,
-                                        final Locale locale) {
-        boolean isValid = true;
-        if (loginUser.isGuest()) {
-            final String error = this.messageSource.getMessage("error.needSignin",
-                                                               null,
-                                                               locale);
-            model.put("error", error);
-            isValid = false;
-        }
-        return isValid;
     }
 
     public boolean validateUserNotSame(final UserBean loginUser,

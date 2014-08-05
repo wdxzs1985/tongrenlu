@@ -39,7 +39,7 @@ public class HomeUserSerivce {
                            final Map<String, Object> model,
                            final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
-        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
+        if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 result = this.likeManager.countLike(loginUser, userBean);
@@ -58,7 +58,7 @@ public class HomeUserSerivce {
                          final Map<String, Object> model,
                          final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
-        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
+        if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 final int count = this.likeManager.countLike(loginUser,

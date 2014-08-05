@@ -21,6 +21,8 @@ public class TrackBean extends DtoBean {
 
     private String instrumental = null;
 
+    private int rate = 0;
+
     public FileBean getFileBean() {
         return this.fileBean;
     }
@@ -59,6 +61,14 @@ public class TrackBean extends DtoBean {
 
     public void setInstrumental(final String instrumental) {
         this.instrumental = instrumental;
+    }
+
+    public int getRate() {
+        return this.rate;
+    }
+
+    public void setRate(final int rate) {
+        this.rate = rate;
     }
 
 }

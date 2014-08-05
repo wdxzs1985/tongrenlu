@@ -6,13 +6,15 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
+import info.tongrenlu.domain.TrackRateBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
-import info.tongrenlu.manager.CommentManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.ObjectManager;
 import info.tongrenlu.manager.TagManager;
+import info.tongrenlu.manager.TrackManager;
+import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,18 +33,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class HomeMusicService {
 
     @Autowired
+    private MessageSource messageSource = null;
+    @Autowired
     private ArticleManager articleManager = null;
     @Autowired
     private TagManager tagManager = null;
     @Autowired
     private LikeManager likeManager = null;
     @Autowired
-    private CommentManager commentManager = null;
-    @Autowired
     private ObjectManager objectManager = null;
+    @Autowired
+    private UserManager userManager = null;
+    @Autowired
+    private TrackManager trackManager = null;
 
-    public List<TrackBean> getTrackList(final Integer articleId) {
-        return this.articleManager.getTrackList(articleId);
+    public List<TrackBean> getTrackList(final Integer articleId,
+                                        final UserBean userBean) {
+        return this.trackManager.getTrackList(articleId, userBean);
     }
 
     public List<FileBean> getBookletList(final Integer articleId) {
@@ -97,7 +105,7 @@ public class HomeMusicService {
                       final Map<String, Object> model,
                       final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
-        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
+        if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
             result = this.likeManager.countLike(loginUser, musicBean);
         } else {
@@ -112,7 +120,7 @@ public class HomeMusicService {
                       final Map<String, Object> model,
                       final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
-        if (this.likeManager.validateUserIsSignin(loginUser, model, locale)) {
+        if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
             final int count = this.likeManager.countLike(loginUser, musicBean);
             if (count == 0) {
@@ -130,6 +138,32 @@ public class HomeMusicService {
 
     public DtoBean getByOldArticleId(final String articleId) {
         return this.objectManager.findByObjectId(articleId);
+    }
+
+    public boolean saveRate(final Integer trackId,
+                            final Integer rate,
+                            final UserBean userBean,
+                            final Map<String, Object> model,
+                            final Locale locale) {
+        boolean result = false;
+        if (this.userManager.validateUserIsSignin(userBean, model, locale)) {
+            final TrackBean trackBean = new TrackBean();
+            trackBean.setId(trackId);
+
+            final TrackRateBean trackRateBean = new TrackRateBean();
+            trackRateBean.setTrackBean(trackBean);
+            trackRateBean.setUserBean(userBean);
+            trackRateBean.setRate(rate);
+
+            if (this.trackManager.countRate(trackRateBean) == 0) {
+                this.trackManager.insertRate(trackRateBean);
+            } else {
+                this.trackManager.updateRate(trackRateBean);
+            }
+
+            result = true;
+        }
+        return result;
     }
 
 }

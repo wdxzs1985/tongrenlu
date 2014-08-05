@@ -9,6 +9,7 @@ import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
+import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.HomeComicService;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -41,6 +42,8 @@ public class HomeComicController {
     private MessageSource messageSource = null;
     @Autowired
     private HomeComicService comicService = null;
+    @Autowired
+    private CommentService commentService = null;
 
     protected void throwExceptionWhenNotAllow(final ComicBean comicBean,
                                               final UserBean loginUser,
@@ -162,7 +165,7 @@ public class HomeComicController {
         final Map<String, Object> model = new HashMap<>();
         final PaginateSupport<CommentBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("articleId", articleId);
-        this.comicService.searchComment(page);
+        this.commentService.searchComment(page);
         model.put("page", page);
         return model;
     }
@@ -171,6 +174,7 @@ public class HomeComicController {
     @ResponseBody
     public Map<String, Object> doPostComment(@PathVariable final Integer articleId,
                                              final String content,
+                                             @RequestParam(required = false) final Integer parentId,
                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                              final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
@@ -181,9 +185,10 @@ public class HomeComicController {
         commentBean.setUserBean(loginUser);
         commentBean.setContent(content);
 
-        final boolean result = this.comicService.doComment(commentBean,
-                                                           model,
-                                                           locale);
+        final boolean result = this.commentService.doComment(commentBean,
+                                                             parentId,
+                                                             model,
+                                                             locale);
         model.put("result", result);
         return model;
     }

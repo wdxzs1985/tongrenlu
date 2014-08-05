@@ -341,6 +341,10 @@ div.jp-type-playlist div.jp-playlist li.jp-playlist-current .show-if-current {
     display: block;
 }
 
+div.jp-type-playlist div.jp-playlist li:hover .show-if-hover {
+    display: block;
+}
+
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
     color: #3498db;
 }

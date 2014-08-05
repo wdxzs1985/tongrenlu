@@ -3,6 +3,7 @@ package info.tongrenlu.www;
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
+import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
@@ -84,7 +85,8 @@ public class FmController {
                                                                           locale));
         }
 
-        final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
+        final List<TrackBean> trackList = this.musicService.getTrackList(articleId,
+                                                                         new UserBean());
 
         model.put("music", musicBean);
         model.put("trackList", trackList);
@@ -104,8 +106,7 @@ public class FmController {
     @RequestMapping(method = RequestMethod.GET, value = "/search/music")
     @ResponseBody
     public Map<String, Object> musicSearch(@RequestParam(value = "p", defaultValue = "0") final Integer pageNumber,
-                                           @RequestParam(value = "q", required = true) final String q)
-            throws UnsupportedEncodingException {
+                                           @RequestParam(value = "q", required = true) final String q) throws UnsupportedEncodingException {
 
         final Map<String, Object> model = new HashMap<String, Object>();
 
@@ -128,8 +129,7 @@ public class FmController {
     @RequestMapping(method = RequestMethod.GET, value = "/search/track")
     @ResponseBody
     public Map<String, Object> trackSearch(@RequestParam(value = "p", defaultValue = "0") final Integer pageNumber,
-                                           @RequestParam(value = "q", required = true) final String q)
-            throws UnsupportedEncodingException {
+                                           @RequestParam(value = "q", required = true) final String q) throws UnsupportedEncodingException {
 
         final Map<String, Object> model = new HashMap<String, Object>();
 

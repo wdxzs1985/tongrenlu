@@ -15,19 +15,23 @@ var player = function(option) {
         if(response.trackList) {
         	var playlist = [];
         	$.each(response.trackList, function(index, track) {
+        		var id = track.id;
         		var title = track.name;
                 var artist = track.artist;
                 var original = track.original;
                 var instrumental = (track.instrumental == '1');
                 var mp3 = settings.filePath + '/f' + track.id + '.mp3';
                 var poster = settings.filePath + '/cover_400.jpg';
+                var rate = track.rate;
         		var playable = {
+        				id: id,
         				title: title,
         				artist: artist,
                         original: original,
                         instrumental: instrumental,
         				mp3: mp3,
-        				poster: poster
+        				poster: poster,
+        				rate: rate
         		};
         		if(settings.filter) {
         			settings.filter(playlist, playable)
@@ -49,6 +53,7 @@ var player = function(option) {
                 });
                 return d;
             };
+            
             jPlaylist['_updateControls'] = function() {
                 if (this.options.playlistOptions.enableRemoveControls) {
                 	$(this.cssSelector.playlist + " ." + this.options.playlistOptions.removeItemClass).show()
@@ -63,12 +68,32 @@ var player = function(option) {
                 	$(this.cssSelector.shuffle).show()
                 }
                 
-                $('#jp_container_1 .jp-rate').tooltip({container: 'body'});
+                $('#jp_container_1 .jp-rate').each(function(index, element) {
+                	var $element = $(element);
+                	$element.html(tmpl('template-rate', $element.data()));
+                });
+
             };
             
-            $('#jp_container_1').on('click', '.jp-rate', function() {
-            	alert($(this).data('rate'));
-            });
+            if(settings.rateUrl) {
+            	$('#jp_container_1').on('click', '.jp-rate > button', function(e) {
+                	e.preventDefault();
+                	var $this = $(this);
+                	var $rateGroup = $this.closest('.btn-group');
+                	var data = {
+                    		trackId: $rateGroup.data('trackId'),
+                    		rate: $this.data('rate')
+                    	};
+                	$.post(settings.rateUrl, data).done(function(response) {
+                		if(response.result) {
+                			$rateGroup.data(data);
+                			jPlaylist._updateControls();
+                		} else {
+                			alert(response.error);
+                		}
+                	});
+                });
+            }
         }
     });
 }

@@ -4,8 +4,6 @@
 
 <mapper namespace="info.tongrenlu.mapper.TrackMapper">
 
-    <cache-ref namespace="info.tongrenlu.mapper.FileMapper"/>
-    
     <insert id="insert" flushCache="true">
         INSERT INTO m_track(
         <trim suffixOverrides=",">
@@ -57,7 +55,7 @@
             m_track 
         LEFT JOIN m_file ON m_file.ID = m_track.ID
         LEFT JOIN v_track_rate ON m_track.ID = v_track_rate.track_id
-        LEFT JOIN r_track_rate ON m_track.ID = r_track_rate.track_id AND r_track_rate.user_id = 0
+        LEFT JOIN r_track_rate ON m_track.ID = r_track_rate.track_id AND r_track_rate.user_id = #{userBean.id}
         <where>
             m_file.ARTICLE_ID = #{articleId}
         AND m_file.DEL_FLG='0'

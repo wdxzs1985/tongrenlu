@@ -7,7 +7,6 @@ import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
-import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.mapper.AccessMapper;
 import info.tongrenlu.mapper.ArticleMapper;
@@ -16,7 +15,6 @@ import info.tongrenlu.mapper.ComicMapper;
 import info.tongrenlu.mapper.FileMapper;
 import info.tongrenlu.mapper.MusicMapper;
 import info.tongrenlu.mapper.TagMapper;
-import info.tongrenlu.mapper.TrackMapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,8 +48,6 @@ public class ArticleManager {
     private TagMapper tagMapper = null;
     @Autowired
     private FileMapper fileMapper = null;
-    @Autowired
-    private TrackMapper trackMapper = null;
 
     public void insert(final ArticleBean articleBean) {
         this.articleMapper.insert(articleBean);
@@ -189,30 +185,6 @@ public class ArticleManager {
         this.fileMapper.delete(fileBean);
     }
 
-    public List<TrackBean> getTrackList(final Integer articleId) {
-        final Map<String, Object> param = new HashMap<>();
-        param.put("articleId", articleId);
-        return this.trackMapper.fetchList(param);
-    }
-
-    public void addTrack(final TrackBean trackBean) {
-        this.trackMapper.insert(trackBean);
-    }
-
-    public void updateTrack(final TrackBean trackBean) {
-        final Map<String, Object> param = new HashMap<>();
-        param.put("id", trackBean.getId());
-        param.put("name", trackBean.getName());
-        param.put("artist", trackBean.getArtist());
-        param.put("original", trackBean.getOriginal());
-        param.put("instrumental", trackBean.getInstrumental());
-        this.trackMapper.update(param);
-    }
-
-    public void deleteTrack(final TrackBean trackBean) {
-        this.trackMapper.delete(trackBean);
-    }
-
     public boolean validateTitle(final String title,
                                  final String errorAttribute,
                                  final Map<String, Object> model,
@@ -231,7 +203,7 @@ public class ArticleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  ArticleManager.TITLE_LENGTH },
+                                                            ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

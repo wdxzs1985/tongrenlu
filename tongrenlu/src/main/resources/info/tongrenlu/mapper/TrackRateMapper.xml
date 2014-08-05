@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.TrackRateMapper">
+
+    <insert id="insert">
+        INSERT INTO r_track_rate(
+        <trim suffixOverrides=",">
+            track_id,
+            user_id,
+            rate,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{trackBean.id},
+            #{userBean.id},
+            #{rate},
+        </trim>
+        )
+    </insert>
+    
+    <update id="update">
+        UPDATE r_track_rate
+        <set>
+            rate = #{trackRateBean.rate},
+        </set>
+        <where>
+            r_track_rate.track_id = #{trackRateBean.trackBean.id}
+        AND r_track_rate.user_id = #{trackRateBean.userBean.id}
+        </where>
+    </update>
+    
+    <select id="count" resultType="int">
+        SELECT
+	        count(id)
+        FROM
+            r_track_rate 
+        <where>
+            r_track_rate.track_id = #{trackRateBean.trackBean.id}
+        AND r_track_rate.user_id = #{trackRateBean.userBean.id}
+        AND r_track_rate.DEL_FLG='0'
+        </where>
+    </select>
+</mapper>

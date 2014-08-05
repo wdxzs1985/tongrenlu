@@ -114,9 +114,11 @@ public class HomeMusicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track")
     @ResponseBody
-    public Map<String, Object> doGetTrack(@PathVariable final Integer articleId) {
+    public Map<String, Object> doGetTrack(@PathVariable final Integer articleId,
+                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final Map<String, Object> model = new HashMap<>();
-        final List<TrackBean> trackList = this.musicService.getTrackList(articleId);
+        final List<TrackBean> trackList = this.musicService.getTrackList(articleId,
+                                                                         loginUser);
         model.put("trackList", trackList);
         return model;
     }
@@ -197,21 +199,27 @@ public class HomeMusicController {
         commentBean.setUserBean(loginUser);
         commentBean.setContent(content);
 
-        if (parentId != null) {
-            final CommentBean parent = this.commentService.getComment(parentId);
-            if (parent == null) {
-                throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                              null,
-                                                                              locale));
-            }
-            commentBean.setParent(parent);
-        } else {
-            commentBean.setRoot(commentBean);
-        }
-
         final boolean result = this.commentService.doComment(commentBean,
+                                                             parentId,
                                                              model,
                                                              locale);
+        model.put("result", result);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/rate")
+    @ResponseBody
+    public Map<String, Object> doPostRate(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                          final Integer trackId,
+                                          final Integer rate,
+                                          final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+
+        final boolean result = this.musicService.saveRate(trackId,
+                                                          rate,
+                                                          loginUser,
+                                                          model,
+                                                          locale);
         model.put("result", result);
         return model;
     }

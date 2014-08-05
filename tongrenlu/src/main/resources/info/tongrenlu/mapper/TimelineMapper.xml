@@ -4,8 +4,6 @@
 
 <mapper namespace="info.tongrenlu.mapper.TimelineMapper">
     
-    <cache-ref namespace="info.tongrenlu.mapper.ArticleMapper"/>
-    
     <select id="countUserTimeline" resultType="int">
         SELECT 
             count(v_timeline.createDate)
