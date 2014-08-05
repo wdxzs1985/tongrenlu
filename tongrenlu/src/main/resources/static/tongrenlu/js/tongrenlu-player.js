@@ -67,12 +67,15 @@ var player = function(option) {
                 	$(this.cssSelector.shuffleOff).hide();
                 	$(this.cssSelector.shuffle).show()
                 }
-                
-                $('#jp_container_1 .jp-rate').each(function(index, element) {
-                	var $element = $(element);
-                	$element.html(tmpl('template-rate', $element.data()));
-                });
 
+                if(settings.rateUrl) {
+	                $('#jp_container_1 .jp-rate').each(function(index, element) {
+	                	var $element = $(element);
+	                	$element.html(tmpl('template-rate', $element.data()));
+	                });
+                } else {
+                	$('#jp_container_1 .jp-rate').hide();
+                }
             };
             
             if(settings.rateUrl) {
