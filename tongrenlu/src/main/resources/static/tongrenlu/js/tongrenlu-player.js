@@ -21,7 +21,7 @@ var player = function(option) {
                 var original = track.original;
                 var instrumental = (track.instrumental == '1');
                 var mp3 = settings.filePath + '/f' + track.id + '.mp3';
-                var poster = settings.filePath + '/cover_400.jpg';
+                var poster = settings.filePath + '/cover_120.jpg';
                 var rate = track.rate;
         		var playable = {
         				id: id,

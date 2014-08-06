@@ -22,12 +22,21 @@ public class CommentService {
     @Autowired
     private CommentManager commentManager = null;
 
-    public void searchComment(final PaginateSupport<CommentBean> paginate) {
+    public void searchMusicComment(final PaginateSupport<CommentBean> paginate) {
         final int itemCount = this.commentManager.countMusicComment(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
         final List<CommentBean> items = this.commentManager.searchMusicComment(paginate.getParams());
+        paginate.setItems(items);
+    }
+
+    public void searchComicComment(final PaginateSupport<CommentBean> paginate) {
+        final int itemCount = this.commentManager.countComicComment(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<CommentBean> items = this.commentManager.searchComicComment(paginate.getParams());
         paginate.setItems(items);
     }
 

@@ -10,7 +10,7 @@ div.jp-audio {
 
     font-family:Verdana, Arial, sans-serif;
     line-height:1.6;
-    padding: 3px;
+    padding: 0;
     background: #fff;
     border: 1px solid #e0e0e0;
     
@@ -255,10 +255,11 @@ div.jp-audio .jp-interface .jp-volume-bar {
 
 /* @group current time and duration */
 
-.jp-current-time, .jp-duration {
+.jp-current-time, 
+.jp-duration {
     width:70px;
     font-size:.5em;
-    color: #8c7a99;
+    color: #607d8b;
 }
 
 .jp-current-time {
@@ -282,45 +283,53 @@ div.jp-audio .jp-interface .jp-volume-bar {
     padding: 0;
 }
 
-.jp-details li,
-.jp-playlist li {
+div.jp-type-playlist div.jp-playlist li {
     position: relative;
-    padding: 3px 3px 10px;
+    padding: 4px;
     overflow: hidden;
-    margin-top: 0;
+    display: block;
+    margin: 0;
+    background-color: #f1f1f1;
+    border-top: #fff solid 1px;
+    border-bottom: #e0e0e0 solid 1px;
+    text-decoration: none;
 }
 
-.jp-playlist h5 {
-	margin-top:4px;
-    margin-bottom:0;
+div.jp-type-playlist div.jp-playlist li:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+div.jp-type-playlist div.jp-playlist li:hover {
+    background-color: #f5f5f5;
+}
+div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
+    background-color: #fefefe;
 }
 
 /* Note that the first-child (IE6) and last-child (IE6/7/8) selectors do not work on IE */
 
 div.jp-type-playlist div.jp-playlist li:first-child {
-    border-top:none;
-    padding-top:3px;
+    border-top: #e0e0e0 solid 1px;
 }
 
 div.jp-type-playlist div.jp-playlist li:last-child {
     border-bottom:none;
-    padding-bottom:3px;
 }
 
 div.jp-type-playlist div.jp-playlist a {
-    color: #95a5a6;
+    color: #607d8b;
     text-decoration:none;
 }
 
 div.jp-type-playlist div.jp-playlist a:hover {
-    color: #3498db;
+    color: #428bca;
 }
 
 div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove {
-    color:#95a5a6;
+    color:#ccc;
 }
 div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove:hover {
-    color:#e74c3c;
+    color:#e51c23;
 }
 
 div.jp-type-playlist div.jp-playlist li .show-unless-current {
@@ -329,14 +338,6 @@ div.jp-type-playlist div.jp-playlist li .show-unless-current {
 
 div.jp-type-playlist div.jp-playlist li .show-if-current {
     display: none;
-}
-
-
-div.jp-type-playlist div.jp-playlist li:hover {
-    background-color: #f9f9f9;
-}
-div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
-    background-color: #f1f1f1;
 }
 
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current .show-unless-current {
@@ -352,7 +353,7 @@ div.jp-type-playlist div.jp-playlist li:hover .show-if-hover {
 }
 
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
-    color: #3498db;
+    color: #428bca;
 }
 
 .jp-playlist pre {
@@ -405,6 +406,3 @@ div.jp-jplayer {
     font-weight:bold;
 }
 /* @end */
-
-
-

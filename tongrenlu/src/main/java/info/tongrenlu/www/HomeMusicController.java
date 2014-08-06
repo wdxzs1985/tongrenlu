@@ -177,7 +177,7 @@ public class HomeMusicController {
         final Map<String, Object> model = new HashMap<>();
         final PaginateSupport<CommentBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("articleId", articleId);
-        this.commentService.searchComment(page);
+        this.commentService.searchMusicComment(page);
         model.put("page", page);
         return model;
     }

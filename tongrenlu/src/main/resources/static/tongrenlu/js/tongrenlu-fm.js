@@ -81,7 +81,7 @@ var fm = function(options) {
 	                var original = track.original;
 	                var instrumental = (track.instrumental == '1');
 	                var mp3 = settings.filePath + '/m' + music.id + '/f' + track.id + '.mp3';
-	                var poster = settings.filePath + '/m' + music.id + '/cover_400.jpg';
+	                var poster = settings.filePath + '/m' + music.id + '/cover_120.jpg';
 	        		var playable = {
 	        				title: title,
 	        				artist: artist,

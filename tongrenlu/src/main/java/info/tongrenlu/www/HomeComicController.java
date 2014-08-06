@@ -165,7 +165,7 @@ public class HomeComicController {
         final Map<String, Object> model = new HashMap<>();
         final PaginateSupport<CommentBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("articleId", articleId);
-        this.commentService.searchComment(page);
+        this.commentService.searchComicComment(page);
         model.put("page", page);
         return model;
     }

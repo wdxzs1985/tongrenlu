@@ -47,7 +47,10 @@
 <ul class="media-list">
 {% for (var i=0, track; track=o.trackList[i]; i++) { %}
     <a href="javascript:;" class="media fm-play-track" data-index="{%=i%}">
-        <h5>{%=track.name%} <small>{%=track.artist%}</small></h5>
+        <h5>
+            {%=track.name%}
+            {% if (track.artist) { %}<br /><small>{%=track.artist%}</small>{% } %}
+        </h5>
     </a>
 {% } %}
 </ul>
@@ -62,33 +65,38 @@
     </a>
     <div class="media-body">
       <h5 class=""><a href="javascript:;" class="fm-play-track" title="{%=o.track%}">{%=o.track%}</a></h5>
-      <a href="#music/{%=o.articleId%}" title="{%=o.title%}">
+        <a href="#music/{%=o.articleId%}" title="{%=o.title%}">
         <small>> {%=o.title%}</small>
       </a>
     </div>
   </li>
 </script>
 <script id="template-playlist-item" type="text/x-tmpl" th:fragment="template-playlist-item">
-<li class="clearfix">
-        <div class="pull-right">
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
-                <span class="glyphicon glyphicon-headphones"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default hidden">
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-            <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
-        </div>
-    <h5>
-        <a href="javascript:;" class="{%=o.itemClass%}">
-            {%=o.file.title%}
+<li class="media">
+    <div class="show-unless-current pull-right">
+        <a href="javascript:;" class="btn btn-xs btn-default {%=o.itemClass%}">
+            <span class="glyphicon glyphicon-headphones"></span>
         </a>
-    </h5>
-    <div>
-        {% if (o.file.artist) { %}<span class="label label-info">{%=o.file.artist%}</span>{% } %}
-        {% if (o.file.instrumental) { %}<span class="label label-warning">instrumental</span>{% } %}
+        <a href="javascript:;" class="btn btn-xs btn-default {%=o.removeItemClass%}">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    </div>
+    <a class="pull-left show-if-current">
+        <img src="{%=o.file.poster%}" class="img-60 media-object img-rounded" />
+    </a>
+    <div class="media-body">
+        <a href="javascript:;" class="{%=o.itemClass%}">
+            <h5 class="media-heading">
+                {%=o.file.title%} 
+                {% if (o.file.instrumental) { %}
+                    <span class="label label-warning" th:text="#{TrackBean.instrumental}">instrumental</span>
+                {% } %}
+                {% if (o.file.artist) { %}<br /><small>{%=o.file.artist%}</small>{% } %}
+            </h5>
+        </a>
+        <div class="show-if-current show-if-hover">
+            {% if (o.file.original) { %}<pre class="">{%=o.file.original%}</pre>{% } %}
+        </div>
     </div>
 </li>
 </script>
