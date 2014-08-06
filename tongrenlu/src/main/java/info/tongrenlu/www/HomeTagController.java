@@ -5,7 +5,6 @@ import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
-import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.service.HomeComicService;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.TagService;
@@ -46,8 +45,6 @@ public class HomeTagController {
     private HomeMusicService musicService = null;
     @Autowired
     private HomeComicService comicService = null;
-    @Autowired
-    private ArticleManager articleManager = null;
 
     private Log log = LogFactory.getLog(this.getClass());
 
