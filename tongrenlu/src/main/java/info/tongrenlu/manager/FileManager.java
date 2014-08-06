@@ -17,7 +17,6 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.im4java.core.ConvertCmd;
@@ -55,37 +54,25 @@ public class FileManager {
 
     private Log log = LogFactory.getLog(this.getClass());
 
-    @Value("${file.inputPathWindows}")
-    private String inputPathWindows = null;
+    @Value("${file.inputPath}")
+    private String inputPath = null;
 
-    @Value("${file.inputPathLinux}")
-    private String inputPathLinux = null;
+    @Value("${file.outputPath}")
+    private String outputPath = null;
 
-    @Value("${file.outputPathWindows}")
-    private String outputPathWindows = null;
-
-    @Value("${file.outputPathLinux}")
-    private String outputPathLinux = null;
-
-    @Value("${file.convertPathWindows}")
-    private String convertPathWindows = null;
-
-    @Value("${file.convertPathLinux}")
-    private String convertPathLinux = null;
+    @Value("${file.convertPath}")
+    private String convertPath = null;
 
     public String getInputPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                                        : this.inputPathLinux;
+        return this.inputPath;
     }
 
     public String getOutputPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                                        : this.outputPathLinux;
+        return this.outputPath;
     }
 
     public String getConvertPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                                        : this.convertPathLinux;
+        return this.convertPath;
     }
 
     @Autowired
