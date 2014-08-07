@@ -238,4 +238,10 @@ public class ConsoleComicService {
         this.articleRepository.delete(id);
     }
 
+    public int countUnpublish() {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("publishFlg", CommonConstants.CHR_FALSE);
+        return this.articleManager.countComic(params);
+    }
+
 }

@@ -4,6 +4,8 @@
 
 <mapper namespace="info.tongrenlu.mapper.TrackMapper">
 
+    <cache-ref namespace="info.tongrenlu.mapper.FileMapper"/>
+    
     <insert id="insert" flushCache="true">
         INSERT INTO m_track(
         <trim suffixOverrides=",">

@@ -7,9 +7,63 @@
 </head>
   <body>
 <div layout:fragment="content">
-    <div class="container-wrap container-header" >
+    <div class="container-wrap container-header">
         <div class="container">
-            <h2 th:text="#{console.follower}"></h2>
+            <div class="media">
+                <a class="pull-left">
+                    <img class="img-60 img-circle media-object visible-xs" 
+                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
+                        th:alt-title="${session.LOGIN_USER}"/>
+                    <img class="img-120 img-circle media-object hidden-xs" 
+                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
+                        th:alt-title="${session.LOGIN_USER}"/>
+                </a>
+                <div class="media-body">
+                    <h1 class="media-heading">
+                        <span th:text="${session.LOGIN_USER.nickname}"></span>
+                        <small th:text="'#' + ${session.LOGIN_USER.id}"></small>
+                    </h1>
+                    <p class="text-muted"
+                        th:unless="${#strings.isEmpty(session.LOGIN_USER.signature)}" 
+                        th:text="${session.LOGIN_USER.signature}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrap container-tab">
+        <div class="container">
+            <ul class="nav">
+                <li class="">
+                    <a th:href="@{/console}">
+                        <span class="glyphicon glyphicon-home"></span>
+                        <span class="hidden-xs" th:text="#{console.user.timeline}"></span>
+                    </a>
+                </li>
+                <li class="">
+                    <a th:href="@{/console/like/music}">
+                        <span class="glyphicon glyphicon-music"></span>
+                        <span class="hidden-xs" th:text="#{console.like.music}"></span>
+                    </a>
+                </li>
+                <li class="">
+                    <a th:href="@{/console/like/comic}">
+                        <span class="glyphicon glyphicon-picture"></span>
+                        <span class="hidden-xs" th:text="#{console.like.comic}"></span>
+                    </a>
+                </li>
+                <li class="">
+                    <a th:href="@{/console/follow}">
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="hidden-xs" th:text="#{console.follow}"></span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/console/follower}">
+                        <span class="glyphicon glyphicon-heart"></span>
+                        <span class="hidden-xs" th:text="#{console.follower}"></span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="container-wrap container-wrap-darker"  >
@@ -46,7 +100,7 @@
                 <div id="select-paginate" class="form-group visible-xs"></div>
             </th:block>
             <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                <h4 th:text="#{console.article.noData}"></h4>
+                <p th:text="#{console.article.noData}"></p>
             </div>
         </div>
     </div>

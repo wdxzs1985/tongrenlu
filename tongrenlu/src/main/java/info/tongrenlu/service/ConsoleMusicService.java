@@ -362,47 +362,15 @@ public class ConsoleMusicService {
         }
     }
 
-    // @Transactional
-    // public void saveTrackDocument(final TrackBean trackBean,
-    // final MusicBean musicBean,
-    // final String[] tags) {
-    // final String id = "t" + trackBean.getId();
-    // ArticleDocument document = this.articleRepository.findOne(id);
-    // if (document == null) {
-    // document = new TrackDocument();
-    // document.setId(id);
-    // document.setFileId(trackBean.getId());
-    // document.setArticleId(musicBean.getId());
-    // document.setTitle(musicBean.getTitle());
-    // document.setTags(tags);
-    // }
-    //
-    // document.setTrack(trackBean.getName());
-    // document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
-    // document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
-    // document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
-    //
-    // this.articleRepository.save(document);
-    // }
-
-    // private void updateTrackDocument(final TrackBean trackBean) {
-    // final String id = "t" + trackBean.getId();
-    // final ArticleDocument document = this.articleRepository.findOne(id);
-    // if (document == null) {
-    // return;
-    // }
-    //
-    // document.setTrack(trackBean.getName());
-    // document.setInstrumental(CommonConstants.is(trackBean.getInstrumental()));
-    // document.setArtist(StringUtils.split(trackBean.getArtist(), ","));
-    // document.setOriginal(StringUtils.split(trackBean.getOriginal(), "\n"));
-    //
-    // this.articleRepository.save(document);
-    // }
-
     @Transactional
     public void deleteTrackDocument(final TrackBean trackBean) {
         final String id = "t" + trackBean.getId();
         this.articleRepository.delete(id);
+    }
+
+    public int countUnpublish() {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("publishFlg", CommonConstants.CHR_FALSE);
+        return this.articleManager.countMusic(params);
     }
 }

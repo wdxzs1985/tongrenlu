@@ -62,6 +62,11 @@ body, html {
     background-color: #00bcd4;
 }
 
+.navbar-default li .badge  {
+    background-color: #fff;
+    color: #00bcd4;
+}
+
 .navbar-static-bottom {
 	border-radius: 0;
 	margin-bottom: 0;
@@ -171,7 +176,7 @@ body, html {
     background: none;
     color: #b2ebf2;
     font-weight: bold;
-    padding: 20px 24px;
+    padding: 20px 22px;
     border-radius: 0;
 }
 

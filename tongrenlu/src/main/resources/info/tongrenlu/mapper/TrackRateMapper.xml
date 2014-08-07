@@ -4,6 +4,8 @@
 
 <mapper namespace="info.tongrenlu.mapper.TrackRateMapper">
 
+    <cache-ref namespace="info.tongrenlu.mapper.FileMapper"/>
+    
     <insert id="insert">
         INSERT INTO r_track_rate(
         <trim suffixOverrides=",">

@@ -67,6 +67,11 @@
     background-color: #673ab7;
 }
 
+.navbar-inverse li .badge  {
+    background-color: #fff;
+    color: #673ab7;
+}
+
 .container-header {
     background: #b39ddb;
     color: #fff;

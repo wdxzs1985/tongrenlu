@@ -9,19 +9,22 @@
     <div class="container-wrap container-header">
         <div class="container">
             <div class="media">
-                <a th:href="@{/console/setting}" class="pull-left">
+                <a class="pull-left">
                     <img class="img-60 img-circle media-object visible-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                        th:alt-title="${userBean}"/>
+                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
+                        th:alt-title="${session.LOGIN_USER}"/>
                     <img class="img-120 img-circle media-object hidden-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                        th:alt-title="${userBean}"/>
+                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
+                        th:alt-title="${session.LOGIN_USER}"/>
                 </a>
                 <div class="media-body">
-                    <h3 th:text="${userBean}" class="media-heading"></h3>
+                    <h1 class="media-heading">
+                        <span th:text="${session.LOGIN_USER.nickname}"></span>
+                        <small th:text="'#' + ${session.LOGIN_USER.id}"></small>
+                    </h1>
                     <p class="text-muted"
-                        th:unless="${#strings.isEmpty(userBean.signature)}" 
-                        th:text="${userBean.signature}"></p>
+                        th:unless="${#strings.isEmpty(session.LOGIN_USER.signature)}" 
+                        th:text="${session.LOGIN_USER.signature}"></p>
                 </div>
             </div>
         </div>
@@ -30,23 +33,33 @@
         <div class="container">
             <ul class="nav">
                 <li class="active">
-                    <a th:href="@{/user/__${userBean.id}__}">
+                    <a th:href="@{/console}">
                         <span class="glyphicon glyphicon-home"></span>
                         <span class="hidden-xs" th:text="#{console.user.timeline}"></span>
                     </a>
                 </li>
-                <li th:if="${userBean.musicCount gt 0}">
-                    <a th:href="@{/console/music}">
+                <li class="">
+                    <a th:href="@{/console/like/music}">
                         <span class="glyphicon glyphicon-music"></span>
-                        <span class="hidden-xs" th:text="#{console.user.music}"></span>
-                        <span class="badge hidden-xs" th:text="${userBean.musicCount}"></span>
+                        <span class="hidden-xs" th:text="#{console.like.music}"></span>
                     </a>
                 </li>
-                <li th:if="${userBean.comicCount gt 0}">
-                    <a th:href="@{/console/comic}">
+                <li class="">
+                    <a th:href="@{/console/like/comic}">
                         <span class="glyphicon glyphicon-picture"></span>
-                        <span class="hidden-xs" th:text="#{console.user.comic}"></span>
-                        <span class="badge hidden-xs" th:text="${userBean.comicCount}"></span>
+                        <span class="hidden-xs" th:text="#{console.like.comic}"></span>
+                    </a>
+                </li>
+                <li class="">
+                    <a th:href="@{/console/follow}">
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="hidden-xs" th:text="#{console.follow}"></span>
+                    </a>
+                </li>
+                <li class="">
+                    <a th:href="@{/console/follower}">
+                        <span class="glyphicon glyphicon-heart"></span>
+                        <span class="hidden-xs" th:text="#{console.follower}"></span>
                     </a>
                 </li>
             </ul>
@@ -54,27 +67,31 @@
     </div>
     <div class="container-wrap container-wrap-darker">
         <div class="container" >
-            <div id="timeline" class="timeline-container"
-                th:attr="data-href=@{/console/timeline}">
-                <div class="timeline-list-content hidden">
-                    <ul class="cbp_tmtimeline media-list" ></ul>
-                    <ul class="pager">
-                        <li class="previous">
-                            <a href="javascript:;">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
-                                <span th:text="#{button.previousPage}"></span>
-                            </a>
-                        </li>
-                        <li class="next">
-                            <a href="javascript:;">
-                                <span th:text="#{button.nextPage}"></span>
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="timeline-empty alert alert-info hidden" 
-                    th:text="#{console.user.timeline.empty}">
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="timeline" class="timeline-container"
+                        th:attr="data-href=@{/console/timeline}">
+                        <div class="timeline-list-content hidden">
+                            <ul class="cbp_tmtimeline media-list" ></ul>
+                            <ul class="pager">
+                                <li class="previous">
+                                    <a href="javascript:;">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                        <span th:text="#{button.previousPage}"></span>
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="javascript:;">
+                                        <span th:text="#{button.nextPage}"></span>
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="timeline-empty alert alert-info hidden" >
+                            <p th:text="#{console.user.timeline.empty}"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

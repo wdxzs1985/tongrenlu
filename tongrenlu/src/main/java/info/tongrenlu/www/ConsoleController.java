@@ -4,6 +4,8 @@ import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.service.ConsoleComicService;
+import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.ConsoleUserService;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -30,13 +32,21 @@ public class ConsoleController {
 
     @Autowired
     private ConsoleUserService userService = null;
+    @Autowired
+    private ConsoleMusicService musicService = null;
+    @Autowired
+    private ConsoleComicService comicService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
     public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
-        final Integer id = loginUser.getId();
-        final UserBean userBean = this.userService.getById(id);
-        model.addAttribute("userBean", userBean);
+        if (loginUser.isAdmin()) {
+            final int unpublishMusicCount = this.musicService.countUnpublish();
+            final int unpublishComicCount = this.comicService.countUnpublish();
+
+            model.addAttribute("unpublishMusicCount", unpublishMusicCount);
+            model.addAttribute("unpublishComicCount", unpublishComicCount);
+        }
         return "console/index";
     }
 

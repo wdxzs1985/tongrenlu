@@ -20,17 +20,11 @@
          th:href="@{/console}" th:text="#{console}"></a>
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse">
-      <ul id="nav-member" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.member}">
-        <li class="cl-effect-1"><a th:href="@{/console/like/music}" th:text="#{console.like.music}"></a></li>
-        <li class="cl-effect-1"><a th:href="@{/console/like/comic}" th:text="#{console.like.comic}"></a></li>
-        <li class="divider"></li>
-        <li class="cl-effect-1"><a th:href="@{/console/follow}" th:text="#{console.follow}"></a></li>
-        <li class="cl-effect-1"><a th:href="@{/console/follower}" th:text="#{console.follower}"></a></li>
-      </ul>
       <ul id="nav-editor" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
         <li id="nav-music" class="dropdown cl-effect-1">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span th:text="#{console.music}"></span> <b class="caret"></b>
+            <span th:text="#{console.music}"></span> 
+            <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
@@ -43,7 +37,8 @@
         </li>
         <li id="nav-comic" class="dropdown cl-effect-1">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span th:text="#{console.comic}"></span> <b class="caret"></b>
+            <span th:text="#{console.comic}"></span> 
+            <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li ><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
@@ -54,17 +49,17 @@
             </th:block>
           </ul>
         </li>
-        <li id="nav-fav" class="dropdown cl-effect-1">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span th:text="#{console.like}"></span> <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li ><a th:href="@{/console/like/music}" th:text="#{console.like.music}"></a></li>
-            <li ><a th:href="@{/console/like/comic}" th:text="#{console.like.comic}"></a></li>
-            <li class="divider"></li>
-            <li ><a th:href="@{/console/follow}" th:text="#{console.follow}"></a></li>
-            <li ><a th:href="@{/console/follower}" th:text="#{console.follower}"></a></li>
-          </ul>
+        <li class="cl-effect-1" th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
+            <a th:href="@{/admin/music}" >
+                <span th:text="#{admin.music}"></span>
+                <span class="badge" th:text="${unpublishMusicCount}"></span>
+            </a>
+        </li>
+        <li class="cl-effect-1" th:if="${#objects.nullSafe(unpublishComicCount,0)} gt 0">
+            <a th:href="@{/admin/comic}" >
+                <span th:text="#{admin.comic}"></span>
+                <span class="badge" th:text="${unpublishComicCount}"></span>
+            </a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
