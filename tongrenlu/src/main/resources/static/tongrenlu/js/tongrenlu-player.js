@@ -82,7 +82,7 @@ var player = function(option) {
             	$('#jp_container_1').on('click', '.jp-rate > button', function(e) {
                 	e.preventDefault();
                 	var $this = $(this);
-                	var $rateGroup = $this.closest('.btn-group');
+                	var $rateGroup = $this.closest('.jp-rate');
                 	var data = {
                     		trackId: $rateGroup.data('trackId'),
                     		rate: $this.data('rate')
