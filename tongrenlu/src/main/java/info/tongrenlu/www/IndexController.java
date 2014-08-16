@@ -46,10 +46,10 @@ public class IndexController {
     public String doGetIndex(@ModelAttribute final UserBean loginUser,
                              final Model model) {
 
-        final List<MusicBean> musicRanking = this.musicService.getRanking(30);
+        final List<MusicBean> musicRanking = this.musicService.getTopping(30);
         model.addAttribute("musicRanking", musicRanking);
 
-        final List<ComicBean> comicRanking = this.comicService.getRanking(20);
+        final List<ComicBean> comicRanking = this.comicService.getTopping(20);
         model.addAttribute("comicRanking", comicRanking);
 
         return "home/index";

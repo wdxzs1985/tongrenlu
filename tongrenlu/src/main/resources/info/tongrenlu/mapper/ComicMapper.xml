@@ -160,6 +160,33 @@
         </trim>
         FROM
             v_comic_ranking
+        order by 
+            v_comic_ranking.pt1 + v_comic_ranking.pt2 desc, 
+            v_comic_ranking.publishDate desc
+        limit 0, #{pageSize}
+    </select>
+    
+    <select id="fetchTopping" resultType="ComicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_comic_ranking.id                      as id,
+            v_comic_ranking.title                   as title,
+            v_comic_ranking.description             as description,
+            v_comic_ranking.publishFlg              as publishFlg,
+            v_comic_ranking.publishDate             as publishDate,
+            v_comic_ranking.recommendFlg            as recommendFlg,
+            v_comic_ranking.redFlg                  as redFlg,
+            v_comic_ranking.translateFlg            as translateFlg,
+            v_comic_ranking.accessCount             as accessCount,
+            v_comic_ranking.likeCount               as likeCount,
+            v_comic_ranking.commentCount            as commentCount,
+            v_comic_ranking.pt                      as pt
+        </trim>
+        FROM
+            v_comic_ranking
+        order by 
+            v_comic_ranking.pt1 + v_comic_ranking.pt2 + v_comic_ranking.pt3 desc, 
+            v_comic_ranking.publishDate desc
         limit 0, #{pageSize}
     </select>
 </mapper>

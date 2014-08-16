@@ -17,4 +17,6 @@ public interface MusicMapper {
 
     public List<MusicBean> fetchRanking(Map<String, Object> param);
 
+    public List<MusicBean> fetchTopping(Map<String, Object> param);
+
 }

@@ -86,6 +86,10 @@ public class HomeMusicService {
         return this.articleManager.getMusicRanking(pageSize);
     }
 
+    public List<MusicBean> getTopping(final int pageSize) {
+        return this.articleManager.getMusicTopping(pageSize);
+    }
+
     public MusicBean getById(final Integer id) {
         return this.articleManager.getMusicById(id);
     }

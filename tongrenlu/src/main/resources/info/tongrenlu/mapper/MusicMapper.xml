@@ -113,6 +113,33 @@
         </trim>
         FROM
             v_music_ranking
+        order by 
+            v_music_ranking.pt1 + v_music_ranking.pt2 desc, 
+            v_music_ranking.publishDate desc
+        limit 0, #{pageSize}
+    </select>
+    
+    <select id="fetchTopping" resultType="MusicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_music_ranking.id                      as id,
+            v_music_ranking.title                   as title,
+            v_music_ranking.description             as description,
+            v_music_ranking.publishFlg              as publishFlg,
+            v_music_ranking.publishDate             as publishDate,
+            v_music_ranking.recommendFlg            as recommendFlg,
+            v_music_ranking.`userBean.id`           as `userBean.id`,
+            v_music_ranking.`userBean.nickname`     as `userBean.nickname`,
+            v_music_ranking.accessCount             as accessCount,
+            v_music_ranking.likeCount               as likeCount,
+            v_music_ranking.commentCount            as commentCount,
+            v_music_ranking.pt                      as pt
+        </trim>
+        FROM
+            v_music_ranking
+        order by 
+            v_music_ranking.pt1 + v_music_ranking.pt2 + v_music_ranking.pt3 desc, 
+            v_music_ranking.publishDate desc
         limit 0, #{pageSize}
     </select>
 </mapper>

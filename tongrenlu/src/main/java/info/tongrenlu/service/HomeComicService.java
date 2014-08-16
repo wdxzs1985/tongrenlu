@@ -56,6 +56,10 @@ public class HomeComicService {
         return this.articleManager.getComicRanking(pageSize);
     }
 
+    public List<ComicBean> getTopping(final int pageSize) {
+        return this.articleManager.getComicTopping(pageSize);
+    }
+
     public ComicBean getById(final Integer id) {
         return this.articleManager.getComicById(id);
     }
