@@ -31,34 +31,32 @@
             </div>
         </div>
     </div>
-        <div class="container-fuild">
-            <div th:fragment="article-gallery">
-	            <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
-	                <div class="slides"></div>
-	                <h3 class="title"></h3>
-	                <a class="prev">&lsaquo;</a>
-	                <a class="next">&rsaquo;</a>
-	                <a class="play-pause"></a>
-	                <ol class="indicator"></ol>
-	            </div>
-	            <div id="blueimp-gallery" class="blueimp-gallery">
-	                <div class="slides"></div>
-	                <h3 class="title"></h3>
-	                <a class="prev">&lsaquo;</a>
-	                <a class="next">&rsaquo;</a>
-	                <h3 class="title"></h3>
-	                <a class="close">&times;</a>
-	                <a class="play-pause"></a>
-	                <ol class="indicator"></ol>
-	            </div>
-	            <div class="text-center append-bottom-lg">
-	                <button id="blueimp-gallery-fullscreen" class="btn btn-primary" >
-	                    <span class="glyphicon glyphicon-fullscreen"></span>
-	                    <span th:text="#{home.article.fullscreen}"></span>
-	                </button>
-	            </div>
-            </div>
+    <div th:fragment="article-gallery">
+        <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">&lsaquo;</a>
+            <a class="next">&rsaquo;</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
         </div>
+        <div id="blueimp-gallery" class="blueimp-gallery">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">&lsaquo;</a>
+            <a class="next">&rsaquo;</a>
+            <h3 class="title"></h3>
+            <a class="close">&times;</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+        </div>
+        <div class="text-center append-bottom-lg">
+            <button id="blueimp-gallery-fullscreen" class="btn btn-primary" >
+                <span class="glyphicon glyphicon-fullscreen"></span>
+                <span th:text="#{home.article.fullscreen}"></span>
+            </button>
+        </div>
+    </div>
         <div class="container" layout:fragment="article-info">
             <div id="player" th:fragment="article-player">
                 <div id="jquery_jplayer_1" class="jp-jplayer"></div>

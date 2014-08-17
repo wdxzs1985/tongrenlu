@@ -29,9 +29,7 @@
 	            <h4 th:text="#{home.music.booklet}">booklet</h4>
 	        </div>
 	    </div>
-	    <div class="container-fuild">
-            <div th:replace="home/layout_article_view::article-gallery"></div>
-        </div>
+        <div th:include="home/layout_article_view::article-gallery"></div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
