@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
 VIEW `v_timeline` AS
     select 
         `v_comic`.`id` AS `articleBean.id`,

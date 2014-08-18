@@ -24,7 +24,7 @@ import org.springframework.web.util.CookieGenerator;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@ImportResource("config/spring-context.xml")
+@ImportResource("classpath:spring-context.xml")
 public class Application implements ServletContextInitializer {
 
     public static void main(final String[] args) {
@@ -34,8 +34,7 @@ public class Application implements ServletContextInitializer {
     private Log log = LogFactory.getLog(this.getClass());
 
     @Override
-    public void onStartup(final ServletContext servletContext)
-            throws ServletException {
+    public void onStartup(final ServletContext servletContext) throws ServletException {
         this.log.info("setSessionTrackingModes: " + SessionTrackingMode.COOKIE);
         servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
     }
