@@ -48,18 +48,25 @@
                                             th:text="${articleDocument.title}" 
                                             th:alt-title="${articleDocument.title}"></a>
                                     </h5>
-                                    <ul class="list-inline tag-container">
-                                        <li>
-                                            <span class="glyphicon glyphicon-tags"></span>&nbsp;
-                                            <strong th:text="#{ArticleBean.tag} + ' :'">Tags :</strong>
-                                        </li>
-                                        <li th:each="tag : ${articleDocument.tags}">
-                                            <a class="btn btn-xs btn-default" 
-                                                th:href="@{/search/comic(q=${tag})}" 
-                                                th:text="${tag}">
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <div th:id="'accordion-' + ${articleDocument.id}">
+                                        <p>
+                                            <button type="button" class="btn btn-info btn-xs" data-toggle="collapse" 
+                                                th:attr="data-parent='#accordion-' + ${articleDocument.id},data-target='#collapse-' + ${articleDocument.id}">
+                                                <span class="glyphicon glyphicon-tags"></span>&nbsp;
+                                                <strong th:text="#{ArticleBean.tag} + ' &gt;&gt;'">Tags :</strong>
+                                            </button>
+                                        </p>
+                                        <div th:id="'collapse-' + ${articleDocument.id}" class="collapse">
+                                            <ul class="list-inline tag-container">
+                                                <li th:each="tag : ${articleDocument.tags}" class="tag-item ">
+                                                    <a class="btn btn-xs btn-default" 
+                                                        th:href="@{/search/comic(q=${tag})}" 
+                                                        th:text="${tag}">
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>
                         </li>
