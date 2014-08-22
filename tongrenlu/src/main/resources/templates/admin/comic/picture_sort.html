@@ -30,7 +30,7 @@
                 </div>
             </div>
             <hr />
-            <form th:action="@{/admin/comic/__${articleBean.id}__/booklet/sort}" method="POST">
+            <form th:action="@{/admin/comic/__${articleBean.id}__/picture/sort}" method="POST">
                 <div id="sortable-list" class="row">
                     <div class="col-xs-4 col-sm-2 sortable-object" 
                          th:each="file : ${fileList}"
@@ -49,9 +49,9 @@
                 <hr />
                 <div class="row">
                     <div class="col-xs-6 text-left">
-                      <a th:href="@{/admin/comic/__${articleBean.id}__/booklet/upload}" class="btn btn-default">
+                      <a th:href="@{/admin/comic/__${articleBean.id}__/picture/upload}" class="btn btn-default">
                           <span class="glyphicon glyphicon-chevron-left"></span>
-                          <span th:text="#{console.music.booklet.upload}"></span>
+                          <span th:text="#{console.comic.picture.upload}"></span>
                       </a>
                     </div>
                     <div class="col-xs-6 text-right">
