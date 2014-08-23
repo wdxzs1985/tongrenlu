@@ -1,2 +1,1 @@
-REM mvn clean install
-mvn clean package
+mvn clean install
