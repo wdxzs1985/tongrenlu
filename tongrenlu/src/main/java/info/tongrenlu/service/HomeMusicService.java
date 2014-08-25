@@ -33,23 +33,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class HomeMusicService {
 
     @Autowired
-    private MessageSource messageSource = null;
+    private final MessageSource messageSource = null;
     @Autowired
-    private ArticleManager articleManager = null;
+    private final ArticleManager articleManager = null;
     @Autowired
-    private TagManager tagManager = null;
+    private final TagManager tagManager = null;
     @Autowired
-    private LikeManager likeManager = null;
+    private final LikeManager likeManager = null;
     @Autowired
-    private ObjectManager objectManager = null;
+    private final ObjectManager objectManager = null;
     @Autowired
-    private UserManager userManager = null;
+    private final UserManager userManager = null;
     @Autowired
-    private TrackManager trackManager = null;
+    private final TrackManager trackManager = null;
 
     public List<TrackBean> getTrackList(final Integer articleId,
                                         final UserBean userBean) {
-        return this.trackManager.getTrackList(articleId, userBean);
+        return this.trackManager.getRatedTrackList(articleId, userBean);
     }
 
     public List<FileBean> getBookletList(final Integer articleId) {
@@ -57,11 +57,13 @@ public class HomeMusicService {
     }
 
     public void searchMusic(final PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.articleManager.countMusic(paginate.getParams());
+        final int itemCount = this.articleManager.countMusic(paginate
+                                                             .getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
+        final List<MusicBean> items = this.articleManager.searchMusic(paginate
+                                                                      .getParams());
         paginate.setItems(items);
     }
 
@@ -73,7 +75,8 @@ public class HomeMusicService {
             return null;
         }
 
-        final int start = new Random(System.currentTimeMillis()).nextInt(itemCount);
+        final int start = new Random(System.currentTimeMillis())
+        .nextInt(itemCount);
 
         params.put("start", start);
         params.put("pageSize", 1);

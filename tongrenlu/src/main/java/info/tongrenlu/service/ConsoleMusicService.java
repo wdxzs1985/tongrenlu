@@ -5,7 +5,6 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
-import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.TagManager;
@@ -41,19 +40,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class ConsoleMusicService {
 
     @Autowired
-    private MessageSource messageSource = null;
+    private final MessageSource messageSource = null;
     @Autowired
-    private ArticleManager articleManager = null;
+    private final ArticleManager articleManager = null;
     @Autowired
-    private TagManager tagManager = null;
+    private final TagManager tagManager = null;
     @Autowired
-    private FileManager fileManager = null;
+    private final FileManager fileManager = null;
     @Autowired
-    private TrackManager trackManager = null;
+    private final TrackManager trackManager = null;
     @Autowired
-    private ArticleRepository articleRepository = null;
+    private final ArticleRepository articleRepository = null;
     @Autowired
-    private TrackRepository trackRepository = null;
+    private final TrackRepository trackRepository = null;
 
     @Transactional
     public boolean doCreate(final MusicBean inputMusic,
@@ -105,11 +104,13 @@ public class ConsoleMusicService {
     }
 
     public void searchMusic(final PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.articleManager.countMusic(paginate.getParams());
+        final int itemCount = this.articleManager.countMusic(paginate
+                .getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
+        final List<MusicBean> items = this.articleManager.searchMusic(paginate
+                .getParams());
         paginate.setItems(items);
     }
 
@@ -208,7 +209,7 @@ public class ConsoleMusicService {
 
     public List<TrackBean> getTrackList(final MusicBean musicBean) {
         final Integer articleId = musicBean.getId();
-        return this.trackManager.getTrackList(articleId, new UserBean());
+        return this.trackManager.getTrackList(articleId);
     }
 
     @Transactional
@@ -303,7 +304,8 @@ public class ConsoleMusicService {
                                   final List<TrackBean> trackList,
                                   final String[] tags) {
         final Integer articleId = musicBean.getId();
-        ArticleDocument articleDocument = this.articleRepository.findOne("m" + articleId);
+        ArticleDocument articleDocument = this.articleRepository
+                .findOne("m" + articleId);
         if (articleDocument == null) {
             articleDocument = new MusicDocument(articleId);
         }
@@ -319,7 +321,8 @@ public class ConsoleMusicService {
         if (CollectionUtils.isNotEmpty(trackList)) {
             for (final TrackBean track : trackList) {
                 final Integer fileId = track.getId();
-                ArticleDocument trackDocument = this.articleRepository.findOne("t" + fileId);
+                ArticleDocument trackDocument = this.articleRepository
+                        .findOne("t" + fileId);
                 if (trackDocument == null) {
                     trackDocument = new TrackDocument(fileId);
                     trackDocument.setArticleId(articleId);
@@ -327,11 +330,13 @@ public class ConsoleMusicService {
                 }
 
                 trackDocument.setTrack(track.getName());
-                trackDocument.setInstrumental(CommonConstants.is(track.getInstrumental()));
+                trackDocument.setInstrumental(CommonConstants.is(track
+                        .getInstrumental()));
                 trackDocument.setArtist(StringUtils.split(track.getArtist(),
-                                                          ","));
-                trackDocument.setOriginal(StringUtils.split(track.getOriginal(),
-                                                            "\n"));
+                        ","));
+                trackDocument
+                        .setOriginal(StringUtils.split(track.getOriginal(),
+                                                       "\n"));
 
                 this.articleRepository.save(trackDocument);
 
@@ -357,7 +362,8 @@ public class ConsoleMusicService {
         final String id = "m" + articleId;
         this.articleRepository.delete(id);
 
-        for (final ArticleDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
+        for (final ArticleDocument trackDocument : this.trackRepository
+                .findByArticleId(articleId)) {
             this.articleRepository.delete(trackDocument);
         }
     }

@@ -17,16 +17,22 @@ import org.springframework.stereotype.Component;
 public class TrackManager {
 
     @Autowired
-    private TrackMapper trackMapper = null;
+    private final TrackMapper trackMapper = null;
     @Autowired
-    private TrackRateMapper trackRateMapper = null;
+    private final TrackRateMapper trackRateMapper = null;
 
-    public List<TrackBean> getTrackList(final Integer articleId,
-                                        final UserBean userBean) {
+    public List<TrackBean> getTrackList(final Integer articleId) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("articleId", articleId);
+        return this.trackMapper.fetchList(param);
+    }
+
+    public List<TrackBean> getRatedTrackList(final Integer articleId,
+                                             final UserBean userBean) {
         final Map<String, Object> param = new HashMap<>();
         param.put("articleId", articleId);
         param.put("userBean", userBean);
-        return this.trackMapper.fetchList(param);
+        return this.trackRateMapper.fetchList(param);
     }
 
     public void addTrack(final TrackBean trackBean) {
