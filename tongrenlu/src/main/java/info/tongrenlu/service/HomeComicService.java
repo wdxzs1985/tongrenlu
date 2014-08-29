@@ -3,7 +3,6 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
-import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
@@ -31,11 +30,11 @@ public class HomeComicService {
     @Autowired
     private ArticleManager articleManager = null;
     @Autowired
-    private TagManager tagManager = null;
-    @Autowired
     private LikeManager likeManager = null;
     @Autowired
     private ObjectManager objectManager = null;
+    @Autowired
+    private TagManager tagManager = null;
     @Autowired
     private UserManager userManager = null;
 
@@ -62,11 +61,6 @@ public class HomeComicService {
 
     public ComicBean getById(final Integer id) {
         return this.articleManager.getComicById(id);
-    }
-
-    public List<TagBean> getTagList(final Integer articleId) {
-        final ComicBean comicBean = this.getById(articleId);
-        return this.articleManager.getTags(comicBean);
     }
 
     public void addAccess(final ComicBean comicBean, final UserBean loginUser) {

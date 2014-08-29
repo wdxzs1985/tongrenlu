@@ -153,6 +153,7 @@ public class ArticleManager {
         final ArticleTagBean articleTagBean = new ArticleTagBean();
         articleTagBean.setArticleBean(articleBean);
         articleTagBean.setTagBean(tagBean);
+        this.articleTagMapper.delete(articleTagBean);
         this.articleTagMapper.insert(articleTagBean);
     }
 
@@ -215,7 +216,7 @@ public class ArticleManager {
             model.put(errorAttribute,
                       this.messageSource.getMessage("validate.tooLong",
                                                     new Object[] { fieldName,
-                                                                  ArticleManager.TITLE_LENGTH },
+                                                            ArticleManager.TITLE_LENGTH },
                                                     locale));
             isValid = false;
         }

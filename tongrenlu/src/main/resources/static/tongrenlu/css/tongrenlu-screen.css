@@ -77,10 +77,6 @@ body, html {
 	margin-bottom: 15px;
 }
 
-.img-circle {
-	border-radius: 50%;
-}
-
 .img-400 {
     width: 400px;
     height: 400px;
@@ -118,7 +114,7 @@ body, html {
 }
 
 .article-list-item {
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 1px solid #eee;
     padding-bottom: 20px;
     margin-bottom: 20px;
     min-height: 120px;

@@ -42,6 +42,7 @@
 <script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
@@ -65,7 +66,9 @@ $(function() {
     new tag({
         url: /*[[@{/comic/__${articleBean.id}__/tag}]]*/ '',
         tagPath: /*[[@{/tag}]]*/'/tag',
-        template: 'template-tag-item'
+        template: 'template-tag-item',
+        placeholder: /*[[#{console.tag.help}]]*/'Make a selection',
+        searchurl: /*[[@{/tag/search}]]*/ '/tag/search'
     });
     
     new comment({

@@ -1,6 +1,7 @@
 var comment = function(options) {
 	
 	var settings = $.extend({
+		selector: '#comment',
 		pageNumber: 1,
 		emptyText: 'no comment',
 		i18n:  {
@@ -23,27 +24,9 @@ var comment = function(options) {
 	
 	var that = {
 		init: function() {
-			var $comment = $('#comment').on('submit', '.comment-form', function(e){
+			var $comment = $(settings.selector).on('submit', '.comment-form', function(e){
 				e.preventDefault();
-				var $form = $(this);
-			    var data = $form.serialize();
-			    
-			    if($comment.data('sending')){
-			        return;
-			    }
-			    $comment.data('sending', true);
-			    
-		    	$.post(settings.url, data).done(function(response) {
-		        	if(response.result) {
-		        		that.load(1);
-						that.scroll('#comment');
-						that.reset();
-		        	} else {
-		        		alert(response.error)
-		        	}
-		        }).always(function(){
-				    $comment.data('sending', false);
-		        });
+				that.send($(this));
 			}).on('click', '.previous a', function(e){
 				e.preventDefault();
 				that.load(settings.pageNumber - 1);
@@ -56,15 +39,10 @@ var comment = function(options) {
 				e.preventDefault();
 				var commentData = $(this).closest('.media').data();
 				var repo = " //@" + commentData.userBean.nickname + "#" + commentData.userBean.id + ' :' + commentData.content;
-				$comment.find('.comment-form textarea').text(repo).focus();
+				$comment.find('.comment-form textarea').val(repo).focus();
 			});
 			
 			that.load();
-		},
-		reset: function() {
-			$comment.find('.comment-form').each(function(index, element) {
-				element.reset();
-			});
 		},
 		scroll: function(hash) {
 			var offset = $( hash ).eq( 0 ).offset();
@@ -156,6 +134,26 @@ var comment = function(options) {
 		    }else {
 		        return i18n.JUST_BEFORE;
 		    }
+		},
+		send: function($form) {
+		    var data = $form.serialize();
+		    
+		    if($form.data('sending')){
+		        return;
+		    }
+		    $form.data('sending', true);
+		    
+	    	$.post(settings.url, data).done(function(response) {
+	        	if(response.result) {
+	        		that.load(1);
+					that.scroll('#comment');
+					$form.find('textarea').val('');
+	        	} else {
+	        		alert(response.error)
+	        	}
+	        }).always(function(){
+	        	$form.data('sending', false);
+	        });
 		}
 	};
 	

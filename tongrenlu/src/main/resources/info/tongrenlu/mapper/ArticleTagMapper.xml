@@ -45,7 +45,10 @@
         </set>
         <where>
         <if test="articleBean!=null">
-            ARTICLE_ID = #{articleBean.id}
+        and ARTICLE_ID = #{articleBean.id}
+        </if>
+        <if test="tagBean!=null">
+        and tag_id = #{tagBean.id}
         </if>
         </where>
     </update>

@@ -34,7 +34,7 @@
                     <div th:fragment="list-content">
                         <th:block th:unless="${#lists.isEmpty(page.items)}">
                             <ul class="media-list">
-                                <li class="media" th:each="articleBean : ${page.items}">
+                                <li class="media article-list-item" th:each="articleBean : ${page.items}">
                                     <a class="pull-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                         <img class="media-object img-120 img-rounded  hidden-xs" src="http://placehold.it/120x120" 
                                             th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}"
@@ -44,24 +44,22 @@
                                             th:alt-title="${articleBean.title}" />
                                     </a>
                                     <div class="media-body">
-                                        <div class="article-list-item">
-                                            <h5 class="media-heading text-single-line">
-                                                <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                                    <strong th:text="${articleBean.title}" ></strong>
-                                                </a>
-                                            </h5>
-                                            <div class="text-muted">
-                                                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-                                                <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                                                    th:alt-title="${articleBean.userBean}">
-                                                    <strong th:text="${articleBean.userBean}"></strong>
-                                                </a>
-                                                <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                                <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
-                                                <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
-                                            </div>
-                                            <p th:text="${articleBean.description}"></p>
+                                        <h5 class="media-heading text-single-line">
+                                            <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                                <strong th:text="${articleBean.title}" ></strong>
+                                            </a>
+                                        </h5>
+                                        <div class="text-muted">
+                                            <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                                            <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                                                th:alt-title="${articleBean.userBean}">
+                                                <strong th:text="${articleBean.userBean}"></strong>
+                                            </a>
+                                            <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                                            <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
+                                            <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                         </div>
+                                        <p th:text="${articleBean.description}"></p>
                                     </div>
                                 </li>
                             </ul>

@@ -44,7 +44,7 @@
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js" ></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
@@ -86,7 +86,9 @@ $(function() {
     new tag({
         url: /*[[@{/music/__${articleBean.id}__/tag}]]*/ '',
         tagPath: /*[[@{/tag}]]*/'/tag',
-        template: 'template-tag-item'
+        template: 'template-tag-item',
+        placeholder: /*[[#{console.tag.help}]]*/'Make a selection',
+        searchurl: /*[[@{/tag/search}]]*/ '/tag/search'
     });
 
     new comment({
@@ -101,8 +103,8 @@ $(function() {
     	likeText: /*[[#{home.article.like}]]*/ '',
     	unlikeText: /*[[#{home.article.unlike}]]*/ ''
     });
-
-
+    
+    
 });
 </script>
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>

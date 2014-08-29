@@ -4,7 +4,6 @@ import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
-import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.TrackRateBean;
 import info.tongrenlu.domain.UserBean;
@@ -57,13 +56,11 @@ public class HomeMusicService {
     }
 
     public void searchMusic(final PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.articleManager.countMusic(paginate
-                                                             .getParams());
+        final int itemCount = this.articleManager.countMusic(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<MusicBean> items = this.articleManager.searchMusic(paginate
-                                                                      .getParams());
+        final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
         paginate.setItems(items);
     }
 
@@ -75,8 +72,7 @@ public class HomeMusicService {
             return null;
         }
 
-        final int start = new Random(System.currentTimeMillis())
-        .nextInt(itemCount);
+        final int start = new Random(System.currentTimeMillis()).nextInt(itemCount);
 
         params.put("start", start);
         params.put("pageSize", 1);
@@ -95,11 +91,6 @@ public class HomeMusicService {
 
     public MusicBean getById(final Integer id) {
         return this.articleManager.getMusicById(id);
-    }
-
-    public List<TagBean> getTagList(final Integer articleId) {
-        final MusicBean musicBean = this.getById(articleId);
-        return this.articleManager.getTags(musicBean);
     }
 
     @Transactional

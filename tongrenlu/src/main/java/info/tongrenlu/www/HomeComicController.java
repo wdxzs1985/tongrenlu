@@ -11,6 +11,7 @@ import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.HomeComicService;
+import info.tongrenlu.service.TagService;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
@@ -42,6 +43,8 @@ public class HomeComicController {
     private MessageSource messageSource = null;
     @Autowired
     private HomeComicService comicService = null;
+    @Autowired
+    private TagService tagService = null;
     @Autowired
     private CommentService commentService = null;
 
@@ -150,10 +153,27 @@ public class HomeComicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/tag")
     @ResponseBody
-    public Map<String, Object> doGetTag(@PathVariable final Integer articleId) {
+    public Map<String, Object> doGetTag(@PathVariable final Integer articleId,
+                                        @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                        final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
-        final List<TagBean> tagList = this.comicService.getTagList(articleId);
+        final ComicBean comicBean = this.comicService.getById(articleId);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
+        final List<TagBean> tagList = this.tagService.getTagByArticle(comicBean);
         model.put("tagList", tagList);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/tag")
+    @ResponseBody
+    public Map<String, Object> doPostInputTag(@PathVariable final Integer articleId,
+                                              @RequestParam(value = "tags[]", required = false) final String[] tags,
+                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                              final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final ComicBean comicBean = this.comicService.getById(articleId);
+        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
+        this.tagService.addTag(comicBean, tags, loginUser, model, locale);
         return model;
     }
 
