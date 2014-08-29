@@ -236,7 +236,7 @@
 					}
 					);
 					obj.css('padding-left',_first.parent().width() + 5 +'px');
-					insidewidth = 0;
+					insidewidth = 1;
 					
 					obj.find('li').each(function(i,n){
 						if(i == (o.display-1)){

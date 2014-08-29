@@ -134,6 +134,6 @@
 .jPaginate a:hover,
 .jPaginate li a:hover,
 .jPaginate .jPag-pages span {
-    background-color: #e0e0e0 !important;
+    background-color: #eee !important;
     color: #424242 !important;
 }
