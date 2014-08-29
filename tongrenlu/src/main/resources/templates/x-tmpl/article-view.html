@@ -19,7 +19,7 @@
     <div class="media-body">
         <a href="javascript:;" class="{%=o.itemClass%}">
             <h5 class="media-heading">
-                {%=o.file.title%} 
+                {%=o.file.index + 1%}. {%=o.file.title%} 
                 {% if (o.file.instrumental) { %}
                     <span class="label label-warning" th:text="#{TrackBean.instrumental}">instrumental</span>
                 {% } %}

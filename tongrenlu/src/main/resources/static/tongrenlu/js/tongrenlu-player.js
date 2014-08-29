@@ -24,6 +24,7 @@ var player = function(option) {
                 var poster = settings.filePath + '/cover_120.jpg';
                 var rate = track.rate;
         		var playable = {
+        				index: index,
         				id: id,
         				title: title,
         				artist: artist,

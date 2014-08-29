@@ -50,13 +50,11 @@ var tag = function(options) {
 	        });
 	        $(ms).on('selectionchange', function(e,m){
 	            var tags = ms.getValue();
-	            if(tags.length > 0) {
-	                $.post(settings.url, { 'tags[]': tags }).done(function(response) {
-	                	that.load();
-	                }).always(function() {
-	                    ms.clear();
-	                });
-	            }
+                $.post(settings.url, { 'tags[]': tags }).done(function(response) {
+                	that.load();
+                }).always(function() {
+                    ms.clear(true);
+                });
 	        });
 		}
 	};
