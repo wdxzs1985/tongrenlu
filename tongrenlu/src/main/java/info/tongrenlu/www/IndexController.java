@@ -2,10 +2,12 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.HomeComicService;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
+import info.tongrenlu.service.TagService;
 import info.tongrenlu.solr.ComicDocument;
 import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.support.PaginateSupport;
@@ -39,6 +41,8 @@ public class IndexController {
     private HomeMusicService musicService = null;
     @Autowired
     private SearchService searchService = null;
+    @Autowired
+    private TagService tagService = null;
 
     private Log log = LogFactory.getLog(this.getClass());
 
@@ -61,6 +65,9 @@ public class IndexController {
                                    final Model model) {
         if (StringUtils.isNotBlank(query)) {
 
+            final PaginateSupport<TagBean> page = this.searchTag(query);
+            model.addAttribute("tags", page.getItems());
+
             final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
                                                       PaginateSupport.PAGESIZE);
 
@@ -79,6 +86,10 @@ public class IndexController {
                                    @RequestParam(value = "q", required = false) final String query,
                                    final Model model) {
         if (StringUtils.isNotBlank(query)) {
+
+            final PaginateSupport<TagBean> page = this.searchTag(query);
+            model.addAttribute("tags", page.getItems());
+
             final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
                                                       PaginateSupport.PAGESIZE);
 
@@ -90,5 +101,12 @@ public class IndexController {
         } else {
             return "redirect:/";
         }
+    }
+
+    private PaginateSupport<TagBean> searchTag(final String query) {
+        final PaginateSupport<TagBean> page = new PaginateSupport<>(1);
+        page.addParam("tag", query);
+        this.tagService.searchTag(page);
+        return page;
     }
 }

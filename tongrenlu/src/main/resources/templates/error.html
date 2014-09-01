@@ -2,18 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
-  <body>
+<body>
     <div layout:fragment="content">
-            <div class="container">
-                <div class="row">
-                  <div class="col-sm-6 col-sm-offset-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
                     <div class="alert alert-danger">
                         <h4 th:text="#{error}"></h4>
-                        <p th:text="${message}"></p>
+                        <p><a th:href="@{/}" th:text="#{button.back}" class="btn btn-default"></a></p>
                     </div>
-                  </div>
                 </div>
             </div>
+        </div>
     </div>
-  </body>
+</body>
 </html>

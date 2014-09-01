@@ -28,58 +28,75 @@
     </div>
     <div class="container-wrap" >
         <div class="container">
-            <th:block th:if="${searchResult}">
-                <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
-                    <ul class="media-list">
-                        <li class="media" th:each="articleDocument : ${searchResult.content}">
-                            <a class="pull-left" th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
-                                th:alt-title="${articleDocument.title}">
-                                <img class="media-object img-120  img-rounded hidden-xs"
-                                    th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
-                                    th:alt-title="${articleDocument.title}" />
-                                <img class="media-object img-60  img-rounded visible-xs"
-                                    th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
-                                    th:alt-title="${articleDocument.title}" />
-                            </a>
-                            <div class="media-body">
-                                <div class="article-list-item">
-                                    <h5 class="media-heading text-single-line">
-                                        <a th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}" 
-                                            th:text="${articleDocument.title}" 
-                                            th:alt-title="${articleDocument.title}"></a>
-                                    </h5>
-                                    <div th:id="'accordion-' + ${articleDocument.id}">
-                                        <p>
-                                            <button type="button" class="btn btn-info btn-xs" data-toggle="collapse" 
-                                                th:attr="data-parent='#accordion-' + ${articleDocument.id},data-target='#collapse-' + ${articleDocument.id}">
-                                                <span class="glyphicon glyphicon-tags"></span>&nbsp;
-                                                <strong th:text="#{ArticleBean.tag} + ' &gt;&gt;'">Tags :</strong>
-                                            </button>
-                                        </p>
-                                        <div th:id="'collapse-' + ${articleDocument.id}" class="collapse">
-                                            <ul class="list-inline tag-container">
-                                                <li th:each="tag : ${articleDocument.tags}" class="tag-item ">
-                                                    <a class="btn btn-xs btn-default" 
-                                                        th:href="@{/search/comic(q=${tag})}" 
-                                                        th:text="${tag}">
-                                                    </a>
-                                                </li>
-                                            </ul>
+            <div class="row">
+                <div class="col-sm-8" >
+                    <th:block th:if="${searchResult}">
+                        <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
+                            <ul class="media-list">
+                                <li class="media article-list-item" th:each="articleDocument : ${searchResult.content}">
+                                    <a class="pull-left" th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
+                                        th:alt-title="${articleDocument.title}">
+                                        <img class="media-object img-120  img-rounded hidden-xs"
+                                            th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
+                                            th:alt-title="${articleDocument.title}" />
+                                        <img class="media-object img-60  img-rounded visible-xs"
+                                            th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
+                                            th:alt-title="${articleDocument.title}" />
+                                    </a>
+                                    <div class="media-body">
+                                        <h5 class="media-heading text-single-line">
+                                            <a th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}" 
+                                                th:text="${articleDocument.title}" 
+                                                th:alt-title="${articleDocument.title}"></a>
+                                        </h5>
+                                        <div th:id="'accordion-' + ${articleDocument.id}">
+                                            <p>
+                                                <button type="button" class="btn btn-info btn-xs" data-toggle="collapse" 
+                                                    th:attr="data-parent='#accordion-' + ${articleDocument.id},data-target='#collapse-' + ${articleDocument.id}">
+                                                    <span class="glyphicon glyphicon-tags"></span>&nbsp;
+                                                    <strong th:text="#{ArticleBean.tag} + ' &gt;&gt;'">Tags :</strong>
+                                                </button>
+                                            </p>
+                                            <div th:id="'collapse-' + ${articleDocument.id}" class="collapse">
+                                                <ul class="list-inline tag-container">
+                                                    <li th:each="tag : ${articleDocument.tags}" class="tag-item ">
+                                                        <a class="btn btn-xs btn-default" 
+                                                            th:href="@{/search/comic(q=${tag})}" 
+                                                            th:text="${tag}">
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                      </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <hr />
-                    <div id="jpaginate" class="hidden-xs"></div>
-                    <div id="select-paginate" class="form-group visible-xs"></div>
-                </th:block>
-                <div class="alert alert-warning" th:if="${#lists.isEmpty(searchResult.content)}">
-                    <h4 th:text="#{home.article.noData}"></h4>
-                    <a th:href="@{/}" th:text="#{button.back}" class="btn btn-default"></a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div id="jpaginate" class="hidden-xs"></div>
+                            <div id="select-paginate" class="form-group visible-xs"></div>
+                        </th:block>
+                        <div class="alert alert-warning" th:if="${#lists.isEmpty(searchResult.content)}">
+                            <h4 th:text="#{home.article.noData}"></h4>
+                            <a th:href="@{/}" th:text="#{button.back}" class="btn btn-default"></a>
+                        </div>
+                    </th:block>
                 </div>
-            </th:block>
+                <div class="col-sm-4" >
+                    <div id="" class="card side-content">
+                        <div class="page-header">
+                            <h3 th:text="#{home.search.tag}"></h3>
+                        </div>
+                        <ul class="media-list">
+                            <li class="media" th:each="tagBean : ${tags}">
+                                <div class="media-body">
+                                    <a th:href="@{/tag/__${tagBean.id}__/comic}" th:alt-title="${tagBean.tag}">
+                                        <span th:text="#{home.tag.comic(${tagBean.tag})}" ></span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

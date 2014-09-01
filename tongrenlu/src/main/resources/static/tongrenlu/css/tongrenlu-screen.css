@@ -130,7 +130,7 @@ body, html {
 
 .container-wrap {
 	padding: 20px 0 40px;
-	background-color: #ffffff;
+	background-color: #fcfcfc;
 }
 
 .container-wrap-darker {
@@ -304,18 +304,6 @@ h1.article-title {
 	width: 80%;
 }
 
-#ranking {
-    padding: 1em;
-}
-
-#ranking .page-header {
-	margin-top: 0;
-}
-
-#ranking .page-header h3 {
-    margin-top: 0;
-}
-
 #sortalbe-list .media-heading {
 	height: 4em;
 }
@@ -330,5 +318,17 @@ h1.article-title {
 
 .card .media-body{
     padding: .5em;
+}
+
+.side-content {
+    padding: 1em;
+}
+
+.side-content .page-header {
+    margin-top: 0;
+}
+
+.side-content .page-header h3 {
+    margin-top: 0;
 }
 
