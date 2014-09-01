@@ -10,9 +10,9 @@
     <div class="container-wrap" >
         <div class="container">
             <ul class="nav nav-tabs">
-              <li class="hidden-xs"><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
-              <li class="active"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-              <li class="hidden-xs" th:if="${session.LOGIN_USER.admin}"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
+                <li class="hidden-xs"><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
+                <li class="active"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
+                <li class="hidden-xs" th:if="${session.LOGIN_USER.admin}"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">
@@ -27,82 +27,64 @@
                     <hr />
                     <th:block th:unless="${#lists.isEmpty(page.items)}">
                         <ul class="media-list">
-                          <li class="media article-list-item" th:each="articleBean : ${page.items}">
-                            <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                              <img class="media-object img-120 img-rounded  hidden-xs" src="http://placehold.it/120x120" 
-                                   th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg(nocache=${#strings.randomAlphanumeric(6)})}"
-                                   th:alt-title="${articleBean.title}" />
-                              <img class="media-object img-60 img-rounded  visible-xs" src="http://placehold.it/60x60" 
-                                   th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg(nocache=${#strings.randomAlphanumeric(6)})}"
-                                   th:alt-title="${articleBean.title}" />
-                            </a>
-                            <div class="btn-toolbar pull-right hidden-xs" role="toolbar">
-                                <div class="btn-group">
-                                  <a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-default">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    <span class="hidden-sm" th:text="#{console.article.edit}"></span>
-                                  </a>
-                                </div>
-                                <div class="btn-group">
-                                  <a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-info hidden-xs">
-                                    <span class="glyphicon glyphicon-music"></span>
-                                    <span class="hidden-sm" th:text="#{console.music.track.upload}"></span>
-                                  </a>
-                                  <a th:href="@{/console/music/__${articleBean.id}__/booklet/upload}" class="btn btn-info hidden-xs">
-                                    <span class="glyphicon glyphicon-picture"></span>
-                                    <span class="hidden-sm" th:text="#{console.music.booklet.upload}"></span>
-                                  </a>
-                                </div>
-                                <div class="btn-group pull-right">
-                                  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    <span class="hidden-sm" th:text="#{console.article.delete}"></span>
-                                    <span class="caret"></span>
-                                  </button>
-                                  <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a th:href="@{/console/music/__${articleBean.id}__/delete}" >
-                                            <span class="glyphicon glyphicon-ok"></span>&nbsp;
-                                            <span th:text="#{button.ok}"></span>
+                            <li class="media article-list-item" th:each="articleBean : ${page.items}">
+                                <a class="pull-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                    <img class="media-object img-120 img-rounded  hidden-xs" src="http://placehold.it/120x120" 
+                                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg(nocache=${#strings.randomAlphanumeric(6)})}"
+                                        th:alt-title="${articleBean.title}" />
+                                    <img class="media-object img-60 img-rounded  visible-xs" src="http://placehold.it/60x60" 
+                                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg(nocache=${#strings.randomAlphanumeric(6)})}"
+                                        th:alt-title="${articleBean.title}" />
+                                </a>
+                                <div class="btn-toolbar pull-right" role="toolbar">
+                                    <div class="btn-group">
+                                        <a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                            <span class="hidden-xs" th:text="#{console.article.edit}"></span>
                                         </a>
-                                    </li>
-                                  </ul>
+                                    </div>
+                                    <div class="btn-group hidden-xs hidden-sm">
+                                        <a th:href="@{/console/music/__${articleBean.id}__/track/upload}" class="btn btn-info hidden-xs">
+                                            <span class="glyphicon glyphicon-music"></span>
+                                            <span class="hidden-xs" th:text="#{console.music.track.upload}"></span>
+                                        </a>
+                                        <a th:href="@{/console/music/__${articleBean.id}__/booklet/upload}" class="btn btn-info hidden-xs">
+                                            <span class="glyphicon glyphicon-picture"></span>
+                                            <span class="hidden-xs" th:text="#{console.music.booklet.upload}"></span>
+                                        </a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                            <span class="hidden-xs" th:text="#{console.article.delete}"></span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <li>
+                                                <a th:href="@{/console/music/__${articleBean.id}__/delete}" >
+                                                    <span class="glyphicon glyphicon-ok"></span>&nbsp;
+                                                    <span th:text="#{button.ok}"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="btn-group pull-right visible-xs">
-                              <div class="btn-group">
-                                <a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-default">
-                                  <span class="glyphicon glyphicon-edit"></span>
-                                </a>
-                              </div>
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                              </button>
-                              <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a th:href="@{/console/music/__${articleBean.id}__/delete}" >
-                                        <span class="glyphicon glyphicon-trash"></span>&nbsp;
-                                        <span th:text="#{console.article.delete}"></span>
-                                    </a>
-                                </li>
-                              </ul>
-                            </div>
-                            <div class="media-body">
-                              <h5 class="media-heading text-single-line">
-                                    <a th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                    <strong th:text="${articleBean.title}" ></strong>
-                                </a>
-                              </h5>
-                              <div class="text-muted">
-                                <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
-                                <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
-                                <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                              </div>
-                              <p th:text="${articleBean.description}"></p>
-                            </div>
-                          </li>
+                                <div class="media-body">
+                                    <h5 class="media-heading text-single-line">
+                                        <a th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                            <strong th:text="${articleBean.title}" ></strong>
+                                        </a>
+                                        <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                        <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                                    </h5>
+                                    <div class="text-muted">
+                                        <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                                        <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
+                                        <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                                    </div>
+                                    <p th:text="${articleBean.description}"></p>
+                                </div>
+                            </li>
                         </ul>
                         <div id="jpaginate" class="hidden-xs"></div>
                         <div id="select-paginate" class="form-group visible-xs"></div>

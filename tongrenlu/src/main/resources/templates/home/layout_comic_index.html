@@ -3,7 +3,7 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
 <head>
-  <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
 <body>
 <div layout:fragment="content">
@@ -45,13 +45,13 @@
                                     </a>
                                     <div class="media-body">
                                         <h5 class="media-heading text-single-line">
+                                            <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                                <strong th:text="${articleBean.title}" ></strong>
+                                            </a>
                                             <span class="label label-danger" th:if="${articleBean.red}" th:text="#{ComicBean.redFlg.true}"></span>
                                             <span class="label label-success" th:unless="${articleBean.red}" th:text="#{ComicBean.redFlg.false}"></span>
                                             <span class="label label-info" th:if="${articleBean.translate}" th:text="#{ComicBean.translateFlg.true}"></span>
                                             <span class="label label-warning" th:unless="${articleBean.translate}" th:text="#{ComicBean.translateFlg.false}"></span>
-                                            <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                                <strong th:text="${articleBean.title}" ></strong>
-                                            </a>
                                         </h5>
                                         <div class="text-muted">
                                             <span th:text="#{home.article.owner} + ' :'">Owner :</span>
