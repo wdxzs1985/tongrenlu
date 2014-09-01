@@ -54,7 +54,7 @@ var fm = function(options) {
 				that.closeNavbar();
 				var $playerPage = $('#fm-player');
 				if($playerPage.hasClass('in')) {
-					$('#fm-player').removeClass('fm-page-active in');
+					$('#fm-player').removeClass('fm-page-active in').hide();
 				} else {
 					that.showPlayerWhenPlaying();
 				}
@@ -170,7 +170,7 @@ var fm = function(options) {
 			
 			var $playerPage = $('#fm-player').on('click', '.fm-page-nav a', function(e){
 				e.preventDefault();
-				$playerPage.removeClass('fm-page-active in');
+				$playerPage.removeClass('fm-page-active in').hide();
 			})
 		},
 		closeNavbar: function() {
@@ -198,10 +198,10 @@ var fm = function(options) {
 			}
 		},
 		index: function() {
-			$('#fm-search').removeClass('fm-page-active in');
+			$('#fm-search').removeClass('fm-page-active in').hide();
 			$('#fm-music').removeClass('fm-page-active');
 			that.hidePlayerWhenNotPlaying();
-			var $page = $('#fm-index').addClass('fm-page-active in');
+			var $page = $('#fm-index').addClass('fm-page-active in').show();
 			if(!$page.data('page')) {
 				that.loadIndex(1);
 			}
@@ -280,7 +280,7 @@ var fm = function(options) {
 			});
 		},
 		music: function(artcleId) {
-			$('#fm-music').removeClass('fm-page-active in');
+			$('#fm-music').removeClass('fm-page-active in').hide();
 			if($('#fm-search').hasClass('fm-page-active')) {
 				$('#fm-index').removeClass('fm-page-active');
 			} else if($('#fm-index').hasClass('fm-page-active')){
@@ -289,7 +289,7 @@ var fm = function(options) {
 				that.index();
 			}
 			that.hidePlayerWhenNotPlaying();
-			var $musicPage = $('#fm-music').addClass('fm-page-active in');
+			var $musicPage = $('#fm-music').addClass('fm-page-active in').show();
 			$musicPage.empty();
 			$.getJSON(settings.musicUrl + '/' + artcleId).done(function(response){
 				$musicPage.data(response);
@@ -303,8 +303,8 @@ var fm = function(options) {
 			});
 		},
 		search: function(query) {
-			$('#fm-index, #fm-search, #fm-music').removeClass('fm-page-active in');
-			var $page = $('#fm-search').addClass('fm-page-active in');
+			$('#fm-index, #fm-search, #fm-music').removeClass('fm-page-active in').hide();
+			var $page = $('#fm-search').addClass('fm-page-active in').show();
 			
 			if(query){
 				var lastQuery = $page.data('query');
@@ -318,12 +318,12 @@ var fm = function(options) {
 		},
 		showPlayerWhenPlaying: function(){
 			if(that.playerInstance.playlist.length > 0) {
-				$('#fm-player').addClass('fm-page-active in');
+				$('#fm-player').addClass('fm-page-active in').show();
 			}
 		},
 		hidePlayerWhenNotPlaying: function(){
 			if(that.playerInstance.playlist.length == 0) {
-				$('#fm-player').removeClass('fm-page-active in');
+				$('#fm-player').removeClass('fm-page-active in').hide();
 			}
 		}
 	};
