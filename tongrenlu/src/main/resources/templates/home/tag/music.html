@@ -9,6 +9,12 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header" >
         <div class="container">
+            <div class="pull-right">
+                <button id="follow-tag" class="btn btn-danger hidden">
+                    <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                    <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
+                </button>
+            </div>
             <h3><a th:href="@{/tag/__${tagBean.id}__}" th:text="${tagBean.tag}">TAG</a></h3>
             <hr />
             <p th:text="#{home.tag.music(${tagBean.tag})}"></p>
@@ -32,8 +38,9 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-<script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -44,6 +51,12 @@ $(function() {
             window.location.href = url + currval;
             return false;
         }
+    });
+    $('#follow-tag').likebutton({
+        url: /*[[@{/tag/__${tagBean.id}__/like}]]*/ '',
+        notlikeText: /*[[#{home.tag.notlike}]]*/ '',
+        likeText: /*[[#{home.tag.like}]]*/ '',
+        unlikeText: /*[[#{home.tag.unlike}]]*/ ''
     });
 });
 </script>

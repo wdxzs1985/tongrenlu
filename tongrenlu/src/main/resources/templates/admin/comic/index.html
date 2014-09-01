@@ -96,7 +96,7 @@
                     </th:block>
                     <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                         <h4 th:text="#{console.article.noData}"></h4>
-                        <a th:href="@{/admin/comic}" th:text="#{button.back}" class="btn btn-default"></a>
+                        <a th:href="@{/admin/comic}" th:unless="${#strings.isEmpty(page.params.query)}" th:text="#{button.back}" class="btn btn-default"></a>
                     </div>
                 </div>
             </div>

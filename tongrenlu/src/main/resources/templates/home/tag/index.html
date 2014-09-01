@@ -6,6 +6,12 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header" >
         <div class="container">
+            <div class="pull-right">
+                <button id="follow-tag" class="btn btn-danger hidden">
+                    <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                    <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
+                </button>
+            </div>
             <h1 th:text="${tagBean.tag}"></h1>
         </div>
     </div>
@@ -90,5 +96,18 @@
         </div>
     </div>
 </div>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $('#follow-tag').likebutton({
+        url: /*[[@{/tag/__${tagBean.id}__/like}]]*/ '',
+        notlikeText: /*[[#{home.tag.notlike}]]*/ '',
+        likeText: /*[[#{home.tag.like}]]*/ '',
+        unlikeText: /*[[#{home.tag.unlike}]]*/ ''
+    });
+});
+</script>
+</th:block>
 </body>
 </html>

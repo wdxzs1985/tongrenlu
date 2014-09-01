@@ -12,8 +12,10 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("LOGIN_USER")
+@RequestMapping(value = "/tag")
 @Transactional
 public class HomeTagController {
 
@@ -48,7 +51,7 @@ public class HomeTagController {
 
     private Log log = LogFactory.getLog(this.getClass());
 
-    @RequestMapping(method = RequestMethod.GET, value = "/tag/search")
+    @RequestMapping(method = RequestMethod.GET, value = "/search")
     @ResponseBody
     public List<String> doGetSearchTag(@RequestParam final String query) {
         if (this.log.isDebugEnabled()) {
@@ -74,12 +77,12 @@ public class HomeTagController {
         return Collections.emptyList();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tagId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{tagId}")
     public String doGetTag(@PathVariable final Integer tagId,
                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                            final Model model,
                            final Locale locale) {
-        final TagBean tagBean = this.tagService.getTagById(tagId);
+        final TagBean tagBean = this.tagService.getById(tagId);
 
         if (tagBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
@@ -105,13 +108,13 @@ public class HomeTagController {
         return "home/tag/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tagId}/music")
+    @RequestMapping(method = RequestMethod.GET, value = "/{tagId}/music")
     public String doGetTagMusic(@PathVariable final Integer tagId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model,
                                 final Locale locale) {
-        final TagBean tagBean = this.tagService.getTagById(tagId);
+        final TagBean tagBean = this.tagService.getById(tagId);
 
         if (tagBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
@@ -133,13 +136,13 @@ public class HomeTagController {
         return "home/tag/music";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/tag/{tagId}/comic")
+    @RequestMapping(method = RequestMethod.GET, value = "/{tagId}/comic")
     public String doGetTagComic(@PathVariable final Integer tagId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model,
                                 final Locale locale) {
-        final TagBean tagBean = this.tagService.getTagById(tagId);
+        final TagBean tagBean = this.tagService.getById(tagId);
 
         if (tagBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
@@ -159,5 +162,33 @@ public class HomeTagController {
         model.addAttribute("ranking", ranking);
 
         return "home/tag/comic";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{tagId}/like")
+    @ResponseBody
+    public Map<String, Object> doGetLike(@PathVariable final Integer tagId,
+                                         @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                         final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final int result = this.tagService.isLike(tagId,
+                                                  loginUser,
+                                                  model,
+                                                  locale);
+        model.put("result", result);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{tagId}/like")
+    @ResponseBody
+    public Map<String, Object> doPostLike(@PathVariable final Integer tagId,
+                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                          final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final int result = this.tagService.doLike(tagId,
+                                                  loginUser,
+                                                  model,
+                                                  locale);
+        model.put("result", result);
+        return model;
     }
 }

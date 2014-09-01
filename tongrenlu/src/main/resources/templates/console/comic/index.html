@@ -92,7 +92,7 @@
                     <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                         <h4 th:text="#{console.article.noData}"></h4>
                         <a th:href="@{/console/comic/input}" th:text="#{console.comic.input}" class="btn btn-primary"></a>
-                        <a th:href="@{/console/comic}" th:text="#{button.back}" class="btn btn-default"></a>
+                        <a th:href="@{/console/comic}" th:unless="${#strings.isEmpty(page.params.query)}" th:text="#{button.back}" class="btn btn-default"></a>
                     </div>
                 </div>
             </div>

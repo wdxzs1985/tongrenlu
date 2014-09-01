@@ -3,6 +3,7 @@ package info.tongrenlu.manager;
 import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.mapper.LikeMapper;
 
@@ -20,6 +21,7 @@ public class LikeManager {
     public static final String USER = "u";
     public static final String COMIC = "c";
     public static final String MUSIC = "m";
+    public static final String TAG = "t";
 
     public static final int RESULT_NOT_LIKE = 0;
     public static final int RESULT_LIKE = 1;
@@ -64,6 +66,8 @@ public class LikeManager {
             category = LikeManager.MUSIC;
         } else if (dtoBean instanceof ComicBean) {
             category = LikeManager.COMIC;
+        } else if (dtoBean instanceof TagBean) {
+            category = LikeManager.TAG;
         } else {
             throw new IllegalArgumentException();
         }
