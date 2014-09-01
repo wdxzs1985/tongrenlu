@@ -158,7 +158,11 @@ public class HomeComicController {
                                         final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
         final ComicBean comicBean = this.comicService.getById(articleId);
-        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
+        if (comicBean == null) {
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
+        }
         final List<TagBean> tagList = this.tagService.getTagByArticle(comicBean);
         model.put("tagList", tagList);
         return model;
@@ -172,7 +176,11 @@ public class HomeComicController {
                                               final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
         final ComicBean comicBean = this.comicService.getById(articleId);
-        this.throwExceptionWhenNotAllow(comicBean, loginUser, locale);
+        if (comicBean == null) {
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
+        }
         this.tagService.addTag(comicBean, tags, loginUser, model, locale);
         return model;
     }

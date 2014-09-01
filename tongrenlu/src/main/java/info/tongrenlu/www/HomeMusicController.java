@@ -170,7 +170,11 @@ public class HomeMusicController {
                                         final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
         final MusicBean musicBean = this.musicService.getById(articleId);
-        this.throwExceptionWhenNotAllow(musicBean, locale);
+        if (musicBean == null) {
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
+        }
         final List<TagBean> tagList = this.tagService.getTagByArticle(musicBean);
         model.put("tagList", tagList);
         return model;
@@ -184,8 +188,17 @@ public class HomeMusicController {
                                               final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
         final MusicBean musicBean = this.musicService.getById(articleId);
-        this.throwExceptionWhenNotAllow(musicBean, locale);
-        this.tagService.addTag(musicBean, tags, loginUser, model, locale);
+        if (musicBean == null) {
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
+        }
+        final boolean result = this.tagService.addTag(musicBean,
+                                                      tags,
+                                                      loginUser,
+                                                      model,
+                                                      locale);
+        model.put("result", result);
         return model;
     }
 
