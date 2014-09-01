@@ -15,7 +15,7 @@ public class MusicManagerDummy extends MusicManager {
     public List<MusicEntity> findAll() {
         final List<MusicEntity> result = new ArrayList<MusicEntity>();
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 2000; i++) {
             final MusicEntity article = new MusicEntity();
             article.setArticleId(DummyHelper.genMusicId(i));
             // article.setTitle("Article" + i);

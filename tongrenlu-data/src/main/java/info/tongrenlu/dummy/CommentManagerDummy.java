@@ -14,7 +14,7 @@ public class CommentManagerDummy extends CommentManager {
     @Override
     public List<CommentEntity> findByArticleId(final String articleId) {
         final List<CommentEntity> result = new ArrayList<CommentEntity>();
-        for (int i = 0; i < DummyHelper.nextInt(100); i++) {
+        for (int i = 0; i < DummyHelper.nextInt(10); i++) {
             final CommentEntity entity = new CommentEntity(DummyHelper.genCommentId(),
                                                            articleId,
                                                            DummyHelper.randomUserId(),

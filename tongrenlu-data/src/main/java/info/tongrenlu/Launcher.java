@@ -16,15 +16,19 @@ public class Launcher implements CommandLineRunner {
 
     @Autowired
     private AccessCounter accessCounter = null;
+    @Autowired
+    private DummyTracks dummyTracks = null;
 
     @Override
     public void run(final String... arg0) throws Exception {
         // this.jdbcTransfer.doTransfer();
 
-        this.solrTransfer.doTransfer();
+        // this.solrTransfer.doTransfer();
 
         // this.dummyTransfer.doTransfer();
 
         // this.accessCounter.doSerivce();
+
+        this.dummyTracks.execute();
     }
 }

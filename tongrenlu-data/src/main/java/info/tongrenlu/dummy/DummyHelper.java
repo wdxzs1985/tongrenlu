@@ -4,14 +4,12 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 public class DummyHelper {
 
     static final Random SEED = new Random(System.currentTimeMillis());
 
-    static final String PREFIX = DateFormatUtils.format(System.currentTimeMillis(),
-                                                        "yyyyMMdd");
+    static final String PREFIX = "20140707";
 
     static final int RANDOM_RANGE = 100;
 

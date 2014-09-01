@@ -15,7 +15,7 @@ public class CollectManagerDummy extends CollectManager {
     public List<CollectEntity> findByArticleId(final String articleId) {
         final List<CollectEntity> result = new ArrayList<CollectEntity>();
 
-        for (int i = 0; i < DummyHelper.nextInt(100); i++) {
+        for (int i = 0; i < DummyHelper.nextInt(10); i++) {
             final CollectEntity entity = new CollectEntity(articleId,
                                                            DummyHelper.randomUserId());
             result.add(entity);

@@ -9,6 +9,7 @@ import info.tongrenlu.dummy.CommentManagerDummy;
 import info.tongrenlu.dummy.FollowManagerDummy;
 import info.tongrenlu.dummy.MusicManagerDummy;
 import info.tongrenlu.dummy.TagManagerDummy;
+import info.tongrenlu.dummy.TrackManagerDummy;
 import info.tongrenlu.dummy.UserManagerDummy;
 import info.tongrenlu.entity.AccessEntity;
 import info.tongrenlu.entity.ArticleEntity;
@@ -65,6 +66,8 @@ public class DummyTransfer {
     @Autowired
     private FollowManagerDummy followManager;
     @Autowired
+    private TrackManagerDummy trackManager;
+    @Autowired
     private FileService fileService;
 
     private Log log = LogFactory.getLog(this.getClass());
@@ -75,10 +78,10 @@ public class DummyTransfer {
      * @see info.tongrenlu.TransferService#doTransfer()
      */
     public void doTransfer() {
-        this.begin();
+        // this.begin();
 
         this.log.info("Transfer User...");
-        this.transferUser();
+        // this.transferUser();
         this.log.info("Transfer User...ok");
 
         this.log.info("Transfer Music...");
@@ -86,7 +89,7 @@ public class DummyTransfer {
         this.log.info("Transfer Music...ok");
 
         this.log.info("Transfer Comic...");
-        this.transferComic();
+        // this.transferComic();
         this.log.info("Transfer Comic...ok");
 
     }
