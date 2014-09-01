@@ -1,4 +1,7 @@
 CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `tongrenlu`@`%` 
+    SQL SECURITY DEFINER
 VIEW `v_timeline` AS
     select 
         `v_comic`.`id` AS `articleBean.id`,
@@ -59,4 +62,22 @@ VIEW `v_timeline` AS
         NULL AS `translateFlg`,
         'comment_music' AS `action`
     from
-        `v_music_comment`
+        `v_music_comment` 
+    union select 
+        NULL AS `articleBean.id`,
+        NULL AS `articleBean.title`,
+        `v_user`.`id` AS `userBean.id`,
+        `v_user`.`nickname` AS `userBean.nickname`,
+        NULL AS `content`,
+        `r_like`.`upd_date` AS `createDate`,
+        NULL AS `followId`,
+        `r_like`.`user_id` AS `followerId`,
+        NULL AS `redFlg`,
+        NULL AS `translateFlg`,
+        'follow' AS `action`
+    from
+        (`v_user`
+        join `r_like` ON ((`r_like`.`like_id` = `v_user`.`id`)))
+    where
+        ((`r_like`.`category` = 'u')
+            and (`r_like`.`del_flg` = '0'))

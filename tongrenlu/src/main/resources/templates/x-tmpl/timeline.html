@@ -37,6 +37,8 @@
             {% } else if (o.action == 'comment_music') { %}
             <span th:text="#{home.user.timeline.comment}"></span>
             <a href="/music/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a>
+            {% } else if (o.action == 'follow') { %}
+            <span th:text="#{home.user.timeline.follow}"></span>
             {% } %}
         </h5>
         <p>{%=o.content%}</p>
