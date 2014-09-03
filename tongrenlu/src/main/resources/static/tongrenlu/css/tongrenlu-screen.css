@@ -141,6 +141,7 @@ body, html {
     margin-top: -20px;
     background: #4dd0e1;
     color: #fff;
+    min-height: 180px;
 }
 
 .container-header a {
@@ -159,9 +160,10 @@ body, html {
 }
 
 .container-tab {
-    margin-top: -20px;
+    margin-top: 40px;
 	padding: 0;
-    background: #4dd0e1;
+    background-color: rgba(0,0,0,.12);
+    margin-bottom: -40px;
 }
 
 .container-tab .nav>li {

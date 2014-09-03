@@ -29,41 +29,41 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container-wrap container-tab">
-        <div class="container">
-            <ul class="nav">
-                <li class="">
-                    <a th:href="@{/console}">
-                        <span class="glyphicon glyphicon-home"></span>
-                        <span class="hidden-xs" th:text="#{console.user.timeline}"></span>
-                    </a>
-                </li>
-                <li class="">
-                    <a th:href="@{/console/like/music}">
-                        <span class="glyphicon glyphicon-music"></span>
-                        <span class="hidden-xs" th:text="#{console.like.music}"></span>
-                    </a>
-                </li>
-                <li class="">
-                    <a th:href="@{/console/like/comic}">
-                        <span class="glyphicon glyphicon-picture"></span>
-                        <span class="hidden-xs" th:text="#{console.like.comic}"></span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a th:href="@{/console/follow}">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="hidden-xs" th:text="#{console.follow}"></span>
-                    </a>
-                </li>
-                <li class="">
-                    <a th:href="@{/console/follower}">
-                        <span class="glyphicon glyphicon-heart"></span>
-                        <span class="hidden-xs" th:text="#{console.follower}"></span>
-                    </a>
-                </li>
-            </ul>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="">
+                        <a th:href="@{/console}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            <span class="hidden-xs" th:text="#{console.user.timeline}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/console/like/music}">
+                            <span class="glyphicon glyphicon-music"></span>
+                            <span class="hidden-xs" th:text="#{console.like.music}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/console/like/comic}">
+                            <span class="glyphicon glyphicon-picture"></span>
+                            <span class="hidden-xs" th:text="#{console.like.comic}"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/console/follow}">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="hidden-xs" th:text="#{console.follow}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/console/follower}">
+                            <span class="glyphicon glyphicon-heart"></span>
+                            <span class="hidden-xs" th:text="#{console.follower}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="container-wrap container-wrap-darker"  >
@@ -107,6 +107,9 @@
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:src="@{/d3/d3.min.js}"></script>
+<script type="text/javascript" th:src="@{/trianglify-0.1.4/trianglify.js}"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -117,6 +120,9 @@ $(function() {
             window.location.href = url + currval;
             return false;
         }
+    });
+    $('.container-header').trianglify({
+        gradient: ['#673ab7', '#b39ddb']
     });
 });
 </script>

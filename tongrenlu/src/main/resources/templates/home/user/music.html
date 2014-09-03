@@ -30,31 +30,31 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container-wrap container-tab">
-        <div class="container">
-            <ul class="nav">
-                <li>
-                    <a th:href="@{/user/__${userBean.id}__}">
-                        <span class="glyphicon glyphicon-home"></span>
-                        <span class="hidden-xs" th:text="#{home.user.timeline}"></span>
-                    </a>
-                </li>
-                <li class="active" th:if="${userBean.musicCount gt 0}">
-                    <a th:href="@{/user/__${userBean.id}__/music}">
-                        <span class="glyphicon glyphicon-music"></span>
-                        <span class="hidden-xs" th:text="#{home.user.musicCount}"></span>
-                        <span class="badge" th:text="${userBean.musicCount}"></span>
-                    </a>
-                </li>
-                <li th:if="${userBean.comicCount gt 0}">
-                    <a th:href="@{/user/__${userBean.id}__/comic}">
-                        <span class="glyphicon glyphicon-picture"></span>
-                        <span class="hidden-xs" th:text="#{home.user.comicCount}"></span>
-                        <span class="badge" th:text="${userBean.comicCount}"></span>
-                    </a>
-                </li>
-            </ul>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li>
+                        <a th:href="@{/user/__${userBean.id}__}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            <span class="hidden-xs" th:text="#{home.user.timeline}"></span>
+                        </a>
+                    </li>
+                    <li class="active" th:if="${userBean.musicCount gt 0}">
+                        <a th:href="@{/user/__${userBean.id}__/music}">
+                            <span class="glyphicon glyphicon-music"></span>
+                            <span class="hidden-xs" th:text="#{home.user.musicCount}"></span>
+                            <span class="badge" th:text="${userBean.musicCount}"></span>
+                        </a>
+                    </li>
+                    <li th:if="${userBean.comicCount gt 0}">
+                        <a th:href="@{/user/__${userBean.id}__/comic}">
+                            <span class="glyphicon glyphicon-picture"></span>
+                            <span class="hidden-xs" th:text="#{home.user.comicCount}"></span>
+                            <span class="badge" th:text="${userBean.comicCount}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="container-wrap container-wrap-darker" >
@@ -102,6 +102,9 @@
 <script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:src="@{/d3/d3.min.js}"></script>
+<script type="text/javascript" th:src="@{/trianglify-0.1.4/trianglify.js}"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -113,11 +116,16 @@ $(function() {
             return false;
         }
     });
+    
     $('#follow-user').likebutton({
         url: /*[[@{/user/__${userBean.id}__/follow}]]*/ '',
         notlikeText: /*[[#{home.user.notfollow}]]*/ '',
         likeText: /*[[#{home.user.follow}]]*/ '',
         unlikeText: /*[[#{home.user.unfollow}]]*/ ''
+    });
+
+    $('.container-header').trianglify({
+        gradient: ['#00bcd4', '#80deea']
     });
 });
 </script>
