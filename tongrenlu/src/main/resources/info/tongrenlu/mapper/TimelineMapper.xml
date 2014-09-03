@@ -56,17 +56,7 @@
                 where
                     r_like.category = 't'
                 and r_like.del_flg = '0'
-                and user_id = #{loginUser.id})
-            or `articleBean.id` in (select 
-                    article_id
-                from
-                    r_like left join
-                    r_article_tag ON r_like.like_id = r_article_tag.tag_id
-                where
-                    r_like.category = 't'
-                and r_like.del_flg = '0'
-                and r_like.user_id = #{loginUser.id}
-                and r_article_tag.del_flg = '0'))
+                and user_id = #{loginUser.id}))
         and (   v_timeline.redFlg = '0' 
             OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">
@@ -102,17 +92,7 @@
                 where
                     r_like.category = 't'
                 and r_like.del_flg = '0'
-                and user_id = #{loginUser.id})
-            or `articleBean.id` in (select 
-                    article_id
-                from
-                    r_like left join
-                    r_article_tag ON r_like.like_id = r_article_tag.tag_id
-                where
-                    r_like.category = 't'
-                and r_like.del_flg = '0'
-                and r_like.user_id = #{loginUser.id}
-                and r_article_tag.del_flg = '0'))
+                and user_id = #{loginUser.id}))
         and (   v_timeline.redFlg = '0' 
             OR  v_timeline.redFlg is NULL
             <if test="loginUser.includeRed">
