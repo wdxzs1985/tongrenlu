@@ -141,7 +141,6 @@ body, html {
     margin-top: -20px;
     background: #4dd0e1;
     color: #fff;
-    min-height: 180px;
 }
 
 .container-header a {
@@ -162,7 +161,7 @@ body, html {
 .container-tab {
     margin-top: 40px;
 	padding: 0;
-    background-color: rgba(0,0,0,.12);
+    background-color: rgba(255,255,255,.3);
     margin-bottom: -40px;
 }
 
@@ -172,7 +171,7 @@ body, html {
 
 .container-tab .nav>li>a {
     background: none;
-    color: #b2ebf2;
+    color: #26c6da; /* CYAN 400 */
     font-weight: bold;
     padding: 20px 22px;
     border-radius: 0;
@@ -183,22 +182,21 @@ body, html {
 .container-tab .nav>li.active>a, 
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
-    color: #fff;
-    border-bottom: #fff176 2px solid;
+    color: #0097a7;  /* CYAN 700 */
+    border-bottom: #fff176 2px solid; /* yellow 300 */
 }
 
 .container-tab .nav>li>a .badge {
-    background-color: #b2ebf2;
-    color: #00bcd4;
+    background-color: #26c6da; /* CYAN 400 */
+    color: #e0f7fa; /* CYAN 50 */
 }
-
 
 .container-tab .nav>li>a:hover .badge , 
 .container-tab .nav>li>a:focus .badge ,
 .container-tab .nav>li.active>a .badge , 
 .container-tab .nav>li.active>a:hover .badge , 
 .container-tab .nav>li.active>a:focus .badge {
-    background-color: #fff;
+    background-color: #0097a7; /* CYAN 700 */
 }
 
 

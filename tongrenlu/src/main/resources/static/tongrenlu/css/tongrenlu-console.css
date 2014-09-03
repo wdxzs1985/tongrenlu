@@ -96,7 +96,7 @@
 }
 
 .container-tab .nav>li>a {
-    color: #ede7f6;
+    color: #9575cd; /* Deep Purple 300 */
 }
 
 .container-tab .nav>li>a:hover, 
@@ -104,13 +104,12 @@
 .container-tab .nav>li.active>a, 
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
-    color: #fff;
-    border-bottom: #fff176 2px solid;
+    color: #512da8; /* Deep Purple 700 */
 }
 
 .container-tab .nav>li>a .badge {
-    background-color: #ede7f6;
-    color: #b39ddb;
+    background-color: #9575cd; /* Deep Purple 300 */
+    color: #ede7f6; /* Deep Purple 50 */
 }
 
 
@@ -119,7 +118,7 @@
 .container-tab .nav>li.active>a .badge , 
 .container-tab .nav>li.active>a:hover .badge , 
 .container-tab .nav>li.active>a:focus .badge {
-    background-color: #fff;
+    background-color: #512da8; /* Deep Purple 700 */
 }
 
 
