@@ -11,17 +11,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8">
-                    <form th:action="@{/search/comic}" method="get" role="search">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" th:value="${query}"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-warning" type="submit">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                    <span class="hidden-xs" th:text="#{home.search.comic}"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
+                    <h1 th:text="#{home.comic}"></h1>
+                    <div th:replace="home/layout_comic_index::search-form"></div>
                 </div>
             </div>
         </div>
@@ -119,7 +110,7 @@ $(function() {
     });
 
     $('.container-header').trianglify({
-    	x_gradient: ['#00bcd4', '#b2ebf2']
+        palette: 'search'
     });
 });
 </script>

@@ -1,0 +1,139 @@
+@charset "UTF-8";
+
+.navbar-default {
+    background-color: #ff6f00;
+    border-color: #ff6f00;
+}
+
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-collapse, 
+.navbar-default .navbar-form {
+    border-color: #ff6f00;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+
+.navbar-default .navbar-brand:hover, 
+.navbar-default .navbar-brand:focus {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a:hover, 
+.navbar-default .navbar-nav>li>a:focus {
+	color: #fff;
+}
+
+.navbar-default .navbar-nav>.open>a, 
+.navbar-default .navbar-nav>.open>a:hover, 
+.navbar-default .navbar-nav>.open>a:focus {
+	background-color: transparent;
+    color: #fff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>li>a,
+.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover, 
+.navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
+    color: #555;
+    background-color: #fff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu,
+.navbar-default .navbar-nav .open .dropdown-menu {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu .divider,
+.navbar-default .navbar-nav .open .dropdown-menu .divider {
+    background-color: #e5e5e5;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:hover, 
+.navbar-default .navbar-toggle:focus {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:hover .icon-bar,
+.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #ff6f00;
+}
+
+.navbar-default li .badge  {
+    background-color: #fff;
+    color: #ff6f00;
+}
+
+.container-header {
+    background: #ffb300;
+    color: #fff;
+}
+
+.container-header a {
+    color: #fff8e1;
+}
+
+.container-header a:hover,
+.container-header a:active,
+.container-header a:focus {
+    color: #e0e0e0;
+}
+
+.container-header small,
+.container-header .text-muted {
+    color: #fff8e1;
+}
+
+.container-tab {
+}
+
+.container-tab .nav>li>a {
+    color: #ffffff; /* Deep Purple 300 */
+}
+
+.container-tab .nav>li>a:hover, 
+.container-tab .nav>li>a:focus,
+.container-tab .nav>li.active>a, 
+.container-tab .nav>li.active>a:hover, 
+.container-tab .nav>li.active>a:focus {
+    color: #ff6f00; /* Deep Purple 700 */
+    border-bottom: #ff6f00 2px solid; /* yellow 300 */
+}
+
+.container-tab .nav>li>a .badge {
+    background-color: #ffffff; /* Deep Purple 300 */
+    color: #ffc107; /* Deep Purple 50 */
+}
+
+
+.container-tab .nav>li>a:hover .badge , 
+.container-tab .nav>li>a:focus .badge ,
+.container-tab .nav>li.active>a .badge , 
+.container-tab .nav>li.active>a:hover .badge , 
+.container-tab .nav>li.active>a:focus .badge {
+    background-color: #ff6f00; /* Deep Purple 700 */
+    color: #ffffff; /* Deep Purple 50 */
+}
+
+
+.jPaginate a,
+.jPaginate li a,
+.jPaginate .jPag-pages span {
+    background-color: #fff !important;
+    color: #212121 !important;
+}
+
+.jPaginate a:hover,
+.jPaginate li a:hover,
+.jPaginate .jPag-pages span {
+    background-color: #eee !important;
+    color: #424242 !important;
+}
