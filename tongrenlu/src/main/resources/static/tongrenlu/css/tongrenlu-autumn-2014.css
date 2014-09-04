@@ -1,14 +1,14 @@
 @charset "UTF-8";
 
 .navbar-default {
-    background-color: #ff6f00;
-    border-color: #ff6f00;
+    background-color: #ffa000;
+    border-color: #ffa000;
 }
 
 .navbar-default .navbar-toggle,
 .navbar-default .navbar-collapse, 
 .navbar-default .navbar-form {
-    border-color: #ff6f00;
+    border-color: #ffa000;
 }
 
 .navbar-default .navbar-brand {
@@ -64,27 +64,26 @@
 
 .navbar-default .navbar-toggle:hover .icon-bar,
 .navbar-default .navbar-toggle:focus .icon-bar {
-    background-color: #ff6f00;
+    background-color: #ffa000;
 }
 
 .navbar-default li .badge  {
     background-color: #fff;
-    color: #ff6f00;
+    color: #ffa000;
 }
 
 .container-header {
     background: #ffb300;
-    color: #fff;
 }
 
 .container-header a {
-    color: #fff8e1;
+    color: #455a64;
 }
 
 .container-header a:hover,
 .container-header a:active,
 .container-header a:focus {
-    color: #e0e0e0;
+    color: #fff8e1;
 }
 
 .container-header small,
@@ -96,7 +95,7 @@
 }
 
 .container-tab .nav>li>a {
-    color: #ffffff; /* Deep Purple 300 */
+    color: #e84e40; /* Deep Purple 300 */
 }
 
 .container-tab .nav>li>a:hover, 
@@ -104,23 +103,22 @@
 .container-tab .nav>li.active>a, 
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
-    color: #ff6f00; /* Deep Purple 700 */
-    border-bottom: #ff6f00 2px solid; /* yellow 300 */
+    color: #b0120a; /* Deep Purple 700 */
+    border-bottom: #b0120a 2px solid; /* yellow 300 */
 }
 
 .container-tab .nav>li>a .badge {
-    background-color: #ffffff; /* Deep Purple 300 */
-    color: #ffc107; /* Deep Purple 50 */
+    background-color: #e84e40; /* Deep Purple 300 */
+    color: #ffecb3; /* Deep Purple 50 */
 }
-
 
 .container-tab .nav>li>a:hover .badge , 
 .container-tab .nav>li>a:focus .badge ,
 .container-tab .nav>li.active>a .badge , 
 .container-tab .nav>li.active>a:hover .badge , 
 .container-tab .nav>li.active>a:focus .badge {
-    background-color: #ff6f00; /* Deep Purple 700 */
-    color: #ffffff; /* Deep Purple 50 */
+    background-color: #b0120a; /* Deep Purple 700 */
+    color: #ffecb3; /* Deep Purple 50 */
 }
 
 

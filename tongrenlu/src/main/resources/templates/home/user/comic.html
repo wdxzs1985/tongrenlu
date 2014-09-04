@@ -24,9 +24,14 @@
                     </button>
                 </div>
                 <div class="media-body">
+                    <h1 class="media-heading hidden-xs">
+                        <span th:text="${userBean.nickname}"></span>
+                        <small th:text="'#' + ${userBean.id}"></small>
+                    </h1>
                     <h5 th:text="${userBean}" class="media-heading visible-xs"></h5>
-                    <h3 th:text="${userBean}" class="media-heading hidden-xs"></h3>
-                    <p th:unless="${#strings.isEmpty(userBean.signature)}" th:text="${userBean.signature}"></p>
+                    <p class="text-muted"
+                        th:unless="${#strings.isEmpty(userBean.signature)}" 
+                        th:text="${userBean.signature}"></p>
                 </div>
             </div>
         </div>
@@ -43,14 +48,14 @@
                         <a th:href="@{/user/__${userBean.id}__/music}">
                             <span class="glyphicon glyphicon-music"></span>
                             <span class="hidden-xs" th:text="#{home.user.musicCount}"></span>
-                            <span class="badge" th:text="${userBean.musicCount}"></span>
+                            <span class="badge hidden-xs" th:text="${userBean.musicCount}"></span>
                         </a>
                     </li>
                     <li class="active" th:if="${userBean.comicCount gt 0}">
                         <a th:href="@{/user/__${userBean.id}__/comic}">
                             <span class="glyphicon glyphicon-picture"></span>
                             <span class="hidden-xs" th:text="#{home.user.comicCount}"></span>
-                            <span class="badge" th:text="${userBean.comicCount}"></span>
+                            <span class="badge hidden-xs" th:text="${userBean.comicCount}"></span>
                         </a>
                     </li>
                 </ul>

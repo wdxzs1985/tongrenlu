@@ -105,11 +105,12 @@
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
     color: #512da8; /* Deep Purple 700 */
+    border-bottom: #fff176 2px solid; /* yellow 300 */
 }
 
 .container-tab .nav>li>a .badge {
     background-color: #9575cd; /* Deep Purple 300 */
-    color: #ede7f6; /* Deep Purple 50 */
+    color: #fff176; /* Deep Purple 50 */
 }
 
 
