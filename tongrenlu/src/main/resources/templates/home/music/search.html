@@ -10,18 +10,9 @@
     <div class="container-wrap container-header" >
         <div class="container">
             <div class="row">
-                <div class="col-sm-8">
-                    <form th:action="@{/search/music}" method="get" role="search">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" th:value="${query}"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-warning" type="submit">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                    <span class="hidden-xs" th:text="#{home.search.music}"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
+                <div class="col-sm-8" >
+                    <h1 th:text="#{home.music}"></h1>
+                    <div th:replace="home/layout_music_index::search-form"></div>
                 </div>
             </div>
         </div>
@@ -76,7 +67,7 @@
                         </th:block>
                         <div class="alert alert-warning" th:if="${#lists.isEmpty(searchResult.content)}">
                             <h4 th:text="#{home.article.noData}"></h4>
-                            <a th:href="@{/}" th:text="#{button.back}" class="btn btn-default"></a>
+                            <a th:href="@{/music}" th:text="#{button.back}" class="btn btn-default"></a>
                         </div>
                     </th:block>
                 </div>
@@ -88,9 +79,9 @@
                         <ul class="media-list">
                             <li class="media" th:each="tagBean : ${tags}">
                                 <div class="media-body">
-                                        <a th:href="@{/tag/__${tagBean.id}__/music}" th:alt-title="${tagBean.tag}">
-                                            <span th:text="#{home.tag.music(${tagBean.tag})}" ></span>
-                                        </a>
+                                    <a th:href="@{/tag/__${tagBean.id}__/music}" th:alt-title="${tagBean.tag}">
+                                        <span th:text="#{home.tag.music(${tagBean.tag})}" ></span>
+                                    </a>
                                 </div>
                             </li>
                         </ul>
@@ -101,8 +92,11 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-<script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -114,8 +108,13 @@ $(function() {
             return false;
         }
     });
+
+    $('.container-header').trianglify({
+        palette: 'home'
+    });
 });
 </script>
 </th:block>
 </body>
 </html>
+>>>>>>> refs/heads/trianglify

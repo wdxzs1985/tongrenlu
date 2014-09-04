@@ -14,8 +14,6 @@
                     <h1 th:text="#{home.music}"></h1>
                     <div th:replace="home/layout_music_index::search-form"></div>
                 </div>
-                <div class="col-sm-4" >
-                </div>
             </div>
         </div>
     </div>
@@ -37,8 +35,11 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-<script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -49,6 +50,10 @@ $(function() {
             window.location.href = url + currval;
             return false;
         }
+    });
+
+    $('.container-header').trianglify({
+        palette: 'home'
     });
 });
 </script>

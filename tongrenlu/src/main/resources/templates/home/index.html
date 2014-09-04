@@ -17,7 +17,7 @@
                         <h3 ><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h3>
                     </div>
                     <div class="col-md-6">
-                        <form class="append-top-lg" th:action="@{/search/music}" method="get" role="search">
+                        <form class="append-top-lg" th:action="@{/music/search}" method="get" role="search">
                             <div class="input-group">
                                 <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
                                 <span class="input-group-btn">
@@ -84,7 +84,7 @@
                        <h3 ><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h3>
                     </div>
                     <div class="col-md-6 ">
-                        <form class="append-top-lg" th:action="@{/search/comic}" method="get" role="search">
+                        <form class="append-top-lg" th:action="@{/comic/search}" method="get" role="search">
                             <div class="input-group">
                                 <input type="text" name="q" class="form-control" th:placeholder="#{home.search.comic.hint}"/>
                                 <span class="input-group-btn">
