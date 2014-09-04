@@ -11,7 +11,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8" >
-                    <form th:action="@{/search/music}" method="get" th:fragment="search-form">
+                    <form th:action="@{/music/search}" method="get" th:fragment="search-form">
                         <div class="input-group">
                             <input type="text" class="form-control" name="q" th:value="${query}"/>
                             <div class="input-group-btn">
