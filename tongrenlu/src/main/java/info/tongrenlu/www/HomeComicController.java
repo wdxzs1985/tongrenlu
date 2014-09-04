@@ -11,7 +11,9 @@ import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.HomeComicService;
+import info.tongrenlu.service.SearchService;
 import info.tongrenlu.service.TagService;
+import info.tongrenlu.solr.ComicDocument;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
@@ -22,6 +24,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -47,6 +52,8 @@ public class HomeComicController {
     private TagService tagService = null;
     @Autowired
     private CommentService commentService = null;
+    @Autowired
+    private SearchService searchService = null;
 
     protected void throwExceptionWhenNotAllow(final ComicBean comicBean,
                                               final UserBean loginUser,
@@ -83,6 +90,35 @@ public class HomeComicController {
         model.addAttribute("ranking", ranking);
 
         return "home/comic/index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/comic/search")
+    public String doGetSearchComic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                   @RequestParam(value = "q", required = false) final String query,
+                                   final Model model) {
+        if (StringUtils.isNotBlank(query)) {
+
+            final PaginateSupport<TagBean> page = this.searchTag(query);
+            model.addAttribute("tags", page.getItems());
+
+            final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
+                                                      PaginateSupport.PAGESIZE);
+
+            final Page<ComicDocument> searchResult = this.searchService.findComic(query,
+                                                                                  pageable);
+            model.addAttribute("query", query);
+            model.addAttribute("searchResult", searchResult);
+            return "home/comic/search";
+        } else {
+            return "redirect:/comic";
+        }
+    }
+
+    private PaginateSupport<TagBean> searchTag(final String query) {
+        final PaginateSupport<TagBean> page = new PaginateSupport<>(1);
+        page.addParam("tag", query);
+        this.tagService.searchTag(page);
+        return page;
     }
 
     public String doGetView(@PathVariable final Integer articleId,

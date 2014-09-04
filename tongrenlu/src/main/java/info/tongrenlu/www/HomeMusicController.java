@@ -12,7 +12,9 @@ import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.HomeMusicService;
+import info.tongrenlu.service.SearchService;
 import info.tongrenlu.service.TagService;
+import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
@@ -23,6 +25,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -48,6 +53,8 @@ public class HomeMusicController {
     private TagService tagService = null;
     @Autowired
     private CommentService commentService = null;
+    @Autowired
+    private SearchService searchService = null;
 
     protected void throwExceptionWhenNotAllow(final MusicBean musicBean,
                                               final Locale locale) {
@@ -76,6 +83,35 @@ public class HomeMusicController {
         final List<MusicBean> ranking = this.musicService.getRanking(20);
         model.addAttribute("ranking", ranking);
         return "home/music/index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/search")
+    public String doGetSearchMusic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                   @RequestParam(value = "q", required = false) final String query,
+                                   final Model model) {
+        if (StringUtils.isNotBlank(query)) {
+
+            final PaginateSupport<TagBean> page = this.searchTag(query);
+            model.addAttribute("tags", page.getItems());
+
+            final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
+                                                      PaginateSupport.PAGESIZE);
+
+            final Page<MusicDocument> searchResult = this.searchService.findMusic(query,
+                                                                                  pageable);
+            model.addAttribute("query", query);
+            model.addAttribute("searchResult", searchResult);
+            return "home/music/search";
+        } else {
+            return "redirect:/music";
+        }
+    }
+
+    private PaginateSupport<TagBean> searchTag(final String query) {
+        final PaginateSupport<TagBean> page = new PaginateSupport<>(1);
+        page.addParam("tag", query);
+        this.tagService.searchTag(page);
+        return page;
     }
 
     public String doGetView(@PathVariable final Integer articleId,
