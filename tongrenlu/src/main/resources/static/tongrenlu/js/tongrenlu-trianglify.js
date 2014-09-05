@@ -20,7 +20,7 @@
 			settings.x_gradient = PALETTE_DEEP_PURPLE;
 			break;
 		default:
-			settings.x_gradient = PALETTE_AMBER;
+			settings.x_gradient = PALETTE_CYAN;
 			break;
 		}
 		

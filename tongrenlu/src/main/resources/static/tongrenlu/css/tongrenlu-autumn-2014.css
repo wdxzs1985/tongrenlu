@@ -1,14 +1,14 @@
 @charset "UTF-8";
 
 .navbar-default {
-    background-color: #ffa000;
-    border-color: #ffa000;
+    background-color: #b0120a;
+    border-color: #b0120a;
 }
 
 .navbar-default .navbar-toggle,
 .navbar-default .navbar-collapse, 
 .navbar-default .navbar-form {
-    border-color: #ffa000;
+    border-color: #b0120a;
 }
 
 .navbar-default .navbar-brand {
@@ -64,16 +64,16 @@
 
 .navbar-default .navbar-toggle:hover .icon-bar,
 .navbar-default .navbar-toggle:focus .icon-bar {
-    background-color: #ffa000;
+    background-color: #b0120a;
 }
 
 .navbar-default li .badge  {
     background-color: #fff;
-    color: #ffa000;
+    color: #b0120a;
 }
 
 .container-header {
-    background: #ffb300;
+    background: #f57c00;
 }
 
 .container-header a {
