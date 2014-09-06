@@ -52,7 +52,7 @@
                                                  <ul class="list-inline tag-container">
                                                      <li th:each="tag : ${articleDocument.tags}" class="tag-item ">
                                                          <a class="btn btn-xs btn-default" 
-                                                             th:href="@{/search/music(q=${tag})}" 
+                                                             th:href="@{/music/search(q=${tag})}" 
                                                              th:text="${tag}">
                                                          </a>
                                                      </li>
@@ -103,7 +103,7 @@ $(function() {
         count       : /*[[${searchResult.totalPages}]]*/ 20,
         start       : /*[[${searchResult.number} + 1]]*/ 1,
         onChange    : function (currval){
-            var url = /*[[@{/search/music(q=${query},p='')}]]*/ '/search/music';
+            var url = /*[[@{/music/search(q=${query},p='')}]]*/ '/music/search';
             window.location.href = url + currval;
             return false;
         }
