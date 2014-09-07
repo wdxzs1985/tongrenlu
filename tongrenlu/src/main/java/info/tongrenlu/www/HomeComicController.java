@@ -45,15 +45,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class HomeComicController {
 
     @Autowired
-    private MessageSource messageSource = null;
+    private final MessageSource messageSource = null;
     @Autowired
-    private HomeComicService comicService = null;
+    private final HomeComicService comicService = null;
     @Autowired
-    private TagService tagService = null;
+    private final TagService tagService = null;
     @Autowired
-    private CommentService commentService = null;
+    private final CommentService commentService = null;
     @Autowired
-    private SearchService searchService = null;
+    private final SearchService searchService = null;
 
     protected void throwExceptionWhenNotAllow(final ComicBean comicBean,
                                               final UserBean loginUser,
@@ -92,7 +92,7 @@ public class HomeComicController {
         return "home/comic/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/comic/search")
+    @RequestMapping(method = RequestMethod.GET, value = "/search")
     public String doGetSearchComic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                    @RequestParam(value = "q", required = false) final String query,
                                    final Model model) {
@@ -104,8 +104,8 @@ public class HomeComicController {
             final Pageable pageable = new PageRequest(Math.max(pageNumber, 1) - 1,
                                                       PaginateSupport.PAGESIZE);
 
-            final Page<ComicDocument> searchResult = this.searchService.findComic(query,
-                                                                                  pageable);
+            final Page<ComicDocument> searchResult = this.searchService
+                    .findComic(query, pageable);
             model.addAttribute("query", query);
             model.addAttribute("searchResult", searchResult);
             return "home/comic/search";
@@ -162,7 +162,8 @@ public class HomeComicController {
     @ResponseBody
     public Map<String, Object> doGetPicture(@PathVariable final Integer articleId) {
         final Map<String, Object> model = new HashMap<>();
-        final List<FileBean> fileList = this.comicService.getPictureList(articleId);
+        final List<FileBean> fileList = this.comicService
+                .getPictureList(articleId);
         model.put("fileList", fileList);
         return model;
     }
@@ -199,7 +200,8 @@ public class HomeComicController {
                                                                           null,
                                                                           locale));
         }
-        final List<TagBean> tagList = this.tagService.getTagByArticle(comicBean);
+        final List<TagBean> tagList = this.tagService
+                .getTagByArticle(comicBean);
         model.put("tagList", tagList);
         return model;
     }
