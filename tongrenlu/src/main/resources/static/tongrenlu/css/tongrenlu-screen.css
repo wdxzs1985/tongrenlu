@@ -5,6 +5,12 @@ body, html {
     font-size: 14px;
 }
 
+.media, .media-body {
+    overflow: hidden;
+    zoom: 1;
+    display: block;
+}
+
 .navbar-default {
 	background-color: #00bcd4;
 	border-color: #00bcd4;
