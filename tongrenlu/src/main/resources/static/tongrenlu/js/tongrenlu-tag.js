@@ -10,20 +10,21 @@ var tag = function(options) {
 	var that = {
 		init: function() {
 			that.load();
-			that.login();
+			//that.login();
 		},
 		load: function() {
 			$.get(settings.url).done(function(response){
 				var $tagContainer = $(settings.selector);
+	    		$tagContainer.empty();
 		    	if(response.tagList){
-		    		$tagContainer.empty();
 		    		$.each(response.tagList, function(index, element){
 		    			element.tagPath = settings.tagPath;
 		    			$tagContainer.append(tmpl(settings.template, element))
 		    		})
-		    	} else {
-		    		$tagContainer.hide();
 		    	}
+	    		$('<li><button class="btn btn-xs btn-info">+ 标签</button></li>').on('click', 'button', function(){
+	    			that.login();
+	    		}).appendTo($tagContainer);
 		    });
 		},
 		login: function() {
@@ -32,6 +33,7 @@ var tag = function(options) {
 	            $(document).on('signin', function(event, loginUser) {
 	            	that.input();
 	            });
+	            $('#signinModal').modal('show');
 	        } else {
 	        	that.input();
 	        }
