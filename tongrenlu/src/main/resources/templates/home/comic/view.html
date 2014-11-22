@@ -1,134 +1,185 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="home/layout_article_view">
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/layout">
 <head>
-  <title th:inline="text">[[${articleBean.title} + ' | ' + #{application}]]</title>
+<title th:inline="text">[[${articleBean.title} + ' | ' +
+	#{application}]]</title>
+<link rel="stylesheet"
+	href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css"
+	type="text/css" />
+<link rel="stylesheet"
+	href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css"
+	type="text/css" />
+<link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-comic.css}"
+	type="text/css" />
 </head>
 <body>
-<div class="container" layout:fragment="article-header">
-    <div class="media">
-        <div class="media-heading pull-left">
-            <img src="http://placehold.it/60x60" 
-                class="img-responsive img-rounded img-60" 
-                th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" 
-                th:alt-title="${articleBean.title}"/>
-        </div>
-        <div class="pull-right btn-group">
-            <button class="like-article btn btn-danger hidden">
-                <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-            </button>
-        </div>
-        <div class="media-body">
-            <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
-            <h5 class="article-title visible-xs" th:text="${articleBean.title}"></h5>
-        </div>
-    </div>
-</div>
-<div class="container" layout:fragment="article-info">
-    <div class="row">
-        <div class="col-sm-6">
-            <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
-            <div id="share" th:include="home/layout_article_view::article-share"></div>
-            <div id="tags" th:include="home/layout_article_view::article-tags"></div>
-        </div>
-        <div class="col-sm-6">
-            <div id="comment" th:include="home/layout_article_view::article-comment"></div>
-        </div>
-    </div>
-</div>
-<th:block layout:fragment="scripts">
-<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
+	<div layout:fragment="header"></div>
+	<div layout:fragment="content">
+		<div id="viewpoint"></div>
+		<div class="controllers">
+			<a id="toggle-side-content" href="javascript:;"> <span
+				class="glyphicon glyphicon-th-large"></span>
+			</a>
+		</div>
+		<div class="side-content">
+			<div class="page-header">
+				<a id="close-side-content" href="javascript:;"> <span
+					class="glyphicon glyphicon-remove"></span> <span>收起</span>
+				</a>
+			</div>
+			<div class="">
+				<h1 th:text="${articleBean.title}"></h1>
+				<h4>
+					<small th:text="#{home.article.owner}">Owner</small> <a
+						th:href="@{/user/__${articleBean.userBean.id}__}"
+						th:text="${articleBean.userBean}"></a>
+				</h4>
+				<pre id="article-description"
+					th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
+			</div>
+			<div id="share" th:fragment="article-share">
+				<button class="like-article btn btn-danger hidden">
+					<span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+					<span class="hidden-xs like-button-text"
+						th:text="#{home.article.notlike}"></span>
+				</button>
+			</div>
+			<div id="tags" th:fragment="article-tags">
+				<div class="page-header">
+					<h5>
+						<span class="glyphicon glyphicon-tags"></span> <span
+							th:text="#{ArticleBean.tag}">Tags</span>
+					</h5>
+				</div>
+				<ul class="list-inline tag-container">
+				</ul>
+				<div class="form-group">
+					<div id="magicsuggest"></div>
+				</div>
+			</div>
+			<div id="comment" class="" th:fragment="article-comment">
+				<div class="page-header">
+					<h5>
+						<span class="glyphicon glyphicon-comment"></span> <span
+							th:text="#{home.article.comment}"></span>
+					</h5>
+				</div>
+				<div class="comment-container">
+					<div class="comment-list-content hidden">
+						<ul class="media-list"></ul>
+						<ul class="pager">
+							<li class="previous"><a href="#"> <span
+									class="glyphicon glyphicon-chevron-left"></span> <span
+									th:text="#{button.previousPage}"></span>
+							</a></li>
+							<li class="next"><a href="#"> <span
+									th:text="#{button.nextPage}"></span> <span
+									class="glyphicon glyphicon-chevron-right"></span>
+							</a></li>
+						</ul>
+					</div>
+					<div class="comment-empty alert alert-warning hidden"
+						th:text="#{home.article.comment.empty}"></div>
+				</div>
+				<form class="comment-form" method="post">
+					<div class="form-group">
+						<textarea name="content" class="form-control" rows="3"
+							th:placeholder="#{home.article.comment.placeholder}"></textarea>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">
+							<span class="glyphicon glyphicon-send"></span>&nbsp; <span
+								th:text="#{home.article.comment.send}"></span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="footer"></th:block>
+	<th:block layout:fragment="scripts">
+		<script type="text/javascript"
+			src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
+		<script type="text/javascript"
+			src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
+		<script type="text/javascript"
+			src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+		<script type="text/javascript"
+			src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js"></script>
+		<script type="text/javascript"
+			th:src="@{/tongrenlu/js/tongrenlu-url.js}"></script>
+		<script type="text/javascript"
+			th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}"></script>
+		<script type="text/javascript"
+			th:src="@{/tongrenlu/js/tongrenlu-tag.js}"></script>
+		<script type="text/javascript"
+			th:src="@{/tongrenlu/js/tongrenlu-comment.js}"></script>
 
-<div th:replace="x-tmpl/article-view::template-tag-item"></div>
-<div th:replace="x-tmpl/article-view::template-comment-item"></div>
+		<div th:replace="x-tmpl/article-view::template-tag-item"></div>
+		<div th:replace="x-tmpl/article-view::template-comment-item"></div>
 
-<script type="text/javascript" th:inline="javascript">
-$(function() {
-    var pictureDataUrl = /*[[@{/comic/__${articleBean.id}__/picture}]]*/ '';
-    var filePath = /*[[@{http://files.tongrenlu.info/c__${articleBean.id}__}]]*/'';
-    
-    new carousel({
-        url: pictureDataUrl,
-        filePath: filePath,
-        startSlideshow: false
-    });
-    
-    new tag({
-        url: /*[[@{/comic/__${articleBean.id}__/tag}]]*/ '',
-        tagPath: /*[[@{/tag}]]*/'/tag',
-        template: 'template-tag-item',
-        placeholder: /*[[#{console.tag.help}]]*/'Make a selection',
-        searchurl: /*[[@{/tag/search}]]*/ '/tag/search'
-    });
-    
-    new comment({
-    	url: /*[[@{/comic/__${articleBean.id}__/comment}]]*/''
-    });
-    
-    $('#article-description').url();
-    
-    $('.like-article').likebutton({
-        url: /*[[@{/comic/__${articleBean.id}__/like}]]*/ '',
-        notlikeText: /*[[#{home.article.notlike}]]*/ '',
-        likeText: /*[[#{home.article.like}]]*/ '',
-        unlikeText: /*[[#{home.article.unlike}]]*/ ''
-    });
+		<script type="text/javascript" th:inline="javascript">
+			$(function() {
+				var pictureDataUrl = /*[[@{/comic/__${articleBean.id}__/picture}]]*/'';
+				var filePath = /*[[@{http://files.tongrenlu.info/c__${articleBean.id}__}]]*/'';
 
-});
-</script>
-<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" th:inline="javascript">
-$(function() {
-    var title = /*[[${articleBean.title} + ' | ' + #{application}]]*/ '';
-    var share_url = /*[[@{http://www.tongrenlu.info/comic/__${articleBean.id}__}]]*/ 'http://www.tongrenlu.info/comic.jpg';
-    var image_url = /*[[@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_400.jpg}]]*/ 'http://www.tongrenlu.info/';
-    WB2.anyWhere(function(W){
-        W.widget.publish({
-            toolbar: 'face',
-            action:'publish',
-            type:'web',
-            language:'zh_cn',
-            button_type:'red',
-            button_size:'middle',
-            default_text: title + ' ' + share_url,
-            tag: /*[[#{home.comic.share.text}]]*/ '',
-            refer:'y',
-            default_image: image_url,
-            appkey:'2ZiUc5',
-            id: 'share_article',
-            position: 'c'
-        });
-    });
-    WB2.anyWhere(function(W){
-        W.widget.publish({
-            toolbar: 'face',
-            action:'publish',
-            type:'web',
-            language:'zh_cn',
-            button_type:'red',
-            button_size:'middle',
-            uid:'2803325782',
-            default_text: title + ' ' + share_url,
-            tag: /*[[#{home.article.request.text}]]*/ '',
-            refer:'y',
-            default_image: image_url,
-            appkey:'2ZiUc5',
-            id: 'request_article',
-            position: 'c'
-        });
-    });
-});
-</script>
-</th:block>
+				var links = [];
+				$.getJSON(pictureDataUrl).done(
+						function(response) {
+							if (response.fileList) {
+								$.each(response.fileList,
+										function(index, file) {
+											links.push(filePath + "/f"
+													+ file.id + "_1080.jpg");
+										});
+							}
+						}).always(
+						function() {
+							if (links.length == 0) {
+								links.push(filePath + "/cover_400.jpg");
+							}
+							$.each(links, function(index, link) {
+								$('<img class="img-responsive"/>').prop('src',
+										link).appendTo('#viewpoint');
+							});
+						});
+
+				new tag(
+						{
+							url : /*[[@{/comic/__${articleBean.id}__/tag}]]*/'',
+							tagPath : /*[[@{/tag}]]*/'/tag',
+							template : 'template-tag-item',
+							placeholder : /*[[#{console.tag.help}]]*/'Make a selection',
+							searchurl : /*[[@{/tag/search}]]*/'/tag/search'
+						});
+
+				new comment({
+					url : /*[[@{/comic/__${articleBean.id}__/comment}]]*/''
+				});
+
+				$('#article-description').url();
+
+				$('.like-article').likebutton({
+					url : /*[[@{/comic/__${articleBean.id}__/like}]]*/'',
+					notlikeText : /*[[#{home.article.notlike}]]*/'',
+					likeText : /*[[#{home.article.like}]]*/'',
+					unlikeText : /*[[#{home.article.unlike}]]*/''
+				});
+
+			});
+		</script>
+		<script type="text/javascript" th:inline="javascript">
+			$(function() {
+				$('#toggle-side-content').click(function() {
+					$('.side-content').addClass('side-content--show');
+				});
+				$('#close-side-content').click(function() {
+					$('.side-content').removeClass('side-content--show');
+				});
+			});
+		</script>
+	</th:block>
 </body>
 </html>
