@@ -8,6 +8,7 @@
 <link rel="stylesheet"
 	href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css"
 	type="text/css" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" type="text/css"/>
 <link rel="stylesheet"
 	href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css"
 	type="text/css" />
@@ -18,6 +19,17 @@
 	<div layout:fragment="header"></div>
 	<div layout:fragment="content">
 		<div id="viewpoint"></div>
+		<div th:fragment="article-gallery">
+            <div id="blueimp-gallery" class="blueimp-gallery">
+                <div class="slides"></div>
+                <h3 class="title"></h3>
+                <a class="prev">&lsaquo;</a>
+                <a class="next">&rsaquo;</a>
+                <h3 class="title"></h3>
+                <a class="play-pause"></a>
+                <ol class="indicator"></ol>
+            </div>
+        </div>
 		<div class="controllers">
 			<a id="toggle-side-content" href="javascript:;"> <span
 				class="glyphicon glyphicon-th-large"></span>
@@ -26,7 +38,8 @@
 		<div class="side-content">
 			<div class="page-header">
 				<a id="close-side-content" href="javascript:;"> <span
-					class="glyphicon glyphicon-remove"></span> <span>收起</span>
+					class="glyphicon glyphicon-remove"></span>
+					<span></span>
 				</a>
 			</div>
 			<div class="">
@@ -46,56 +59,8 @@
 						th:text="#{home.article.notlike}"></span>
 				</button>
 			</div>
-			<div id="tags" th:fragment="article-tags">
-				<div class="page-header">
-					<h5>
-						<span class="glyphicon glyphicon-tags"></span> <span
-							th:text="#{ArticleBean.tag}">Tags</span>
-					</h5>
-				</div>
-				<ul class="list-inline tag-container">
-				</ul>
-				<div class="form-group">
-					<div id="magicsuggest"></div>
-				</div>
-			</div>
-			<div id="comment" class="" th:fragment="article-comment">
-				<div class="page-header">
-					<h5>
-						<span class="glyphicon glyphicon-comment"></span> <span
-							th:text="#{home.article.comment}"></span>
-					</h5>
-				</div>
-				<div class="comment-container">
-					<div class="comment-list-content hidden">
-						<ul class="media-list"></ul>
-						<ul class="pager">
-							<li class="previous"><a href="#"> <span
-									class="glyphicon glyphicon-chevron-left"></span> <span
-									th:text="#{button.previousPage}"></span>
-							</a></li>
-							<li class="next"><a href="#"> <span
-									th:text="#{button.nextPage}"></span> <span
-									class="glyphicon glyphicon-chevron-right"></span>
-							</a></li>
-						</ul>
-					</div>
-					<div class="comment-empty alert alert-warning hidden"
-						th:text="#{home.article.comment.empty}"></div>
-				</div>
-				<form class="comment-form" method="post">
-					<div class="form-group">
-						<textarea name="content" class="form-control" rows="3"
-							th:placeholder="#{home.article.comment.placeholder}"></textarea>
-					</div>
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary">
-							<span class="glyphicon glyphicon-send"></span>&nbsp; <span
-								th:text="#{home.article.comment.send}"></span>
-						</button>
-					</div>
-				</form>
-			</div>
+            <div id="tags" th:include="home/layout_article_view::article-tags"></div>
+            <div id="comment" th:include="home/layout_article_view::article-comment"></div>
 		</div>
 	</div>
 	<th:block layout:fragment="footer"></th:block>
@@ -140,10 +105,21 @@
 							if (links.length == 0) {
 								links.push(filePath + "/cover_400.jpg");
 							}
-							$.each(links, function(index, link) {
-								$('<img class="img-responsive"/>').prop('src',
-										link).appendTo('#viewpoint');
-							});
+							
+							if($(window).width() > 800) {
+								$.each(links, function(index, link) {
+								    $('<img class="img-responsive"/>')
+								        .prop('src', link).appendTo('#viewpoint');
+                                });
+							} else {
+						            var fullscreenGallery = blueimp.Gallery(links, {
+						                container: '#blueimp-gallery',
+						                startSlideshow: false,
+						                carousel:false,
+						                closeOnEscape: false,
+						                closeOnSlideClick: false
+						            });
+							}
 						});
 
 				new tag(

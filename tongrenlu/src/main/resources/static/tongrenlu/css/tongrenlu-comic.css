@@ -18,6 +18,7 @@ body {
     top: 20px;
 	right: 36px;
 	font-size: 24px;
+	z-index: 999999999;
 }
 .controllers a{
 	display: inline-block;
@@ -38,6 +39,7 @@ body {
 	overflow: auto;
     background: #ffffff;
     transition : right .5s;
+    z-index: 99999999999;
 }
 
 .side-content--show {
