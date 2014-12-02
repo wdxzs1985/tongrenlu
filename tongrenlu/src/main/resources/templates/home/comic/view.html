@@ -42,16 +42,8 @@
 					<span></span>
 				</a>
 			</div>
-			<div class="">
-				<h1 th:text="${articleBean.title}"></h1>
-				<h4>
-					<small th:text="#{home.article.owner}">Owner</small> <a
-						th:href="@{/user/__${articleBean.userBean.id}__}"
-						th:text="${articleBean.userBean}"></a>
-				</h4>
-				<pre id="article-description"
-					th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
-			</div>
+			<h1 th:text="${articleBean.title}"></h1>
+            <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
 			<div id="share" th:fragment="article-share">
 				<button class="like-article btn btn-danger hidden">
 					<span class="glyphicon glyphicon-heart-empty like-button-icon"></span>

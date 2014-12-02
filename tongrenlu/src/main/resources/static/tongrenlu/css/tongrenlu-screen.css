@@ -338,3 +338,18 @@ h1.article-title {
     margin-top: 0;
 }
 
+
+#footer {
+    background: #424242;
+    color: #fdfdfd;
+}
+
+#footer a{
+    color: #ebebeb;
+}
+
+#footer a:hover,
+#footer a:active,
+#footer a:focus{
+    color: #fdfdfd;
+}
