@@ -27,6 +27,11 @@ div.jp-audio .jp-interface {
     height: 80px;
 }
 
+div.jp-interface .glyphicon {
+	position:inherit;
+	padding-top: 1px;
+}
+
 /* @group CONTROLS */
 
 div.jp-interface ul.jp-controls {

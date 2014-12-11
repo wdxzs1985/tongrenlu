@@ -2,7 +2,10 @@
 
 body, html {
     font-family: "Helvetica Neue", Helvetica, STHeiTi, "Microsoft YaHei", "微软雅黑", sans-serif;
-    font-size: 14px;
+}
+
+body {
+    position: relative;
 }
 
 .media, .media-body {
