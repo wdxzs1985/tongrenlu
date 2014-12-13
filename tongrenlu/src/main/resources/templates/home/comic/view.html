@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorator="home/layout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="home/layout">
 <head>
-<title th:inline="text">[[${articleBean.title} + ' | ' +
-	#{application}]]</title>
-<link rel="stylesheet"
-	href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css"
-	type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:inline="text">[[${articleBean.title} + ' | ' + #{application}]]</title>
+    <link rel="stylesheet" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" type="text/css" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" type="text/css"/>
-<link rel="stylesheet"
-	href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css"
-	type="text/css" />
-<link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-comic.css}"
-	type="text/css" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-comic.css}" type="text/css" />
 </head>
 <body>
-	<div layout:fragment="header"></div>
-	<div layout:fragment="content">
-		<div id="viewpoint"></div>
-		<div th:fragment="article-gallery">
+    <div layout:fragment="header"></div>
+    <div layout:fragment="content">
+        <div id="viewpoint"></div>
+        <div th:fragment="article-gallery">
             <div id="blueimp-gallery" class="blueimp-gallery">
                 <div class="slides"></div>
                 <h3 class="title"></h3>
@@ -30,124 +25,108 @@
                 <ol class="indicator"></ol>
             </div>
         </div>
-		<div class="controllers">
-			<a id="toggle-side-content" href="javascript:;"> <span
-				class="glyphicon glyphicon-th-large"></span>
-			</a>
-		</div>
-		<div class="side-content">
-			<div class="page-header">
-				<a id="close-side-content" href="javascript:;"> <span
-					class="glyphicon glyphicon-remove"></span>
-					<span></span>
-				</a>
-			</div>
-			<h1 th:text="${articleBean.title}"></h1>
+        <div class="controllers">
+            <a id="toggle-side-content" href="javascript:;"> <span
+                class="glyphicon glyphicon-th-large"></span>
+            </a>
+        </div>
+        <div class="side-content">
+            <div class="page-header">
+                <a id="close-side-content" href="javascript:;"> <span
+                    class="glyphicon glyphicon-remove"></span>
+                    <span></span>
+                </a>
+            </div>
+            <h1 th:text="${articleBean.title}"></h1>
             <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
-			<div id="share" th:fragment="article-share">
-				<button class="like-article btn btn-danger hidden">
-					<span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-					<span class="hidden-xs like-button-text"
-						th:text="#{home.article.notlike}"></span>
-				</button>
-			</div>
+            <div id="share" th:fragment="article-share">
+                <button class="like-article btn btn-danger hidden">
+                    <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                    <span class="hidden-xs like-button-text"
+                        th:text="#{home.article.notlike}"></span>
+                </button>
+            </div>
             <div id="tags" th:include="home/layout_article_view::article-tags"></div>
             <div id="comment" th:include="home/layout_article_view::article-comment"></div>
-		</div>
-	</div>
-	<th:block layout:fragment="footer"></th:block>
-	<th:block layout:fragment="scripts">
-		<script type="text/javascript"
-			src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
-		<script type="text/javascript"
-			src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
-		<script type="text/javascript"
-			src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-		<script type="text/javascript"
-			src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js"></script>
-		<script type="text/javascript"
-			th:src="@{/tongrenlu/js/tongrenlu-url.js}"></script>
-		<script type="text/javascript"
-			th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}"></script>
-		<script type="text/javascript"
-			th:src="@{/tongrenlu/js/tongrenlu-tag.js}"></script>
-		<script type="text/javascript"
-			th:src="@{/tongrenlu/js/tongrenlu-comment.js}"></script>
-
-		<div th:replace="x-tmpl/article-view::template-tag-item"></div>
-		<div th:replace="x-tmpl/article-view::template-comment-item"></div>
-
-		<script type="text/javascript" th:inline="javascript">
-			$(function() {
-				var pictureDataUrl = /*[[@{/comic/__${articleBean.id}__/picture}]]*/'';
-				var filePath = /*[[@{http://files.tongrenlu.info/c__${articleBean.id}__}]]*/'';
-
-				var links = [];
-				$.getJSON(pictureDataUrl).done(
-						function(response) {
-							if (response.fileList) {
-								$.each(response.fileList,
-										function(index, file) {
-											links.push(filePath + "/f"
-													+ file.id + "_1080.jpg");
-										});
-							}
-						}).always(
-						function() {
-							if (links.length == 0) {
-								links.push(filePath + "/cover_400.jpg");
-							}
-							
-							if($(window).width() > 800) {
-								$.each(links, function(index, link) {
-								    $('<img class="img-responsive"/>')
-								        .prop('src', link).appendTo('#viewpoint');
+        </div>
+    </div>
+    <th:block layout:fragment="footer"></th:block>
+    <th:block layout:fragment="scripts">
+        <script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
+        <script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
+        <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+        <script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js"></script>
+        <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}"></script>
+        <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}"></script>
+        <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}"></script>
+        <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}"></script>
+        <div th:replace="x-tmpl/article-view::template-tag-item"></div>
+        <div th:replace="x-tmpl/article-view::template-comment-item"></div>
+        <script type="text/javascript" th:inline="javascript">
+            $(function() {
+                var pictureDataUrl = /*[[@{/comic/__${articleBean.id}__/picture}]]*/'';
+                var filePath = /*[[@{http://files.tongrenlu.info/c__${articleBean.id}__}]]*/'';
+                var links = [];
+                $.getJSON(pictureDataUrl).done(
+                        function(response) {
+                            if (response.fileList) {
+                                $.each(response.fileList,
+                                        function(index, file) {
+                                            links.push(filePath + "/f"
+                                                    + file.id + "_1080.jpg");
+                                        });
+                            }
+                        }).always(
+                        function() {
+                            if (links.length == 0) {
+                                links.push(filePath + "/cover_400.jpg");
+                            }
+                            
+                            if($(window).width() > 800) {
+                                $.each(links, function(index, link) {
+                                    $('<img class="img-responsive"/>')
+                                        .prop('src', link).appendTo('#viewpoint');
                                 });
-							} else {
-						            var fullscreenGallery = blueimp.Gallery(links, {
-						                container: '#blueimp-gallery',
-						                startSlideshow: false,
-						                carousel:false,
-						                closeOnEscape: false,
-						                closeOnSlideClick: false
-						            });
-							}
-						});
-
-				new tag(
-						{
-							url : /*[[@{/comic/__${articleBean.id}__/tag}]]*/'',
-							tagPath : /*[[@{/tag}]]*/'/tag',
-							template : 'template-tag-item',
-							placeholder : /*[[#{console.tag.help}]]*/'Make a selection',
-							searchurl : /*[[@{/tag/search}]]*/'/tag/search'
-						});
-
-				new comment({
-					url : /*[[@{/comic/__${articleBean.id}__/comment}]]*/''
-				});
-
-				$('#article-description').url();
-
-				$('.like-article').likebutton({
-					url : /*[[@{/comic/__${articleBean.id}__/like}]]*/'',
-					notlikeText : /*[[#{home.article.notlike}]]*/'',
-					likeText : /*[[#{home.article.like}]]*/'',
-					unlikeText : /*[[#{home.article.unlike}]]*/''
-				});
-
-			});
-		</script>
-		<script type="text/javascript" th:inline="javascript">
-			$(function() {
-				$('#toggle-side-content').click(function() {
-					$('.side-content').addClass('side-content--show');
-				});
-				$('#close-side-content').click(function() {
-					$('.side-content').removeClass('side-content--show');
-				});
-			});
-		</script>
-	</th:block>
+                            } else {
+                                    var fullscreenGallery = blueimp.Gallery(links, {
+                                        container: '#blueimp-gallery',
+                                        startSlideshow: false,
+                                        carousel:false,
+                                        closeOnEscape: false,
+                                        closeOnSlideClick: false
+                                    });
+                            }
+                        });
+                new tag(
+                        {
+                            url : /*[[@{/comic/__${articleBean.id}__/tag}]]*/'',
+                            tagPath : /*[[@{/tag}]]*/'/tag',
+                            template : 'template-tag-item',
+                            placeholder : /*[[#{console.tag.help}]]*/'Make a selection',
+                            searchurl : /*[[@{/tag/search}]]*/'/tag/search'
+                        });
+                new comment({
+                    url : /*[[@{/comic/__${articleBean.id}__/comment}]]*/''
+                });
+                $('#article-description').url();
+                $('.like-article').likebutton({
+                    url : /*[[@{/comic/__${articleBean.id}__/like}]]*/'',
+                    notlikeText : /*[[#{home.article.notlike}]]*/'',
+                    likeText : /*[[#{home.article.like}]]*/'',
+                    unlikeText : /*[[#{home.article.unlike}]]*/''
+                });
+            });
+        </script>
+        <script type="text/javascript" th:inline="javascript">
+            $(function() {
+                $('#toggle-side-content').click(function() {
+                    $('.side-content').addClass('side-content--show');
+                });
+                $('#close-side-content').click(function() {
+                    $('.side-content').removeClass('side-content--show');
+                });
+            });
+        </script>
+    </th:block>
 </body>
 </html>

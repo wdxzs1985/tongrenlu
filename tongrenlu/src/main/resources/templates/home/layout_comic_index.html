@@ -3,6 +3,7 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
 <body>
@@ -23,7 +24,6 @@
                         </div><!-- /input-group -->
                     </form>
                 </div>
-                <div class="col-sm-4" ></div>
             </div>
         </div>
     </div>
@@ -33,18 +33,15 @@
                 <div class="col-sm-8" >
                     <div th:fragment="list-content">
                         <th:block th:unless="${#lists.isEmpty(page.items)}">
-                            <ul class="media-list">
-                                <li class="media article-list-item" th:each="articleBean : ${page.items}">
-                                    <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                        <img class="media-object img-120 img-rounded  hidden-xs" src="http://placehold.it/120x120" 
-                                            th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}"
-                                            th:alt-title="${articleBean.title}" />
-                                        <img class="media-object img-60 img-rounded  visible-xs" src="http://placehold.it/60x60" 
-                                            th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}"
+                            <div class="card" th:each="articleBean : ${page.items}">
+                                <div class="media card-body-180">
+                                    <a class="media-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                        <img class="media-object img-180" src="http://placehold.it/180x180" 
+                                            th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}"
                                             th:alt-title="${articleBean.title}" />
                                     </a>
                                     <div class="media-body">
-                                        <h5 class="media-heading text-single-line">
+                                        <h5 class="media-heading">
                                             <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                                 <strong th:text="${articleBean.title}" ></strong>
                                             </a>
@@ -65,8 +62,8 @@
                                         </div>
                                         <p th:text="${articleBean.description}"></p>
                                     </div>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                             <div id="jpaginate" class="hidden-xs"></div>
                             <div id="select-paginate" class="form-group visible-xs"></div>
                         </th:block>
@@ -79,14 +76,14 @@
                         </div>
                         <ul class="media-list">
                             <th:block  th:each="articleBean,iterStat : ${ranking}">
-                                <li class="media" th:if="${iterStat.index} lt 10">
-                                    <a class="pull-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                <li class="media">
+                                    <a class="media-left" th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                         <img class="media-object img-60 img-rounded " src="http://placehold.it/60x60" 
                                             th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}"
                                             th:alt-title="${articleBean.title}" />
                                     </a>
                                     <div class="media-body">
-                                        <h5 class="media-heading text-single-line">
+                                        <h5 class="media-heading">
                                             <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                                 <strong th:text="${articleBean.title}" ></strong>
                                             </a>
@@ -96,15 +93,6 @@
                                             <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
                                             <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="media" th:if="${iterStat.index} gt 9">
-                                    <div class="media-body">
-                                        <h5 class="media-heading text-single-line">
-                                            <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                                <span th:text="${articleBean.title}" ></span>
-                                            </a>
-                                        </h5>
                                     </div>
                                 </li>
                             </th:block>

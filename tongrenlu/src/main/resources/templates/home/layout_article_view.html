@@ -4,6 +4,7 @@
   xmlns:wb="http://open.weibo.com/wb"
   layout:decorator="home/layout">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" type="text/css"/>
     <link rel="stylesheet" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" type="text/css"/>
     <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" type="text/css"/>
@@ -135,11 +136,7 @@
                         </h4>
                     </div>
                 </div>
-                <div class="media">
-                    <div class="media-body">
-                        <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
-                    </div>
-                </div>
+                <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
             </div>
             <div id="tags" th:fragment="article-tags">
                 <div class="page-header">

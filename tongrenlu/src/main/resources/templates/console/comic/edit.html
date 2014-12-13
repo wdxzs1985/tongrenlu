@@ -2,17 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
-  <head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" rel="stylesheet" />
-  </head>
-  <body>
+</head>
+<body>
 <div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+            <div class="media">
+                <div class="media-body">
+                    <h1 class="media-heading hidden-xs">
+                        <span th:text="${articleBean.title}"></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="active">
+                        <a th:href="@{/console/comic/__${articleBean.id}__}">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="" th:text="#{button.back}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/console/comic}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span class="hidden-xs" th:text="#{console.comic.index}"></span>
+                        </a>
+                    </li>
+                    <li class="" th:if="${session.LOGIN_USER.admin}">
+                        <a th:href="@{/admin/comic}">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                            <span class="hidden-xs" th:text="#{admin.comic}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container-wrap" >
         <div class="container">
-      <ul class="nav nav-tabs">
-        <li class="active"><a th:href="@{/console/comic/__${articleBean.id}__}" th:text="#{console.article.edit}"></a></li>
-        <li class="hidden-xs"><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
-      </ul>
       <form class="" th:action="@{/console/comic/__${articleBean.id}__/edit}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-sm-8">
@@ -32,7 +64,7 @@
               <div th:class="${#strings.isEmpty(descriptionError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
                <label for="inputDescription" class=" control-label" 
                    th:text="#{ArticleBean.description}">Description</label>
-                  <textarea class="form-control" rows="20"
+                  <textarea class="form-control" rows="10"
                    id="inputDescription" name="description"
                    th:text="${articleBean.description}"
                    th:placeholder="#{ArticleBean.description}"></textarea>
@@ -92,7 +124,10 @@
     </div>
 </div>
 <th:block layout:fragment="scripts-libs">
-<script src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 </th:block>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
@@ -110,6 +145,10 @@ $(function() {
         placeholder: placeHolder,
         typeDelay: 400,
         maxSelection: null
+    });
+
+    $('.container-header').trianglify({
+        palette: 'console'
     });
 });
 </script>

@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="home/layout">
-
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
+    layout:decorator="home/layout">
 <head>
-    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/bootstrap-3.1.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" th:href="@{/tongrenlu/css/screen.css}" href="../../static/tongrenlu/css/screen.css" />
-    <script th:src="@{/tongrenlu/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js}" src="../../static/tongrenlu/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-fm.css}" href="../../static/tongrenlu/css/tongrenlu-fm.css" media="screen" />
-    <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/jplayer.tongrenlu.css}" href="../../static/tongrenlu/css/jplayer.tongrenlu.css" media="screen" />
+    <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" href="../../static/tongrenlu/css/tongrenlu-jplayer.css" media="screen" />
 </head>
 
 <body>
@@ -29,7 +26,7 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li class="cl-effect-1">
                         <a href="javascript:;" id="nav-lucky" >
-                            <span class="glyphicon glyphicon-gift"></span>
+                            <span class="glyphicon glyphicon-star"></span>
                             <span class="hidden-sm" th:text="#{home.music.lucky}">lucky</span>
                         </a>
                     </li>

@@ -8,11 +8,14 @@ body {
     position: relative;
 }
 
-.media, .media-body {
-    overflow: hidden;
-    zoom: 1;
-    display: block;
+.media-body pre {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
 }
+
 
 .navbar-default {
 	background-color: #00bcd4;
@@ -106,6 +109,13 @@ body {
     height: 60px;
 }
 
+@media (max-width: 480px) {
+    .img-180 {
+        width: 120px;
+        height: 120px;
+    }
+}
+
 .img-thumbnail {
     padding:0;
 }
@@ -139,7 +149,7 @@ body {
 
 .container-wrap {
 	padding: 20px 0 40px;
-	background-color: #fcfcfc;
+	background-color: #ffffff;
 }
 
 .container-wrap-darker {
@@ -319,14 +329,28 @@ h1.article-title {
 
 .card {
 	padding: 0;
-	border-radius: 6px;
     background-color: #fff;
     border: none;
     box-shadow:0 2px 1px 0 rgba(0,0,0,.13);
+    margin-bottom: 2em;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.card-body {
 }
 
 .card .media-body{
-    padding: .5em;
+    padding: 4px 4px 4px 0;
+}
+
+.card-footer {
+}
+
+.card-footer .btn {
+	border-radius: 0;
+	border: none;
+	padding: 12px 0;
 }
 
 .side-content {

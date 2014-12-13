@@ -1,138 +1,150 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorator="home/layout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="home/layout">
 <head>
-<link rel="stylesheet" type="text/css"
-	href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css"
-	media="screen" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen" />
 </head>
 <body>
-	<div layout:fragment="content">
-		<div class="container-wrap container-header">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-8">
-						<h1 th:text="#{home.music}"></h1>
-						<div th:replace="home/layout_music_index::search-form"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="container-wrap">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-8">
-						<th:block th:if="${searchResult}">
-							<th:block th:unless="${#lists.isEmpty(searchResult.content)}">
-								<ul class="media-list">
-									<li class="media article-list-item"
-										th:each="articleDocument : ${searchResult.content}"><a
-										class="pull-left"
-										th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
-										th:alt-title="${articleDocument.title}"> <img
-											class="media-object img-120  img-rounded hidden-xs"
-											th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
-											th:alt-title="${articleDocument.title}" /> <img
-											class="media-object img-60  img-rounded visible-xs"
-											th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_120.jpg}"
-											th:alt-title="${articleDocument.title}" />
-									</a>
-										<div class="media-body">
-											<h5 class="media-heading text-single-line">
-												<a
-													th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
-													th:text="${articleDocument.title}"
-													th:alt-title="${articleDocument.title}"></a>
-											</h5>
-											<div th:id="'accordion-' + ${articleDocument.id}">
-												<p>
-													<button type="button" class="btn btn-info btn-xs"
-														data-toggle="collapse"
-														th:attr="data-parent='#accordion-' + ${articleDocument.id},data-target='#collapse-' + ${articleDocument.id}">
-														<span class="glyphicon glyphicon-tags"></span>&nbsp; <strong
-															th:text="#{ArticleBean.tag} + ' &gt;&gt;'">Tags
-															:</strong>
-													</button>
-												</p>
-												<div th:id="'collapse-' + ${articleDocument.id}"
-													class="collapse">
-													<ul class="list-inline tag-container">
-														<li th:each="tag : ${articleDocument.tags}"
-															class="tag-item "><a class="btn btn-xs btn-default"
-															th:href="@{/music/search(q=${tag})}" th:text="${tag}">
-														</a></li>
-													</ul>
-												</div>
-											</div>
-										</div></li>
-								</ul>
-								<div id="jpaginate" class="hidden-xs"></div>
-								<div id="select-paginate" class="form-group visible-xs"></div>
-							</th:block>
-							<div class="alert alert-warning"
-								th:if="${#lists.isEmpty(searchResult.content)}">
-								<h4 th:text="#{home.article.noData}"></h4>
-								<a th:href="@{/music}" th:text="#{button.back}"
-									class="btn btn-default"></a>
-							</div>
-						</th:block>
-					</div>
-					<div class="col-sm-4">
-						<div class="card side-content"
-							th:unless="${#arrays.isEmpty(tags)}">
-							<h3 th:text="#{home.search.tag}"></h3>
-							<ul class="media-list">
-								<li class="media" th:each="tagBean : ${tags}">
-									<div class="media-body">
-										<a th:href="@{/tag/__${tagBean.id}__/music}"
-											th:alt-title="${tagBean.tag}"> <span
-											th:text="#{home.tag.music(${tagBean.tag})}"></span>
-										</a>
-									</div>
-								</li>
-							</ul>
-							<hr />
-							<h5>没有找到想要的资源?</h5>
-							<button id="request_article" class="btn btn-warning">
-								<span class="glyphicon glyphicon-bullhorn"></span> <span
-									th:text="#{home.article.request}"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<th:block layout:fragment="scripts">
-		<script type="text/javascript"
-			src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-		<script type="text/javascript"
-			src="http://static.tongrenlu.info/d3/d3.min.js"></script>
-		<script type="text/javascript"
-			src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
-		<script type="text/javascript"
-			th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
-		<script type="text/javascript"
-			th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
-		<script type="text/javascript" th:inline="javascript">
-			$(function() {
-				new paginate(
-						{
-							count : /*[[${searchResult.totalPages}]]*/20,
-							start : /*[[${searchResult.number} + 1]]*/1,
-							onChange : function(currval) {
-								var url = /*[[@{/music/search(q=${query},p='')}]]*/'/music/search';
-								window.location.href = url + currval;
-								return false;
-							}
-						});
-
-				$('.container-header').trianglify({
-					palette : 'home'
-				});
-			});
-		</script>
-	</th:block>
+    <div layout:fragment="content">
+        <div class="container-wrap container-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h1 th:text="#{home.music}"></h1>
+                        <div th:replace="home/layout_music_index::search-form"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-wrap container-wrap-darker" >
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <th:block th:if="${searchResult}">
+                            <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
+                                <div class="card" th:each="articleDocument : ${searchResult.content}">
+                                    <div class="media card-body-180">
+                                        <a class="media-left"
+                                              th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
+                                              th:alt-title="${articleDocument.title}" target="_blank"> 
+                                          <img class="media-object img-180"
+                                            th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_180.jpg}"
+                                            th:alt-title="${articleDocument.title}" />
+                                    </a>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            <a th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
+                                                th:text="${articleDocument.title}"
+                                                th:alt-title="${articleDocument.title}" target="_blank"></a>
+                                        </h5>
+                                        <div th:id="'accordion-' + ${articleDocument.id}">
+                                            <p>
+                                                <button type="button" class="btn btn-info btn-xs"
+                                                    data-toggle="collapse"
+                                                    th:attr="data-parent='#accordion-' + ${articleDocument.id},data-target='#collapse-' + ${articleDocument.id}">
+                                                    <span class="glyphicon glyphicon-tags"></span>&nbsp; <strong
+                                                        th:text="#{ArticleBean.tag} + ' &gt;&gt;'">Tags
+                                                        :</strong>
+                                                </button>
+                                            </p>
+                                            <div th:id="'collapse-' + ${articleDocument.id}"
+                                                class="collapse">
+                                                <ul class="list-inline tag-container">
+                                                    <li th:each="tag : ${articleDocument.tags}"
+                                                        class="tag-item "><a class="btn btn-xs btn-default"
+                                                        th:href="@{/music/search(q=${tag})}" th:text="${tag}">
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div id="jpaginate" class="hidden-xs"></div>
+                                <div id="select-paginate" class="form-group visible-xs"></div>
+                            </th:block>
+                            <div class="alert alert-warning"
+                                th:if="${#lists.isEmpty(searchResult.content)}">
+                                <h4 th:text="#{home.article.noData}"></h4>
+                                <a th:href="@{/music}" th:text="#{button.back}"
+                                    class="btn btn-default"></a>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card side-content" th:unless="${#arrays.isEmpty(tags)}">
+                            <h3 th:text="#{home.search.tag}"></h3>
+                            <ul class="media-list">
+                                <li class="media" th:each="tagBean : ${tags}">
+                                    <div class="media-body">
+                                        <a th:href="@{/tag/__${tagBean.id}__/music}"
+                                            th:alt-title="${tagBean.tag}"> <span
+                                            th:text="#{home.tag.music(${tagBean.tag})}"></span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card side-content">
+                            <h5>没有找到想要的资源吗？</h5>
+                            <button id="request_search" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-bullhorn"></span> <span
+                                    th:text="#{home.article.request}"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(function() {
+        new paginate({
+            count : /*[[${searchResult.totalPages}]]*/20,
+            start : /*[[${searchResult.number} + 1]]*/1,
+            onChange : function(currval) {
+                var url = /*[[@{/music/search(q=${query},p='')}]]*/'/music/search';
+                window.location.href = url + currval;
+                return false;
+            }
+        });
+        
+        $('.container-header').trianglify({
+            palette : 'home'
+        });
+    });
+</script>
+<script type="text/javascript" src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    var query = /*[[${query}]]*/ '';
+    WB2.anyWhere(function(W){
+        W.widget.publish({
+            toolbar: 'face',
+            action:'publish',
+            type:'web',
+            language:'zh_cn',
+            button_type:'red',
+            button_size:'middle',
+            uid:'2803325782',
+            default_text: '我正在找' + query + '的资源',
+            tag: /*[[#{home.article.request.text}]]*/ '',
+            refer:'y',
+            appkey:'2ZiUc5',
+            id: 'request_search',
+            position: 'c'
+        });
+    });
+});
+</script>
+</th:block>
 </body>
 </html>

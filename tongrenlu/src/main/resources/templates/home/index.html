@@ -3,9 +3,9 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="home/layout">
 <head>
-  <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-gallery.css}" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta property="wb:webmaster" content="8e90072a3b17c980" />
+  <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-gallery.css}" />
 </head>
 <body>
 <div layout:fragment="content">
@@ -13,10 +13,10 @@
         <div class="container">
             <div class="page-header">
                 <div class="row">
-                    <div class="col-md-6">
-                        <h3 ><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h3>
+                    <div class="col-md-6 ">
+                        <h1><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h1>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 ">
                         <form class="append-top-lg" th:action="@{/music/search}" method="get" role="search">
                             <div class="input-group">
                                 <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
@@ -25,7 +25,7 @@
                                         <span class="glyphicon glyphicon-search"></span>
                                         <span class="hidden-xs" th:text="#{home.search.music}"></span>
                                     </button>
-                                    <a th:href="@{/music/lucky}" class="btn btn-info">
+                                    <a class="btn btn-info">
                                         <span class="glyphicon glyphicon-star"></span>
                                         <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
                                     </a>
@@ -81,7 +81,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-md-6 ">
-                       <h3 ><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h3>
+                       <h1><a th:href="@{/comic}" th:text="#{home.comic} + ' >>'"></a></h1>
                     </div>
                     <div class="col-md-6 ">
                         <form class="append-top-lg" th:action="@{/comic/search}" method="get" role="search">
@@ -101,37 +101,45 @@
         </div>
         <div class="container">
             <div class="row">
-            <div class="col-sm-8">
-                <div class="row">
-                    <div class="col-sm-6 col-md-3" th:each="articleBean,iterStat : ${comicRanking}">
-                        <div class="thumbnail media card">
-                            <a th:href="@{/comic/__${articleBean.id}__}" class="visible-sm visible-xs pull-left" th:alt-title="${articleBean.title}">
-                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                     class="media-object img-60 "/>
-                            </a>
-                            <a th:href="@{/comic/__${articleBean.id}__}" class="hidden-sm hidden-xs" th:alt-title="${articleBean.title}">
-                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                     class="img-180 "/>
-                            </a>
-                            <div class="caption">
-                                <h5 class="media-heading text-single-line">
-                                    <a th:href="@{/comic/__${articleBean.id}__}"
-                                       th:alt-title="${articleBean.title}"
-                                       th:text="${articleBean.title}" >
-                                    </a>
-                                </h5>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-4" th:each="articleBean,iterStat : ${comicRanking}">
+                            <div class="thumbnail card hidden-xs">
+                                <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                         class="img-180 "/>
+                                </a>
+                                <div class="caption">
+                                    <a class="text-single-line" 
+                                        th:href="@{/comic/__${articleBean.id}__}"
+                                        th:alt-title="${articleBean.title}"
+                                        th:text="${articleBean.title}" ></a>
+                                </div>
+                            </div>
+                            <div class="media card visible-xs">
+                                <a th:href="@{/comic/__${articleBean.id}__}" class="media-left" th:alt-title="${articleBean.title}">
+                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                         class="media-object img-120 "/>
+                                </a>
+                                <div class="media-body">
+                                    <h5 class="media-heading">
+                                        <a th:href="@{/comic/__${articleBean.id}__}"
+                                           th:alt-title="${articleBean.title}"
+                                           th:text="${articleBean.title}" >
+                                        </a>
+                                    </h5>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <iframe width="100%" height="780" class="share_self"  frameborder="0" scrolling="no" 
-                    th:src="@{http://widget.weibo.com/weiboshow/index.php(language='',width=0,height=780,fansRow=2,ptype=1,speed=0,skin=1,isTitle=0,noborder=1,isWeibo=1,isFans=0,uid=2803325782,verifier=6daf321a,dpc=1)}">
-                </iframe>
+                <div class="col-sm-4">
+                    <iframe width="100%" height="780" class="share_self"  frameborder="0" scrolling="no" 
+                        th:src="@{http://widget.weibo.com/weiboshow/index.php(language='',width=0,height=780,fansRow=2,ptype=1,speed=0,skin=1,isTitle=0,noborder=1,isWeibo=1,isFans=0,uid=2803325782,verifier=6daf321a,dpc=1)}">
+                    </iframe>
+                </div>
             </div>
         </div>
-      </div>
     </div>
     <div id="top-links" class="container-wrap" >
         <div class="container">

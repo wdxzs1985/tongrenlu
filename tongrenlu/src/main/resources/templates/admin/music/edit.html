@@ -2,11 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
-  <head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" rel="stylesheet" />
-  </head>
-  <body>
+</head>
+<body>
 <div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+            <div class="media">
+                <div class="media-body">
+                    <h1 class="media-heading">
+                        <span th:text="${articleBean.title}"></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="active">
+                        <a th:href="@{/admin/music/__${articleBean.id}__}">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="" th:text="#{button.back}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/console/music}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span class="hidden-xs" th:text="#{console.music.index}"></span>
+                        </a>
+                    </li>
+                    <li class="" th:if="${session.LOGIN_USER.admin}">
+                        <a th:href="@{/admin/music}">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                            <span class="hidden-xs" th:text="#{admin.music}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container-wrap" >
         <div class="container">
       <ul class="nav nav-tabs">
@@ -71,7 +107,10 @@
     </div>
 </div>
 <th:block layout:fragment="scripts-libs">
-<script src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 </th:block>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" th:inline="javascript">
@@ -89,6 +128,10 @@ $(function() {
         placeholder: placeHolder,
         typeDelay: 400,
         maxSelection: null
+    });
+
+    $('.container-header').trianglify({
+        palette: 'console'
     });
 });
 </script>

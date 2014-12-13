@@ -3,109 +3,130 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
 <head>
-<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
-  <body>
+<body>
 <div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+            <div class="media">
+                <div class="media-body">
+                    <h1 class="media-heading hidden-xs">
+                        <span th:text="#{console.music}"></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="">
+                        <a th:href="@{/console/music/input}">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="hidden-xs" th:text="#{console.music.input}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/console/music}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span class="hidden-xs" th:text="#{console.music.index}"></span>
+                        </a>
+                    </li>
+                    <li class="active" th:if="${session.LOGIN_USER.admin}">
+                        <a th:href="@{/admin/music}">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                            <span class="" th:text="#{admin.music}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container-wrap" >
         <div class="container">
-            <ul class="nav nav-tabs">
-              <li class="hidden-xs"><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
-              <li class="hidden-xs"><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-              <li class="active"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
+            <div class="row">
+                <div class="col-md-8">
                     <form th:action="@{/admin/music}" method="get">
                         <div class="input-group">
                             <input type="text" class="form-control" name="q" th:value="${page.params.query}"/>
                             <div class="input-group-btn">
-                                <button type="submit" class="btn btn-default" th:text="#{button.search}">SEARCH</button>
+                                <button type="submit" class="btn btn-warning">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    <span th:text="#{button.search}"></span>
+                                </button>
                             </div><!-- /btn-group -->
                         </div><!-- /input-group -->
                     </form>
-                    <hr />
-                    <th:block th:unless="${#lists.isEmpty(page.items)}">
-                        <ul class="media-list">
-                            <li class="media article-list-item" th:each="articleBean : ${page.items}">
-                                <a class="pull-left" th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                    <img class="media-object img-120 img-rounded  hidden-xs" src="http://placehold.it/120x120" 
-                                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}"
-                                        th:alt-title="${articleBean.title}" />
-                                    <img class="media-object img-60 img-rounded  visible-xs" src="http://placehold.it/60x60" 
-                                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}"
-                                        th:alt-title="${articleBean.title}" />
-                                </a>
-                                <div class="btn-toolbar pull-right " role="toolbar">
-                                    <div class="btn-group">
-                                        <a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-default">
-                                            <span class="glyphicon glyphicon-edit"></span>
-                                            <span class="hidden-xs" th:text="#{console.article.edit}"></span>
-                                        </a>
-                                    </div>
-                                    <div class="btn-group hidden-xs hidden-sm">
-                                        <a th:href="@{/admin/music/__${articleBean.id}__/track/upload}" class="btn btn-info hidden-xs">
-                                            <span class="glyphicon glyphicon-music"></span>
-                                            <span class="hidden-xs" th:text="#{console.music.track.upload}"></span>
-                                        </a>
-                                        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}" class="btn btn-info hidden-xs">
-                                            <span class="glyphicon glyphicon-picture"></span>
-                                            <span class="hidden-xs" th:text="#{console.music.booklet.upload}"></span>
-                                        </a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                                            <span class="glyphicon glyphicon-trash"></span>
-                                            <span class="hidden-xs" th:text="#{console.article.delete}"></span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li>
-                                                <a th:href="@{/admin/music/__${articleBean.id}__/delete}" >
-                                                    <span class="glyphicon glyphicon-ok"></span>&nbsp;
-                                                    <span th:text="#{button.ok}"></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="media-body">
-                                    <h5 class="media-heading text-single-line">
-                                        <a th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                            <strong th:text="${articleBean.title}" ></strong>
-                                        </a>
-                                        <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                        <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                                    </h5>
-                                    <div class="text-muted">
-                                        <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-                                        <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                                            th:alt-title="${articleBean.userBean}" target="_blank">
-                                            <strong th:text="${articleBean.userBean}"></strong>
-                                        </a>
-                                        <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                        <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
-                                        <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
-                                    </div>
-                                    <p th:text="${articleBean.description}"></p>
-                                </div>
-                            </li>
-                        </ul>
-                        <div id="jpaginate" class="hidden-xs"></div>
-                        <div id="select-paginate" class="form-group visible-xs"></div>
-                    </th:block>
-                    <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                        <h4 th:text="#{console.article.noData}"></h4>
-                        <a th:href="@{/admin/music}" th:unless="${#strings.isEmpty(page.params.query)}" th:text="#{button.back}" class="btn btn-default"></a>
+                </div>
+            </div>
+            <hr />
+            <th:block th:unless="${#lists.isEmpty(page.items)}">
+                <div class="card" th:each="articleBean : ${page.items}">
+                 <div class="media card-body-180">
+                     <a class="media-left" th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                         <img class="media-object img-180 " src="http://placehold.it/180x180" 
+                             th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
+                             th:alt-title="${articleBean.title}" />
+                     </a>
+                     <div class="media-body">
+                         <h5 class="media-heading">
+                             <a th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                 <strong th:text="${articleBean.title}" ></strong>
+                             </a>
+                             <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                             <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                         </h5>
+                         <div class="text-muted">
+                             <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                             <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                                 th:alt-title="${articleBean.userBean}" target="_blank">
+                                 <strong th:text="${articleBean.userBean}"></strong>
+                             </a>
+                             <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                             <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
+                             <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                         </div>
+                         <p th:text="${articleBean.description}"></p>
+                     </div>
+                 </div>
+                    <div class="card-footer">
+                        <div class="btn-group btn-group-justified">
+                            <a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-default" role="button">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                <span th:text="#{console.article.edit}"></span>
+                            </a>
+                            <a th:href="@{/admin/music/__${articleBean.id}__/track/upload}" class="btn btn-info hidden-sm hidden-xs" role="button">
+                                <span class="glyphicon glyphicon-music"></span>
+                                <span th:text="#{console.music.track.upload}"></span>
+                            </a>
+                            <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}" class="btn btn-info hidden-sm hidden-xs" role="button">
+                                <span class="glyphicon glyphicon-picture"></span>
+                                <span th:text="#{console.music.booklet.upload}"></span>
+                            </a>
+                            <a th:href="@{/admin/music/__${articleBean.id}__/delete}" class="btn btn-danger action-delete" role="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                <span th:text="#{console.article.delete}"></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
+                <div id="jpaginate" class="hidden-xs"></div>
+                <div id="select-paginate" class="form-group visible-xs"></div>
+            </th:block>
+            <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                <h4 th:text="#{console.article.noData}"></h4>
+                <a th:href="@{/admin/music}" th:unless="${#strings.isEmpty(page.params.query)}" th:text="#{button.back}" class="btn btn-default"></a>
             </div>
         </div>
     </div>
 </div>
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
-<script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -116,6 +137,14 @@ $(function() {
             window.location.href = url + currval;
             return false;
         }
+    });
+    
+    $('.action-delete').click(function() {
+    	return confirm('真的要删除这个投稿吗?');
+    });
+
+    $('.container-header').trianglify({
+        palette: 'console'
     });
 });
 </script>
