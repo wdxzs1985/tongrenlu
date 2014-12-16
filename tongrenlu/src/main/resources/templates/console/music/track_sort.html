@@ -43,30 +43,30 @@
             </div>
             <hr />
             <form th:action="@{/console/music/__${articleBean.id}__/track/sort}" method="POST">
-                <div id="sortable-list" class="media-list">
+                <div id="sortable-list">
                     <div class="sortable-object" 
-                        th:attr="data-id=${track.id},data-name=${track.name}"
+                        th:attr="data-id=${track.id}, data-name=${track.name}"
                         th:each="track : ${trackList}">
-                        <div class="media thumbnail">
-                            <div class="pull-left">
-                                <img class="media-object" th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" />
-                                <input type="hidden" name="trackId[]" th:value="${track.id}" />
-                            </div>
-                            <div class="media-body">
-                                <h5 class="media-heading" th:text="${track.name}"></h5>
+                        <input type="hidden" name="trackId[]" th:value="${track.id}" />
+                        <div class="card thumbnail">
+                            <img class="img-responsive" th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}" />
+                            <p class="caption text-center" th:text="${track.name}"></p>
+                        </div>
+                        <div class="card panel">
+                            <div class="panel-body">
                                 <div class="form-group">
                                     <div class="row ">
-                                        <div class="col-md-8 col-lg-8">
+                                        <div class="col-md-8 ">
                                             <input type="text" th:id="'track-name-' + ${track.id}" name="name[]" class="form-control" th:value="${track.name}" />
                                         </div>
-                                        <div class="col-md-4 col-lg-4">
+                                        <div class="col-md-4 ">
                                             <div class="checkbox">
-                                                <label th:for="'track-instrumental-' + ${track.id}" >
-                                                    <input type="checkbox" name="instrumental[]" th:value="${track.id}"
-                                                        th:id="'track-instrumental-' + ${track.id}" 
-                                                        th:checked="${track.instrumental} eq '1'" />
-                                                    <span th:text="#{TrackBean.instrumental}"></span>
-                                                </label>
+                                              <label th:for="'track-instrumental-' + ${track.id}" >
+                                                <input type="checkbox" name="instrumental[]" th:value="${track.id}"
+                                                    th:id="'track-instrumental-' + ${track.id}" 
+                                                    th:checked="${track.instrumental} eq '1'" />
+                                                <span th:text="#{TrackBean.instrumental}"></span>
+                                              </label>
                                             </div>
                                         </div>
                                     </div>

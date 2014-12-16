@@ -28,33 +28,31 @@ $(function(){
     
     $sortableList.on('expand', function() {
         $sortableList.sortable( 'disable' );
-        $sortableList.removeClass('row').addClass('media-list');
+        $sortableList.removeClass('row');
         var $listItem = $sortableList.find('.sortable-object');
-        $listItem.removeClass('col-sm-4 col-md-3');
+        $listItem.removeClass('col-xs-6 col-sm-4 col-md-3');
         
-        $listItem.find('.media').removeClass('thumbnail');
-        $listItem.find('.media-object').removeClass('img-60').addClass('img-120');
-        $listItem.find('.media-heading').removeClass('show').addClass('hidden');
-        $listItem.find('.form-group').removeClass('hidden').addClass('show');
+        $listItem.find('.thumbnail').hide();
+        $listItem.find('.panel').show();
 
         $( "#sortable-list-expand" ).addClass('disabled btn-default').removeClass('btn-primary');
         $( "#sortable-list-collapse" ).addClass('btn-primary').removeClass('disabled btn-default');
     }).on('collapse', function(){
         $sortableList.sortable( 'enable' );
-        $sortableList.removeClass('media-list').addClass('row');
+        $sortableList.addClass('row');
         
         var $listItem = $sortableList.find('.sortable-object');
-        $listItem.addClass('col-sm-4 col-md-3');
+        $listItem.addClass('col-xs-6 col-sm-4 col-md-3');
 
-        $listItem.find('.media').addClass('thumbnail');
-        $listItem.find('.media-object').removeClass('img-120').addClass('img-60');
-        $listItem.find('.media-heading').removeClass('hidden').addClass('show')
-        .each(function(index, element) {
+
+        $listItem.find('.thumbnail').show();
+        $listItem.find('.panel').hide();
+        
+        $listItem.find('p.caption').each(function(index, element) {
             var $this = $(element);
             var name = $(element).closest('.media').find('input[name="name[]"]').val();
             $this.text(name);
         });
-        $listItem.find('.form-group').removeClass('show').addClass('hidden');
 
         $( "#sortable-list-collapse" ).addClass('disabled btn-default').removeClass('btn-primary');
         $( "#sortable-list-expand" ).addClass('btn-primary').removeClass('disabled btn-default');

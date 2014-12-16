@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-wrap" >
+    <div class="container-wrap container-wrap-darker" >
         <div class="container">
             <div class="page-header">
                 <h3 >
@@ -36,12 +36,12 @@
             <hr />
             <form th:action="@{/admin/comic/__${articleBean.id}__/picture/sort}" method="POST">
                 <div id="sortable-list" class="row">
-                    <div class="col-xs-4 col-sm-2 sortable-object" 
+                    <div class="col-xs-6 col-sm-4 col-sm-3 sortable-object" 
                          th:each="file : ${fileList}"
                          th:attr="data-id=${file.id},data-name=${file.name}">
-                        <div class="thumbnail">
+                        <div class="card thumbnail">
                             <a th:href="@{http://files.tongrenlu.info/c__${articleBean.id}__/f__${file.id}___1080.jpg}">
-                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/f__${file.id}___180.jpg}" />
+                                <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/f__${file.id}___400.jpg}" />
                             </a>
                             <div class="caption">
                                 <span class="text-center text-single-line" th:text="${file.name}"></span>

@@ -26,44 +26,6 @@
 $(function(){
     var $sortableList = $( '#sortable-list' ).sortable();
     
-    $sortableList.on('expand', function() {
-        $sortableList.sortable( 'disable' );
-        $sortableList.removeClass('row').addClass('media-list');
-        var $listItem = $sortableList.find('.sortable-object');
-        $listItem.removeClass('col-sm-4 col-md-2').addClass('media');
-        
-        $listItem.find('.thumbnail').addClass('pull-left');
-        $listItem.find('.thumbnail .caption').removeClass('show').addClass('hidden');
-        $listItem.find('.media-body').removeClass('hidden').addClass('show');
-
-        $( "#sortable-list-expand" ).addClass('disabled btn-default').removeClass('btn-primary');
-        $( "#sortable-list-collapse" ).addClass('btn-primary').removeClass('disabled btn-default');
-    }).on('collapse', function(){
-        $sortableList.sortable( 'enable' );
-        $sortableList.removeClass('media-list').addClass('row');
-        
-        var $listItem = $sortableList.find('.sortable-object');
-        $listItem.removeClass('media').addClass('col-sm-4 col-md-2');
-        
-        $listItem.find('.thumbnail').removeClass('pull-left');
-        $listItem.find('.thumbnail .caption').removeClass('hidden').addClass('show');
-        $listItem.find('.media-body').removeClass('show').addClass('hidden');
-
-        $( "#sortable-list-collapse" ).addClass('disabled btn-default').removeClass('btn-primary');
-        $( "#sortable-list-expand" ).addClass('btn-primary').removeClass('disabled btn-default');
-    });
-    
-    // $( "#sort-file-list" ).disableSelection();
-    
-    $( "#sortable-list-expand" ).click(function(e){
-        e.preventDefault();
-        $sortableList.trigger('expand');
-    });
-    $( "#sortable-list-collapse" ).click(function(e){
-        e.preventDefault();
-        $sortableList.trigger('collapse');
-    });
-    
     $("#sort-by-time").click(function(e){
         e.preventDefault();
         var $listItem = $sortableList.find('.sortable-object');

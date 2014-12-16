@@ -25,7 +25,7 @@
                                         <span class="glyphicon glyphicon-search"></span>
                                         <span class="hidden-xs" th:text="#{home.search.music}"></span>
                                     </button>
-                                    <a class="btn btn-info">
+                                    <a th:href="@{/music/lucky}" class="btn btn-info">
                                         <span class="glyphicon glyphicon-star"></span>
                                         <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
                                     </a>
@@ -143,8 +143,18 @@
     </div>
     <div id="top-links" class="container-wrap" >
         <div class="container">
-            <div class="page-header">
-                <h3 th:text="#{home.links}"></h3>
+            <h2 th:text="#{home.links}"></h2>
+            <div class="row " >
+                <div class="col-md-4 col-lg-4 ">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="">
+                                <a href="http://static.tongrenlu.info/tongrenlu/ost.html" target="_blank" title="原曲列表">原曲列表</a>
+                            </h3>
+                            <p class="text-muted">东方Project原曲列表</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row " >
                 <div class="col-md-4 col-lg-4 ">

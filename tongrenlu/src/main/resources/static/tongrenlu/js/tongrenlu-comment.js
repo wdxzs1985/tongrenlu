@@ -111,50 +111,39 @@ var comment = function(options) {
 			if (page) {
 				data.p = page;
 			}
-			$
-					.getJSON(settings.url, data)
-					.done(
-							function(response) {
-								if (response.page) {
-									settings.pageNumber = response.page.pageNumber;
+			$.getJSON(settings.url, data)
+				.done(function(response) {
+					if (response.page) {
+						settings.pageNumber = response.page.pageNumber;
+						var $listContent = $('#comment .comment-list-content').addClass('hidden');
+						var $empty = $('#comment .comment-empty').addClass('hidden');
 
-									var $listContent = $(
-											'#comment .comment-list-content')
-											.addClass('hidden');
-									var $empty = $('#comment .comment-empty')
-											.addClass('hidden');
+						var $previous = $listContent.find('.previous').addClass('hidden');
+						var $next = $listContent.find('.next').addClass('hidden');
 
-									var $previous = $listContent.find(
-											'.previous').addClass('hidden');
-									var $next = $listContent.find('.next')
-											.addClass('hidden');
-
-									if (response.page.pageCount == 0) {
-										$empty.removeClass('hidden');
-									} else {
-										var $list = $listContent.find(
-												'.media-list').empty();
-										for (var i = 0; i < response.page.items.length; i++) {
-											var item = response.page.items[i];
-											item.createDate = that.formatDate(
-													item.createDate,
-													settings.i18n);
-											var $listItem = $(tmpl(
-													'template-comment-item',
-													item));
-											$listItem.data(item);
-											$listItem.appendTo($list);
-										}
-										if (!response.page.first) {
-											$previous.removeClass('hidden');
-										}
-										if (!response.page.last) {
-											$next.removeClass('hidden');
-										}
-										$listContent.removeClass('hidden');
-									}
-								}
-							});
+						if (response.page.pageCount == 0) {
+							$empty.removeClass('hidden');
+						} else {
+							var $list = $listContent.find(
+									'.media-list').empty();
+							for (var i = 0; i < response.page.items.length; i++) {
+								var item = response.page.items[i];
+								item.createDate = that.formatDate(item.createDate, settings.i18n);
+								
+								var $listItem = $(tmpl('template-comment-item', item));
+								$listItem.data(item);
+								$listItem.appendTo($list);
+							}
+							if (!response.page.first) {
+								$previous.removeClass('hidden');
+							}
+							if (!response.page.last) {
+								$next.removeClass('hidden');
+							}
+							$listContent.removeClass('hidden');
+						}
+					}
+				});
 
 		},
 		formatDate : function(date, i18n) {

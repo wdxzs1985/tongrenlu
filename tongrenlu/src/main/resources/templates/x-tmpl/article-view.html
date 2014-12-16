@@ -49,22 +49,26 @@
 </script>
 
 <script id="template-comment-item" type="text/x-tmpl" th:inline="text" th:fragment="template-comment-item">
-<li class="media article-list-item">
-    <a href="/user/{%=o.userBean.id%}" class="pull-left" target="_blank">
-        <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="img-60 img-circle" />
-    </a>
-    <div class="media-body">
-        <h5 class="media-heading">
-            <a href="/user/{%=o.userBean.id%}" target="_blank">
-                <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
-            </a>
-            <span class="text-muted"> {%=o.createDate%}</span>
-        </h5>
-        <pre>{%=o.content%}</pre>
-        <button class="btn btn-info btn-xs comment-reply">
-            <span class="glyphicon glyphicon-share-alt"></span>
-            <span th:text="#{home.article.comment.reply}"></span>
-        </button>
+<li class="card">
+    <div class="media">
+        <a href="/user/{%=o.userBean.id%}" class="media-left" target="_blank">
+            <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="img-60" />
+        </a>
+        <div class="media-body">
+            <h5 class="media-heading">
+                <a href="/user/{%=o.userBean.id%}" target="_blank">
+                    <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
+                </a>
+                <span class="text-muted"> {%=o.createDate%}</span>
+            </h5>
+            <pre>{%=o.content%}</pre>
+        </div>
+    </div>
+    <div class="card-footer">
+            <button class="btn btn-default btn-block comment-reply" role="button">
+                <span class="glyphicon glyphicon-share-alt"></span>
+                <span th:text="#{home.article.comment.reply}"></span>
+            </button>
     </div>
 </li>
 </script>
