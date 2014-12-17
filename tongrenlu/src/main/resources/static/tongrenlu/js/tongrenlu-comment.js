@@ -1,5 +1,4 @@
 var comment = function(options) {
-
 	var settings = $.extend({
 		selector : '#comment',
 		pageNumber : 1,
@@ -24,11 +23,11 @@ var comment = function(options) {
 
 	var that = {
 		init : function() {
-			var $comment = $(settings.selector).on('submit', '.comment-form',
-					function(e) {
-						e.preventDefault();
-						that.send($(this));
-					}).on('click', '.previous a', function(e) {
+			var $comment = $(settings.selector)
+			.on('submit', '.comment-form', function(e) {
+				e.preventDefault();
+				that.send($(this));
+			}).on('click', '.previous a', function(e) {
 				e.preventDefault();
 				that.load(settings.pageNumber - 1);
 				that.scroll('#comment');
@@ -36,41 +35,32 @@ var comment = function(options) {
 				e.preventDefault();
 				that.load(settings.pageNumber + 1);
 				that.scroll('#comment');
-			})
-					.on(
-							'click',
-							'button.comment-reply',
-							function(e) {
-								e.preventDefault();
-								var commentData = $(this).closest('.media')
-										.data();
-								var repo = " //@"
-										+ commentData.userBean.nickname + "#"
-										+ commentData.userBean.id + ' :'
-										+ commentData.content;
-								var $textarea = $comment
-										.find('.comment-form textarea');
-
-								$textarea.each(function(index, elem) {
-									var $element = $(elem);
-									$element.val(repo);
-									var caretPos = 0;
-									if (elem.createTextRange) {
-										var range = elem.createTextRange();
-										range.move('character', caretPos);
-										range.select();
-									} else {
-										if (elem.selectionStart) {
-											elem.focus();
-											elem.setSelectionRange(caretPos,
-													caretPos);
-										} else {
-											elem.focus();
-										}
-									}
-								});
-							});
-
+			}).on('click', 'button.comment-reply', function(e) {
+				e.preventDefault();
+				var commentData = $(this).closest('li').data();
+				var repo = " //@" + commentData.userBean.nickname + "#"
+						+ commentData.userBean.id + ' :'
+						+ commentData.content;
+				var $textarea = $comment.find('.comment-form textarea')
+				.each(function(index, elem) {
+					var $element = $(elem);
+					$element.val(repo);
+					var caretPos = 0;
+					if (elem.createTextRange) {
+						var range = elem.createTextRange();
+						range.move('character', caretPos);
+						range.select();
+					} else {
+						if (elem.selectionStart) {
+							elem.focus();
+							elem.setSelectionRange(caretPos,
+									caretPos);
+						} else {
+							elem.focus();
+						}
+					}
+				});
+			});
 			that.load();
 		},
 		scroll : function(hash) {
@@ -111,39 +101,36 @@ var comment = function(options) {
 			if (page) {
 				data.p = page;
 			}
-			$.getJSON(settings.url, data)
-				.done(function(response) {
-					if (response.page) {
-						settings.pageNumber = response.page.pageNumber;
-						var $listContent = $('#comment .comment-list-content').addClass('hidden');
-						var $empty = $('#comment .comment-empty').addClass('hidden');
+			$.getJSON(settings.url, data).done(function(response) {
+				if (response.page) {
+					settings.pageNumber = response.page.pageNumber;
+					var $listContent = $('#comment .comment-list-content').addClass('hidden');
+					var $empty = $('#comment .comment-empty').addClass('hidden');
 
-						var $previous = $listContent.find('.previous').addClass('hidden');
-						var $next = $listContent.find('.next').addClass('hidden');
+					var $previous = $listContent.find('.previous').addClass('hidden');
+					var $next = $listContent.find('.next').addClass('hidden');
 
-						if (response.page.pageCount == 0) {
-							$empty.removeClass('hidden');
-						} else {
-							var $list = $listContent.find(
-									'.media-list').empty();
-							for (var i = 0; i < response.page.items.length; i++) {
-								var item = response.page.items[i];
-								item.createDate = that.formatDate(item.createDate, settings.i18n);
-								
-								var $listItem = $(tmpl('template-comment-item', item));
-								$listItem.data(item);
-								$listItem.appendTo($list);
-							}
-							if (!response.page.first) {
-								$previous.removeClass('hidden');
-							}
-							if (!response.page.last) {
-								$next.removeClass('hidden');
-							}
-							$listContent.removeClass('hidden');
+					if (response.page.pageCount == 0) {
+						$empty.removeClass('hidden');
+					} else {
+						var $list = $listContent.find('.media-list').empty();
+						for (var i = 0; i < response.page.items.length; i++) {
+							var item = response.page.items[i];
+							item.createDate = that.formatDate(item.createDate, settings.i18n);
+							var $listItem = $(tmpl('template-comment-item', item));
+							$listItem.data(item);
+							$listItem.appendTo($list);
 						}
+						if (!response.page.first) {
+							$previous.removeClass('hidden');
+						}
+						if (!response.page.last) {
+							$next.removeClass('hidden');
+						}
+						$listContent.removeClass('hidden');
 					}
-				});
+				}
+			});
 
 		},
 		formatDate : function(date, i18n) {
@@ -151,24 +138,19 @@ var comment = function(options) {
 			var date = new Date(date);
 			var n = now.getTime() - date.getTime();
 			if (n > i18n.ONE_DATE) {
-				return date.getFullYear() + i18n.YEAR + (date.getMonth() + 1)
-						+ i18n.MONTH + date.getDate() + i18n.DATE;
+				return date.getFullYear() + i18n.YEAR + (date.getMonth() + 1) + i18n.MONTH + date.getDate() + i18n.DATE;
 			} else if (n > i18n.ONE_HOUR) {
-				return i18n.HOURS_BEFORE.replace(i18n.REP_SEARCH, parseInt(n
-						/ i18n.ONE_HOUR));
+				return i18n.HOURS_BEFORE.replace(i18n.REP_SEARCH, parseInt(n / i18n.ONE_HOUR));
 			} else if (n > i18n.ONE_MINUTE) {
-				return i18n.MINUTES_BEFORE.replace(i18n.REP_SEARCH, parseInt(n
-						/ i18n.ONE_MINUTE));
+				return i18n.MINUTES_BEFORE.replace(i18n.REP_SEARCH, parseInt(n / i18n.ONE_MINUTE));
 			} else if (n > i18n.ONE_SECOND) {
-				return i18n.SECONDS_BEFORE.replace(i18n.REP_SEARCH, parseInt(n
-						/ i18n.ONE_SECOND));
+				return i18n.SECONDS_BEFORE.replace(i18n.REP_SEARCH, parseInt(n / i18n.ONE_SECOND));
 			} else {
 				return i18n.JUST_BEFORE;
 			}
 		},
 		send : function($form) {
 			var data = $form.serialize();
-
 			if ($form.data('sending')) {
 				return;
 			}

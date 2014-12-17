@@ -24,7 +24,9 @@
     {% } %}
     <div class=" media-body ">
         <div class="">
-            <a href="/user/{%=o.userBean.id%}"><strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong></a>
+            <a href="/user/{%=o.userBean.id%}">
+                <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
+            </a>
             {% if (o.action == 'publish_comic') { %}
             <span th:text="#{home.user.timeline.publish}"></span>
             <h4 class="media-heading"><a href="/comic/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a></h4>
@@ -40,8 +42,8 @@
             {% } else if (o.action == 'follow') { %}
             <span th:text="#{home.user.timeline.follow}"></span>
             {% } %}
-        
-        <p>{%=o.content%}</p>
+            <span class="text-muted"> {%=o.createDate%}</span>
+            <p>{%=o.content%}</p>
         </div>
     </div>
   </div>
