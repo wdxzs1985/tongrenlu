@@ -11,18 +11,12 @@
     <div class="container-wrap container-header">
         <div class="container">
             <div class="media">
-                <a th:href="@{/user/__${userBean.id}__}" class="pull-left">
-                    <img class="img-60 img-circle media-object visible-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" th:alt-title="${userBean}"/>
-                    <img class="img-120 img-circle media-object hidden-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" th:alt-title="${userBean}"/>
-                </a>
-                <div class="pull-right">
-                    <button id="follow-user" class="btn btn-danger hidden"
-                      th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
-                        <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                        <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-                    </button>
+                <div class="media-left">
+                    <a th:href="@{/user/__${userBean.id}__}" class="">
+                        <img class="img-120 img-circle media-object" 
+                            th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
+                            th:alt-title="${userBean}"/>
+                    </a>
                 </div>
                 <div class="media-body">
                     <h1 class="media-heading hidden-xs">
@@ -33,6 +27,13 @@
                     <p class="text-muted"
                         th:unless="${#strings.isEmpty(userBean.signature)}" 
                         th:text="${userBean.signature}"></p>
+                    <div class="btn-group">
+                        <button id="follow-user" class="btn btn-danger hidden"
+                          th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
+                            <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                            <span class="like-button-text" th:text="#{home.article.notlike}"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,30 +68,34 @@
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
-                     <div class="col-sm-6 col-md-3 col-lg-2" th:each="articleBean : ${page.items}">
-                         <div class="thumbnail media card">
-                             <a class="visible-sm visible-xs pull-left" target="_blank" 
-                                th:href="@{/music/__${articleBean.id}__}" 
-                                th:alt-title="${articleBean.title}">
-                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                      class="media-object img-60 "/>
-                             </a>
-                             <a class="hidden-sm hidden-xs" target="_blank" 
-                                th:href="@{/music/__${articleBean.id}__}" 
-                                th:alt-title="${articleBean.title}">
-                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                      class="img-180 "/>
-                             </a>
-                             <div class="caption">
-                                 <h5 class="media-heading text-single-line">
-                                     <a target="_blank" 
-                                        th:href="@{/music/__${articleBean.id}__}"
-                                        th:alt-title="${articleBean.title}"
-                                        th:text="${articleBean.title}" >
-                                     </a>
-                                 </h5>
-                             </div>
-                         </div>
+                     <div class="col-sm-3 col-md-2" th:each="articleBean : ${page.items}">
+                         <div class="thumbnail card hidden-xs">
+                              <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                  <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                       class="img-180 "/>
+                              </a>
+                              <div class="caption">
+                                  <a class="text-single-line" 
+                                      th:href="@{/music/__${articleBean.id}__}"
+                                      th:alt-title="${articleBean.title}"
+                                      th:text="${articleBean.title}" ></a>
+                              </div>
+                          </div>
+                          <div class="media card visible-xs">
+                              <a th:href="@{/music/__${articleBean.id}__}" class="media-left" th:alt-title="${articleBean.title}">
+                                  <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" 
+                                      th:alt-title="${articleBean.title}"
+                                      class="media-object img-180 "/>
+                              </a>
+                              <div class="media-body">
+                                  <h5 class="media-heading">
+                                      <a th:href="@{/music/__${articleBean.id}__}"
+                                         th:alt-title="${articleBean.title}"
+                                         th:text="${articleBean.title}" >
+                                      </a>
+                                  </h5>
+                              </div>
+                          </div>
                      </div>
                 </div>
                 <hr />

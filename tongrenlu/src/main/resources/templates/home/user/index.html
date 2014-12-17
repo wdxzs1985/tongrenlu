@@ -10,20 +10,12 @@
     <div class="container-wrap container-header">
         <div class="container">
             <div class="media">
-                <a th:href="@{/user/__${userBean.id}__}" class="pull-left">
-                    <img class="img-60 img-circle media-object visible-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                        th:alt-title="${userBean}"/>
-                    <img class="img-120 img-circle media-object hidden-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                        th:alt-title="${userBean}"/>
-                </a>
-                <div class="pull-right">
-                    <button id="follow-user" class="btn btn-danger hidden"
-                      th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
-                        <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                        <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-                    </button>
+                <div class="media-left">
+                    <a th:href="@{/user/__${userBean.id}__}" class="">
+                        <img class="img-120 img-circle media-object" 
+                            th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
+                            th:alt-title="${userBean}"/>
+                    </a>
                 </div>
                 <div class="media-body">
                     <h1 class="media-heading hidden-xs">
@@ -34,6 +26,13 @@
                     <p class="text-muted"
                         th:unless="${#strings.isEmpty(userBean.signature)}" 
                         th:text="${userBean.signature}"></p>
+                    <div class="btn-group">
+                        <button id="follow-user" class="btn btn-danger hidden"
+                          th:attr="data-url=@{/user/__${userBean.id}__/follow},,data-notlike-text=#{home.user.notfollow},data-like-text=#{home.user.follow},data-unlike-text=#{home.user.unfollow}">
+                            <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
+                            <span class="like-button-text" th:text="#{home.article.notlike}"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

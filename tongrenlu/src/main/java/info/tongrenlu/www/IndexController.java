@@ -8,8 +8,6 @@ import info.tongrenlu.service.HomeMusicService;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +23,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class IndexController {
 
     @Autowired
-    private HomeComicService comicService = null;
+    private final HomeComicService comicService = null;
     @Autowired
-    private HomeMusicService musicService = null;
+    private final HomeMusicService musicService = null;
 
-    private Log log = LogFactory.getLog(this.getClass());
+    // private final Log log = LogFactory.getLog(this.getClass());
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String doGetIndex(@ModelAttribute final UserBean loginUser,
@@ -38,7 +36,7 @@ public class IndexController {
         final List<MusicBean> musicRanking = this.musicService.getTopping(30);
         model.addAttribute("musicRanking", musicRanking);
 
-        final List<ComicBean> comicRanking = this.comicService.getTopping(20);
+        final List<ComicBean> comicRanking = this.comicService.getTopping(24);
         model.addAttribute("comicRanking", comicRanking);
 
         return "home/index";

@@ -26,7 +26,7 @@
 		
 		
 	    var t = new Trianglify(settings);
-	    var pattern = t.generate(this.width(), this.outerHeight());
+	    var pattern = t.generate(2000, 1000);
 	    this.css('background-image', pattern.dataUrl);
 	    return this;
 	}

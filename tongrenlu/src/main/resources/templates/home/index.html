@@ -106,8 +106,9 @@
                         <div class="col-md-3 col-sm-4" th:each="articleBean,iterStat : ${comicRanking}">
                             <div class="thumbnail card hidden-xs">
                                 <a th:href="@{/comic/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                         class="img-180 "/>
+                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_400.jpg}" 
+                                        th:alt-title="${articleBean.title}"
+                                        class=""/>
                                 </a>
                                 <div class="caption">
                                     <a class="text-single-line" 
@@ -118,14 +119,15 @@
                             </div>
                             <div class="media card visible-xs">
                                 <a th:href="@{/comic/__${articleBean.id}__}" class="media-left" th:alt-title="${articleBean.title}">
-                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                         class="media-object img-120 "/>
+                                    <img th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_180.jpg}" 
+                                        th:alt-title="${articleBean.title}"
+                                        class="media-object img-180 "/>
                                 </a>
                                 <div class="media-body">
                                     <h5 class="media-heading">
                                         <a th:href="@{/comic/__${articleBean.id}__}"
-                                           th:alt-title="${articleBean.title}"
-                                           th:text="${articleBean.title}" >
+                                            th:alt-title="${articleBean.title}"
+                                            th:text="${articleBean.title}" >
                                         </a>
                                     </h5>
                                 </div>

@@ -7,38 +7,38 @@
 <li class="card">
   <div class="media card-body-180">
     {% if (o.action == 'publish_comic') { %}
-    <a href="/comic/{%=o.articleBean.id%}" class="media-left">
+    <a href="/comic/{%=o.articleBean.id%}" class="media-left" target="_blank">
         <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-120 visible-xs"/>
         <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-180 hidden-xs"/>
     </a>
     {% } else if (o.action == 'publish_music') { %}
-    <a href="/music/{%=o.articleBean.id%}" class="media-left">
+    <a href="/music/{%=o.articleBean.id%}" class="media-left" target="_blank">
         <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-120 visible-xs"/>
         <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-180 hidden-xs"/>
     </a>
     {% } else { %}
-    <a href="/user/{%=o.userBean.id%}" class="media-left">
+    <a href="/user/{%=o.userBean.id%}" class="media-left" target="_blank">
         <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="media-object img-120"/>
     </a>
     {% } %}
     <div class=" media-body ">
         <div class="">
             <span class="text-muted"> {%=o.createDate%}</span>
-            <a href="/user/{%=o.userBean.id%}">
+            <a href="/user/{%=o.userBean.id%}" target="_blank">
                 <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
             </a>
             {% if (o.action == 'publish_comic') { %}
             <span th:text="#{home.user.timeline.publish}"></span>
-            <h4 class="media-heading"><a href="/comic/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a></h4>
+            <h4 class="media-heading"><a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
             {% } else if (o.action == 'publish_music') { %}
             <span th:text="#{home.user.timeline.publish}"></span>
-            <h4 class="media-heading"><a href="/music/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a></h4>
+            <h4 class="media-heading"><a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
             {% } else if (o.action == 'comment_comic') { %}
             <span th:text="#{home.user.timeline.comment}"></span>
-            <h4 class="media-heading"><a href="/comic/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a></h4>
+            <h4 class="media-heading"><a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
             {% } else if (o.action == 'comment_music') { %}
             <span th:text="#{home.user.timeline.comment}"></span>
-            <h4 class="media-heading"><a href="/music/{%=o.articleBean.id%}" class="">{%=o.articleBean.title%}</a></h4>
+            <h4 class="media-heading"><a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
             {% } else if (o.action == 'follow') { %}
             <span th:text="#{home.user.timeline.follow}"></span>
             {% } %}
