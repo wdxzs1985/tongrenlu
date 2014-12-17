@@ -18,8 +18,7 @@
     </a>
     {% } else { %}
     <a href="/user/{%=o.userBean.id%}" class="media-left">
-        <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_180.jpg" class="media-object img-120 visible-xs"/>
-        <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_180.jpg" class="media-object img-180 hidden-xs"/>
+        <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="media-object img-120"/>
     </a>
     {% } %}
     <div class=" media-body ">
@@ -43,7 +42,7 @@
             {% } else if (o.action == 'follow') { %}
             <span th:text="#{home.user.timeline.follow}"></span>
             {% } %}
-            <p>{%=o.content%}</p>
+            <pre>{%=o.content%}</pre>
         </div>
     </div>
   </div>

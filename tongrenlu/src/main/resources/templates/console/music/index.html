@@ -89,12 +89,17 @@
                                         <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
                                         <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                     </div>
-                                    <p th:text="${articleBean.description}"></p>
+                                    <th:block th:if="${#strings.length(articleBean.description) gt 199}">
+                                        <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs"></p>
+                                    </th:block>
+                                    <th:block th:if="${#strings.length(articleBean.description) lt 200}">
+                                        <p th:text="${articleBean.description}" class="hidden-xs"></p>
+                                    </th:block>
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="btn-group btn-group-justified">
-                                    <a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-default" role="button">
+                                    <a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-success" role="button">
                                         <span class="glyphicon glyphicon-edit"></span>
                                         <span th:text="#{console.article.edit}"></span>
                                     </a>
