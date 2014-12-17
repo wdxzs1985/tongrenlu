@@ -24,6 +24,7 @@
     {% } %}
     <div class=" media-body ">
         <div class="">
+            <span class="text-muted"> {%=o.createDate%}</span>
             <a href="/user/{%=o.userBean.id%}">
                 <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
             </a>
@@ -42,7 +43,6 @@
             {% } else if (o.action == 'follow') { %}
             <span th:text="#{home.user.timeline.follow}"></span>
             {% } %}
-            <span class="text-muted"> {%=o.createDate%}</span>
             <p>{%=o.content%}</p>
         </div>
     </div>
