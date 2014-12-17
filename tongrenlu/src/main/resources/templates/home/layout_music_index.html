@@ -57,11 +57,13 @@
                                             <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
                                             <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                         </div>
-                                        <th:block th:if="${#strings.length(articleBean.description) gt 199}">
-                                            <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs"></p>
-                                        </th:block>
-                                        <th:block th:if="${#strings.length(articleBean.description) lt 200}">
-                                            <p th:text="${articleBean.description}" class="hidden-xs"></p>
+                                        <th:block th:if="${articleBean.description}">
+                                            <th:block th:if="${#strings.length(articleBean.description) gt 199}">
+                                                <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs"></p>
+                                            </th:block>
+                                            <th:block th:if="${#strings.length(articleBean.description) lt 200}">
+                                                <p th:text="${articleBean.description}" class="hidden-xs"></p>
+                                            </th:block>
                                         </th:block>
                                     </div>
                                 </div>
