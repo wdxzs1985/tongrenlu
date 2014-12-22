@@ -8,35 +8,37 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-wrap container-header">
+    <div class="container-wrap container-header" >
         <div class="container">
             <div class="media">
                 <div class="media-body">
-                    <h1 class="media-heading hidden-xs">
+                    <h1 class="media-heading">
                         <span th:text="${articleBean.title}"></span>
                     </h1>
                 </div>
             </div>
         </div>
-        <div class="container-tab">
+        <div class="container-tab" layout:fragment="page-header">
             <div class="container">
                 <ul class="nav">
-                    <li class="active">
+                    <li class="">
                         <a th:href="@{/console/comic/__${articleBean.id}__}">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="" th:text="#{button.back}"></span>
+                            <span class="" th:text="#{button.preview}"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/console/comic/__${articleBean.id}__/edit}">
+                            <span class="" th:text="#{button.edit}"></span>
                         </a>
                     </li>
                     <li class="">
-                        <a th:href="@{/console/comic}">
-                            <span class="glyphicon glyphicon-th-list"></span>
-                            <span class="hidden-xs" th:text="#{console.comic.index}"></span>
+                        <a th:href="@{/console/comic/__${articleBean.id}__/picture/upload}">
+                            <span class="" th:text="#{console.comic.picture.upload}"></span>
                         </a>
                     </li>
-                    <li class="" th:if="${session.LOGIN_USER.admin}">
-                        <a th:href="@{/admin/comic}">
-                            <span class="glyphicon glyphicon-ok-circle"></span>
-                            <span class="hidden-xs" th:text="#{admin.comic}"></span>
+                    <li class="">
+                        <a th:href="@{/console/comic/__${articleBean.id}__/picture/sort}">
+                            <span class="" th:text="#{console.comic.picture.sort}"></span>
                         </a>
                     </li>
                 </ul>
@@ -123,13 +125,8 @@
     </div>
     </div>
 </div>
-<th:block layout:fragment="scripts-libs">
-<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
-</th:block>
 <th:block layout:fragment="scripts">
+<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
 	var initValue = /*[[${tags}]]*/ [];
@@ -146,7 +143,13 @@ $(function() {
         typeDelay: 400,
         maxSelection: null
     });
-
+});
+</script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
     $('.container-header').trianglify({
         palette: 'console'
     });

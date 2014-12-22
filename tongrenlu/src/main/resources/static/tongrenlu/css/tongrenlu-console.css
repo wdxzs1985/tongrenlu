@@ -78,7 +78,7 @@
 }
 
 .container-header a {
-    color: #ede7f6;
+    color: #9575CD;
 }
 
 .container-header a:hover,
@@ -89,14 +89,14 @@
 
 .container-header small,
 .container-header .text-muted {
-    color: #ede7f6;
+    color: #9575CD;
 }
 
 .container-tab {
 }
 
 .container-tab .nav>li>a {
-    color: #9575cd; /* Deep Purple 300 */
+    color: #7E57C2; /* Deep Purple 300 */
 }
 
 .container-tab .nav>li>a:hover, 
@@ -104,8 +104,8 @@
 .container-tab .nav>li.active>a, 
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
-    color: #512da8; /* Deep Purple 700 */
-    border-bottom: #fff176 2px solid; /* yellow 300 */
+    color: #311B92; /* Deep Purple 700 */
+    border-bottom: #fff176 4px solid; /* yellow 300 */
 }
 
 .container-tab .nav>li>a .badge {
@@ -119,7 +119,7 @@
 .container-tab .nav>li.active>a .badge , 
 .container-tab .nav>li.active>a:hover .badge , 
 .container-tab .nav>li.active>a:focus .badge {
-    background-color: #512da8; /* Deep Purple 700 */
+    background-color: #311B92; /* Deep Purple 700 */
 }
 
 

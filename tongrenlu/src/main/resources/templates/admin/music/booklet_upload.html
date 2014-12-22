@@ -6,15 +6,55 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div>
+    <div class="container-wrap container-header" >
+        <div class="container">
+            <div class="media">
+                <div class="media-body">
+                    <h1 class="media-heading">
+                        <span th:text="${articleBean.title}"></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab" layout:fragment="page-header">
+            <div class="container">
+                <ul class="nav">
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__}">
+                            <span class="" th:text="#{button.preview}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/edit}">
+                            <span class="" th:text="#{button.edit}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/track/upload}">
+                            <span class="" th:text="#{console.music.track.upload}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/track/sort}">
+                            <span class="" th:text="#{console.music.track.sort}"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}">
+                            <span class="" th:text="#{console.music.booklet.upload}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/sort}">
+                            <span class="" th:text="#{console.music.booklet.sort}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container-wrap" >
         <div class="container">
-            <div class="page-header" layout:fragment="page-header">
-                <h3 >
-                  <span th:text="${articleBean.title}"></span>
-                  <small th:text="#{console.music.booklet.upload}"></small>
-                </h3>
-            </div>
             <div class="row" layout:fragment="page-footer">
                 <div class="col-xs-6 text-left">
                     <a th:href="@{/admin/music/__${articleBean.id}__}" class="btn btn-default">
@@ -31,7 +71,6 @@
             </div>
         </div>
     </div>
-</div>
 <th:block layout:fragment="scripts">
 <div th:replace="x-tmpl/upload-booklet::template-upload"></div>
 <div th:replace="x-tmpl/upload-booklet::template-download"></div>

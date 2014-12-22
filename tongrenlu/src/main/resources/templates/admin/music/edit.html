@@ -8,7 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-wrap container-header">
+    <div class="container-wrap container-header" >
         <div class="container">
             <div class="media">
                 <div class="media-body">
@@ -18,25 +18,37 @@
                 </div>
             </div>
         </div>
-        <div class="container-tab">
+        <div class="container-tab" layout:fragment="page-header">
             <div class="container">
                 <ul class="nav">
-                    <li class="active">
+                    <li class="">
                         <a th:href="@{/admin/music/__${articleBean.id}__}">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="" th:text="#{button.back}"></span>
+                            <span class="" th:text="#{button.preview}"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/edit}">
+                            <span class="" th:text="#{button.edit}"></span>
                         </a>
                     </li>
                     <li class="">
-                        <a th:href="@{/console/music}">
-                            <span class="glyphicon glyphicon-th-list"></span>
-                            <span class="hidden-xs" th:text="#{console.music.index}"></span>
+                        <a th:href="@{/admin/music/__${articleBean.id}__/track/upload}">
+                            <span class="" th:text="#{console.music.track.upload}"></span>
                         </a>
                     </li>
-                    <li class="" th:if="${session.LOGIN_USER.admin}">
-                        <a th:href="@{/admin/music}">
-                            <span class="glyphicon glyphicon-ok-circle"></span>
-                            <span class="hidden-xs" th:text="#{admin.music}"></span>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/track/sort}">
+                            <span class="" th:text="#{console.music.track.sort}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}">
+                            <span class="" th:text="#{console.music.booklet.upload}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/sort}">
+                            <span class="" th:text="#{console.music.booklet.sort}"></span>
                         </a>
                     </li>
                 </ul>
@@ -45,65 +57,61 @@
     </div>
     <div class="container-wrap" >
         <div class="container">
-      <ul class="nav nav-tabs">
-        <li class="active"><a th:href="@{/console/music/__${articleBean.id}__}" th:text="#{console.article.edit}"></a></li>
-        <li class="hidden-xs"><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
-      </ul>
-      <form class="" th:action="@{/admin/music/__${articleBean.id}__/edit}" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-sm-8">
-              <div th:class="${#strings.isEmpty(titleError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-                <label for="inputTitle" class=" control-label" 
-                    th:text="#{ArticleBean.title}">Title</label>
-                  <input type="text" class="form-control" 
-                    id="inputTitle" name="title"
-                    th:value="${articleBean.title}"
-                    th:placeholder="#{ArticleBean.title}"/>
-                  <span class="glyphicon glyphicon-remove form-control-feedback"
-                      th:unless="${#strings.isEmpty(titleError)}"></span>
-                  <p class="help-block" 
-                      th:unless="${#strings.isEmpty(titleError)}"
-                      th:text="${titleError}"></p>
-              </div>
-              <div th:class="${#strings.isEmpty(descriptionError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-               <label for="inputDescription" class=" control-label" 
-                   th:text="#{ArticleBean.description}">Description</label>
-                  <textarea class="form-control" rows="20"
-                   id="inputDescription" name="description"
-                   th:text="${articleBean.description}"
-                   th:placeholder="#{ArticleBean.description}"></textarea>
-                  <span class="glyphicon glyphicon-remove form-control-feedback"
-                     th:unless="${#strings.isEmpty(descriptionError)}"></span>
-                  <p class="help-block" 
-                     th:unless="${#strings.isEmpty(descriptionError)}"
-                     th:text="${descriptionError}"></p>
-              </div>
-              <div class="form-group">
-               <label for="inputTag" class=" control-label" 
-                   th:text="#{ArticleBean.tag}">Tag</label>
-                  <div id="magicsuggest"></div>
-              </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="thumbnail">
-                  <a href="javascript:;" >
-                    <img src="http://placehold.it/400x400" alt="..." 
-                         th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg(nocache=${#strings.randomAlphanumeric(6)})}" th:alt-title="${articleBean.title}"/>
-                  </a>
-                  <div class="caption">
-                    <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
+          <form class="" th:action="@{/admin/music/__${articleBean.id}__/edit}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-8">
+                  <div th:class="${#strings.isEmpty(titleError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                    <label for="inputTitle" class=" control-label" 
+                        th:text="#{ArticleBean.title}">Title</label>
+                      <input type="text" class="form-control" 
+                        id="inputTitle" name="title"
+                        th:value="${articleBean.title}"
+                        th:placeholder="#{ArticleBean.title}"/>
+                      <span class="glyphicon glyphicon-remove form-control-feedback"
+                          th:unless="${#strings.isEmpty(titleError)}"></span>
+                      <p class="help-block" 
+                          th:unless="${#strings.isEmpty(titleError)}"
+                          th:text="${titleError}"></p>
+                  </div>
+                  <div th:class="${#strings.isEmpty(descriptionError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                   <label for="inputDescription" class=" control-label" 
+                       th:text="#{ArticleBean.description}">Description</label>
+                      <textarea class="form-control" rows="10"
+                       id="inputDescription" name="description"
+                       th:text="${articleBean.description}"
+                       th:placeholder="#{ArticleBean.description}"></textarea>
+                      <span class="glyphicon glyphicon-remove form-control-feedback"
+                         th:unless="${#strings.isEmpty(descriptionError)}"></span>
+                      <p class="help-block" 
+                         th:unless="${#strings.isEmpty(descriptionError)}"
+                         th:text="${descriptionError}"></p>
+                  </div>
+                  <div class="form-group">
+                   <label for="inputTag" class=" control-label" 
+                       th:text="#{ArticleBean.tag}">Tag</label>
+                      <div id="magicsuggest"></div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="thumbnail">
+                      <a href="javascript:;" >
+                        <img src="http://placehold.it/400x400" alt="..." 
+                             th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg(nocache=${#strings.randomAlphanumeric(6)})}" th:alt-title="${articleBean.title}"/>
+                      </a>
+                      <div class="caption">
+                        <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
+                      </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                  <div class="form-group">
+                          <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
+                          <a th:href="@{/admin/music/__${articleBean.id}__}" class="btn btn-default" th:text="#{button.cancel}"></a>
                   </div>
                 </div>
             </div>
-            <div class="col-sm-8">
-              <div class="form-group">
-                      <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
-                      <a th:href="@{/admin/music/__${articleBean.id}__}" class="btn btn-default" th:text="#{button.cancel}"></a>
-              </div>
-            </div>
+          </form>
         </div>
-      </form>
-    </div>
     </div>
 </div>
 <th:block layout:fragment="scripts-libs">

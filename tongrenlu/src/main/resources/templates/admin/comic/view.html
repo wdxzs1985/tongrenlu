@@ -8,39 +8,48 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-wrap" >
+    <div class="container-wrap container-header" >
         <div class="container">
             <div class="media">
-                <div class="media-heading pull-left">
-                    <img class="img-60 img-rounded" th:alt-title="${articleBean.title}"
-                        th:src="@{http://files.tongrenlu.info/c__${articleBean.id}__/cover_120.jpg}" />
-                </div>
                 <div class="media-body">
-                    <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
-                    <h5 class="article-title visible-xs" th:text="${articleBean.title}"></h5>
+                    <h1 class="media-heading">
+                        <span th:text="${articleBean.title}"></span>
+                    </h1>
                 </div>
             </div>
-          </div>
-        <div class="container">
-            <div class="page-header">
-                <a class="btn btn-default pull-right"
-                    th:href="@{/admin/comic/__${articleBean.id}__/picture/upload}"
-                    th:text="#{console.comic.picture.upload}">upload</a>
-                <h4 th:text="#{home.comic.picture}">picture</h4>
+        </div>
+        <div class="container-tab" layout:fragment="page-header">
+            <div class="container">
+                <ul class="nav">
+                    <li class="active">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__}">
+                            <span class="" th:text="#{button.preview}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__/edit}">
+                            <span class="" th:text="#{button.edit}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__/picture/upload}">
+                            <span class="" th:text="#{console.comic.picture.upload}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__/picture/sort}">
+                            <span class="" th:text="#{console.comic.picture.sort}"></span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="container-fuild">
-            <div th:replace="home/layout_article_view::article-gallery"></div>
-        </div>
+    </div>
+    <div class="container-wrap" >
+        <div th:replace="home/layout_article_view::article-gallery"></div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="page-header">
-                        <a class="btn btn-default pull-right"
-                            th:href="@{/admin/comic/__${articleBean.id}__/edit}"
-                            th:text="#{button.edit}">edit</a>
-                        <h4 th:text="${articleBean.title}"></h4>
-                    </div>
                     <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
                     <div id="tags" th:include="home/layout_article_view::article-tags"></div>
                 </div>
@@ -82,6 +91,16 @@ $(function() {
     $('#article-description').url();
     
     $('.popover-dismiss').popover();
+});
+</script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $('.container-header').trianglify({
+        palette: 'console'
+    });
 });
 </script>
 </th:block>

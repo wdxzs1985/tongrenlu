@@ -7,14 +7,45 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <div class="container-wrap container-header" >
+        <div class="container">
+            <div class="media">
+                <div class="media-body">
+                    <h1 class="media-heading">
+                        <span th:text="${articleBean.title}"></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab" layout:fragment="page-header">
+            <div class="container">
+                <ul class="nav">
+                    <li class="">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__}">
+                            <span class="" th:text="#{button.preview}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__/edit}">
+                            <span class="" th:text="#{button.edit}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__/picture/upload}">
+                            <span class="" th:text="#{console.comic.picture.upload}"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/admin/comic/__${articleBean.id}__/picture/sort}">
+                            <span class="" th:text="#{console.comic.picture.sort}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container-wrap container-wrap-darker" >
         <div class="container">
-            <div class="page-header">
-                <h3 >
-                    <span th:text="${articleBean.title}"></span>
-                    <small th:text="#{console.article.sort}"></small>
-                </h3>
-            </div>
             <div class="btn-toolbar">
                 <div class="btn-group ">
                     <button class="btn btn-success" id="sort-by-name">

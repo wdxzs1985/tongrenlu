@@ -6,49 +6,65 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" />
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" type="text/css"/>
+    
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-wrap" >
+    <div class="container-wrap container-header" >
         <div class="container">
             <div class="media">
-                <div class="media-heading pull-left">
-                    <img class="img-60 img-rounded" th:alt-title="${articleBean.title}"
-                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" />
-                </div>
                 <div class="media-body">
-                    <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
-                    <h5 class="article-title visible-xs" th:text="${articleBean.title}"></h5>
+                    <h1 class="media-heading">
+                        <span th:text="${articleBean.title}"></span>
+                    </h1>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="page-header">
-                <a class="btn btn-default pull-right"
-                    th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}"
-                    th:text="#{console.music.booklet.upload}">upload</a>
-                <h4 th:text="#{home.music.booklet}">booklet</h4>
+        <div class="container-tab" layout:fragment="page-header">
+            <div class="container">
+                <ul class="nav">
+                    <li class="active">
+                        <a th:href="@{/admin/music/__${articleBean.id}__}">
+                            <span class="" th:text="#{button.preview}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/edit}">
+                            <span class="" th:text="#{button.edit}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/track/upload}">
+                            <span class="" th:text="#{console.music.track.upload}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/track/sort}">
+                            <span class="" th:text="#{console.music.track.sort}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/upload}">
+                            <span class="" th:text="#{console.music.booklet.upload}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/booklet/sort}">
+                            <span class="" th:text="#{console.music.booklet.sort}"></span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </div>
+    <div class="container-wrap" >
         <div th:include="home/layout_article_view::article-gallery"></div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="page-header">
-                        <a class="btn btn-default pull-right"
-                            th:href="@{/admin/music/__${articleBean.id}__/track/upload}"
-                            th:text="#{console.music.track.upload}">upload</a>
-                        <h4 th:text="#{home.music.track}">player</h4>
-                    </div>
                     <div id="player" th:include="home/layout_article_view::article-player"></div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="page-header">
-                        <a class="btn btn-default pull-right"
-                          th:href="@{/admin/music/__${articleBean.id}__/edit}"
-                          th:text="#{button.edit}">edit</a>
-                        <h4 th:text="${articleBean.title}"></h4>
-                    </div>
                     <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
                     <div id="tags" th:include="home/layout_article_view::article-tags"></div>
                 </div>
@@ -78,7 +94,6 @@
 <div th:replace="x-tmpl/article-view::template-playlist-item"></div>
 <div th:replace="x-tmpl/article-view::template-rate"></div>
 <div th:replace="x-tmpl/article-view::template-tag-item"></div>
-
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new player({
@@ -103,6 +118,17 @@ $(function() {
     $('.popover-dismiss').popover();
 });
 </script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+
+    $('.container-header').trianglify({
+        palette: 'console'
+    });
+});
+</script>
 </th:block>
-  </body>
+</body>
 </html>

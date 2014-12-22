@@ -19,7 +19,10 @@
                     <div class="col-md-6 ">
                         <form class="append-top-lg" th:action="@{/music/search}" method="get" role="search">
                             <div class="input-group">
-                                <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
+                                <input type="text" name="q" id="inputMusicSearch"
+                                    class="form-control" 
+                                    autocomplete="off"
+                                    th:placeholder="#{home.search.music.hint}"/>
                                 <span class="input-group-btn">
                                     <button class="btn btn-warning" type="submit">
                                         <span class="glyphicon glyphicon-search"></span>
@@ -225,5 +228,8 @@
         </div>
     </div>
 </div>
+<th:block layout:fragment="scripts">
+<script th:src="@{/tongrenlu/js/tongrenlu-smart-search.js}" ></script>
+</th:block>
 </body>
 </html>

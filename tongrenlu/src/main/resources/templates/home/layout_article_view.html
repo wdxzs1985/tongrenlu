@@ -12,27 +12,6 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-wrap" >
-        <div class="container" layout:fragment="article-header">
-            <div class="media">
-                <div class="media-heading pull-left">
-                    <img src="http://placehold.it/60x60" class="img-responsive img-rounded img-60" 
-                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" 
-                        th:alt-title="${articleBean.title}"/>
-                </div>
-                <div class="pull-right btn-group">
-                    <button class="like-article btn btn-danger hidden">
-                        <span class="glyphicon glyphicon-heart-empty like-button-icon"></span>
-                        <span class="hidden-xs like-button-text" th:text="#{home.article.notlike}"></span>
-                    </button>
-                </div>
-                <div class="media-body">
-                    <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
-                    <h5 class="article-title visible-xs" th:text="${articleBean.title}"></h5>
-                </div>
-            </div>
-        </div>
-    </div>
     <div th:fragment="article-gallery">
         <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
             <div class="slides"></div>
@@ -111,6 +90,9 @@
             </div>
             <div id="baseinfo" th:fragment="article-baseinfo">
                 <div class="row">
+                    <div class="col-xs-12">
+                        <h3 th:text="${articleBean.title}">title</h3>
+                    </div>
                     <div class="col-xs-12  col-lg-6">
                         <h4>
                             <small th:text="#{home.article.owner}">Owner</small><br />
