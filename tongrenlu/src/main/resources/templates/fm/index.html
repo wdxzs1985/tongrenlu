@@ -240,8 +240,8 @@
         </div>
     </div>
     <div layout:fragment="footer"></div>
-    <script type="text/javascript" src="http://static.tongrenlu.info/jquery/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="http://static.tongrenlu.info/bootstrap-3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://static.tongrenlu.info/jquery/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="http://static.tongrenlu.info/bootstrap-3.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-MD5-1.1.0/js/md5.min.js"></script>
     <div layout:fragment="scripts">
         <div th:replace="x-tmpl/fm::template-music-item"></div>
@@ -250,8 +250,6 @@
         <div th:replace="x-tmpl/fm::template-playlist-item"></div>
 
         <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-        <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jquery.jplayer.min.js"></script>
-        <script type="text/javascript" src="http://static.tongrenlu.info/jQuery.jPlayer.2.6.0/js/jplayer.playlist.min.js"></script>
         <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-login.js}" src="../../static/tongrenlu/js/tongrenlu-login.js"></script>
         <script type="text/javascript" th:inline="javascript">
             $(function () {
@@ -266,6 +264,8 @@
                 });
             })
         </script>
+        <script type="text/javascript" src="http://static.tongrenlu.info/jPlayer-2.9.2/jplayer/jquery.jplayer.min.js"></script>
+        <script type="text/javascript" src="http://static.tongrenlu.info/jPlayer-2.9.2/add-on/jplayer.playlist.min.js"></script>
         <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-fm.js}" src="../../static/tongrenlu/js/tongrenlu-fm-ui.js"></script>
         <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" src="../../static/tongrenlu/js/tongrenlu-likebutton.js"></script>
         <script type="text/javascript" th:inline="javascript">

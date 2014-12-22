@@ -9,11 +9,8 @@
     <div class="container-wrap container-header">
         <div class="container">
             <div class="media">
-                <a class="media-left">
-                    <img class="img-60 img-circle media-object visible-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
-                        th:alt-title="${session.LOGIN_USER}"/>
-                    <img class="img-120 img-circle media-object hidden-xs" 
+                <a class="media-left" th:href="@{/console/setting}">
+                    <img class="img-120 img-circle media-object" 
                         th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
                         th:alt-title="${session.LOGIN_USER}"/>
                 </a>

@@ -78,7 +78,7 @@
 }
 
 .container-header a {
-    color: #9575CD;
+    color: #D1C4E9;
 }
 
 .container-header a:hover,
@@ -89,7 +89,7 @@
 
 .container-header small,
 .container-header .text-muted {
-    color: #9575CD;
+    color: #D1C4E9;
 }
 
 .container-tab {
