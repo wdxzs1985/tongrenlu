@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+body {
+	padding-top: 70px;
+}
+
+#items-case{
+}
+
+#items-case > div {
+	background: #ffffff;
+	margin:0 8px 8px 0;
+}
+
+#items-case > div:hover{
+}
+
+#jp_container_1 {
+	border: none;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: auto;
+	height: 50px;
+	z-index: 99;
+	width: auto;
+}
+
+#jp_container_1 .jp-interface {
+	height: 50px;
+}
+
+#jp_container_1 .jp-controls {
+	position: absolute;
+	width: 80px;
+	left: 20px;
+	top: 5px;
+	padding: 0;
+}
+
+#jp_container_1 .jp-volume-controls {
+  	position: absolute;
+  	top: 15px;
+	left: auto;
+  	right: 20px;
+  	width: 100px; 
+}
+
+#jp_container_1 .jp-progress {
+  	position: absolute;
+  	top: 16px;
+	left: 120px;
+  	right: 140px;
+  	width: auto; 
+}
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Bootstrap 101 Template</title>
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/bootstrap-3.3.1/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="http://www.tongrenlu.info/tongrenlu/css/tongrenlu-screen.css" />
+		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jPlayer-2.9.2/skin/blue.monday/css/jplayer.blue.monday.min.css"  />
+		<link rel="stylesheet" href="/tongrenlu/css/tongrenlu-preview.css" />
+	</head>
+	<body>
+		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+		<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+			<div class="jp-type-single">
+				<div class="jp-gui jp-interface">
+					<div class="jp-controls">
+						<button class="jp-play" role="button" tabindex="0">play</button>
+						<button class="jp-stop" role="button" tabindex="0">stop</button>
+					</div>
+					<div class="jp-progress">
+						<div class="jp-seek-bar">
+							<div class="jp-play-bar"></div>
+						</div>
+					</div>
+					<div class="jp-volume-controls">
+						<button class="jp-mute" role="button" tabindex="0">mute</button>
+						<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+						<div class="jp-volume-bar">
+							<div class="jp-volume-bar-value"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div id="items-case" class="case" data-col-min-width="200">
+
+			</div>
+		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="http://static.tongrenlu.info/jquery/jquery-2.1.3.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="http://static.tongrenlu.info/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+		<script src="http://static.tongrenlu.info/jPlayer-2.9.2/jplayer/jquery.jplayer.min.js"></script>
+		<script src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+		<script src="/waterfall/jquery.waterfall.js"></script>
+		<script src="c87/data.js"></script>
+
+		<script id="template-waterfall-item" type="text/x-tmpl">
+			<div class="card thumbnail" data-span="{%= o.span %}">
+				<a class="play" href="javascript:;">
+					<img src="{%= o.poster %}" class="" style="{%= o.style %}" />
+			</a>
+				<div class="caption">
+					<h4>{%= o.title %}</h4>
+					<p>{%= o.artist %}</p>
+			</div>
+			</div>
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function(){	
+				var $jplayer = $("#jquery_jplayer_1").jPlayer({
+					swfPath: "http://static.tongrenlu.info/jPlayer-2.9.2/jplayer",
+					supplied: "mp3",
+					wmode: "window",
+					useStateClassSkin: true,
+					autoBlur: false,
+					smoothPlayBar: true,
+					keyEnabled: true,
+					remainingDuration: true,
+					toggleDuration: true
+				});
+				
+				$('#items-case').on('click', 'a.play', function(event) {
+					event.preventDefault();
+					var media = $(this).data();
+					$jplayer.jPlayer("setMedia", media);
+					$jplayer.jPlayer("play");
+				});
+
+					$.each(data, function(index, element) {
+						var html = tmpl('template-waterfall-item', element);
+						var $item = $(html).appendTo('#items-case');
+						$item.find('a.play').data(element);
+					});
+					$('#items-case').waterfall();
+			});
+		</script>
+	</body>
+</html>
