@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Bootstrap 101 Template</title>
+		<title>C87 东方XFD试听</title>
 
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/bootstrap-3.3.1/css/bootstrap.min.css" />
@@ -34,10 +34,13 @@
 						</div>
 					</div>
 				</div>
+				<div class="jp-details">
+                    <div class="jp-title" aria-label="title">&nbsp;</div>
+                </div>
 			</div>
 		</div>
 		<div class="container-fluid">
-			<div id="items-case" class="case" data-col-min-width="200">
+			<div id="items-case" class="case" data-col-min-width="100">
 
 			</div>
 		</div>
@@ -47,18 +50,19 @@
 		<script src="http://static.tongrenlu.info/bootstrap-3.3.1/js/bootstrap.min.js"></script>
 		<script src="http://static.tongrenlu.info/jPlayer-2.9.2/jplayer/jquery.jplayer.min.js"></script>
 		<script src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-		<script src="/waterfall/jquery.waterfall.js"></script>
+		<script src="http://static.tongrenlu.info/jquery.waterfall/jquery.waterfall.js"></script>
+        <script src="http://static.tongrenlu.info/jquery.lazyload/jquery.lazyload.min.js"></script>
 		<script src="c87/data.js"></script>
 
 		<script id="template-waterfall-item" type="text/x-tmpl">
 			<div class="card thumbnail" data-span="{%= o.span %}">
 				<a class="play" href="javascript:;">
-					<img src="{%= o.poster %}" class="" style="{%= o.style %}" />
-			</a>
+					<img class="lazy" data-original="{%= o.poster %}" style="{%= o.style %}" />
+			    </a>
 				<div class="caption">
-					<h4>{%= o.title %}</h4>
+					<h5>{%= o.title %}</h5>
 					<p>{%= o.artist %}</p>
-			</div>
+			    </div>
 			</div>
 		</script>
 		<script type="text/javascript">
@@ -82,12 +86,17 @@
 					$jplayer.jPlayer("play");
 				});
 
-					$.each(data, function(index, element) {
-						var html = tmpl('template-waterfall-item', element);
-						var $item = $(html).appendTo('#items-case');
-						$item.find('a.play').data(element);
-					});
-					$('#items-case').waterfall();
+				$.each(data, function(index, element) {
+					var html = tmpl('template-waterfall-item', element);
+					var $item = $(html).appendTo('#items-case');
+					$item.find('a.play').data(element);
+					$item.find("img.lazy").lazyload();
+				});
+				$('#items-case').waterfall();
+				
+				$(document).on('scroll', function(event) {
+					
+				});
 			});
 		</script>
 	</body>
