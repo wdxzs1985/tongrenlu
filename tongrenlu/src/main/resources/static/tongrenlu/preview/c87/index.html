@@ -16,6 +16,9 @@
 		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
 			<div class="jp-type-single">
+                <div class="jp-details">
+                    <div class="jp-title" aria-label="title">&nbsp;</div>
+                </div>
 				<div class="jp-gui jp-interface">
 					<div class="jp-controls">
 						<button class="jp-play" role="button" tabindex="0">play</button>
@@ -34,15 +37,17 @@
 						</div>
 					</div>
 				</div>
-				<div class="jp-details">
-                    <div class="jp-title" aria-label="title">&nbsp;</div>
-                </div>
 			</div>
 		</div>
 		<div class="container-fluid">
-			<div id="items-case" class="case" data-col-min-width="100">
-
-			</div>
+            <div class="row">
+                <div class="col-md-3 ">
+                    <div class="mediailist" id="left-side"></div>
+                </div>
+                <div class="col-md-9 hidden-sm hidden-xs">
+                    <div id="items-case" class="case" data-col-min-width="100"></div>
+                </div>
+            </div>
 		</div>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="http://static.tongrenlu.info/jquery/jquery-2.1.3.min.js"></script>
@@ -52,7 +57,7 @@
 		<script src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
 		<script src="http://static.tongrenlu.info/jquery.waterfall/jquery.waterfall.js"></script>
         <script src="http://static.tongrenlu.info/jquery.lazyload/jquery.lazyload.min.js"></script>
-		<script src="c87/data.js"></script>
+		<script src="data.js"></script>
 
 		<script id="template-waterfall-item" type="text/x-tmpl">
 			<div class="card thumbnail" data-span="{%= o.span %}">
@@ -61,12 +66,26 @@
 			    </a>
 				<div class="caption">
 					<h5>{%= o.title %}</h5>
-					<p>{%= o.artist %}</p>
 			    </div>
 			</div>
 		</script>
+        
+		<script id="template-media-item" type="text/x-tmpl">
+            <div class="media">
+                <a class="media-left play" href="javascript:;">
+                    <img class="img-60 lazy" data-original="{%= o.poster %}" />
+                </a>
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        <a class="play" href="javascript:;">{%= o.title %}</a>
+                    </h5>
+                </div>
+            </div>
+		</script>
+        
+        
 		<script type="text/javascript">
-			$(document).ready(function(){	
+			$(document).ready(function(){
 				var $jplayer = $("#jquery_jplayer_1").jPlayer({
 					swfPath: "http://static.tongrenlu.info/jPlayer-2.9.2/jplayer",
 					supplied: "mp3",
@@ -78,21 +97,32 @@
 					remainingDuration: true,
 					toggleDuration: true
 				});
-				
-				$('#items-case').on('click', 'a.play', function(event) {
-					event.preventDefault();
-					var media = $(this).data();
-					$jplayer.jPlayer("setMedia", media);
-					$jplayer.jPlayer("play");
-				});
+                
+                $(document).on('click', 'a.play', function(event) {
+                    event.preventDefault();
+                    var media = $(this).data();
+                    $jplayer.jPlayer("setMedia", media);
+                    $jplayer.jPlayer("play");
+                });
+                
+                $.each(data, function(index, element) {
+                    var html = tmpl('template-media-item', element);
+                    var $item = $(html).appendTo('#left-side');
+                    $item.find('a.play').data(element);
+                    $item.find("img.lazy").lazyload();
+                });
+                
+                if($(window).width() > 400) {
+                    $.each(data, function(index, element) {
+                        var html = tmpl('template-waterfall-item', element);
+                        var $item = $(html).appendTo('#items-case');
+                        $item.find('a.play').data(element);
+                        $item.find("img.lazy").lazyload();
+                    });
+                    $('#items-case').waterfall();
+                }
+                
 
-				$.each(data, function(index, element) {
-					var html = tmpl('template-waterfall-item', element);
-					var $item = $(html).appendTo('#items-case');
-					$item.find('a.play').data(element);
-					$item.find("img.lazy").lazyload();
-				});
-				$('#items-case').waterfall();
 				
 				$(document).on('scroll', function(event) {
 					

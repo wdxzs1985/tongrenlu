@@ -17,8 +17,8 @@ var data = [
 		title: 'DDBY - Cafe de Touhou 6',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/DDBY - Cafe de Touhou 6.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/DDBY - Cafe de Touhou 6.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '発熱巫女〜ず - Origin of Love',
@@ -27,19 +27,26 @@ var data = [
 		span: '4',
 		style: 'height:400px'
 	},
-	{
-		title: 'Amateras Records - Unrequited Hearts',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Amateras Records - Unrequited Hearts.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Amateras Records - Unrequited Hearts.jpg',
-		span: '2',
-		style: 'height:200px'
-	},
+    {
+        title: '凋叶棕 - 奉',
+        mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/凋叶棕 - 奉.mp3',
+        poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/凋叶棕 - 奉.jpg',
+        span: '4',
+        style: 'height:400px'
+    },
 	{
 		title: 'TAMUSIC - 東方四重奏 Cherry Blossom',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/TAMUSIC - 東方四重奏 Cherry Blossom.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/TAMUSIC - 東方四重奏 Cherry Blossom.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: '暁Records - 世界の選択 - Freedom Paradise-',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/暁Records - 世界の選択 - Freedom Paradise-.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/暁Records - 世界の選択 - Freedom Paradise-.jpg',
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'AQUA STYLE - 紅涙フォークロア',
@@ -63,18 +70,18 @@ var data = [
 		style: 'height:400px'
 	},
 	{
-		title: 'C-CLAYS - 舞音3 ～To the future～',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/C-CLAYS - 舞音3 ～To the future～.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/C-CLAYS - 舞音3 ～To the future～.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
 		title: 'As／Hi Soundworks - CAUTION e.p.',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/As／Hi Soundworks - CAUTION e.p..mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/As／Hi Soundworks - CAUTION e.p..jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: '魂音泉 - With Ø',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/魂音泉 - With Ø.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/魂音泉 - With Ø.jpg',
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'ClearLeMel - 白道輪廻 -samsara-',
@@ -108,15 +115,15 @@ var data = [
 		title: 'ユウノウミ - Toho WarfareBLACK I+II+III+EX',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ユウノウミ - Toho WarfareBLACK I+II+III+EX.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ユウノウミ - Toho WarfareBLACK I+II+III+EX.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'うんちく商事 - 絃双響',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/うんちく商事 - 絃双響.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/うんちく商事 - 絃双響.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'ごんばこんなか - 空ニ沈ム城',
@@ -126,60 +133,46 @@ var data = [
 		style: 'height:200px'
 	},
 	{
+		title: 'Amateras Records - Unrequited Hearts',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Amateras Records - Unrequited Hearts.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Amateras Records - Unrequited Hearts.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
 		title: 'さかばと - Satellite未来',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/さかばと - Satellite未来.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/さかばと - Satellite未来.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: '幻楽工房 - 魔法少女たちのお茶会',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/幻楽工房 - 魔法少女たちのお茶会.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/幻楽工房 - 魔法少女たちのお茶会.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '556ミリメートル - revolution -rising rebellion girls-',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/556ミリメートル - revolution -rising rebellion girls-.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/556ミリメートル - revolution -rising rebellion girls-.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: '幻楽工房 - 魔法少女たちのお茶会',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/幻楽工房 - 魔法少女たちのお茶会.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/幻楽工房 - 魔法少女たちのお茶会.jpg',
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '彩音 〜xi-on〜 - Scarlet -スカーレット-',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/彩音 〜xi-on〜 - Scarlet -スカーレット-.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/彩音 〜xi-on〜 - Scarlet -スカーレット-.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: '凋叶棕 - 奉',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/凋叶棕 - 奉.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/凋叶棕 - 奉.jpg',
-		span: '4',
-		style: 'height:400px'
-	},
-	{
-		title: '荒御霊 - the facts of phantasy',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/荒御霊 - the facts of phantasy.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/荒御霊 - the facts of phantasy.jpg',
 		span: '2',
 		style: 'height:200px'
-	},
-	{
-		title: '荒御霊As／Hi Soundworks - Phantagenic Moments',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/荒御霊As／Hi Soundworks - Phantagenic Moments.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/荒御霊As／Hi Soundworks - Phantagenic Moments.jpg',
-		span: '3',
-		style: 'height:300px'
 	},
 	{
 		title: 'DiGiTAL WiNG - RAVER\'S NEST BEST 2014 TOHO HYPER RAVE',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/DiGiTAL WiNG - RAVER\'S NEST BEST 2014 TOHO HYPER RAVE.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/DiGiTAL WiNG - RAVER\'S NEST BEST 2014 TOHO HYPER RAVE.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'DiGiTAL WiNG - デジウィ FUTURE',
@@ -192,8 +185,8 @@ var data = [
 		title: '東京アクティブNEETs - 東方爆音ジャズ7',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/東京アクティブNEETs - 東方爆音ジャズ7.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/東京アクティブNEETs - 東方爆音ジャズ7.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '狐の工作室 - 东方幻想界 -莲台野夜行の音-',
@@ -206,27 +199,20 @@ var data = [
 		title: 'EastNewSound - Proof Presence',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/EastNewSound - Proof Presence.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/EastNewSound - Proof Presence.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: 'C-CLAYS - 舞音3 ～To the future～',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/C-CLAYS - 舞音3 ～To the future～.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/C-CLAYS - 舞音3 ～To the future～.jpg',
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'GET IN THE RING - “Activity” Case：04 -Cosmic Horoscope-',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/GET IN THE RING - “Activity” Case：04 -Cosmic Horoscope-.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/GET IN THE RING - “Activity” Case：04 -Cosmic Horoscope-.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: 'efs - Desire',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/efs - Desire.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/efs - Desire.jpg',
-		span: '2',
-		style: 'height:200px'
-	},
-	{
-		title: 'Find Your Way - TRUESTAR EP',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Find Your Way - TRUESTAR EP.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Find Your Way - TRUESTAR EP.jpg',
 		span: '2',
 		style: 'height:200px'
 	},
@@ -234,15 +220,8 @@ var data = [
 		title: 'GET IN THE RING - About a girl',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/GET IN THE RING - About a girl.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/GET IN THE RING - About a girl.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: 'ESQUARIA - EMOTIONAL CHAOS',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ESQUARIA - EMOTIONAL CHAOS.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ESQUARIA - EMOTIONAL CHAOS.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'Foxtail-Grass Studio - ほしくずアテリア',
@@ -252,9 +231,23 @@ var data = [
 		style: 'height:400px'
 	},
 	{
-		title: 'Exist twinkle - Lieblings Tracks',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Exist twinkle - Lieblings Tracks.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Exist twinkle - Lieblings Tracks.jpg',
+		title: 'efs - Desire',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/efs - Desire.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/efs - Desire.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: 'ESQUARIA - EMOTIONAL CHAOS',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ESQUARIA - EMOTIONAL CHAOS.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ESQUARIA - EMOTIONAL CHAOS.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'hajime-saku- - Fancy snow',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/hajime-saku- - Fancy snow.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/hajime-saku- - Fancy snow.jpg',
 		span: '2',
 		style: 'height:200px'
 	},
@@ -266,25 +259,18 @@ var data = [
 		style: 'height:400px'
 	},
 	{
-		title: 'Glassy：oceaN - 幻想古今奇譚',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Glassy：oceaN - 幻想古今奇譚.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Glassy：oceaN - 幻想古今奇譚.jpg',
+		title: 'スタジオネネム - Dream Side Frontier',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/スタジオネネム - Dream Side Frontier.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/スタジオネネム - Dream Side Frontier.png',
 		span: '2',
 		style: 'height:200px'
-	},
-	{
-		title: 'hajime-saku- - Fancy snow',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/hajime-saku- - Fancy snow.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/hajime-saku- - Fancy snow.jpg',
-		span: '3',
-		style: 'height:300px'
 	},
 	{
 		title: 'halozy - Viva Evolution',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/halozy - Viva Evolution.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/halozy - Viva Evolution.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'HAPPY I SCREAM!! - ハピスク冬のお楽しみセット',
@@ -304,8 +290,8 @@ var data = [
 		title: 'Innocent Key - 東方イノセントキーの電気ッ！',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Innocent Key - 東方イノセントキーの電気ッ！.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Innocent Key - 東方イノセントキーの電気ッ！.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'Innocent Records - Four on the floor Tracks',
@@ -318,22 +304,22 @@ var data = [
 		title: 'Rolling Contact - We Are The Scarlet',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Rolling Contact - We Are The Scarlet.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Rolling Contact - We Are The Scarlet.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'Sound Refil - ReUnion-Ivory-',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Sound Refil - ReUnion-Ivory-.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Sound Refil - ReUnion-Ivory-.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'IRON ATTACK! - Dim.STARLIGHT',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/IRON ATTACK! - Dim.STARLIGHT.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/IRON ATTACK! - Dim.STARLIGHT.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'K2 SOUND - Secondo -セコンド-',
@@ -353,15 +339,15 @@ var data = [
 		title: 'Masterpieces For Our Struggle - Masterpieces For Our Struggle 2',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Masterpieces For Our Struggle - Masterpieces For Our Struggle 2.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Masterpieces For Our Struggle - Masterpieces For Our Struggle 2.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'ORANGE★JAM - memories',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ORANGE★JAM - memories.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ORANGE★JAM - memories.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'Lapis moss - 東方夢詩物語',
@@ -371,25 +357,32 @@ var data = [
 		style: 'height:200px'
 	},
 	{
+		title: 'Glassy：oceaN - 幻想古今奇譚',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Glassy：oceaN - 幻想古今奇譚.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Glassy：oceaN - 幻想古今奇譚.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
 		title: 'LiLA\'c Records - TOHO SPEED 03',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/LiLA\'c Records - TOHO SPEED 03.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/LiLA\'c Records - TOHO SPEED 03.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'Pizuya\'s Cell - 露地奥の仙界神子',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Pizuya\'s Cell - 露地奥の仙界神子.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Pizuya\'s Cell - 露地奥の仙界神子.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'Pizuya\'s Cell - 秘封蓮続体',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Pizuya\'s Cell - 秘封蓮続体.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Pizuya\'s Cell - 秘封蓮続体.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'MICMNIS - LiLLiput',
@@ -399,30 +392,16 @@ var data = [
 		style: 'height:200px'
 	},
 	{
-		title: 'Pearls Before Swine - STRINGS ON THE VEXATION',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Pearls Before Swine - STRINGS ON THE VEXATION.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Pearls Before Swine - STRINGS ON THE VEXATION.jpg',
+		title: 'KRASTERII - FLEETSECTION',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/KRASTERII - FLEETSECTION.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/KRASTERII - FLEETSECTION.jpg',
 		span: '2',
 		style: 'height:200px'
 	},
 	{
-		title: 'PHOENIX Project - 8bit+Band+Dance東方アレンジCD ～霧雨魔法典～',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/PHOENIX Project - 8bit+Band+Dance東方アレンジCD ～霧雨魔法典～.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/PHOENIX Project - 8bit+Band+Dance東方アレンジCD ～霧雨魔法典～.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: 'Silver Forest - 闇の魔法結界',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Silver Forest - 闇の魔法結界.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Silver Forest - 闇の魔法結界.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: 'KRASTERII - FLEETSECTION',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/KRASTERII - FLEETSECTION.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/KRASTERII - FLEETSECTION.jpg',
+		title: 'SPACELECTRO - 東方ボーカルEDM2',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/SPACELECTRO - 東方ボーカルEDM2.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/SPACELECTRO - 東方ボーカルEDM2.jpg',
 		span: '2',
 		style: 'height:200px'
 	},
@@ -434,11 +413,25 @@ var data = [
 		style: 'height:200px'
 	},
 	{
-		title: 'SPACELECTRO - 東方ボーカルEDM2',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/SPACELECTRO - 東方ボーカルEDM2.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/SPACELECTRO - 東方ボーカルEDM2.jpg',
-		span: '3',
-		style: 'height:300px'
+		title: 'PHOENIX Project - 8bit+Band+Dance東方アレンジCD ～霧雨魔法典～',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/PHOENIX Project - 8bit+Band+Dance東方アレンジCD ～霧雨魔法典～.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/PHOENIX Project - 8bit+Band+Dance東方アレンジCD ～霧雨魔法典～.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'Silver Forest - 闇の魔法結界',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Silver Forest - 闇の魔法結界.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Silver Forest - 闇の魔法結界.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'Pearls Before Swine - STRINGS ON THE VEXATION',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Pearls Before Swine - STRINGS ON THE VEXATION.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Pearls Before Swine - STRINGS ON THE VEXATION.jpg',
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'Reason Is Nowhere - Sphere of Spirit',
@@ -458,8 +451,8 @@ var data = [
 		title: 'ReVolte - 夢想色彩集3 AuroraVision-極光-',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ReVolte - 夢想色彩集3 AuroraVision-極光-.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ReVolte - 夢想色彩集3 AuroraVision-極光-.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'Re：Volte - UnMoora',
@@ -472,8 +465,8 @@ var data = [
 		title: 'TAMUSIC - 東方バイオリンロック 永-NAGARAE-',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/TAMUSIC - 東方バイオリンロック 永-NAGARAE-.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/TAMUSIC - 東方バイオリンロック 永-NAGARAE-.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'River Mist - Carnival of ScarlettMansion',
@@ -486,13 +479,6 @@ var data = [
 		title: 'Rolling Contact - TOHO Glitch',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Rolling Contact - TOHO Glitch.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Rolling Contact - TOHO Glitch.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: 'Saga Novel - 緋染夜灯',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Saga Novel - 緋染夜灯.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Saga Novel - 緋染夜灯.jpg',
 		span: '2',
 		style: 'height:200px'
 	},
@@ -500,8 +486,15 @@ var data = [
 		title: 'ShibayanRecords - Adrastea',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ShibayanRecords - Adrastea.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ShibayanRecords - Adrastea.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'Saga Novel - 緋染夜灯',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Saga Novel - 緋染夜灯.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Saga Novel - 緋染夜灯.jpg',
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'signumii - エナジーアロー',
@@ -514,8 +507,8 @@ var data = [
 		title: 'situation report - There\'s a Horizon Still Shining Bright',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/situation report - There\'s a Horizon Still Shining Bright.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/situation report - There\'s a Horizon Still Shining Bright.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'Sound Sepher - sepher.jp 東方アレンジコレクション3',
@@ -528,13 +521,20 @@ var data = [
 		title: 'Undead Corporation - 兵',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Undead Corporation - 兵.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Undead Corporation - 兵.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'TATAMI STUGIWO - お部屋のBGMにしたい東方アレンジシリーズ③『お月様はリビング』',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/TATAMI STUGIWO - お部屋のBGMにしたい東方アレンジシリーズ③『お月様はリビング』.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/TATAMI STUGIWO - お部屋のBGMにしたい東方アレンジシリーズ③『お月様はリビング』.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'UI-70 - Death from Above',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/UI-70 - Death from Above.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/UI-70 - Death from Above.jpg',
 		span: '4',
 		style: 'height:400px'
 	},
@@ -546,18 +546,11 @@ var data = [
 		style: 'height:200px'
 	},
 	{
-		title: 'UI-70 - Death from Above',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/UI-70 - Death from Above.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/UI-70 - Death from Above.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
 		title: 'あ～るの～と - Yoshiha Style 3～ゆめのうた～',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/あ～るの～と - Yoshiha Style 3～ゆめのうた～.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/あ～るの～と - Yoshiha Style 3～ゆめのうた～.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '5150 - シンフォニック東方Ⅷ',
@@ -577,15 +570,15 @@ var data = [
 		title: 'Yonder Voice - 霊桜に眠る',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Yonder Voice - 霊桜に眠る.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Yonder Voice - 霊桜に眠る.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'ZeroMercy - 東方雪月抄 ～ Winter Memories',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ZeroMercy - 東方雪月抄 ～ Winter Memories.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ZeroMercy - 東方雪月抄 ～ Winter Memories.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: 'ZYTOKINE - PHOTOGRAPHIC DESTINATIONS',
@@ -602,6 +595,20 @@ var data = [
 		style: 'height:200px'
 	},
 	{
+		title: '荒御霊 - the facts of phantasy',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/荒御霊 - the facts of phantasy.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/荒御霊 - the facts of phantasy.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: '荒御霊As／Hi Soundworks - Phantagenic Moments',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/荒御霊As／Hi Soundworks - Phantagenic Moments.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/荒御霊As／Hi Soundworks - Phantagenic Moments.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
 		title: 'アールグレイ - ココロ・アンノウン',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/アールグレイ - ココロ・アンノウン.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/アールグレイ - ココロ・アンノウン.jpg',
@@ -612,8 +619,8 @@ var data = [
 		title: 'アールグレイ - フランドール・スカーレットのイチャイチャディスク',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/アールグレイ - フランドール・スカーレットのイチャイチャディスク.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/アールグレイ - フランドール・スカーレットのイチャイチャディスク.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'まらしぃ - 幻想遊戯＜文＞W',
@@ -621,13 +628,6 @@ var data = [
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/まらしぃ - 幻想遊戯＜文＞W.jpg',
 		span: '4',
 		style: 'height:400px'
-	},
-	{
-		title: 'はちみつれもん - Light Night Beat DX',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/はちみつれもん - Light Night Beat DX.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/はちみつれもん - Light Night Beat DX.jpg',
-		span: '3',
-		style: 'height:300px'
 	},
 	{
 		title: 'ゼッケン屋 - THE PREMIUM ZEKKEN',
@@ -651,13 +651,6 @@ var data = [
 		style: 'height:200px'
 	},
 	{
-		title: 'ロータスルートオーケストラ - Lotus root Orchestra Best 2007-2014 Toho Arrange Disk',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ロータスルートオーケストラ - Lotus root Orchestra Best 2007-2014 Toho Arrange Disk.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ロータスルートオーケストラ - Lotus root Orchestra Best 2007-2014 Toho Arrange Disk.jpg',
-		span: '4',
-		style: 'height:400px'
-	},
-	{
 		title: 'シロネコビート - 幻想ｱﾗｶﾙﾄ',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/シロネコビート - 幻想ｱﾗｶﾙﾄ.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/シロネコビート - 幻想ｱﾗｶﾙﾄ.jpg',
@@ -665,11 +658,25 @@ var data = [
 		style: 'height:200px'
 	},
 	{
+		title: 'はちみつれもん - Light Night Beat DX',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/はちみつれもん - Light Night Beat DX.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/はちみつれもん - Light Night Beat DX.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'ロータスルートオーケストラ - Lotus root Orchestra Best 2007-2014 Toho Arrange Disk',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ロータスルートオーケストラ - Lotus root Orchestra Best 2007-2014 Toho Arrange Disk.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ロータスルートオーケストラ - Lotus root Orchestra Best 2007-2014 Toho Arrange Disk.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
 		title: '東方女子流 - 東方ガールズパーティー',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/東方女子流 - 東方ガールズパーティー.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/東方女子流 - 東方ガールズパーティー.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '歌恋人 - 婀娜',
@@ -682,22 +689,15 @@ var data = [
 		title: '狐夢想屋×ゼッケン屋 - 電子弦奏II -The Ghost’s Note-',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/狐夢想屋×ゼッケン屋 - 電子弦奏II -The Ghost’s Note-.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/狐夢想屋×ゼッケン屋 - 電子弦奏II -The Ghost’s Note-.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'ALiCe BoX - REVIVE～Toho CrossOver～',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/ALiCe BoX - REVIVE～Toho CrossOver～.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/ALiCe BoX - REVIVE～Toho CrossOver～.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
-		title: '魂音泉 - With Ø',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/魂音泉 - With Ø.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/魂音泉 - With Ø.jpg',
-		span: '4',
-		style: 'height:400px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '豆屋 - Dear',
@@ -752,8 +752,8 @@ var data = [
 		title: '天然ジェミニ - Toho WarfareRED I+II+III+EX',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/天然ジェミニ - Toho WarfareRED I+II+III+EX.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/天然ジェミニ - Toho WarfareRED I+II+III+EX.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: '豚骨会 - 合縁奇縁',
@@ -766,13 +766,20 @@ var data = [
 		title: '豚乙女 - ありきたりな脳髄よ、今宵の月と踊れ',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/豚乙女 - ありきたりな脳髄よ、今宵の月と踊れ.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/豚乙女 - ありきたりな脳髄よ、今宵の月と踊れ.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '2',
+		style: 'height:200px'
 	},
 	{
 		title: '豚乙女 - 東方猫鍵盤10',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/豚乙女 - 東方猫鍵盤10.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/豚乙女 - 東方猫鍵盤10.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'Find Your Way - TRUESTAR EP',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Find Your Way - TRUESTAR EP.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Find Your Way - TRUESTAR EP.jpg',
 		span: '2',
 		style: 'height:200px'
 	},
@@ -789,13 +796,6 @@ var data = [
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/梶迫小道具店 - RED RED RED CURTAIN.jpg',
 		span: '2',
 		style: 'height:200px'
-	},
-	{
-		title: '暁Records - 世界の選択 - Freedom Paradise-',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/暁Records - 世界の選択 - Freedom Paradise-.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/暁Records - 世界の選択 - Freedom Paradise-.jpg',
-		span: '4',
-		style: 'height:400px'
 	},
 	{
 		title: '音召缶 - Gensou Hard Dancing',
@@ -822,8 +822,8 @@ var data = [
 		title: 'TaNaBaTa - 白い宇宙',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/TaNaBaTa - 白い宇宙.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/TaNaBaTa - 白い宇宙.jpg',
-		span: '3',
-		style: 'height:300px'
+		span: '4',
+		style: 'height:400px'
 	},
 	{
 		title: 'A-GEAR - プライヴェイト・ヴィーナス',
@@ -840,16 +840,58 @@ var data = [
 		style: 'height:200px'
 	},
 	{
-		title: 'さんぼん堂 - 幻想少女大戦永　オリジナルサウンドトラック',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/さんぼん堂 - 幻想少女大戦永　オリジナルサウンドトラック.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/さんぼん堂 - 幻想少女大戦永　オリジナルサウンドトラック.jpg',
-		span: '3',
-		style: 'height:300px'
-	},
-	{
 		title: 'さくらゆっけ - ローカンケン・ストラックEP',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/さくらゆっけ - ローカンケン・ストラックEP.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/さくらゆっけ - ローカンケン・ストラックEP.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: 'AGENT 0 - Peccant Thunder',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/AGENT 0 - Peccant Thunder.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/AGENT 0 - Peccant Thunder.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: 'monoralGrey - レゾンデヱトル',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/monoralGrey - レゾンデヱトル.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/monoralGrey - レゾンデヱトル.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: 'Sound I\'z - 桜降る、果ての月',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Sound I\'z - 桜降る、果ての月.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Sound I\'z - 桜降る、果ての月.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: 'Exist twinkle - Lieblings Tracks',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Exist twinkle - Lieblings Tracks.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Exist twinkle - Lieblings Tracks.jpg',
+		span: '2',
+		style: 'height:200px'
+	},
+	{
+		title: 'さんぼん堂 - 幻想少女大戦永　オリジナルサウンドトラック',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/さんぼん堂 - 幻想少女大戦永　オリジナルサウンドトラック.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/さんぼん堂 - 幻想少女大戦永　オリジナルサウンドトラック.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: '少女フラクタル - 必然のカタストロフィ',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/少女フラクタル - 必然のカタストロフィ.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/少女フラクタル - 必然のカタストロフィ.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: '暇人さうんど - Mountain Gosipp',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/暇人さうんど - Mountain Gosipp.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/暇人さうんど - Mountain Gosipp.jpg',
 		span: '2',
 		style: 'height:200px'
 	}

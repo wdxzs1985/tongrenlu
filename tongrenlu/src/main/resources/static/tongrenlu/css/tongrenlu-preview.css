@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body {
-	padding-top: 90px;
+	padding-top: 100px;
 }
 
 #items-case{
@@ -9,7 +9,7 @@ body {
 
 #items-case > div {
 	background: #ffffff;
-	margin:0 8px 8px 0;
+	margin:10px 4px 0px 0;
 }
 
 #items-case > div:hover{
@@ -22,9 +22,10 @@ body {
 	right: 0;
 	top: 0;
 	bottom: auto;
-	height: 50px;
+	height: 80px;
 	z-index: 99;
 	width: auto;
+    box-shadow: 0 3px 4px rgba(0,0,0,.2);
 }
 
 #jp_container_1 .jp-interface {
@@ -55,3 +56,15 @@ body {
   	width: auto; 
 }
 
+
+
+#left-side .media{
+    background: #fcfcfc;
+    border-top: #fff solid 1px;
+    border-bottom: #f0f0f0 solid 1px;
+    margin: 0;
+}
+
+#left-side .media-body{
+    padding: 4px;
+}
