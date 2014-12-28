@@ -9,36 +9,50 @@
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/bootstrap-3.3.1/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="http://www.tongrenlu.info/tongrenlu/css/tongrenlu-screen.css" />
-		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jPlayer-2.9.2/skin/blue.monday/css/jplayer.blue.monday.min.css"  />
+		<link rel="stylesheet" type="text/css" href="http://www.tongrenlu.info/tongrenlu/css/tongrenlu-jplayer.css" />
 		<link rel="stylesheet" href="/tongrenlu/css/tongrenlu-preview.css" />
 	</head>
 	<body>
-		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
-		<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
-			<div class="jp-type-single">
-                <div class="jp-details">
-                    <div class="jp-title" aria-label="title">&nbsp;</div>
+        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+        <div id="jp_container_1" class="jp-audio">
+            <div class="jp-type-playlist">
+                <div class="jp-gui">
+                    <div class="jp-interface">
+                        <div class="jp-progress">
+                            <div class="jp-current-time"></div>
+                            <div class="jp-duration"></div>
+                            <div class="jp-seek-bar">
+                                <div class="jp-play-bar"></div>
+                            </div>
+                        </div>
+                        <ul class="jp-controls">
+                            <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a>
+                            </li>
+                        </ul>
+                        <ul class="jp-volumn hidden-xs">
+                            <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a>
+                            </li>
+                        </ul>
+                        <div class="jp-volume-bar hidden-xs">
+                            <div class="jp-volume-bar-value"></div>
+                        </div>
+                        <div class="jp-details">
+                            <ul>
+                                <li><span class="jp-title"></span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-				<div class="jp-gui jp-interface">
-					<div class="jp-controls">
-						<button class="jp-play" role="button" tabindex="0">play</button>
-						<button class="jp-stop" role="button" tabindex="0">stop</button>
-					</div>
-					<div class="jp-progress">
-						<div class="jp-seek-bar">
-							<div class="jp-play-bar"></div>
-						</div>
-					</div>
-					<div class="jp-volume-controls">
-						<button class="jp-mute" role="button" tabindex="0">mute</button>
-						<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
-						<div class="jp-volume-bar">
-							<div class="jp-volume-bar-value"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+            </div>
+        </div>
 		<div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 ">
@@ -65,7 +79,10 @@
 					<img class="lazy" data-original="{%= o.poster %}" style="{%= o.style %}" />
 			    </a>
 				<div class="caption">
-					<h5>{%= o.title %}</h5>
+					<h4 class="text-single-line">{%= o.title %}</h4>
+                    <p class="text-single-line text-muted">
+                        <a href="http://www.tongrenlu.info/music/search?q={%= encodeURI(o.artist) %}" target="_blank">{%= o.artist %}</a>
+                    </p>
 			    </div>
 			</div>
 		</script>
@@ -76,9 +93,8 @@
                     <img class="img-60 lazy" data-original="{%= o.poster %}" />
                 </a>
                 <div class="media-body">
-                    <h5 class="media-heading">
-                        <a class="play" href="javascript:;">{%= o.title %}</a>
-                    </h5>
+                    <h4 class="media-heading"><small>{%= o.artist %}</small></h4>
+					<p class=""><a class="play" href="javascript:;">{%= o.title %}</a></p>
                 </div>
             </div>
 		</script>
@@ -93,7 +109,7 @@
 					useStateClassSkin: true,
 					autoBlur: false,
 					smoothPlayBar: true,
-					keyEnabled: true,
+					keyEnabled: false,
 					remainingDuration: true,
 					toggleDuration: true
 				});
@@ -114,6 +130,14 @@
                 
                 if($(window).width() > 400) {
                     $.each(data, function(index, element) {
+                        if(index % 3 == 0) {
+                            element.span = '4';
+                            element.style = 'height:400px';
+                        } else {
+                            element.span = '2';
+                            element.style = 'height:200px';
+                        }
+                        
                         var html = tmpl('template-waterfall-item', element);
                         var $item = $(html).appendTo('#items-case');
                         $item.find('a.play').data(element);
@@ -121,12 +145,6 @@
                     });
                     $('#items-case').waterfall();
                 }
-                
-
-				
-				$(document).on('scroll', function(event) {
-					
-				});
 			});
 		</script>
 	</body>

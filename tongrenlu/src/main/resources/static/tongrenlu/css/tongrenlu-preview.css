@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body {
-	padding-top: 100px;
+	padding-top: 112px;
 }
 
 #items-case{
@@ -9,7 +9,7 @@ body {
 
 #items-case > div {
 	background: #ffffff;
-	margin:10px 4px 0px 0;
+	margin:10px 10px 0px 0;
 }
 
 #items-case > div:hover{
@@ -22,41 +22,22 @@ body {
 	right: 0;
 	top: 0;
 	bottom: auto;
-	height: 80px;
+	height: 100px;
 	z-index: 99;
 	width: auto;
     box-shadow: 0 3px 4px rgba(0,0,0,.2);
 }
 
-#jp_container_1 .jp-interface {
-	height: 50px;
+#jp_container_1 .jp-details {
+	background: #ddd;
+	text-align: center;
+	margin: 4px 0 0;
+	line-height: 28px;
 }
 
-#jp_container_1 .jp-controls {
-	position: absolute;
-	width: 80px;
-	left: 20px;
-	top: 5px;
-	padding: 0;
+#jp_container_1 .jp-interface ul.jp-controls {
+    width: 80px;
 }
-
-#jp_container_1 .jp-volume-controls {
-  	position: absolute;
-  	top: 15px;
-	left: auto;
-  	right: 20px;
-  	width: 100px; 
-}
-
-#jp_container_1 .jp-progress {
-  	position: absolute;
-  	top: 16px;
-	left: 120px;
-  	right: 140px;
-  	width: auto; 
-}
-
-
 
 #left-side .media{
     background: #fcfcfc;
