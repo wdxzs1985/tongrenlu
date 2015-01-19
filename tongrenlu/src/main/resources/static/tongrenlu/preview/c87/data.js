@@ -394,18 +394,18 @@ var data = [
 		style: 'height:200px'
 	},
 	{
-		title: 'Dim.STARLIGHT',
-        artist: 'IRON ATTACK!',
-		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/IRON ATTACK! - Dim.STARLIGHT.mp3',
-		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/IRON ATTACK! - Dim.STARLIGHT.jpg',
-		span: '4',
-		style: 'height:400px'
-	},
-	{
 		title: '闇の魔法結界',
         artist: 'Silver Forest',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Silver Forest - 闇の魔法結界.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Silver Forest - 闇の魔法結界.jpg',
+		span: '4',
+		style: 'height:400px'
+	},
+	{
+		title: 'Dim.STARLIGHT',
+        artist: 'IRON ATTACK!',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/IRON ATTACK! - Dim.STARLIGHT.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/IRON ATTACK! - Dim.STARLIGHT.jpg',
 		span: '4',
 		style: 'height:400px'
 	},
@@ -1118,5 +1118,29 @@ var data = [
         artist: 'Xenoglossy',
 		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/Xenoglossy - ぐろ～り～ふぁんたずむ.mp3',
 		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/Xenoglossy - ぐろ～り～ふぁんたずむ.jpg'
+	},
+	{
+		title: 'toho POP tunes vol.1',
+        artist: 'M.H.S',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/M.H.S - toho POP tunes vol.1.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/M.H.S - toho POP tunes vol.1.jpg'
+	},
+	{
+		title: '聖少女棒',
+        artist: 'GIRLSICK×モジャン棒',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/GIRLSICK×モジャン棒 - 聖少女棒.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/GIRLSICK×モジャン棒 - 聖少女棒.jpg'
+	},
+	{
+		title: 'GOD & GUNS',
+        artist: 'the Yutorizm',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/the Yutorizm - GOD & GUNS.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/the Yutorizm - GOD & GUNS.jpg'
+	},
+	{
+		title: 'SLANTING RAIN',
+        artist: '埼玉最終兵器 & Aether',
+		mp3: 'http://static.tongrenlu.info/tongrenlu/preview/c87/xfd/埼玉最終兵器 & Aether - SLANTING RAIN.mp3',
+		poster: 'http://static.tongrenlu.info/tongrenlu/preview/c87/cover/埼玉最終兵器 & Aether - SLANTING RAIN.jpg'
 	}
 ];
