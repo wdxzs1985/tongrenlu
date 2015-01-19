@@ -4,15 +4,7 @@
 gallery
 **************/
 .gallery {
-    margin: 0 auto 30px ;
-}
-
-.gallery .page-header{
-    border: none;
-    margin-bottom: 30px;
-}
-
-.gallery .page-header > h1{
+    margin: 20px auto 20px ;
 }
 
 .gallery > div {
@@ -133,7 +125,6 @@ gallery
 @media (min-width: 480px) {
     .gallery {
         width: 480px;
-        margin: 0 auto;
     }
     
     .gallery > div {
@@ -158,7 +149,6 @@ gallery
 @media (min-width: 768px) {
     .gallery {
         width: 690px;
-        margin: 0 auto;
     }
     
     .gallery > div {

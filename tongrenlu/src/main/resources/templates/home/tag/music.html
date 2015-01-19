@@ -10,31 +10,7 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header" >
         <div class="container">
-            <h3 th:text="#{home.tag.music(${tagBean.tag})}"></h3>
-        </div>
-        <div class="container-tab">
-            <div class="container">
-                <ul class="nav">
-                    <li class="">
-                        <a th:href="@{/tag/__${tagBean.id}__}">
-                            <span class="glyphicon glyphicon-tag"></span>
-                            <span class="hidden-xs" th:text="${tagBean.tag}"></span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a th:href="@{/tag/__${tagBean.id}__/music}">
-                            <span class="glyphicon glyphicon-music"></span>
-                            <span class="hidden-xs" th:text="#{home.music}"></span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a th:href="@{/tag/__${tagBean.id}__/comic}">
-                            <span class="glyphicon glyphicon-picture"></span>
-                            <span class="hidden-xs" th:text="#{home.comic}"></span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <h1 th:text="#{home.tag.music(${tagBean.tag})}"></h1>
         </div>
     </div>
     <div class="container-wrap" >

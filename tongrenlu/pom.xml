@@ -5,7 +5,7 @@
 
 	<groupId>info.tongrenlu</groupId>
 	<artifactId>tongrenlu</artifactId>
-	<version>1.0.1-RELEASE</version>
+	<version>1.0.2-RELEASE</version>
 
 	<name>tongrenlu</name>
 	<description>tongrenlu</description>
@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.0.RELEASE</version>
+        <version>1.2.1.RELEASE</version>
     </parent>
     
     <dependencies>

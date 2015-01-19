@@ -35,20 +35,6 @@
             </th:block>
           </ul>
         </li>
-        <li id="nav-comic" class="dropdown cl-effect-1">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-            <span th:text="#{console.comic}"></span> 
-            <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li ><a th:href="@{/console/comic/input}" th:text="#{console.comic.input}"></a></li>
-            <li ><a th:href="@{/console/comic}" th:text="#{console.comic.index}"></a></li>
-            <th:block th:if="${session.LOGIN_USER.admin}">
-                <li class="divider"></li>
-                <li ><a th:href="@{/admin/comic}" th:text="#{admin.comic}"></a></li>
-            </th:block>
-          </ul>
-        </li>
         <li class="cl-effect-1" th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
             <a th:href="@{/admin/music}" >
                 <span th:text="#{admin.music}"></span>
