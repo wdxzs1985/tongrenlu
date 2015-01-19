@@ -5,7 +5,7 @@ var player = function(option) {
         },
         supplied: 'mp3',
         smoothPlayBar: true,
-        keyEnabled: true,
+        keyEnabled: false,
         audioFullScreen: true,
         volume: 0.5,
         preload: 'none'
