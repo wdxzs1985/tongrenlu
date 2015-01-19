@@ -1,9 +1,7 @@
 package info.tongrenlu.www;
 
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.HomeComicService;
 import info.tongrenlu.service.HomeMusicService;
 
 import java.util.List;
@@ -23,21 +21,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class IndexController {
 
     @Autowired
-    private final HomeComicService comicService = null;
-    @Autowired
     private final HomeMusicService musicService = null;
 
     // private final Log log = LogFactory.getLog(this.getClass());
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
-    public String doGetIndex(@ModelAttribute final UserBean loginUser,
-                             final Model model) {
+    public String doGetIndex(@ModelAttribute final UserBean loginUser, final Model model) {
 
         final List<MusicBean> musicRanking = this.musicService.getTopping(30);
         model.addAttribute("musicRanking", musicRanking);
-
-        final List<ComicBean> comicRanking = this.comicService.getTopping(24);
-        model.addAttribute("comicRanking", comicRanking);
 
         return "home/index";
     }

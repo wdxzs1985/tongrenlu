@@ -4,7 +4,6 @@ import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.ConsoleComicService;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.ConsoleUserService;
 import info.tongrenlu.support.PaginateSupport;
@@ -31,29 +30,22 @@ public class ConsoleController {
     public static int PAGE_SIZE = 12;
 
     @Autowired
-    private ConsoleUserService userService = null;
+    private final ConsoleUserService userService = null;
     @Autowired
-    private ConsoleMusicService musicService = null;
-    @Autowired
-    private ConsoleComicService comicService = null;
+    private final ConsoleMusicService musicService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
-    public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model) {
+    public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
         if (loginUser.isAdmin()) {
             final int unpublishMusicCount = this.musicService.countUnpublish();
-            final int unpublishComicCount = this.comicService.countUnpublish();
-
             model.addAttribute("unpublishMusicCount", unpublishMusicCount);
-            model.addAttribute("unpublishComicCount", unpublishComicCount);
         }
         return "console/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/timeline")
     @ResponseBody
-    public Map<String, Object> doGetTimeline(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                             @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+    public Map<String, Object> doGetTimeline(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final Map<String, Object> model = new HashMap<>();
         final PaginateSupport<TimelineBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("loginUser", loginUser);
@@ -63,11 +55,8 @@ public class ConsoleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/like/music")
-    public String doGetLikeMusic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                 final Model model) {
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      ConsoleController.PAGE_SIZE);
+    public String doGetLikeMusic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, @ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, ConsoleController.PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchLikeMusic(page);
         model.addAttribute("page", page);
@@ -75,11 +64,8 @@ public class ConsoleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/like/comic")
-    public String doGetLikeComic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                 final Model model) {
-        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      ConsoleController.PAGE_SIZE);
+    public String doGetLikeComic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, @ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber, ConsoleController.PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchLikeComic(page);
         model.addAttribute("page", page);
@@ -88,11 +74,8 @@ public class ConsoleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/follow")
-    public String doGetFollow(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     ConsoleController.PAGE_SIZE);
+    public String doGetFollow(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, @ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, ConsoleController.PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollow(page);
         model.addAttribute("page", page);
@@ -101,11 +84,8 @@ public class ConsoleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/follower")
-    public String doGetFollower(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     ConsoleController.PAGE_SIZE);
+    public String doGetFollower(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, @ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, ConsoleController.PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollower(page);
         model.addAttribute("page", page);

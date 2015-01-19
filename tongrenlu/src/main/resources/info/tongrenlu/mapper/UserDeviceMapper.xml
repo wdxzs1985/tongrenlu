@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.UserDeviceMapper">
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO r_user_device(
+        <trim suffixOverrides=",">
+           user_id,
+           user_agent,
+           fingerprint,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{userId},
+            #{userAgent},
+            #{fingerprint},
+        </trim>
+        )
+    </insert>
+    
+    <select id="fetchBean" resultType="UserBean">
+        SELECT
+        <trim suffixOverrides=",">
+            m_user.id                    as id,
+            m_user.EMAIL                 as email,
+            m_user.PASSWORD              as password,
+            m_user.NICKNAME              as nickname,
+            m_user.signature             as signature,
+            m_user.role                  as role,
+            m_user.include_red_flg       as includeRedFlg,
+            m_user.only_translate_flg    as onlyTranslateFlg,
+            m_user.only_vocal_flg        as onlyVocalFlg,
+        </trim>
+        FROM
+            r_user_device
+        left join m_user on m_user.id = r_user_device.user_id
+        <where>
+            m_user.DEL_FLG = 0
+        and r_user_device.DEL_FLG = 0
+        <if test="fingerprint != null">
+        AND r_user_device.fingerprint = #{fingerprint}
+        </if>
+        <if test="userAgent != null">
+        AND r_user_device.user_agent = #{userAgent}
+        </if>
+        </where>
+    </select>
+    
+    <update id="delete">
+        delete from
+            r_user_device
+        <where>
+        <if test="userId != null">
+        AND r_user_device.user_id = #{userId}
+        </if>
+        <if test="userAgent != null">
+        AND r_user_device.user_agent = #{userAgent}
+        </if>
+        </where>
+    </update>
+</mapper>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,43 +22,41 @@ import org.springframework.web.util.CookieGenerator;
 @Component
 public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
 
-    private Log log = LogFactory.getLog(AutoLoginInterceptor.class);
+    private final Log log = LogFactory.getLog(AutoLoginInterceptor.class);
     @Autowired
-    private LoginService loginService = null;
+    private final LoginService loginService = null;
     @Autowired
-    private CookieGenerator autoLoginCookie = null;
+    private final CookieGenerator autoLoginCookie = null;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request,
-                             final HttpServletResponse response,
-                             final Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
 
         final HttpSession session = request.getSession();
+        final String userAgent = request.getHeader("User-Agent");
+        UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
 
-        synchronized (this) {
-            UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
-            if (loginUser == null) {
+        if (loginUser == null) {
+            synchronized (this) {
                 final Cookie[] cookies = request.getCookies();
                 if (ArrayUtils.isNotEmpty(cookies)) {
                     for (final Cookie cookie : request.getCookies()) {
                         if (CommonConstants.FINGERPRINT.equals(cookie.getName())) {
                             this.log.info("auto login...");
                             String fingerprint = cookie.getValue();
-                            loginUser = this.loginService.doAutoLogin(fingerprint);
-                            if (loginUser != null) {
-                                session.setAttribute(CommonConstants.LOGIN_USER,
-                                                     loginUser);
-                                fingerprint = loginUser.getFingerprint();
-                                this.autoLoginCookie.addCookie(response,
-                                                               fingerprint);
-                                this.log.info("auto login ok.");
-                            } else {
-                                this.autoLoginCookie.removeCookie(response);
+                            if (StringUtils.isNotBlank(fingerprint)) {
+                                loginUser = this.loginService.doAutoLogin(fingerprint, userAgent);
+                                if (loginUser != null) {
+                                    session.setAttribute(CommonConstants.LOGIN_USER, loginUser);
+                                    fingerprint = loginUser.getFingerprint();
+                                    this.autoLoginCookie.addCookie(response, fingerprint);
+                                    this.log.info("auto login ok.");
+                                    return true;
+                                }
                             }
-                            break;
+                            this.autoLoginCookie.removeCookie(response);
                         }
                     }
                 }
