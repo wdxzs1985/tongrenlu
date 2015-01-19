@@ -31,7 +31,41 @@
     <div class="container" layout:fragment="article-info">
         <div class="row">
             <div class="col-sm-6">
-                <div id="player" th:include="home/layout_article_view::article-player"></div>
+                <div id="player" th:fragment="article-player">
+                    <div id="jp_container_1" class="jp-audio">
+                        <div class="jp-type-playlist">
+                            <div class="jp-playlist">
+                                <ul>
+                                    <li class="media" th:each="trackBean,varStatus : ${trackList}">
+                                        <a class="pull-left" th:if="${varStatus.index eq 0}">
+                                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" 
+                                                class="img-120 media-object" />
+                                        </a>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">
+                                                <span th:text="${varStatus.count} + '. ' + ${trackBean.name}"></span>
+                                                <span class="label label-warning" 
+                                                    th:text="#{TrackBean.instrumental}"
+                                                    th:if="${trackBean.instrumental} eq '1'"></span>
+                                                <br /><small th:text="'by ' + ${trackBean.artist}"></small>
+                                            </h5>
+                                            <div class="jp-rate">
+                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 1} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 2} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 3} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 4} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 5} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <pre class="" th:text="${trackBean.original}"></pre>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-6">
                 <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
@@ -62,23 +96,6 @@
 
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    
-    new player({
-        url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
-        rateUrl: /*[[@{/music/rate}]]*/ '',
-        filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
-        swfPath: 'http://static.tongrenlu.info/jPlayer-2.9.2/jplayer',
-        filter: function(playList, playable) {
-            var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
-            if(onlyVocal) {
-                if(!playable.instrumental) {
-                    playList.push(playable);
-                }
-            } else {
-                playList.push(playable);
-            }
-        }
-    });
     
     new carousel({
         url: /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '',

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class ArticleBean extends DtoBean {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -24,8 +24,6 @@ public class ArticleBean extends DtoBean {
     private String publishFlg;
 
     private Date publishDate;
-
-    private String recommendFlg;
 
     private int accessCount = 0;
 
@@ -87,14 +85,6 @@ public class ArticleBean extends DtoBean {
 
     public void setUserBean(final UserBean userBean) {
         this.userBean = userBean;
-    }
-
-    public String getRecommendFlg() {
-        return this.recommendFlg;
-    }
-
-    public void setRecommendFlg(final String recommendFlg) {
-        this.recommendFlg = recommendFlg;
     }
 
     public int getLikeCount() {

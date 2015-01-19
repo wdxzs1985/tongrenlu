@@ -25,6 +25,7 @@ div.jp-interface {
 
 div.jp-audio .jp-interface {
     height: 80px;
+    border-bottom: #f0f0f0 solid 1px;
 }
 
 div.jp-interface .glyphicon {
@@ -305,16 +306,13 @@ div.jp-type-playlist div.jp-playlist li:nth-child(odd) {
 }
 
 div.jp-type-playlist div.jp-playlist li:hover {
-    background-color: #f5f5f5;
 }
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
-    background-color: #fefefe;
 }
 
 /* Note that the first-child (IE6) and last-child (IE6/7/8) selectors do not work on IE */
 
 div.jp-type-playlist div.jp-playlist li:first-child {
-    border-top: #e0e0e0 solid 1px;
 }
 
 div.jp-type-playlist div.jp-playlist li:last-child {
