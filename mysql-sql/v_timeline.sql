@@ -4,43 +4,13 @@ CREATE
     SQL SECURITY DEFINER
 VIEW `v_timeline` AS
     select 
-        `v_comic`.`id` AS `articleBean.id`,
-        `v_comic`.`title` AS `articleBean.title`,
-        `v_comic`.`userBean.id` AS `userBean.id`,
-        `v_comic`.`userBean.nickname` AS `userBean.nickname`,
-        `v_comic`.`description` AS `content`,
-        `v_comic`.`publishDate` AS `createDate`,
-        `v_comic`.`userBean.id` AS `followId`,
-        NULL AS `followerId`,
-        `v_comic`.`redFlg` AS `redFlg`,
-        `v_comic`.`translateFlg` AS `translateFlg`,
-        'publish_comic' AS `action`
-    from
-        `v_comic`
-    where
-        (`v_comic`.`publishFlg` = '1') 
-    union select 
-        `v_comic_comment`.`articleBean.id` AS `articleBean.id`,
-        `v_comic_comment`.`articleBean.title` AS `articleBean.title`,
-        `v_comic_comment`.`userBean.id` AS `userBean.id`,
-        `v_comic_comment`.`userBean.nickname` AS `userBean.nickname`,
-        `v_comic_comment`.`content` AS `content`,
-        `v_comic_comment`.`createDate` AS `createDate`,
-        `v_comic_comment`.`userBean.id` AS `followId`,
-        `v_comic_comment`.`articleBean.userBean.id` AS `followerId`,
-        `v_comic_comment`.`redFlg` AS `redFlg`,
-        `v_comic_comment`.`translateFlg` AS `translateFlg`,
-        'comment_comic' AS `action`
-    from
-        `v_comic_comment` 
-    union select 
         `v_music`.`id` AS `articleBean.id`,
         `v_music`.`title` AS `articleBean.title`,
-        `v_music`.`userBean.id` AS `userBean.id`,
-        `v_music`.`userBean.nickname` AS `userBean.nickname`,
+        NULL AS `userBean.id`,
+        NULL AS `userBean.nickname`,
         `v_music`.`description` AS `content`,
         `v_music`.`publishDate` AS `createDate`,
-        `v_music`.`userBean.id` AS `followId`,
+        NULL AS `followId`,
         NULL AS `followerId`,
         NULL AS `redFlg`,
         NULL AS `translateFlg`,

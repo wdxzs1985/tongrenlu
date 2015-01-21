@@ -9,7 +9,6 @@ VIEW `v_music` AS
         `a`.`description` AS `description`,
         `a`.`publish_flg` AS `publishFlg`,
         `a`.`publish_date` AS `publishDate`,
-        `a`.`recommend_flg` AS `recommendFlg`,
         `u`.`id` AS `userBean.id`,
         `u`.`nickname` AS `userBean.nickname`,
         `u`.`signature` AS `userBean.signature`,

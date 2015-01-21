@@ -6,7 +6,6 @@ VIEW `v_music_ranking` AS
         `v_music`.`description` AS `description`,
         `v_music`.`publishFlg` AS `publishFlg`,
         `v_music`.`publishDate` AS `publishDate`,
-        `v_music`.`recommendFlg` AS `recommendFlg`,
         `v_music`.`userBean.id` AS `userBean.id`,
         `v_music`.`userBean.nickname` AS `userBean.nickname`,
         `v_music`.`userBean.signature` AS `userBean.signature`,
