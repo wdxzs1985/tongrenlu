@@ -59,7 +59,7 @@ public class HomeMusicController {
     protected void throwExceptionWhenNotAllow(final MusicBean musicBean, final Locale locale) {
         if (musicBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
-        } else if (!musicBean.isPublish()) {
+        } else if (musicBean.isUnpublish()) {
             throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
         }
     }
