@@ -24,22 +24,19 @@
     <div class=" media-body ">
         <div class="">
             <span class="text-muted"> {%=o.createDate%}</span>
+            {% if (o.action == 'publish_music') { %}
+            <span th:text="#{home.user.timeline.publish}"></span>
+            <h4 class="media-heading"><a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
+            {% } else if (o.action == 'comment_music') { %}
             <a href="/user/{%=o.userBean.id%}" target="_blank">
                 <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
             </a>
-            {% if (o.action == 'publish_comic') { %}
-            <span th:text="#{home.user.timeline.publish}"></span>
-            <h4 class="media-heading"><a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
-            {% } else if (o.action == 'publish_music') { %}
-            <span th:text="#{home.user.timeline.publish}"></span>
-            <h4 class="media-heading"><a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
-            {% } else if (o.action == 'comment_comic') { %}
-            <span th:text="#{home.user.timeline.comment}"></span>
-            <h4 class="media-heading"><a href="/comic/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
-            {% } else if (o.action == 'comment_music') { %}
             <span th:text="#{home.user.timeline.comment}"></span>
             <h4 class="media-heading"><a href="/music/{%=o.articleBean.id%}" class="" target="_blank">{%=o.articleBean.title%}</a></h4>
             {% } else if (o.action == 'follow') { %}
+            <a href="/user/{%=o.userBean.id%}" target="_blank">
+                <strong>{%=o.userBean.nickname%}#{%=o.userBean.id%}</strong>
+            </a>
             <span th:text="#{home.user.timeline.follow}"></span>
             {% } %}
             <pre>{%=o.content%}</pre>

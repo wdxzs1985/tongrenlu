@@ -13,20 +13,7 @@
     <title th:inline="text">[[${articleBean.title} + ' | ' + #{application}]]</title>
 </head>
 <body>
-<div class="container" layout:fragment="article-header">
-    <div class="media">
-        <div class="media-left">
-            <img src="http://placehold.it/60x60" class="img-responsive img-rounded img-120" 
-                th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" 
-                th:alt-title="${articleBean.title}"/>
-        </div>
-        <div class="media-body">
-            <h1 class="article-title text-single-line hidden-xs" th:text="${articleBean.title}"></h1>
-            <h5 class="article-title visible-xs" th:text="${articleBean.title}"></h5>
-        </div>
-    </div>
-</div>
-<div layout:fragment="content">
+<div class="container-wrap" layout:fragment="content">
     <div th:include="home/layout_article_view::article-gallery"></div>
     <div class="container" layout:fragment="article-info">
         <div class="row">

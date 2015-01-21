@@ -10,7 +10,6 @@ import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
-import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
@@ -60,7 +59,7 @@ public class HomeMusicController {
     protected void throwExceptionWhenNotAllow(final MusicBean musicBean, final Locale locale) {
         if (musicBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
-        } else if (!CommonConstants.is(musicBean.getPublishFlg())) {
+        } else if (!musicBean.isPublish()) {
             throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
         }
     }
@@ -116,13 +115,20 @@ public class HomeMusicController {
         this.throwExceptionWhenNotAllow(musicBean, locale);
         this.musicService.addAccess(musicBean, loginUser);
         model.addAttribute("articleBean", musicBean);
-        final List<TrackBean> trackList = this.musicService.getTrackList(articleId, loginUser);
-        model.addAttribute("trackList", trackList);
-        if (this.musicService.isLike(articleId, loginUser, model.asMap(), locale) == LikeManager.RESULT_LIKE) {
+
+        if ("2".equals(musicBean.getPublishFlg())) {
+            return "home/music/view";
+        } else if (this.isOwner(musicBean, loginUser)) {
             return "home/music/view";
         } else {
+            final List<TrackBean> trackList = this.musicService.getTrackList(articleId, loginUser);
+            model.addAttribute("trackList", trackList);
             return "home/music/view2";
         }
+    }
+
+    private boolean isOwner(final MusicBean musicBean, final UserBean loginUser) {
+        return false;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")

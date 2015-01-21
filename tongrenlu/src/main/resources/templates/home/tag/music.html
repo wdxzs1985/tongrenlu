@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header" >
         <div class="container">
-            <h1 th:text="#{home.tag.music(${tagBean.tag})}"></h1>
+            <h3 th:text="#{home.tag.music(${tagBean.tag})}"></h3>
         </div>
     </div>
     <div class="container-wrap" >
@@ -42,7 +42,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/tag/__${tagBean.id}__/music(p='')}]]*/ '';
+            var url = /*[[@{/tag/__${tagBean.id}__(p='')}]]*/ '';
             window.location.href = url + currval;
             return false;
         }

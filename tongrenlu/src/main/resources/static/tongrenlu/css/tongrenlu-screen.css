@@ -1,12 +1,17 @@
 @charset "UTF-8";
 
 body, html {
-    font-family: "Helvetica Neue", Helvetica, STHeiTi, "Microsoft YaHei", "微软雅黑", sans-serif;
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, "Microsoft YaHei", sans-serif;
 }
 
 body {
     position: relative;
     background: #424242;
+    padding-top: 50px;
+}
+
+textarea {
+	resize: none;
 }
 
 .media-body pre {
@@ -155,7 +160,9 @@ body {
 }
 
 .container-wrap {
-	padding: 20px 0 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+	margin: 0;
     background-color: #f7f7f7;
 }
 
@@ -164,9 +171,16 @@ body {
 }
 
 .container-header {
-    margin-top: -20px;
     background: #4dd0e1;
     color: #fff;
+    padding-bottom: 0;
+}
+
+.container-header h1,
+.container-header h2,
+.container-header h3,
+.container-header form {
+    margin-bottom: 40px;
 }
 
 .container-header a {
@@ -188,7 +202,7 @@ body {
     margin-top: 40px;
 	padding: 0;
     background-color: rgba(255,255,255,.3);
-    margin-bottom: -40px;
+    margin-bottom: 0;
 }
 
 .container-tab .nav>li {
@@ -308,16 +322,13 @@ h1.article-title {
     margin-left: 4px;
 }
 
-#top-music {
-	margin-top: -40px;
-    background: #fff;
+#top-music,
+#top-tags, 
+#top-links {
+	padding: 20px 0 60px;
 }
 
-#top-comic {
-    background: #f9f9f9;
-}
-
-#top-tags, #top-links {
+#top-tags{
     background: #eeeeee;
 }
 

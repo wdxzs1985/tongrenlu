@@ -72,6 +72,9 @@
     color: #673ab7;
 }
 
+.container-wrap {
+}
+
 .container-header {
     background: #b39ddb;
     color: #fff;
@@ -121,7 +124,6 @@
 .container-tab .nav>li.active>a:focus .badge {
     background-color: #311B92; /* Deep Purple 700 */
 }
-
 
 .jPaginate a,
 .jPaginate li a,

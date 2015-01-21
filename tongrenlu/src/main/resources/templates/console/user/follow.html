@@ -10,11 +10,8 @@
     <div class="container-wrap container-header">
         <div class="container">
             <div class="media">
-                <a class="pull-left">
-                    <img class="img-60 img-circle media-object visible-xs" 
-                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
-                        th:alt-title="${session.LOGIN_USER}"/>
-                    <img class="img-120 img-circle media-object hidden-xs" 
+                <a class="media-left" th:href="@{/console/setting}">
+                    <img class="img-120 img-circle media-object" 
                         th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
                         th:alt-title="${session.LOGIN_USER}"/>
                 </a>
@@ -88,7 +85,6 @@
                         </div>
                     </div>
                 </div>
-                <hr />
                 <div id="jpaginate" class="hidden-xs"></div>
                 <div id="select-paginate" class="form-group visible-xs"></div>
             </th:block>
@@ -101,9 +97,6 @@
 <th:block layout:fragment="scripts">
 <script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
 <script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
-<script type="text/javascript" th:src="@{/d3/d3.min.js}"></script>
-<script type="text/javascript" th:src="@{/trianglify-0.1.4/trianglify.js}"></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     new paginate({
@@ -115,6 +108,15 @@ $(function() {
             return false;
         }
     });
+    
+});
+</script>
+
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify-0.1.4/trianglify.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
     
     $('.container-header').trianglify({
         palette: 'console'

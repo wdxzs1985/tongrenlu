@@ -13,8 +13,6 @@
             v_timeline
         <where>
             v_timeline.`followId` = #{userId}
-        and (   v_timeline.redFlg = '0' 
-            OR  v_timeline.redFlg is NULL)
         </where>
     </select>
     
@@ -33,8 +31,6 @@
             v_timeline
         <where>
             v_timeline.`followId` = #{userId}
-        and (   v_timeline.redFlg = '0' 
-            OR  v_timeline.redFlg is NULL)
         </where>
         order by v_timeline.createDate desc
         limit #{start}, #{pageSize}
@@ -47,25 +43,17 @@
         FROM 
             v_timeline
         <where>
-            (v_timeline.followId = #{loginUser.id}
-            or v_timeline.followerId = #{loginUser.id}
-            or v_timeline.followId in (select 
-                    like_id
-                from
-                    r_like
-                where
-                    r_like.category = 'u'
-                and r_like.del_flg = '0'
-                and user_id = #{loginUser.id}))
-        and (   v_timeline.redFlg = '0' 
-            OR  v_timeline.redFlg is NULL
-            <if test="loginUser.includeRed">
-            OR  v_timeline.redFlg = '1'
-            </if>)
-        <if test="loginUser.onlyTranslate">
-        and (v_timeline.`translateFlg` = '1' 
-        OR  v_timeline.`translateFlg` is NULL)
-        </if>
+            v_timeline.followId = #{loginUser.id}
+        or  v_timeline.followId in (select 
+                                        like_id
+                                    from
+                                        r_like
+                                    where
+                                        r_like.category = 'u'
+                                    and r_like.del_flg = '0'
+                                    and user_id = #{loginUser.id})
+        or v_timeline.followerId = #{loginUser.id}
+        or v_timeline.action = 'publish_music'
         </where>
     </select>
     
@@ -83,25 +71,17 @@
         FROM 
             v_timeline
         <where>
-            (v_timeline.followId = #{loginUser.id}
-            or v_timeline.followerId = #{loginUser.id}
-            or v_timeline.followId in (select 
-                    like_id
-                from
-                    r_like
-                where
-                    r_like.category = 'u'
-                and r_like.del_flg = '0'
-                and user_id = #{loginUser.id}))
-        and (   v_timeline.redFlg = '0' 
-            OR  v_timeline.redFlg is NULL
-            <if test="loginUser.includeRed">
-            OR  v_timeline.redFlg = '1'
-            </if>)
-        <if test="loginUser.onlyTranslate">
-        and (v_timeline.`translateFlg` = '1' 
-        OR  v_timeline.`translateFlg` is NULL)
-        </if>
+            v_timeline.followId = #{loginUser.id}
+        or  v_timeline.followId in (select 
+                                        like_id
+                                    from
+                                        r_like
+                                    where
+                                        r_like.category = 'u'
+                                    and r_like.del_flg = '0'
+                                    and user_id = #{loginUser.id})
+        or v_timeline.followerId = #{loginUser.id}
+        or v_timeline.action = 'publish_music'
         </where>
         order by v_timeline.createDate desc
         limit #{start}, #{pageSize}
