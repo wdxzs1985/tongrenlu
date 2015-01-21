@@ -149,7 +149,7 @@
         <where>
         AND r_article_tag.tag_id = #{tagBean.id}
         AND r_article_tag.del_flg = '0'
-        AND v_music.publishFlg = '1'
+        AND v_music.publishFlg in ('1', '2')
         </where>
         order by v_music.id desc
         limit #{start}, #{pageSize}

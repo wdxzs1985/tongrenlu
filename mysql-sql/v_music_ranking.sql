@@ -26,7 +26,7 @@ VIEW `v_music_ranking` AS
         left join `v_music_like_count_weekly` ON ((`v_music`.`id` = `v_music_like_count_weekly`.`like_id`)))
         left join `v_article_publish_days_weekly` ON ((`v_music`.`id` = `v_article_publish_days_weekly`.`id`)))
     where
-        (`v_music`.`publishFlg` = '1')
+        (`v_music`.`publishFlg` in ('1','2'))
     order by (((ifnull(`v_article_comment_count_weekly`.`cnt`,
             0) * 10) + (ifnull(`v_music_like_count_weekly`.`cnt`, 0) * 5)) + ((ifnull(`v_article_publish_days_weekly`.`days`,
             -(7)) + 7) * 5)) desc , `v_music`.`publishDate` desc

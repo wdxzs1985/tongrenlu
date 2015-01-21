@@ -17,13 +17,12 @@
 <div layout:fragment="header"></div>
 <div layout:fragment="content"></div>
 <div layout:fragment="footer">
-<div id="footer" class="navbar navbar-static-bottom ">
+<div id="footer" class="container-wrap">
   <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="index.html"
-        th:href="@{/}" th:text="#{application}"></a>
-    </div>
-    <div class="navbar-text navbar-right hidden-xs">
+    <h4 class="pull-left">
+      <a class="" href="index.html" th:href="@{/}" th:text="#{application}"></a>
+    </h4>
+    <div class="pull-right">
         <p >本站资源均来自网友分享。若侵犯到您的权益，请立即联系我们删除。本站不负任何相关责任。</p>
         <p ><strong>东方同人录公式群：</strong>197781767     <strong>联系邮件：</strong>tongrenlu2013@gmail.com</p>
     </div>

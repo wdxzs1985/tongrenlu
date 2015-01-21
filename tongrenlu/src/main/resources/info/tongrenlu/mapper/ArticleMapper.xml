@@ -35,6 +35,10 @@
                 publish_flg = #{publishFlg},
                 publish_date = CURRENT_TIMESTAMP,
             </if>
+            <if test="publishFlg eq 2">
+                publish_flg = #{publishFlg},
+                publish_date = CURRENT_TIMESTAMP,
+            </if>
         </set>
         <where>
             id = #{id}

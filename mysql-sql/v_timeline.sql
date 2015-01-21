@@ -18,7 +18,7 @@ VIEW `v_timeline` AS
     from
         `v_music`
     where
-        (`v_music`.`publishFlg` = '1') 
+        (`v_music`.`publishFlg` in ('1','2'))
     union select 
         `v_music_comment`.`articleBean.id` AS `articleBean.id`,
         `v_music_comment`.`articleBean.title` AS `articleBean.title`,

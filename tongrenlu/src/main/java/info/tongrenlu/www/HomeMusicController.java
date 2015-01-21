@@ -71,7 +71,7 @@ public class HomeMusicController {
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("query", query);
-        page.addParam("publishFlg", CommonConstants.CHR_TRUE);
+        page.addParam("publishFlg", new String[] { CommonConstants.PUBLISH, CommonConstants.FREE });
         this.musicService.searchMusic(page);
         model.addAttribute("page", page);
 

@@ -104,13 +104,11 @@ public class ConsoleMusicService {
     }
 
     public void searchMusic(final PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.articleManager.countMusic(paginate
-                .getParams());
+        final int itemCount = this.articleManager.countMusic(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
 
-        final List<MusicBean> items = this.articleManager.searchMusic(paginate
-                .getParams());
+        final List<MusicBean> items = this.articleManager.searchMusic(paginate.getParams());
         paginate.setItems(items);
     }
 
@@ -149,8 +147,7 @@ public class ConsoleMusicService {
         return files;
     }
 
-    public Map<String, Object> wrapFileBean(final FileBean fileBean,
-                                            final Map<String, Object> fileModel) {
+    public Map<String, Object> wrapFileBean(final FileBean fileBean, final Map<String, Object> fileModel) {
         fileModel.put("id", fileBean.getId());
         fileModel.put("name", fileBean.getName());
         fileModel.put("articleId", fileBean.getArticleId());
@@ -213,8 +210,7 @@ public class ConsoleMusicService {
     }
 
     @Transactional
-    public void updateTrackList(final List<TrackBean> trackList,
-                                final MusicBean musicBean) {
+    public void updateTrackList(final List<TrackBean> trackList, final MusicBean musicBean) {
         for (final TrackBean trackBean : trackList) {
             this.trackManager.updateTrack(trackBean);
             this.articleManager.updateFile(trackBean.getFileBean());
@@ -236,36 +232,29 @@ public class ConsoleMusicService {
     @Transactional
     public void publish(final MusicBean musicBean) {
         this.articleManager.publish(musicBean);
-
         final String[] tags = this.getTags(musicBean);
-
         final List<TrackBean> trackList = this.getTrackList(musicBean);
-
         this.saveMusicDocument(musicBean, trackList, tags);
-
     }
 
-    private boolean validateForCreate(final MusicBean inputArticle,
-                                      final Map<String, Object> model,
-                                      final Locale locale) {
+    public void free(final MusicBean musicBean) {
+        this.articleManager.free(musicBean);
+        final String[] tags = this.getTags(musicBean);
+        final List<TrackBean> trackList = this.getTrackList(musicBean);
+        this.saveMusicDocument(musicBean, trackList, tags);
+    }
+
+    private boolean validateForCreate(final MusicBean inputArticle, final Map<String, Object> model, final Locale locale) {
         boolean isValid = true;
-        if (!this.articleManager.validateTitle(inputArticle.getTitle(),
-                                               "titleError",
-                                               model,
-                                               locale)) {
+        if (!this.articleManager.validateTitle(inputArticle.getTitle(), "titleError", model, locale)) {
             isValid = false;
         }
         return isValid;
     }
 
-    private boolean validateForEdit(final MusicBean inputArticle,
-                                    final Map<String, Object> model,
-                                    final Locale locale) {
+    private boolean validateForEdit(final MusicBean inputArticle, final Map<String, Object> model, final Locale locale) {
         boolean isValid = true;
-        if (!this.articleManager.validateTitle(inputArticle.getTitle(),
-                                               "titleError",
-                                               model,
-                                               locale)) {
+        if (!this.articleManager.validateTitle(inputArticle.getTitle(), "titleError", model, locale)) {
             isValid = false;
         }
         return isValid;
@@ -300,12 +289,9 @@ public class ConsoleMusicService {
     }
 
     @Transactional
-    public void saveMusicDocument(final MusicBean musicBean,
-                                  final List<TrackBean> trackList,
-                                  final String[] tags) {
+    public void saveMusicDocument(final MusicBean musicBean, final List<TrackBean> trackList, final String[] tags) {
         final Integer articleId = musicBean.getId();
-        ArticleDocument articleDocument = this.articleRepository
-                .findOne("m" + articleId);
+        ArticleDocument articleDocument = this.articleRepository.findOne("m" + articleId);
         if (articleDocument == null) {
             articleDocument = new MusicDocument(articleId);
         }
@@ -321,8 +307,7 @@ public class ConsoleMusicService {
         if (CollectionUtils.isNotEmpty(trackList)) {
             for (final TrackBean track : trackList) {
                 final Integer fileId = track.getId();
-                ArticleDocument trackDocument = this.articleRepository
-                        .findOne("t" + fileId);
+                ArticleDocument trackDocument = this.articleRepository.findOne("t" + fileId);
                 if (trackDocument == null) {
                     trackDocument = new TrackDocument(fileId);
                     trackDocument.setArticleId(articleId);
@@ -330,13 +315,9 @@ public class ConsoleMusicService {
                 }
 
                 trackDocument.setTrack(track.getName());
-                trackDocument.setInstrumental(CommonConstants.is(track
-                        .getInstrumental()));
-                trackDocument.setArtist(StringUtils.split(track.getArtist(),
-                        ","));
-                trackDocument
-                        .setOriginal(StringUtils.split(track.getOriginal(),
-                                                       "\n"));
+                trackDocument.setInstrumental(CommonConstants.is(track.getInstrumental()));
+                trackDocument.setArtist(StringUtils.split(track.getArtist(), ","));
+                trackDocument.setOriginal(StringUtils.split(track.getOriginal(), "\n"));
 
                 this.articleRepository.save(trackDocument);
 
@@ -362,8 +343,7 @@ public class ConsoleMusicService {
         final String id = "m" + articleId;
         this.articleRepository.delete(id);
 
-        for (final ArticleDocument trackDocument : this.trackRepository
-                .findByArticleId(articleId)) {
+        for (final ArticleDocument trackDocument : this.trackRepository.findByArticleId(articleId)) {
             this.articleRepository.delete(trackDocument);
         }
     }
@@ -376,7 +356,7 @@ public class ConsoleMusicService {
 
     public int countUnpublish() {
         final Map<String, Object> params = new HashMap<>();
-        params.put("publishFlg", CommonConstants.CHR_FALSE);
+        params.put("publishFlg", new String[] { CommonConstants.UNPUBLISH });
         return this.articleManager.countMusic(params);
     }
 }

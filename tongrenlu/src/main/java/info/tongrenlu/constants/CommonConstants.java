@@ -17,6 +17,10 @@ public class CommonConstants {
     public static final String CHR_FALSE = "0";
     public static final String CHR_TRUE = "1";
 
+    public static final String UNPUBLISH = CHR_FALSE;
+    public static final String PUBLISH = CHR_TRUE;
+    public static final String FREE = "2";
+
     public static boolean is(final String value) {
         return CommonConstants.CHR_TRUE.equals(value);
     }

@@ -1,5 +1,6 @@
 package info.tongrenlu.manager;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.AccessBean;
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.ArticleTagBean;
@@ -81,7 +82,14 @@ public class ArticleManager {
     public void publish(final ArticleBean articleBean) {
         final Map<String, Object> param = new HashMap<>();
         param.put("id", articleBean.getId());
-        param.put("publishFlg", "1");
+        param.put("publishFlg", CommonConstants.PUBLISH);
+        this.articleMapper.update(param);
+    }
+
+    public void free(final ArticleBean articleBean) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("id", articleBean.getId());
+        param.put("publishFlg", CommonConstants.FREE);
         this.articleMapper.update(param);
     }
 
@@ -169,8 +177,7 @@ public class ArticleManager {
         this.articleTagMapper.delete(articleTagBean);
     }
 
-    public List<FileBean> getFiles(final Integer articleId,
-                                   final String contentType) {
+    public List<FileBean> getFiles(final Integer articleId, final String contentType) {
         final Map<String, Object> param = new HashMap<>();
         param.put("articleId", articleId);
         param.put("contentType", contentType);
@@ -203,21 +210,15 @@ public class ArticleManager {
                                  final Map<String, Object> model,
                                  final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("ArticleBean.title",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("ArticleBean.title", null, locale);
         if (StringUtils.isBlank(title)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
             isValid = false;
         } else if (StringUtils.length(title) > ArticleManager.TITLE_LENGTH) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName,
-                                                            ArticleManager.TITLE_LENGTH },
-                                                    locale));
+                      this.messageSource.getMessage("validate.tooLong", new Object[] { fieldName,
+                              ArticleManager.TITLE_LENGTH }, locale));
             isValid = false;
         }
         return isValid;

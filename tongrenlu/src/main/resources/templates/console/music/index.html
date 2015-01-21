@@ -10,11 +10,20 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header">
         <div class="container">
-            <div class="media">
-                <div class="media-body">
-                    <h1 class="media-heading hidden-xs">
-                        <span th:text="#{console.music}"></span>
-                    </h1>
+            <div class="row">
+                <div class="col-sm-8" >
+                    <h1 th:text="#{console.music}"></h1>
+                    <form th:action="@{/console/music}" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" th:value="${page.params.query}"/>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-warning">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    <span th:text="#{button.search}"></span>
+                                </button>
+                            </div><!-- /btn-group -->
+                        </div><!-- /input-group -->
+                    </form>
                 </div>
             </div>
         </div>
@@ -45,22 +54,6 @@
     </div>
     <div class="container-wrap container-wrap-darker" >
         <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <form th:action="@{/console/music}" method="get">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="q" th:value="${page.params.query}"/>
-                            <div class="input-group-btn">
-                                <button type="submit" class="btn btn-warning">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                    <span th:text="#{button.search}"></span>
-                                </button>
-                            </div><!-- /btn-group -->
-                        </div><!-- /input-group -->
-                    </form>
-                </div>
-            </div>
-            <hr />
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
                     <div class="col-md-12" th:each="articleBean : ${page.items}">
@@ -76,8 +69,9 @@
                                         <a th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                             <strong th:text="${articleBean.title}" ></strong>
                                         </a>
+                                        <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
                                         <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                        <span class="label label-warning" th:unless="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                                        <span class="label label-warning" th:if="${articleBean.unpublish}" th:text="#{ArticleBean.publishFlg.false}"></span>
                                     </h5>
                                     <div class="text-muted">
                                         <span th:text="#{home.article.owner} + ' :'">Owner :</span>

@@ -387,6 +387,7 @@ h1.article-title {
 
 #footer {
     color: #fdfdfd;
+    background: transparent;
 }
 
 #footer a{

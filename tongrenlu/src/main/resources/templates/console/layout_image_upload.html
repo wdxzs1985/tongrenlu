@@ -11,13 +11,7 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header" >
         <div class="container">
-            <div class="media">
-                <div class="media-body">
-                    <h1 class="media-heading">
-                        <span th:text="${articleBean.title}"></span>
-                    </h1>
-                </div>
-            </div>
+            <h1 th:text="${articleBean.title}"></h1>
         </div>
         <div class="container-tab" layout:fragment="page-header">
         </div>

@@ -1,7 +1,5 @@
 package info.tongrenlu.domain;
 
-import info.tongrenlu.constants.CommonConstants;
-
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -95,7 +93,15 @@ public class ArticleBean extends DtoBean {
         this.likeCount = likeCount;
     }
 
+    public boolean isUnpublish() {
+        return "0".equals(this.publishFlg);
+    }
+
     public boolean isPublish() {
-        return CommonConstants.is(this.publishFlg);
+        return "1".equals(this.publishFlg);
+    }
+
+    public boolean isFree() {
+        return "2".equals(this.publishFlg);
     }
 }

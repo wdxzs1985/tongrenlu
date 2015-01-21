@@ -28,7 +28,11 @@
             AND v_music.`userBean.id` = #{userBean.id}
             </if>
             <if test="publishFlg != null">
-            AND v_music.`publishFlg` = #{publishFlg}
+                and v_music.publishFlg in
+                <foreach item="flg" index="index" collection="publishFlg"
+                    open="(" separator="," close=")">
+                      #{flg}
+                </foreach>
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />
@@ -59,7 +63,11 @@
             AND v_music.`userBean.id` = #{userBean.id}
             </if>
             <if test="publishFlg != null">
-            AND v_music.publishFlg = #{publishFlg}
+            and v_music.publishFlg in
+                <foreach item="flg" index="index" collection="publishFlg"
+                    open="(" separator="," close=")">
+                      #{flg}
+                </foreach>
             </if>
             <if test="query != null">
             <bind name="pattern" value="'%' + query + '%'" />

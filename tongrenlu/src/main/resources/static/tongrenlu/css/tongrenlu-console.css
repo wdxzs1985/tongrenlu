@@ -80,6 +80,14 @@
     color: #fff;
 }
 
+.container-header h1,
+.container-header h2,
+.container-header h3,
+.container-header form {
+    margin-bottom: 20px;
+}
+
+
 .container-header a {
     color: #D1C4E9;
 }

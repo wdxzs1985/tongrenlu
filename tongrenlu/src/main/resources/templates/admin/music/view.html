@@ -12,13 +12,7 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header" >
         <div class="container">
-            <div class="media">
-                <div class="media-body">
-                    <h1 class="media-heading">
-                        <span th:text="${articleBean.title}"></span>
-                    </h1>
-                </div>
-            </div>
+            <h1 th:text="${articleBean.title}"></h1>
         </div>
         <div class="container-tab" layout:fragment="page-header">
             <div class="container">
@@ -68,15 +62,24 @@
                     <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
                     <div id="tags" th:include="home/layout_article_view::article-tags"></div>
                 </div>
-            </div>
-            <hr />
-            <div>
-                <a class="btn btn-success" 
-                    th:href="@{/admin/music/__${articleBean.id}__/publish}" 
-                    th:text="#{admin.article.publish}"></a>
-                <a class="btn btn-default" 
-                    th:href="@{/admin/music}" 
-                    th:text="#{button.back}"></a>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-8" th:if="${session.LOGIN_USER.admin}">
+                            <div class="btn-group btn-group-justified">
+                                <a class="btn btn-success" 
+                                    th:href="@{/admin/music/__${articleBean.id}__/publish}" 
+                                    th:text="#{admin.article.publish}"></a>
+                                <a class="btn btn-danger" 
+                                    th:href="@{/admin/music/__${articleBean.id}__/free}" 
+                                    th:text="#{admin.article.free}"></a>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <a class="btn btn-default btn-block" 
+                                th:href="@{/admin/music}" th:text="#{button.back}"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -122,7 +125,6 @@ $(function() {
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-
     $('.container-header').trianglify({
         palette: 'console'
     });

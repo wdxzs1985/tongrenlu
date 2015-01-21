@@ -45,6 +45,8 @@
                                             <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                                 <strong th:text="${articleBean.title}" ></strong>
                                             </a>
+                                            <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
+                                            <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
                                         </h5>
                                         <div class="text-muted">
                                             <span th:text="#{home.article.owner} + ' :'">Owner :</span>
