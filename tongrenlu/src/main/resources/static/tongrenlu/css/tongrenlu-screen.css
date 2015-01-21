@@ -6,7 +6,7 @@ body, html {
 
 body {
     position: relative;
-    background-color: #f7f7f7;
+    background: #424242;
 }
 
 .media-body pre {
@@ -375,7 +375,6 @@ h1.article-title {
 
 
 #footer {
-    background: #424242;
     color: #fdfdfd;
 }
 
