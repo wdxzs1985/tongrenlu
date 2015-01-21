@@ -53,6 +53,15 @@ public class ConsoleUserService {
         return false;
     }
 
+    public void searchLibraryMusic(PaginateSupport<MusicBean> paginate) {
+        final int itemCount = this.likeManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<MusicBean> items = this.likeManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
+    }
+
     public void searchLikeMusic(final PaginateSupport<MusicBean> paginate) {
         paginate.addParam("category", LikeManager.MUSIC);
 

@@ -13,20 +13,19 @@ VIEW `v_music_ranking` AS
         `v_music`.`likeCount` AS `likeCount`,
         `v_music`.`commentCount` AS `commentCount`,
         (ifnull(`v_article_comment_count_weekly`.`cnt`,
-                0) * 10) AS `pt1`,
-        (ifnull(`v_music_like_count_weekly`.`cnt`, 0) * 5) AS `pt2`,
+                0) * 5) AS `pt1`,
+        0 AS `pt2`,
         ((ifnull(`v_article_publish_days_weekly`.`days`,
-                -(7)) + 7) * 5) AS `pt3`,
-        (((ifnull(`v_article_comment_count_weekly`.`cnt`,
-                0) * 10) + (ifnull(`v_music_like_count_weekly`.`cnt`, 0) * 5)) + ((ifnull(`v_article_publish_days_weekly`.`days`,
-                -(7)) + 7) * 5)) AS `pt`
+                -(7)) + 7) * 2) AS `pt3`,
+        ((ifnull(`v_article_comment_count_weekly`.`cnt`,
+                0) * 5) + ((ifnull(`v_article_publish_days_weekly`.`days`,
+                -(7)) + 7) * 2)) AS `pt`
     from
-        (((`v_music`
+        ((`v_music`
         left join `v_article_comment_count_weekly` ON ((`v_music`.`id` = `v_article_comment_count_weekly`.`article_id`)))
-        left join `v_music_like_count_weekly` ON ((`v_music`.`id` = `v_music_like_count_weekly`.`like_id`)))
         left join `v_article_publish_days_weekly` ON ((`v_music`.`id` = `v_article_publish_days_weekly`.`id`)))
     where
-        (`v_music`.`publishFlg` in ('1','2'))
-    order by (((ifnull(`v_article_comment_count_weekly`.`cnt`,
-            0) * 10) + (ifnull(`v_music_like_count_weekly`.`cnt`, 0) * 5)) + ((ifnull(`v_article_publish_days_weekly`.`days`,
-            -(7)) + 7) * 5)) desc , `v_music`.`publishDate` desc
+        (`v_music`.`publishFlg` in ('1' , '2'))
+    order by ((ifnull(`v_article_comment_count_weekly`.`cnt`,
+            0) * 5) + ((ifnull(`v_article_publish_days_weekly`.`days`,
+            -(7)) + 7) * 2)) desc , `v_music`.`publishDate` desc

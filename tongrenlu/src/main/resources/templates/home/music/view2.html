@@ -25,8 +25,7 @@
                                 <ul>
                                     <li class="media" th:each="trackBean,varStatus : ${trackList}">
                                         <a class="pull-left" th:if="${varStatus.index eq 0}">
-                                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" 
-                                                class="img-120 media-object" />
+                                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" class="img-120 media-object" />
                                         </a>
                                         <div class="media-body">
                                             <h5 class="media-heading">
@@ -55,6 +54,9 @@
                 </div>
             </div>
             <div class="col-sm-6">
+                <div class="alert alert-warning">
+                
+                </div>
                 <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
                 <div id="share" th:include="home/layout_article_view::article-share"></div>
                 <div id="tags" th:include="home/layout_article_view::article-tags"></div>
