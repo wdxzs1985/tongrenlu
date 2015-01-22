@@ -40,6 +40,7 @@ public class FileManager {
     public static final String FILE = "f";
 
     public static final String COVER = "cover.jpg";
+    public static final String XFD = "xfd.mp3";
 
     public static final String JPG = "jpg";
     public static final String MP3 = "mp3";
@@ -102,38 +103,36 @@ public class FileManager {
         }
     }
 
-    public void saveFile(final String articleType,
-                         final FileBean fileBean,
-                         final MultipartFile fileItem) {
+    public void saveXFD(final ArticleBean articleBean, final MultipartFile fileItem) {
+        final String dirId = FileManager.MUSIC + articleBean.getId();
+        final File inputFile = this.getFile(dirId, FileManager.XFD);
+        if (fileItem != null && !fileItem.isEmpty()) {
+            this.saveFile(fileItem, inputFile);
+        }
+    }
+
+    public void saveFile(final String articleType, final FileBean fileBean, final MultipartFile fileItem) {
         final String dirId = articleType + fileBean.getArticleId();
 
-        final String name = String.format("f%d.%s",
-                                          fileBean.getId(),
-                                          fileBean.getExtension());
+        final String name = String.format("f%d.%s", fileBean.getId(), fileBean.getExtension());
         final File file = this.getFile(dirId, name);
         this.saveFile(fileItem, file);
     }
 
     public void deleteFile(final String articleType, final FileBean fileBean) {
         final String dirId = articleType + fileBean.getArticleId();
-        final String name = String.format("f%d.%s",
-                                          fileBean.getId(),
-                                          fileBean.getExtension());
+        final String name = String.format("f%d.%s", fileBean.getId(), fileBean.getExtension());
         final File file = this.getFile(dirId, name);
         FileUtils.deleteQuietly(file);
 
         if (FileManager.IMAGE.equals(fileBean.getContentType())) {
             for (final int size : FileManager.COVER_SIZE_ARRAY) {
-                final String thumbnail = String.format("f%d_%d.jpg",
-                                                       fileBean.getId(),
-                                                       size);
+                final String thumbnail = String.format("f%d_%d.jpg", fileBean.getId(), size);
                 final File thumbnailFile = this.getFile(dirId, thumbnail);
                 FileUtils.deleteQuietly(thumbnailFile);
             }
             for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-                final String thumbnail = String.format("f%d_%d.jpg",
-                                                       fileBean.getId(),
-                                                       size);
+                final String thumbnail = String.format("f%d_%d.jpg", fileBean.getId(), size);
                 final File thumbnailFile = this.getFile(dirId, thumbnail);
                 FileUtils.deleteQuietly(thumbnailFile);
             }
@@ -168,9 +167,7 @@ public class FileManager {
         }
     }
 
-    protected void convertCover(final File input,
-                                final File output,
-                                final int size) {
+    protected void convertCover(final File input, final File output, final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.getConvertPath());
@@ -202,30 +199,22 @@ public class FileManager {
 
     public void convertImage(final String articleType, final FileBean fileBean) {
         final String dirId = articleType + fileBean.getArticleId();
-        final String inputName = String.format("f%d.%s",
-                                               fileBean.getId(),
-                                               fileBean.getExtension());
+        final String inputName = String.format("f%d.%s", fileBean.getId(), fileBean.getExtension());
         final File inputFile = this.getFile(dirId, inputName);
 
         for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg",
-                                                    fileBean.getId(),
-                                                    size);
+            final String outputName = String.format("f%d_%d.jpg", fileBean.getId(), size);
             final File outputFile = this.getFile(dirId, outputName);
             this.convertCover(inputFile, outputFile, size);
         }
         for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg",
-                                                    fileBean.getId(),
-                                                    size);
+            final String outputName = String.format("f%d_%d.jpg", fileBean.getId(), size);
             final File outputFile = this.getFile(dirId, outputName);
             this.convertImage(inputFile, outputFile, size);
         }
     }
 
-    protected void convertImage(final File input,
-                                final File output,
-                                final int size) {
+    protected void convertImage(final File input, final File output, final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.getConvertPath());
@@ -297,9 +286,7 @@ public class FileManager {
                                        final Locale locale) {
         boolean isValid = true;
         if (!ArrayUtils.contains(accepted, contentType)) {
-            final String message = this.messageSource.getMessage("error.fileNotAccept",
-                                                                 null,
-                                                                 locale);
+            final String message = this.messageSource.getMessage("error.fileNotAccept", null, locale);
             model.put(errorAttribute, message);
             isValid = false;
         }

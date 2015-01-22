@@ -1,5 +1,6 @@
 package info.tongrenlu.service;
 
+import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.manager.FileManager;
 
@@ -15,6 +16,10 @@ public class FileService {
 
     public void saveCover(final DtoBean dtoBean, final MultipartFile fileItem) {
         this.fileManager.saveCover(dtoBean, fileItem);
+    }
+
+    public void saveXFD(final ArticleBean articleBean, final MultipartFile fileItem) {
+        this.fileManager.saveXFD(articleBean, fileItem);
     }
 
 }

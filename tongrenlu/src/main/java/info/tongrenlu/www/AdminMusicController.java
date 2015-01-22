@@ -111,7 +111,8 @@ public class AdminMusicController {
                              final String title,
                              final String description,
                              @RequestParam(value = "tags[]", required = false) final String[] tags,
-                             @RequestParam final MultipartFile cover,
+                             @RequestParam(required = false) final MultipartFile cover,
+                             @RequestParam(required = false) final MultipartFile xfd,
                              final Model model,
                              final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
@@ -125,6 +126,7 @@ public class AdminMusicController {
 
         if (result) {
             this.fileService.saveCover(musicBean, cover);
+            this.fileService.saveXFD(musicBean, xfd);
             return "redirect:/admin/music/" + musicBean.getId();
         }
 

@@ -18,74 +18,33 @@
     <div class="container" layout:fragment="article-info">
         <div class="row">
             <div class="col-sm-6">
-                <div id="player" th:fragment="article-player">
-                    <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-                    <div id="jp_container_1" class="jp-audio">
-                        <div class="jp-type-playlist">
-                            <div class="jp-gui">
-                                <div class="jp-interface">
-                                    <div class="jp-progress">
-                                        <div class="jp-current-time"></div>
-                                        <div class="jp-duration"></div>
-                                        <div class="jp-seek-bar">
-                                            <div class="jp-play-bar"></div>
+                <div id="player" th:include="home/layout_article_view::article-player"></div>
+                <div class="jp-audio">
+                    <div class="jp-type-playlist">
+                        <div class="jp-playlist">
+                            <ul>
+                                <li class="media" th:each="trackBean,varStatus : ${trackList}">
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            <span th:text="${varStatus.count} + '. ' + ${trackBean.name}"></span>
+                                            <span class="label label-warning" 
+                                                th:text="#{TrackBean.instrumental}"
+                                                th:if="${trackBean.instrumental} eq '1'"></span>
+                                            <br /><small th:text="'by ' + ${trackBean.artist}"></small>
+                                        </h5>
+                                        <div class="jp-rate">
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 1} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 2} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 3} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 4} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 5} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
                                         </div>
                                     </div>
-                                    <ul class="jp-toggles">
-                                        <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><span class="glyphicon glyphicon-random"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><span class="glyphicon glyphicon-random"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
-                                    </ul>
-                                    <ul class="jp-controls">
-                                        <li><a href="javascript:;" class="jp-previous" tabindex="1"><span class="glyphicon glyphicon-backward"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-next" tabindex="1"><span class="glyphicon glyphicon-forward"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a></li>
-                                    </ul>
-                                    <ul class="jp-volumn hidden-xs">
-                                        <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
-                                        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
-                                    </ul>
-                                    <div class="jp-volume-bar hidden-xs">
-                                        <div class="jp-volume-bar-value"></div>
+                                    <div class="">
+                                        <pre class="" th:text="${trackBean.original}"></pre>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="jp-audio">
-                        <div class="jp-type-playlist">
-                            <div class="jp-playlist">
-                                <ul>
-                                    <li class="media" th:each="trackBean,varStatus : ${trackList}">
-                                        <a class="pull-left" th:if="${varStatus.index eq 0}">
-                                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" class="img-120 media-object" />
-                                        </a>
-                                        <div class="media-body">
-                                            <h5 class="media-heading">
-                                                <span th:text="${varStatus.count} + '. ' + ${trackBean.name}"></span>
-                                                <span class="label label-warning" 
-                                                    th:text="#{TrackBean.instrumental}"
-                                                    th:if="${trackBean.instrumental} eq '1'"></span>
-                                                <br /><small th:text="'by ' + ${trackBean.artist}"></small>
-                                            </h5>
-                                            <div class="jp-rate">
-                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 1} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 2} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 3} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 4} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                                <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 5} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                            </div>
-                                        </div>
-                                        <div class="">
-                                            <pre class="" th:text="${trackBean.original}"></pre>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

@@ -71,7 +71,8 @@ public class ConsoleMusicController {
     public String doPostInput(final String title,
                               final String description,
                               @RequestParam(value = "tags[]", required = false) final String[] tags,
-                              @RequestParam final MultipartFile cover,
+                              @RequestParam(required = false) final MultipartFile cover,
+                              @RequestParam(required = false) final MultipartFile xfd,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
                               final Locale locale) {
@@ -83,6 +84,7 @@ public class ConsoleMusicController {
         final boolean result = this.musicService.doCreate(inputMusic, tags, model.asMap(), locale);
         if (result) {
             this.fileService.saveCover(inputMusic, cover);
+            this.fileService.saveXFD(inputMusic, xfd);
             return "redirect:/console/music/" + inputMusic.getId();
         }
 
@@ -145,7 +147,8 @@ public class ConsoleMusicController {
                              final String title,
                              final String description,
                              @RequestParam(value = "tags[]", required = false) final String[] tags,
-                             @RequestParam final MultipartFile cover,
+                             @RequestParam(required = false) final MultipartFile cover,
+                             @RequestParam(required = false) final MultipartFile xfd,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model,
                              final Locale locale) {
@@ -160,6 +163,7 @@ public class ConsoleMusicController {
 
         if (result) {
             this.fileService.saveCover(musicBean, cover);
+            this.fileService.saveXFD(musicBean, xfd);
             return "redirect:/console/music/" + musicBean.getId();
         }
 

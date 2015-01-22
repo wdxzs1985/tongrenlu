@@ -92,7 +92,12 @@
                                             th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg(nocache=${#strings.randomAlphanumeric(6)})}" th:alt-title="${articleBean.title}"/>
                                     </a>
                                     <div class="caption">
+                                        <h4 th:text="#{console.music.cover}">cover</h4>
                                         <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
+                                    </div>
+                                    <div class="caption">
+                                        <h4 th:text="#{console.music.xfd}">xfd</h4>
+                                        <input type="file" id="xfd" name="xfd" class="form-control" accept="audio/mp3" />
                                     </div>
                                 </div>
                             </div>
