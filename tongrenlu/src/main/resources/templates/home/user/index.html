@@ -45,13 +45,6 @@
                             <span class="hidden-xs" th:text="#{home.user.timeline}"></span>
                         </a>
                     </li>
-                    <li th:if="${userBean.musicCount gt 0}">
-                        <a th:href="@{/user/__${userBean.id}__/music}">
-                            <span class="glyphicon glyphicon-music"></span>
-                            <span class="hidden-xs" th:text="#{home.user.musicCount}"></span>
-                            <span class="badge hidden-xs" th:text="${userBean.musicCount}"></span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
