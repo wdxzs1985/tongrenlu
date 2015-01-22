@@ -117,7 +117,6 @@ public class HomeMusicController {
         model.addAttribute("articleBean", musicBean);
 
         final boolean isOwner = this.musicService.isOwner(loginUser, musicBean);
-        model.addAttribute("isOwner", isOwner);
         if (isOwner) {
             return "home/music/view";
         } else {
@@ -184,6 +183,9 @@ public class HomeMusicController {
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                     final Model model,
                                     final Locale locale) {
+        if (loginUser.isGuest()) {
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+        }
         final MusicBean musicBean = this.musicService.getById(articleId);
         this.throwExceptionWhenNotAllow(musicBean, locale);
         if (!musicBean.isFree()) {

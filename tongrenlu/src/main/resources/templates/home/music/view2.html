@@ -91,12 +91,15 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="alert alert-warning" th:unless="${articleBean.free}">
-                    
-                </div>
                 <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
+                <div class="alert alert-success" th:if="${articleBean.free}">
+                    <p th:text="#{home.article.free}"></p>
+                </div>
+                <div class="alert alert-warning" th:unless="${articleBean.free}">
+                    <p th:text="#{home.article.notfree}"></p>
+                </div>
                 <div id="share">
-                    <a href="#" class="btn btn-success"
+                    <a href="#" id="addToLibrary" class="btn btn-success"
                         th:href="@{/music/__${articleBean.id}__/library}"
                         th:if="${articleBean.free}">
                         <span class="glyphicon glyphicon-cd"></span>
@@ -160,6 +163,23 @@ $(function() {
     
     $('#article-description').url();
     
+    $('#addToLibrary').click(function(e) {
+        e.preventDefault();
+        
+    	var loginUser = $(document).data('loginUser');
+        if(loginUser) {
+        	if(!loginUser.guest) {
+        		document.location.href = $this.attr('href');
+                return;
+            }
+        }
+        
+        var $this = $(this);
+        $(document).on('signin', function(event, loginUser) {
+        	document.location.href = $this.attr('href');
+        });
+        $('#signinModal').modal('show');
+    });
 });
 </script>
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
