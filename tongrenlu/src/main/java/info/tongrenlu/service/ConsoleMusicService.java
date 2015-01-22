@@ -7,6 +7,8 @@ import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.LibraryManager;
+import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.manager.TrackManager;
 import info.tongrenlu.solr.ArticleDocument;
@@ -49,6 +51,10 @@ public class ConsoleMusicService {
     private final FileManager fileManager = null;
     @Autowired
     private final TrackManager trackManager = null;
+    @Autowired
+    private LikeManager likeManager = null;
+    @Autowired
+    private LibraryManager libraryManager = null;
     @Autowired
     private final ArticleRepository articleRepository = null;
     @Autowired
@@ -358,5 +364,25 @@ public class ConsoleMusicService {
         final Map<String, Object> params = new HashMap<>();
         params.put("publishFlg", new String[] { CommonConstants.UNPUBLISH });
         return this.articleManager.countMusic(params);
+    }
+
+    public void searchLike(final PaginateSupport<MusicBean> paginate) {
+        paginate.addParam("category", LikeManager.MUSIC);
+
+        final int itemCount = this.likeManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<MusicBean> items = this.likeManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
+    }
+
+    public void searchLibrary(final PaginateSupport<MusicBean> paginate) {
+        final int itemCount = this.libraryManager.countMusic(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<MusicBean> items = this.libraryManager.searchMusic(paginate.getParams());
+        paginate.setItems(items);
     }
 }

@@ -49,18 +49,12 @@ public class ConsoleMusicController {
     @Autowired
     private FileService fileService = null;
 
-    protected void throwExceptionWhenNotAllow(final MusicBean musicBean,
-                                              final UserBean loginUser,
-                                              final Locale locale) {
+    protected void throwExceptionWhenNotAllow(final MusicBean musicBean, final UserBean loginUser, final Locale locale) {
         if (musicBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
         if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
-            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
-                                                                       null,
-                                                                       locale));
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
         }
     }
 
@@ -86,10 +80,7 @@ public class ConsoleMusicController {
         inputMusic.setTitle(title);
         inputMusic.setDescription(description);
 
-        final boolean result = this.musicService.doCreate(inputMusic,
-                                                          tags,
-                                                          model.asMap(),
-                                                          locale);
+        final boolean result = this.musicService.doCreate(inputMusic, tags, model.asMap(), locale);
         if (result) {
             this.fileService.saveCover(inputMusic, cover);
             return "redirect:/console/music/" + inputMusic.getId();
@@ -110,6 +101,11 @@ public class ConsoleMusicController {
         page.addParam("userBean", loginUser);
         this.musicService.searchMusic(page);
         model.addAttribute("page", page);
+
+        if (loginUser.isAdmin()) {
+            final int unpublishMusicCount = this.musicService.countUnpublish();
+            model.addAttribute("unpublishMusicCount", unpublishMusicCount);
+        }
         return "console/music/index";
     }
 
@@ -160,10 +156,7 @@ public class ConsoleMusicController {
         musicBean.setTitle(title);
         musicBean.setDescription(description);
 
-        final boolean result = this.musicService.doEdit(musicBean,
-                                                        tags,
-                                                        model.asMap(),
-                                                        locale);
+        final boolean result = this.musicService.doEdit(musicBean, tags, model.asMap(), locale);
 
         if (result) {
             this.fileService.saveCover(musicBean, cover);
@@ -260,10 +253,7 @@ public class ConsoleMusicController {
                 fileBean.setContentType(FileManager.AUDIO);
 
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
-                this.musicService.addTrackFile(fileBean,
-                                               upload,
-                                               fileModel,
-                                               locale);
+                this.musicService.addTrackFile(fileBean, upload, fileModel, locale);
                 files.add(this.musicService.wrapFileBean(fileBean, fileModel));
             }
         }
@@ -288,9 +278,7 @@ public class ConsoleMusicController {
             model.addAttribute("trackList", trackList);
             return "console/music/track_sort";
         } else {
-            final String error = this.messageSource.getMessage("console.article.sort.noFile",
-                                                               null,
-                                                               locale);
+            final String error = this.messageSource.getMessage("console.article.sort.noFile", null, locale);
             redirectAttr.addFlashAttribute("error", error);
             return "redirect:/console/music/" + articleId + "/track/upload";
         }
@@ -400,10 +388,7 @@ public class ConsoleMusicController {
 
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
 
-                this.musicService.addBookletFile(fileBean,
-                                                 upload,
-                                                 fileModel,
-                                                 locale);
+                this.musicService.addBookletFile(fileBean, upload, fileModel, locale);
                 files.add(this.musicService.wrapFileBean(fileBean, fileModel));
             }
         }
@@ -428,9 +413,7 @@ public class ConsoleMusicController {
             model.addAttribute("fileList", fileList);
             return "console/music/booklet_sort";
         } else {
-            final String error = this.messageSource.getMessage("console.article.sort.noFile",
-                                                               null,
-                                                               locale);
+            final String error = this.messageSource.getMessage("console.article.sort.noFile", null, locale);
             redirectAttr.addFlashAttribute("error", error);
             return "redirect:/console/music/" + articleId + "/booklet/upload";
         }

@@ -58,6 +58,26 @@ public class AdminMusicController {
         page.addParam("query", query);
         this.musicService.searchMusic(page);
         model.addAttribute("page", page);
+
+        final int unpublishMusicCount = this.musicService.countUnpublish();
+        model.addAttribute("unpublishMusicCount", unpublishMusicCount);
+
+        return "admin/music/index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "unpublish")
+    public String doGetUnpublish(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                 @RequestParam(value = "q", required = false) final String query,
+                                 final Model model) {
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("query", query);
+        page.addParam("publishFlg", new String[] { CommonConstants.UNPUBLISH });
+        this.musicService.searchMusic(page);
+        model.addAttribute("page", page);
+
+        final int unpublishMusicCount = this.musicService.countUnpublish();
+        model.addAttribute("unpublishMusicCount", unpublishMusicCount);
+
         return "admin/music/index";
     }
 

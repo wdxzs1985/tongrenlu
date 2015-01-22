@@ -67,6 +67,11 @@
             <artifactId>mybatis-spring</artifactId>
             <version>1.2.2</version>
         </dependency>
+        <dependency>
+        	<groupId>org.neo4j</groupId>
+        	<artifactId>neo4j-cypher-compiler-2.1</artifactId>
+        	<version>2.1.5</version>
+        </dependency>
     </dependencies>
 
     <properties>

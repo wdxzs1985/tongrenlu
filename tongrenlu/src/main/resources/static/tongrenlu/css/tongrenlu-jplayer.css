@@ -372,6 +372,8 @@ span.jp-artist {
     color:#95a5a6;
 }
 
+button:focus {outline:0 !important;}
+
 /* @end */
 
 div.jp-jplayer audio,

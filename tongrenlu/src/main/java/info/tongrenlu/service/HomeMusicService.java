@@ -9,6 +9,7 @@ import info.tongrenlu.domain.TrackRateBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
+import info.tongrenlu.manager.LibraryManager;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.ObjectManager;
 import info.tongrenlu.manager.TagManager;
@@ -45,9 +46,10 @@ public class HomeMusicService {
     private final UserManager userManager = null;
     @Autowired
     private final TrackManager trackManager = null;
+    @Autowired
+    private LibraryManager libraryManager = null;
 
-    public List<TrackBean> getTrackList(final Integer articleId,
-                                        final UserBean userBean) {
+    public List<TrackBean> getTrackList(final Integer articleId, final UserBean userBean) {
         return this.trackManager.getRatedTrackList(articleId, userBean);
     }
 
@@ -162,6 +164,20 @@ public class HomeMusicService {
             result = true;
         }
         return result;
+    }
+
+    public boolean isOwner(final UserBean userBean, final ArticleBean articleBean) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("userBean", userBean);
+        params.put("articleBean", articleBean);
+        return this.libraryManager.countMusic(params) > 0;
+    }
+
+    public void addToLibrary(final UserBean userBean, final ArticleBean articleBean) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("userBean", userBean);
+        params.put("articleBean", articleBean);
+        this.libraryManager.insert(params);
     }
 
 }

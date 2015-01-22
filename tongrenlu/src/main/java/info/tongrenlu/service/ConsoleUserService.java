@@ -1,7 +1,6 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ComicBean;
-import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.LikeManager;
@@ -32,9 +31,7 @@ public class ConsoleUserService {
         return this.userManager.getById(id);
     }
 
-    public boolean saveSetting(final UserBean inputUser,
-                               final Map<String, Object> model,
-                               final Locale locale) {
+    public boolean saveSetting(final UserBean inputUser, final Map<String, Object> model, final Locale locale) {
         if (this.validateForSaveSetting(inputUser, model, locale)) {
             this.userManager.updateSetting(inputUser);
             return true;
@@ -43,34 +40,12 @@ public class ConsoleUserService {
     }
 
     @Transactional
-    public boolean changePassword(final UserBean inputUser,
-                                  final Map<String, Object> model,
-                                  final Locale locale) {
+    public boolean changePassword(final UserBean inputUser, final Map<String, Object> model, final Locale locale) {
         if (this.validateForChangePassword(inputUser, model, locale)) {
             this.userManager.updatePassword(inputUser);
             return true;
         }
         return false;
-    }
-
-    public void searchLibraryMusic(PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.likeManager.countMusic(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<MusicBean> items = this.likeManager.searchMusic(paginate.getParams());
-        paginate.setItems(items);
-    }
-
-    public void searchLikeMusic(final PaginateSupport<MusicBean> paginate) {
-        paginate.addParam("category", LikeManager.MUSIC);
-
-        final int itemCount = this.likeManager.countMusic(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<MusicBean> items = this.likeManager.searchMusic(paginate.getParams());
-        paginate.setItems(items);
     }
 
     public void searchLikeComic(final PaginateSupport<ComicBean> paginate) {
@@ -117,20 +92,12 @@ public class ConsoleUserService {
 
     }
 
-    public boolean validateForSaveSetting(final UserBean userBean,
-                                          final Map<String, Object> model,
-                                          final Locale locale) {
+    public boolean validateForSaveSetting(final UserBean userBean, final Map<String, Object> model, final Locale locale) {
         boolean isValid = true;
-        if (!this.userManager.validateNickname(userBean.getNickname(),
-                                               "nicknameError",
-                                               model,
-                                               locale)) {
+        if (!this.userManager.validateNickname(userBean.getNickname(), "nicknameError", model, locale)) {
             isValid = false;
         }
-        if (!this.userManager.validateSignature(userBean.getSignature(),
-                                                "signatureError",
-                                                model,
-                                                locale)) {
+        if (!this.userManager.validateSignature(userBean.getSignature(), "signatureError", model, locale)) {
             isValid = false;
         }
         return isValid;
@@ -140,10 +107,7 @@ public class ConsoleUserService {
                                              final Map<String, Object> model,
                                              final Locale locale) {
         boolean isValid = true;
-        if (!this.userManager.validatePassword(inputUser.getPassword(),
-                                               "passwordError",
-                                               model,
-                                               locale)) {
+        if (!this.userManager.validatePassword(inputUser.getPassword(), "passwordError", model, locale)) {
             isValid = false;
         } else if (!this.userManager.validatePassword2(inputUser.getPassword(),
                                                        inputUser.getPassword2(),

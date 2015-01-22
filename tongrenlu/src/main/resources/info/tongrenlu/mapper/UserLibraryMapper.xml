@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.UserLibraryMapper">
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO r_user_library(
+        <trim suffixOverrides=",">
+           user_id,
+           article_id,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{userBean.id},
+            #{articleBean.id},
+        </trim>
+        )
+    </insert>
+    
+    <select id="count" resultType="int">
+        SELECT
+        <trim suffixOverrides=",">
+            count(v_music.id)
+        </trim>
+        FROM
+            v_music
+        left join r_user_library on v_music.id = r_user_library.article_id
+        <where>
+        AND r_user_library.user_id = #{userBean.id}
+        <if test="articleBean != null">
+        AND r_user_library.article_id = #{articleBean.id}
+        </if>
+        </where>
+    </select>
+    
+    <select id="fetchList" resultType="MusicBean">
+        SELECT
+        <trim suffixOverrides=",">
+            v_music.id                      as id,
+            v_music.title                   as title,
+        </trim>
+        FROM
+            v_music
+        left join r_user_library on v_music.id = r_user_library.article_id
+        <where>
+        AND r_user_library.user_id = #{userBean.id}
+        </where>
+        order by v_music.id desc
+        limit #{start}, #{pageSize}
+    </select>
+    
+</mapper>

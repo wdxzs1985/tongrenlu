@@ -36,8 +36,8 @@
           </ul>
         </li>
         <li class="cl-effect-1" th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
-            <a th:href="@{/admin/music}" >
-                <span th:text="#{admin.music}"></span>
+            <a th:href="@{/admin/music/unpublish}" >
+                <span th:text="#{admin.music.unpublish}"></span>
                 <span class="badge" th:text="${unpublishMusicCount}"></span>
             </a>
         </li>

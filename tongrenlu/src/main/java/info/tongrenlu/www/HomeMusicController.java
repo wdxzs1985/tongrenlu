@@ -2,7 +2,6 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.CommentBean;
-import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
@@ -17,6 +16,7 @@ import info.tongrenlu.service.TagService;
 import info.tongrenlu.solr.MusicDocument;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -85,7 +85,6 @@ public class HomeMusicController {
                                    @RequestParam(value = "q", required = false) final String query,
                                    final Model model) {
         if (StringUtils.isNotBlank(query)) {
-
             final PaginateSupport<TagBean> page = this.searchTag(query);
             model.addAttribute("tags", page.getItems());
 
@@ -107,18 +106,19 @@ public class HomeMusicController {
         return page;
     }
 
-    public String doGetView(@PathVariable final Integer articleId,
-                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model,
-                            final Locale locale) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
+    public String doGetViewByArticleId(@PathVariable final Integer articleId,
+                                       @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                       final Model model,
+                                       final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
         this.throwExceptionWhenNotAllow(musicBean, locale);
         this.musicService.addAccess(musicBean, loginUser);
         model.addAttribute("articleBean", musicBean);
 
-        if ("2".equals(musicBean.getPublishFlg())) {
-            return "home/music/view";
-        } else if (this.isOwner(musicBean, loginUser)) {
+        final boolean isOwner = this.musicService.isOwner(loginUser, musicBean);
+        model.addAttribute("isOwner", isOwner);
+        if (isOwner) {
             return "home/music/view";
         } else {
             final List<TrackBean> trackList = this.musicService.getTrackList(articleId, loginUser);
@@ -127,38 +127,35 @@ public class HomeMusicController {
         }
     }
 
-    private boolean isOwner(final MusicBean musicBean, final UserBean loginUser) {
-        return false;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
-    public String doGetViewByArticleId(@PathVariable final String articleId,
-                                       @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                       final Model model,
-                                       final Locale locale) {
-        if (StringUtils.length(articleId) == 15) {
-            final DtoBean bean = this.musicService.getByOldArticleId(articleId);
-            if (bean == null) {
-                throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
-            }
-            return "redirect:/music/" + bean.getId();
-        } else {
-            try {
-                final Integer id = Integer.valueOf(articleId);
-                return this.doGetView(id, loginUser, model, locale);
-            } catch (final Exception e) {
-                throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
-            }
-        }
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track")
     @ResponseBody
     public Map<String, Object> doGetTrack(@PathVariable final Integer articleId,
-                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                          final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
-        final List<TrackBean> trackList = this.musicService.getTrackList(articleId, loginUser);
-        model.put("trackList", trackList);
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        this.throwExceptionWhenNotAllow(musicBean, locale);
+        // model.put("trackList", trackList);
+        final List<Map<String, Object>> playlist = new ArrayList<Map<String, Object>>();
+        if (musicBean.isFree() || this.musicService.isOwner(loginUser, musicBean)) {
+            final List<TrackBean> trackList = this.musicService.getTrackList(articleId, loginUser);
+            for (final TrackBean trackBean : trackList) {
+                final Map<String, Object> playable = new HashMap<String, Object>();
+                playable.put("id", trackBean.getId());
+                playable.put("title", trackBean.getName());
+                playable.put("artist", trackBean.getArtist());
+                playable.put("original", StringUtils.split(trackBean.getOriginal(), '\n'));
+                playable.put("instrumental", CommonConstants.is(trackBean.getInstrumental()));
+                playable.put("rate", trackBean.getRate());
+                playlist.add(playable);
+            }
+        } else {
+            final Map<String, Object> playable = new HashMap<String, Object>();
+            playable.put("title", musicBean.getTitle());
+            playable.put("xfd", true);
+            playlist.add(playable);
+        }
+        model.put("playlist", playlist);
         return model;
     }
 
@@ -180,6 +177,24 @@ public class HomeMusicController {
         final int result = this.musicService.isLike(articleId, loginUser, model, locale);
         model.put("result", result);
         return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/library")
+    public String doGetAddToLibrary(@PathVariable final Integer articleId,
+                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                    final Model model,
+                                    final Locale locale) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        this.throwExceptionWhenNotAllow(musicBean, locale);
+        if (!musicBean.isFree()) {
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+        }
+
+        if (!this.musicService.isOwner(loginUser, musicBean)) {
+            this.musicService.addToLibrary(loginUser, musicBean);
+        }
+
+        return "redirect:/music/{articleId}";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{articleId}/like")
