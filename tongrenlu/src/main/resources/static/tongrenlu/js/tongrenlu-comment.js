@@ -41,8 +41,7 @@ var comment = function(options) {
 				var repo = " //@" + commentData.userBean.nickname + "#"
 						+ commentData.userBean.id + ' :'
 						+ commentData.content;
-				var $textarea = $comment.find('.comment-form textarea')
-				.each(function(index, elem) {
+				var $textarea = $comment.find('.comment-form textarea').each(function(index, elem) {
 					var $element = $(elem);
 					$element.val(repo);
 					var caretPos = 0;
@@ -53,8 +52,7 @@ var comment = function(options) {
 					} else {
 						if (elem.selectionStart) {
 							elem.focus();
-							elem.setSelectionRange(caretPos,
-									caretPos);
+							elem.setSelectionRange(caretPos, caretPos);
 						} else {
 							elem.focus();
 						}

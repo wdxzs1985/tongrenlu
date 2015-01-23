@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.NotificationMapper">
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_notification(
+        <trim suffixOverrides=",">
+           user_id,
+           sender_id,
+           article_id,
+           category,
+           action,
+           content,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{userBean.id},
+            #{sender.id},
+            #{articleBean.id},
+            #{category},
+            #{action},
+            #{content},
+        </trim>
+        )
+    </insert>
+    
+</mapper>
