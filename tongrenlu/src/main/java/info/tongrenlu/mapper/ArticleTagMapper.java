@@ -1,7 +1,6 @@
 package info.tongrenlu.mapper;
 
 import info.tongrenlu.domain.ArticleTagBean;
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 
@@ -20,7 +19,4 @@ public interface ArticleTagMapper {
 
     public List<MusicBean> searchMusic(Map<String, Object> params);
 
-    public int countComic(Map<String, Object> params);
-
-    public List<ComicBean> searchComic(Map<String, Object> params);
 }

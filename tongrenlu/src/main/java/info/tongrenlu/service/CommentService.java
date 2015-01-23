@@ -38,15 +38,6 @@ public class CommentService {
         paginate.setItems(items);
     }
 
-    public void searchComicComment(final PaginateSupport<CommentBean> paginate) {
-        final int itemCount = this.commentManager.countComicComment(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<CommentBean> items = this.commentManager.searchComicComment(paginate.getParams());
-        paginate.setItems(items);
-    }
-
     public boolean doComment(final CommentBean commentBean,
                              final Integer parentId,
                              final Map<String, Object> model,
@@ -63,7 +54,8 @@ public class CommentService {
                     notificationBean.setArticleBean(commentBean.getArticleBean());
                     notificationBean.setCategory("m");
                     notificationBean.setAction("comment");
-                    notificationBean.setContent(StringUtils.left(commentBean.getContent(), 140));
+                    notificationBean.setContent(StringUtils.left(commentBean.getContent(),
+                                                                 140));
 
                     this.notificationManager.sendNotification(notificationBean);
                 }
@@ -77,7 +69,10 @@ public class CommentService {
                                        final Map<String, Object> model,
                                        final Locale locale) {
         boolean isValid = true;
-        if (!this.commentManager.validateContent(commentBean.getContent(), "error", model, locale)) {
+        if (!this.commentManager.validateContent(commentBean.getContent(),
+                                                 "error",
+                                                 model,
+                                                 locale)) {
             isValid = false;
         }
         return isValid;

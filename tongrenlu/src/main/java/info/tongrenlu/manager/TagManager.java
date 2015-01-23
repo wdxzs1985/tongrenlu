@@ -1,6 +1,5 @@
 package info.tongrenlu.manager;
 
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.mapper.ArticleTagMapper;
@@ -57,14 +56,6 @@ public class TagManager {
 
     public List<MusicBean> searchMusic(final Map<String, Object> params) {
         return this.articleTagMapper.searchMusic(params);
-    }
-
-    public int countComic(final Map<String, Object> params) {
-        return this.articleTagMapper.countComic(params);
-    }
-
-    public List<ComicBean> searchComic(final Map<String, Object> params) {
-        return this.articleTagMapper.searchComic(params);
     }
 
 }

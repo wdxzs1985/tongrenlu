@@ -1,6 +1,5 @@
 package info.tongrenlu.manager;
 
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
@@ -64,30 +63,12 @@ public class LikeManager {
             category = LikeManager.USER;
         } else if (dtoBean instanceof MusicBean) {
             category = LikeManager.MUSIC;
-        } else if (dtoBean instanceof ComicBean) {
-            category = LikeManager.COMIC;
         } else if (dtoBean instanceof TagBean) {
             category = LikeManager.TAG;
         } else {
             throw new IllegalArgumentException();
         }
         return category;
-    }
-
-    public int countMusic(final Map<String, Object> params) {
-        return this.likeMapper.countMusic(params);
-    }
-
-    public List<MusicBean> searchMusic(final Map<String, Object> params) {
-        return this.likeMapper.searchMusic(params);
-    }
-
-    public int countComic(final Map<String, Object> params) {
-        return this.likeMapper.countComic(params);
-    }
-
-    public List<ComicBean> searchComic(final Map<String, Object> params) {
-        return this.likeMapper.searchComic(params);
     }
 
     public int countFollow(final Map<String, Object> params) {

@@ -4,7 +4,6 @@ import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
-import info.tongrenlu.service.HomeComicService;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.TagService;
 import info.tongrenlu.support.PaginateSupport;
@@ -43,8 +42,6 @@ public class HomeTagController {
     private TagService tagService = null;
     @Autowired
     private HomeMusicService musicService = null;
-    @Autowired
-    private HomeComicService comicService = null;
 
     private Log log = LogFactory.getLog(this.getClass());
 
@@ -78,12 +75,13 @@ public class HomeTagController {
     public String doGetTagMusic(@PathVariable final Integer tagId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                final Model model,
-                                final Locale locale) {
+                                final Model model, final Locale locale) {
         final TagBean tagBean = this.tagService.getById(tagId);
 
         if (tagBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);

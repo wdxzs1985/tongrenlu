@@ -1,7 +1,6 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ArticleBean;
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.UserBean;
@@ -58,24 +57,13 @@ public class TagService {
         paginate.setItems(items);
     }
 
-    public void searchComicByTag(final PaginateSupport<ComicBean> paginate) {
-        final int itemCount = this.tagManager.countComic(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<ComicBean> items = this.tagManager.searchComic(paginate.getParams());
-        paginate.setItems(items);
-    }
-
     public List<TagBean> getTagByArticle(final ArticleBean articleBean) {
         return this.articleManager.getTags(articleBean);
     }
 
-    public boolean addTag(final ArticleBean articleBean,
-                          final String[] tags,
+    public boolean addTag(final ArticleBean articleBean, final String[] tags,
                           final UserBean loginUser,
-                          final Map<String, Object> model,
-                          final Locale locale) {
+                          final Map<String, Object> model, final Locale locale) {
         boolean result = false;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             for (final String tag : tags) {
@@ -87,10 +75,8 @@ public class TagService {
         return result;
     }
 
-    public int isLike(final Integer tagId,
-                      final UserBean loginUser,
-                      final Map<String, Object> model,
-                      final Locale locale) {
+    public int isLike(final Integer tagId, final UserBean loginUser,
+                      final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final TagBean tagBean = this.getById(tagId);
@@ -101,10 +87,8 @@ public class TagService {
         return result;
     }
 
-    public int doLike(final Integer tagId,
-                      final UserBean loginUser,
-                      final Map<String, Object> model,
-                      final Locale locale) {
+    public int doLike(final Integer tagId, final UserBean loginUser,
+                      final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final TagBean tagBean = this.getById(tagId);

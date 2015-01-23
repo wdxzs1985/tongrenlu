@@ -7,10 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="keywords" th:content="#{application.keywords}" />
   <meta name="description" th:content="#{application.content}" />
-  <link rel="stylesheet" href="http://static.tongrenlu.info/bootstrap-3.3.2/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="http://static.tongrenlu.info/Codrops-CreativeLinkEffects/css/component.css"/>
   <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-screen.css}"/>
-  <script th:src="@{/tongrenlu/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js}"></script>
+  <script src="http://cdn.bootcss.com/modernizr/2.8.3/modernizr.min.js"></script>
   <title th:inline="text">[[#{application}]]</title>
 </head>
 <body>
@@ -29,8 +29,8 @@
   </div>
 </div>
 </div>
-<script type="text/javascript" src="http://static.tongrenlu.info/jquery/jquery-2.1.3.min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/bootstrap-3.3.2/js/bootstrap.min.js" ></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js" ></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js" ></script>
 <th:block layout:fragment="scripts-libs"></th:block>
 <th:block layout:fragment="scripts"></th:block>
 </body>

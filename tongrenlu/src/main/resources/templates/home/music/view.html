@@ -5,7 +5,7 @@
     layout:decorator="home/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery-2.15.0/css/blueimp-gallery.min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/blueimp-gallery/2.15.2/css/blueimp-gallery.min.css" type="text/css"/>
     <link rel="stylesheet" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" type="text/css"/>
     <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" type="text/css"/>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" type="text/css"/>
@@ -30,11 +30,11 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
+<script type="text/javascript" src="http://cdn.bootcss.com/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/jplayer/2.9.2/add-on/jplayer.playlist.min.js" ></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-gallery/2.15.2/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/Gallery-2.15.0/js/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jPlayer-2.9.2/jplayer/jquery.jplayer.min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jPlayer-2.9.2/add-on/jplayer.playlist.min.js" ></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
@@ -54,7 +54,7 @@ $(function() {
         url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
         rateUrl: /*[[@{/music/rate}]]*/ '',
         filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
-        swfPath: 'http://static.tongrenlu.info/jPlayer-2.9.2/jplayer',
+        swfPath: 'http://cdn.bootcss.com/jplayer/2.9.2/jplayer',
         filter: function(playList, playable) {
             var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
             if(onlyVocal) {

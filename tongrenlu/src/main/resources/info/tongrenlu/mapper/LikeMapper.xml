@@ -78,37 +78,6 @@
         limit #{start}, #{pageSize}
     </select>
     
-    <select id="countComic" resultType="int">
-        SELECT
-            COUNT(L.ID)
-        FROM
-            r_like L
-        join m_article on m_article.id = L.like_id
-        <where>
-            L.DEL_FLG = '0'
-        AND L.USER_ID = #{userBean.id}
-        AND L.CATEGORY = 'c'
-        </where>
-    </select>
-    
-    <select id="searchComic" resultType="ComicBean">
-        SELECT
-        <trim suffixOverrides=",">
-            m_article.id                      as id,
-            m_article.title                   as title,
-        </trim>
-        FROM
-            r_like L
-        join m_article on m_article.id = L.like_id
-        <where>
-            L.DEL_FLG = '0'
-        AND L.USER_ID = #{userBean.id}
-        AND L.CATEGORY = 'c'
-        </where>
-        order by L.id desc
-        limit #{start}, #{pageSize}
-    </select>
-    
     <select id="countFollow" resultType="int">
         SELECT
             COUNT(L.ID)

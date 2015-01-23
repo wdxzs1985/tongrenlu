@@ -45,37 +45,6 @@
         </where>
     </select>
     
-    <select id="countComicComment" resultType="int">
-        SELECT 
-            count(v_comic_comment.id)
-        FROM 
-            v_comic_comment
-        <where>
-            v_comic_comment.`articleBean.id` = #{articleId}
-        </where>
-    </select>
-    
-    <select id="fetchComicComment" resultType="CommentBean">
-        SELECT 
-        <trim suffixOverrides=",">
-            v_comic_comment.id                      as id,
-            v_comic_comment.content                 as content,
-            v_comic_comment.createDate              as createDate,
-            v_comic_comment.`userBean.id`           as `userBean.id`,
-            v_comic_comment.`userBean.nickname`     as "userBean.nickname",
-            v_comic_comment.`articleBean.id`        as `articleBean.id`,
-            v_comic_comment.`articleBean.title`     as `articleBean.title`,
-        </trim>
-        FROM 
-            v_comic_comment
-        <where>
-            v_comic_comment.`articleBean.id` = #{articleId}
-        </where>
-        order by v_comic_comment.id desc
-        limit #{start}, #{pageSize}
-    </select>
-    
-    
     <select id="countMusicComment" resultType="int">
         SELECT 
             count(v_music_comment.id)

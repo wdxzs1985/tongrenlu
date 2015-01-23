@@ -21,16 +21,8 @@ public class CommentManager {
     @Autowired
     CommentMapper commentMapper = null;
 
-    public int countComicComment(final Map<String, Object> params) {
-        return this.commentMapper.countComicComment(params);
-    }
-
     public int countMusicComment(final Map<String, Object> params) {
         return this.commentMapper.countMusicComment(params);
-    }
-
-    public List<CommentBean> searchComicComment(final Map<String, Object> params) {
-        return this.commentMapper.fetchComicComment(params);
     }
 
     public List<CommentBean> searchMusicComment(final Map<String, Object> params) {

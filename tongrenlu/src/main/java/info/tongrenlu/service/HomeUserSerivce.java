@@ -1,6 +1,5 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
@@ -34,10 +33,8 @@ public class HomeUserSerivce {
     }
 
     @Transactional
-    public void isFollower(final Integer userId,
-                           final UserBean loginUser,
-                           final Map<String, Object> model,
-                           final Locale locale) {
+    public void isFollower(final Integer userId, final UserBean loginUser,
+                           final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
@@ -53,10 +50,8 @@ public class HomeUserSerivce {
     }
 
     @Transactional
-    public void doFollow(final Integer userId,
-                         final UserBean loginUser,
-                         final Map<String, Object> model,
-                         final Locale locale) {
+    public void doFollow(final Integer userId, final UserBean loginUser,
+                         final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final UserBean userBean = this.userManager.getById(userId);
@@ -86,16 +81,6 @@ public class HomeUserSerivce {
 
         final List<TimelineBean> items = this.userManager.searchUserTimeline(paginate.getParams());
         paginate.setItems(items);
-    }
-
-    public void searchComic(final PaginateSupport<ComicBean> paginate) {
-        final int itemCount = this.articleManager.countComic(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<ComicBean> items = this.articleManager.searchComic(paginate.getParams());
-        paginate.setItems(items);
-
     }
 
     public void searchMusic(final PaginateSupport<MusicBean> paginate) {

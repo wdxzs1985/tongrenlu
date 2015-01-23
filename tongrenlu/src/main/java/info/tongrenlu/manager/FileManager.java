@@ -1,7 +1,6 @@
 package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.ArticleBean;
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
@@ -85,8 +84,6 @@ public class FileManager {
             dirId = FileManager.USER + dtoBean.getId();
         } else if (dtoBean instanceof MusicBean) {
             dirId = FileManager.MUSIC + dtoBean.getId();
-        } else if (dtoBean instanceof ComicBean) {
-            dirId = FileManager.COMIC + dtoBean.getId();
         } else {
             return;
         }
@@ -103,7 +100,8 @@ public class FileManager {
         }
     }
 
-    public void saveXFD(final ArticleBean articleBean, final MultipartFile fileItem) {
+    public void saveXFD(final ArticleBean articleBean,
+                        final MultipartFile fileItem) {
         final String dirId = FileManager.MUSIC + articleBean.getId();
         final File inputFile = this.getFile(dirId, FileManager.XFD);
         if (fileItem != null && !fileItem.isEmpty()) {
@@ -111,28 +109,37 @@ public class FileManager {
         }
     }
 
-    public void saveFile(final String articleType, final FileBean fileBean, final MultipartFile fileItem) {
+    public void saveFile(final String articleType, final FileBean fileBean,
+                         final MultipartFile fileItem) {
         final String dirId = articleType + fileBean.getArticleId();
 
-        final String name = String.format("f%d.%s", fileBean.getId(), fileBean.getExtension());
+        final String name = String.format("f%d.%s",
+                                          fileBean.getId(),
+                                          fileBean.getExtension());
         final File file = this.getFile(dirId, name);
         this.saveFile(fileItem, file);
     }
 
     public void deleteFile(final String articleType, final FileBean fileBean) {
         final String dirId = articleType + fileBean.getArticleId();
-        final String name = String.format("f%d.%s", fileBean.getId(), fileBean.getExtension());
+        final String name = String.format("f%d.%s",
+                                          fileBean.getId(),
+                                          fileBean.getExtension());
         final File file = this.getFile(dirId, name);
         FileUtils.deleteQuietly(file);
 
         if (FileManager.IMAGE.equals(fileBean.getContentType())) {
             for (final int size : FileManager.COVER_SIZE_ARRAY) {
-                final String thumbnail = String.format("f%d_%d.jpg", fileBean.getId(), size);
+                final String thumbnail = String.format("f%d_%d.jpg",
+                                                       fileBean.getId(),
+                                                       size);
                 final File thumbnailFile = this.getFile(dirId, thumbnail);
                 FileUtils.deleteQuietly(thumbnailFile);
             }
             for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-                final String thumbnail = String.format("f%d_%d.jpg", fileBean.getId(), size);
+                final String thumbnail = String.format("f%d_%d.jpg",
+                                                       fileBean.getId(),
+                                                       size);
                 final File thumbnailFile = this.getFile(dirId, thumbnail);
                 FileUtils.deleteQuietly(thumbnailFile);
             }
@@ -167,7 +174,8 @@ public class FileManager {
         }
     }
 
-    protected void convertCover(final File input, final File output, final int size) {
+    protected void convertCover(final File input, final File output,
+                                final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.getConvertPath());
@@ -199,22 +207,29 @@ public class FileManager {
 
     public void convertImage(final String articleType, final FileBean fileBean) {
         final String dirId = articleType + fileBean.getArticleId();
-        final String inputName = String.format("f%d.%s", fileBean.getId(), fileBean.getExtension());
+        final String inputName = String.format("f%d.%s",
+                                               fileBean.getId(),
+                                               fileBean.getExtension());
         final File inputFile = this.getFile(dirId, inputName);
 
         for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg", fileBean.getId(), size);
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    fileBean.getId(),
+                                                    size);
             final File outputFile = this.getFile(dirId, outputName);
             this.convertCover(inputFile, outputFile, size);
         }
         for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg", fileBean.getId(), size);
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    fileBean.getId(),
+                                                    size);
             final File outputFile = this.getFile(dirId, outputName);
             this.convertImage(inputFile, outputFile, size);
         }
     }
 
-    protected void convertImage(final File input, final File output, final int size) {
+    protected void convertImage(final File input, final File output,
+                                final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);
         cmd.setSearchPath(this.getConvertPath());
@@ -264,8 +279,6 @@ public class FileManager {
         String dirId = null;
         if (articleBean instanceof MusicBean) {
             dirId = FileManager.MUSIC + articleBean.getId();
-        } else if (articleBean instanceof ComicBean) {
-            dirId = FileManager.COMIC + articleBean.getId();
         } else {
             return;
         }
@@ -286,7 +299,9 @@ public class FileManager {
                                        final Locale locale) {
         boolean isValid = true;
         if (!ArrayUtils.contains(accepted, contentType)) {
-            final String message = this.messageSource.getMessage("error.fileNotAccept", null, locale);
+            final String message = this.messageSource.getMessage("error.fileNotAccept",
+                                                                 null,
+                                                                 locale);
             model.put(errorAttribute, message);
             isValid = false;
         }

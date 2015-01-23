@@ -1,7 +1,6 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
-import info.tongrenlu.domain.ComicBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
@@ -40,8 +39,7 @@ public class HomeUserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
     public String doGetIndex(@PathVariable final Integer userId,
-                             final Model model,
-                             final Locale locale) {
+                             final Model model, final Locale locale) {
         final UserBean userBean = this.userService.getById(userId);
 
         if (userBean == null) {
@@ -58,8 +56,7 @@ public class HomeUserController {
     public String doGetMusic(@PathVariable final Integer userId,
                              @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
+                             final Model model, final Locale locale) {
         final UserBean userBean = this.userService.getById(userId);
 
         if (userBean == null) {
@@ -69,7 +66,7 @@ public class HomeUserController {
         }
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      HomeUserController.PAGE_SIZE);
+                HomeUserController.PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("loginUser", loginUser);
         page.addParam("publishFlg", CommonConstants.CHR_TRUE);
@@ -78,32 +75,6 @@ public class HomeUserController {
         model.addAttribute("userBean", userBean);
         model.addAttribute("page", page);
         return "home/user/music";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{userId}/comic")
-    public String doGetComic(@PathVariable final Integer userId,
-                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
-        final UserBean userBean = this.userService.getById(userId);
-
-        if (userBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
-        }
-
-        final PaginateSupport<ComicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      HomeUserController.PAGE_SIZE);
-        page.addParam("userBean", userBean);
-        page.addParam("loginUser", loginUser);
-        page.addParam("publishFlg", CommonConstants.CHR_TRUE);
-        this.userService.searchComic(page);
-
-        model.addAttribute("userBean", userBean);
-        model.addAttribute("page", page);
-        return "home/user/comic";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{userId}/follow")

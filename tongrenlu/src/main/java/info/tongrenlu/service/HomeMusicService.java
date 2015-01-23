@@ -1,7 +1,6 @@
 package info.tongrenlu.service;
 
 import info.tongrenlu.domain.ArticleBean;
-import info.tongrenlu.domain.DtoBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
@@ -11,7 +10,6 @@ import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LibraryManager;
 import info.tongrenlu.manager.LikeManager;
-import info.tongrenlu.manager.ObjectManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.manager.TrackManager;
 import info.tongrenlu.manager.UserManager;
@@ -41,15 +39,14 @@ public class HomeMusicService {
     @Autowired
     private final LikeManager likeManager = null;
     @Autowired
-    private final ObjectManager objectManager = null;
-    @Autowired
     private final UserManager userManager = null;
     @Autowired
     private final TrackManager trackManager = null;
     @Autowired
     private LibraryManager libraryManager = null;
 
-    public List<TrackBean> getTrackList(final Integer articleId, final UserBean userBean) {
+    public List<TrackBean> getTrackList(final Integer articleId,
+                                        final UserBean userBean) {
         return this.trackManager.getRatedTrackList(articleId, userBean);
     }
 
@@ -100,10 +97,8 @@ public class HomeMusicService {
         this.articleManager.addAccess(articleBean, userBean);
     }
 
-    public int isLike(final Integer articleId,
-                      final UserBean loginUser,
-                      final Map<String, Object> model,
-                      final Locale locale) {
+    public int isLike(final Integer articleId, final UserBean loginUser,
+                      final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
@@ -115,10 +110,8 @@ public class HomeMusicService {
     }
 
     @Transactional
-    public int doLike(final Integer articleId,
-                      final UserBean loginUser,
-                      final Map<String, Object> model,
-                      final Locale locale) {
+    public int doLike(final Integer articleId, final UserBean loginUser,
+                      final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
@@ -136,15 +129,9 @@ public class HomeMusicService {
         return result;
     }
 
-    public DtoBean getByOldArticleId(final String articleId) {
-        return this.objectManager.findByObjectId(articleId);
-    }
-
-    public boolean saveRate(final Integer trackId,
-                            final Integer rate,
+    public boolean saveRate(final Integer trackId, final Integer rate,
                             final UserBean userBean,
-                            final Map<String, Object> model,
-                            final Locale locale) {
+                            final Map<String, Object> model, final Locale locale) {
         boolean result = false;
         if (this.userManager.validateUserIsSignin(userBean, model, locale)) {
             final TrackBean trackBean = new TrackBean();
@@ -166,14 +153,16 @@ public class HomeMusicService {
         return result;
     }
 
-    public boolean isOwner(final UserBean userBean, final ArticleBean articleBean) {
+    public boolean isOwner(final UserBean userBean,
+                           final ArticleBean articleBean) {
         final Map<String, Object> params = new HashMap<>();
         params.put("userBean", userBean);
         params.put("articleBean", articleBean);
         return this.libraryManager.countMusic(params) > 0;
     }
 
-    public void addToLibrary(final UserBean userBean, final ArticleBean articleBean) {
+    public void addToLibrary(final UserBean userBean,
+                             final ArticleBean articleBean) {
         final Map<String, Object> params = new HashMap<>();
         params.put("userBean", userBean);
         params.put("articleBean", articleBean);
