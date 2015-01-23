@@ -19,6 +19,12 @@
         <div class="row">
             <div class="col-sm-6">
                 <div id="player" th:include="home/layout_article_view::article-player"></div>
+                <div class="alert alert-success" th:if="${articleBean.free}">
+                    <p th:text="#{home.article.free}"></p>
+                </div>
+                <div class="alert alert-warning" th:unless="${articleBean.free}">
+                    <p th:text="#{home.article.notfree}"></p>
+                </div>
                 <div class="jp-audio">
                     <div class="jp-type-playlist">
                         <div class="jp-playlist">
@@ -51,12 +57,6 @@
             </div>
             <div class="col-sm-6">
                 <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
-                <div class="alert alert-success" th:if="${articleBean.free}">
-                    <p th:text="#{home.article.free}"></p>
-                </div>
-                <div class="alert alert-warning" th:unless="${articleBean.free}">
-                    <p th:text="#{home.article.notfree}"></p>
-                </div>
                 <div id="share">
                     <a href="#" id="addToLibrary" class="btn btn-success"
                         th:href="@{/music/__${articleBean.id}__/library}"

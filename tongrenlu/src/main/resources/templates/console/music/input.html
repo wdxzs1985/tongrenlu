@@ -74,10 +74,8 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="thumbnail">
-                            <a href="javascript:;" >
                                 <img src="http://placehold.it/400x400" alt="..." 
                                     th:src="@{http://files.tongrenlu.info/default/cover_400.jpg}"/>
-                            </a>
                             <div class="caption">
                                 <h4 th:text="#{console.music.cover}">cover</h4>
                                 <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
@@ -90,10 +88,8 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" 
-                                th:text="#{button.save}"></button>
-                            <a th:href="@{/console/music}" class="btn btn-default" 
-                                th:text="#{button.cancel}"></a>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
+                            <a th:href="@{/console/music}" class="btn btn-default" th:text="#{button.cancel}"></a>
                         </div>
                     </div>
                 </div>

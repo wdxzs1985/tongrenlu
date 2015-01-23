@@ -329,7 +329,8 @@ h1.article-title {
 }
 
 #top-music h1,
-#top-links h2{
+#top-music form,
+#top-links h2，{
     margin: 20px 0 40px;
 }
 
