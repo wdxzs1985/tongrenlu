@@ -29,26 +29,31 @@
                     <div class="jp-type-playlist">
                         <div class="jp-playlist">
                             <ul>
-                                <li class="media" th:each="trackBean,varStatus : ${trackList}">
+                                <li class="media" th:each="playable,varStatus : ${playlist}">
                                     <div class="media-body">
                                         <h5 class="media-heading">
-                                            <span th:text="${varStatus.count} + '. ' + ${trackBean.name}"></span>
+                                            <span th:text="${varStatus.count} + '. ' + ${playable.title}"></span>
                                             <span class="label label-warning" 
                                                 th:text="#{TrackBean.instrumental}"
-                                                th:if="${trackBean.instrumental} eq '1'"></span>
-                                            <br /><small th:text="'by ' + ${trackBean.artist}"></small>
+                                                th:if="${playable.instrumental}"></span>
+                                            <br />
+                                            <a th:href="@{/music/search(q=${playable.artist})}" target="_blank">
+                                                <small th:text="'by ' + ${playable.artist}"></small>
+                                            </a>
                                         </h5>
                                         <div class="jp-rate">
-                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 1} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 2} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 3} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 4} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
-                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${trackBean.rate >= 5} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${playable.rate >= 1} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${playable.rate >= 2} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${playable.rate >= 3} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${playable.rate >= 4} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
+                                            <button class="btn btn-xs btn-link " ><span class="glyphicon " th:classappend="${playable.rate >= 5} ? 'glyphicon-star' : 'glyphicon-star-empty'"></span></button>
                                         </div>
                                     </div>
-                                    <div class="">
-                                        <pre class="" th:text="${trackBean.original}"></pre>
-                                    </div>
+                                    <ul class="jp-original" th:unless="${#lists.isEmpty(playable.original)}">
+                                        <li th:each="original : ${playable.original}">
+                                            <a th:href="@{/music/search(q=${original})}" th:text="${original}" target="_blank"></a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
@@ -58,13 +63,17 @@
             <div class="col-sm-6">
                 <div id="baseinfo" th:include="home/layout_article_view::article-baseinfo"></div>
                 <div id="share">
-                    <a href="#" id="addToLibrary" class="btn btn-success"
-                        th:href="@{/music/__${articleBean.id}__/library}"
+                    <button id="add-to-library" class="btn btn-success"
                         th:if="${articleBean.free}">
                         <span class="glyphicon glyphicon-cd"></span>
-                        <span class="" th:text="#{home.article.library.add}"></span>
-                    </a>
-                    <button id="share_article" class="btn btn-info">
+                        <span class="" th:text="#{home.library.add}"></span>
+                    </button>
+                    <button id="add-to-library" class="btn btn-info"
+                        th:if="${articleBean.publish}">
+                        <span class="glyphicon glyphicon glyphicon-check"></span>
+                        <span class="" th:text="#{home.library.selfhelp}"></span>
+                    </button>
+                    <button id="share_article" class="btn btn-warning">
                         <span class="glyphicon glyphicon-share"></span>
                         <span class="" th:text="#{home.article.share}"></span>
                     </button>
@@ -74,6 +83,24 @@
             </div>
         </div>
     </div>
+    <div id="modal-alert" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" th:text="#{home.library.auth}"></h4>
+                </div>
+                <div class="modal-body">
+                    <p th:text="#{home.library.success}"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">Close</button>
+                    <a role="button" class="btn btn-primary" th:text="#{console.library.upload}"
+                        th:href="@{/console/library/upload}"></a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 <th:block layout:fragment="scripts">
 <script type="text/javascript" src="http://cdn.bootcss.com/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
@@ -87,6 +114,7 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-library.js}" ></script>
 
 <div th:replace="x-tmpl/article-view::template-playlist-item"></div>
 <div th:replace="x-tmpl/article-view::template-rate"></div>
@@ -122,22 +150,8 @@ $(function() {
     
     $('#article-description').url();
     
-    $('#addToLibrary').click(function(e) {
-        e.preventDefault();
-        
-    	var loginUser = $(document).data('loginUser');
-        if(loginUser) {
-        	if(!loginUser.guest) {
-        		document.location.href = $this.attr('href');
-                return;
-            }
-        }
-        
-        var $this = $(this);
-        $(document).on('signin', function(event, loginUser) {
-        	document.location.href = $this.attr('href');
-        });
-        $('#signinModal').modal('show');
+    $('#add-to-library').library({
+    	url: /*[[@{/music/__${articleBean.id}__/library}]]*/''
     });
 });
 </script>

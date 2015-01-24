@@ -15,16 +15,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <form th:action="@{/admin/user/__${userBean.id}__/library}" method="post">
-                        <div class="input-group">
-                            <input type="url" name="url" class="form-control" placeholder="http://www.tongrenlu.info/music/"/>
-                            <div class="input-group-btn">
-                                <button type="submit" class="btn btn-success">
-                                    <span th:text="#{button.add}"></span>
-                                </button>
-                            </div><!-- /btn-group -->
-                        </div><!-- /input-group -->
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -48,32 +39,37 @@
     <div class="container-wrap container-wrap-darker"  >
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
-                <div class="row">
-                     <div class="col-sm-6 col-md-3 col-lg-2" th:each="articleBean : ${page.items}">
-                         <div class="thumbnail media card">
-                             <a class="visible-sm visible-xs pull-left" target="_blank" 
-                                th:href="@{/music/__${articleBean.id}__}" 
-                                th:alt-title="${articleBean.title}">
-                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                      class="media-object img-60 "/>
-                             </a>
-                             <a class="hidden-sm hidden-xs" target="_blank" 
-                                th:href="@{/music/__${articleBean.id}__}" 
-                                th:alt-title="${articleBean.title}">
-                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
-                                      class="img-180 "/>
-                             </a>
-                             <div class="caption">
-                                 <h5 class="media-heading text-single-line">
-                                     <a target="_blank" 
-                                        th:href="@{/music/__${articleBean.id}__}"
-                                        th:alt-title="${articleBean.title}"
-                                        th:text="${articleBean.title}" >
-                                     </a>
-                                 </h5>
-                             </div>
-                         </div>
-                     </div>
+                <div class="card" th:each="articleBean : ${page.items}">
+                    <div class="media">
+                        <a class="media-left" target="_blank" 
+                            th:href="@{/music/__${articleBean.id}__}" 
+                            th:alt-title="${articleBean.title}" >
+                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" 
+                                th:alt-title="${articleBean.title}"
+                                class="img-180 "/>
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading text-single-line">
+                                <a th:href="@{/music/__${articleBean.id}__}"
+                                   th:alt-title="${articleBean.title}"
+                                   th:text="${articleBean.title}" 
+                                   target="_blank">
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="card-footer">
+                            <form th:action="@{/admin/user/__${userBean.id}__/library}" method="post">
+                                <input type="hidden" name="articleId" class="form-control" th:value="${articleBean.id}"/>
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn btn-success">
+                                            <span th:text="#{admin.user.library.add}"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div id="jpaginate" class="hidden-xs"></div>
                 <div id="select-paginate" class="form-group visible-xs"></div>

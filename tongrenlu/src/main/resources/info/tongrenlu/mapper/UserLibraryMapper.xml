@@ -9,16 +9,49 @@
         <trim suffixOverrides=",">
            user_id,
            article_id,
+           status,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
             #{userBean.id},
             #{articleBean.id},
+            #{status},
         </trim>
         )
     </insert>
     
     <select id="count" resultType="int">
+        SELECT
+        <trim suffixOverrides=",">
+            count(r_user_library.id)
+        </trim>
+        FROM
+            r_user_library
+        <where>
+        AND r_user_library.user_id = #{userBean.id}
+        <if test="articleBean != null">
+        AND r_user_library.article_id = #{articleBean.id}
+        </if>
+        <if test="status != null">
+        AND r_user_library.status = #{status}
+        </if>
+        </where>
+    </select>
+    
+    <select id="fetchBean" resultType="UserLibraryBean">
+        SELECT
+        <trim suffixOverrides=",">
+            status,
+        </trim>
+        FROM
+            r_user_library
+        <where>
+        AND r_user_library.user_id = #{userBean.id}
+        AND r_user_library.article_id = #{articleBean.id}
+        </where>
+    </select>
+    
+    <select id="countMusic" resultType="int">
         SELECT
         <trim suffixOverrides=",">
             count(v_music.id)
@@ -31,10 +64,13 @@
         <if test="articleBean != null">
         AND r_user_library.article_id = #{articleBean.id}
         </if>
+        <if test="status != null">
+        AND r_user_library.status = #{status}
+        </if>
         </where>
     </select>
     
-    <select id="fetchList" resultType="MusicBean">
+    <select id="fetchMusicList" resultType="MusicBean">
         SELECT
         <trim suffixOverrides=",">
             v_music.id                      as id,
@@ -45,9 +81,40 @@
         left join r_user_library on v_music.id = r_user_library.article_id
         <where>
         AND r_user_library.user_id = #{userBean.id}
+        <if test="status != null">
+        AND r_user_library.status = #{status}
+        </if>
+        </where>
+        order by v_music.id desc
+    </select>
+    
+    <select id="searchMusicList" resultType="MusicBean">
+        SELECT
+        <trim suffixOverrides=",">
+            v_music.id                      as id,
+            v_music.title                   as title,
+        </trim>
+        FROM
+            v_music
+        left join r_user_library on v_music.id = r_user_library.article_id
+        <where>
+        AND r_user_library.user_id = #{userBean.id}
+        <if test="status != null">
+        AND r_user_library.status = #{status}
+        </if>
         </where>
         order by v_music.id desc
         limit #{start}, #{pageSize}
     </select>
     
+    <update id="update">
+        update 
+            r_user_library
+        set 
+            r_user_library.status = #{status}
+        <where>
+        AND r_user_library.user_id = #{userBean.id}
+        AND r_user_library.article_id = #{articleBean.id}
+        </where>
+    </update>
 </mapper>

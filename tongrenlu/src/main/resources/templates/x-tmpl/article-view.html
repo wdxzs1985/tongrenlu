@@ -28,8 +28,14 @@
         </a>
         <div class="jp-rate" data-track-id="{%=o.file.id%}" data-rate="{%=o.file.rate%}"></div>
     </div>
-    {% if (o.file.original) { %}
-        <div class="show-if-current show-if-hover"><pre class="">{%=o.file.original%}</pre></div>
+    {% if (o.file.original.length > 0) { %}
+        <div class="show-if-current show-if-hover">
+            <ul class="jp-original">
+                {% for (var i=0, original; original=o.file.original[i]; i++) { %}
+                    <li><a href="/music/search?q={%=original%}" target="_blank">{%=original%}</a></li>
+                {% } %}
+            </ul>
+        </div>
     {% } %}
 </li>
 </script>

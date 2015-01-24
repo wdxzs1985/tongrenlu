@@ -1,6 +1,5 @@
 package info.tongrenlu.www;
 
-import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.ConsoleUserService;
@@ -28,24 +27,12 @@ public class ConsoleUserController {
     @Autowired
     private final ConsoleMusicService musicService = null;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/console/library")
-    public String doGetLibrary(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                               final Model model) {
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
-        page.addParam("userBean", loginUser);
-        this.musicService.searchLibrary(page);
-        model.addAttribute("page", page);
-        return "console/user/library";
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/console/follow")
     public String doGetFollow(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                     PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollow(page);
         model.addAttribute("page", page);
@@ -58,7 +45,7 @@ public class ConsoleUserController {
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                     PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollower(page);
         model.addAttribute("page", page);

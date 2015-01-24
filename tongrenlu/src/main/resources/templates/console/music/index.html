@@ -65,14 +65,14 @@
                                         th:alt-title="${articleBean.title}" />
                                 </a>
                                 <div class="media-body">
-                                    <h5 class="media-heading">
+                                    <h4 class="media-heading">
                                         <a th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                             <strong th:text="${articleBean.title}" ></strong>
                                         </a>
                                         <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
                                         <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
                                         <span class="label label-warning" th:if="${articleBean.unpublish}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                                    </h5>
+                                    </h4>
                                     <div class="text-muted">
                                         <span th:text="#{home.article.owner} + ' :'">Owner :</span>
                                         <a th:href="@{/user/__${articleBean.userBean.id}__}" 
@@ -80,7 +80,6 @@
                                             <strong th:text="${articleBean.userBean}"></strong>
                                         </a>
                                         <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                        <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
                                         <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                     </div>
                                     <th:block th:if="${articleBean.description}">

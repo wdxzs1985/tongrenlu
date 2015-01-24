@@ -59,9 +59,7 @@ public class AdminUserController {
     public String doGetView(@PathVariable final Integer userId,
                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                             final Model model, final Locale locale) {
-
         final UserProfileBean userBean = this.userService.getById(userId);
-
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
@@ -69,19 +67,18 @@ public class AdminUserController {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
                                                                       PAGE_SIZE);
         page.addParam("userBean", userBean);
+        page.addParam("status", 0);
         this.musicService.searchLibrary(page);
         model.addAttribute("page", page);
-
         return "admin/user/view";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/library")
-    public String doPostLibrary(@PathVariable final Integer userId, String url,
-                                final Model model, final Locale locale) {
+    public String doPostLibrary(@PathVariable final Integer userId,
+                                Integer articleId, final Model model,
+                                final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
-        this.throwExceptionWhenNotFound(userBean, locale);
-
-        if (this.musicService.addToLibrary(userBean, url)) {
+        if (this.musicService.updateStatus(articleId, userBean, locale)) {
             return "redirect:/admin/user/" + userId;
         } else {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",

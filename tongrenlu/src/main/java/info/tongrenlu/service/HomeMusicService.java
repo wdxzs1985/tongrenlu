@@ -1,5 +1,6 @@
 package info.tongrenlu.service;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
@@ -15,12 +16,14 @@ import info.tongrenlu.manager.TrackManager;
 import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -45,9 +48,24 @@ public class HomeMusicService {
     @Autowired
     private LibraryManager libraryManager = null;
 
-    public List<TrackBean> getTrackList(final Integer articleId,
-                                        final UserBean userBean) {
-        return this.trackManager.getRatedTrackList(articleId, userBean);
+    public List<Map<String, Object>> getPlaylist(final Integer articleId,
+                                                 final UserBean userBean) {
+        final List<Map<String, Object>> playlist = new ArrayList<Map<String, Object>>();
+        final List<TrackBean> trackList = this.trackManager.getRatedTrackList(articleId,
+                                                                              userBean);
+        for (final TrackBean trackBean : trackList) {
+            final Map<String, Object> playable = new HashMap<String, Object>();
+            playable.put("id", trackBean.getId());
+            playable.put("title", trackBean.getName());
+            playable.put("artist", trackBean.getArtist());
+            playable.put("original",
+                         StringUtils.split(trackBean.getOriginal(), '\n'));
+            playable.put("instrumental",
+                         CommonConstants.is(trackBean.getInstrumental()));
+            playable.put("rate", trackBean.getRate());
+            playlist.add(playable);
+        }
+        return playlist;
     }
 
     public List<FileBean> getBookletList(final Integer articleId) {
@@ -155,12 +173,35 @@ public class HomeMusicService {
 
     public boolean isOwner(final UserBean userBean,
                            final ArticleBean articleBean) {
-        return this.libraryManager.isOwner(userBean, articleBean);
+        return this.libraryManager.isOwner(userBean, articleBean, 1);
     }
 
-    public void addToLibrary(final UserBean userBean,
-                             final ArticleBean articleBean) {
-        this.libraryManager.addToLibrary(userBean, articleBean);
+    public boolean addToLibrary(Integer articleId, UserBean loginUser,
+                                Map<String, Object> model, Locale locale) {
+        boolean result = false;
+        if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
+            final MusicBean musicBean = this.getById(articleId);
+            if (musicBean != null) {
+                if (!this.libraryManager.isOwner(loginUser, musicBean, null)) {
+                    this.libraryManager.addToLibrary(loginUser, musicBean, 0);
+                    String message = this.messageSource.getMessage("home.library.success",
+                                                                   null,
+                                                                   locale);
+                    model.put("message", message);
+                    result = true;
+                } else {
+                    String message = this.messageSource.getMessage("home.library.already",
+                                                                   null,
+                                                                   locale);
+                    model.put("message", message);
+                }
+            } else {
+                String message = this.messageSource.getMessage("error.pageNotFound",
+                                                               null,
+                                                               locale);
+                model.put("error", message);
+            }
+        }
+        return result;
     }
-
 }

@@ -289,7 +289,7 @@ div.jp-audio .jp-interface .jp-volume-bar {
     padding: 0;
 }
 
-div.jp-type-playlist div.jp-playlist li {
+div.jp-type-playlist div.jp-playlist li.media {
     position: relative;
     padding: 4px;
     overflow: hidden;
@@ -301,21 +301,21 @@ div.jp-type-playlist div.jp-playlist li {
     text-decoration: none;
 }
 
-div.jp-type-playlist div.jp-playlist li:nth-child(odd) {
+div.jp-type-playlist div.jp-playlist li.media:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-div.jp-type-playlist div.jp-playlist li:hover {
+div.jp-type-playlist div.jp-playlist li.media:hover {
 }
 div.jp-type-playlist div.jp-playlist li.jp-playlist-current {
 }
 
 /* Note that the first-child (IE6) and last-child (IE6/7/8) selectors do not work on IE */
 
-div.jp-type-playlist div.jp-playlist li:first-child {
+div.jp-type-playlist div.jp-playlist li.media:first-child {
 }
 
-div.jp-type-playlist div.jp-playlist li:last-child {
+div.jp-type-playlist div.jp-playlist li.media:last-child {
     border-bottom:none;
 }
 
@@ -328,18 +328,18 @@ div.jp-type-playlist div.jp-playlist a:hover {
     color: #428bca;
 }
 
-div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove {
+div.jp-type-playlist div.jp-playlist li.media a.jp-playlist-item-remove {
     color:#ccc;
 }
-div.jp-type-playlist div.jp-playlist li a.jp-playlist-item-remove:hover {
+div.jp-type-playlist div.jp-playlist li.media a.jp-playlist-item-remove:hover {
     color:#e51c23;
 }
 
-div.jp-type-playlist div.jp-playlist li .show-unless-current {
+div.jp-type-playlist div.jp-playlist li.media .show-unless-current {
     display: block;
 }
 
-div.jp-type-playlist div.jp-playlist li .show-if-current {
+div.jp-type-playlist div.jp-playlist li.media .show-if-current {
     display: none;
 }
 
@@ -351,7 +351,7 @@ div.jp-type-playlist div.jp-playlist li.jp-playlist-current .show-if-current {
     display: block;
 }
 
-div.jp-type-playlist div.jp-playlist li:hover .show-if-hover {
+div.jp-type-playlist div.jp-playlist li.media:hover .show-if-hover {
     display: block;
 }
 
@@ -370,6 +370,15 @@ div.jp-type-playlist div.jp-playlist li.jp-playlist-current a{
 span.jp-artist {
     font-size:.8em;
     color:#95a5a6;
+}
+
+ul.jp-original li {
+	font-size: 12px;
+	line-height: 1.6;
+}
+
+ul.jp-original li a:hover{
+    text-decoration: underline;
 }
 
 button:focus {outline:0 !important;}

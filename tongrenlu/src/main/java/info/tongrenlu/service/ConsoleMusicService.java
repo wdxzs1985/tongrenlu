@@ -5,7 +5,7 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
-import info.tongrenlu.domain.UserProfileBean;
+import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LibraryManager;
@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -338,9 +337,9 @@ public class ConsoleMusicService {
                 trackDocument.setTrack(track.getName());
                 trackDocument.setInstrumental(CommonConstants.is(track.getInstrumental()));
                 trackDocument.setArtist(StringUtils.split(track.getArtist(),
-                                                          ","));
+                        ","));
                 trackDocument.setOriginal(StringUtils.split(track.getOriginal(),
-                                                            "\n"));
+                        "\n"));
 
                 this.articleRepository.save(trackDocument);
 
@@ -392,15 +391,16 @@ public class ConsoleMusicService {
         paginate.setItems(items);
     }
 
-    public boolean addToLibrary(UserProfileBean userBean, String url) {
-        Matcher matcher = ARTICLE_ID_PATTERN.matcher(url);
-        if (matcher.find()) {
-            Integer articleId = Integer.valueOf(matcher.group(1));
-            MusicBean musicBean = this.articleManager.getMusicById(articleId);
-            if (musicBean != null) {
-                if (!this.libraryManager.isOwner(userBean, musicBean)) {
-                    this.libraryManager.addToLibrary(userBean, musicBean);
-                }
+    public List<MusicBean> getLibraryList(Map<String, Object> params) {
+        return this.libraryManager.fetchMusicList(params);
+    }
+
+    public boolean updateStatus(Integer articleId, UserBean userBean,
+                                Locale locale) {
+        final MusicBean musicBean = this.getById(articleId);
+        if (musicBean != null) {
+            if (this.libraryManager.isOwner(userBean, musicBean, 0)) {
+                this.libraryManager.updateStatus(userBean, musicBean, 1);
                 return true;
             }
         }
