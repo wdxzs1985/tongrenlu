@@ -5,6 +5,7 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
+import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LibraryManager;
@@ -27,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -40,6 +43,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Transactional
 public class ConsoleMusicService {
+
+    public static final Pattern ARTICLE_ID_PATTERN = Pattern.compile("http://www.tongrenlu.info/music/([0-9]{4,6})");
 
     @Autowired
     private final MessageSource messageSource = null;
@@ -385,5 +390,20 @@ public class ConsoleMusicService {
 
         final List<MusicBean> items = this.libraryManager.searchMusic(paginate.getParams());
         paginate.setItems(items);
+    }
+
+    public boolean addToLibrary(UserProfileBean userBean, String url) {
+        Matcher matcher = ARTICLE_ID_PATTERN.matcher(url);
+        if (matcher.find()) {
+            Integer articleId = Integer.valueOf(matcher.group(1));
+            MusicBean musicBean = this.articleManager.getMusicById(articleId);
+            if (musicBean != null) {
+                if (!this.libraryManager.isOwner(userBean, musicBean)) {
+                    this.libraryManager.addToLibrary(userBean, musicBean);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

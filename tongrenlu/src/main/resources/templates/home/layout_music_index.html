@@ -56,7 +56,6 @@
                                                 <strong th:text="${articleBean.userBean}"></strong>
                                             </a>
                                             <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                            <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
                                             <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                         </div>
                                         <th:block th:if="${articleBean.description}">
@@ -96,7 +95,6 @@
                                         </h5>
                                         <div class="text-muted">
                                           <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                          <span th:text="' / ' + #{ArticleBean.likeCount} + ' :' + ${articleBean.likeCount}"></span>
                                           <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                         </div>
                                     </div>

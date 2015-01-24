@@ -12,4 +12,6 @@ public interface ArticleMapper {
 
     public void delete(ArticleBean articleBean);
 
+    public void publish(Map<String, Object> param);
+
 }

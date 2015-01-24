@@ -72,14 +72,14 @@ public class ArticleManager {
         final Map<String, Object> param = new HashMap<>();
         param.put("id", articleBean.getId());
         param.put("publishFlg", CommonConstants.PUBLISH);
-        this.articleMapper.update(param);
+        this.articleMapper.publish(param);
     }
 
     public void free(final ArticleBean articleBean) {
         final Map<String, Object> param = new HashMap<>();
         param.put("id", articleBean.getId());
         param.put("publishFlg", CommonConstants.FREE);
-        this.articleMapper.update(param);
+        this.articleMapper.publish(param);
     }
 
     public void addAccess(final ArticleBean articleBean, final UserBean userBean) {

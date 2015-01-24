@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Transactional
 public class ConsoleUserController {
 
-    public static int PAGE_SIZE = 12;
+    public static final int PAGE_SIZE = 12;
 
     @Autowired
     private final ConsoleUserService userService = null;
@@ -32,7 +32,8 @@ public class ConsoleUserController {
     public String doGetLibrary(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                final Model model) {
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
+                PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.musicService.searchLibrary(page);
         model.addAttribute("page", page);
@@ -43,7 +44,8 @@ public class ConsoleUserController {
     public String doGetFollow(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
+                PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollow(page);
         model.addAttribute("page", page);
@@ -55,7 +57,8 @@ public class ConsoleUserController {
     public String doGetFollower(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
+                PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollower(page);
         model.addAttribute("page", page);

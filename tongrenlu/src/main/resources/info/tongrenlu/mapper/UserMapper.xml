@@ -97,4 +97,43 @@
             id = #{id}
         </where>
     </update>
+    
+    <select id="count" resultType="int">
+        SELECT
+        <trim suffixOverrides=",">
+            count(m_user.id)
+        </trim>
+        FROM
+            m_user
+        <where>
+            m_user.DEL_FLG = '0'
+        and m_user.id not in (0)
+        <if test="query != null">
+            <bind name="pattern" value="'%' + query + '%'" />
+            AND m_user.nickname LIKE #{pattern}
+        </if>
+        </where>
+    </select>
+    
+    <select id="fetchList" resultType="UserBean">
+        SELECT
+        <trim suffixOverrides=",">
+            m_user.id                    as id,
+            m_user.NICKNAME              as nickname,
+            m_user.signature             as signature,
+            m_user.role                  as role,
+        </trim>
+        FROM
+            m_user
+        <where>
+            m_user.DEL_FLG = '0'
+        and m_user.id not in (0)
+        <if test="query != null">
+            <bind name="pattern" value="'%' + query + '%'" />
+            AND m_user.nickname LIKE #{pattern}
+        </if>
+        </where>
+        order by m_user.id desc
+        limit #{start}, #{pageSize}
+    </select>
 </mapper>

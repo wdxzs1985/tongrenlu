@@ -25,12 +25,17 @@
     <update id="update">
         UPDATE m_article
         <set>
-            <if test="title != null">
-                title = #{title},
-            </if>
-            <if test="description != null">
-                description = #{description},
-            </if>
+            title = #{title},
+            description = #{description},
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    <update id="publish">
+        UPDATE m_article
+        <set>
             <if test="publishFlg eq 1">
                 publish_flg = #{publishFlg},
                 publish_date = CURRENT_TIMESTAMP,

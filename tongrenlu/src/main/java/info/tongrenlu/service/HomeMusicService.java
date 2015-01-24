@@ -155,18 +155,12 @@ public class HomeMusicService {
 
     public boolean isOwner(final UserBean userBean,
                            final ArticleBean articleBean) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("userBean", userBean);
-        params.put("articleBean", articleBean);
-        return this.libraryManager.countMusic(params) > 0;
+        return this.libraryManager.isOwner(userBean, articleBean);
     }
 
     public void addToLibrary(final UserBean userBean,
                              final ArticleBean articleBean) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("userBean", userBean);
-        params.put("articleBean", articleBean);
-        this.libraryManager.insert(params);
+        this.libraryManager.addToLibrary(userBean, articleBean);
     }
 
 }
