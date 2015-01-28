@@ -5,6 +5,7 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.AdminUserService;
+import info.tongrenlu.service.ConsoleLibraryService;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -33,12 +34,12 @@ public class AdminUserController {
     private AdminUserService userService;
     @Autowired
     private ConsoleMusicService musicService = null;
+    @Autowired
+    private ConsoleLibraryService libraryService = null;
 
-    private void throwExceptionWhenNotFound(UserBean userBean, Locale locale) {
+    private void throwExceptionWhenNotFound(final UserBean userBean, final Locale locale) {
         if (userBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
     }
 
@@ -46,8 +47,7 @@ public class AdminUserController {
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("query", query);
         this.userService.searchUser(page);
         model.addAttribute("page", page);
@@ -58,32 +58,31 @@ public class AdminUserController {
     @RequestMapping(method = RequestMethod.GET, value = "{userId}")
     public String doGetView(@PathVariable final Integer userId,
                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                            final Model model, final Locale locale) {
+                            final Model model,
+                            final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 0);
-        this.musicService.searchLibrary(page);
+        this.libraryService.searchLibrary(page);
         model.addAttribute("page", page);
         return "admin/user/view";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/library")
     public String doPostLibrary(@PathVariable final Integer userId,
-                                Integer articleId, final Model model,
+                                final Integer articleId,
+                                final Model model,
                                 final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
-        if (this.musicService.updateStatus(articleId, userBean, locale)) {
+        if (this.libraryService.updateStatus(articleId, userBean, locale)) {
             return "redirect:/admin/user/" + userId;
         } else {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
     }
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.AuthFileMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_auth_file(
+        <trim suffixOverrides=",">
+            id,
+            user_id,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            #{id},
+            #{userBean.id},
+        </trim>
+        )
+    </insert>
+    
+    <update id="delete" flushCache="true">
+        UPDATE m_auth_file
+        <set>
+            del_flg = '1'
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    <select id="fetchList" resultType="AuthFileBean">
+        SELECT
+        <trim suffixOverrides=",">
+            m_auth_file.ID                  as "id",
+            m_auth_file.user_id             as "userBean.id",
+        </trim>
+        FROM
+            m_auth_file 
+        <where>
+            m_auth_file.user_id = #{userBean.id}
+        AND m_auth_file.DEL_FLG='0'
+        </where>
+        ORDER BY m_auth_file.id
+    </select>
+    
+    <select id="fetchBean" resultType="AuthFileBean">
+        SELECT
+        <trim suffixOverrides=",">
+            m_auth_file.ID                  as "id",
+            m_auth_file.user_id             as "userBean.id",
+        </trim>
+        FROM
+            m_auth_file 
+        <where>
+            m_auth_file.id = #{authFileId}
+        AND m_auth_file.DEL_FLG='0'
+        </where>
+    </select>
+</mapper>

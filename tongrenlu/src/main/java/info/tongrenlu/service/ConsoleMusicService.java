@@ -5,10 +5,8 @@ import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TagBean;
 import info.tongrenlu.domain.TrackBean;
-import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
-import info.tongrenlu.manager.LibraryManager;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.TagManager;
 import info.tongrenlu.manager.TrackManager;
@@ -58,15 +56,15 @@ public class ConsoleMusicService {
     @Autowired
     private LikeManager likeManager = null;
     @Autowired
-    private LibraryManager libraryManager = null;
-    @Autowired
     private final ArticleRepository articleRepository = null;
     @Autowired
     private final TrackRepository trackRepository = null;
 
     @Transactional
-    public boolean doCreate(final MusicBean inputMusic, final String[] tags,
-                            final Map<String, Object> model, final Locale locale) {
+    public boolean doCreate(final MusicBean inputMusic,
+                            final String[] tags,
+                            final Map<String, Object> model,
+                            final Locale locale) {
         if (this.validateForCreate(inputMusic, model, locale)) {
             this.articleManager.insert(inputMusic);
             if (ArrayUtils.isNotEmpty(tags)) {
@@ -81,8 +79,10 @@ public class ConsoleMusicService {
     }
 
     @Transactional
-    public boolean doEdit(final MusicBean musicBean, final String[] tags,
-                          final Map<String, Object> model, final Locale locale) {
+    public boolean doEdit(final MusicBean musicBean,
+                          final String[] tags,
+                          final Map<String, Object> model,
+                          final Locale locale) {
         if (this.validateForEdit(musicBean, model, locale)) {
             this.articleManager.update(musicBean);
             this.articleManager.removeTags(musicBean);
@@ -153,8 +153,7 @@ public class ConsoleMusicService {
         return files;
     }
 
-    public Map<String, Object> wrapFileBean(final FileBean fileBean,
-                                            final Map<String, Object> fileModel) {
+    public Map<String, Object> wrapFileBean(final FileBean fileBean, final Map<String, Object> fileModel) {
         fileModel.put("id", fileBean.getId());
         fileModel.put("name", fileBean.getName());
         fileModel.put("articleId", fileBean.getArticleId());
@@ -217,8 +216,7 @@ public class ConsoleMusicService {
     }
 
     @Transactional
-    public void updateTrackList(final List<TrackBean> trackList,
-                                final MusicBean musicBean) {
+    public void updateTrackList(final List<TrackBean> trackList, final MusicBean musicBean) {
         for (final TrackBean trackBean : trackList) {
             this.trackManager.updateTrack(trackBean);
             this.articleManager.updateFile(trackBean.getFileBean());
@@ -252,27 +250,17 @@ public class ConsoleMusicService {
         this.saveMusicDocument(musicBean, trackList, tags);
     }
 
-    private boolean validateForCreate(final MusicBean inputArticle,
-                                      final Map<String, Object> model,
-                                      final Locale locale) {
+    private boolean validateForCreate(final MusicBean inputArticle, final Map<String, Object> model, final Locale locale) {
         boolean isValid = true;
-        if (!this.articleManager.validateTitle(inputArticle.getTitle(),
-                                               "titleError",
-                                               model,
-                                               locale)) {
+        if (!this.articleManager.validateTitle(inputArticle.getTitle(), "titleError", model, locale)) {
             isValid = false;
         }
         return isValid;
     }
 
-    private boolean validateForEdit(final MusicBean inputArticle,
-                                    final Map<String, Object> model,
-                                    final Locale locale) {
+    private boolean validateForEdit(final MusicBean inputArticle, final Map<String, Object> model, final Locale locale) {
         boolean isValid = true;
-        if (!this.articleManager.validateTitle(inputArticle.getTitle(),
-                                               "titleError",
-                                               model,
-                                               locale)) {
+        if (!this.articleManager.validateTitle(inputArticle.getTitle(), "titleError", model, locale)) {
             isValid = false;
         }
         return isValid;
@@ -307,9 +295,7 @@ public class ConsoleMusicService {
     }
 
     @Transactional
-    public void saveMusicDocument(final MusicBean musicBean,
-                                  final List<TrackBean> trackList,
-                                  final String[] tags) {
+    public void saveMusicDocument(final MusicBean musicBean, final List<TrackBean> trackList, final String[] tags) {
         final Integer articleId = musicBean.getId();
         ArticleDocument articleDocument = this.articleRepository.findOne("m" + articleId);
         if (articleDocument == null) {
@@ -336,10 +322,8 @@ public class ConsoleMusicService {
 
                 trackDocument.setTrack(track.getName());
                 trackDocument.setInstrumental(CommonConstants.is(track.getInstrumental()));
-                trackDocument.setArtist(StringUtils.split(track.getArtist(),
-                        ","));
-                trackDocument.setOriginal(StringUtils.split(track.getOriginal(),
-                        "\n"));
+                trackDocument.setArtist(StringUtils.split(track.getArtist(), ","));
+                trackDocument.setOriginal(StringUtils.split(track.getOriginal(), "\n"));
 
                 this.articleRepository.save(trackDocument);
 
@@ -382,28 +366,4 @@ public class ConsoleMusicService {
         return this.articleManager.countMusic(params);
     }
 
-    public void searchLibrary(final PaginateSupport<MusicBean> paginate) {
-        final int itemCount = this.libraryManager.countMusic(paginate.getParams());
-        paginate.setItemCount(itemCount);
-        paginate.compute();
-
-        final List<MusicBean> items = this.libraryManager.searchMusic(paginate.getParams());
-        paginate.setItems(items);
-    }
-
-    public List<MusicBean> getLibraryList(Map<String, Object> params) {
-        return this.libraryManager.fetchMusicList(params);
-    }
-
-    public boolean updateStatus(Integer articleId, UserBean userBean,
-                                Locale locale) {
-        final MusicBean musicBean = this.getById(articleId);
-        if (musicBean != null) {
-            if (this.libraryManager.isOwner(userBean, musicBean, 0)) {
-                this.libraryManager.updateStatus(userBean, musicBean, 1);
-                return true;
-            }
-        }
-        return false;
-    }
 }

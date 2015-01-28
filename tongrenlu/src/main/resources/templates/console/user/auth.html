@@ -4,8 +4,9 @@
   layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
-<body>
+  <body>
 <div layout:fragment="content">
     <div class="container-wrap container-header">
         <div class="container">
@@ -42,9 +43,15 @@
                         </a>
                     </li>
                     <li class="active">
-                        <a th:href="@{/console/library/upload}">
+                        <a th:href="@{/console/auth}">
                             <span class="glyphicon glyphicon-check"></span>
-                            <span class="hidden-xs" th:text="#{console.library.upload}"></span>
+                            <span class="hidden-xs" th:text="#{console.auth}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/console/auth/upload}">
+                            <span class="glyphicon glyphicon-upload"></span>
+                            <span class="hidden-xs" th:text="#{console.auth.upload}"></span>
                         </a>
                     </li>
                 </ul>
@@ -53,43 +60,53 @@
     </div>
     <div class="container-wrap container-wrap-darker"  >
         <div class="container">
-            <th:block th:unless="${#lists.isEmpty(items)}">
-                <form th:action="@{/console/user/library}" method="post">
-                    <div class="media-list">
-                         <div class="card" th:each="articleBean : ${items}">
-                             <div class="media">
-                                 <a class="media-left" target="_blank" 
-                                    th:href="@{/music/__${articleBean.id}__}" 
-                                    th:alt-title="${articleBean.title}">
-                                     <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
-                                          class="media-object img-120 "/>
-                                 </a>
-                                 <div class="media-body">
-                                     <h4 class="media-heading">
-                                         <a th:href="@{/music/__${articleBean.id}__}"
-                                            th:alt-title="${articleBean.title}"
-                                            th:text="${articleBean.title}" 
-                                            target="_blank" >
-                                         </a>
-                                     </h4>
-                                 </div>
-                             </div>
-                             <div class="card-footer">
-                                <div class="btn-group btn-group-justified">
-                                    <a role="button" class="btn btn-default">打勾</a>
-                                </div>
-                             </div>
-                         </div>
+            <th:block th:unless="${#lists.isEmpty(page.items)}">
+                <div class="card" th:each="articleBean : ${page.items}">
+                    <div class="media">
+                        <a class="media-left" target="_blank" 
+                           th:href="@{/music/__${articleBean.id}__}" 
+                           th:alt-title="${articleBean.title}">
+                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
+                                 class="media-object img-120 "/>
+                        </a>
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <a target="_blank" 
+                                   th:href="@{/music/__${articleBean.id}__}"
+                                   th:alt-title="${articleBean.title}"
+                                   th:text="${articleBean.title}" >
+                                </a>
+                            </h5>
+                        </div>
                     </div>
-                </form>
+                </div>
+                <div id="jpaginate" class="hidden-xs"></div>
+                <div id="select-paginate" class="form-group visible-xs"></div>
             </th:block>
-            <div class="alert alert-warning" th:if="${#lists.isEmpty(items)}">
+            <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                 <p th:text="#{console.article.noData}"></p>
             </div>
         </div>
     </div>
 </div>
 <th:block layout:fragment="scripts">
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    new paginate({
+        count       : /*[[${page.pageCount}]]*/ 20,
+        start       : /*[[${page.pageNumber}]]*/ 1,
+        onChange                : function (currval){
+            var url = /*[[@{/console/like/music(p='')}]]*/ '/console/like/music';
+            window.location.href = url + currval;
+            return false;
+        }
+    });
+    
+});
+</script>
+
 <script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
 <script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>

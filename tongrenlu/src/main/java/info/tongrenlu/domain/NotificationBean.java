@@ -1,5 +1,9 @@
 package info.tongrenlu.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_DEFAULT)
 public class NotificationBean extends DtoBean {
 
     private UserBean userBean;

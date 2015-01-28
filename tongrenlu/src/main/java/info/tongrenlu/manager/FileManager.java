@@ -8,13 +8,10 @@ import info.tongrenlu.domain.UserBean;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -110,7 +107,6 @@ public class FileManager {
 
     public void saveFile(final String articleType, final FileBean fileBean, final MultipartFile fileItem) {
         final String dirId = articleType + fileBean.getArticleId();
-
         final String name = String.format("f%d.%s", fileBean.getId(), fileBean.getExtension());
         final File file = this.getFile(dirId, name);
         this.saveFile(fileItem, file);
@@ -141,18 +137,11 @@ public class FileManager {
         return new File(rootPath + "/" + dirId + "/" + name);
     }
 
-    protected void saveFile(final MultipartFile fileItem, final File file) {
-        InputStream input = null;
-        OutputStream output = null;
+    public void saveFile(final MultipartFile fileItem, final File file) {
         try {
-            input = fileItem.getInputStream();
-            output = FileUtils.openOutputStream(file);
-            IOUtils.copy(input, output);
+            FileUtils.copyInputStreamToFile(fileItem.getInputStream(), file);
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            IOUtils.closeQuietly(input);
-            IOUtils.closeQuietly(output);
         }
     }
 

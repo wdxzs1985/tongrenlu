@@ -1,5 +1,9 @@
 package info.tongrenlu.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_DEFAULT)
 public class UserLibraryBean extends DtoBean {
 
     private UserBean userBean;
@@ -12,7 +16,7 @@ public class UserLibraryBean extends DtoBean {
         return this.userBean;
     }
 
-    public void setUserBean(UserBean userBean) {
+    public void setUserBean(final UserBean userBean) {
         this.userBean = userBean;
     }
 
@@ -20,7 +24,7 @@ public class UserLibraryBean extends DtoBean {
         return this.articleBean;
     }
 
-    public void setArticleBean(ArticleBean articleBean) {
+    public void setArticleBean(final ArticleBean articleBean) {
         this.articleBean = articleBean;
     }
 
@@ -28,7 +32,7 @@ public class UserLibraryBean extends DtoBean {
         return this.status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 

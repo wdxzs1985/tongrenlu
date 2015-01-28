@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="console/layout_image_upload">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
     <body>
         <div>
             <div class="container-wrap container-header" >
@@ -73,7 +76,7 @@
         <th:block layout:fragment="scripts">
             <div th:replace="x-tmpl/upload-booklet::template-upload"></div>
             <div th:replace="x-tmpl/upload-booklet::template-download"></div>
-	        <script type="text/javascript" th:inline="javascript">
+            <script type="text/javascript" th:inline="javascript">
             $(function () {
                 'use strict';
                 var url = /*[[@{/console/music/__${articleBean.id}__/booklet/file}]]*/ '';
@@ -81,7 +84,7 @@
                     url: url
                 });
             });
-	        </script>
+            </script>
         </th:block>
     </body>
 </html>
