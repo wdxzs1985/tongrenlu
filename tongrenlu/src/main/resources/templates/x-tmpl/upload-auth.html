@@ -41,8 +41,8 @@
         <td>
             {% if (!file.error) { %}
             <span class="preview">
-                <a href="http://files.tongrenlu.info/m{%=file.userId%}/auth/f{%=file.id%}.jpg" data-gallery="">
-                    <img src="http://files.tongrenlu.info/m{%=file.userId%}/auth/f{%=file.authFileId%}_60.jpg" />
+                <a href="/files/u{%=file.userId%}/auth/f{%=file.id%}.jpg" data-gallery="">
+                    <img src="/files/u{%=file.userId%}/auth/f{%=file.id%}_60.jpg" />
                 </a>
             </span>
             {% } %}

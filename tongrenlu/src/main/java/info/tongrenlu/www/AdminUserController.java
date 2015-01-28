@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/admin/user")
 @Transactional
 public class AdminUserController {
 
@@ -37,17 +36,30 @@ public class AdminUserController {
     @Autowired
     private ConsoleLibraryService libraryService = null;
 
-    private void throwExceptionWhenNotFound(final UserBean userBean, final Locale locale) {
+    private void throwExceptionWhenNotFound(final UserBean userBean,
+                                            final Locale locale) {
         if (userBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "")
+    private void throwExceptionWhenNotFound(final MusicBean musicBean,
+                                            final Locale locale) {
+        if (musicBean == null) {
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/user")
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
+                                                                     PAGE_SIZE);
         page.addParam("query", query);
         this.userService.searchUser(page);
         model.addAttribute("page", page);
@@ -55,17 +67,17 @@ public class AdminUserController {
         return "admin/user/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "{userId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/{userId}")
     public String doGetView(@PathVariable final Integer userId,
                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                            final Model model,
-                            final Locale locale) {
+                            final Model model, final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
+                                                                      PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);
@@ -73,16 +85,21 @@ public class AdminUserController {
         return "admin/user/view";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "{userId}/library")
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/{userId}/{articleId}/auth")
     public String doPostLibrary(@PathVariable final Integer userId,
-                                final Integer articleId,
-                                final Model model,
-                                final Locale locale) {
+                                @PathVariable final Integer articleId,
+                                final Model model, final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
-        if (this.libraryService.updateStatus(articleId, userBean, locale)) {
+        this.throwExceptionWhenNotFound(userBean, locale);
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        this.throwExceptionWhenNotFound(musicBean, locale);
+
+        if (this.libraryService.updateStatus(musicBean, userBean, locale)) {
             return "redirect:/admin/user/" + userId;
         } else {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
     }
 }

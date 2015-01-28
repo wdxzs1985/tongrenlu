@@ -27,6 +27,24 @@
                 </div>
             </div>
         </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="active">
+                        <a th:href="@{/admin/user}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="hidden-xs" th:text="#{admin.user}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/auth}">
+                            <span class="glyphicon glyphicon-cd"></span>
+                            <span class="hidden-xs" th:text="#{admin.auth}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="container-wrap container-wrap-darker" >
         <div class="container">

@@ -7,12 +7,10 @@
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO m_auth_file(
         <trim suffixOverrides=",">
-            id,
             user_id,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
-            #{id},
             #{userBean.id},
         </trim>
         )
