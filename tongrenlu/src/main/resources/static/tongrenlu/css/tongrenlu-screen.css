@@ -361,7 +361,8 @@ h1.article-title {
     border-radius: 6px;
 }
 
-.card-body {
+.card textarea{
+    border-radius: 4px 4px 0 0;
 }
 
 .card .media-body{
