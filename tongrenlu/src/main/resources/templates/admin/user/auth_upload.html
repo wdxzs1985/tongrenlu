@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout_image_upload">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+                <h1 class="">
+                    <span th:text="${userBean.nickname}"></span>
+                    <small th:text="'#' + ${userBean.id}"></small>
+                </h1>
+        </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="">
+                        <a th:href="@{/admin/user/auth}">
+                            <span class="hidden-xs" th:text="#{button.back}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/user/__${userBean.id}__/auth}">
+                            <span class="hidden-xs" th:text="#{admin.user.auth}"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}">
+                            <span class="hidden-xs" th:text="#{admin.user.auth.upload}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrap container-wrap-darker"  >
+        <div class="container">
+            <!-- The file upload form used as target for the file upload widget -->
+            <form id="fileupload" method="POST" enctype="multipart/form-data">
+                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                <div class="row fileupload-buttonbar">
+                    <div class="col-lg-7">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span th:text="#{console.article.upload.addFile}">Add files...</span>
+                            <input type="file" name="files[]" th:multiple="true" accept="image/png, image/jpeg"/>
+                        </span>
+                        <button type="submit" class="btn btn-primary start">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span th:text="#{console.article.upload.startAll}">Start upload</span>
+                        </button>
+                        <button type="reset" class="btn btn-warning cancel">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span th:text="#{console.article.upload.cancelAll}">Cancel upload</span>
+                        </button>
+                        <button type="button" class="btn btn-danger delete">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <span th:text="#{console.article.upload.deleteAll}">Delete</span>
+                        </button>
+                        <input type="checkbox" class="toggle hidden" />
+                        <!-- The global file processing state -->
+                        <span class="fileupload-process"></span>
+                    </div>
+                    <!-- The global progress state -->
+                    <div class="col-lg-5 fileupload-progress fade">
+                        <!-- The global progress bar -->
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                        </div>
+                        <!-- The extended global progress state -->
+                        <div class="progress-extended">&nbsp;</div>
+                    </div>
+                </div>
+                <!-- The table listing the files available for upload/download -->
+                <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+            </form>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="scripts">
+<!-- The blueimp Gallery widget -->
+<div id="blueimp-gallery" class="blueimp-gallery" >
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">&lsaquo;</a>
+    <a class="next">&rsaquo;</a>
+    <a class="close">&times;</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/vendor/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Load-Image-1.11.1/js/load-image.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Canvas-to-Blob-2.1.0/js/canvas-to-blob.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-gallery/2.15.2/js/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-process.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-image.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-audio.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-validate.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-ui.min.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-fileupload.js}"></script>
+<div th:replace="x-tmpl/upload-auth-admin::template-upload"></div>
+<div th:replace="x-tmpl/upload-auth-admin::template-download"></div>
+<script type="text/javascript" th:inline="javascript">
+$(function () {
+    'use strict';
+    var url = /*[[@{/admin/user/__${userBean.id}__/auth/file}]]*/ '';
+    new fileupload({
+        url: url
+    });
+});
+</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $('.container-header').trianglify({
+        palette: 'console'
+    });
+});
+</script>
+
+</th:block>
+  </body>
+</html>

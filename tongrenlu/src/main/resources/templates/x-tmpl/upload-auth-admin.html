@@ -42,7 +42,7 @@
             {% if (!file.error) { %}
             <span class="preview">
                 <a href="/files/u{%=file.userId%}/auth/f{%=file.id%}_1080.jpg" data-gallery="">
-                    <img src="/files/u{%=file.userId%}/auth/f{%=file.id%}_60.jpg" />
+                    <img src="/files/u{%=file.userId%}/auth/f{%=file.id%}_120.jpg" />
                 </a>
             </span>
             {% } %}
@@ -56,7 +56,7 @@
         </td>
         <td>
             {% if (!file.error) { %}
-                <button class="btn btn-danger delete" data-type="POST" data-url="/console/auth/file/{%=file.id%}/delete">
+                <button class="btn btn-danger delete" data-type="POST" data-url="/admin/user/{file.userId}/auth/file/{%=file.id%}/delete">
                     <i class="glyphicon glyphicon-trash"></i>
                     <span th:text="#{console.article.upload.delete}">Delete</span>
                 </button>

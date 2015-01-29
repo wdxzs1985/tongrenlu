@@ -23,13 +23,18 @@
             <div class="container">
                 <ul class="nav">
                     <li class="">
-                        <a th:href="@{/admin/user}">
+                        <a th:href="@{/admin/user/auth}">
                             <span class="hidden-xs" th:text="#{button.back}"></span>
                         </a>
                     </li>
                     <li class="active">
-                        <a href="javascript:;">
-                            <span class="hidden-xs" th:text="#{admin.user.library}"></span>
+                        <a th:href="@{/admin/user/__${userBean.id}__/auth}">
+                            <span class="hidden-xs" th:text="#{admin.user.auth}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}">
+                            <span class="hidden-xs" th:text="#{admin.user.auth.upload}"></span>
                         </a>
                     </li>
                 </ul>
@@ -58,12 +63,12 @@
                             </h4>
                         </div>
                         <div class="card-footer">
-                            <form th:action="@{/admin/user/__${userBean.id}__/library}" method="post">
+                            <form th:action="@{/admin/user/__${userBean.id}__/auth}" method="post">
                                 <input type="hidden" name="articleId" class="form-control" th:value="${articleBean.id}"/>
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group">
                                         <button type="submit" class="btn btn-success">
-                                            <span th:text="#{admin.user.library.add}"></span>
+                                            <span th:text="#{admin.user.auth.confirm}"></span>
                                         </button>
                                     </div>
                                 </div>

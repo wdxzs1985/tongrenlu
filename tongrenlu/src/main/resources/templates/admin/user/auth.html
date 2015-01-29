@@ -30,13 +30,13 @@
         <div class="container-tab">
             <div class="container">
                 <ul class="nav">
-                    <li class="active">
+                    <li class="">
                         <a th:href="@{/admin/user}">
                             <span class="glyphicon glyphicon-user"></span>
                             <span class="hidden-xs" th:text="#{admin.user}"></span>
                         </a>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a th:href="@{/admin/user/auth}">
                             <span class="glyphicon glyphicon-cd"></span>
                             <span class="hidden-xs" th:text="#{admin.auth}"></span>
@@ -59,7 +59,7 @@
                                 </a>
                                 <div class="media-body">
                                     <h4 class="media-heading">
-                                        <a target="_blank" th:href="@{/user/__${userBean.id}__}" 
+                                        <a target="_blank" th:href="@{/admin/user/__${userBean.id}__}" 
                                             th:text="${userBean}" th:alt-title="${userBean}">
                                         </a>
                                     </h4>
@@ -72,9 +72,6 @@
                             </div>
                             <div class="card-footer">
                                 <div class="btn-group btn-group-justified">
-                                    <a th:href="@{/user/__${userBean.id}__}" class="btn btn-default" role="button" target="_blank">
-                                        <span th:text="#{admin.user.view}"></span>
-                                    </a>
                                     <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-success" role="button">
                                         <span th:text="#{admin.user.auth}"></span>
                                     </a>
