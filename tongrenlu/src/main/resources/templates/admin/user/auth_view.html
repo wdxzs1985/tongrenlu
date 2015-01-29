@@ -24,16 +24,19 @@
                 <ul class="nav">
                     <li class="">
                         <a th:href="@{/admin/user/auth}">
+                            <span class="glyphicon glyphicon-menu-left"></span>
                             <span class="hidden-xs" th:text="#{button.back}"></span>
                         </a>
                     </li>
                     <li class="active">
                         <a th:href="@{/admin/user/__${userBean.id}__/auth}">
+                            <span class="glyphicon glyphicon-cd"></span>
                             <span class="hidden-xs" th:text="#{console.auth}"></span>
                         </a>
                     </li>
                     <li class="">
                         <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}">
+                            <span class="glyphicon glyphicon-upload"></span>
                             <span class="hidden-xs" th:text="#{console.auth.upload}"></span>
                         </a>
                     </li>
@@ -49,12 +52,12 @@
                         <a class="media-left" target="_blank" 
                             th:href="@{/music/__${articleBean.id}__}" 
                             th:alt-title="${articleBean.title}" >
-                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" 
+                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" 
                                 th:alt-title="${articleBean.title}"
-                                class="img-180 "/>
+                                class="img-120 "/>
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading text-single-line">
+                            <h4 class="media-heading">
                                 <a th:href="@{/music/__${articleBean.id}__}"
                                    th:alt-title="${articleBean.title}"
                                    th:text="${articleBean.title}" 

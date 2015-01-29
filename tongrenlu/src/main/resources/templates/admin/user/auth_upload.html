@@ -19,16 +19,19 @@
                 <ul class="nav">
                     <li class="">
                         <a th:href="@{/admin/user/auth}">
+                            <span class="glyphicon glyphicon-menu-left"></span>
                             <span class="hidden-xs" th:text="#{button.back}"></span>
                         </a>
                     </li>
                     <li class="">
                         <a th:href="@{/admin/user/__${userBean.id}__/auth}">
+                            <span class="glyphicon glyphicon-cd"></span>
                             <span class="hidden-xs" th:text="#{console.auth}"></span>
                         </a>
                     </li>
                     <li class="active">
                         <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}">
+                            <span class="glyphicon glyphicon-upload"></span>
                             <span class="hidden-xs" th:text="#{console.auth.upload}"></span>
                         </a>
                     </li>
@@ -47,7 +50,7 @@
                         <span class="btn btn-success fileinput-button">
                             <i class="glyphicon glyphicon-plus"></i>
                             <span th:text="#{console.article.upload.addFile}">Add files...</span>
-                            <input type="file" name="files[]" th:multiple="true" accept="image/png, image/jpeg"/>
+                            <input type="file" name="files[]" th:multiple="true" accept="image/jpeg"/>
                         </span>
                         <button type="submit" class="btn btn-primary start">
                             <i class="glyphicon glyphicon-upload"></i>
@@ -83,11 +86,12 @@
 </div>
 <th:block layout:fragment="scripts">
 <!-- The blueimp Gallery widget -->
-<div id="blueimp-gallery" class="blueimp-gallery" >
+<div id="blueimp-gallery" class="blueimp-gallery">
     <div class="slides"></div>
     <h3 class="title"></h3>
     <a class="prev">&lsaquo;</a>
     <a class="next">&rsaquo;</a>
+    <h3 class="title"></h3>
     <a class="close">&times;</a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
