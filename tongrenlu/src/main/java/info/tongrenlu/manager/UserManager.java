@@ -44,17 +44,14 @@ public class UserManager {
         return this.userMapper.fetchBean(param);
     }
 
-    public UserBean getByFingerprint(final String fingerprint,
-                                     final String userAgent) {
+    public UserBean getByFingerprint(final String fingerprint, final String userAgent) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("fingerprint", fingerprint);
         param.put("userAgent", userAgent);
         return this.userDeviceMapper.fetchBean(param);
     }
 
-    public void updateFingerprint(final UserBean userBean,
-                                  final String fingerprint,
-                                  final String userAgent) {
+    public void updateFingerprint(final UserBean userBean, final String fingerprint, final String userAgent) {
         final Map<String, Object> params = new HashMap<>();
         params.put("userId", userBean.getId());
         params.put("fingerprint", fingerprint);
@@ -96,26 +93,18 @@ public class UserManager {
                                  final Map<String, Object> model,
                                  final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.email",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.email", null, locale);
         if (StringUtils.isBlank(email)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
             isValid = false;
         } else if (StringUtils.length(email) > UserManager.EMAIL_LENGTH) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName, UserManager.EMAIL_LENGTH },
-                                                    locale));
+                      this.messageSource.getMessage("validate.tooLong", new Object[] { fieldName,
+                              UserManager.EMAIL_LENGTH }, locale));
             isValid = false;
         } else if (!UserManager.EMAIL_PATTERN.matcher(email).matches()) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.bad",
-                                                    new Object[] { fieldName },
-                                                    locale));
+            model.put(errorAttribute, this.messageSource.getMessage("validate.bad", new Object[] { fieldName }, locale));
             isValid = false;
         }
         return isValid;
@@ -128,13 +117,9 @@ public class UserManager {
         boolean isValid = true;
         final UserBean userBean = this.getByEmail(email);
         if (userBean != null) {
-            final String fieldName = this.messageSource.getMessage("UserBean.email",
-                                                                   null,
-                                                                   locale);
+            final String fieldName = this.messageSource.getMessage("UserBean.email", null, locale);
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.unique",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.unique", new Object[] { fieldName }, locale));
             isValid = false;
         }
         return isValid;
@@ -145,14 +130,10 @@ public class UserManager {
                                     final Map<String, Object> model,
                                     final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.password",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.password", null, locale);
         if (StringUtils.isBlank(password)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
             isValid = false;
         }
         return isValid;
@@ -164,17 +145,11 @@ public class UserManager {
                                      final Map<String, Object> model,
                                      final Locale locale) {
         boolean isValid = true;
-        final String fieldName1 = this.messageSource.getMessage("UserBean.password",
-                                                                null,
-                                                                locale);
-        final String fieldName2 = this.messageSource.getMessage("UserBean.password2",
-                                                                null,
-                                                                locale);
+        final String fieldName1 = this.messageSource.getMessage("UserBean.password", null, locale);
+        final String fieldName2 = this.messageSource.getMessage("UserBean.password2", null, locale);
         if (!StringUtils.equals(password, password2)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.notSame",
-                                                    new Object[] { fieldName1, fieldName2 },
-                                                    locale));
+                      this.messageSource.getMessage("validate.notSame", new Object[] { fieldName1, fieldName2 }, locale));
             isValid = false;
         }
         return isValid;
@@ -185,20 +160,15 @@ public class UserManager {
                                     final Map<String, Object> model,
                                     final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.nickname",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.nickname", null, locale);
         if (StringUtils.isBlank(nickname)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
             isValid = false;
         } else if (StringUtils.length(nickname) > UserManager.NICKNAME_LENGTH) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName, UserManager.NICKNAME_LENGTH },
-                                                    locale));
+                      this.messageSource.getMessage("validate.tooLong", new Object[] { fieldName,
+                              UserManager.NICKNAME_LENGTH }, locale));
             isValid = false;
         }
         return isValid;
@@ -209,14 +179,11 @@ public class UserManager {
                                      final Map<String, Object> model,
                                      final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.signature",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.signature", null, locale);
         if (StringUtils.length(signature) > UserManager.SIGNATURE_LENGTH) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName, UserManager.SIGNATURE_LENGTH },
-                                                    locale));
+                      this.messageSource.getMessage("validate.tooLong", new Object[] { fieldName,
+                              UserManager.SIGNATURE_LENGTH }, locale));
             isValid = false;
         }
         return isValid;
@@ -238,25 +205,21 @@ public class UserManager {
         return this.timelineMapper.searchFollowTimeline(params);
     }
 
-    public boolean validateUserIsSignin(final UserBean loginUser,
-                                        final Map<String, Object> model,
-                                        final Locale locale) {
+    public boolean validateUserIsSignin(final UserBean loginUser, final Map<String, Object> model, final Locale locale) {
         boolean isValid = true;
         if (loginUser.isGuest()) {
-            final String error = this.messageSource.getMessage("error.needSignin",
-                                                               null,
-                                                               locale);
+            final String error = this.messageSource.getMessage("error.needSignin", null, locale);
             model.put("error", error);
             isValid = false;
         }
         return isValid;
     }
 
-    public int countUser(Map<String, Object> params) {
+    public int countUser(final Map<String, Object> params) {
         return this.userMapper.count(params);
     }
 
-    public List<UserBean> searchUser(Map<String, Object> params) {
+    public List<UserBean> searchUser(final Map<String, Object> params) {
         return this.userMapper.fetchList(params);
     }
 }

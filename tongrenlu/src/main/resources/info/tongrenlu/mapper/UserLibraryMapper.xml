@@ -20,24 +20,6 @@
         )
     </insert>
     
-    <select id="count" resultType="int">
-        SELECT
-        <trim suffixOverrides=",">
-            count(r_user_library.id)
-        </trim>
-        FROM
-            r_user_library
-        <where>
-        AND r_user_library.user_id = #{userBean.id}
-        <if test="articleBean != null">
-        AND r_user_library.article_id = #{articleBean.id}
-        </if>
-        <if test="status != null">
-        AND r_user_library.status = #{status}
-        </if>
-        </where>
-    </select>
-    
     <select id="fetchBean" resultType="UserLibraryBean">
         SELECT
         <trim suffixOverrides=",">
@@ -117,4 +99,37 @@
         AND r_user_library.article_id = #{articleBean.id}
         </where>
     </update>
+    
+    <select id="countUser" resultType="int">
+        SELECT
+        <trim suffixOverrides=",">
+            count(v_user.id)
+        </trim>
+        FROM
+            v_user
+        left join r_user_library on v_user.id = r_user_library.user_id
+        <where>
+        <if test="status != null">
+        AND r_user_library.status = #{status}
+        </if>
+        </where>
+    </select>
+    
+    <select id="searchUserList" resultType="UserProfileBean">
+        SELECT
+        <trim suffixOverrides=",">
+            v_user.id                      as id,
+            v_user.nickname                as nickname,
+        </trim>
+        FROM
+            v_user
+        left join r_user_library on v_user.id = r_user_library.user_id
+        <where>
+        <if test="status != null">
+        AND r_user_library.status = #{status}
+        </if>
+        </where>
+        order by v_user.id desc
+        limit #{start}, #{pageSize}
+    </select>
 </mapper>

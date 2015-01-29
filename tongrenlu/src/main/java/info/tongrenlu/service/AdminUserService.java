@@ -16,7 +16,7 @@ public class AdminUserService {
     @Autowired
     private UserManager userManager;
 
-    public void searchUser(PaginateSupport<UserBean> paginate) {
+    public void searchUser(final PaginateSupport<UserBean> paginate) {
         final int itemCount = this.userManager.countUser(paginate.getParams());
         paginate.setItemCount(itemCount);
         paginate.compute();
@@ -25,7 +25,7 @@ public class AdminUserService {
         paginate.setItems(items);
     }
 
-    public UserProfileBean getById(Integer userId) {
+    public UserProfileBean getById(final Integer userId) {
         return this.userManager.getById(userId);
     }
 

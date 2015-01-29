@@ -3,6 +3,7 @@ package info.tongrenlu.service;
 import info.tongrenlu.domain.AuthFileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.manager.ArticleManager;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LibraryManager;
@@ -143,6 +144,15 @@ public class ConsoleLibraryService {
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             FileUtils.deleteQuietly(outputFile);
         }
+    }
+
+    public void searchUser(final PaginateSupport<UserProfileBean> paginate) {
+        final int itemCount = this.libraryManager.countUser(paginate.getParams());
+        paginate.setItemCount(itemCount);
+        paginate.compute();
+
+        final List<UserProfileBean> items = this.libraryManager.searchUser(paginate.getParams());
+        paginate.setItems(items);
     }
 
 }

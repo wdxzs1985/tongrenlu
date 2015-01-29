@@ -70,12 +70,10 @@ public class AdminUserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "auth")
-    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                            @RequestParam(value = "q", required = false) final String query,
-                            final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
-        page.addParam("query", query);
-        this.userService.searchUser(page);
+    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, final Model model) {
+        final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        page.addParam("status", 0);
+        this.libraryService.searchUser(page);
         model.addAttribute("page", page);
 
         return "admin/user/auth";

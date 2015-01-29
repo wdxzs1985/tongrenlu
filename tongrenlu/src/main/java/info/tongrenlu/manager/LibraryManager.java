@@ -5,6 +5,7 @@ import info.tongrenlu.domain.AuthFileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.domain.UserLibraryBean;
+import info.tongrenlu.domain.UserProfileBean;
 import info.tongrenlu.mapper.AuthFileMapper;
 import info.tongrenlu.mapper.UserLibraryMapper;
 
@@ -24,7 +25,7 @@ public class LibraryManager {
     private AuthFileMapper authFileMapper;
 
     public int countMusic(final Map<String, Object> params) {
-        return this.userLibraryMapper.count(params);
+        return this.userLibraryMapper.countMusic(params);
     }
 
     public List<MusicBean> searchMusic(final Map<String, Object> params) {
@@ -40,7 +41,7 @@ public class LibraryManager {
         params.put("userBean", userBean);
         params.put("articleBean", articleBean);
         params.put("status", status);
-        return this.userLibraryMapper.count(params) > 0;
+        return this.userLibraryMapper.countMusic(params) > 0;
     }
 
     public void addToLibrary(final UserBean userBean, final ArticleBean articleBean, final Integer status) {
@@ -77,6 +78,14 @@ public class LibraryManager {
 
     public void deleteAuthFile(final AuthFileBean authFileBean) {
         this.authFileMapper.delete(authFileBean);
+    }
+
+    public int countUser(final Map<String, Object> params) {
+        return this.userLibraryMapper.countUser(params);
+    }
+
+    public List<UserProfileBean> searchUser(final Map<String, Object> params) {
+        return this.userLibraryMapper.searchUserList(params);
     }
 
 }

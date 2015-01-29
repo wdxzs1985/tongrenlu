@@ -11,21 +11,6 @@
     <div class="container-wrap container-header">
         <div class="container">
             <h1 th:text="#{admin.user}"></h1>
-            <div class="row">
-                <div class="col-sm-6" >
-                    <form th:action="@{/admin/user}" method="get">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="q" th:value="${page.params.query}"/>
-                            <div class="input-group-btn">
-                                <button type="submit" class="btn btn-warning">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                    <span th:text="#{button.search}"></span>
-                                </button>
-                            </div><!-- /btn-group -->
-                        </div><!-- /input-group -->
-                    </form>
-                </div>
-            </div>
         </div>
         <div class="container-tab">
             <div class="container">
@@ -39,7 +24,7 @@
                     <li class="active">
                         <a th:href="@{/admin/user/auth}">
                             <span class="glyphicon glyphicon-cd"></span>
-                            <span class="hidden-xs" th:text="#{admin.auth}"></span>
+                            <span class="hidden-xs" th:text="#{admin.user.auth}"></span>
                         </a>
                     </li>
                 </ul>
@@ -63,17 +48,12 @@
                                             th:text="${userBean}" th:alt-title="${userBean}">
                                         </a>
                                     </h4>
-                                    <div class="media-body">
-                                         <span class="label label-default" th:if="${userBean.member}" th:text="#{UserBean.member}"></span>
-                                         <span class="label label-warning" th:if="${userBean.editor}" th:text="#{UserBean.editor}"></span>
-                                         <span class="label label-danger" th:if="${userBean.admin}" th:text="#{UserBean.admin}"></span>
-                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="btn-group btn-group-justified">
                                     <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-success" role="button">
-                                        <span th:text="#{admin.user.auth}"></span>
+                                        <span th:text="#{console.auth}"></span>
                                     </a>
                                 </div>
                             </div>
@@ -83,8 +63,7 @@
                 <div id="select-paginate" class="form-group visible-xs"></div>
             </th:block>
             <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                <h4 th:text="#{console.article.noData}"></h4>
-                <a th:href="@{/admin/music}" th:unless="${#strings.isEmpty(page.params.query)}" th:text="#{button.back}" class="btn btn-default"></a>
+                <p th:text="#{console.article.noData}"></p>
             </div>
         </div>
     </div>
@@ -98,7 +77,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/admin/user(q=${page.params.query},p='')}]]*/ '/admin/user';
+            var url = /*[[@{/admin/user/auth(p='')}]]*/ '/admin/user';
             window.location.href = url + currval;
             return false;
         }
