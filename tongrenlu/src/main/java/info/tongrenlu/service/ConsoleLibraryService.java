@@ -11,6 +11,7 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -144,6 +145,12 @@ public class ConsoleLibraryService {
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             FileUtils.deleteQuietly(outputFile);
         }
+    }
+
+    public int countAuthUser() {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("status", 0);
+        return this.libraryManager.countUser(params);
     }
 
     public void searchUser(final PaginateSupport<UserProfileBean> paginate) {

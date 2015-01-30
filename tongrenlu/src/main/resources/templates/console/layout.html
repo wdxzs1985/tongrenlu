@@ -7,9 +7,9 @@
     <title th:inline="text">[[#{console}]]</title>
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top" layout:fragment="header">
+<div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">
     <div class="container">
-        <div class="navbar-header cl-effect-1">
+        <div class="navbar-header ">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
                 <span class="sr-only" th:text="#{console}"></span>
                 <span class="icon-bar"></span>
@@ -20,35 +20,49 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul id="nav-editor" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
-                <li id="nav-music" class="dropdown cl-effect-1">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                <li class="dropdown ">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
                         <span th:text="#{console.music}"></span> 
+                        <span class="badge" th:text="${unpublishMusicCount}"
+                            th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0"></span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
                         <li ><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
                         <th:block th:if="${session.LOGIN_USER.admin}">
-                            <li class="divider"></li>
-                            <li ><a th:href="@{/admin/music}" th:text="#{admin.music}"></a></li>
+                            <li >
+                                <a th:href="@{/admin/music}">
+                                    <span th:text="#{admin.music}"></span>
+                                    <span class="badge" th:text="${unpublishMusicCount}"
+                                        th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0"></span>
+                                </a>
+                            </li>
                         </th:block>
                     </ul>
                 </li>
-                <li class="cl-effect-1" th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
-                    <a th:href="@{/admin/music/unpublish}" >
-                        <span th:text="#{admin.music.unpublish}"></span>
-                        <span class="badge" th:text="${unpublishMusicCount}"></span>
+                <li class="dropdown" th:if="${session.LOGIN_USER.admin}">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
+                        <span th:text="#{admin.user}"></span> 
+                        <span class="badge" th:text="${unpublishMusicCount}"
+                            th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0"></span>
+                        <b class="caret"></b>
                     </a>
-                </li>
-                <li class="cl-effect-1" th:if="${session.LOGIN_USER.admin}">
-                    <a th:href="@{/admin/user}" >
-                        <span th:text="#{admin.user}"></span>
-                    </a>
+                    <ul class="dropdown-menu">
+                        <li ><a th:href="@{/admin/user}" th:text="#{admin.user}"></a></li>
+                        <li >
+                            <a th:href="@{/admin/user/auth}">
+                                <span th:text="#{admin.user.auth}"></span>
+                                <span class="badge" th:text="${authUserCount}"
+                                    th:if="${#objects.nullSafe(authUserCount,0)} gt 0"></span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="cl-effect-1"><a th:href="@{/}" th:text="#{application}"></a></li>
-                <li id="nav-console" class="dropdown cl-effect-1">
+                <li class=""><a th:href="@{/}" th:text="#{application}"></a></li>
+                <li id="nav-console" class="dropdown ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
                         <span id="nav-nickname" th:text="${session.LOGIN_USER}"></span> <b class="caret"></b>
                     </a>

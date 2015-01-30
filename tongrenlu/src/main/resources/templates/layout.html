@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="keywords" th:content="#{application.keywords}" />
-  <meta name="description" th:content="#{application.content}" />
-  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="http://static.tongrenlu.info/Codrops-CreativeLinkEffects/css/component.css"/>
-  <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-screen.css}"/>
-  <script src="http://cdn.bootcss.com/modernizr/2.8.3/modernizr.min.js"></script>
-  <title th:inline="text">[[#{application}]]</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" th:content="#{application.keywords}" />
+    <meta name="description" th:content="#{application.content}" />
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-screen.css}"/>
+    <script src="http://cdn.bootcss.com/modernizr/2.8.3/modernizr.min.js"></script>
+    <title th:text="#{application}"></title>
 </head>
 <body>
 <div layout:fragment="header"></div>

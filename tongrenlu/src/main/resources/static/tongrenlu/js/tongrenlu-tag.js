@@ -2,6 +2,7 @@ var tag = function(options) {
 	
 	var settings = $.extend({
 		selector: '.tag-container',
+		intpuButtonSelector: '.tag-input-btn',
 		template: 'template-tag-item',
 		placeholder: 'Make a selection',
 		searchurl: '/tag/search'
@@ -22,9 +23,9 @@ var tag = function(options) {
 		    			$tagContainer.append(tmpl(settings.template, element))
 		    		})
 		    	}
-	    		$('<li><button class="btn btn-xs btn-info">+ 标签</button></li>').on('click', 'button', function(){
+	    		$(settings.intpuButtonSelector).click(function(){
 	    			that.login();
-	    		}).appendTo($tagContainer);
+	    		});
 		    });
 		},
 		login: function() {

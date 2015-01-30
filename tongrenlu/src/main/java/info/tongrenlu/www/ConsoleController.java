@@ -3,6 +3,7 @@ package info.tongrenlu.www;
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.service.ConsoleLibraryService;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.ConsoleUserService;
 import info.tongrenlu.service.FileService;
@@ -39,6 +40,8 @@ public class ConsoleController {
     @Autowired
     private final ConsoleMusicService musicService = null;
     @Autowired
+    private final ConsoleLibraryService libraryService = null;
+    @Autowired
     private FileService fileService = null;
     @Autowired
     private MessageSource messageSource = null;
@@ -50,6 +53,9 @@ public class ConsoleController {
         if (loginUser.isAdmin()) {
             final int unpublishMusicCount = this.musicService.countUnpublish();
             model.addAttribute("unpublishMusicCount", unpublishMusicCount);
+
+            final int authUserCount = this.libraryService.countAuthUser();
+            model.addAttribute("authUserCount", authUserCount);
         }
         return "console/index";
     }

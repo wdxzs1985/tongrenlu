@@ -86,52 +86,49 @@
                     </div>
                 </div>
             </div>
-            <div id="baseinfo" th:fragment="article-baseinfo">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h3 th:text="${articleBean.title}">title</h3>
-                    </div>
-                    <div class="col-xs-4  col-lg-2">
-                        <h4>
-                            <small th:text="#{ArticleBean.accessCount}">Access</small><br />
-                            <span th:text="${articleBean.accessCount}"></span>
-                        </h4>
-                    </div>
-                    <div class="col-xs-4  col-lg-2">
-                        <h4>
-                            <small th:text="#{ArticleBean.commentCount}">Comment</small><br />
-                            <span th:text="${articleBean.commentCount}"></span>
-                        </h4>
-                    </div>
+            <div id="baseinfo" class="card panel" th:fragment="article-baseinfo">
+                <div class="panel-body">
+                    <h3 th:text="${articleBean.title}">title</h3>
+                    <h4>
+                        <small th:text="#{ArticleBean.accessCount}">Access</small>
+                        <span th:text="${articleBean.accessCount}"></span>
+                        <small th:text="#{ArticleBean.commentCount}">Comment</small>
+                        <span th:text="${articleBean.commentCount}"></span>
+                    </h4>
+                    <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
                 </div>
-                <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
-            </div>
-            <div id="tags" th:fragment="article-tags">
-                <div class="page-header">
-                    <h5>
-                        <span class="glyphicon glyphicon-tags"></span>
-                        <span th:text="#{ArticleBean.tag}">Tags</span>
-                    </h5>
-                </div>
-                <ul class="list-inline tag-container">
-                </ul>
-                <div class="form-group">
-                    <div id="magicsuggest"></div>
+                <div class="card-footer">
+                    <div class="btn-group btn-group-justified">
+                        <a id="add-to-library" class="btn btn-primary" role="button"
+                            th:if="${articleBean.publish}">
+                            <span class="glyphicon glyphicon glyphicon-check"></span>
+                            <span class="" th:text="#{home.library.selfhelp}"></span>
+                        </a>
+                        <a id="share_article" class="btn btn-warning" role="button">
+                            <span class="glyphicon glyphicon-share"></span>
+                            <span class="" th:text="#{home.article.share}"></span>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div id="share" th:fragment="article-share">
-                <button id="share_article" class="btn btn-warning">
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                    <span class="hidden-xs" th:text="#{home.article.share}"></span>
-                </button>
+            <div id="tags" class="card panel" th:fragment="article-tags">
+                <div class="panel-body">
+                    <h4><span th:text="#{ArticleBean.tag}">Tags</span></h4>
+                    <div>
+                        <ul class="list-inline tag-container"></ul>
+                        <div class="form-group">
+                            <div id="magicsuggest"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-info btn-block tag-input-btn" role="button" >
+                        <span class="glyphicon glyphicon glyphicon-plus"></span>
+                        <span class="" th:text="#{home.tag.add}"></span>
+                    </a>
+                </div>
             </div>
             <div id="comment" th:fragment="article-comment">
-                <div class="page-header">
-                    <h5>
-                        <span class="glyphicon glyphicon-comment"></span>
-                        <span th:text="#{home.article.comment}"></span>
-                    </h5>
-                </div>
                 <div class="comment-container">
                     <div class="comment-list-content hidden">
                         <ul class="media-list"></ul>
