@@ -106,13 +106,13 @@ public class FileManager {
         }
     }
 
-    public void saveXFD(FileBean fileBean) {
-        final String dirId = FileManager.MUSIC + fileBean.getArticleId();
+    public void saveXFD(Integer articleId, Integer fileId) {
+        final String dirId = FileManager.MUSIC + articleId;
         final File outputFile = this.getFile(dirId, FileManager.XFD);
         if (!outputFile.isFile()) {
             final String inputFileName = String.format("f%d.%s",
-                                                       fileBean.getId(),
-                                                       fileBean.getExtension());
+                                                       fileId,
+                                                       FileManager.MP3);
             final File inputFile = this.getFile(dirId, inputFileName);
             try {
                 FileUtils.copyFile(inputFile, outputFile);

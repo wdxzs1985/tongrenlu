@@ -153,11 +153,22 @@
 
 <script type="text/javascript" th:inline="javascript">
 $(function() {
-    
+
     new player({
         url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
+        rateUrl: /*[[@{/music/rate}]]*/ '',
         filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
-        swfPath: 'http://cdn.bootcss.com/jplayer/2.9.2/jplayer'
+        swfPath: 'http://cdn.bootcss.com/jplayer/2.9.2/jplayer',
+        filter: function(playList, playable) {
+            var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
+            if(onlyVocal) {
+                if(!playable.instrumental) {
+                    playList.push(playable);
+                }
+            } else {
+                playList.push(playable);
+            }
+        }
     });
     
     new carousel({

@@ -26,7 +26,9 @@
                 {% if (o.file.artist) { %}<br /><small>by {%=o.file.artist%}</small>{% } %}
             </h5>
         </a>
-        <div class="jp-rate" data-track-id="{%=o.file.id%}" data-rate="{%=o.file.rate%}"></div>
+        {% if (!o.file.xfd) { %}
+            <div class="jp-rate" data-track-id="{%=o.file.id%}" data-rate="{%=o.file.rate%}"></div>
+        {% } %}
     </div>
     {% if (o.file.original) { %}
         <div class="show-if-current show-if-hover">
