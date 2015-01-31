@@ -28,7 +28,7 @@
         </a>
         <div class="jp-rate" data-track-id="{%=o.file.id%}" data-rate="{%=o.file.rate%}"></div>
     </div>
-    {% if (o.file.original.length > 0) { %}
+    {% if (o.file.original) { %}
         <div class="show-if-current show-if-hover">
             <ul class="jp-original">
                 {% for (var i=0, original; original=o.file.original[i]; i++) { %}

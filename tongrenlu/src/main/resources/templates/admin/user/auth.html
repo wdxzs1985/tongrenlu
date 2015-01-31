@@ -35,29 +35,35 @@
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="media-list">
-                        <div class="card" th:each="userBean : ${page.items}">
-                            <div class="media">
-                                <a class="media-left" target="_blank" 
-                                   th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
-                                    <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                                        th:alt-title="${userBean}" class="media-object img-120 "/>
-                                </a>
-                                <div class="media-body">
-                                    <h4 class="media-heading">
-                                        <a target="_blank" th:href="@{/admin/user/__${userBean.id}__}" 
-                                            th:text="${userBean}" th:alt-title="${userBean}">
-                                        </a>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="btn-group btn-group-justified">
-                                    <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-success" role="button">
-                                        <span th:text="#{console.auth}"></span>
+                    <div class="card" th:each="userBean : ${page.items}">
+                        <div class="media">
+                            <a class="media-left" target="_blank" 
+                               th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
+                                <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
+                                    th:alt-title="${userBean}" class="media-object img-120 "/>
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a target="_blank" th:href="@{/admin/user/__${userBean.id}__}" 
+                                        th:text="${userBean}" th:alt-title="${userBean}">
                                     </a>
-                                </div>
+                                </h4>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <div class="btn-group btn-group-justified">
+                                <a th:href="@{/user/__${userBean.id}__}" class="btn btn-default" role="button" target="_blank">
+                                    <span th:text="#{home.user.timeline}"></span>
+                                </a>
+                                <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-success" role="button">
+                                    <span th:text="#{console.auth}"></span>
+                                </a>
+                                <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}" class="btn btn-primary" role="button">
+                                    <span th:text="#{console.auth.upload}"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="jpaginate" class="hidden-xs"></div>
                 <div id="select-paginate" class="form-group visible-xs"></div>

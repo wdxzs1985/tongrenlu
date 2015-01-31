@@ -2,7 +2,6 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.service.FileService;
 import info.tongrenlu.service.LoginService;
 
 import java.util.HashMap;
@@ -31,8 +30,6 @@ public class LoginController {
     private final LoginService loginService = null;
     @Autowired
     private final CookieGenerator autoLoginCookie = null;
-    @Autowired
-    private final FileService fileService = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/signin/salt")
     @ResponseBody
@@ -46,7 +43,12 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/signin")
     @ResponseBody
-    public Map<String, Object> doPostLogin(final String email, final String password, final String autoLogin, final Locale locale, final HttpServletRequest request, final HttpServletResponse response) {
+    public Map<String, Object> doPostLogin(final String email,
+                                           final String password,
+                                           final String autoLogin,
+                                           final Locale locale,
+                                           final HttpServletRequest request,
+                                           final HttpServletResponse response) {
         final HttpSession session = request.getSession();
         final String salt = (String) session.getAttribute("salt");
 
@@ -59,11 +61,15 @@ public class LoginController {
         userBean.setSalt(salt);
 
         final String userAgent = request.getHeader("User-Agent");
-        final UserBean loginUser = this.loginService.doSignIn(userBean, userAgent, model, locale);
+        final UserBean loginUser = this.loginService.doSignIn(userBean,
+                                                              userAgent,
+                                                              model,
+                                                              locale);
         if (loginUser != null) {
             session.setAttribute(CommonConstants.LOGIN_USER, loginUser);
             if (CommonConstants.is(autoLogin)) {
-                this.autoLoginCookie.addCookie(response, loginUser.getFingerprint());
+                this.autoLoginCookie.addCookie(response,
+                                               loginUser.getFingerprint());
             } else {
                 this.autoLoginCookie.removeCookie(response);
             }
@@ -82,16 +88,19 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
-    public String doPostSignup(final String nickname, final String email, final String password, final String password2, final Model model, final Locale locale) {
+    public String doPostSignup(final String nickname, final String email,
+                               final String password, final String password2,
+                               final Model model, final Locale locale) {
         final UserBean userBean = new UserBean();
         userBean.setNickname(nickname);
         userBean.setEmail(StringUtils.lowerCase(email));
         userBean.setPassword(password);
         userBean.setPassword2(password2);
 
-        final boolean result = this.loginService.doSignup(userBean, model.asMap(), locale);
+        final boolean result = this.loginService.doSignup(userBean,
+                                                          model.asMap(),
+                                                          locale);
         if (result) {
-            this.fileService.saveCover(userBean, null);
             return "redirect:/signup/finish";
         }
 
@@ -105,7 +114,8 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/signout")
-    public String doGetSignout(final HttpServletRequest request, final HttpServletResponse response) {
+    public String doGetSignout(final HttpServletRequest request,
+                               final HttpServletResponse response) {
         request.getSession().invalidate();
         this.autoLoginCookie.removeCookie(response);
         return "redirect:/";
@@ -119,13 +129,18 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/forgot")
-    public String doPostForgot(final String email, final String nickname, final Model model, final Locale locale, final HttpServletRequest request) {
+    public String doPostForgot(final String email, final String nickname,
+                               final Model model, final Locale locale,
+                               final HttpServletRequest request) {
         final UserBean inputUser = new UserBean();
         inputUser.setEmail(StringUtils.lowerCase(email));
         inputUser.setNickname(nickname);
-        final boolean result = this.loginService.doFindForgotUser(inputUser, model.asMap(), locale);
+        final boolean result = this.loginService.doFindForgotUser(inputUser,
+                                                                  model.asMap(),
+                                                                  locale);
         if (result) {
-            request.getSession().setAttribute(CommonConstants.FORGOT_USER, inputUser);
+            request.getSession().setAttribute(CommonConstants.FORGOT_USER,
+                                              inputUser);
             return "login/forgot_change";
         } else {
             model.addAttribute("userBean", inputUser);
@@ -141,7 +156,10 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/forgot/change")
-    public String doPostChangePassword(final String password, final String password2, final Model model, final Locale locale, final HttpServletRequest request) {
+    public String doPostChangePassword(final String password,
+                                       final String password2,
+                                       final Model model, final Locale locale,
+                                       final HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final UserBean userBean = (UserBean) session.getAttribute(CommonConstants.FORGOT_USER);
         if (userBean == null) {

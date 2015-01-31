@@ -60,10 +60,6 @@
                             <i class="glyphicon glyphicon-ban-circle"></i>
                             <span th:text="#{console.article.upload.cancelAll}">Cancel upload</span>
                         </button>
-                        <button type="button" class="btn btn-danger delete">
-                            <i class="glyphicon glyphicon-trash"></i>
-                            <span th:text="#{console.article.upload.deleteAll}">Delete</span>
-                        </button>
                         <input type="checkbox" class="toggle hidden" />
                         <!-- The global file processing state -->
                         <span class="fileupload-process"></span>
@@ -85,30 +81,6 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<!-- The blueimp Gallery widget -->
-<div id="blueimp-gallery" class="blueimp-gallery">
-    <div class="slides"></div>
-    <h3 class="title"></h3>
-    <a class="prev">&lsaquo;</a>
-    <a class="next">&rsaquo;</a>
-    <h3 class="title"></h3>
-    <a class="close">&times;</a>
-    <a class="play-pause"></a>
-    <ol class="indicator"></ol>
-</div>
-<script type="text/javascript" src="http://static.tongrenlu.info/jQuery-File-Upload-9.5.7/js/vendor/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Load-Image-1.11.1/js/load-image.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Canvas-to-Blob-2.1.0/js/canvas-to-blob.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-gallery/2.15.2/js/jquery.blueimp-gallery.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-process.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-image.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-audio.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-validate.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/jquery.fileupload-ui.min.js"></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-fileupload.js}"></script>
 <div th:replace="x-tmpl/upload-auth-admin::template-upload"></div>
 <div th:replace="x-tmpl/upload-auth-admin::template-download"></div>
 <script type="text/javascript" th:inline="javascript">
@@ -118,19 +90,19 @@ $(function () {
     new fileupload({
         url: url
     });
+    
+    $('#fileupload').on('click', '.auth-check', function(e) {
+    	e.preventDefault();
+    	var $this = $(this);
+    	$.post($this.data('url')).done(function() {
+            $this.hide();
+    	}).error(function() {
+    		var error = /*[[#{error.network}]]*/'';
+    		alert(error);
+    	});
+    })
 });
 </script>
-<script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
-<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-$(function() {
-    $('.container-header').trianglify({
-        palette: 'console'
-    });
-});
-</script>
-
 </th:block>
   </body>
 </html>

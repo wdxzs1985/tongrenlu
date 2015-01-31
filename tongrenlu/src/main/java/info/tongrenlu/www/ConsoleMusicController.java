@@ -9,7 +9,6 @@ import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.service.ConsoleMusicService;
-import info.tongrenlu.service.FileService;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -47,8 +45,6 @@ public class ConsoleMusicController {
     private MessageSource messageSource = null;
     @Autowired
     private ConsoleMusicService musicService = null;
-    @Autowired
-    private FileService fileService = null;
 
     protected void throwExceptionWhenNotAllow(final MusicBean musicBean,
                                               final UserBean loginUser,
@@ -89,11 +85,11 @@ public class ConsoleMusicController {
 
         final boolean result = this.musicService.doCreate(inputMusic,
                                                           tags,
+                                                          cover,
+                                                          xfd,
                                                           model.asMap(),
                                                           locale);
         if (result) {
-            this.fileService.saveCover(inputMusic, cover);
-            this.fileService.saveXFD(inputMusic, xfd);
             return "redirect:/console/music/" + inputMusic.getId();
         }
 
@@ -142,20 +138,8 @@ public class ConsoleMusicController {
         final MusicBean musicBean = this.musicService.getById(articleId);
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
         // model.put("trackList", trackList);
-        final List<Map<String, Object>> playlist = new ArrayList<Map<String, Object>>();
-        final List<TrackBean> trackList = this.musicService.getTrackList(musicBean);
-        for (final TrackBean trackBean : trackList) {
-            final Map<String, Object> playable = new HashMap<String, Object>();
-            playable.put("id", trackBean.getId());
-            playable.put("title", trackBean.getName());
-            playable.put("artist", trackBean.getArtist());
-            playable.put("original",
-                         StringUtils.split(trackBean.getOriginal(), '\n'));
-            playable.put("instrumental",
-                         CommonConstants.is(trackBean.getInstrumental()));
-            playable.put("rate", trackBean.getRate());
-            playlist.add(playable);
-        }
+
+        final List<Map<String, Object>> playlist = this.musicService.getPlaylist(musicBean);
         model.put("playlist", playlist);
         return model;
     }
@@ -194,12 +178,12 @@ public class ConsoleMusicController {
 
         final boolean result = this.musicService.doEdit(musicBean,
                                                         tags,
+                                                        cover,
+                                                        xfd,
                                                         model.asMap(),
                                                         locale);
 
         if (result) {
-            this.fileService.saveCover(musicBean, cover);
-            this.fileService.saveXFD(musicBean, xfd);
             return "redirect:/console/music/" + musicBean.getId();
         }
 

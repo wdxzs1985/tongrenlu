@@ -25,9 +25,20 @@ $.fn.library = function(options) {
 		},
 		post: function() {
 			$.post(settings.url).done(function(response){
-				if(response.message) {
+				switch(response.status) {
+				case 1:
+					$('#modal-add').modal('show');
+					break;
+				case 0:
+					$('#modal-auth').modal('show');
+					break;
+				case -1:
+					alert('服务器⑨了!');
+					break;
+				}
+				if(response.status) {
 					//alert(response.error);
-					$('#modal-alert .modal-body p').text(response.error);
+					$('#modal-alert .modal-body p').text(response.message);
 					$('#modal-alert').modal('show');
 				} else if(response.error) {
 					alert(response.error);

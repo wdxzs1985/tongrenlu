@@ -30,6 +30,7 @@
         SELECT
         <trim suffixOverrides=",">
             m_auth_file.ID                  as "id",
+            m_auth_file.status              as "status",
             m_auth_file.user_id             as "userBean.id",
         </trim>
         FROM
@@ -45,6 +46,7 @@
         SELECT
         <trim suffixOverrides=",">
             m_auth_file.ID                  as "id",
+            m_auth_file.status              as "status",
             m_auth_file.user_id             as "userBean.id",
         </trim>
         FROM
@@ -54,4 +56,60 @@
         AND m_auth_file.DEL_FLG='0'
         </where>
     </select>
+    
+    <select id="countUser" resultType="int">
+        SELECT
+        <trim suffixOverrides=",">
+            count(v_user.id)
+        </trim>
+        FROM
+            (SELECT 
+                m_auth_file.user_id,
+                m_auth_file.upd_date
+            FROM
+                m_auth_file
+            <where>
+            <if test="status != null">
+            AND m_auth_file.status = #{status}
+            </if>
+            AND m_auth_file.DEL_FLG='0'
+            </where>
+            group by m_auth_file.user_id) auth_file
+        left join v_user ON auth_file.user_id = v_user.id
+    </select>
+    
+    <select id="searchUserList" resultType="UserProfileBean">
+        SELECT
+        <trim suffixOverrides=",">
+            v_user.id                      as id,
+            v_user.nickname                as nickname,
+        </trim>
+        FROM
+            (SELECT 
+                m_auth_file.user_id,
+                m_auth_file.upd_date
+            FROM
+                m_auth_file
+            <where>
+            <if test="status != null">
+            AND m_auth_file.status = #{status}
+            </if>
+            AND m_auth_file.DEL_FLG='0'
+            </where>
+            group by m_auth_file.user_id) auth_file
+        left join v_user ON auth_file.user_id = v_user.id
+        order by auth_file.upd_date desc
+        limit #{start}, #{pageSize}
+    </select>
+    
+    <update id="updateStatus" flushCache="true">
+        UPDATE m_auth_file
+        <set>
+            status = #{status}
+        </set>
+        <where>
+            m_auth_file.id = #{authFileId}
+        AND m_auth_file.DEL_FLG='0'
+        </where>
+    </update>
 </mapper>

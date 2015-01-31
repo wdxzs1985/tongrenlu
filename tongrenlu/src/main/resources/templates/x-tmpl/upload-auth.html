@@ -42,7 +42,7 @@
             {% if (!file.error) { %}
             <span class="preview">
                 <a href="/files/u{%=file.userId%}/auth/f{%=file.id%}_1080.jpg" data-gallery="">
-                    <img src="/files/u{%=file.userId%}/auth/f{%=file.id%}_60.jpg" />
+                    <img src="/files/u{%=file.userId%}/auth/f{%=file.id%}_120.jpg" />
                 </a>
             </span>
             {% } %}
@@ -53,6 +53,11 @@
             {% } %}
         </td>
         <td>
+            {% if (file.status == 1) { %}
+                <span class="label label-success" th:text="#{console.auth.check}">Check</span>
+            {% }  else { %}
+                <span class="label label-warning" th:text="#{console.auth.uncheck}">Uncheck</span>
+            {% } %}
         </td>
         <td>
             {% if (!file.error) { %}

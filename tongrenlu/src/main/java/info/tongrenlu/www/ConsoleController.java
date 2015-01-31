@@ -6,7 +6,6 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ConsoleLibraryService;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.service.ConsoleUserService;
-import info.tongrenlu.service.FileService;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.HashMap;
@@ -42,14 +41,13 @@ public class ConsoleController {
     @Autowired
     private final ConsoleLibraryService libraryService = null;
     @Autowired
-    private FileService fileService = null;
-    @Autowired
     private MessageSource messageSource = null;
     @Autowired
     private CookieGenerator autoLoginCookie = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
-    public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+    public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model) {
         if (loginUser.isAdmin()) {
             final int unpublishMusicCount = this.musicService.countUnpublish();
             model.addAttribute("unpublishMusicCount", unpublishMusicCount);
@@ -73,7 +71,8 @@ public class ConsoleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/setting")
-    public String doGetUserSetting(@ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+    public String doGetUserSetting(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                   final Model model) {
         model.addAttribute("userBean", loginUser);
         return "console/profile/setting";
     }
@@ -97,16 +96,19 @@ public class ConsoleController {
         inputUser.setOnlyTranslateFlg(onlyTranslateFlg);
         inputUser.setOnlyVocalFlg(onlyVocalFlg);
 
-        if (this.userService.saveSetting(inputUser, model.asMap(), locale)) {
+        if (this.userService.saveSetting(inputUser,
+                                         cover,
+                                         model.asMap(),
+                                         locale)) {
             loginUser.setNickname(nickname);
             loginUser.setSignature(signature);
             loginUser.setIncludeRedFlg(includeRedFlg);
             loginUser.setOnlyTranslateFlg(onlyTranslateFlg);
             loginUser.setOnlyVocalFlg(onlyVocalFlg);
 
-            this.fileService.saveCover(loginUser, cover);
-
-            final String message = this.messageSource.getMessage("console.profile.setting.finish", null, locale);
+            final String message = this.messageSource.getMessage("console.profile.setting.finish",
+                                                                 null,
+                                                                 locale);
             redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/console/setting";
         }
@@ -132,7 +134,9 @@ public class ConsoleController {
         inputUser.setPassword(password);
         inputUser.setPassword2(password2);
         if (this.userService.changePassword(inputUser, model.asMap(), locale)) {
-            final String message = this.messageSource.getMessage("console.profile.password.finish", null, locale);
+            final String message = this.messageSource.getMessage("console.profile.password.finish",
+                                                                 null,
+                                                                 locale);
             redirectAttributes.addFlashAttribute("message", message);
             this.autoLoginCookie.removeCookie(response);
             return "redirect:/console/password";

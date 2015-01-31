@@ -44,8 +44,8 @@
                 <li class="dropdown" th:if="${session.LOGIN_USER.admin}">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
                         <span th:text="#{admin.user}"></span> 
-                        <span class="badge" th:text="${unpublishMusicCount}"
-                            th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0"></span>
+                        <span class="badge" th:text="${authUserCount}"
+                            th:if="${#objects.nullSafe(authUserCount,0)} gt 0"></span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">

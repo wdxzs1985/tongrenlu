@@ -84,12 +84,12 @@ public class FileManager {
         } else {
             return;
         }
-        final File inputFile = this.getFile(dirId, FileManager.COVER);
+        final File outputFile = this.getFile(dirId, FileManager.COVER);
         if (fileItem != null && !fileItem.isEmpty()) {
-            this.saveFile(fileItem, inputFile);
-            this.convertCover(inputFile, dirId);
+            this.saveFile(fileItem, outputFile);
+            this.convertCover(outputFile, dirId);
         } else {
-            if (!inputFile.exists()) {
+            if (!outputFile.exists()) {
                 for (final int size : FileManager.COVER_SIZE_ARRAY) {
                     this.copyDefaultCover(dirId, size);
                 }
@@ -100,9 +100,25 @@ public class FileManager {
     public void saveXFD(final ArticleBean articleBean,
                         final MultipartFile fileItem) {
         final String dirId = FileManager.MUSIC + articleBean.getId();
-        final File inputFile = this.getFile(dirId, FileManager.XFD);
+        final File outputFile = this.getFile(dirId, FileManager.XFD);
         if (fileItem != null && !fileItem.isEmpty()) {
-            this.saveFile(fileItem, inputFile);
+            this.saveFile(fileItem, outputFile);
+        }
+    }
+
+    public void saveXFD(FileBean fileBean) {
+        final String dirId = FileManager.MUSIC + fileBean.getArticleId();
+        final File outputFile = this.getFile(dirId, FileManager.XFD);
+        if (!outputFile.isFile()) {
+            final String inputFileName = String.format("f%d.%s",
+                                                       fileBean.getId(),
+                                                       fileBean.getExtension());
+            final File inputFile = this.getFile(dirId, inputFileName);
+            try {
+                FileUtils.copyFile(inputFile, outputFile);
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

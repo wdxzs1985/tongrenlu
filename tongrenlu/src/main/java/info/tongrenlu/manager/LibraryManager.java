@@ -36,7 +36,8 @@ public class LibraryManager {
         return this.userLibraryMapper.fetchMusicList(params);
     }
 
-    public boolean isOwner(final UserBean userBean, final ArticleBean articleBean, final Integer status) {
+    public boolean isOwner(final UserBean userBean,
+                           final ArticleBean articleBean, final Integer status) {
         final Map<String, Object> params = new HashMap<>();
         params.put("userBean", userBean);
         params.put("articleBean", articleBean);
@@ -44,7 +45,8 @@ public class LibraryManager {
         return this.userLibraryMapper.countMusic(params) > 0;
     }
 
-    public void addToLibrary(final UserBean userBean, final ArticleBean articleBean, final Integer status) {
+    public void addToLibrary(final UserBean userBean,
+                             final ArticleBean articleBean, final Integer status) {
         final UserLibraryBean userLibraryBean = new UserLibraryBean();
         userLibraryBean.setArticleBean(articleBean);
         userLibraryBean.setUserBean(userBean);
@@ -52,7 +54,8 @@ public class LibraryManager {
         this.userLibraryMapper.insert(userLibraryBean);
     }
 
-    public void updateStatus(final UserBean userBean, final ArticleBean articleBean, final Integer status) {
+    public void updateStatus(final UserBean userBean,
+                             final ArticleBean articleBean, final Integer status) {
         final UserLibraryBean userLibraryBean = new UserLibraryBean();
         userLibraryBean.setArticleBean(articleBean);
         userLibraryBean.setUserBean(userBean);
@@ -81,11 +84,18 @@ public class LibraryManager {
     }
 
     public int countUser(final Map<String, Object> params) {
-        return this.userLibraryMapper.countUser(params);
+        return this.authFileMapper.countUser(params);
     }
 
     public List<UserProfileBean> searchUser(final Map<String, Object> params) {
-        return this.userLibraryMapper.searchUserList(params);
+        return this.authFileMapper.searchUserList(params);
+    }
+
+    public void updateStatus(final Integer authFileId, int status) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("authFileId", authFileId);
+        params.put("status", status);
+        this.authFileMapper.updateStatus(params);
     }
 
 }

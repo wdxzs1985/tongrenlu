@@ -2,6 +2,7 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.TimelineBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.LikeManager;
 import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -25,16 +27,19 @@ public class ConsoleUserService {
     private LikeManager likeManager = null;
     @Autowired
     private MessageSource messageSource = null;
+    @Autowired
+    private FileManager fileManager;
 
     public UserBean getById(final Integer id) {
         return this.userManager.getById(id);
     }
 
-    public boolean saveSetting(final UserBean inputUser,
+    public boolean saveSetting(final UserBean inputUser, MultipartFile cover,
                                final Map<String, Object> model,
                                final Locale locale) {
         if (this.validateForSaveSetting(inputUser, model, locale)) {
             this.userManager.updateSetting(inputUser);
+            this.fileManager.saveCover(inputUser, cover);
             return true;
         }
         return false;

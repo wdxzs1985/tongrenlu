@@ -44,7 +44,8 @@ public class ConsoleLibraryService {
         return this.libraryManager.fetchMusicList(params);
     }
 
-    public boolean updateStatus(final MusicBean musicBean, final UserBean userBean, final Locale locale) {
+    public boolean updateStatus(final MusicBean musicBean,
+                                final UserBean userBean, final Locale locale) {
         if (musicBean != null) {
             if (this.libraryManager.isOwner(userBean, musicBean, 0)) {
                 this.libraryManager.updateStatus(userBean, musicBean, 1);
@@ -58,19 +59,19 @@ public class ConsoleLibraryService {
         return this.libraryManager.fetchAuthFileList(userBean);
     }
 
-    public void saveAuthFile(final MultipartFile upload,
-                             final UserBean userBean,
-                             final Map<String, Object> fileModel,
-                             final Locale locale) {
+    public AuthFileBean saveAuthFile(final MultipartFile upload,
+                                     final UserBean userBean,
+                                     final Map<String, Object> fileModel,
+                                     final Locale locale) {
         if (this.validateForAuthFile(upload, fileModel, locale)) {
             final AuthFileBean authFileBean = new AuthFileBean();
             authFileBean.setUserBean(userBean);
             this.libraryManager.insertAuthFile(authFileBean);
             this.saveFile(authFileBean, upload);
             this.convertImage(authFileBean);
-            fileModel.put("id", authFileBean.getId());
-            fileModel.put("userId", userBean.getId());
+            return authFileBean;
         }
+        return null;
     }
 
     private boolean validateForAuthFile(final MultipartFile upload,
@@ -87,8 +88,10 @@ public class ConsoleLibraryService {
         return isValid;
     }
 
-    private void saveFile(final AuthFileBean authFileBean, final MultipartFile fileItem) {
-        final String dirId = String.format("u%d/auth", authFileBean.getUserBean().getId());
+    private void saveFile(final AuthFileBean authFileBean,
+                          final MultipartFile fileItem) {
+        final String dirId = String.format("u%d/auth",
+                                           authFileBean.getUserBean().getId());
         final String name = String.format("f%d.jpg", authFileBean.getId());
         final File file = this.fileManager.getFile(dirId, name);
         try {
@@ -99,49 +102,76 @@ public class ConsoleLibraryService {
     }
 
     private void convertImage(final AuthFileBean authFileBean) {
-        final String dirId = String.format("u%d/auth", authFileBean.getUserBean().getId());
+        final String dirId = String.format("u%d/auth",
+                                           authFileBean.getUserBean().getId());
         final String name = String.format("f%d.jpg", authFileBean.getId());
         final File inputFile = this.fileManager.getFile(dirId, name);
 
         for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg", authFileBean.getId(), size);
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    authFileBean.getId(),
+                                                    size);
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             this.fileManager.convertCover(inputFile, outputFile, size);
         }
         for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg", authFileBean.getId(), size);
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    authFileBean.getId(),
+                                                    size);
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             this.fileManager.convertImage(inputFile, outputFile, size);
         }
     }
 
-    public boolean delete(final Integer authFileId, final UserBean loginUser) {
+    public boolean check(Integer authFileId) {
         final AuthFileBean authFileBean = this.libraryManager.getAuthFile(authFileId);
         if (authFileBean == null) {
             return false;
-        } else if (!loginUser.equals(authFileBean.getUserBean())) {
+        }
+        this.libraryManager.updateStatus(authFileId, 1);
+        return true;
+    }
+
+    public boolean delete(final Integer authFileId) {
+        final AuthFileBean authFileBean = this.libraryManager.getAuthFile(authFileId);
+        if (authFileBean == null) {
             return false;
         }
-
         this.libraryManager.deleteAuthFile(authFileBean);
         this.deleteFile(authFileBean);
+        return true;
+    }
 
+    public boolean delete(Integer authFileId, UserBean loginUser) {
+        final AuthFileBean authFileBean = this.libraryManager.getAuthFile(authFileId);
+        if (authFileBean == null) {
+            return false;
+        } else if (loginUser.equals(authFileBean.getUserBean())) {
+            return false;
+        }
+        this.libraryManager.deleteAuthFile(authFileBean);
+        this.deleteFile(authFileBean);
         return true;
     }
 
     private void deleteFile(final AuthFileBean authFileBean) {
-        final String dirId = String.format("u%d/auth", authFileBean.getUserBean().getId());
+        final String dirId = String.format("u%d/auth",
+                                           authFileBean.getUserBean().getId());
         final String name = String.format("f%d.jpg", authFileBean.getId());
         final File file = this.fileManager.getFile(dirId, name);
         FileUtils.deleteQuietly(file);
 
         for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg", authFileBean.getId(), size);
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    authFileBean.getId(),
+                                                    size);
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             FileUtils.deleteQuietly(outputFile);
         }
         for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg", authFileBean.getId(), size);
+            final String outputName = String.format("f%d_%d.jpg",
+                                                    authFileBean.getId(),
+                                                    size);
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             FileUtils.deleteQuietly(outputFile);
         }

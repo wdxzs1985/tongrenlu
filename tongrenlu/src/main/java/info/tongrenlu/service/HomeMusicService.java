@@ -83,6 +83,8 @@ public class HomeMusicService {
 
     public MusicBean getRandomMusic() {
         final Map<String, Object> params = new HashMap<>();
+        params.put("publishFlg",
+                   new String[] { CommonConstants.PUBLISH, CommonConstants.FREE });
         final int itemCount = this.articleManager.countMusic(params);
 
         if (itemCount == 0) {
@@ -182,24 +184,29 @@ public class HomeMusicService {
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
             if (musicBean != null) {
-                if (!this.libraryManager.isOwner(loginUser, musicBean, null)) {
-                    this.libraryManager.addToLibrary(loginUser, musicBean, 0);
-                    String message = this.messageSource.getMessage("home.library.success",
-                                                                   null,
-                                                                   locale);
-                    model.put("message", message);
-                    result = true;
+                boolean isOwner = this.libraryManager.isOwner(loginUser,
+                                                              musicBean,
+                                                              null);
+                if (isOwner) {
+                    if (musicBean.isFree()) {
+                        this.libraryManager.updateStatus(loginUser,
+                                                         musicBean,
+                                                         1);
+                        model.put("status", 1);
+                    } else {
+                        model.put("status", 0);
+                    }
                 } else {
-                    String message = this.messageSource.getMessage("home.library.already",
-                                                                   null,
-                                                                   locale);
-                    model.put("message", message);
+                    // insert
+                    Integer status = musicBean.isFree() ? 1 : 0;
+                    this.libraryManager.addToLibrary(loginUser,
+                                                     musicBean,
+                                                     status);
+                    model.put("status", status);
+                    result = true;
                 }
             } else {
-                String message = this.messageSource.getMessage("error.pageNotFound",
-                                                               null,
-                                                               locale);
-                model.put("error", message);
+                model.put("status", -1);
             }
         }
         return result;

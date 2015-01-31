@@ -18,14 +18,14 @@
     <div class="container" layout:fragment="article-info">
         <div class="row">
             <div class="col-sm-6">
-                <div id="player" th:include="home/layout_article_view::article-player"></div>
                 <div class="alert alert-success" th:if="${articleBean.free}">
                     <p th:text="#{home.article.free}"></p>
                 </div>
                 <div class="alert alert-warning" th:unless="${articleBean.free}">
                     <p th:text="#{home.article.notfree}"></p>
                 </div>
-                <div class="jp-audio">
+                <div id="player" th:include="home/layout_article_view::article-player"></div>
+                <div class="jp-audio" th:unless="${#lists.isEmpty(playlist)}">
                     <div class="jp-type-playlist">
                         <div class="jp-playlist">
                             <ul>
@@ -61,7 +61,36 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div id="baseinfo" class="card panel" th:include="home/layout_article_view::article-baseinfo"></div>
+                <div id="baseinfo" class="card panel" th:fragment="article-baseinfo">
+                    <div class="panel-body">
+                        <h3 th:text="${articleBean.title}">title</h3>
+                        <h4>
+                            <small th:text="#{ArticleBean.accessCount}">Access</small>
+                            <span th:text="${articleBean.accessCount}"></span>
+                            <small th:text="#{ArticleBean.commentCount}">Comment</small>
+                            <span th:text="${articleBean.commentCount}"></span>
+                        </h4>
+                        <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group btn-group-justified">
+                            <a id="add-to-library" class="btn btn-primary" role="button"
+                                th:if="${articleBean.publish}">
+                                <span class="glyphicon glyphicon glyphicon-check"></span>
+                                <span class="" th:text="#{console.library.auth}"></span>
+                            </a>
+                            <a id="add-to-library" class="btn btn-primary" role="button"
+                                th:if="${articleBean.free}">
+                                <span class="glyphicon glyphicon glyphicon-check"></span>
+                                <span class="" th:text="#{console.library.add}"></span>
+                            </a>
+                            <a id="share_article" class="btn btn-warning" role="button">
+                                <span class="glyphicon glyphicon-share"></span>
+                                <span class="" th:text="#{home.article.share}"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div id="tags" class="card panel" th:include="home/layout_article_view::article-tags"></div>
                 <div id="comment" th:include="home/layout_article_view::article-comment"></div>
             </div>
@@ -69,7 +98,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<div id="modal-alert" class="modal fade">
+<div id="modal-auth" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,6 +112,23 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">Close</button>
                 <a role="button" class="btn btn-primary" th:text="#{console.auth.upload}"
                     th:href="@{/console/auth/upload}"></a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="modal-add" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >添加成功</h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="${articleBean.title} + '已成功添加到我的CD里'"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">Close</button>
+                <a role="button" class="btn btn-primary" th:href="@{/console/library}">去我的CD查看</a>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

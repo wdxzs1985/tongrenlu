@@ -53,6 +53,15 @@
             {% } %}
         </td>
         <td>
+            {% if (file.status == 1) { %}
+                <span class="label label-success" th:text="#{console.auth.check}">Check</span>
+            {% }  else { %}
+                <span class="label label-success hide" th:text="#{console.auth.check}">Check</span>
+                <button class="btn btn-warning auth-check" data-url="/admin/user/{%=file.userId%}/auth/file/{%=file.id%}/check">
+                    <i class="glyphicon glyphicon-check"></i>
+                    <span th:text="#{console.auth.uncheck}">Check</span>
+                </button>
+            {% } %}
         </td>
         <td>
             {% if (!file.error) { %}

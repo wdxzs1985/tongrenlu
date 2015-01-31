@@ -45,15 +45,21 @@ public class AdminUserController {
     @Autowired
     private ConsoleLibraryService libraryService = null;
 
-    private void throwExceptionWhenNotFound(final UserBean userBean, final Locale locale) {
+    private void throwExceptionWhenNotFound(final UserBean userBean,
+                                            final Locale locale) {
         if (userBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
     }
 
-    private void throwExceptionWhenNotFound(final MusicBean musicBean, final Locale locale) {
+    private void throwExceptionWhenNotFound(final MusicBean musicBean,
+                                            final Locale locale) {
         if (musicBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
     }
 
@@ -61,7 +67,8 @@ public class AdminUserController {
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
+                                                                     PAGE_SIZE);
         page.addParam("query", query);
         this.userService.searchUser(page);
         model.addAttribute("page", page);
@@ -70,8 +77,10 @@ public class AdminUserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "auth")
-    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, final Model model) {
-        final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                            final Model model) {
+        final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber,
+                                                                            PAGE_SIZE);
         page.addParam("status", 0);
         this.libraryService.searchUser(page);
         model.addAttribute("page", page);
@@ -82,14 +91,14 @@ public class AdminUserController {
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth")
     public String doGetAuthView(@PathVariable final Integer userId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                final Model model,
-                                final Locale locale) {
+                                final Model model, final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
+                                                                      PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);
@@ -99,8 +108,7 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/auth")
     public String doPostAuth(@PathVariable final Integer userId,
-                             final Integer articleId,
-                             final Model model,
+                             final Integer articleId, final Model model,
                              final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
@@ -111,7 +119,8 @@ public class AdminUserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth/upload")
-    public String doGetAuthFile(@PathVariable final Integer userId, final Model model, final Locale locale) {
+    public String doGetAuthFile(@PathVariable final Integer userId,
+                                final Model model, final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         model.addAttribute("userBean", userBean);
@@ -120,7 +129,8 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth/file")
     @ResponseBody
-    public Map<String, Object> doGetAuthFile(@PathVariable final Integer userId, final Locale locale) {
+    public Map<String, Object> doGetAuthFile(@PathVariable final Integer userId,
+                                             final Locale locale) {
         final UserProfileBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
@@ -129,6 +139,7 @@ public class AdminUserController {
         for (final AuthFileBean authFileBean : fileBeanList) {
             final Map<String, Object> fileModel = new HashMap<String, Object>();
             fileModel.put("id", authFileBean.getId());
+            fileModel.put("status", authFileBean.getStatus());
             fileModel.put("userId", authFileBean.getUserBean().getId());
             files.add(fileModel);
         }
@@ -148,11 +159,32 @@ public class AdminUserController {
         if (ArrayUtils.isNotEmpty(uploads)) {
             for (final MultipartFile upload : uploads) {
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
-                this.libraryService.saveAuthFile(upload, userBean, fileModel, locale);
+                AuthFileBean authFileBean = this.libraryService.saveAuthFile(upload,
+                                                                             userBean,
+                                                                             fileModel,
+                                                                             locale);
+                if (authFileBean != null) {
+                    fileModel.put("id", authFileBean.getId());
+                    fileModel.put("status", authFileBean.getStatus());
+                    fileModel.put("userId", userId);
+                }
                 files.add(fileModel);
             }
         }
         model.put("files", files);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{userId}/auth/file/{authFileId}/check")
+    @ResponseBody
+    public Map<String, Object> doPostCheckAuthFile(@PathVariable final Integer userId,
+                                                   @PathVariable final Integer authFileId,
+                                                   final Locale locale) {
+        final UserProfileBean userBean = this.userService.getById(userId);
+        this.throwExceptionWhenNotFound(userBean, locale);
+        final Map<String, Object> model = new HashMap<String, Object>();
+        this.libraryService.check(authFileId);
+        model.put("true", true);
         return model;
     }
 
@@ -164,7 +196,7 @@ public class AdminUserController {
         final UserProfileBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
-        this.libraryService.delete(authFileId, userBean);
+        this.libraryService.delete(authFileId);
         model.put("true", true);
         return model;
     }

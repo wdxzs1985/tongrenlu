@@ -118,6 +118,8 @@
         </trim>
         FROM
             v_music_ranking
+        where
+            v_music_ranking.pt1 + v_music_ranking.pt2 > 0
         order by 
             v_music_ranking.pt1 + v_music_ranking.pt2 desc, 
             v_music_ranking.publishDate desc

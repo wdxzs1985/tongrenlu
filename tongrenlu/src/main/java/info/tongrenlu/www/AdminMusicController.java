@@ -7,7 +7,6 @@ import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.ConsoleMusicService;
-import info.tongrenlu.service.FileService;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.util.ArrayList;
@@ -41,8 +40,6 @@ public class AdminMusicController {
     private MessageSource messageSource = null;
     @Autowired
     private ConsoleMusicService musicService = null;
-    @Autowired
-    private FileService fileService = null;
 
     private void throwExceptionWhenNotFound(final MusicBean musicBean,
                                             final Locale locale) {
@@ -124,12 +121,12 @@ public class AdminMusicController {
 
         final boolean result = this.musicService.doEdit(musicBean,
                                                         tags,
+                                                        cover,
+                                                        xfd,
                                                         model.asMap(),
                                                         locale);
 
         if (result) {
-            this.fileService.saveCover(musicBean, cover);
-            this.fileService.saveXFD(musicBean, xfd);
             return "redirect:/admin/music/" + musicBean.getId();
         }
 
