@@ -66,17 +66,17 @@
                         <a class="media-left" target="_blank" 
                            th:href="@{/music/__${articleBean.id}__}" 
                            th:alt-title="${articleBean.title}">
-                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}" th:alt-title="${articleBean.title}"
-                                 class="media-object img-120 "/>
+                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" th:alt-title="${articleBean.title}"
+                                 class="media-object img-180 "/>
                         </a>
                         <div class="media-body">
-                            <h5 class="media-heading">
+                            <h4 class="media-heading">
                                 <a target="_blank" 
                                    th:href="@{/music/__${articleBean.id}__}"
                                    th:alt-title="${articleBean.title}"
                                    th:text="${articleBean.title}" >
                                 </a>
-                            </h5>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/console/like/music(p='')}]]*/ '/console/like/music';
+            var url = /*[[@{/console/auth(p='')}]]*/ '/console/like/music';
             window.location.href = url + currval;
             return false;
         }

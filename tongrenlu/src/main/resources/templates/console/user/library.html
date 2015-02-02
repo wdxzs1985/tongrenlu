@@ -106,7 +106,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/console/like/music(p='')}]]*/ '/console/like/music';
+            var url = /*[[@{/console/library(p='')}]]*/ '/console/like/music';
             window.location.href = url + currval;
             return false;
         }

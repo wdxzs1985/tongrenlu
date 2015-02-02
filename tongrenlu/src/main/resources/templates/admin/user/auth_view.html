@@ -114,7 +114,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/admin/user/__${userBean.id}__(p='')}]]*/ '/admin/user';
+            var url = /*[[@{/admin/user/__${userBean.id}__/auth(p='')}]]*/ '/admin/user';
             window.location.href = url + currval;
             return false;
         }
