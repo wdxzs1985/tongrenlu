@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <div class="container-wrap container-header">
         <div class="container">
-            <h1 th:text="#{admin.music}"></h1>
+            <h1 th:text="#{admin.music.unpublish}"></h1>
             <div class="row">
                 <div class="col-sm-8" >
                     <form th:action="@{/admin/music}" method="get">
@@ -42,13 +42,13 @@
                             <span class="hidden-xs" th:text="#{console.music.index}"></span>
                         </a>
                     </li>
-                    <li class="active" >
+                    <li class="" th:if="${session.LOGIN_USER.admin}">
                         <a th:href="@{/admin/music}">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                             <span class="" th:text="#{admin.music}"></span>
                         </a>
                     </li>
-                    <li class="" th:if="${unpublishMusicCount gt 0}">
+                    <li class="active">
                         <a th:href="@{/admin/music/unpublish}">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                             <span class="" th:text="#{admin.music.unpublish}"></span>

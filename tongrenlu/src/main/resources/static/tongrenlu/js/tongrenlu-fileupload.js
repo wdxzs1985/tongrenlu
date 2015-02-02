@@ -1,9 +1,16 @@
 var fileupload = function(option) {
 	
 	var settings = $.extend({
+		// The maximum width of the preview images:
+        previewMaxWidth: 180,
+        // The maximum height of the preview images:
+        previewMaxHeight: 180,
         limitMultiFileUploads: 1,
         limitConcurrentUploads: 1,
-        sequentialUploads: true
+        sequentialUploads: true,
+        autoUpload: false,
+        previewCrop: true,
+        preload: true
 	}, option);
 	
 	if(settings.url) {

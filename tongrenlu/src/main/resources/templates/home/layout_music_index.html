@@ -49,14 +49,9 @@
                                             <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
                                         </h5>
                                         <div class="text-muted">
-                                            <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-                                            <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                                                th:alt-title="${articleBean.userBean}"
-                                                target="_blank">
-                                                <strong th:text="${articleBean.userBean}"></strong>
-                                            </a>
-                                            <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                            <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                                            <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                                            <span> / </span>
+                                            <span th:text="#{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
                                         </div>
                                         <th:block th:if="${articleBean.description}">
                                             <th:block th:if="${#strings.length(articleBean.description) gt 199}">

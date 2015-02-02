@@ -75,7 +75,9 @@
                     </div>
                 </div>
                 <!-- The table listing the files available for upload/download -->
-                <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+                <div role="presentation">
+                    <div class="files row"></div>
+                </div>
             </form>
         </div>
     </div>
@@ -94,8 +96,15 @@ $(function () {
     $('#fileupload').on('click', '.auth-check', function(e) {
     	e.preventDefault();
     	var $this = $(this);
-    	$.post($this.data('url')).done(function() {
-            $this.hide();
+    	$.post($this.data('url')).done(function(response) {
+    		if(response.result) {
+    			var $element = $(tmpl('template-download', response));
+                $this.closest('.template-download').replaceWith($element);
+                $element.addClass('in');
+    		} else {
+                var error = /*[[#{error.network}]]*/'';
+                alert(error);
+    		}
     	}).error(function() {
     		var error = /*[[#{error.network}]]*/'';
     		alert(error);

@@ -4,78 +4,71 @@
 <body>
 <script id="template-upload" type="text/x-tmpl" th:inline="text" th:fragment="template-upload">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td>
+    <div class="template-upload card fade">
+        <div class="card-body">
             <span class="preview"></span>
-        </td>
-        <td>
-            <p class="name">{%=file.name%}</p>
-            <strong class="error text-danger"></strong>
-        </td>
-        <td>
-            <p class="size" th:text="#{console.article.upload.processing}">Processing...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+            <div class="overlay" >
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
             </div>
-        </td>
-        <td>
-            {% if (!i) { %}
-            {% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary start" th:disabled="true">
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span th:text="#{console.article.upload.start}">Start</span>
-                </button>
-            {% } %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span th:text="#{console.article.upload.cancel}">Cancel</span>
-                </button>
-            {% } %}
-        </td>
-    </tr>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-primary start" th:disabled="true">
+                        <span class="glyphicon glyphicon-upload"></span>
+                        <span th:text="#{console.article.upload.start}">Start</span>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-warning btn-block cancel">
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                        <span th:text="#{console.article.upload.cancel}">Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% } %}
 </script>
 <script id="template-download" type="text/x-tmpl" th:inline="text" th:fragment="template-download">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        <td>
+    <div class="template-download card fade">
+        <div class="card-body">
             {% if (!file.error) { %}
-            <span class="preview">
-                <a href="http://files.tongrenlu.info/m{%=file.articleId%}/f{%=file.id%}_1080.jpg" title="{%=file.name%}" download="{%=file.name%}" data-gallery="">
-                    <img src="http://files.tongrenlu.info/m{%=file.articleId%}/f{%=file.id%}_60.jpg" />
-                </a>
-                
-            </span>
+                <span class="preview">
+                    <img src="/files/m{%=file.articleId%}/f{%=file.id%}_180.jpg" class="img-resposive"/>
+                </span>
             {% } %}
-        </td>
-        <td>
-            <p class="name">
-                <span>{%=file.name%}</span>
-            </p>
-            {% if (file.error) { %}
-                <div><span class="label label-danger" th:text="#{console.article.upload.error}">Error</span> {%=file.error%}</div>
-            {% } %}
-        </td>
-        <td>
-            <span class="size"></span>
-        </td>
-        <td>
-            {% if (!file.error) { %}
-                <button class="btn btn-danger delete" data-type="POST" data-url="/console/music/{%=file.articleId%}/{%=file.id%}/delete">
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span th:text="#{console.article.upload.delete}">Delete</span>
-                </button>
-                <input type="checkbox" name="delete" value="1" class="toggle hidden" th:checked="true" />
-            {% } else { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span th:text="#{console.article.upload.cancel}">Cancel</span>
-                </button>
-            {% } %}
-        </td>
-    </tr>
+            <a class="overlay" href="/files/m{%=file.articleId%}/f{%=file.id%}_1080.jpg" data-gallery="">
+                {% if (file.error) { %}
+                    <div><span class="label label-danger" th:text="#{console.article.upload.error}">Error</span> {%=file.error%}</div>
+                {% } %}
+            </a>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                {% if (!file.error) { %}
+                <div class="btn-group" role="group">
+                    <button class="btn btn-danger btn-block delete" data-type="POST" data-url="/console/music/{%=file.articleId%}/{%=file.id%}/delete">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        <span th:text="#{console.article.upload.delete}">Delete</span>
+                    </button>
+                    <input type="checkbox" name="delete" value="1" class="toggle hidden" th:checked="true" />
+                </div>
+                {% } else { %}
+                <div class="btn-group" role="group">
+                    <button class="btn btn-warning btn-block cancel">
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                        <span th:text="#{console.article.upload.cancel}">Cancel</span>
+                    </button>
+                </div>
+                {% } %}
+            </div>
+        </div>
+    </div>
 {% } %}
 </script>
-
 </body>
 </html>

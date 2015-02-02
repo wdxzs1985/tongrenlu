@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/css/jquery.fileupload.min.css" />
     <link rel="stylesheet" href="http://cdn.bootcss.com/blueimp-file-upload/9.5.7/css/jquery.fileupload-ui.min.css" />
     <link rel="stylesheet" href="http://cdn.bootcss.com/blueimp-gallery/2.15.2/css/blueimp-gallery.min.css" />
+    <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-file-upload.css}" />
 </head>
 <body>
 <div layout:fragment="content">
@@ -62,7 +63,9 @@
                     </div>
                 </div>
                 <!-- The table listing the files available for upload/download -->
-                <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+                <div role="presentation">
+                    <div class="files row"></div>
+                </div>
             </form>
             <hr />
             <div class="row" layout:fragment="page-footer">
