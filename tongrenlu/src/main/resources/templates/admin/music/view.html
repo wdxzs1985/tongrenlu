@@ -47,6 +47,11 @@
                             <span class="" th:text="#{console.music.booklet.sort}"></span>
                         </a>
                     </li>
+                    <li class="">
+                        <a th:href="@{/admin/music/__${articleBean.id}__/comment}">
+                            <span class="" th:text="#{console.article.comment}"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -70,27 +75,31 @@
                             </h4>
                             <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
                         </div>
+                        <div class="card-footer">
+                            <div class="btn-group btn-group-justified">
+                                <a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-default" role="button">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    <span class="" th:text="#{button.edit}"></span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div id="tags" class="card panel" th:include="home/layout_article_view::article-tags"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-xs-8" th:if="${session.LOGIN_USER.admin}">
-                            <div class="btn-group btn-group-justified">
-                                <a class="btn btn-success" 
-                                    th:href="@{/admin/music/__${articleBean.id}__/publish}" 
-                                    th:text="#{admin.article.publish}"></a>
-                                <a class="btn btn-danger" 
-                                    th:href="@{/admin/music/__${articleBean.id}__/free}" 
-                                    th:text="#{admin.article.free}"></a>
-                            </div>
-                        </div>
-                        <div class="col-xs-4">
-                            <a class="btn btn-default btn-block" 
-                                th:href="@{/admin/music}" th:text="#{button.back}"></a>
-                        </div>
+                    <div class="btn-group btn-group-justified">
+                        <a class="btn btn-success" 
+                            th:if="${session.LOGIN_USER.admin}"
+                            th:href="@{/admin/music/__${articleBean.id}__/publish}" 
+                            th:text="#{admin.article.publish}"></a>
+                        <a class="btn btn-danger" 
+                            th:if="${session.LOGIN_USER.admin}"
+                            th:href="@{/admin/music/__${articleBean.id}__/free}" 
+                            th:text="#{admin.article.free}"></a>
+                        <a class="btn btn-default btn-block" 
+                            th:href="@{/admin/music}" th:text="#{button.back}"></a>
                     </div>
                 </div>
             </div>

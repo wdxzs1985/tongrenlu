@@ -1,11 +1,13 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
+import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.TrackBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
+import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -40,6 +42,8 @@ public class AdminMusicController {
     private MessageSource messageSource = null;
     @Autowired
     private ConsoleMusicService musicService = null;
+    @Autowired
+    private final CommentService commentService = null;
 
     private void throwExceptionWhenNotFound(final MusicBean musicBean, final Locale locale) {
         if (musicBean == null) {
@@ -293,11 +297,8 @@ public class AdminMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/publish")
     public String doGetMusicPublish(@PathVariable final Integer articleId, final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
-
         this.throwExceptionWhenNotFound(musicBean, locale);
-
         this.musicService.publish(musicBean);
-
         return "redirect:/admin/music";
     }
 
@@ -307,5 +308,22 @@ public class AdminMusicController {
         this.throwExceptionWhenNotFound(musicBean, locale);
         this.musicService.free(musicBean);
         return "redirect:/admin/music";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/comment")
+    public String doGetComment(@PathVariable final Integer articleId,
+                               @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                               final Model model,
+                               final Locale locale) {
+        final MusicBean musicBean = this.musicService.getById(articleId);
+        this.throwExceptionWhenNotFound(musicBean, locale);
+        model.addAttribute("articleBean", musicBean);
+
+        final PaginateSupport<CommentBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("articleId", articleId);
+        this.commentService.searchMusicComment(page);
+        model.addAttribute("page", page);
+        return "admin/music/comment";
     }
 }
