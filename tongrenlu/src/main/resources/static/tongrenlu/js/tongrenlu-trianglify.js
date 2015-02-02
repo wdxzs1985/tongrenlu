@@ -19,6 +19,9 @@
 		case 'console':
 			settings.x_gradient = PALETTE_DEEP_PURPLE;
 			break;
+		case 'shoppingcart':
+			settings.x_gradient = PALETTE_AMBER;
+			break;
 		default:
 			settings.x_gradient = PALETTE_TEAL;
 			break;

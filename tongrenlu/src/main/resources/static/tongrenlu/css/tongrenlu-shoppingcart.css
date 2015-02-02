@@ -1,0 +1,150 @@
+@charset "UTF-8";
+
+.navbar-default {
+    background-color: #EF6C00;
+    border: none;
+}
+
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-collapse, 
+.navbar-default .navbar-form {
+    border-color: #EF6C00; /* Deep Purple 500 */
+}
+
+.navbar-default .navbar-brand {
+    color: #FFF3E0; /* 50 */
+}
+
+.navbar-default .navbar-brand:hover, 
+.navbar-default .navbar-brand:focus {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #FFE0B2; /* Deep Purple 100 */
+}
+
+.navbar-default .navbar-nav>li>a:hover, 
+.navbar-default .navbar-nav>li>a:focus{
+    background-color: #FB8C00; /* Deep Purple 600 */
+    color: #fff;
+}
+
+
+.navbar-default .navbar-nav>.open>a, 
+.navbar-default .navbar-nav>.open>a:hover, 
+.navbar-default .navbar-nav>.open>a:focus {
+    background-color: #F57C00; /* Deep Purple 700 */
+    color: #fff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>li>a {
+    color: #555;
+    background-color: #fff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover, 
+.navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
+    color: #555;
+    background-color: #eee;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu,
+.navbar-default .navbar-nav .open .dropdown-menu {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu .divider,
+.navbar-default .navbar-nav .open .dropdown-menu .divider {
+    background-color: #e5e5e5;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:hover, 
+.navbar-default .navbar-toggle:focus {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:hover .icon-bar,
+.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #EF6C00;
+}
+
+.navbar-default .navbar-nav>li>a .badge  {
+    background-color: #FFE0B2;
+    color: #EF6C00;
+}
+
+.navbar-default .navbar-nav>li>a:hover .badge , 
+.navbar-default .navbar-nav>li>a:focus .badge ,
+.navbar-default .navbar-nav>.open>a.badge , 
+.navbar-default .navbar-nav>.open>a:hover.badge , 
+.navbar-default .navbar-nav>.open>a:focus.badge {
+    background-color: #fff;
+}
+
+.navbar-default .dropdown-menu li .badge  {
+    background-color: #EF6C00;
+    color: #fff;
+}
+
+.container-header {
+    background: #FF9800;
+    color: #fff;
+}
+
+.container-header h1,
+.container-header h2,
+.container-header h3,
+.container-header form {
+    margin-bottom: 20px;
+}
+
+
+.container-header a {
+    color: #FFE0B2;
+}
+
+.container-header a:hover,
+.container-header a:active,
+.container-header a:focus {
+    color: #e0e0e0;
+}
+
+.container-header small,
+.container-header .text-muted {
+    color: #FFE0B2;
+}
+
+.container-tab {
+}
+
+.container-tab .nav>li>a {
+    color: #FFB74D; /* Deep Purple 300 */
+}
+
+.container-tab .nav>li>a:hover, 
+.container-tab .nav>li>a:focus,
+.container-tab .nav>li.active>a, 
+.container-tab .nav>li.active>a:hover, 
+.container-tab .nav>li.active>a:focus {
+    color: #FFB74D; /* Deep Purple 700 */
+    border-bottom: #FFF3E0 4px solid; /* yellow 300 */
+}
+
+.container-tab .nav>li>a .badge {
+    background-color: #FFB74D; /* Deep Purple 300 */
+    color: #FFF3E0; /* Deep Purple 50 */
+}
+
+
+.container-tab .nav>li>a:hover .badge , 
+.container-tab .nav>li>a:focus .badge ,
+.container-tab .nav>li.active>a .badge , 
+.container-tab .nav>li.active>a:hover .badge , 
+.container-tab .nav>li.active>a:focus .badge {
+    background-color: #FFB74D; /* Deep Purple 700 */
+}
