@@ -42,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class ConsoleMusicService {
 
-    public static final Pattern ARTICLE_ID_PATTERN = Pattern.compile("http://(www.)?tongrenlu.info/music/([0-9]{4,6})");
+    public static final Pattern ARTICLE_ID_PATTERN = Pattern.compile("http://www.tongrenlu.info/music/([0-9]{4,6})");
 
     @Autowired
     private final MessageSource messageSource = null;
@@ -344,9 +344,9 @@ public class ConsoleMusicService {
                 trackDocument.setTrack(track.getName());
                 trackDocument.setInstrumental(CommonConstants.is(track.getInstrumental()));
                 trackDocument.setArtist(StringUtils.split(track.getArtist(),
-                                                          ","));
+                        ","));
                 trackDocument.setOriginal(StringUtils.split(track.getOriginal(),
-                                                            "\n"));
+                        "\n"));
 
                 this.articleRepository.save(trackDocument);
 

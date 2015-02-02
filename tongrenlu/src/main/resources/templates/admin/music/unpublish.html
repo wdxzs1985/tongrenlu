@@ -136,7 +136,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/admin/music(q=${page.params.query},p='')}]]*/ '/admin/music';
+            var url = /*[[@{/admin/music/unpublish(q=${page.params.query},p='')}]]*/ '/admin/music';
             window.location.href = url + currval;
             return false;
         }

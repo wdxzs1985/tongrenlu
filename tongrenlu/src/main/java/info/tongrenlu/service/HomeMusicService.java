@@ -83,8 +83,7 @@ public class HomeMusicService {
 
     public MusicBean getRandomMusic() {
         final Map<String, Object> params = new HashMap<>();
-        params.put("publishFlg",
-                   new String[] { CommonConstants.PUBLISH, CommonConstants.FREE });
+        params.put("publishFlg", new String[] { CommonConstants.FREE });
         final int itemCount = this.articleManager.countMusic(params);
 
         if (itemCount == 0) {

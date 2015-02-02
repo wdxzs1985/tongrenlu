@@ -6,15 +6,21 @@
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <div class="template-upload card fade">
         <div class="card-body">
+            <span class="preview"></span>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+            </div>
             <div class="overlay" >
-                <span class="preview"></span>
-                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                </div>
             </div>
         </div>
         <div class="card-footer">
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-primary start" th:disabled="true">
+                        <span class="glyphicon glyphicon-upload"></span>
+                        <span th:text="#{console.article.upload.start}">Start</span>
+                    </button>
+                </div>
                 <div class="btn-group" role="group">
                     <button class="btn btn-warning btn-block cancel">
                         <span class="glyphicon glyphicon-ban-circle"></span>
