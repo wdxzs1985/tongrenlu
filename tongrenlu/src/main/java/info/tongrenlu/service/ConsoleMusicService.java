@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -41,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class ConsoleMusicService {
 
-    public static final Pattern ARTICLE_ID_PATTERN = Pattern.compile("http://www.tongrenlu.info/music/([0-9]{4,6})");
+    public static final Pattern ARTICLE_ID_PATTERN = Pattern.compile("http://(www.)?tongrenlu.info/music/([0-9]{4,6})");
 
     @Autowired
     private final MessageSource messageSource = null;
@@ -418,6 +419,15 @@ public class ConsoleMusicService {
             playable.put("rate", trackBean.getRate());
             playlist.add(playable);
         }
+    }
+
+    public MusicBean getByUrl(String url) {
+        Matcher matcher = ARTICLE_ID_PATTERN.matcher(url);
+        if (matcher.find()) {
+            Integer articleId = Integer.valueOf(matcher.group(1));
+            return this.getById(articleId);
+        }
+        return null;
     }
 
 }

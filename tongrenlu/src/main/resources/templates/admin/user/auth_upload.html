@@ -24,6 +24,12 @@
                         </a>
                     </li>
                     <li class="">
+                        <a th:href="@{/admin/user/__${userBean.id}__/library}">
+                            <span class="glyphicon glyphicon-cd"></span>
+                            <span class="hidden-xs" th:text="#{console.library}"></span>
+                        </a>
+                    </li>
+                    <li class="">
                         <a th:href="@{/admin/user/__${userBean.id}__/auth}">
                             <span class="glyphicon glyphicon-cd"></span>
                             <span class="hidden-xs" th:text="#{console.auth}"></span>

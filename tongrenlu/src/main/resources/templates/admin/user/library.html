@@ -39,13 +39,13 @@
                             <span class="hidden-xs" th:text="#{button.back}"></span>
                         </a>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a th:href="@{/admin/user/__${userBean.id}__/library}">
                             <span class="glyphicon glyphicon-cd"></span>
                             <span class="hidden-xs" th:text="#{console.library}"></span>
                         </a>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a th:href="@{/admin/user/__${userBean.id}__/auth}">
                             <span class="glyphicon glyphicon-cd"></span>
                             <span class="hidden-xs" th:text="#{console.auth}"></span>
@@ -81,18 +81,6 @@
                                    target="_blank">
                                 </a>
                             </h4>
-                        </div>
-                        <div class="card-footer">
-                            <form th:action="@{/admin/user/__${userBean.id}__/auth}" method="post">
-                                <input type="hidden" name="articleId" class="form-control" th:value="${articleBean.id}"/>
-                                <div class="btn-group btn-group-justified">
-                                    <div class="btn-group">
-                                        <button type="submit" class="btn btn-success">
-                                            <span th:text="#{button.confirm}"></span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>

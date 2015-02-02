@@ -11,6 +11,9 @@
     <div layout:fragment="content">
         <div id="top-music" class="container-wrap" >
             <div class="container">
+                <div class="alert alert-warning text-center">
+                    <a href="#modal-notice" data-toggle="modal" data-target="#modal-notice">东方同人录 2015改版计划</a>
+                </div>
                 <div class="row">
                     <div class="col-md-6 ">
                         <h1><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h1>
@@ -177,6 +180,31 @@
          </div>
      </div>
     <th:block layout:fragment="scripts">
+        <div id="modal-notice" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">东方同人录 2015改版计划</h4>
+              </div>
+              <div class="modal-body">
+                <p>为了表达对作者的尊重和防止盗源事件发生，东方同人录于2月开始改版。</p>
+                <ol>
+                    <li>所有投稿重新整理发布</li>
+                    <li>删除所有下载链接</li>
+                    <li>多碟装合并为1个投稿</li>
+                    <li>发布改为普通公开和免费公开</li>
+                    <li>普通公开的CD需要实碟认证，否则只有一首试听</li>
+                    <li>免费公开对象为已经停止活动的社团和已经停止通贩的CD</li>
+                    <li>未来将提供代购服务</li>
+                </ol>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">我知道了</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
         <script th:src="@{/tongrenlu/js/tongrenlu-smart-search.js}" ></script>
     </th:block>
 </body>

@@ -75,11 +75,8 @@
                                 <a th:href="@{/user/__${userBean.id}__}" class="btn btn-default" role="button" target="_blank">
                                     <span th:text="#{home.user.timeline}"></span>
                                 </a>
-                                <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-success" role="button">
-                                    <span th:text="#{console.auth}"></span>
-                                </a>
-                                <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}" class="btn btn-primary" role="button">
-                                    <span th:text="#{console.auth.upload}"></span>
+                                <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-success" role="button">
+                                    <span th:text="#{console.library}"></span>
                                 </a>
                             </div>
                         </div>

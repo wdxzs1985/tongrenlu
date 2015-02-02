@@ -32,10 +32,10 @@
         <div class="card-body">
             {% if (!file.error) { %}
                 <span class="preview">
-                    <img src="/files/u{%=file.userId%}/auth/f{%=file.id%}_180.jpg" class="img-resposive"/>
+                    <img src="http://files.tongrenlu.info/u{%=file.userId%}/auth/f{%=file.id%}_180.jpg" class="img-resposive"/>
                 </span>
             {% } %}
-            <a class="overlay" href="/files/u{%=file.userId%}/auth/f{%=file.id%}_1080.jpg" data-gallery="">
+            <a class="overlay" href="http://files.tongrenlu.info/u{%=file.userId%}/auth/f{%=file.id%}_1080.jpg" data-gallery="">
                 {% if (file.error) { %}
                     <div><span class="label label-danger" th:text="#{console.article.upload.error}">Error</span> {%=file.error%}</div>
                 {% } %}
@@ -60,7 +60,7 @@
                     <div class="btn-group" role="group">
                         <button class="btn btn-success btn-block auth-check" data-url="/admin/user/{%=file.userId%}/auth/file/{%=file.id%}/check">
                             <span class="glyphicon glyphicon-check"></span>
-                            <span th:text="#{console.auth.uncheck}">Check</span>
+                            <span th:text="#{console.auth.docheck}">Check</span>
                         </button>
                     </div>
                 {% } %}
