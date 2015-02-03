@@ -43,8 +43,8 @@
                                     th:alt-title="${userBean}" class="media-object img-120 "/>
                             </a>
                             <div class="media-body">
-                                <h4 class="media-heading">
-                                    <a target="_blank" th:href="@{/admin/user/__${userBean.id}__}" 
+                                <h4 class="">
+                                    <a target="_blank" th:href="@{/admin/user/__${userBean.id}__/auth}" 
                                         th:text="${userBean}" th:alt-title="${userBean}">
                                     </a>
                                 </h4>
@@ -52,14 +52,14 @@
                         </div>
                         <div class="card-footer">
                             <div class="btn-group btn-group-justified">
-                                <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-success" role="button">
-                                    <span th:text="#{admin.user.library}"></span>
-                                </a>
                                 <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-warning" role="button">
                                     <span th:text="#{console.auth}"></span>
                                 </a>
                                 <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}" class="btn btn-primary" role="button">
                                     <span th:text="#{console.auth.upload}"></span>
+                                </a>
+                                <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-success" role="button">
+                                    <span th:text="#{admin.user.library}"></span>
                                 </a>
                             </div>
                         </div>

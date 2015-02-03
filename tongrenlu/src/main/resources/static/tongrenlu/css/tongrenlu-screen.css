@@ -401,19 +401,6 @@ h1.article-title {
 	padding: 12px 0;
 }
 
-.side-content {
-    padding: 1em;
-}
-
-.side-content .page-header {
-    margin-top: 0;
-}
-
-.side-content .page-header h3 {
-    margin-top: 0;
-}
-
-
 #footer {
     color: #fdfdfd;
     background: transparent;

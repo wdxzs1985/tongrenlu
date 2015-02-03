@@ -58,16 +58,16 @@
                                     th:alt-title="${userBean}" class="media-object img-120 "/>
                             </a>
                             <div class="media-body">
-                                <h4 class="media-heading">
+                                <h4 class="">
                                     <a target="_blank" th:href="@{/user/__${userBean.id}__}" 
                                         th:text="${userBean}" th:alt-title="${userBean}">
                                     </a>
                                 </h4>
-                                <div class="media-body">
+                                <p class="">
                                      <span class="label label-default" th:if="${userBean.member}" th:text="#{UserBean.member}"></span>
                                      <span class="label label-warning" th:if="${userBean.editor}" th:text="#{UserBean.editor}"></span>
                                      <span class="label label-danger" th:if="${userBean.admin}" th:text="#{UserBean.admin}"></span>
-                                </div>
+                                </p>
                             </div>
                         </div>
                         <div class="card-footer">

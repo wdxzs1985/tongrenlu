@@ -69,12 +69,12 @@
                                 th:alt-title="${articleBean.title}" />
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">
+                            <h4 class="">
                                 <a th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                     <strong th:text="${articleBean.title}" ></strong>
                                 </a>
                             </h4>
-                            <div class="text-muted">
+                            <p class="text-muted">
                                 <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
                                 <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
                                 <span class="label label-warning" th:if="${articleBean.unpublish}" th:text="#{ArticleBean.publishFlg.false}"></span>
@@ -85,7 +85,7 @@
                                 </a>
                                 <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
                                 <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
-                            </div>
+                            </p>
                             <th:block th:if="${articleBean.description}">
                                 <th:block th:if="${#strings.length(articleBean.description) gt 199}">
                                     <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs text-muted"></p>

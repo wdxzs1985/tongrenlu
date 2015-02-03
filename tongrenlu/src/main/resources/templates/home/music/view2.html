@@ -62,14 +62,16 @@
             </div>
             <div class="col-sm-6">
                 <div id="baseinfo" class="card panel" th:fragment="article-baseinfo">
-                    <div class="panel-body">
+                    <div class="panel-heading">
                         <h3 th:text="${articleBean.title}">title</h3>
-                        <h4>
-                            <small th:text="#{ArticleBean.accessCount}">Access</small>
-                            <span th:text="${articleBean.accessCount}"></span>
-                            <small th:text="#{ArticleBean.commentCount}">Comment</small>
-                            <span th:text="${articleBean.commentCount}"></span>
-                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <span th:text="#{ArticleBean.accessCount}">Access</span>
+                            <strong th:text="${articleBean.accessCount}"></strong>
+                            <span th:text="#{ArticleBean.commentCount}">Comment</span>
+                            <strong th:text="${articleBean.commentCount}"></strong>
+                        </p>
                         <pre id="article-description" th:text="${#strings.isEmpty(articleBean.description)} ? #{home.article.noDescription} : ${articleBean.description}"></pre>
                     </div>
                     <div class="card-footer">
