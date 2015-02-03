@@ -391,8 +391,19 @@ h1.article-title {
     border-radius: 4px 4px 0 0;
 }
 
-.card .media-body{
-    padding: 4px 4px 4px 0;
+.card .media-list .media{
+    padding: 20px;
+    margin: 0;
+}
+
+.card .media-list .media-bordered .media-body,
+.card .media-list .media-bordered .media-right {
+    border-bottom: 1px solid #eee;
+}
+
+.card .media-list .media-bordered:last-child .media-body,
+.card .media-list .media-bordered:last-child .media-right {
+    border: none;
 }
 
 .card-footer {

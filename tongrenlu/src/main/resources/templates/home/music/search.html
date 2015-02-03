@@ -22,65 +22,67 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8">
-                        <th:block th:if="${searchResult}">
-                            <th:block th:unless="${#lists.isEmpty(searchResult.content)}">
-                                <div class="card" th:each="articleDocument : ${searchResult.content}">
-                                    <div class="media card-body-180">
+                        <div class="card panel" th:unless="${#lists.isEmpty(searchResult.content)}">
+                            <div class="panel-body" >
+                                <div class="media-list" >
+                                    <div class="media" th:each="articleDocument : ${searchResult.content}">
                                         <a class="media-left"
-                                              th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
-                                              th:alt-title="${articleDocument.title}" target="_blank"> 
-                                          <img class="media-object img-180"
-                                            th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_180.jpg}"
-                                            th:alt-title="${articleDocument.title}" />
-                                    </a>
-                                    <div class="media-body">
-                                        <h5 class="media-heading">
-                                            <a th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
-                                                th:text="${articleDocument.title}"
-                                                th:alt-title="${articleDocument.title}" target="_blank"></a>
-                                        </h5>
-                                        <ul class="list-inline tag-container">
-                                            <li th:each="tag : ${articleDocument.tags}"
-                                                th:if="${#strings.containsIgnoreCase(tag, query)}"
-                                                class="tag-item ">
-                                                    <a class="btn btn-xs btn-warning"
-                                                        th:href="@{/music/search(q=${tag})}" 
-                                                        th:text="${tag}">
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div th:id="'accordion-' + ${articleDocument.id}">
-                                            <p>
-                                                <button type="button" class="btn btn-info btn-xs"
-                                                    data-toggle="collapse"
-                                                    th:attr="data-parent='#accordion-' + ${articleDocument.id},data-target='#collapse-' + ${articleDocument.id}">
-                                                    <span class="glyphicon glyphicon-tags"></span>&nbsp; 
-                                                    <strong>其他标签&nbsp;&nbsp;&gt;&gt;</strong>
-                                                </button>
-                                            </p>
-                                            <div th:id="'collapse-' + ${articleDocument.id}" class="collapse">
-                                                <ul class="list-inline tag-container">
-                                                    <li th:each="tag : ${articleDocument.tags}"
-                                                        th:unless="${#strings.containsIgnoreCase(tag, query)}"
-                                                        class="tag-item ">
-                                                        <a class="btn btn-xs btn-default" th:href="@{/music/search(q=${tag})}" th:text="${tag}"></a>
-                                                    </li>
-                                                </ul>
+                                            th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
+                                            th:alt-title="${articleDocument.title}" target="_blank"> 
+                                            <img class="media-object img-120 img-rounded"
+                                                th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_180.jpg}"
+                                                th:alt-title="${articleDocument.title}" />
+                                        </a>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">
+                                                <a th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
+                                                    th:text="${articleDocument.title}"
+                                                    th:alt-title="${articleDocument.title}" target="_blank"></a>
+                                            </h5>
+                                            <ul class="list-inline tag-container">
+                                                <li th:each="tag : ${articleDocument.tags}"
+                                                    th:if="${#strings.containsIgnoreCase(tag, query)}"
+                                                    class="tag-item ">
+                                                        <a class="btn btn-xs btn-warning"
+                                                            th:href="@{/music/search(q=${tag})}" 
+                                                            th:text="${tag}">
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div th:id="'accordion-' + ${articleDocument.id}">
+                                                <p>
+                                                    <button type="button" class="btn btn-info btn-xs"
+                                                        data-toggle="collapse"
+                                                        th:attr="data-parent='#accordion-' + ${articleDocument.id},data-target='#collapse-' + ${articleDocument.id}">
+                                                        <span class="glyphicon glyphicon-tags"></span>&nbsp; 
+                                                        <strong>其他标签&nbsp;&nbsp;&gt;&gt;</strong>
+                                                    </button>
+                                                </p>
+                                                <div th:id="'collapse-' + ${articleDocument.id}" class="collapse">
+                                                    <ul class="list-inline tag-container">
+                                                        <li th:each="tag : ${articleDocument.tags}"
+                                                            th:unless="${#strings.containsIgnoreCase(tag, query)}"
+                                                            class="tag-item ">
+                                                            <a class="btn btn-xs btn-default" th:href="@{/music/search(q=${tag})}" th:text="${tag}"></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
+                            <div class="panel-footer">
                                 <div id="jpaginate" class="hidden-xs"></div>
                                 <div id="select-paginate" class="form-group visible-xs"></div>
-                            </th:block>
-                            <div class="alert alert-warning"
-                                th:if="${#lists.isEmpty(searchResult.content)}">
-                                <h4 th:text="#{home.article.noData}"></h4>
-                                <a th:href="@{/music}" th:text="#{button.back}"
-                                    class="btn btn-default"></a>
                             </div>
-                        </th:block>
+                        </div>
+                        <div class="alert alert-warning"
+                            th:if="${#lists.isEmpty(searchResult.content)}">
+                            <h4 th:text="#{home.article.noData}"></h4>
+                            <a th:href="@{/music}" th:text="#{button.back}"
+                                class="btn btn-default"></a>
+                        </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="card side-content" th:unless="${#arrays.isEmpty(tags)}">

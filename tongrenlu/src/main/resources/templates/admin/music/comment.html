@@ -4,9 +4,7 @@
     layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="http://cdn.bootcss.com/blueimp-gallery/2.15.2/css/blueimp-gallery.min.css" />
-    <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" type="text/css"/>
-    
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
 <body>
 <div layout:fragment="content">
@@ -58,37 +56,40 @@
     </div>
     <div class="container-wrap container-wrap-darker" >
         <div class="container">
-            <th:block th:unless="${#lists.isEmpty(page.items)}">
-                <div class="card" th:each="commentBean : ${page.items}">
-                    <div class="media card-body-180">
-                        <a class="media-left" th:href="@{/user/__${commentBean.userBean.id}__}" th:alt-title="${commentBean.userBean}">
-                            <img class="media-object img-120 " src="http://placehold.it/180x180" 
-                                th:src="@{http://files.tongrenlu.info/u__${commentBean.userBean.id}__/cover_120.jpg}"
-                                th:alt-title="${commentBean.userBean}" />
-                        </a>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a th:href="@{/user/__${commentBean.userBean.id}__}" th:alt-title="${commentBean.userBean}">
-                                    <strong th:text="${commentBean.userBean}" ></strong>
+            <div class="card panel" th:unless="${#lists.isEmpty(page.items)}">
+                <div class="panel-body">
+                    <div class="media-list">
+                        <div class="media" th:each="commentBean : ${page.items}">
+                            <a class="media-left" th:href="@{/user/__${commentBean.userBean.id}__}" th:alt-title="${commentBean.userBean}">
+                                <img class="media-object img-120 img-circle" src="http://placehold.it/180x180" 
+                                    th:src="@{http://files.tongrenlu.info/u__${commentBean.userBean.id}__/cover_120.jpg}"
+                                    th:alt-title="${commentBean.userBean}" />
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a th:href="@{/user/__${commentBean.userBean.id}__}" 
+                                       th:alt-title="${commentBean.userBean}"
+                                       th:text="${commentBean.userBean}">
+                                    </a>
+                                    <small th:text="${#dates.format(commentBean.createDate, 'yyyy年MMM月dd日')}"></small>
+                                </h4>
+                                <p class="text-muted" th:text="${commentBean.content}">
+                                </p>
+                            </div>
+                            <div class="media-right">
+                                <a th:href="@{/admin/comment/__${commentBean.id}__/delete}" class="btn btn-danger action-delete" role="button">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    <span class="hidden-xs" th:text="#{button.delete}"></span>
                                 </a>
-                            </h4>
-                            <div class="text-muted" >
-                                <p th:text="${commentBean.content}" class=""></p>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <div class="btn-group btn-group-justified">
-                            <a th:href="@{/admin/comment/__${commentBean.id}__/delete}" class="btn btn-danger action-delete" role="button">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                <span th:text="#{button.delete}"></span>
-                            </a>
-                        </div>
-                    </div>
                 </div>
-                <div id="jpaginate" class="hidden-xs"></div>
-                <div id="select-paginate" class="form-group visible-xs"></div>
-            </th:block>
+                <div class="panel-footer">
+                    <div id="jpaginate" class="hidden-xs"></div>
+                    <div id="select-paginate" class="form-group visible-xs"></div>
+                </div>
+            </div>
             <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                 <p th:text="#{console.article.noData}"></p>
             </div>
@@ -96,6 +97,21 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
+<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    new paginate({
+        count       : /*[[${page.pageCount}]]*/ 20,
+        start       : /*[[${page.pageNumber}]]*/ 1,
+        onChange                : function (currval){
+            var url = /*[[@{/admin/music/__${articleBean.id}__/comment(p='')}]]*/ '/admin/music';
+            window.location.href = url + currval;
+            return false;
+        }
+    });
+});
+</script>
 <script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
 <script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
