@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class ConsoleLibraryController {
 
-    public static final int PAGE_SIZE = 12;
+    public static final int PAGE_SIZE = 24;
 
     @Autowired
     private MessageSource messageSource = null;
@@ -44,7 +44,7 @@ public class ConsoleLibraryController {
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("userBean", loginUser);
         page.addParam("status", 1);
         this.libraryService.searchLibrary(page);
@@ -57,7 +57,7 @@ public class ConsoleLibraryController {
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("userBean", loginUser);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);

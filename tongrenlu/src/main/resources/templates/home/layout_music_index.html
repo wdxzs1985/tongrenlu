@@ -33,37 +33,39 @@
                 <div class="col-sm-8" >
                     <div th:fragment="list-content">
                         <div class="card panel" th:unless="${#lists.isEmpty(page.items)}">
-                            <ul class="media-list">
-                                <li class="media media-bordered" th:each="articleBean : ${page.items}">
-                                    <a class="media-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                        <img class="media-object img-120 img-rounded" src="http://placehold.it/180x180" 
-                                            th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}"
-                                            th:alt-title="${articleBean.title}" />
-                                    </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">
-                                            <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                                <strong th:text="${articleBean.title}" ></strong>
-                                            </a>
-                                        </h4>
-                                        <div class="text-muted">
-                                            <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
-                                            <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                            <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                                            <span> / </span>
-                                            <span th:text="#{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                            <div class="panel-body">
+                                <ul class="media-list">
+                                    <li class="media media-bordered" th:each="articleBean : ${page.items}">
+                                        <a class="media-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                            <img class="media-object img-120 img-rounded" src="http://placehold.it/180x180" 
+                                                th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}"
+                                                th:alt-title="${articleBean.title}" />
+                                        </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">
+                                                <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                                    <strong th:text="${articleBean.title}" ></strong>
+                                                </a>
+                                            </h4>
+                                            <p class="text-muted">
+                                                <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
+                                                <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                                <span th:text="#{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                                                <span> / </span>
+                                                <span th:text="#{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                                            </p>
+                                            <th:block th:if="${articleBean.description}">
+                                                <th:block th:if="${#strings.length(articleBean.description) gt 199}">
+                                                    <p class="text-muted hidden-xs" th:text="${#strings.substring(articleBean.description,0,199)} + '...'"></p>
+                                                </th:block>
+                                                <th:block th:if="${#strings.length(articleBean.description) lt 200}">
+                                                    <p class="text-muted hidden-xs" th:text="${articleBean.description}" ></p>
+                                                </th:block>
+                                            </th:block>
                                         </div>
-                                        <th:block th:if="${articleBean.description}">
-                                            <th:block th:if="${#strings.length(articleBean.description) gt 199}">
-                                                <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs"></p>
-                                            </th:block>
-                                            <th:block th:if="${#strings.length(articleBean.description) lt 200}">
-                                                <p th:text="${articleBean.description}" class="hidden-xs"></p>
-                                            </th:block>
-                                        </th:block>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                             <div class="panel-footer">
                                 <div id="jpaginate" class="hidden-xs"></div>
                                 <div id="select-paginate" class="form-group visible-xs"></div>
@@ -77,9 +79,10 @@
                 <div class="col-sm-4" >
                     <div id="ranking" class="card panel" th:fragment="ranking">
                         <div class="panel-heading">
-                            <h3 class="panel-title" th:text="#{home.music.ranking}">Panel title</h3>
+                            <h3 class="" th:text="#{home.music.ranking}">Panel title</h3>
                         </div>
-                        <ul class="media-list">
+                        <div class="panel-body">
+                            <ul class="media-list">
                                <li class="media" th:each="articleBean,iterStat : ${ranking}">
                                    <a class="media-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                        <img class="media-object img-60 img-rounded " src="http://placehold.it/60x60" 
@@ -98,7 +101,8 @@
                                        </div>
                                    </div>
                                </li>
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

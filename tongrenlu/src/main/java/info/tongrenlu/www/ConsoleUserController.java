@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Transactional
 public class ConsoleUserController {
 
-    public static final int PAGE_SIZE = 12;
+    public static final int PAGE_SIZE = 24;
 
     @Autowired
     private final ConsoleUserService userService = null;
@@ -32,7 +32,7 @@ public class ConsoleUserController {
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollow(page);
         model.addAttribute("page", page);
@@ -45,7 +45,7 @@ public class ConsoleUserController {
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                 final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("userBean", loginUser);
         this.userService.searchFollower(page);
         model.addAttribute("page", page);

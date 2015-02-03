@@ -62,40 +62,40 @@
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="card" th:each="articleBean : ${page.items}">
-                 <div class="media card-body-180">
-                     <a class="media-left" th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                         <img class="media-object img-180 " src="http://placehold.it/180x180" 
-                             th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
-                             th:alt-title="${articleBean.title}" />
-                     </a>
-                     <div class="media-body">
-                         <h4 class="media-heading">
-                             <a th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
-                                 <strong th:text="${articleBean.title}" ></strong>
-                             </a>
-                             <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
-                             <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                             <span class="label label-warning" th:if="${articleBean.unpublish}" th:text="#{ArticleBean.publishFlg.false}"></span>
-                         </h4>
-                         <div class="text-muted">
-                             <span th:text="#{home.article.owner} + ' :'">Owner :</span>
-                             <a th:href="@{/user/__${articleBean.userBean.id}__}" 
-                                 th:alt-title="${articleBean.userBean}" target="_blank">
-                                 <strong th:text="${articleBean.userBean}"></strong>
-                             </a>
-                             <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
-                             <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
-                         </div>
-                         <th:block th:if="${articleBean.description}">
-                             <th:block th:if="${#strings.length(articleBean.description) gt 199}">
-                                 <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs"></p>
-                             </th:block>
-                             <th:block th:if="${#strings.length(articleBean.description) lt 200}">
-                                 <p th:text="${articleBean.description}" class="hidden-xs"></p>
-                             </th:block>
-                         </th:block>
-                     </div>
-                 </div>
+                    <div class="media card-body-180">
+                        <a class="media-left" th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                            <img class="media-object img-180 " src="http://placehold.it/180x180" 
+                                th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
+                                th:alt-title="${articleBean.title}" />
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a th:href="@{/admin/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
+                                    <strong th:text="${articleBean.title}" ></strong>
+                                </a>
+                            </h4>
+                            <div class="text-muted">
+                                <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
+                                <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                <span class="label label-warning" th:if="${articleBean.unpublish}" th:text="#{ArticleBean.publishFlg.false}"></span>
+                                <span th:text="#{home.article.owner} + ' :'">Owner :</span>
+                                <a th:href="@{/user/__${articleBean.userBean.id}__}" 
+                                    th:alt-title="${articleBean.userBean}" target="_blank">
+                                    <strong th:text="${articleBean.userBean}"></strong>
+                                </a>
+                                <span th:text="' / ' + #{ArticleBean.accessCount} + ' :' + ${articleBean.accessCount}"></span>
+                                <span th:text="' / ' + #{ArticleBean.commentCount} + ' :' + ${articleBean.commentCount}"></span>
+                            </div>
+                            <th:block th:if="${articleBean.description}">
+                                <th:block th:if="${#strings.length(articleBean.description) gt 199}">
+                                    <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs text-muted"></p>
+                                </th:block>
+                                <th:block th:if="${#strings.length(articleBean.description) lt 200}">
+                                    <p th:text="${articleBean.description}" class="hidden-xs text-muted"></p>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </div>
                     <div class="card-footer">
                         <div class="btn-group btn-group-justified">
                             <a th:href="@{/admin/music/__${articleBean.id}__/edit}" class="btn btn-success" role="button">

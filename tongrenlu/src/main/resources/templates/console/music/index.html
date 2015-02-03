@@ -69,11 +69,11 @@
                                         <a th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                             <strong th:text="${articleBean.title}" ></strong>
                                         </a>
-                                        <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
-                                        <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
-                                        <span class="label label-warning" th:if="${articleBean.unpublish}" th:text="#{ArticleBean.publishFlg.false}"></span>
                                     </h4>
                                     <div class="text-muted">
+		                                <span class="label label-success" th:if="${articleBean.free}" th:text="#{ArticleBean.publishFlg.free}"></span>
+                                        <span class="label label-success" th:if="${articleBean.publish}" th:text="#{ArticleBean.publishFlg.true}"></span>
+                                        <span class="label label-warning" th:if="${articleBean.unpublish}" th:text="#{ArticleBean.publishFlg.false}"></span>
                                         <span th:text="#{home.article.owner} + ' :'">Owner :</span>
                                         <a th:href="@{/user/__${articleBean.userBean.id}__}" 
                                             th:alt-title="${articleBean.userBean}" target="_blank">
@@ -84,10 +84,10 @@
                                     </div>
                                     <th:block th:if="${articleBean.description}">
                                         <th:block th:if="${#strings.length(articleBean.description) gt 199}">
-                                            <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs"></p>
+                                            <p th:text="${#strings.substring(articleBean.description,0,199)} + '...'" class="hidden-xs text-muted"></p>
                                         </th:block>
                                         <th:block th:if="${#strings.length(articleBean.description) lt 200}">
-                                            <p th:text="${articleBean.description}" class="hidden-xs"></p>
+                                            <p th:text="${articleBean.description}" class="hidden-xs text-muted"></p>
                                         </th:block>
                                     </th:block>
                                 </div>
