@@ -58,7 +58,39 @@
     </div>
     <div class="container-wrap container-wrap-darker" >
         <div class="container">
-            <div class="row">
+            <th:block th:unless="${#lists.isEmpty(page.items)}">
+                <div class="card" th:each="commentBean : ${page.items}">
+                    <div class="media card-body-180">
+                        <a class="media-left" th:href="@{/user/__${commentBean.userBean.id}__}" th:alt-title="${commentBean.userBean}">
+                            <img class="media-object img-120 " src="http://placehold.it/180x180" 
+                                th:src="@{http://files.tongrenlu.info/u__${commentBean.userBean.id}__/cover_120.jpg}"
+                                th:alt-title="${commentBean.userBean}" />
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a th:href="@{/user/__${commentBean.userBean.id}__}" th:alt-title="${commentBean.userBean}">
+                                    <strong th:text="${commentBean.userBean}" ></strong>
+                                </a>
+                            </h4>
+                            <div class="text-muted" >
+                                <p th:text="${commentBean.content}" class=""></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group btn-group-justified">
+                            <a th:href="@{/admin/comment/__${commentBean.id}__/delete}" class="btn btn-danger action-delete" role="button">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                <span th:text="#{button.delete}"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="jpaginate" class="hidden-xs"></div>
+                <div id="select-paginate" class="form-group visible-xs"></div>
+            </th:block>
+            <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                <p th:text="#{console.article.noData}"></p>
             </div>
         </div>
     </div>

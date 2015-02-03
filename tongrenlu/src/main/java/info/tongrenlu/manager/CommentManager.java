@@ -45,13 +45,14 @@ public class CommentManager {
                                    final Locale locale) {
         boolean isValid = true;
         if (StringUtils.isBlank(content)) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("error.emptyComment",
-                                                    null,
-                                                    locale));
+            model.put(errorAttribute, this.messageSource.getMessage("error.emptyComment", null, locale));
             isValid = false;
         }
         return isValid;
+    }
+
+    public void delete(final CommentBean commentBean) {
+        this.commentMapper.delete(commentBean);
     }
 
 }

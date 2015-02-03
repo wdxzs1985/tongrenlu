@@ -54,8 +54,7 @@ public class CommentService {
                     notificationBean.setArticleBean(commentBean.getArticleBean());
                     notificationBean.setCategory("m");
                     notificationBean.setAction("comment");
-                    notificationBean.setContent(StringUtils.left(commentBean.getContent(),
-                                                                 140));
+                    notificationBean.setContent(StringUtils.left(commentBean.getContent(), 140));
 
                     this.notificationManager.sendNotification(notificationBean);
                 }
@@ -69,13 +68,18 @@ public class CommentService {
                                        final Map<String, Object> model,
                                        final Locale locale) {
         boolean isValid = true;
-        if (!this.commentManager.validateContent(commentBean.getContent(),
-                                                 "error",
-                                                 model,
-                                                 locale)) {
+        if (!this.commentManager.validateContent(commentBean.getContent(), "error", model, locale)) {
             isValid = false;
         }
         return isValid;
+    }
+
+    public CommentBean getById(final Integer commentId) {
+        return this.commentManager.getComment(commentId);
+    }
+
+    public void delete(final CommentBean commentBean) {
+        this.commentManager.delete(commentBean);
     }
 
 }

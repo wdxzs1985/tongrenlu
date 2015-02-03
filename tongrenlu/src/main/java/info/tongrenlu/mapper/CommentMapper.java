@@ -7,12 +7,14 @@ import java.util.Map;
 
 public interface CommentMapper {
 
-    void insert(CommentBean commentBean);
+    public void insert(CommentBean commentBean);
 
-    int countMusicComment(Map<String, Object> params);
+    public int countMusicComment(Map<String, Object> params);
 
-    List<CommentBean> fetchMusicComment(Map<String, Object> params);
+    public List<CommentBean> fetchMusicComment(Map<String, Object> params);
 
-    CommentBean fetchBean(Map<String, Object> params);
+    public CommentBean fetchBean(Map<String, Object> params);
+
+    public void delete(CommentBean commentBean);
 
 }

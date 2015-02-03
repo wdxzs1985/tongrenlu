@@ -29,19 +29,18 @@
     <select id="fetchBean" resultType="CommentBean">
         SELECT 
         <trim suffixOverrides=",">
-            m_comment.id                      as id,
-            m_comment.content                 as content,
-            m_comment.`root_id`               as `root.id`,
-            m_comment.`parent_id`             as `parent.id`,
+            v_music_comment.id                      as id,
+            v_music_comment.content                 as content,
+            v_music_comment.createDate              as createDate,
+            v_music_comment.`userBean.id`           as `userBean.id`,
+            v_music_comment.`userBean.nickname`     as "userBean.nickname",
+            v_music_comment.`articleBean.id`        as `articleBean.id`,
+            v_music_comment.`articleBean.title`     as `articleBean.title`,
         </trim>
         FROM 
-            m_comment
-                left join
-            m_comment root ON root.id = m_comment.root_id
-                left join
-            m_comment parent ON parent.id = m_comment.parent_id
+            v_music_comment
         <where>
-            m_comment.`id` = #{id}
+            v_music_comment.`id` = #{id}
         </where>
     </select>
     
@@ -74,4 +73,14 @@
         order by v_music_comment.id desc
         limit #{start}, #{pageSize}
     </select>
+    
+    <delete id="delete">
+        update 
+            m_comment
+        set 
+            del_flg = 1
+        <where>
+            `id` = #{id}
+        </where>
+    </delete>
 </mapper>
