@@ -431,6 +431,7 @@ h1.article-title {
 #footer {
     color: #fdfdfd;
     background: transparent;
+    padding-top: 20px;
 }
 
 #footer a{
