@@ -1,14 +1,18 @@
 @charset "UTF-8";
 
+body {
+    background: #512DA8;
+}
+
 .navbar-default {
-    background-color: #673ab7;
-    border-color: #673ab7;
+    background-color: #673AB7;
+    border-color: #673AB7;
 }
 
 .navbar-default .navbar-toggle,
 .navbar-default .navbar-collapse, 
 .navbar-default .navbar-form {
-    border-color: #673ab7; /* Deep Purple 500 */
+    border-color: #673AB7; /* Deep Purple 500 */
 }
 
 .navbar-default .navbar-brand {
@@ -17,7 +21,7 @@
 
 .navbar-default .navbar-brand:hover, 
 .navbar-default .navbar-brand:focus {
-    color: #fff;
+    color: #FFFFFF;
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -26,8 +30,8 @@
 
 .navbar-default .navbar-nav>li>a:hover, 
 .navbar-default .navbar-nav>li>a:focus{
-    background-color: #5E35B1; /* Deep Purple 600 */
-    color: #fff;
+    background-color: #512DA8; /* Deep Purple 600 */
+    color: #FFFFFF;
 }
 
 
@@ -35,47 +39,47 @@
 .navbar-default .navbar-nav>.open>a:hover, 
 .navbar-default .navbar-nav>.open>a:focus {
     background-color: #512DA8; /* Deep Purple 700 */
-    color: #fff;
+    color: #FFFFFF;
 }
 
 .navbar-default .navbar-nav .open .dropdown-menu>li>a {
-    color: #555;
-    background-color: #fff;
+    color: #727272;
+    background-color: #FFFFFF;
 }
 
 .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover, 
 .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
-    color: #555;
+    color: #212121;
     background-color: #eee;
 }
 
 .navbar-default .navbar-nav .open .dropdown-menu,
 .navbar-default .navbar-nav .open .dropdown-menu {
-    background-color: #fff;
+    background-color: #FFFFFF;
 }
 
 .navbar-default .navbar-nav .open .dropdown-menu .divider,
 .navbar-default .navbar-nav .open .dropdown-menu .divider {
-    background-color: #e5e5e5;
+    background-color: #B6B6B6;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-    background-color: #fff;
+    background-color: #FFFFFF;
 }
 
 .navbar-default .navbar-toggle:hover, 
 .navbar-default .navbar-toggle:focus {
-    background-color: #fff;
+    background-color: #512DA8;
 }
 
 .navbar-default .navbar-toggle:hover .icon-bar,
 .navbar-default .navbar-toggle:focus .icon-bar {
-    background-color: #673ab7;
+    background-color: #D1C4E9;
 }
 
 .navbar-default .navbar-nav>li>a .badge  {
     background-color: #D1C4E9;
-    color: #673ab7;
+    color: #673AB7;
 }
 
 .navbar-default .navbar-nav>li>a:hover .badge , 
@@ -83,17 +87,17 @@
 .navbar-default .navbar-nav>.open>a.badge , 
 .navbar-default .navbar-nav>.open>a:hover.badge , 
 .navbar-default .navbar-nav>.open>a:focus.badge {
-    background-color: #fff;
+    background-color: #FFFFFF;
 }
 
 .navbar-default .dropdown-menu li .badge  {
     background-color: #673AB7;
-    color: #fff;
+    color: #FFFFFF;
 }
 
 .container-header {
-    background: #b39ddb;
-    color: #fff;
+    background: #673AB7;
+    color: #FFFFFF;
 }
 
 .container-header h1,
@@ -103,27 +107,20 @@
     margin-bottom: 20px;
 }
 
-
-.container-header a {
+.container-header a,
+.container-header small,
+.container-header .text-muted {
     color: #D1C4E9;
 }
 
 .container-header a:hover,
 .container-header a:active,
 .container-header a:focus {
-    color: #e0e0e0;
-}
-
-.container-header small,
-.container-header .text-muted {
-    color: #D1C4E9;
-}
-
-.container-tab {
+    color: #FFFFFF;
 }
 
 .container-tab .nav>li>a {
-    color: #7E57C2; /* Deep Purple 300 */
+    color: #673AB7; /* Deep Purple 300 */
 }
 
 .container-tab .nav>li>a:hover, 
@@ -131,13 +128,13 @@
 .container-tab .nav>li.active>a, 
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
-    color: #311B92; /* Deep Purple 700 */
-    border-bottom: #fff176 4px solid; /* yellow 300 */
+    color: #512DA8; /* Deep Purple 700 */
+    border-bottom: #FFEB3B 4px solid; /* yellow 300 */
 }
 
 .container-tab .nav>li>a .badge {
-    background-color: #9575cd; /* Deep Purple 300 */
-    color: #fff176; /* Deep Purple 50 */
+    background-color: #673AB7; /* Deep Purple 300 */
+    color: #D1C4E9; /* Deep Purple 50 */
 }
 
 
@@ -146,7 +143,7 @@
 .container-tab .nav>li.active>a .badge , 
 .container-tab .nav>li.active>a:hover .badge , 
 .container-tab .nav>li.active>a:focus .badge {
-    background-color: #311B92; /* Deep Purple 700 */
+    background-color: #512DA8; /* Deep Purple 700 */
 }
 
 .jPaginate a,
