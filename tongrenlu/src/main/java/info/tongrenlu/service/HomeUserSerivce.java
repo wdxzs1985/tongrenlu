@@ -29,7 +29,7 @@ public class HomeUserSerivce {
     private LikeManager likeManager = null;
 
     public UserProfileBean getById(final Integer userId) {
-        return this.userManager.getById(userId);
+        return this.userManager.getUserProfileById(userId);
     }
 
     @Transactional
@@ -37,7 +37,7 @@ public class HomeUserSerivce {
                            final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
-            final UserBean userBean = this.userManager.getById(userId);
+            final UserBean userBean = this.userManager.getUserProfileById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 result = this.likeManager.countLike(loginUser, userBean);
             } else {
@@ -54,7 +54,7 @@ public class HomeUserSerivce {
                          final Map<String, Object> model, final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
-            final UserBean userBean = this.userManager.getById(userId);
+            final UserBean userBean = this.userManager.getUserProfileById(userId);
             if (this.likeManager.validateUserNotSame(loginUser, userBean)) {
                 final int count = this.likeManager.countLike(loginUser,
                                                              userBean);

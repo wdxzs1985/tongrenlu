@@ -60,7 +60,13 @@ public class UserManager {
         this.userDeviceMapper.insert(params);
     }
 
-    public UserProfileBean getById(final Integer id) {
+    public UserBean getById(final Integer id) {
+        final Map<String, Object> param = new HashMap<String, Object>();
+        param.put("id", id);
+        return this.userMapper.fetchBean(param);
+    }
+
+    public UserProfileBean getUserProfileById(final Integer id) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("id", id);
         return this.userMapper.fetchProfile(param);
@@ -71,21 +77,11 @@ public class UserManager {
     }
 
     public void updatePassword(final UserBean userBean) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("id", userBean.getId());
-        params.put("password", userBean.getPassword());
-        this.userMapper.update(params);
+        this.userMapper.updatePassword(userBean);
     }
 
     public void updateSetting(final UserBean userBean) {
-        final Map<String, Object> param = new HashMap<String, Object>();
-        param.put("id", userBean.getId());
-        param.put("nickname", userBean.getNickname());
-        param.put("signature", userBean.getSignature());
-        param.put("includeRedFlg", userBean.getIncludeRedFlg());
-        param.put("onlyTranslateFlg", userBean.getOnlyTranslateFlg());
-        param.put("onlyVocalFlg", userBean.getOnlyVocalFlg());
-        this.userMapper.update(param);
+        this.userMapper.updateSetting(userBean);
     }
 
     public boolean validateEmail(final String email,
@@ -221,5 +217,9 @@ public class UserManager {
 
     public List<UserBean> searchUser(final Map<String, Object> params) {
         return this.userMapper.fetchList(params);
+    }
+
+    public void updateRole(final UserBean userBean) {
+        this.userMapper.updateRole(userBean);
     }
 }

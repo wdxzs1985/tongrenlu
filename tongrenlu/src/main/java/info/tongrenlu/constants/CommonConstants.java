@@ -21,6 +21,10 @@ public class CommonConstants {
     public static final String PUBLISH = CHR_TRUE;
     public static final String FREE = "2";
 
+    public static final String ROLE_MEMBER = "0";
+    public static final String ROLE_EDITOR = "1";
+    public static final String ROLE_ADMIN = "9";
+
     public static boolean is(final String value) {
         return CommonConstants.CHR_TRUE.equals(value);
     }

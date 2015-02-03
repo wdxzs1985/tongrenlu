@@ -23,10 +23,19 @@ public class AdminUserService {
 
         final List<UserBean> items = this.userManager.searchUser(paginate.getParams());
         paginate.setItems(items);
+
     }
 
-    public UserProfileBean getById(final Integer userId) {
+    public UserBean getById(final Integer userId) {
         return this.userManager.getById(userId);
+    }
+
+    public UserProfileBean getUserProfileById(final Integer userId) {
+        return this.userManager.getUserProfileById(userId);
+    }
+
+    public void updateRole(final UserBean userBean) {
+        this.userManager.updateRole(userBean);
     }
 
 }

@@ -72,11 +72,21 @@
                         </div>
                         <div class="card-footer">
                             <div class="btn-group btn-group-justified">
-                                <a th:href="@{/user/__${userBean.id}__}" class="btn btn-default" role="button" target="_blank">
+                                <a th:href="@{/user/__${userBean.id}__}" class="btn btn-info" role="button" target="_blank">
                                     <span th:text="#{home.user.timeline}"></span>
                                 </a>
-                                <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-success" role="button">
-                                    <span th:text="#{console.library}"></span>
+                                <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-primary" role="button">
+                                    <span th:text="#{admin.user.library}"></span>
+                                </a>
+                                <a href="javascript:;" class="btn btn-warning" role="button"
+                                    th:href="@{/admin/user/__${userBean.id}__/role/editor}" 
+                                    th:if="${session.LOGIN_USER.admin} and ${userBean.member}">
+                                    <span th:text="#{admin.user.role.editor}"></span>
+                                </a>
+                                <a href="javascript:;" class="btn btn-default" role="button"
+                                    th:href="@{/admin/user/__${userBean.id}__/role/member}" 
+                                    th:if="${session.LOGIN_USER.admin} and ${userBean.editor}">
+                                    <span th:text="#{admin.user.role.member}"></span>
                                 </a>
                             </div>
                         </div>

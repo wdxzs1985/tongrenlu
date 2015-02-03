@@ -31,7 +31,7 @@ public class ConsoleUserService {
     private FileManager fileManager;
 
     public UserBean getById(final Integer id) {
-        return this.userManager.getById(id);
+        return this.userManager.getUserProfileById(id);
     }
 
     public boolean saveSetting(final UserBean inputUser, MultipartFile cover,

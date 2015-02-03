@@ -1,5 +1,6 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.AuthFileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
@@ -47,21 +48,15 @@ public class AdminUserController {
     @Autowired
     private ConsoleLibraryService libraryService = null;
 
-    private void throwExceptionWhenNotFound(final UserBean userBean,
-                                            final Locale locale) {
+    private void throwExceptionWhenNotFound(final UserBean userBean, final Locale locale) {
         if (userBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
     }
 
-    private void throwExceptionWhenNotFound(final MusicBean musicBean,
-                                            final Locale locale) {
+    private void throwExceptionWhenNotFound(final MusicBean musicBean, final Locale locale) {
         if (musicBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
     }
 
@@ -69,8 +64,7 @@ public class AdminUserController {
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     PAGE_SIZE);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("query", query);
         this.userService.searchUser(page);
         model.addAttribute("page", page);
@@ -78,11 +72,33 @@ public class AdminUserController {
         return "admin/user/index";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "{userId}/role/editor")
+    public String doGetRoleEditor(@PathVariable final Integer userId, final Model model, final Locale locale) {
+        final UserBean userBean = this.userService.getById(userId);
+        this.throwExceptionWhenNotFound(userBean, locale);
+
+        if (userBean.isMember()) {
+            userBean.setRole(CommonConstants.ROLE_EDITOR);
+            this.userService.updateRole(userBean);
+        }
+        return "redirect:/admin/user";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "{userId}/role/member")
+    public String doGetRoleMember(@PathVariable final Integer userId, final Model model, final Locale locale) {
+        final UserBean userBean = this.userService.getById(userId);
+        this.throwExceptionWhenNotFound(userBean, locale);
+
+        if (userBean.isEditor()) {
+            userBean.setRole(CommonConstants.ROLE_MEMBER);
+            this.userService.updateRole(userBean);
+        }
+        return "redirect:/admin/user";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "auth")
-    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                            final Model model) {
-        final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber,
-                                                                            PAGE_SIZE);
+    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, final Model model) {
+        final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("status", 0);
         this.libraryService.searchUser(page);
         model.addAttribute("page", page);
@@ -93,14 +109,14 @@ public class AdminUserController {
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/library")
     public String doGetLibrary(@PathVariable final Integer userId,
                                @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                               final Model model, final Locale locale) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+                               final Model model,
+                               final Locale locale) {
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 1);
         this.libraryService.searchLibrary(page);
@@ -110,18 +126,19 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/library/add")
     public String doPostLibraryAdd(@PathVariable final Integer userId,
-                                   final String url, final Model model,
+                                   final String url,
+                                   final Model model,
                                    final Locale locale,
-                                   RedirectAttributes redirectAttr) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+                                   final RedirectAttributes redirectAttr) {
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         final MusicBean musicBean = this.musicService.getByUrl(url);
         this.throwExceptionWhenNotFound(musicBean, locale);
         this.libraryService.updateStatus(musicBean, userBean);
-        String message = this.messageSource.getMessage("admin.user.auth.add.success",
-                                                       new String[] { musicBean.getTitle() },
-                                                       locale);
+        final String message = this.messageSource.getMessage("admin.user.auth.add.success",
+                                                             new String[] { musicBean.getTitle() },
+                                                             locale);
         redirectAttr.addFlashAttribute("message", message);
         return "redirect:/admin/user/" + userId + "/library";
     }
@@ -129,14 +146,14 @@ public class AdminUserController {
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth")
     public String doGetAuthView(@PathVariable final Integer userId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                final Model model, final Locale locale) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+                                final Model model,
+                                final Locale locale) {
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);
@@ -146,25 +163,25 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/auth")
     public String doPostAuth(@PathVariable final Integer userId,
-                             final Integer articleId, final Model model,
+                             final Integer articleId,
+                             final Model model,
                              final Locale locale,
-                             RedirectAttributes redirectAttr) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+                             final RedirectAttributes redirectAttr) {
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final MusicBean musicBean = this.musicService.getById(articleId);
         this.throwExceptionWhenNotFound(musicBean, locale);
         this.libraryService.updateStatus(musicBean, userBean);
-        String message = this.messageSource.getMessage("admin.user.auth.add.success",
-                                                       new String[] { musicBean.getTitle() },
-                                                       locale);
+        final String message = this.messageSource.getMessage("admin.user.auth.add.success",
+                                                             new String[] { musicBean.getTitle() },
+                                                             locale);
         redirectAttr.addFlashAttribute("message", message);
         return "redirect:/admin/user/" + userId + "/auth";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth/upload")
-    public String doGetAuthFile(@PathVariable final Integer userId,
-                                final Model model, final Locale locale) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+    public String doGetAuthFile(@PathVariable final Integer userId, final Model model, final Locale locale) {
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         model.addAttribute("userBean", userBean);
         return "admin/user/auth_upload";
@@ -172,9 +189,8 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth/file")
     @ResponseBody
-    public Map<String, Object> doGetAuthFile(@PathVariable final Integer userId,
-                                             final Locale locale) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+    public Map<String, Object> doGetAuthFile(@PathVariable final Integer userId, final Locale locale) {
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
         final List<Map<String, Object>> files = new ArrayList<Map<String, Object>>();
@@ -195,17 +211,14 @@ public class AdminUserController {
     public Map<String, Object> doPostAuthFile(@PathVariable final Integer userId,
                                               @RequestParam(value = "files[]") final MultipartFile[] uploads,
                                               final Locale locale) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
         final List<Map<String, Object>> files = new ArrayList<>();
         if (ArrayUtils.isNotEmpty(uploads)) {
             for (final MultipartFile upload : uploads) {
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
-                final AuthFileBean authFileBean = this.libraryService.saveAuthFile(upload,
-                                                                                   userBean,
-                                                                                   fileModel,
-                                                                                   locale);
+                final AuthFileBean authFileBean = this.libraryService.saveAuthFile(upload, userBean, fileModel, locale);
                 if (authFileBean != null) {
                     fileModel.put("id", authFileBean.getId());
                     fileModel.put("status", authFileBean.getStatus());
@@ -223,7 +236,7 @@ public class AdminUserController {
     public Map<String, Object> doPostCheckAuthFile(@PathVariable final Integer userId,
                                                    @PathVariable final Integer authFileId,
                                                    final Locale locale) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
         final AuthFileBean authFileBean = this.libraryService.check(authFileId);
@@ -243,7 +256,7 @@ public class AdminUserController {
     public Map<String, Object> doPostDeleteAuthFile(@PathVariable final Integer userId,
                                                     @PathVariable final Integer authFileId,
                                                     final Locale locale) {
-        final UserProfileBean userBean = this.userService.getById(userId);
+        final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
         final boolean result = this.libraryService.delete(authFileId);

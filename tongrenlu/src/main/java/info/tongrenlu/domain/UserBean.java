@@ -9,14 +9,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_DEFAULT)
 public class UserBean extends DtoBean {
 
-    public static final String ROLE_MEMBER = "0";
-
-    public static final String ROLE_EDITOR = "1";
-
-    public static final String ROLE_ADMIN = "9";
-
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -152,15 +146,15 @@ public class UserBean extends DtoBean {
     }
 
     public boolean isMember() {
-        return UserBean.ROLE_MEMBER.equals(this.role);
+        return CommonConstants.ROLE_MEMBER.equals(this.role);
     }
 
     public boolean isEditor() {
-        return UserBean.ROLE_EDITOR.equals(this.role);
+        return CommonConstants.ROLE_EDITOR.equals(this.role);
     }
 
     public boolean isAdmin() {
-        return UserBean.ROLE_ADMIN.equals(this.role);
+        return CommonConstants.ROLE_ADMIN.equals(this.role);
     }
 
     public boolean isIncludeRed() {

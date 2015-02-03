@@ -14,10 +14,14 @@ public interface UserMapper {
 
     public void insert(UserBean userBean);
 
-    public void update(Map<String, Object> param);
-
     public int count(Map<String, Object> params);
 
     public List<UserBean> fetchList(Map<String, Object> params);
+
+    public void updatePassword(UserBean userBean);
+
+    public void updateSetting(UserBean userBean);
+
+    public void updateRole(UserBean userBean);
 
 }

@@ -67,37 +67,6 @@
         </where>
     </select>
     
-    <update id="update">
-        UPDATE
-            m_user
-        <set>
-            <if test="password != null">
-                PASSWORD = #{password},
-            </if>
-            <if test="fingerprint != null">
-                fingerprint = #{fingerprint},
-            </if>
-            <if test="nickname != null">
-                nickname = #{nickname},
-            </if>
-            <if test="signature != null">
-                signature = #{signature},
-            </if>
-            <if test="includeRedFlg != null">
-                include_red_flg = #{includeRedFlg},
-            </if>
-            <if test="onlyTranslateFlg != null">
-                only_translate_flg = #{onlyTranslateFlg},
-            </if>
-            <if test="onlyVocalFlg != null">
-                only_vocal_flg = #{onlyVocalFlg},
-            </if>
-        </set>
-        <where>
-            id = #{id}
-        </where>
-    </update>
-    
     <select id="count" resultType="int">
         SELECT
         <trim suffixOverrides=",">
@@ -136,4 +105,41 @@
         order by m_user.id desc
         limit #{start}, #{pageSize}
     </select>
+    
+    
+    <update id="updatePassword">
+        UPDATE
+            m_user
+        <set>
+            PASSWORD = #{password},
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    
+    <update id="updateSetting">
+        UPDATE
+            m_user
+        <set>
+            nickname = #{nickname},
+            signature = #{signature},
+            only_vocal_flg = #{onlyVocalFlg},
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    <update id="updateRole">
+        UPDATE
+            m_user
+        <set>
+            role = #{role}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
 </mapper>
