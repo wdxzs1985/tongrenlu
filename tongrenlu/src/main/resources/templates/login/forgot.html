@@ -2,49 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="login/layout">
-  <body>
-      <div class="panel panel-default" layout:fragment="panel">
-          <div class="panel-heading">
-            <h4 th:text="#{login.forgot}">forgot</h4>
-          </div>
-          <form id="forgot-form" th:action="@{/forgot}" class="form-horizontal" method="post">
-              <div class="panel-body">
-                  <div th:class="${#strings.isEmpty(nicknameError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-                    <label for="inputNickname" class="col-sm-2 control-label" 
-                        th:text="#{UserBean.nickname}">Nickname</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" 
-                        id="inputNickname" name="nickname"
-                        th:value="${userBean.nickname}"
-                        th:placeholder="#{UserBean.nickname}"/>
-                      <span class="glyphicon glyphicon-remove form-control-feedback"
-                          th:unless="${#strings.isEmpty(nicknameError)}"></span>
-                      <p class="help-block" 
-                          th:unless="${#strings.isEmpty(nicknameError)}"
-                          th:text="${nicknameError}"></p>
+    <body>
+        <div class="card panel" layout:fragment="panel">
+            <div class="panel-heading">
+                <h4 th:text="#{login.forgot}">forgot</h4>
+            </div>
+            <form id="forgot-form" th:action="@{/forgot}" method="post">
+                <div class="panel-body">
+                    <div th:class="${#strings.isEmpty(nicknameError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                        <label for="inputNickname" class="control-label" 
+                            th:text="#{UserBean.nickname}">Nickname</label>
+                        <input type="text" class="form-control" 
+                            id="inputNickname" name="nickname"
+                            th:value="${userBean.nickname}"
+                            th:placeholder="#{UserBean.nickname}"/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback"
+                            th:unless="${#strings.isEmpty(nicknameError)}"></span>
+                        <p class="help-block" 
+                            th:unless="${#strings.isEmpty(nicknameError)}"
+                            th:text="${nicknameError}"></p>
                     </div>
-                  </div>
-                  <div th:class="${#strings.isEmpty(emailError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-                    <label for="inputEmail" class="col-sm-2 control-label" 
-                        th:text="#{UserBean.email}">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" 
-                        id="inputEmail" name="email"
-                        th:value="${userBean.email}"
-                        th:placeholder="#{UserBean.email}"/>
-                      <span class="glyphicon glyphicon-remove form-control-feedback"
-                          th:unless="${#strings.isEmpty(emailError)}"></span>
-                      <p class="help-block" 
-                          th:unless="${#strings.isEmpty(emailError)}"
-                          th:text="${emailError}"></p>
+                    <div th:class="${#strings.isEmpty(emailError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                        <label for="inputEmail" class="control-label" 
+                            th:text="#{UserBean.email}">Email</label>
+                        <input type="email" class="form-control" id="inputEmail" name="email"
+                            th:value="${userBean.email}"
+                            th:placeholder="#{UserBean.email}"/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback"
+                            th:unless="${#strings.isEmpty(emailError)}"></span>
+                        <p class="help-block" 
+                            th:unless="${#strings.isEmpty(emailError)}"
+                            th:text="${emailError}"></p>
                     </div>
-                  </div>
-              </div>
-              <div class="panel-footer text-right">
-                <button type="submit" class="btn btn-success"
-                    th:text="#{button.next}">Next</button>
-              </div>
-          </form>
-      </div><!-- /.panel -->
-  </body>
+                </div>
+                <div class="panel-footer text-right">
+                    <button type="submit" class="btn btn-success"
+                        th:text="#{button.next}">Next</button>
+                </div>
+            </form>
+        </div><!-- /.panel -->
+    </body>
 </html>

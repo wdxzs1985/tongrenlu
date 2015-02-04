@@ -3,7 +3,7 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="layout">
 <body>
-<div class="navbar navbar-default navbar-static-top" layout:fragment="header">
+<div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">
   <div class="container">
     <div class="navbar-header cl-effect-1">
       <a class="navbar-brand " href="index.html"
@@ -12,14 +12,16 @@
     </div>
   </div>
 </div>
-<div class="container" layout:fragment="content">
+<div class="container-wrap container-wrap-darker" layout:fragment="content">
+  <div class="container">
   <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
-        <div class="panel panel-default" layout:fragment="panel">
+        <div class="panel card" layout:fragment="panel">
         </div><!-- /.panel -->
     </div><!-- /.col-sm-6 -->
   </div><!-- /.row -->
 </div><!-- /.container -->
+</div><!-- /.container-warper -->
 <th:block layout:fragment="scripts-libs">
 <script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js" ></script>
 </th:block>

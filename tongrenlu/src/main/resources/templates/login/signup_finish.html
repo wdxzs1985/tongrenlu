@@ -3,16 +3,20 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="login/layout">
   <body>
-      <div layout:fragment="content">
-		  <div class="row">
-		    <div class="col-sm-6 col-sm-offset-3">
-		        <div class="alert alert-success" >
-		            <h4 th:text="#{login.signup.finish}">signup.finish</h4>
-		            <p th:text="#{login.signup.finish.message}">signup.finish.message</p>
-		            <a class="alert-link" th:href="@{/}" th:text="#{button.backToTop}"></a>
-		        </div><!-- /.panel -->
-		    </div><!-- /.col-sm-6 -->
-		  </div><!-- /.row -->
-      </div><!-- /.content -->
-  </body>
+      <div class="container-wrap container-wrap-darker" layout:fragment="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="alert alert-success" >
+                            <h4 th:text="#{login.signup.finish}">signup.finish</h4>
+                            <p th:text="#{login.signup.finish.message}">signup.finish.message</p>
+                            <p>
+                                <a class="alert-link" th:href="@{/}" th:text="#{button.backToTop}"></a>
+                            </p>
+                        </div><!-- /.panel -->
+                    </div><!-- /.col-sm-6 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </div><!-- /.container-warper -->
+    </body>
 </html>
