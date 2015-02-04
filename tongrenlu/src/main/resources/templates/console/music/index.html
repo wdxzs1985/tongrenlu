@@ -42,10 +42,16 @@
                             <span class="" th:text="#{console.music.index}"></span>
                         </a>
                     </li>
-                    <li class="" th:if="${session.LOGIN_USER.admin}">
+                    <li class="" th:if="${session.LOGIN_USER.admin} and ${unpublishMusicCount eq 0}">
                         <a th:href="@{/admin/music}">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                             <span class="hidden-xs" th:text="#{admin.music}"></span>
+                        </a>
+                    </li>
+                    <li class="" th:if="${session.LOGIN_USER.admin} and ${unpublishMusicCount gt 0}">
+                        <a th:href="@{/admin/music/unpublish}">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                            <span class="hidden-xs" th:text="#{admin.music.unpublish}"></span>
                         </a>
                     </li>
                 </ul>
@@ -57,7 +63,7 @@
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
                     <div class="col-md-12" th:each="articleBean : ${page.items}">
-                        <div class="card">
+                        <div class="card panel">
                             <div class="media">
                                 <a class="media-left" th:href="@{/console/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                     <img class="media-object img-180 " src="http://placehold.it/180x180" 
@@ -92,8 +98,7 @@
                                     </th:block>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <div class="btn-group btn-group-justified">
+                            <div class="panel-footer">
                                     <a th:href="@{/console/music/__${articleBean.id}__/edit}" class="btn btn-success" role="button">
                                         <span class="glyphicon glyphicon-edit"></span>
                                         <span th:text="#{console.article.edit}"></span>
@@ -110,7 +115,6 @@
                                         <span class="glyphicon glyphicon-trash"></span>
                                         <span th:text="#{console.article.delete}"></span>
                                     </a>
-                                </div>
                             </div>
                         </div>
                     </div>

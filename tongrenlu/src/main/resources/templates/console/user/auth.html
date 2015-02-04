@@ -33,7 +33,7 @@
                     <li class="">
                         <a th:href="@{/console}">
                             <span class="glyphicon glyphicon-home"></span>
-                            <span class="hidden-xs" th:text="#{console.user.timeline}"></span>
+                            <span class="" th:text="#{console.user.timeline}"></span>
                         </a>
                     </li>
                     <li class="">
@@ -62,14 +62,14 @@
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
-                    <div class="col-xs-4 col-sm-3 col-lg-2" th:each="articleBean : ${page.items}">
+                    <div class="col-xs-4 col-sm-3 col-md-2" th:each="articleBean : ${page.items}">
                         <div class="thumbnail card">
                             <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}" target="_blank" >
                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" 
                                     th:alt-title="${articleBean.title}" class="img-180 "/>
                             </a>
                             <div class="caption">
-                                <h5 class="media-heading text-single-line">
+                                <h5 class="text-single-line">
                                     <a th:href="@{/music/__${articleBean.id}__}"
                                         th:alt-title="${articleBean.title}" th:text="${articleBean.title}" 
                                         target="_blank" >

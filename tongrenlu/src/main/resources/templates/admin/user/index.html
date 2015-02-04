@@ -33,7 +33,7 @@
                     <li class="active">
                         <a th:href="@{/admin/user}">
                             <span class="glyphicon glyphicon-user"></span>
-                            <span class="hidden-xs" th:text="#{admin.user}"></span>
+                            <span class="" th:text="#{admin.user}"></span>
                         </a>
                     </li>
                     <li class="">
@@ -50,12 +50,12 @@
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="media-list">
-                    <div class="card" th:each="userBean : ${page.items}">
+                    <div class="panel card" th:each="userBean : ${page.items}">
                         <div class="media">
                             <a class="media-left" target="_blank" 
                                th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
-                                <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
-                                    th:alt-title="${userBean}" class="media-object img-120 "/>
+                                <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_180.jpg}" 
+                                    th:alt-title="${userBean}" class="media-object img-180 "/>
                             </a>
                             <div class="media-body">
                                 <h4 class="">
@@ -70,25 +70,24 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <div class="btn-group btn-group-justified">
-                                <a th:href="@{/user/__${userBean.id}__}" class="btn btn-info" role="button" target="_blank">
-                                    <span th:text="#{home.user.timeline}"></span>
-                                </a>
-                                <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-primary" role="button">
-                                    <span th:text="#{admin.user.library}"></span>
-                                </a>
-                                <a href="javascript:;" class="btn btn-warning" role="button"
-                                    th:href="@{/admin/user/__${userBean.id}__/role/editor}" 
-                                    th:if="${session.LOGIN_USER.admin} and ${userBean.member}">
-                                    <span th:text="#{admin.user.role.editor}"></span>
-                                </a>
-                                <a href="javascript:;" class="btn btn-default" role="button"
-                                    th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                    th:if="${session.LOGIN_USER.admin} and ${userBean.editor}">
-                                    <span th:text="#{admin.user.role.member}"></span>
-                                </a>
-                            </div>
+                        <div class="panel-footer">
+                            <a th:href="@{/user/__${userBean.id}__}" class="btn btn-info" role="button" target="_blank">
+                                <span th:text="#{home.user.timeline}"></span>
+                            </a>
+                            <a th:href="@{/admin/user/__${userBean.id}__/library}" 
+                                class="btn btn-primary hidden-xs" role="button">
+                                <span th:text="#{admin.user.library}"></span>
+                            </a>
+                            <a href="javascript:;" class="btn btn-warning " role="button"
+                                th:href="@{/admin/user/__${userBean.id}__/role/editor}" 
+                                th:if="${session.LOGIN_USER.admin} and ${userBean.member}">
+                                <span th:text="#{admin.user.role.editor}"></span>
+                            </a>
+                            <a href="javascript:;" class="btn btn-default " role="button"
+                                th:href="@{/admin/user/__${userBean.id}__/role/member}" 
+                                th:if="${session.LOGIN_USER.admin} and ${userBean.editor}">
+                                <span th:text="#{admin.user.role.member}"></span>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,7 @@
                     <li class="active">
                         <a th:href="@{/admin/user/auth}">
                             <span class="glyphicon glyphicon-cd"></span>
-                            <span class="hidden-xs" th:text="#{admin.user.auth}"></span>
+                            <span class="" th:text="#{admin.user.auth}"></span>
                         </a>
                     </li>
                 </ul>
@@ -35,7 +35,7 @@
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="media-list">
-                    <div class="card" th:each="userBean : ${page.items}">
+                    <div class="panel card" th:each="userBean : ${page.items}">
                         <div class="media">
                             <a class="media-left" target="_blank" 
                                th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
@@ -50,18 +50,18 @@
                                 </h4>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <div class="btn-group btn-group-justified">
-                                <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-warning" role="button">
-                                    <span th:text="#{console.auth}"></span>
-                                </a>
-                                <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}" class="btn btn-primary" role="button">
-                                    <span th:text="#{console.auth.upload}"></span>
-                                </a>
-                                <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-success" role="button">
-                                    <span th:text="#{admin.user.library}"></span>
-                                </a>
-                            </div>
+                        <div class="panel-footer">
+                            <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-warning" role="button">
+                                <span th:text="#{console.auth}"></span>
+                            </a>
+                            <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}" 
+                                class="btn btn-primary hidden-xs" role="button">
+                                <span th:text="#{console.auth.upload}"></span>
+                            </a>
+                            <a th:href="@{/admin/user/__${userBean.id}__/library}" 
+                                class="btn btn-success hidden-xs" role="button">
+                                <span th:text="#{admin.user.library}"></span>
+                            </a>
                         </div>
                     </div>
                 </div>

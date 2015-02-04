@@ -183,8 +183,9 @@ pre {
     background: none;
     color: #009688;
     font-weight: bold;
-    padding: 20px 22px;
+    padding: 20px;
     border-radius: 0;
+    border-bottom: transparent 4px solid;
 }
 
 .container-tab .nav>li>a:hover, 
@@ -193,7 +194,7 @@ pre {
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
     color: #00796B;
-    border-bottom: #FFEB3B 4px solid;
+    border-color: #FFEB3B;
 }
 
 .container-tab .nav>li>a .badge {
