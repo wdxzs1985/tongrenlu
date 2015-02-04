@@ -80,6 +80,7 @@ public class ConsoleController {
     @RequestMapping(method = RequestMethod.POST, value = "/console/setting")
     public String doPostUserSetting(final String nickname,
                                     final String signature,
+                                    final String weibo,
                                     @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String includeRedFlg,
                                     @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyTranslateFlg,
                                     @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyVocalFlg,
@@ -95,6 +96,7 @@ public class ConsoleController {
         inputUser.setIncludeRedFlg(includeRedFlg);
         inputUser.setOnlyTranslateFlg(onlyTranslateFlg);
         inputUser.setOnlyVocalFlg(onlyVocalFlg);
+        inputUser.setWeibo(weibo);
 
         if (this.userService.saveSetting(inputUser,
                                          cover,
@@ -102,6 +104,7 @@ public class ConsoleController {
                                          locale)) {
             loginUser.setNickname(nickname);
             loginUser.setSignature(signature);
+            loginUser.setWeibo(weibo);
             loginUser.setIncludeRedFlg(includeRedFlg);
             loginUser.setOnlyTranslateFlg(onlyTranslateFlg);
             loginUser.setOnlyVocalFlg(onlyVocalFlg);

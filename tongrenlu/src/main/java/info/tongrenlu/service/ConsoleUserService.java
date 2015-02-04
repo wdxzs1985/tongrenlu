@@ -105,6 +105,12 @@ public class ConsoleUserService {
                                                 locale)) {
             isValid = false;
         }
+        if (!this.userManager.validateWeibo(userBean.getWeibo(),
+                                            "weiboError",
+                                            model,
+                                            locale)) {
+            isValid = false;
+        }
         return isValid;
     }
 

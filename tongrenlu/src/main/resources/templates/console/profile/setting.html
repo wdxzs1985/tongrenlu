@@ -67,9 +67,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="alert alert-success" th:text="${message}" th:unless="${#strings.isEmpty(message)}"></div>
-                        <div class="page-header">
-                            <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
-                        </div>
+                        <h4 th:text="#{console.profile.setting.baseinfo}"></h4>
                         <div th:class="${#strings.isEmpty(nicknameError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
                             <label for="inputNickname" class="control-label" th:text="#{UserBean.nickname}">Nickname</label>
                             <input type="text" class="form-control" 
@@ -95,15 +93,27 @@
                                 th:unless="${#strings.isEmpty(signatureError)}"
                                 th:text="${signatureError}"></p>
                         </div>
-                        <div class="page-header">
-                            <h4 th:text="#{console.profile.setting.customize}"></h4>
+                        <div th:class="${#strings.isEmpty(weiboError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                            <label for="inputWeibo" class=" control-label" 
+                                th:text="#{UserBean.weibo}">Weibo</label>
+                            <input class="form-control" id="inputWeibo" name="weibo"
+                                th:value="${userBean.weibo}"
+                                th:placeholder="#{UserBean.weibo}" />
+                            <span class="glyphicon glyphicon-remove form-control-feedback"
+                                th:unless="${#strings.isEmpty(weiboError)}"></span>
+                            <p class="help-block" 
+                                th:unless="${#strings.isEmpty(weiboError)}"
+                                th:text="${weiboError}"></p>
                         </div>
+                        <hr />
+                        <h4 th:text="#{console.profile.setting.customize}"></h4>
                         <div class="form-group">
                             <label class="checkbox-inline">
                                 <input type="checkbox" name="onlyVocalFlg" value="1" th:checked="${userBean.onlyVocal}" />
                                 <span th:text="#{console.profile.setting.onlyVocal}"></span>
                             </label>
                         </div>
+                        <hr />
                         <div class="form-group">
                               <button type="submit" class="btn btn-primary" th:text="#{button.save}"></button>
                               <a th:href="@{/console}" class="btn btn-default" th:text="#{button.cancel}"></a>

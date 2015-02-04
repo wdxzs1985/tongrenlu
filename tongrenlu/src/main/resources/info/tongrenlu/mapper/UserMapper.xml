@@ -28,6 +28,7 @@
             U.PASSWORD              as password,
             U.NICKNAME              as nickname,
             U.signature             as signature,
+            U.weibo                 as weibo,
             U.role                  as role,
             U.include_red_flg       as includeRedFlg,
             U.only_translate_flg    as onlyTranslateFlg,
@@ -87,10 +88,11 @@
     <select id="fetchList" resultType="UserBean">
         SELECT
         <trim suffixOverrides=",">
-            m_user.id                    as id,
-            m_user.NICKNAME              as nickname,
-            m_user.signature             as signature,
-            m_user.role                  as role,
+            m_user.id                   as id,
+            m_user.NICKNAME             as nickname,
+            m_user.signature            as signature,
+            m_user.weibo                as weibo,
+            m_user.role                 as role,
         </trim>
         FROM
             m_user
@@ -125,6 +127,7 @@
         <set>
             nickname = #{nickname},
             signature = #{signature},
+            weibo = #{weibo},
             only_vocal_flg = #{onlyVocalFlg},
         </set>
         <where>

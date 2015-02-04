@@ -75,18 +75,18 @@
                             <a th:href="@{/user/__${userBean.id}__}" class="btn btn-info" role="button" target="_blank">
                                 <span th:text="#{home.user.timeline}"></span>
                             </a>
-                            <a th:href="@{/admin/user/__${userBean.id}__/library}" 
-                                class="btn btn-primary hidden-xs" role="button">
-                                <span th:text="#{admin.user.library}"></span>
+                            <a th:href="${userBean.weibo}" class="btn btn-info" role="button" target="_blank"
+                                th:if="${userBean.weibo}">
+                                <span th:text="#{home.user.weibo}"></span>
                             </a>
                             <a href="javascript:;" class="btn btn-warning " role="button"
                                 th:href="@{/admin/user/__${userBean.id}__/role/editor}" 
-                                th:if="${session.LOGIN_USER.admin} and ${userBean.member}">
+                                th:if="${userBean.member}">
                                 <span th:text="#{admin.user.role.editor}"></span>
                             </a>
                             <a href="javascript:;" class="btn btn-default " role="button"
                                 th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                th:if="${session.LOGIN_USER.admin} and ${userBean.editor}">
+                                th:if="${userBean.editor}">
                                 <span th:text="#{admin.user.role.member}"></span>
                             </a>
                         </div>

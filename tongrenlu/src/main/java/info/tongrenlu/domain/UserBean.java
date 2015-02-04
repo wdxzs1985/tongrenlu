@@ -18,6 +18,8 @@ public class UserBean extends DtoBean {
 
     private String signature;
 
+    private String weibo;
+
     @JsonIgnore
     private String email;
 
@@ -167,5 +169,13 @@ public class UserBean extends DtoBean {
 
     public boolean isOnlyVocal() {
         return CommonConstants.is(this.onlyVocalFlg);
+    }
+
+    public String getWeibo() {
+        return this.weibo;
+    }
+
+    public void setWeibo(String weibo) {
+        this.weibo = weibo;
     }
 }

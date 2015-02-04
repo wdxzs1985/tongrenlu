@@ -52,16 +52,17 @@
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <a th:href="@{/admin/user/__${userBean.id}__/auth}" class="btn btn-warning" role="button">
+                            <a th:href="@{/admin/user/__${userBean.id}__/library}" 
+                                class="btn btn-success" role="button">
+                                <span th:text="#{admin.user.library}"></span>
+                            </a>
+                            <a th:href="@{/admin/user/__${userBean.id}__/auth}" 
+                                class="btn btn-warning" role="button">
                                 <span th:text="#{console.auth}"></span>
                             </a>
                             <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}" 
-                                class="btn btn-primary hidden-xs" role="button">
+                                class="btn btn-primary " role="button">
                                 <span th:text="#{console.auth.upload}"></span>
-                            </a>
-                            <a th:href="@{/admin/user/__${userBean.id}__/library}" 
-                                class="btn btn-success hidden-xs" role="button">
-                                <span th:text="#{admin.user.library}"></span>
                             </a>
                         </div>
                     </div>
