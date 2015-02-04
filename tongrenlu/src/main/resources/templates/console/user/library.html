@@ -5,6 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <title th:text="${session.LOGIN_USER} + ' | ' + #{console.library}"></title>
 </head>
   <body>
 <div layout:fragment="content">
@@ -39,7 +40,7 @@
                     <li class="active">
                         <a th:href="@{/console/library}">
                             <span class="glyphicon glyphicon-cd"></span>
-                            <span class="hidden-xs" th:text="#{console.library}"></span>
+                            <span class="" th:text="#{console.library}"></span>
                         </a>
                     </li>
                     <li class="">
@@ -48,7 +49,7 @@
                             <span class="hidden-xs" th:text="#{console.auth}"></span>
                         </a>
                     </li>
-                    <li class="hidden-xs">
+                    <li class="">
                         <a th:href="@{/console/auth/upload}">
                             <span class="glyphicon glyphicon-upload"></span>
                             <span class="hidden-xs" th:text="#{console.auth.upload}"></span>

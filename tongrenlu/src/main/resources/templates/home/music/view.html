@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" type="text/css"/>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" type="text/css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title th:inline="text">[[${articleBean.title} + ' | ' + #{application}]]</title>
+    <title th:text="${articleBean.title} + ' | ' + #{application}"></title>
 </head>
 <body>
 <div class="container-wrap" layout:fragment="content">

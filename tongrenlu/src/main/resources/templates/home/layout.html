@@ -31,19 +31,19 @@
                 <li class=""><a th:href="@{/music}" th:text="#{home.music}"></a></li>
             </ul>
             <ul id="nav-signin" class="nav navbar-nav navbar-right hidden">
-                <li class=""><a th:href="@{/signup}" th:text="#{login.signup}"></a></li>
+                <li class=""><a th:href="@{/signup}" th:text="#{login.signup}" rel="nofollow"></a></li>
                 <li class=""><a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a></li>
             </ul>
             <ul id="nav-console" class="nav navbar-nav navbar-right hidden">
-                <li class=""><a th:href="@{/console}" th:text="#{console}"></a></li>
+                <li class=""><a th:href="@{/console}" th:text="#{console}" rel="nofollow"></a></li>
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
                         <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li ><a th:href="@{/console/setting}" th:text="#{console.profile.setting}"></a></li>
-                        <li ><a th:href="@{/console/password}" th:text="#{console.profile.password}"></a></li>
-                        <li><a th:href="@{/signout}" th:text="#{login.signout}"></a></li>
+                        <li ><a th:href="@{/console/setting}" th:text="#{console.profile.setting}" rel="nofollow"></a></li>
+                        <li ><a th:href="@{/console/password}" th:text="#{console.profile.password}" rel="nofollow"></a></li>
+                        <li><a th:href="@{/signout}" th:text="#{login.signout}" rel="nofollow"></a></li>
                     </ul>
                 </li>
             </ul>
@@ -93,7 +93,7 @@
         </div>
         <div class="modal-footer" style="overflow:hidden">
           <a th:href="@{/forgot}" class="btn btn-default pull-left"
-            th:text="#{login.forgot}">Forgot</a>
+            th:text="#{login.forgot}" rel="nofollow">Forgot</a>
           <button type="submit" class="btn btn-success pull-right"
             th:text="#{login.signin}">Sign In</button>
         </div>

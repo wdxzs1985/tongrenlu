@@ -5,6 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <title th:text="#{home.music} + ' | ' + #{application}"></title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -79,7 +80,7 @@
                 <div class="col-sm-4" >
                     <div id="ranking" class="card panel" th:fragment="ranking">
                         <div class="panel-heading">
-                            <h3 class="" th:text="#{home.music.ranking}">Panel title</h3>
+                            <h4 class="" th:text="#{home.music.ranking}">Panel title</h4>
                         </div>
                         <div class="panel-body">
                             <ul class="media-list">

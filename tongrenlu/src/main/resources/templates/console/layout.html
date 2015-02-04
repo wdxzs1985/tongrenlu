@@ -4,7 +4,7 @@
   layout:decorator="layout">
 <head>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-console.css}"/>
-    <title th:inline="text">[[#{console}]]</title>
+    <title th:text="${session.LOGIN_USER} + ' | ' + #{console}"></title>
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">

@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
-  <head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" />
-  </head>
-  <body>
+    <title th:text="#{console.music.input} + ' | ' + #{console.music}"></title>
+</head>
+<body>
 <div layout:fragment="content">
     <div class="container-wrap container-header">
         <div class="container">
@@ -128,5 +130,5 @@ $(function() {
 });
 </script>
 </th:block>
-  </body>
+</body>
 </html>

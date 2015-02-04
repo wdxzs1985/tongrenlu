@@ -5,6 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <title th:text="${session.LOGIN_USER} + ' | ' + #{console.auth}"></title>
 </head>
   <body>
 <div layout:fragment="content">
@@ -33,7 +34,7 @@
                     <li class="">
                         <a th:href="@{/console}">
                             <span class="glyphicon glyphicon-home"></span>
-                            <span class="" th:text="#{console.user.timeline}"></span>
+                            <span class="hidden-xs" th:text="#{console.user.timeline}"></span>
                         </a>
                     </li>
                     <li class="">
@@ -45,7 +46,7 @@
                     <li class="active">
                         <a th:href="@{/console/auth}">
                             <span class="glyphicon glyphicon-check"></span>
-                            <span class="hidden-xs" th:text="#{console.auth}"></span>
+                            <span class="" th:text="#{console.auth}"></span>
                         </a>
                     </li>
                     <li class="">
@@ -62,7 +63,7 @@
         <div class="container">
             <th:block th:unless="${#lists.isEmpty(page.items)}">
                 <div class="row">
-                    <div class="col-xs-4 col-sm-3 col-md-2" th:each="articleBean : ${page.items}">
+                     <div class="col-xs-6 col-sm-3 col-md-2" th:each="articleBean : ${page.items}">
                         <div class="thumbnail card">
                             <a th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}" target="_blank" >
                                 <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" 

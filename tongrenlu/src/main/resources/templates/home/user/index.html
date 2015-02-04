@@ -4,6 +4,8 @@
   layout:decorator="home/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${userBean} + ' | ' + #{application}"></title>
+    <meta name="description" th:content="${userBean.signature}" />
 </head>
 <body>
 <div layout:fragment="content">

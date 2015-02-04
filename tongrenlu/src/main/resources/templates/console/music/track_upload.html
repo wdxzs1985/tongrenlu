@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="console/layout_audio_upload">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${articleBean.title} + ' | ' + #{console.music.index}"></title>
+</head>
     <body>
         <div>
             <div class="container-wrap container-header" >
@@ -27,7 +31,7 @@
                                     <span class="" th:text="#{button.edit}"></span>
                                 </a>
                             </li>
-                            <li class="active hidden-xs">
+                            <li class="active ">
                                 <a th:href="@{/console/music/__${articleBean.id}__/track/upload}">
                                     <span class="" th:text="#{console.music.track.upload}"></span>
                                 </a>
