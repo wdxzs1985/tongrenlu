@@ -94,7 +94,7 @@
                                 <ul class="media-list">
                                     <li class="media" th:each="tagBean : ${tags}">
                                         <div class="media-body">
-                                            <a th:href="@{/tag/__${tagBean.id}__/music}"
+                                            <a th:href="@{/tag/__${tagBean.id}__}"
                                                 th:alt-title="${tagBean.tag}"> <span
                                                 th:text="#{home.tag.music(${tagBean.tag})}"></span>
                                             </a>
