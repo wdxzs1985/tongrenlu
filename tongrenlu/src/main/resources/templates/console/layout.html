@@ -19,7 +19,7 @@
             <a class="navbar-brand" th:href="@{/console}" th:text="#{console}"></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
-            <ul id="nav-editor" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.editor or session.LOGIN_USER.admin}">
+            <ul id="nav-editor" class="nav navbar-nav navbar-left" th:if="${session.LOGIN_USER.editor}">
                 <li class="dropdown ">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
                         <span th:text="#{console.music}"></span> 
@@ -30,22 +30,20 @@
                     <ul class="dropdown-menu">
                         <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
                         <li ><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-                        <th:block th:if="${session.LOGIN_USER.admin}">
-                            <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} eq 0">
-                                <a th:href="@{/admin/music}" >
-                                    <span th:text="#{admin.music}"></span>
-                                </a>
-                            </li>
-                            <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
-                                <a th:href="@{/admin/music/unpublish}">
-                                    <span th:text="#{admin.music}"></span>
-                                    <span class="badge" th:text="${unpublishMusicCount}"></span>
-                                </a>
-                            </li>
-                        </th:block>
+                        <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} eq 0">
+                            <a th:href="@{/admin/music}" >
+                                <span th:text="#{admin.music}"></span>
+                            </a>
+                        </li>
+                        <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
+                            <a th:href="@{/admin/music/unpublish}">
+                                <span th:text="#{admin.music}"></span>
+                                <span class="badge" th:text="${unpublishMusicCount}"></span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                <li class="dropdown" th:if="${session.LOGIN_USER.admin}">
+                <li class="dropdown" th:if="${#objects.nullSafe(authUserCount,0)}">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
                         <span th:text="#{admin.user}"></span> 
                         <span class="badge" th:text="${authUserCount}"
@@ -53,7 +51,9 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li ><a th:href="@{/admin/user}" th:text="#{admin.user}"></a></li>
+                        <li th:if="${session.LOGIN_USER.superAdmin}">
+                            <a th:href="@{/admin/user}" th:text="#{admin.user}"></a>
+                        </li>
                         <li >
                             <a th:href="@{/admin/user/auth}">
                                 <span th:text="#{admin.user.auth}"></span>

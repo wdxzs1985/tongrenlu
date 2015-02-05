@@ -43,13 +43,13 @@
                             <span class="" th:text="#{console.music.index}"></span>
                         </a>
                     </li>
-                    <li class="" th:if="${session.LOGIN_USER.admin} and ${unpublishMusicCount eq 0}">
+                    <li class="" th:if="${session.LOGIN_USER.editAdmin} and ${unpublishMusicCount eq 0}">
                         <a th:href="@{/admin/music}">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                             <span class="hidden-xs" th:text="#{admin.music}"></span>
                         </a>
                     </li>
-                    <li class="" th:if="${session.LOGIN_USER.admin} and ${unpublishMusicCount gt 0}">
+                    <li class="" th:if="${session.LOGIN_USER.editAdmin} and ${unpublishMusicCount gt 0}">
                         <a th:href="@{/admin/music/unpublish}">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                             <span class="hidden-xs" th:text="#{admin.music.unpublish}"></span>

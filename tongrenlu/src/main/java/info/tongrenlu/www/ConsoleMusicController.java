@@ -54,7 +54,7 @@ public class ConsoleMusicController {
         if (musicBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
-        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isAdmin()) {
+        if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isEditAdmin()) {
             throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
         }
     }
@@ -103,7 +103,7 @@ public class ConsoleMusicController {
         this.musicService.searchMusic(page);
         model.addAttribute("page", page);
 
-        if (loginUser.isAdmin()) {
+        if (loginUser.isEditAdmin()) {
             final int unpublishMusicCount = this.musicService.countUnpublish();
             model.addAttribute("unpublishMusicCount", unpublishMusicCount);
         }

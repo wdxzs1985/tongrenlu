@@ -15,16 +15,14 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 public class AdminAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
-    public boolean preHandle(final HttpServletRequest request,
-                             final HttpServletResponse response,
-                             final Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
         final HttpSession session = request.getSession();
         final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
         if (loginUser != null) {
-            if (loginUser.isAdmin()) {
+            if (loginUser.isEditAdmin()) {
                 return true;
             } else {
                 response.sendRedirect(request.getContextPath() + "/console");

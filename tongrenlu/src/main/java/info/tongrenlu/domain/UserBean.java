@@ -36,16 +36,16 @@ public class UserBean extends DtoBean {
     private String fingerprint;
 
     @JsonIgnore
-    private String role;
+    private Integer role = CommonConstants.ROLE_GUEST;
 
     @JsonIgnore
-    private String includeRedFlg;
+    private Integer includeRedFlg;
 
     @JsonIgnore
-    private String onlyTranslateFlg;
+    private Integer onlyTranslateFlg;
 
     @JsonIgnore
-    private String onlyVocalFlg;
+    private Integer onlyVocalFlg;
 
     public String getNickname() {
         return this.nickname;
@@ -87,14 +87,6 @@ public class UserBean extends DtoBean {
         this.salt = salt;
     }
 
-    public String getRole() {
-        return this.role;
-    }
-
-    public void setRole(final String role) {
-        this.role = role;
-    }
-
     public String getFingerprint() {
         return this.fingerprint;
     }
@@ -111,30 +103,6 @@ public class UserBean extends DtoBean {
         this.password2 = password2;
     }
 
-    public String getIncludeRedFlg() {
-        return this.includeRedFlg;
-    }
-
-    public void setIncludeRedFlg(final String includeRedFlg) {
-        this.includeRedFlg = includeRedFlg;
-    }
-
-    public String getOnlyTranslateFlg() {
-        return this.onlyTranslateFlg;
-    }
-
-    public void setOnlyTranslateFlg(final String onlyTranslateFlg) {
-        this.onlyTranslateFlg = onlyTranslateFlg;
-    }
-
-    public String getOnlyVocalFlg() {
-        return this.onlyVocalFlg;
-    }
-
-    public void setOnlyVocalFlg(final String onlyVocalFlg) {
-        this.onlyVocalFlg = onlyVocalFlg;
-    }
-
     @Override
     public String toString() {
         if (this.getId() > 0) {
@@ -144,27 +112,27 @@ public class UserBean extends DtoBean {
     }
 
     public boolean isGuest() {
-        return this.role == null;
+        return this.role == CommonConstants.ROLE_GUEST;
     }
 
     public boolean isMember() {
-        return CommonConstants.ROLE_MEMBER.equals(this.role);
+        return (CommonConstants.ROLE_MEMBER & (this.role)) == CommonConstants.ROLE_MEMBER;
     }
 
     public boolean isEditor() {
-        return CommonConstants.ROLE_EDITOR.equals(this.role);
+        return (CommonConstants.ROLE_EDITOR & (this.role)) == CommonConstants.ROLE_EDITOR;
     }
 
-    public boolean isAdmin() {
-        return CommonConstants.ROLE_ADMIN.equals(this.role);
+    public boolean isEditAdmin() {
+        return (CommonConstants.ROLE_EDIT_ADMIN & (this.role)) == CommonConstants.ROLE_EDIT_ADMIN;
     }
 
-    public boolean isIncludeRed() {
-        return CommonConstants.is(this.includeRedFlg);
+    public boolean isShopAdmin() {
+        return (CommonConstants.ROLE_SHOP_ADMIN & (this.role)) == CommonConstants.ROLE_SHOP_ADMIN;
     }
 
-    public boolean isOnlyTranslate() {
-        return CommonConstants.is(this.onlyTranslateFlg);
+    public boolean isSuperAdmin() {
+        return (CommonConstants.ROLE_SUPER_ADMIN & (this.role)) == CommonConstants.ROLE_SUPER_ADMIN;
     }
 
     public boolean isOnlyVocal() {
@@ -175,7 +143,40 @@ public class UserBean extends DtoBean {
         return this.weibo;
     }
 
-    public void setWeibo(String weibo) {
+    public void setWeibo(final String weibo) {
         this.weibo = weibo;
     }
+
+    public Integer getRole() {
+        return this.role;
+    }
+
+    public void setRole(final Integer role) {
+        this.role = role;
+    }
+
+    public Integer getIncludeRedFlg() {
+        return this.includeRedFlg;
+    }
+
+    public void setIncludeRedFlg(final Integer includeRedFlg) {
+        this.includeRedFlg = includeRedFlg;
+    }
+
+    public Integer getOnlyTranslateFlg() {
+        return this.onlyTranslateFlg;
+    }
+
+    public void setOnlyTranslateFlg(final Integer onlyTranslateFlg) {
+        this.onlyTranslateFlg = onlyTranslateFlg;
+    }
+
+    public Integer getOnlyVocalFlg() {
+        return this.onlyVocalFlg;
+    }
+
+    public void setOnlyVocalFlg(final Integer onlyVocalFlg) {
+        this.onlyVocalFlg = onlyVocalFlg;
+    }
+
 }

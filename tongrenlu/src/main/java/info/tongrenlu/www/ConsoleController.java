@@ -46,9 +46,8 @@ public class ConsoleController {
     private CookieGenerator autoLoginCookie = null;
 
     @RequestMapping(method = RequestMethod.GET, value = "/console")
-    public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model) {
-        if (loginUser.isAdmin()) {
+    public String doGetIndex(@ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+        if (loginUser.isEditAdmin()) {
             final int unpublishMusicCount = this.musicService.countUnpublish();
             model.addAttribute("unpublishMusicCount", unpublishMusicCount);
 
@@ -71,8 +70,7 @@ public class ConsoleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/console/setting")
-    public String doGetUserSetting(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                   final Model model) {
+    public String doGetUserSetting(@ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
         model.addAttribute("userBean", loginUser);
         return "console/profile/setting";
     }
@@ -81,9 +79,9 @@ public class ConsoleController {
     public String doPostUserSetting(final String nickname,
                                     final String signature,
                                     final String weibo,
-                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String includeRedFlg,
-                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyTranslateFlg,
-                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final String onlyVocalFlg,
+                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final Integer includeRedFlg,
+                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final Integer onlyTranslateFlg,
+                                    @RequestParam(defaultValue = CommonConstants.CHR_FALSE) final Integer onlyVocalFlg,
                                     @RequestParam final MultipartFile cover,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                     final Model model,
@@ -98,10 +96,7 @@ public class ConsoleController {
         inputUser.setOnlyVocalFlg(onlyVocalFlg);
         inputUser.setWeibo(weibo);
 
-        if (this.userService.saveSetting(inputUser,
-                                         cover,
-                                         model.asMap(),
-                                         locale)) {
+        if (this.userService.saveSetting(inputUser, cover, model.asMap(), locale)) {
             loginUser.setNickname(nickname);
             loginUser.setSignature(signature);
             loginUser.setWeibo(weibo);
@@ -109,9 +104,7 @@ public class ConsoleController {
             loginUser.setOnlyTranslateFlg(onlyTranslateFlg);
             loginUser.setOnlyVocalFlg(onlyVocalFlg);
 
-            final String message = this.messageSource.getMessage("console.profile.setting.finish",
-                                                                 null,
-                                                                 locale);
+            final String message = this.messageSource.getMessage("console.profile.setting.finish", null, locale);
             redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/console/setting";
         }
@@ -137,9 +130,7 @@ public class ConsoleController {
         inputUser.setPassword(password);
         inputUser.setPassword2(password2);
         if (this.userService.changePassword(inputUser, model.asMap(), locale)) {
-            final String message = this.messageSource.getMessage("console.profile.password.finish",
-                                                                 null,
-                                                                 locale);
+            final String message = this.messageSource.getMessage("console.profile.password.finish", null, locale);
             redirectAttributes.addFlashAttribute("message", message);
             this.autoLoginCookie.removeCookie(response);
             return "redirect:/console/password";

@@ -22,9 +22,7 @@ public class GuestAuthInterceptor extends HandlerInterceptorAdapter {
     private MessageSource messageSource = null;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request,
-                             final HttpServletResponse response,
-                             final Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
@@ -33,16 +31,14 @@ public class GuestAuthInterceptor extends HandlerInterceptorAdapter {
         final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
         if (loginUser == null) {
             final Locale locale = request.getLocale();
-            final String nickname = this.messageSource.getMessage("application.guest.nickname",
-                                                                  null,
-                                                                  locale);
+            final String nickname = this.messageSource.getMessage("application.guest.nickname", null, locale);
 
             final UserBean guestUser = new UserBean();
             guestUser.setId(0);
             guestUser.setNickname(nickname);
-            guestUser.setOnlyTranslateFlg(CommonConstants.CHR_FALSE);
-            guestUser.setOnlyVocalFlg(CommonConstants.CHR_FALSE);
-            guestUser.setIncludeRedFlg(CommonConstants.CHR_FALSE);
+            guestUser.setOnlyTranslateFlg(CommonConstants.INT_FALSE);
+            guestUser.setOnlyVocalFlg(CommonConstants.INT_FALSE);
+            guestUser.setIncludeRedFlg(CommonConstants.INT_FALSE);
 
             session.setAttribute(CommonConstants.LOGIN_USER, guestUser);
         }

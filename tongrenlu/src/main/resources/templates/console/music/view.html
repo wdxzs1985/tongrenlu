@@ -93,11 +93,11 @@
                 <div class="col-sm-6">
                     <div class="btn-group btn-group-justified">
                         <a class="btn btn-success" 
-                            th:if="${session.LOGIN_USER.admin}"
+                            th:if="${session.LOGIN_USER.editAdmin}"
                             th:href="@{/admin/music/__${articleBean.id}__/publish}" 
                             th:text="#{admin.article.publish}"></a>
                         <a class="btn btn-danger" 
-                            th:if="${session.LOGIN_USER.admin}"
+                            th:if="${session.LOGIN_USER.editAdmin}"
                             th:href="@{/admin/music/__${articleBean.id}__/free}" 
                             th:text="#{admin.article.free}"></a>
                         <a class="btn btn-default" 

@@ -28,7 +28,7 @@
                             <span class="hidden-xs" th:text="#{console.music.index}"></span>
                         </a>
                     </li>
-                    <li class="" th:if="${session.LOGIN_USER.admin}">
+                    <li class="" th:if="${session.LOGIN_USER.editAdmin}">
                         <a th:href="@{/admin/music}">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                             <span class="hidden-xs" th:text="#{admin.music}"></span>
