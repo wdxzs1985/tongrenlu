@@ -75,10 +75,6 @@
                             <a th:href="@{/user/__${userBean.id}__}" class="btn btn-info" role="button" target="_blank">
                                 <span th:text="#{home.user.timeline}"></span>
                             </a>
-                            <a th:href="${userBean.weibo}" class="btn btn-info" role="button" target="_blank"
-                                th:if="${userBean.weibo}">
-                                <span th:text="#{home.user.weibo}"></span>
-                            </a>
                             <a href="javascript:;" class="btn btn-warning " role="button"
                                 th:href="@{/admin/user/__${userBean.id}__/role/editor}" 
                                 th:if="${userBean.member}">

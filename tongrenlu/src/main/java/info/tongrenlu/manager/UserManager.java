@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,16 +27,13 @@ public class UserManager {
     public static final int WEIBO_LENGTH = 200;
 
     public static final Pattern EMAIL_PATTERN = Pattern.compile("^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$");
-    public static final Pattern WEIBO_PATTERN = Pattern.compile("http://www.weibo.com(/u)?/([\\d]?+)");
 
     @Autowired
     private final MessageSource messageSource = null;
-
     @Autowired
     private final UserMapper userMapper = null;
     @Autowired
     private final UserDeviceMapper userDeviceMapper = null;
-
     @Autowired
     private final TimelineMapper timelineMapper = null;
 
@@ -47,17 +43,14 @@ public class UserManager {
         return this.userMapper.fetchBean(param);
     }
 
-    public UserBean getByFingerprint(final String fingerprint,
-                                     final String userAgent) {
+    public UserBean getByFingerprint(final String fingerprint, final String userAgent) {
         final Map<String, Object> param = new HashMap<String, Object>();
         param.put("fingerprint", fingerprint);
         param.put("userAgent", userAgent);
         return this.userDeviceMapper.fetchBean(param);
     }
 
-    public void updateFingerprint(final UserBean userBean,
-                                  final String fingerprint,
-                                  final String userAgent) {
+    public void updateFingerprint(final UserBean userBean, final String fingerprint, final String userAgent) {
         final Map<String, Object> params = new HashMap<>();
         params.put("userId", userBean.getId());
         params.put("fingerprint", fingerprint);
@@ -95,26 +88,18 @@ public class UserManager {
                                  final Map<String, Object> model,
                                  final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.email",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.email", null, locale);
         if (StringUtils.isBlank(email)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
             isValid = false;
         } else if (StringUtils.length(email) > UserManager.EMAIL_LENGTH) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName, UserManager.EMAIL_LENGTH },
-                                                    locale));
+                      this.messageSource.getMessage("validate.tooLong", new Object[] { fieldName,
+                              UserManager.EMAIL_LENGTH }, locale));
             isValid = false;
         } else if (!UserManager.EMAIL_PATTERN.matcher(email).matches()) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.bad",
-                                                    new Object[] { fieldName },
-                                                    locale));
+            model.put(errorAttribute, this.messageSource.getMessage("validate.bad", new Object[] { fieldName }, locale));
             isValid = false;
         }
         return isValid;
@@ -127,13 +112,9 @@ public class UserManager {
         boolean isValid = true;
         final UserBean userBean = this.getByEmail(email);
         if (userBean != null) {
-            final String fieldName = this.messageSource.getMessage("UserBean.email",
-                                                                   null,
-                                                                   locale);
+            final String fieldName = this.messageSource.getMessage("UserBean.email", null, locale);
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.unique",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.unique", new Object[] { fieldName }, locale));
             isValid = false;
         }
         return isValid;
@@ -144,14 +125,10 @@ public class UserManager {
                                     final Map<String, Object> model,
                                     final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.password",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.password", null, locale);
         if (StringUtils.isBlank(password)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
             isValid = false;
         }
         return isValid;
@@ -163,17 +140,11 @@ public class UserManager {
                                      final Map<String, Object> model,
                                      final Locale locale) {
         boolean isValid = true;
-        final String fieldName1 = this.messageSource.getMessage("UserBean.password",
-                                                                null,
-                                                                locale);
-        final String fieldName2 = this.messageSource.getMessage("UserBean.password2",
-                                                                null,
-                                                                locale);
+        final String fieldName1 = this.messageSource.getMessage("UserBean.password", null, locale);
+        final String fieldName2 = this.messageSource.getMessage("UserBean.password2", null, locale);
         if (!StringUtils.equals(password, password2)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.notSame",
-                                                    new Object[] { fieldName1, fieldName2 },
-                                                    locale));
+                      this.messageSource.getMessage("validate.notSame", new Object[] { fieldName1, fieldName2 }, locale));
             isValid = false;
         }
         return isValid;
@@ -184,20 +155,15 @@ public class UserManager {
                                     final Map<String, Object> model,
                                     final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.nickname",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.nickname", null, locale);
         if (StringUtils.isBlank(nickname)) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.empty",
-                                                    new Object[] { fieldName },
-                                                    locale));
+                      this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
             isValid = false;
         } else if (StringUtils.length(nickname) > UserManager.NICKNAME_LENGTH) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName, UserManager.NICKNAME_LENGTH },
-                                                    locale));
+                      this.messageSource.getMessage("validate.tooLong", new Object[] { fieldName,
+                              UserManager.NICKNAME_LENGTH }, locale));
             isValid = false;
         }
         return isValid;
@@ -208,40 +174,12 @@ public class UserManager {
                                      final Map<String, Object> model,
                                      final Locale locale) {
         boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.signature",
-                                                               null,
-                                                               locale);
+        final String fieldName = this.messageSource.getMessage("UserBean.signature", null, locale);
         if (StringUtils.length(signature) > UserManager.SIGNATURE_LENGTH) {
             model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName, UserManager.SIGNATURE_LENGTH },
-                                                    locale));
+                      this.messageSource.getMessage("validate.tooLong", new Object[] { fieldName,
+                              UserManager.SIGNATURE_LENGTH }, locale));
             isValid = false;
-        }
-        return isValid;
-    }
-
-    public boolean validateWeibo(String weibo, String errorAttribute,
-                                 Map<String, Object> model, Locale locale) {
-        boolean isValid = true;
-        final String fieldName = this.messageSource.getMessage("UserBean.weibo",
-                                                               null,
-                                                               locale);
-        if (StringUtils.length(weibo) > UserManager.WEIBO_LENGTH) {
-            model.put(errorAttribute,
-                      this.messageSource.getMessage("validate.tooLong",
-                                                    new Object[] { fieldName, UserManager.WEIBO_LENGTH },
-                                                    locale));
-            isValid = false;
-        } else {
-            Matcher matcher = WEIBO_PATTERN.matcher(weibo);
-            if (!matcher.find()) {
-                model.put(errorAttribute,
-                          this.messageSource.getMessage("validate.bad",
-                                                        new Object[] { fieldName },
-                                                        locale));
-                isValid = false;
-            }
         }
         return isValid;
     }
@@ -262,14 +200,10 @@ public class UserManager {
         return this.timelineMapper.searchFollowTimeline(params);
     }
 
-    public boolean validateUserIsSignin(final UserBean loginUser,
-                                        final Map<String, Object> model,
-                                        final Locale locale) {
+    public boolean validateUserIsSignin(final UserBean loginUser, final Map<String, Object> model, final Locale locale) {
         boolean isValid = true;
         if (loginUser.isGuest()) {
-            final String error = this.messageSource.getMessage("error.needSignin",
-                                                               null,
-                                                               locale);
+            final String error = this.messageSource.getMessage("error.needSignin", null, locale);
             model.put("error", error);
             isValid = false;
         }

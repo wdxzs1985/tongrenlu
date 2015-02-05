@@ -93,18 +93,6 @@
                                 th:unless="${#strings.isEmpty(signatureError)}"
                                 th:text="${signatureError}"></p>
                         </div>
-                        <div th:class="${#strings.isEmpty(weiboError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-                            <label for="inputWeibo" class=" control-label" 
-                                th:text="#{UserBean.weibo}">Weibo</label>
-                            <input class="form-control" id="inputWeibo" name="weibo"
-                                th:value="${userBean.weibo}"
-                                th:placeholder="#{UserBean.weibo}" />
-                            <span class="glyphicon glyphicon-remove form-control-feedback"
-                                th:unless="${#strings.isEmpty(weiboError)}"></span>
-                            <p class="help-block" 
-                                th:unless="${#strings.isEmpty(weiboError)}"
-                                th:text="${weiboError}"></p>
-                        </div>
                         <hr />
                         <h4 th:text="#{console.profile.setting.customize}"></h4>
                         <div class="form-group">
