@@ -43,7 +43,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown" th:if="${#objects.nullSafe(authUserCount,0)}">
+                <li class="dropdown" th:if="${session.LOGIN_USER.editAdmin} or ${session.LOGIN_USER.superAdmin}">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
                         <span th:text="#{admin.user}"></span> 
                         <span class="badge" th:text="${authUserCount}"
