@@ -1,6 +1,5 @@
 package info.tongrenlu.www;
 
-import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.AuthFileBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
@@ -19,6 +18,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ public class AdminUserController {
 
     public static final int PAGE_SIZE = 24;
 
+    private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     private MessageSource messageSource = null;
     @Autowired
@@ -71,7 +73,7 @@ public class AdminUserController {
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("query", query);
         this.userService.searchUser(page);
         model.addAttribute("page", page);
@@ -79,37 +81,34 @@ public class AdminUserController {
         return "admin/user/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "{userId}/role/editor")
-    public String doGetRoleEditor(@PathVariable final Integer userId,
-                                  final Model model, final Locale locale) {
+    @RequestMapping(method = RequestMethod.POST, value = "role")
+    @ResponseBody
+    public Map<String, Object> doGetRoleEditor(final Integer userId,
+                                               final Integer role,
+                                               final Locale locale) {
+        Map<String, Object> model = new HashMap<>();
         final UserBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
-        if (userBean.isMember()) {
-            userBean.setRole(CommonConstants.ROLE_EDITOR);
-            this.userService.updateRole(userBean);
+        if ((role & userBean.getRole()) == role) {
+            userBean.setRole(userBean.getRole() ^ role);
+        } else {
+            userBean.setRole(userBean.getRole() | role);
         }
-        return "redirect:/admin/user";
-    }
 
-    @RequestMapping(method = RequestMethod.GET, value = "{userId}/role/member")
-    public String doGetRoleMember(@PathVariable final Integer userId,
-                                  final Model model, final Locale locale) {
-        final UserBean userBean = this.userService.getById(userId);
-        this.throwExceptionWhenNotFound(userBean, locale);
+        this.userService.updateRole(userBean);
 
-        if (userBean.isEditor()) {
-            userBean.setRole(CommonConstants.ROLE_MEMBER);
-            this.userService.updateRole(userBean);
-        }
-        return "redirect:/admin/user";
+        model.put("result", true);
+        model.put("userBean", userBean);
+
+        return model;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "auth")
     public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                             final Model model) {
         final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber,
-                                                                            PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("status", 0);
         this.libraryService.searchUser(page);
         model.addAttribute("page", page);
@@ -127,7 +126,7 @@ public class AdminUserController {
         model.addAttribute("userBean", userBean);
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 1);
         this.libraryService.searchLibrary(page);
@@ -163,7 +162,7 @@ public class AdminUserController {
         model.addAttribute("userBean", userBean);
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+                PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);

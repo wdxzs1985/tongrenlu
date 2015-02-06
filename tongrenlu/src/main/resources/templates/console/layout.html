@@ -43,7 +43,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown" th:if="${session.LOGIN_USER.editAdmin} or ${session.LOGIN_USER.superAdmin}">
+                <li class="dropdown" th:if="${session.LOGIN_USER.editAdmin}">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
                         <span th:text="#{admin.user}"></span> 
                         <span class="badge" th:text="${authUserCount}"
@@ -51,7 +51,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li th:if="${session.LOGIN_USER.superAdmin}">
+                        <li>
                             <a th:href="@{/admin/user}" th:text="#{admin.user}"></a>
                         </li>
                         <li >

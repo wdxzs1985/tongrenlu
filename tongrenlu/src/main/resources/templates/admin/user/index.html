@@ -66,7 +66,7 @@
                                 </h4>
                                 <p class="">
                                      <span class="label label-default" th:if="${userBean.member}" th:text="#{UserBean.member}"></span>
-                                     <span class="label label-warning" th:if="${userBean.editor}" th:text="#{UserBean.editor}"></span>
+                                     <span class="label label-danger" th:if="${userBean.editor}" th:text="#{UserBean.editor}"></span>
                                      <span class="label label-danger" th:if="${userBean.editAdmin}" th:text="#{UserBean.editAdmin}"></span>
                                      <span class="label label-danger" th:if="${userBean.shopAdmin}" th:text="#{UserBean.shopAdmin}"></span>
                                      <span class="label label-danger" th:if="${userBean.superAdmin}" th:text="#{UserBean.superAdmin}"></span>
@@ -77,46 +77,30 @@
                             <a th:href="@{/user/__${userBean.id}__}" class="btn btn-info" role="button" target="_blank">
                                 <span th:text="#{home.user.timeline}"></span>
                             </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/editor}" 
-                                th:if="${userBean.editor}">
-                                <span th:text="#{admin.user.role.editor}"></span>
-                            </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/editor}" 
-                                th:unless="${userBean.editor}">
-                                <span th:text="#{admin.user.role.editor}"></span>
-                            </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                th:if="${userBean.editAdmin}">
-                                <span th:text="#{admin.user.role.editAdmin}"></span>
-                            </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                th:unless="${userBean.editAdmin}">
-                                <span th:text="#{admin.user.role.editAdmin}"></span>
-                            </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                th:if="${userBean.shopAdmin}">
-                                <span th:text="#{admin.user.role.shopAdmin}"></span>
-                            </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                th:unless="${userBean.shopAdmin}">
-                                <span th:text="#{admin.user.role.shopAdmin}"></span>
-                            </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                th:if="${userBean.superAdmin}">
-                                <span th:text="#{admin.user.role.superAdmin}"></span>
-                            </a>
-                            <a href="javascript:;" class="btn btn-warning " role="button"
-                                th:href="@{/admin/user/__${userBean.id}__/role/member}" 
-                                th:unless="${userBean.superAdmin}">
-                                <span th:text="#{admin.user.role.superAdmin}"></span>
-                            </a>
+                            <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
+                                data-role="2"
+                                th:classappend="${userBean.editor} ? 'btn-danger' : 'btn-default'"
+                                th:if="${session.LOGIN_USER.editAdmin}">
+                                <span th:text="#{UserBean.editor}"></span>
+                            </button>
+                            <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
+                                data-role="6"
+                                th:classappend="${userBean.editAdmin} ? 'btn-danger' : 'btn-default'"
+                                th:if="${session.LOGIN_USER.superAdmin}">
+                                <span th:text="#{UserBean.editAdmin}"></span>
+                            </button>
+                            <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
+                                data-role="8"
+                                th:classappend="${userBean.shopAdmin} ? 'btn-danger' : 'btn-default'"
+                                th:if="${session.LOGIN_USER.superAdmin}">
+                                <span th:text="#{UserBean.shopAdmin}"></span>
+                            </button>
+                            <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
+                                data-role="512"
+                                th:classappend="${userBean.superAdmin} ? 'btn-danger' : 'btn-default'"
+                                th:if="${session.LOGIN_USER.superAdmin}">
+                                <span th:text="#{UserBean.superAdmin}"></span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -147,6 +131,36 @@ $(function() {
     
     $('.action-delete').click(function() {
     	return confirm('真的要删除这个投稿吗?');
+    });
+    
+    $('.action-role').click(function() {
+        var $this = $(this);
+    	var url = /*[[@{/admin/user/role}]]*/ '/admin/user';
+    	$.post(url, $this.data()).done(function(response) {
+    		if(response.result) {
+    			$this.closest('.panel-footer').find('.action-role').each(function(index, element){
+    				var $element = $(element);
+    				switch(parseInt($element.data('role'))) {
+    				case 2:
+    					$element.removeClass(response.userBean.editor? 'btn-default': 'btn-danger');
+                        $element.addClass(response.userBean.editor? 'btn-danger': 'btn-default');
+    					break;
+                    case 6:
+                        $element.removeClass(response.userBean.editAdmin? 'btn-default': 'btn-danger');
+                        $element.addClass(response.userBean.editAdmin? 'btn-danger': 'btn-default');
+                        break;
+                    case 8:
+                        $element.removeClass(response.userBean.shopAdmin? 'btn-default': 'btn-danger');
+                        $element.addClass(response.userBean.shopAdmin? 'btn-danger': 'btn-default');
+                        break;
+                    case 512:
+                        $element.removeClass(response.userBean.superAdmin? 'btn-default': 'btn-danger');
+                        $element.addClass(response.userBean.superAdmin? 'btn-danger': 'btn-default');
+                        break;
+    				}
+    			})
+    		}
+    	});
     });
 });
 </script>

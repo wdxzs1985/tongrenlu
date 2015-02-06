@@ -7,12 +7,15 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AdminUserService {
 
+    private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     private UserManager userManager;
 

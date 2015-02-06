@@ -26,14 +26,17 @@ public class CommonConstants {
     public static final Integer ROLE_GUEST = 0;
     // 1
     public static final Integer ROLE_MEMBER = Integer.valueOf("0000000001", 2);
-    // 2
+    // 3
     public static final Integer ROLE_EDITOR = Integer.valueOf("0000000010", 2);
-    // 6
-    public static final Integer ROLE_EDIT_ADMIN = Integer.valueOf("0000000110", 2);
-    // 8
-    public static final Integer ROLE_SHOP_ADMIN = Integer.valueOf("0000001000", 2);
-    // 512 + 8 + 6 + 2 + 1
-    public static final Integer ROLE_SUPER_ADMIN = Integer.valueOf("1000000110", 2);
+    // 7
+    public static final Integer ROLE_EDIT_ADMIN = Integer.valueOf("0000000110",
+                                                                  2);
+    // 9
+    public static final Integer ROLE_SHOP_ADMIN = Integer.valueOf("0000001000",
+                                                                  2);
+    // 513
+    public static final Integer ROLE_SUPER_ADMIN = Integer.valueOf("1000000000",
+                                                                   2);
 
     public static boolean is(final String value) {
         return CommonConstants.CHR_TRUE.equals(value);
