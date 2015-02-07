@@ -52,24 +52,6 @@
         </where>
     </select>
     
-    <select id="fetchMusicList" resultType="MusicBean">
-        SELECT
-        <trim suffixOverrides=",">
-            v_music.id                      as id,
-            v_music.title                   as title,
-        </trim>
-        FROM
-            r_user_library
-        join v_music on v_music.id = r_user_library.article_id
-        <where>
-        AND r_user_library.user_id = #{userBean.id}
-        <if test="status != null">
-        AND r_user_library.status = #{status}
-        </if>
-        </where>
-        order by v_music.id desc
-    </select>
-    
     <select id="searchMusicList" resultType="MusicBean">
         SELECT
         <trim suffixOverrides=",">
@@ -85,7 +67,10 @@
         AND r_user_library.status = #{status}
         </if>
         </where>
-        order by v_music.id desc
+        <choose>
+            <when test="order == 'byTitle'">order by v_music.title</when>
+            <otherwise>order by v_music.id desc</otherwise>
+        </choose>
         limit #{start}, #{pageSize}
     </select>
     

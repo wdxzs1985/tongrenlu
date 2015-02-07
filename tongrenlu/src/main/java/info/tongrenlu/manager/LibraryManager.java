@@ -32,10 +32,6 @@ public class LibraryManager {
         return this.userLibraryMapper.searchMusicList(params);
     }
 
-    public List<MusicBean> fetchMusicList(final Map<String, Object> params) {
-        return this.userLibraryMapper.fetchMusicList(params);
-    }
-
     public boolean isOwner(final UserBean userBean,
                            final ArticleBean articleBean, final Integer status) {
         final Map<String, Object> params = new HashMap<>();

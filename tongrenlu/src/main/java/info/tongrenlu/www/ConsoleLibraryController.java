@@ -47,6 +47,7 @@ public class ConsoleLibraryController {
                 PAGE_SIZE);
         page.addParam("userBean", loginUser);
         page.addParam("status", 1);
+        page.addParam("order", "byTitle");
         this.libraryService.searchLibrary(page);
         model.addAttribute("page", page);
         return "console/user/library";

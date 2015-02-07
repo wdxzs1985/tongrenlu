@@ -15,8 +15,6 @@ public interface UserLibraryMapper {
 
     public int countMusic(Map<String, Object> params);
 
-    public List<MusicBean> fetchMusicList(Map<String, Object> params);
-
     public List<MusicBean> searchMusicList(Map<String, Object> params);
 
     public void update(UserLibraryBean userLibraryBean);

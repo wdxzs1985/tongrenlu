@@ -40,10 +40,6 @@ public class ConsoleLibraryService {
         paginate.setItems(items);
     }
 
-    public List<MusicBean> getLibraryList(final Map<String, Object> params) {
-        return this.libraryManager.fetchMusicList(params);
-    }
-
     public boolean updateStatus(final MusicBean musicBean,
                                 final UserBean userBean) {
         if (musicBean != null) {
