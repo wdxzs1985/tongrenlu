@@ -8,6 +8,41 @@
     <title th:text="#{home.music} + ' | ' + #{application}"></title>
 </head>
 <body>
+    <div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">
+        <div class="container">
+            <div class="navbar-header ">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only" th:text="#{application}"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html" th:href="@{/}" th:text="#{application}"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class=""><a th:href="@{/music}" th:text="#{home.music}"></a></li>
+                </ul>
+                <ul id="nav-signin" class="nav navbar-nav navbar-right hidden">
+                    <li class=""><a th:href="@{/signup}" th:text="#{login.signup}" rel="nofollow"></a></li>
+                    <li class=""><a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a></li>
+                </ul>
+                <ul id="nav-console" class="nav navbar-nav navbar-right hidden">
+                    <li class=""><a th:href="@{/console}" th:text="#{console}" rel="nofollow"></a></li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle " data-toggle="dropdown" >
+                            <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li ><a th:href="@{/console/setting}" th:text="#{console.profile.setting}" rel="nofollow"></a></li>
+                            <li ><a th:href="@{/console/password}" th:text="#{console.profile.password}" rel="nofollow"></a></li>
+                            <li><a th:href="@{/signout}" th:text="#{login.signout}" rel="nofollow"></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div layout:fragment="content">
         <div class="container-wrap container-header">
             <div class="container">

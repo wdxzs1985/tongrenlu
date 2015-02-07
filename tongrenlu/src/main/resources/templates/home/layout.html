@@ -37,7 +37,7 @@
             <ul id="nav-console" class="nav navbar-nav navbar-right hidden">
                 <li class=""><a th:href="@{/console}" th:text="#{console}" rel="nofollow"></a></li>
                 <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
+                    <a href="javascript:;" class="dropdown-toggle " data-toggle="dropdown" >
                         <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -47,6 +47,15 @@
                     </ul>
                 </li>
             </ul>
+            <form class="navbar-form navbar-right hidden-xs hidden-sm" th:action="@{/music/search}" method="get" role="search">
+                <div class="form-group">
+                    <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
+                </div>
+                <button class="btn btn-warning" type="submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <span class="hidden-xs hidden-sm" th:text="#{home.search.music}"></span>
+                </button>
+            </form>
         </div>
     </div>
 </div>
