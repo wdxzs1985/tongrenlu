@@ -39,8 +39,8 @@
             count(v_music.id)
         </trim>
         FROM
-            v_music
-        left join r_user_library on v_music.id = r_user_library.article_id
+            r_user_library
+        join v_music on v_music.id = r_user_library.article_id
         <where>
         AND r_user_library.user_id = #{userBean.id}
         <if test="articleBean != null">
@@ -59,8 +59,8 @@
             v_music.title                   as title,
         </trim>
         FROM
-            v_music
-        left join r_user_library on v_music.id = r_user_library.article_id
+            r_user_library
+        join v_music on v_music.id = r_user_library.article_id
         <where>
         AND r_user_library.user_id = #{userBean.id}
         <if test="status != null">
@@ -77,8 +77,8 @@
             v_music.title                   as title,
         </trim>
         FROM
-            v_music
-        left join r_user_library on v_music.id = r_user_library.article_id
+            r_user_library
+        join v_music on v_music.id = r_user_library.article_id
         <where>
         AND r_user_library.user_id = #{userBean.id}
         <if test="status != null">
@@ -106,8 +106,8 @@
             count(v_user.id)
         </trim>
         FROM
-            v_user
-        left join r_user_library on v_user.id = r_user_library.user_id
+            r_user_library
+        join v_user on v_user.id = r_user_library.user_id
         <where>
         <if test="status != null">
         AND r_user_library.status = #{status}
@@ -122,8 +122,8 @@
             v_user.nickname                as nickname,
         </trim>
         FROM
-            v_user
-        left join r_user_library on v_user.id = r_user_library.user_id
+            r_user_library
+        join v_user on v_user.id = r_user_library.user_id
         <where>
         <if test="status != null">
         AND r_user_library.status = #{status}

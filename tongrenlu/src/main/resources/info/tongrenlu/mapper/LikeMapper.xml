@@ -83,7 +83,7 @@
             COUNT(L.ID)
         FROM
             r_like L
-        left join v_user on v_user.id = L.like_id
+        join v_user on v_user.id = L.like_id
         <where>
             L.DEL_FLG = '0'
         AND L.USER_ID = #{userBean.id}
@@ -99,7 +99,7 @@
         </trim>
         FROM
             r_like L
-        left join m_user on m_user.id = L.like_id
+        join m_user on m_user.id = L.like_id
         <where>
             L.DEL_FLG = '0'
         AND L.USER_ID = #{userBean.id}
@@ -114,7 +114,7 @@
             COUNT(L.ID)
         FROM
             r_like L
-        left join m_user on m_user.id = L.user_id
+        join m_user on m_user.id = L.user_id
         <where>
             L.DEL_FLG = '0'
         AND L.LIKE_ID = #{userBean.id}
@@ -130,7 +130,7 @@
         </trim>
         FROM
             r_like L
-        left join m_user on m_user.id = L.user_id
+        join m_user on m_user.id = L.user_id
         <where>
             L.DEL_FLG = '0'
         AND L.LIKE_ID = #{userBean.id}

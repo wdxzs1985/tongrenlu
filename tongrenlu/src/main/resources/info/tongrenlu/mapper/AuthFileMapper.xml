@@ -75,7 +75,7 @@
             AND m_auth_file.DEL_FLG='0'
             </where>
             group by m_auth_file.user_id) auth_file
-        left join v_user ON auth_file.user_id = v_user.id
+        join v_user ON auth_file.user_id = v_user.id
     </select>
     
     <select id="searchUserList" resultType="UserProfileBean">
@@ -97,7 +97,7 @@
             AND m_auth_file.DEL_FLG='0'
             </where>
             group by m_auth_file.user_id) auth_file
-        left join v_user ON auth_file.user_id = v_user.id
+        join v_user ON auth_file.user_id = v_user.id
         order by auth_file.upd_date desc
         limit #{start}, #{pageSize}
     </select>

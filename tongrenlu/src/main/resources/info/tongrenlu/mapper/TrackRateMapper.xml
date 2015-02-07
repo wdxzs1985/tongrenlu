@@ -57,9 +57,9 @@
         </trim>
         FROM
             m_track 
-        LEFT JOIN v_track_rate ON m_track.ID = v_track_rate.track_id
-        LEFT JOIN (select id, ORDER_NO, DEL_FLG from m_file where m_file.ARTICLE_ID = #{articleId}) m_file ON m_file.ID = m_track.ID
-        LEFT JOIN (select track_id, rate from r_track_rate where r_track_rate.user_id = #{userBean.id}) r_track_rate ON m_track.ID = r_track_rate.track_id 
+        JOIN (select id, ORDER_NO, DEL_FLG from m_file where m_file.ARTICLE_ID = #{articleId}) m_file ON m_file.ID = m_track.ID
+        left JOIN v_track_rate ON m_track.ID = v_track_rate.track_id
+        left JOIN (select track_id, rate from r_track_rate where r_track_rate.user_id = #{userBean.id}) r_track_rate ON m_track.ID = r_track_rate.track_id 
         <where>
             m_track.DEL_FLG='0' 
         AND m_file.DEL_FLG='0'
