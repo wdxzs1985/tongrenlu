@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class FileBean extends DtoBean {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -18,6 +18,8 @@ public class FileBean extends DtoBean {
     private String extension = null;
 
     private String contentType = null;
+
+    private String checksum = null;
 
     private int orderNo = 0;
 
@@ -59,6 +61,14 @@ public class FileBean extends DtoBean {
 
     public void setExtension(final String extension) {
         this.extension = extension;
+    }
+
+    public String getChecksum() {
+        return this.checksum;
+    }
+
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
     }
 
 }

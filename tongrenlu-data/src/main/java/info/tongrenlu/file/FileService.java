@@ -1,6 +1,6 @@
 package info.tongrenlu.file;
 
-import info.tongrenlu.entity.FileEntity;
+import info.tongrenlu.domain.FileBean;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,18 +61,15 @@ public class FileService {
     private String convertPathLinux = null;
 
     public String getInputPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows
-                                        : this.inputPathLinux;
+        return SystemUtils.IS_OS_WINDOWS ? this.inputPathWindows : this.inputPathLinux;
     }
 
     public String getOutputPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows
-                                        : this.outputPathLinux;
+        return SystemUtils.IS_OS_WINDOWS ? this.outputPathWindows : this.outputPathLinux;
     }
 
     public String getConvertPath() {
-        return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows
-                                        : this.convertPathLinux;
+        return SystemUtils.IS_OS_WINDOWS ? this.convertPathWindows : this.convertPathLinux;
     }
 
     private Log log = LogFactory.getLog(this.getClass());
@@ -90,10 +87,10 @@ public class FileService {
         }
     }
 
-    public void convertImage(final String articleType, final FileEntity fileBean) {
-        final String dirId = articleType + fileBean.getArticle().getId();
-        final String inputName = String.format("f%d.%s",
-                                               fileBean.getId(),
+    public void convertImage(final String articleType, final FileBean fileBean) {
+        final String dirId = articleType + fileBean.getArticleId();
+        final String inputName = String.format("f%s.%s",
+                                               fileBean.getChecksum(),
                                                fileBean.getExtension());
         final File inputFile = this.getFile(dirId, inputName);
 
@@ -113,8 +110,7 @@ public class FileService {
         }
     }
 
-    protected void convertCover(final File input,
-                                final File output,
+    protected void convertCover(final File input, final File output,
                                 final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);
@@ -145,8 +141,7 @@ public class FileService {
         }
     }
 
-    protected void convertImage(final File input,
-                                final File output,
+    protected void convertImage(final File input, final File output,
                                 final int size) {
         final ConvertCmd cmd = new ConvertCmd();
         // cmd.setAsyncMode(true);

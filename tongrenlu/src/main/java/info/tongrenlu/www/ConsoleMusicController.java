@@ -13,12 +13,14 @@ import info.tongrenlu.service.CommentService;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -50,12 +52,18 @@ public class ConsoleMusicController {
     @Autowired
     private final CommentService commentService = null;
 
-    protected void throwExceptionWhenNotAllow(final MusicBean musicBean, final UserBean loginUser, final Locale locale) {
+    protected void throwExceptionWhenNotAllow(final MusicBean musicBean,
+                                              final UserBean loginUser,
+                                              final Locale locale) {
         if (musicBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
         if (!loginUser.equals(musicBean.getUserBean()) && !loginUser.isEditAdmin()) {
-            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
+                                                                       null,
+                                                                       locale));
         }
     }
 
@@ -75,14 +83,18 @@ public class ConsoleMusicController {
                               @RequestParam(required = false) final MultipartFile cover,
                               @RequestParam(required = false) final MultipartFile xfd,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model,
-                              final Locale locale) {
+                              final Model model, final Locale locale) {
         final MusicBean inputMusic = new MusicBean();
         inputMusic.setUserBean(loginUser);
         inputMusic.setTitle(title);
         inputMusic.setDescription(description);
 
-        final boolean result = this.musicService.doCreate(inputMusic, tags, cover, xfd, model.asMap(), locale);
+        final boolean result = this.musicService.doCreate(inputMusic,
+                                                          tags,
+                                                          cover,
+                                                          xfd,
+                                                          model.asMap(),
+                                                          locale);
         if (result) {
             return "redirect:/console/music/" + inputMusic.getId();
         }
@@ -113,8 +125,7 @@ public class ConsoleMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}")
     public String doGetView(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model,
-                            final Locale locale) {
+                            final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
@@ -142,8 +153,7 @@ public class ConsoleMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/edit")
     public String doGetEdit(@PathVariable final Integer articleId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model,
-                            final Locale locale) {
+                            final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
@@ -164,8 +174,7 @@ public class ConsoleMusicController {
                              @RequestParam(required = false) final MultipartFile cover,
                              @RequestParam(required = false) final MultipartFile xfd,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
+                             final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
@@ -173,7 +182,12 @@ public class ConsoleMusicController {
         musicBean.setTitle(title);
         musicBean.setDescription(description);
 
-        final boolean result = this.musicService.doEdit(musicBean, tags, cover, xfd, model.asMap(), locale);
+        final boolean result = this.musicService.doEdit(musicBean,
+                                                        tags,
+                                                        cover,
+                                                        xfd,
+                                                        model.asMap(),
+                                                        locale);
 
         if (result) {
             return "redirect:/console/music/" + musicBean.getId();
@@ -218,8 +232,7 @@ public class ConsoleMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/track/upload")
     public String doGetTrackUpload(@PathVariable final Integer articleId,
                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                   final Model model,
-                                   final Locale locale) {
+                                   final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
@@ -262,14 +275,25 @@ public class ConsoleMusicController {
                 final String name = FilenameUtils.getBaseName(filename);
                 final String extention = FilenameUtils.getExtension(filename);
 
+                String checksum = null;
+                try {
+                    checksum = DigestUtils.md5Hex(upload.getBytes());
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
+
                 final FileBean fileBean = new FileBean();
                 fileBean.setArticleId(articleId);
                 fileBean.setName(name);
                 fileBean.setExtension(extention);
+                fileBean.setChecksum(checksum);
                 fileBean.setContentType(FileManager.AUDIO);
 
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
-                this.musicService.addTrackFile(fileBean, upload, fileModel, locale);
+                this.musicService.addTrackFile(fileBean,
+                                               upload,
+                                               fileModel,
+                                               locale);
                 files.add(this.musicService.wrapFileBean(fileBean, fileModel));
             }
         }
@@ -294,7 +318,9 @@ public class ConsoleMusicController {
             model.addAttribute("trackList", trackList);
             return "console/music/track_sort";
         } else {
-            final String error = this.messageSource.getMessage("console.article.sort.noFile", null, locale);
+            final String error = this.messageSource.getMessage("console.article.sort.noFile",
+                                                               null,
+                                                               locale);
             redirectAttr.addFlashAttribute("error", error);
             return "redirect:/console/music/" + articleId + "/track/upload";
         }
@@ -308,8 +334,7 @@ public class ConsoleMusicController {
                                   @RequestParam(value = "original[]", required = false) final String[] original,
                                   @RequestParam(value = "instrumental[]", required = false) final Integer[] instrumental,
                                   @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                  final Model model,
-                                  final Locale locale) {
+                                  final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
@@ -352,8 +377,7 @@ public class ConsoleMusicController {
     @RequestMapping(method = RequestMethod.GET, value = "/{articleId}/booklet/upload")
     public String doGetBookletUpload(@PathVariable final Integer articleId,
                                      @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                     final Model model,
-                                     final Locale locale) {
+                                     final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
@@ -396,15 +420,26 @@ public class ConsoleMusicController {
                 final String name = FilenameUtils.getBaseName(filename);
                 final String extention = FilenameUtils.getExtension(filename);
 
+                String checksum = null;
+                try {
+                    checksum = DigestUtils.md5Hex(upload.getBytes());
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
+
                 final FileBean fileBean = new FileBean();
                 fileBean.setArticleId(articleId);
                 fileBean.setName(name);
                 fileBean.setExtension(extention);
+                fileBean.setChecksum(checksum);
                 fileBean.setContentType(FileManager.IMAGE);
 
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
 
-                this.musicService.addBookletFile(fileBean, upload, fileModel, locale);
+                this.musicService.addBookletFile(fileBean,
+                                                 upload,
+                                                 fileModel,
+                                                 locale);
                 files.add(this.musicService.wrapFileBean(fileBean, fileModel));
             }
         }
@@ -429,7 +464,9 @@ public class ConsoleMusicController {
             model.addAttribute("fileList", fileList);
             return "console/music/booklet_sort";
         } else {
-            final String error = this.messageSource.getMessage("console.article.sort.noFile", null, locale);
+            final String error = this.messageSource.getMessage("console.article.sort.noFile",
+                                                               null,
+                                                               locale);
             redirectAttr.addFlashAttribute("error", error);
             return "redirect:/console/music/" + articleId + "/booklet/upload";
         }
@@ -439,8 +476,7 @@ public class ConsoleMusicController {
     public String doPostBookletSort(@PathVariable final Integer articleId,
                                     @RequestParam(value = "fileId[]") final Integer[] fileId,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                    final Model model,
-                                    final Locale locale) {
+                                    final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
 
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
@@ -462,8 +498,7 @@ public class ConsoleMusicController {
     public String doGetComment(@PathVariable final Integer articleId,
                                @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                               final Model model,
-                               final Locale locale) {
+                               final Model model, final Locale locale) {
         final MusicBean musicBean = this.musicService.getById(articleId);
         this.throwExceptionWhenNotAllow(musicBean, loginUser, locale);
         model.addAttribute("articleBean", musicBean);

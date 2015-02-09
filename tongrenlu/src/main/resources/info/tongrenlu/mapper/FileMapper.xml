@@ -12,6 +12,7 @@
             NAME,
             EXTENSION,
             CONTENT_TYPE,
+            checksum,
             ARTICLE_ID,
         </trim>
         ) VALUES (
@@ -19,6 +20,7 @@
             #{name},
             #{extension},
             #{contentType},
+            #{checksum},
             #{articleId},
         </trim>
         )
@@ -31,6 +33,7 @@
             A.NAME          as name,
             A.EXTENSION     as extension,
             A.ARTICLE_ID    as articleId,
+            A.checksum      as checksum,
             A.ORDER_NO      as orderNo,
         </trim>
         FROM
@@ -54,6 +57,7 @@
             A.EXTENSION     as extension,
             A.CONTENT_TYPE  as contentType,
             A.ARTICLE_ID    as articleId,
+            A.checksum      as checksum,
             A.ORDER_NO      as orderNo,
         </trim>
         FROM

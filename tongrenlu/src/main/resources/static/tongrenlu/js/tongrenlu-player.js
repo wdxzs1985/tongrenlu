@@ -20,7 +20,7 @@ var player = function(option) {
         		if(playable.xfd) {
         			playable.mp3 = settings.filePath + '/xfd.mp3';
         		} else {
-            		playable.mp3 = (playable.id) ? settings.filePath + '/f' + playable.id + '.mp3' : '';
+            		playable.mp3 = (playable.id) ? settings.filePath + '/' + playable.checksum + '.mp3' : '';
         		}
         		if(settings.filter) {
         			settings.filter(playlist, playable)

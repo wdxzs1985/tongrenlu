@@ -63,6 +63,8 @@ public class HomeMusicService {
             playable.put("instrumental",
                          CommonConstants.is(trackBean.getInstrumental()));
             playable.put("rate", trackBean.getRate());
+            playable.put("articleId", trackBean.getFileBean().getArticleId());
+            playable.put("checksum", trackBean.getFileBean().getChecksum());
             playlist.add(playable);
         }
         return playlist;

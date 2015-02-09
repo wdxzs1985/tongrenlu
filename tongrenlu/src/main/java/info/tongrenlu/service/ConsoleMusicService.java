@@ -160,6 +160,7 @@ public class ConsoleMusicService {
                                             final Map<String, Object> fileModel) {
         fileModel.put("id", fileBean.getId());
         fileModel.put("name", fileBean.getName());
+        fileModel.put("checksum", fileBean.getChecksum());
         fileModel.put("articleId", fileBean.getArticleId());
         return fileModel;
     }
@@ -170,6 +171,7 @@ public class ConsoleMusicService {
                                 final Map<String, Object> fileModel,
                                 final Locale locale) {
         if (this.validateForTrackFile(upload, fileModel, locale)) {
+
             this.articleManager.addFile(fileBean);
 
             final TrackBean trackBean = new TrackBean();
@@ -248,7 +250,8 @@ public class ConsoleMusicService {
         this.saveMusicDocument(musicBean, trackList, tags);
         if (CollectionUtils.isNotEmpty(trackList)) {
             TrackBean trackBean = trackList.get(0);
-            this.fileManager.saveXFD(musicBean.getId(), trackBean.getId());
+            FileBean fileBean = trackBean.getFileBean();
+            this.fileManager.saveXFD(fileBean.getId(), fileBean.getChecksum());
         }
     }
 
@@ -412,6 +415,8 @@ public class ConsoleMusicService {
             playable.put("id", trackBean.getId());
             playable.put("title", trackBean.getName());
             playable.put("artist", trackBean.getArtist());
+            playable.put("checksum", trackBean.getFileBean().getChecksum());
+            playable.put("articleId", trackBean.getFileBean().getArticleId());
             playable.put("original",
                          StringUtils.split(trackBean.getOriginal(), '\n'));
             playable.put("instrumental",

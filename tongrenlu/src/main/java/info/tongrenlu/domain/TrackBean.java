@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class TrackBean extends DtoBean {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -20,6 +20,8 @@ public class TrackBean extends DtoBean {
     private String original = null;
 
     private String instrumental = null;
+
+    private int disc = 0;
 
     private int rate = 0;
 
@@ -69,6 +71,14 @@ public class TrackBean extends DtoBean {
 
     public void setRate(final int rate) {
         this.rate = rate;
+    }
+
+    public int getDisc() {
+        return this.disc;
+    }
+
+    public void setDisc(int disc) {
+        this.disc = disc;
     }
 
 }
