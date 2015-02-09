@@ -1,4 +1,4 @@
-package info.tongrenlu.entity;
+package info.tongrenlu.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,23 +6,11 @@ import java.util.Date;
 public class DtoBean implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
-    public DtoBean() {
-        super();
-    }
-
-    public DtoBean(final Integer id, final String objectId) {
-        super();
-        this.id = id;
-        this.objectId = objectId;
-    }
-
-    private Integer id = 0;
-
-    private String objectId;
+    private Integer id;
 
     private Date updDate;
 
@@ -82,11 +70,4 @@ public class DtoBean implements Serializable {
         return true;
     }
 
-    public String getObjectId() {
-        return this.objectId;
-    }
-
-    public void setObjectId(final String objectId) {
-        this.objectId = objectId;
-    }
 }
