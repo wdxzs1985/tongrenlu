@@ -110,7 +110,7 @@ public class FileManager {
         final String dirId = FileManager.MUSIC + articleId;
         final File outputFile = this.getFile(dirId, FileManager.XFD);
         if (!outputFile.isFile()) {
-            final String inputFileName = String.format("f%s.%s",
+            final String inputFileName = String.format("%s.%s",
                                                        checksum,
                                                        FileManager.MP3);
             final File inputFile = this.getFile(dirId, inputFileName);
@@ -125,7 +125,7 @@ public class FileManager {
     public void saveFile(final String articleType, final FileBean fileBean,
                          final MultipartFile fileItem) {
         final String dirId = articleType + fileBean.getArticleId();
-        final String name = String.format("f%s.%s",
+        final String name = String.format("%s.%s",
                                           fileBean.getChecksum(),
                                           fileBean.getExtension());
         final File file = this.getFile(dirId, name);
@@ -134,7 +134,7 @@ public class FileManager {
 
     public void deleteFile(final String articleType, final FileBean fileBean) {
         final String dirId = articleType + fileBean.getArticleId();
-        final String name = String.format("f%s.%s",
+        final String name = String.format("%s.%s",
                                           fileBean.getChecksum(),
                                           fileBean.getExtension());
         final File file = this.getFile(dirId, name);
@@ -142,14 +142,14 @@ public class FileManager {
 
         if (FileManager.IMAGE.equals(fileBean.getContentType())) {
             for (final int size : FileManager.COVER_SIZE_ARRAY) {
-                final String thumbnail = String.format("f%s_%d.jpg",
+                final String thumbnail = String.format("%s_%d.jpg",
                                                        fileBean.getChecksum(),
                                                        size);
                 final File thumbnailFile = this.getFile(dirId, thumbnail);
                 FileUtils.deleteQuietly(thumbnailFile);
             }
             for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-                final String thumbnail = String.format("f%s_%d.jpg",
+                final String thumbnail = String.format("%s_%d.jpg",
                                                        fileBean.getChecksum(),
                                                        size);
                 final File thumbnailFile = this.getFile(dirId, thumbnail);
@@ -213,20 +213,20 @@ public class FileManager {
 
     public void convertImage(final String articleType, final FileBean fileBean) {
         final String dirId = articleType + fileBean.getArticleId();
-        final String inputName = String.format("f%s.%s",
+        final String inputName = String.format("%s.%s",
                                                fileBean.getChecksum(),
                                                fileBean.getExtension());
         final File inputFile = this.getFile(dirId, inputName);
 
         for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final String outputName = String.format("f%s_%d.jpg",
+            final String outputName = String.format("%s_%d.jpg",
                                                     fileBean.getChecksum(),
                                                     size);
             final File outputFile = this.getFile(dirId, outputName);
             this.convertCover(inputFile, outputFile, size);
         }
         for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-            final String outputName = String.format("f%s_%d.jpg",
+            final String outputName = String.format("%s_%d.jpg",
                                                     fileBean.getChecksum(),
                                                     size);
             final File outputFile = this.getFile(dirId, outputName);

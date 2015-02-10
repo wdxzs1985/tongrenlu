@@ -10,6 +10,7 @@ import info.tongrenlu.service.ConsoleLibraryService;
 import info.tongrenlu.service.ConsoleMusicService;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -209,6 +211,7 @@ public class AdminUserController {
             final Map<String, Object> fileModel = new HashMap<String, Object>();
             fileModel.put("id", authFileBean.getId());
             fileModel.put("status", authFileBean.getStatus());
+            fileModel.put("checksum", authFileBean.getChecksum());
             fileModel.put("userId", authFileBean.getUserBean().getId());
             files.add(fileModel);
         }
@@ -228,13 +231,26 @@ public class AdminUserController {
         if (ArrayUtils.isNotEmpty(uploads)) {
             for (final MultipartFile upload : uploads) {
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
-                final AuthFileBean authFileBean = this.libraryService.saveAuthFile(upload,
-                                                                                   userBean,
-                                                                                   fileModel,
-                                                                                   locale);
+
+                String checksum = null;
+                try {
+                    checksum = DigestUtils.md5Hex(upload.getBytes());
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
+
+                AuthFileBean authFileBean = new AuthFileBean();
+                authFileBean.setUserBean(userBean);
+                authFileBean.setChecksum(checksum);
+
+                authFileBean = this.libraryService.saveAuthFile(upload,
+                                                                authFileBean,
+                                                                fileModel,
+                                                                locale);
                 if (authFileBean != null) {
                     fileModel.put("id", authFileBean.getId());
                     fileModel.put("status", authFileBean.getStatus());
+                    fileModel.put("checksum", authFileBean.getChecksum());
                     fileModel.put("userId", userId);
                 }
                 files.add(fileModel);

@@ -6,12 +6,14 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ConsoleLibraryService;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -44,7 +46,7 @@ public class ConsoleLibraryController {
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                      PAGE_SIZE);
         page.addParam("userBean", loginUser);
         page.addParam("status", 1);
         page.addParam("order", "byTitle");
@@ -58,7 +60,7 @@ public class ConsoleLibraryController {
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                             final Model model) {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                      PAGE_SIZE);
         page.addParam("userBean", loginUser);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);
@@ -83,6 +85,7 @@ public class ConsoleLibraryController {
             final Map<String, Object> fileModel = new HashMap<String, Object>();
             fileModel.put("id", authFileBean.getId());
             fileModel.put("status", authFileBean.getStatus());
+            fileModel.put("checksum", authFileBean.getChecksum());
             fileModel.put("userId", authFileBean.getUserBean().getId());
             files.add(fileModel);
         }
@@ -100,13 +103,26 @@ public class ConsoleLibraryController {
         if (ArrayUtils.isNotEmpty(uploads)) {
             for (final MultipartFile upload : uploads) {
                 final Map<String, Object> fileModel = new HashMap<String, Object>();
-                AuthFileBean authFileBean = this.libraryService.saveAuthFile(upload,
-                                                                             loginUser,
-                                                                             fileModel,
-                                                                             locale);
+
+                String checksum = null;
+                try {
+                    checksum = DigestUtils.md5Hex(upload.getBytes());
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
+
+                AuthFileBean authFileBean = new AuthFileBean();
+                authFileBean.setUserBean(loginUser);
+                authFileBean.setChecksum(checksum);
+
+                authFileBean = this.libraryService.saveAuthFile(upload,
+                                                                authFileBean,
+                                                                fileModel,
+                                                                locale);
                 if (authFileBean != null) {
                     fileModel.put("id", authFileBean.getId());
                     fileModel.put("status", authFileBean.getStatus());
+                    fileModel.put("checksum", authFileBean.getChecksum());
                     fileModel.put("userId", loginUser.getId());
                 }
                 files.add(fileModel);

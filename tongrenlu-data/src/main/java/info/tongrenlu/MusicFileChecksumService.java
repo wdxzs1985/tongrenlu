@@ -16,7 +16,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileChecksumService implements CommandLineRunner {
+public class MusicFileChecksumService implements CommandLineRunner {
 
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
@@ -26,7 +26,7 @@ public class FileChecksumService implements CommandLineRunner {
 
     @Override
     public void run(final String... arg0) throws Exception {
-        List<Map<String, Object>> filelist = this.fileManager.fetchList();
+        List<Map<String, Object>> filelist = this.fileManager.fetchMusicFileList();
 
         this.log.debug("find: " + filelist.size());
 
@@ -43,7 +43,7 @@ public class FileChecksumService implements CommandLineRunner {
 
             byte[] data = FileUtils.readFileToByteArray(before);
             file.put("checksum", DigestUtils.md5Hex(data));
-            this.fileManager.updateChecksum(file);
+            this.fileManager.updateMusicFileChecksum(file);
 
             String nameAfter = String.format("%s.%s",
                                              file.get("checksum"),

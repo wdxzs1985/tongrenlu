@@ -59,12 +59,10 @@ public class ConsoleLibraryService {
     }
 
     public AuthFileBean saveAuthFile(final MultipartFile upload,
-                                     final UserBean userBean,
+                                     final AuthFileBean authFileBean,
                                      final Map<String, Object> fileModel,
                                      final Locale locale) {
         if (this.validateForAuthFile(upload, fileModel, locale)) {
-            final AuthFileBean authFileBean = new AuthFileBean();
-            authFileBean.setUserBean(userBean);
             this.libraryManager.insertAuthFile(authFileBean);
             this.saveFile(authFileBean, upload);
             this.convertImage(authFileBean);
@@ -91,7 +89,7 @@ public class ConsoleLibraryService {
                           final MultipartFile fileItem) {
         final String dirId = String.format("u%d/auth",
                                            authFileBean.getUserBean().getId());
-        final String name = String.format("f%d.jpg", authFileBean.getId());
+        final String name = String.format("%s.jpg", authFileBean.getChecksum());
         final File file = this.fileManager.getFile(dirId, name);
         try {
             FileUtils.copyInputStreamToFile(fileItem.getInputStream(), file);
@@ -103,19 +101,19 @@ public class ConsoleLibraryService {
     private void convertImage(final AuthFileBean authFileBean) {
         final String dirId = String.format("u%d/auth",
                                            authFileBean.getUserBean().getId());
-        final String name = String.format("f%d.jpg", authFileBean.getId());
+        final String name = String.format("%s.jpg", authFileBean.getChecksum());
         final File inputFile = this.fileManager.getFile(dirId, name);
 
         for (final int size : FileManager.COVER_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg",
-                                                    authFileBean.getId(),
+            final String outputName = String.format("%s_%d.jpg",
+                                                    authFileBean.getChecksum(),
                                                     size);
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             this.fileManager.convertCover(inputFile, outputFile, size);
         }
         for (final int size : FileManager.IMAGE_SIZE_ARRAY) {
-            final String outputName = String.format("f%d_%d.jpg",
-                                                    authFileBean.getId(),
+            final String outputName = String.format("%s_%d.jpg",
+                                                    authFileBean.getChecksum(),
                                                     size);
             final File outputFile = this.fileManager.getFile(dirId, outputName);
             this.fileManager.convertImage(inputFile, outputFile, size);

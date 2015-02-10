@@ -8,6 +8,8 @@ public class AuthFileBean extends DtoBean {
 
     private UserBean userBean;
 
+    private String checksum;
+
     private int status;
 
     public UserBean getUserBean() {
@@ -24,6 +26,14 @@ public class AuthFileBean extends DtoBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getChecksum() {
+        return this.checksum;
+    }
+
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
     }
 
 }

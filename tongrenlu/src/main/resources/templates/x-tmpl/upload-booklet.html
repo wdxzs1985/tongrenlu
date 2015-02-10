@@ -38,10 +38,10 @@
         <div class="card-body">
             {% if (!file.error) { %}
                 <span class="preview">
-                    <img src="/files/m{%=file.articleId%}/f{%=file.id%}_180.jpg" class="img-resposive"/>
+                    <img src="/files/m{%=file.articleId%}/{%=file.checksum%}_180.jpg" class="img-resposive"/>
                 </span>
             {% } %}
-            <a class="overlay" href="/files/m{%=file.articleId%}/f{%=file.id%}_1080.jpg" data-gallery="">
+            <a class="overlay" href="/files/m{%=file.articleId%}/{%=file.checksum%}_1080.jpg" data-gallery="">
                 {% if (file.error) { %}
                     <div><span class="label label-danger" th:text="#{console.article.upload.error}">Error</span> {%=file.error%}</div>
                 {% } %}

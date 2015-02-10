@@ -8,10 +8,12 @@
         INSERT INTO m_auth_file(
         <trim suffixOverrides=",">
             user_id,
+            checksum,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
             #{userBean.id},
+            #{checksum},
         </trim>
         )
     </insert>
@@ -31,6 +33,7 @@
         <trim suffixOverrides=",">
             m_auth_file.ID                  as "id",
             m_auth_file.status              as "status",
+            m_auth_file.checksum            as "checksum",
             m_auth_file.user_id             as "userBean.id",
         </trim>
         FROM
@@ -47,6 +50,7 @@
         <trim suffixOverrides=",">
             m_auth_file.ID                  as "id",
             m_auth_file.status              as "status",
+            m_auth_file.checksum            as "checksum",
             m_auth_file.user_id             as "userBean.id",
         </trim>
         FROM
