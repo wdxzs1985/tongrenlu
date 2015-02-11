@@ -53,15 +53,15 @@
                         </div>
                         <div class="panel-footer">
                             <a th:href="@{/admin/user/__${userBean.id}__/library}" 
-                                class="btn btn-success" role="button">
+                                class="btn btn-success" role="button" target="_blank">
                                 <span th:text="#{admin.user.library}"></span>
                             </a>
                             <a th:href="@{/admin/user/__${userBean.id}__/auth}" 
-                                class="btn btn-warning" role="button">
+                                class="btn btn-warning" role="button" target="_blank">
                                 <span th:text="#{console.auth}"></span>
                             </a>
                             <a th:href="@{/admin/user/__${userBean.id}__/auth/upload}" 
-                                class="btn btn-primary " role="button">
+                                class="btn btn-primary " role="button" target="_blank">
                                 <span th:text="#{console.auth.upload}"></span>
                             </a>
                         </div>

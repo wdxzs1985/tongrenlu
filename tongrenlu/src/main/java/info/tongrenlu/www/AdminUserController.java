@@ -75,7 +75,7 @@ public class AdminUserController {
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
         final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                     PAGE_SIZE);
         page.addParam("query", query);
         this.userService.searchUser(page);
         model.addAttribute("page", page);
@@ -110,7 +110,7 @@ public class AdminUserController {
     public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                             final Model model) {
         final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                            PAGE_SIZE);
         page.addParam("status", 0);
         this.libraryService.searchUser(page);
         model.addAttribute("page", page);
@@ -128,7 +128,7 @@ public class AdminUserController {
         model.addAttribute("userBean", userBean);
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                      PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 1);
         this.libraryService.searchLibrary(page);
@@ -164,7 +164,7 @@ public class AdminUserController {
         model.addAttribute("userBean", userBean);
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                PAGE_SIZE);
+                                                                      PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);
@@ -273,6 +273,7 @@ public class AdminUserController {
             final Map<String, Object> fileModel = new HashMap<String, Object>();
             fileModel.put("id", authFileBean.getId());
             fileModel.put("status", authFileBean.getStatus());
+            fileModel.put("checksum", authFileBean.getChecksum());
             fileModel.put("userId", userId);
             model.put("files", Collections.singletonList(fileModel));
             model.put("result", true);
