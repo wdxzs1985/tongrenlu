@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,51 +36,46 @@ public class AuthFileChecksumService implements CommandLineRunner {
                 continue;
             }
 
-            byte[] data = FileUtils.readFileToByteArray(before);
-            file.put("checksum", DigestUtils.md5Hex(data));
-            this.fileManager.updateAuthFileChecksum(file);
+            // byte[] data = FileUtils.readFileToByteArray(before);
+            // file.put("checksum", DigestUtils.md5Hex(data));
+            // this.fileManager.updateAuthFileChecksum(file);
 
-            String checksum = (String) file.get("checksum");
-            String nameAfter = String.format("auth/%s.jpg", checksum);
-            File after = this.fileService.getFile(dirId, nameAfter);
-            FileUtils.copyFile(before, after);
-            FileUtils.deleteQuietly(this.fileService.getFile(dirId,
-                                                             String.format("%s.jpg",
-                                                                           checksum)));
+            // String checksum = (String) file.get("checksum");
+            // String nameAfter = String.format("auth/%s.jpg", checksum);
+            // File after = this.fileService.getFile(dirId, nameAfter);
+            // FileUtils.copyFile(before, after);
+            FileUtils.deleteQuietly(before);
 
             for (final int size : FileService.COVER_SIZE_ARRAY) {
                 final String inputName = String.format("auth/f%d_%d.jpg",
                                                        file.get("id"),
                                                        size);
-                String outputName = String.format("auth/%s_%d.jpg",
-                                                  checksum,
-                                                  size);
                 final File inputFile = this.fileService.getFile(dirId,
                                                                 inputName);
-                final File outputFile = this.fileService.getFile(dirId,
-                                                                 outputName);
-                FileUtils.copyFile(inputFile, outputFile);
-                FileUtils.deleteQuietly(this.fileService.getFile(dirId,
-                                                                 String.format("%s_%d.jpg",
-                                                                               checksum,
-                                                                               size)));
+                // String outputName = String.format("auth/%s_%d.jpg",
+                // checksum,
+                // size);
+                // final File outputFile = this.fileService.getFile(dirId,
+                // outputName);
+                // FileUtils.copyFile(inputFile, outputFile);
+                FileUtils.deleteQuietly(inputFile);
+
             }
             for (final int size : FileService.IMAGE_SIZE_ARRAY) {
                 final String inputName = String.format("auth/f%d_%d.jpg",
                                                        file.get("id"),
                                                        size);
-                String outputName = String.format("auth/%s_%d.jpg",
-                                                  checksum,
-                                                  size);
                 final File inputFile = this.fileService.getFile(dirId,
                                                                 inputName);
-                final File outputFile = this.fileService.getFile(dirId,
-                                                                 outputName);
-                FileUtils.copyFile(inputFile, outputFile);
-                FileUtils.deleteQuietly(this.fileService.getFile(dirId,
-                                                                 String.format("%s_%d.jpg",
-                                                                               checksum,
-                                                                               size)));
+                // String outputName = String.format("auth/%s_%d.jpg",
+                // checksum,
+                // size);
+                // final File outputFile = this.fileService.getFile(dirId,
+                // outputName);
+                // FileUtils.copyFile(inputFile, outputFile);
+
+                FileUtils.deleteQuietly(inputFile);
+
             }
         }
     }

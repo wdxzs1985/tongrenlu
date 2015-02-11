@@ -14,7 +14,7 @@ public class FileManager {
     private JdbcTemplate mysqlDao;
 
     public List<Map<String, Object>> fetchMusicFileList() {
-        return this.mysqlDao.queryForList("select " + "m_file.id as id," + "m_file.article_Id as articleId," + "m_file.name as name," + "m_file.extension as extension," + "m_file.content_type as contentType," + "m_file.order_no as orderNo," + "m_file.checksum as checksum," + "m_file.upd_date as updDate," + "m_file.del_flg as delFlg" + " from m_file join v_music on m_file.article_id = v_music.id where m_file.checksum is null and m_file.del_flg = 0");
+        return this.mysqlDao.queryForList("select m_file.id as id, m_file.article_Id as articleId, m_file.name as name, m_file.extension as extension, m_file.content_type as contentType, m_file.order_no as orderNo, m_file.checksum as checksum, m_file.upd_date as updDate, m_file.del_flg as delFlg from m_file join v_music on m_file.article_id = v_music.id where m_file.del_flg = 0");
     }
 
     public void updateMusicFileChecksum(Map<String, Object> file) {
@@ -24,7 +24,7 @@ public class FileManager {
     }
 
     public List<Map<String, Object>> fetchAuthFileList() {
-        return this.mysqlDao.queryForList("select m_auth_file.id as id, m_auth_file.user_Id as userId from m_auth_file where m_auth_file.checksum is null and m_auth_file.del_flg = 0");
+        return this.mysqlDao.queryForList("select m_auth_file.id as id, m_auth_file.user_Id as userId from m_auth_file where m_auth_file.del_flg = 0");
     }
 
     public void updateAuthFileChecksum(Map<String, Object> file) {
