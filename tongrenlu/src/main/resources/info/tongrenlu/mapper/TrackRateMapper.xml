@@ -53,6 +53,7 @@
             m_track.ARTIST          as "artist",
             m_track.INSTRUMENTAL    as "instrumental",
             m_track.ORIGINAL        as "original",
+            m_file.id               as "fileBean.id",
             m_file.ARTICLE_ID       as "fileBean.articleId",
             m_file.checksum         as "fileBean.checksum",
             ifnull(r_track_rate.rate, ifnull(v_track_rate.rate,3))  as rate

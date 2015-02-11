@@ -51,7 +51,8 @@
             m_track.ARTIST          as "artist",
             m_track.INSTRUMENTAL    as "instrumental",
             m_track.ORIGINAL        as "original",
-            m_file.ARTICLE_ID       as "fileBean.ARTICLE_ID",
+            m_file.id               as "fileBean.id",
+            m_file.ARTICLE_ID       as "fileBean.articleId",
             m_file.checksum         as "fileBean.checksum",
         </trim>
         FROM

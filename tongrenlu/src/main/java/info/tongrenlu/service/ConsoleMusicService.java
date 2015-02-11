@@ -251,7 +251,8 @@ public class ConsoleMusicService {
         if (CollectionUtils.isNotEmpty(trackList)) {
             TrackBean trackBean = trackList.get(0);
             FileBean fileBean = trackBean.getFileBean();
-            this.fileManager.saveXFD(fileBean.getId(), fileBean.getChecksum());
+            this.fileManager.saveXFD(fileBean.getArticleId(),
+                                     fileBean.getChecksum());
         }
     }
 
@@ -347,9 +348,9 @@ public class ConsoleMusicService {
                 trackDocument.setTrack(track.getName());
                 trackDocument.setInstrumental(CommonConstants.is(track.getInstrumental()));
                 trackDocument.setArtist(StringUtils.split(track.getArtist(),
-                        ","));
+                                                          ","));
                 trackDocument.setOriginal(StringUtils.split(track.getOriginal(),
-                        "\n"));
+                                                            "\n"));
 
                 this.articleRepository.save(trackDocument);
 
