@@ -169,6 +169,9 @@ $(function() {
         rateUrl: /*[[@{/music/rate}]]*/ '',
         filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
         swfPath: 'http://cdn.bootcss.com/jplayer/2.9.2/jplayer',
+        playlistOptions: {
+            enableRemoveControls: true
+        },
         filter: function(playList, playable) {
             var onlyVocal = /*[[${session.LOGIN_USER.onlyVocal}]]*/ false;
             if(onlyVocal) {

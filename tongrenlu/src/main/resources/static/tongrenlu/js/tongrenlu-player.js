@@ -1,7 +1,7 @@
 var player = function(option) {
 	var settings = $.extend({
 		playlistOptions: {
-            enableRemoveControls: true
+            enableRemoveControls: false
         },
         supplied: 'mp3',
         smoothPlayBar: true,

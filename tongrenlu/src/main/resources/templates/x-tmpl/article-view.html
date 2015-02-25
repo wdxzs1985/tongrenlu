@@ -32,11 +32,11 @@
     </div>
     {% if (o.file.original) { %}
         <div class="show-if-current show-if-hover">
-            <ul class="jp-original">
+            <div class="jp-original">
                 {% for (var i=0, original; original=o.file.original[i]; i++) { %}
-                    <li><a href="/music/search?q={%=original%}" target="_blank">{%=original%}</a></li>
+                    <div><a href="/music/search?q={%=original%}" target="_blank">{%=original%}</a></div>
                 {% } %}
-            </ul>
+            </div>
         </div>
     {% } %}
 </li>
