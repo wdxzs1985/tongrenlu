@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<body>
+<script id="template-shop-cart" type="text/x-tmpl" th:inline="text" th:fragment="template-shop-cart">
+{% if (o.itemList.length == 0) { %}
+            <div class="alert alert-warning">
+                <h4 th:text="#{shop.noData}">no item</h4>
+                <p><a th:href="@{/}" th:text="#{button.back}" class="btn btn-default">back</a></p>
+            </div>
+{% } else { %}
+<div class="panel card">
+        <table class="table table-bordered">
+{% for (var i=0, item; item=o.itemList[i]; i++) { %}
+            <tr>
+                <td class="" style="background: #eee;">{%= item.name %}</td>
+                <td class="text-center">{%= numeral(item.price).format('0,0') %}</td>
+                <td class="text-center" style="background: #eee;">
+                    <input type="text" name="quantity" value="{%= item.quantity %}"/>
+                </td>
+                <td class="text-center">{%= numeral(item.amountJp).format('0,0') %}</td>
+                <td class="text-center" style="background: #eee;">{%= numeral(item.amountCn).format('0,0.00') %}</td>
+                <td class="text-center">{%= numeral(item.fee).format('0,0.00') %}</td>
+                <td class="text-center" style="background: #eee;">{%= numeral(item.total).format('0,0.00') %}</td>
+            </tr>
+{% } %}
+        </table>
+</div>
+{% } %}
+</script>
+</body>
+</html>

@@ -385,13 +385,17 @@ h1.article-title {
 }
 
 .card {
-	padding: 0;
+	padding: 0 0 0 0;
     background-color: #fff;
     border: none;
     box-shadow:0 2px 5px 0 rgba(0,0,0,.16);
     margin-bottom: 2em;
     overflow: hidden;
     border-radius: 6px;
+}
+
+.card .media-body {
+    padding-right: 10px;
 }
 
 .card textarea{
@@ -487,4 +491,24 @@ h1.article-title {
 #blueimp-gallery-carousel {
 	margin-top: 0;
 	box-shadow: none;
+}
+
+.toast {
+	display: none;
+    width:200px;
+    min-height:20px;
+    height:auto;
+    position:fixed;
+    left:50%;
+    margin-left:-100px;
+    bottom:10px;
+    background-color: #383838;
+    color: #F0F0F0;
+    font-size: 20px;
+    padding:10px;
+    text-align:center;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
 }
