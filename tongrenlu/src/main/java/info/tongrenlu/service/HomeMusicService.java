@@ -48,20 +48,16 @@ public class HomeMusicService {
     @Autowired
     private LibraryManager libraryManager = null;
 
-    public List<Map<String, Object>> getPlaylist(final Integer articleId,
-                                                 final UserBean userBean) {
+    public List<Map<String, Object>> getPlaylist(final Integer articleId, final UserBean userBean) {
         final List<Map<String, Object>> playlist = new ArrayList<Map<String, Object>>();
-        final List<TrackBean> trackList = this.trackManager.getRatedTrackList(articleId,
-                                                                              userBean);
+        final List<TrackBean> trackList = this.trackManager.getRatedTrackList(articleId, userBean);
         for (final TrackBean trackBean : trackList) {
             final Map<String, Object> playable = new HashMap<String, Object>();
             playable.put("id", trackBean.getId());
             playable.put("title", trackBean.getName());
             playable.put("artist", trackBean.getArtist());
-            playable.put("original",
-                         StringUtils.split(trackBean.getOriginal(), '\n'));
-            playable.put("instrumental",
-                         CommonConstants.is(trackBean.getInstrumental()));
+            playable.put("original", StringUtils.split(trackBean.getOriginal(), '\n'));
+            playable.put("instrumental", CommonConstants.is(trackBean.getInstrumental()));
             playable.put("rate", trackBean.getRate());
             playable.put("articleId", trackBean.getFileBean().getArticleId());
             playable.put("checksum", trackBean.getFileBean().getChecksum());
@@ -118,8 +114,10 @@ public class HomeMusicService {
         this.articleManager.addAccess(articleBean, userBean);
     }
 
-    public int isLike(final Integer articleId, final UserBean loginUser,
-                      final Map<String, Object> model, final Locale locale) {
+    public int isLike(final Integer articleId,
+                      final UserBean loginUser,
+                      final Map<String, Object> model,
+                      final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
@@ -131,8 +129,10 @@ public class HomeMusicService {
     }
 
     @Transactional
-    public int doLike(final Integer articleId, final UserBean loginUser,
-                      final Map<String, Object> model, final Locale locale) {
+    public int doLike(final Integer articleId,
+                      final UserBean loginUser,
+                      final Map<String, Object> model,
+                      final Locale locale) {
         int result = LikeManager.RESULT_NOT_LIKE;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
@@ -150,9 +150,11 @@ public class HomeMusicService {
         return result;
     }
 
-    public boolean saveRate(final Integer trackId, final Integer rate,
+    public boolean saveRate(final Integer trackId,
+                            final Integer rate,
                             final UserBean userBean,
-                            final Map<String, Object> model, final Locale locale) {
+                            final Map<String, Object> model,
+                            final Locale locale) {
         boolean result = false;
         if (this.userManager.validateUserIsSignin(userBean, model, locale)) {
             final TrackBean trackBean = new TrackBean();
@@ -174,35 +176,30 @@ public class HomeMusicService {
         return result;
     }
 
-    public boolean isOwner(final UserBean userBean,
-                           final ArticleBean articleBean) {
+    public boolean isOwner(final UserBean userBean, final ArticleBean articleBean) {
         return this.libraryManager.isOwner(userBean, articleBean, 1);
     }
 
-    public boolean addToLibrary(Integer articleId, UserBean loginUser,
-                                Map<String, Object> model, Locale locale) {
+    public boolean addToLibrary(final Integer articleId,
+                                final UserBean loginUser,
+                                final Map<String, Object> model,
+                                final Locale locale) {
         boolean result = false;
         if (this.userManager.validateUserIsSignin(loginUser, model, locale)) {
             final MusicBean musicBean = this.getById(articleId);
             if (musicBean != null) {
-                boolean isOwner = this.libraryManager.isOwner(loginUser,
-                                                              musicBean,
-                                                              null);
+                final boolean isOwner = this.libraryManager.isOwner(loginUser, musicBean, null);
                 if (isOwner) {
                     if (musicBean.isFree()) {
-                        this.libraryManager.updateStatus(loginUser,
-                                                         musicBean,
-                                                         1);
+                        this.libraryManager.updateStatus(loginUser, musicBean, 1);
                         model.put("status", 1);
                     } else {
                         model.put("status", 0);
                     }
                 } else {
                     // insert
-                    Integer status = musicBean.isFree() ? 1 : 0;
-                    this.libraryManager.addToLibrary(loginUser,
-                                                     musicBean,
-                                                     status);
+                    final Integer status = musicBean.isFree() ? 1 : 0;
+                    this.libraryManager.addToLibrary(loginUser, musicBean, status);
                     model.put("status", status);
                     result = true;
                 }

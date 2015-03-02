@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="shop/layout">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../../static/tongrenlu/css/tongrenlu-screen.css" th:href="@{/tongrenlu/css/tongrenlu-screen.css}"/>
+        <link rel="stylesheet" type="text/css" href="../../static/tongrenlu/css/tongrenlu-shop.css" th:href="@{/tongrenlu/css/tongrenlu-shop.css}" media="screen"/>
+        <script src="http://cdn.bootcss.com/modernizr/2.8.3/modernizr.min.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">
+            <div class="container">
+                <div class="navbar-header ">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only" th:text="#{application}"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html" th:href="@{/}" th:text="#{application}"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class=""><a th:href="@{/music}" th:text="#{home.music}"></a></li>
+                    </ul>
+                    <ul id="nav-signin" class="nav navbar-nav navbar-right hidden">
+                        <li class=""><a th:href="@{/signup}" th:text="#{login.signup}" rel="nofollow"></a></li>
+                        <li class=""><a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a></li>
+                    </ul>
+                    <ul id="nav-console" class="nav navbar-nav navbar-right hidden">
+                        <li class=""><a th:href="@{/console}" th:text="#{console}" rel="nofollow"></a></li>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle " data-toggle="dropdown" >
+                                <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li ><a th:href="@{/console/setting}" th:text="#{console.profile.setting}" rel="nofollow"></a></li>
+                                <li ><a th:href="@{/console/password}" th:text="#{console.profile.password}" rel="nofollow"></a></li>
+                                <li><a th:href="@{/signout}" th:text="#{login.signout}" rel="nofollow"></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-right hidden-xs hidden-sm" th:action="@{/music/search}" method="get" role="search">
+                        <div class="form-group">
+                            <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
+                        </div>
+                        <button class="btn btn-warning" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                            <span class="hidden-xs hidden-sm" th:text="#{home.search.music}"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div layout:fragment="content">
+            <div class="container-wrap container-header" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8" >
+                            <h1 th:text="#{shop.order}"></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-wrap container-wrap-darker" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="shop-cart-container">
+                                <div class="alert alert-warning" th:if="${#lists.isEmpty(itemList)}">
+                                    <h4 th:text="#{shop.noData}">no item</h4>
+                                    <p><a th:href="@{/}" th:text="#{button.back}" class="btn btn-default">back</a></p>
+                                </div>
+                                <div class="panel card" th:unless="${#lists.isEmpty(itemList)}">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th class="" >name</th>
+                                            <th class="text-center">price</th>
+                                            <th class="text-center" >quantity</th>
+                                            <th class="text-center">amountJp</th>
+                                            <th class="text-center" >amountCn</th>
+                                            <th class="text-center" >total</th>
+                                        </tr>
+                                        <tr th:each="item: ${itemList}">
+                                            <td >
+                                                <p class="form-control-static" th:text="${item.name}">item.name</p>
+                                                <p class="help-block" >
+                                                    <a target="_blank" th:href="${item.url}" th:text="${item.url}" th:alt-title="${item.shop}">
+                                                        item.url
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p class="form-control-static" th:text="${#numbers.formatInteger(item.price,1,'COMMA')}">item.price</p>
+                                            </td>
+                                            <td class="text-center" >
+                                                <p class="form-control-static" th:text="${#numbers.formatInteger(item.quantity,1,'COMMA')}">item.quantity</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p class="form-control-static" th:text="${#numbers.formatInteger(item.amountJp + item.tax,1,'COMMA')}">item.amountJp + item.tax</p>
+                                                <p class="help-block" th:text="${#numbers.formatInteger(item.tax,1,'COMMA')}">item.tax</p>
+                                            </td>
+                                            <td class="text-center" >
+                                                <p class="form-control-static" th:text="${#numbers.formatDecimal(item.amountCn,1,'COMMA',2,'POINT')}"></p>
+                                                <p class="help-block" th:text="${#numbers.formatDecimal(item.exchangeRate * 100,1,'COMMA',2,'POINT')} + '%'"></p>
+                                            </td>
+                                            <td class="text-center" >
+                                                <p class="form-control-static" th:text="${#numbers.formatDecimal(item.total,1,'COMMA',2,'POINT')}"></p>
+                                                <p class="help-block" th:text="${#numbers.formatDecimal(item.fee,1,'COMMA',2,'POINT')}"></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th class="text-center" colspan="2">
+                                                <p class="form-control-static" >total</p>
+                                            </th>
+                                            <td class="text-center">
+                                                <p class="form-control-static" th:text="${#numbers.formatInteger(amountJp + tax,1,'COMMA')}">item.amountJp + item.tax</p>
+                                                <p class="help-block" th:text="${#numbers.formatInteger(tax,1,'COMMA')}">item.tax</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p class="form-control-static" th:text="${#numbers.formatDecimal(amountCn,1,'COMMA',2,'POINT')}"></p>
+                                            </td>
+                                            <td class="text-center" >
+                                                <p class="form-control-static" th:text="${#numbers.formatDecimal(total,1,'COMMA',2,'POINT')}"></p>
+                                                <p class="help-block" th:text="${#numbers.formatDecimal(fee,1,'COMMA',2,'POINT')}"></p>
+                                            
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-left">
+                                                <a th:href="@{/shop/cart}" class="btn btn-default">back</a>
+                                            </div>
+                                            <div class="col-xs-6 text-right">
+                                                <a th:href="@{/shop/order}" class="btn btn-success">order</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js" ></script>
+        <script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js" ></script>
+        <script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
+        <script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
+        <script type="text/javascript" src="../../static/tongrenlu/js/tongrenlu-trianglify.js" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+        <script type="text/javascript" th:inline="javascript">
+            $(function() {
+                $('.container-header').trianglify({
+                    palette: 'shop'
+                });
+            });
+        </script>
+        <div layout:fragment="scripts">
+            <script type="text/javascript" src="http://cdn.bootcss.com/numeral.js/1.5.3/numeral.min.js"></script>
+            <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+        </div>
+    </body>
+</html>

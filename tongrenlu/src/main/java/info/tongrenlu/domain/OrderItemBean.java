@@ -20,6 +20,8 @@ public class OrderItemBean extends DtoBean {
 
     private BigDecimal fee = BigDecimal.ZERO;
 
+    private Integer status = 0;
+
     public String getName() {
         return this.name;
     }
@@ -102,5 +104,13 @@ public class OrderItemBean extends DtoBean {
 
     public BigDecimal getTotal() {
         return this.getAmountCn().add(this.fee);
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

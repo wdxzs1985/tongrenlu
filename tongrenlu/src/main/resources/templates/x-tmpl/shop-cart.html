@@ -9,23 +9,86 @@
                 <p><a th:href="@{/}" th:text="#{button.back}" class="btn btn-default">back</a></p>
             </div>
 {% } else { %}
-<div class="panel card">
+    <div class="panel card">
         <table class="table table-bordered">
-{% for (var i=0, item; item=o.itemList[i]; i++) { %}
             <tr>
-                <td class="" style="background: #eee;">{%= item.name %}</td>
-                <td class="text-center">{%= numeral(item.price).format('0,0') %}</td>
-                <td class="text-center" style="background: #eee;">
-                    <input type="text" name="quantity" value="{%= item.quantity %}"/>
-                </td>
-                <td class="text-center">{%= numeral(item.amountJp).format('0,0') %}</td>
-                <td class="text-center" style="background: #eee;">{%= numeral(item.amountCn).format('0,0.00') %}</td>
-                <td class="text-center">{%= numeral(item.fee).format('0,0.00') %}</td>
-                <td class="text-center" style="background: #eee;">{%= numeral(item.total).format('0,0.00') %}</td>
+                <th class="" >name</th>
+                <th class="text-center">price</th>
+                <th class="text-center" >quantity</th>
+                <th class="text-center">amountJp</th>
+                <th class="text-center" >amountCn</th>
+                <th class="text-center" >total</th>
+                <th class="text-center" ></th>
             </tr>
-{% } %}
+            {% for (var i=0, item; item=o.itemList[i]; i++) { %}
+            <tr>
+                <td >
+                    <p class="form-control-static" >
+                        {%= item.name %}
+                    </p>
+                    <p class="help-block" >
+                        <a href="{%= item.url %}" target="_blank" title="{%= item.shop %}" class="">
+                            {%= item.url %}
+                        </a>
+                    </p>
+                </td>
+                <td class="text-center">
+                    <p class="form-control-static" >{%= numeral(item.price).format('0,0') %}</p>
+                </td>
+                <td class="text-center" >
+                    <form class="form-inline" method="post">
+                        <input type="text" name="quantity" value="{%= item.quantity %}" style="width: 60px;" class="form-control text-right"/>
+                        <input type="hidden" name="name" value="{%= item.name %}" class="form-control"/>
+                    </form>
+                </td>
+                <td class="text-center">
+                    <p class="form-control-static" >{%= numeral(item.amountJp + item.tax).format('0,0') %}</p>
+                    <p class="help-block" >(Tax: {%= numeral(item.tax).format('0,0') %})</p>
+                </td>
+                <td class="text-center" >
+                    <p class="form-control-static" >{%= numeral(item.amountCn).format('0,0.00') %}</p>
+                    <p class="help-block" >(Exchange: {%= numeral(item.exchangeRate).format('0.00%') %})</p>
+                </td>
+                <td class="text-center" >
+                    <p class="form-control-static" >{%= numeral(item.total).format('0,0.00') %}</p>
+                    <p class="help-block" >(Fee: {%= numeral(item.fee).format('0,0.00') %})</p>
+                </td>
+                <td class="text-center" >
+                    <a  class="btn btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+            {% } %}
+            <tr>
+                <td></td>
+                <th class="text-center" colspan="2">
+                    <p class="form-control-static" >total</p>
+                </th>
+                <td class="text-center" >
+                    <p class="form-control-static" >{%= numeral(o.amountJp + o.tax).format('0,0') %}</p>
+                    <p class="help-block" >(Tax: {%= numeral(o.tax).format('0,0') %})</p>
+                </td>
+                <td class="text-center" >
+                    <p class="form-control-static" >{%= numeral(o.amountCn).format('0,0.00') %}</p>
+                    <p class="help-block" >(Exchange: {%= numeral(o.exchangeRate).format('0.00%') %})</p>
+                </td>
+                <td class="text-center" >
+                    <p class="form-control-static" >{%= numeral(o.total).format('0,0.00') %}</p>
+                    <p class="help-block" >(Fee: {%= numeral(o.fee).format('0,0.00') %})</p>
+                </td>
+                <td ></td>
+            </tr>
         </table>
-</div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-6 text-left"><a href="" class="btn btn-warning">clear</a></div>
+                <div class="col-xs-6 text-right">
+                    <a th:href="@{/shop/order}" class="btn btn-success">order</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% } %}
 </script>
 </body>

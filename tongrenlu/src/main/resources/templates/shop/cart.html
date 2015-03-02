@@ -42,15 +42,6 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-right hidden-xs hidden-sm" th:action="@{/music/search}" method="get" role="search">
-                        <div class="form-group">
-                            <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
-                        </div>
-                        <button class="btn btn-warning" type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                            <span class="hidden-xs hidden-sm" th:text="#{home.search.music}"></span>
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -64,7 +55,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-8" >
-                            <form id="shop-cart-form" th:action="@{/shop/cart/add}" method="get">
+                            <form id="shop-cart-form" th:action="@{/shop/cart/add}" method="post">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="nameOrUrl" />
                                     <div class="input-group-btn">
@@ -82,45 +73,8 @@
             <div class="container-wrap container-wrap-darker" >
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div id="shop-cart-container">
-                                <div class="alert alert-warning">
-                                    <h4 th:text="#{shop.noData}">no item</h4>
-                                    <p><a th:href="@{/}" th:text="#{button.back}" class="btn btn-default">back</a></p>
-                                </div>
-                                <div class=" ">
-                                    <div class="card panel">
-                                        <a href="javascript:;" class="media-left">
-                                            <img src="http://placehold.it/120x120" class="img-120" />
-                                        </a>
-                                        <div class="media-body">
-                                            <h4 >[title] title</h4>
-                                            <table class="table">
-                                                <tr>
-                                                    <th class="text-center" >price</th>
-                                                    <th class="text-center" style="background: #eee;">quantity</th>
-                                                    <th class="text-center" >amount_jpy</th>
-                                                    <th class="text-center" style="background: #eee;">amount_rmb</th>
-                                                    <th class="text-center" >fee</th>
-                                                    <th class="text-center" style="background: #eee;">total</th>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">1,500</td>
-                                                    <td class="text-center" style="background: #eee;">1</td>
-                                                    <td class="text-center">1,500</td>
-                                                    <td class="text-center" style="background: #eee;">90</td>
-                                                    <td class="text-center">10</td>
-                                                    <td class="text-center" style="background: #eee;">100</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <button class="btn btn-danger">
-                                                <span th:text="#{button.remove}">remove</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,7 +89,7 @@
         <script type="text/javascript" th:inline="javascript">
             $(function() {
                 $('.container-header').trianglify({
-                    palette: 'home'
+                    palette: 'shop'
                 });
             });
         </script>
