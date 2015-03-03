@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.OrderItemMapper">
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_order_item(
+        <trim suffixOverrides=",">
+           user_id,
+           order_id,
+           title,
+           url,
+           shop,
+           price,
+           quantity,
+           tax_rate,
+           exchange_rate,
+           fee,
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+           #{userBean.id},
+           #{orderBean.id},
+           #{title},
+           #{url},
+           #{shop},
+           #{price},
+           #{quantity},
+           #{taxRate},
+           #{exchangeRate},
+           #{fee},
+        </trim>
+        )
+    </insert>
+    
+</mapper>

@@ -12,7 +12,7 @@
     <div class="panel card">
         <table class="table table-bordered">
             <tr>
-                <th class="" >name</th>
+                <th class="" >title</th>
                 <th class="text-center">price</th>
                 <th class="text-center" >quantity</th>
                 <th class="text-center">amountJp</th>
@@ -24,7 +24,7 @@
             <tr>
                 <td >
                     <p class="form-control-static" >
-                        {%= item.name %}
+                        {%= item.title %}
                     </p>
                     <p class="help-block" >
                         <a href="{%= item.url %}" target="_blank" title="{%= item.shop %}" class="">
@@ -66,16 +66,16 @@
                     <p class="form-control-static" >total</p>
                 </th>
                 <td class="text-center" >
-                    <p class="form-control-static" >{%= numeral(o.amountJp + o.tax).format('0,0') %}</p>
-                    <p class="help-block" >(Tax: {%= numeral(o.tax).format('0,0') %})</p>
+                    <p class="form-control-static" >{%= numeral(o.orderBean.amountJp + o.orderBean.tax).format('0,0') %}</p>
+                    <p class="help-block" >(Tax: {%= numeral(o.orderBean.tax).format('0,0') %})</p>
                 </td>
                 <td class="text-center" >
-                    <p class="form-control-static" >{%= numeral(o.amountCn).format('0,0.00') %}</p>
-                    <p class="help-block" >(Exchange: {%= numeral(o.exchangeRate).format('0.00%') %})</p>
+                    <p class="form-control-static" >{%= numeral(o.orderBean.amountCn).format('0,0.00') %}</p>
+                    <p class="help-block" >(Exchange: {%= numeral(o.orderBean.exchangeRate).format('0.00%') %})</p>
                 </td>
                 <td class="text-center" >
-                    <p class="form-control-static" >{%= numeral(o.total).format('0,0.00') %}</p>
-                    <p class="help-block" >(Fee: {%= numeral(o.fee).format('0,0.00') %})</p>
+                    <p class="form-control-static" >{%= numeral(o.orderBean.total).format('0,0.00') %}</p>
+                    <p class="help-block" >(Fee: {%= numeral(o.orderBean.fee).format('0,0.00') %})</p>
                 </td>
                 <td ></td>
             </tr>

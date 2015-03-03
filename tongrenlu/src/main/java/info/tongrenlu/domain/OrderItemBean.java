@@ -4,7 +4,11 @@ import java.math.BigDecimal;
 
 public class OrderItemBean extends DtoBean {
 
-    private String name = null;
+    private UserBean userBean = null;
+
+    private OrderBean orderBean = null;
+
+    private String title = null;
 
     private String url = null;
 
@@ -21,14 +25,6 @@ public class OrderItemBean extends DtoBean {
     private BigDecimal fee = BigDecimal.ZERO;
 
     private Integer status = 0;
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
 
     public String getUrl() {
         return this.url;
@@ -107,10 +103,34 @@ public class OrderItemBean extends DtoBean {
     }
 
     public Integer getStatus() {
-        return status;
+        return this.status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(final Integer status) {
         this.status = status;
+    }
+
+    public OrderBean getOrderBean() {
+        return this.orderBean;
+    }
+
+    public void setOrderBean(final OrderBean orderBean) {
+        this.orderBean = orderBean;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+    public UserBean getUserBean() {
+        return this.userBean;
+    }
+
+    public void setUserBean(final UserBean userBean) {
+        this.userBean = userBean;
     }
 }
