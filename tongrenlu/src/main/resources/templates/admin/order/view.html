@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="console/layout">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="container-wrap container-header" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8" >
+                            <h1 th:text="#{admin.order}"></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-tab">
+                    <div class="container">
+                        <ul class="nav">
+                            <li class="active">
+                                <a th:href="@{/admin/order}">
+                                    <span class="glyphicon glyphicon-th-list"></span>
+                                    <span class="" th:text="#{admin.order.index}"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="container-wrap container-wrap-darker" >
+                <div class="container">
+                    <div id="shop-cart-container">
+                        <form th:action="@{/admin/order/__${orderBean.id}__}" method="post">
+                        <div class="panel card">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class="" style="width:50%">title</th>
+                                        <th class="text-center" >price</th>
+                                        <th class="text-center" >quantity</th>
+                                        <th class="text-center" >amountJp</th>
+                                        <th class="text-center" >amountCn</th>
+                                        <th class="text-center" >total</th>
+                                    </tr>
+                                    <tr th:each="item: ${itemList}">
+                                        <td >
+                                            <p class="form-control-static" th:text="${item.title}">item.title</p>
+                                            <p class="help-block" >
+                                                <a target="_blank" th:href="${item.url}" th:text="${item.url}" th:alt-title="${item.shop}">
+                                                    item.url
+                                                </a>
+                                            </p>
+                                            <input type="hidden" name="orderItemId" th:value="${item.id}" />
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group" >
+                                                <input type="number" name="price" class="form-control" th:value="${#numbers.formatInteger(item.price,1)}" step="100" min="0"/>
+                                            </div>
+                                        </td>
+                                        <td class="text-center" >
+                                            <div class="form-group" >
+                                                <input type="number" name="quantity" class="form-control" th:value="${#numbers.formatInteger(item.quantity,1)}"  step="1" min="1"/>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="form-control-static" th:text="#{shop.JPY(${#numbers.formatInteger(item.amountJp,1,'COMMA')})}">item.amountJp</p>
+                                        </td>
+                                        <td class="text-center" >
+                                            <p class="form-control-static" th:text="#{shop.CNY(${#numbers.formatDecimal(item.amountCn,1,'COMMA',2,'POINT')})}"></p>
+                                            <div class="form-group" >
+                                                <input type="number" name="exchangeRate" class="form-control" th:value="${#numbers.formatDecimal(item.exchangeRate,1,'NONE',3,'POINT')}" step="0.005" min="0"/>
+                                            </div>
+                                        </td>
+                                        <td class="text-center" >
+                                            <p class="form-control-static" th:text="#{shop.CNY(${#numbers.formatDecimal(item.total,1,'COMMA',2,'POINT')})}"></p>
+                                            <div class="form-group" >
+                                                <input type="number" name="fee" class="form-control" th:value="${#numbers.formatDecimal(item.fee,1,'NONE',2,'POINT')}" step="5" min="0"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="text-center" >
+                                            <p class="form-control-static" >total</p>
+                                        </th>
+                                        <td class="text-center">
+                                            <p class="form-control-static" th:text="#{shop.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})}">item.amountJp + item.tax</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class="form-control-static" th:text="#{shop.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}"></p>
+                                        </td>
+                                        <td class="text-center" >
+                                            <p class="form-control-static" th:text="#{shop.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></p>
+                                            <p class="help-block" th:text="#{shop.fee(#{shop.CNY(${#numbers.formatDecimal(orderBean.fee,1,'COMMA',2,'POINT')})})}"></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            <div class="panel-footer">
+                                <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" class="btn btn-danger" th:text="#{button.cancel}">cancel</a>
+                                <a th:href="@{/admin/order}" class="btn btn-default">back</a>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div layout:fragment="scripts">
+            <script type="text/javascript" src="http://cdn.bootcss.com/numeral.js/1.5.3/numeral.min.js"></script>
+            <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+            <script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
+            <script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
+            <script type="text/javascript" src="../../static/tongrenlu/js/tongrenlu-trianglify.js" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+            <script type="text/javascript" th:inline="javascript">
+                $(function() {
+                    $('.container-header').trianglify({
+                        palette: 'console'
+                    });
+                });
+            </script>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <title th:text="#{admin.order} + ' | ' + #{admin}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8" >
+                    <h1 th:text="#{admin.order}"></h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="active">
+                        <a th:href="@{/admin/order}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span class="" th:text="#{admin.order.index}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrap container-wrap-darker" >
+        <div class="container">
+            <th:block th:unless="${#lists.isEmpty(page.items)}">
+                <div class="card panel">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="text-center" style="width:50%">title</th>
+                            <th class="text-center">amountJp</th>
+                            <th class="text-center" >amountCn</th>
+                            <th class="text-center" >total</th>
+                            <th class="text-center" >status</th>
+                        </tr>
+                        <tr th:each="orderBean: ${page.items}">
+                            <td >
+                                <p class="form-control-static">
+                                    <a th:href="@{/admin/order/__${orderBean.id}__}" th:text="${orderBean.title}"></a>
+                                </p>
+                            </td>
+                            <td class="text-center">
+                                <p class="form-control-static" th:text="#{shop.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})}">item.amountJp + item.tax</p>
+                            </td>
+                            <td class="text-center" >
+                                <p class="form-control-static" th:text="#{shop.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}"></p>
+                            </td>
+                            <td class="text-center" >
+                                <p class="form-control-static" th:text="#{shop.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></p>
+                                <p class="help-block" th:text="#{shop.fee(#{shop.CNY(${#numbers.formatDecimal(orderBean.fee,1,'COMMA',2,'POINT')})})}"></p>
+                            </td>
+                            <td class="text-center" th:switch="${orderBean.status}">
+                                <div th:case="0" >
+                                    <p class="form-control-static" >Order Created</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.createDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
+                                <div th:case="1" >
+                                    <p class="form-control-static" >Order Created</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.orderDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
+                                <div th:case="2" >
+                                    <p class="form-control-static" >Order Paid</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.payDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
+                                <div th:case="3" >
+                                    <p class="form-control-static" >Package Send</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.sendDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
+                                <div th:case="4" >
+                                    <p class="form-control-static" >Package Received</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="panel-footer">
+                        <div id="jpaginate" class="hidden-xs"></div>
+                        <div id="select-paginate" class="form-group visible-xs"></div>
+                    </div>
+                </div>
+            </th:block>
+            <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                <h4 th:text="#{console.article.noData}"></h4>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+	new paginate({
+        count       : /*[[${page.pageCount}]]*/ 20,
+        start       : /*[[${page.pageNumber}]]*/ 1,
+        onChange                : function (currval){
+            var url = /*[[@{/console/order(p='')}]]*/ '/console/order';
+            window.location.href = url + currval;
+            return false;
+        }
+	});
+});
+</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $('.container-header').trianglify({
+        palette: 'console'
+    });
+});
+</script>
+</th:block>
+  </body>
+</html>

@@ -12,13 +12,13 @@
     <div class="panel card">
         <table class="table table-bordered">
             <tr>
-                <th class="" >title</th>
-                <th class="text-center">price</th>
+                <th class="" style="width:50%">title</th>
+                <th class="text-center" >price</th>
                 <th class="text-center" >quantity</th>
-                <th class="text-center">amountJp</th>
+                <th class="text-center" >amountJp</th>
                 <th class="text-center" >amountCn</th>
                 <th class="text-center" >total</th>
-                <th class="text-center" ></th>
+                <th class="text-center"></th>
             </tr>
             {% for (var i=0, item; item=o.itemList[i]; i++) { %}
             <tr>
@@ -37,17 +37,16 @@
                 </td>
                 <td class="text-center" >
                     <form class="form-inline" method="post">
-                        <input type="text" name="quantity" value="{%= item.quantity %}" style="width: 60px;" class="form-control text-right"/>
+                        <input type="number" name="quantity" value="{%= item.quantity %}" style="width:60px;" step="1" class="form-control text-right"/>
                         <input type="hidden" name="name" value="{%= item.name %}" class="form-control"/>
                     </form>
                 </td>
                 <td class="text-center">
-                    <p class="form-control-static" >{%= numeral(item.amountJp + item.tax).format('0,0') %}</p>
-                    <p class="help-block" >(Tax: {%= numeral(item.tax).format('0,0') %})</p>
+                    <p class="form-control-static" >{%= numeral(item.amountJp).format('0,0') %}</p>
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(item.amountCn).format('0,0.00') %}</p>
-                    <p class="help-block" >(Exchange: {%= numeral(item.exchangeRate).format('0.00%') %})</p>
+                    <p class="help-block" >(Exchange: {%= numeral(item.exchangeRate).format('0.0%') %})</p>
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(item.total).format('0,0.00') %}</p>
@@ -66,12 +65,10 @@
                     <p class="form-control-static" >total</p>
                 </th>
                 <td class="text-center" >
-                    <p class="form-control-static" >{%= numeral(o.orderBean.amountJp + o.orderBean.tax).format('0,0') %}</p>
-                    <p class="help-block" >(Tax: {%= numeral(o.orderBean.tax).format('0,0') %})</p>
+                    <p class="form-control-static" >{%= numeral(o.orderBean.amountJp).format('0,0') %}</p>
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(o.orderBean.amountCn).format('0,0.00') %}</p>
-                    <p class="help-block" >(Exchange: {%= numeral(o.orderBean.exchangeRate).format('0.00%') %})</p>
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(o.orderBean.total).format('0,0.00') %}</p>

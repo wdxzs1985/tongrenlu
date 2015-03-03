@@ -14,7 +14,6 @@
            shop,
            price,
            quantity,
-           tax_rate,
            exchange_rate,
            fee,
         </trim>
@@ -27,11 +26,31 @@
            #{shop},
            #{price},
            #{quantity},
-           #{taxRate},
            #{exchangeRate},
            #{fee},
         </trim>
         )
     </insert>
+    
+    <select id="fetchList" resultType="OrderItemBean">
+        select
+        <trim suffixOverrides=",">
+            id,
+            user_id         as "userBean.id",
+            order_id        as "orderBean.id",
+            title,
+            url,
+            shop,
+            price,
+            quantity,
+            exchange_rate   as "exchangeRate",
+            fee,
+        </trim>
+        from
+            m_order_item
+        <where>
+            order_id = #{orderBean.id}
+        </where>
+    </select>
     
 </mapper>

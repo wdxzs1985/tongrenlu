@@ -63,6 +63,17 @@
                         </li>
                     </ul>
                 </li>
+                <li class="dropdown" th:if="${session.LOGIN_USER.shopAdmin}">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
+                        <span th:text="#{admin.order}"></span> 
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a th:href="@{/admin/order}" th:text="#{admin.order}"></a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class=""><a th:href="@{/}" th:text="#{application}"></a></li>

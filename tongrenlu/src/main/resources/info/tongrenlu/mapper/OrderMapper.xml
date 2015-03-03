@@ -8,22 +8,86 @@
         INSERT INTO m_order(
         <trim suffixOverrides=",">
            user_id,
+           title,
            amount_jp,
            amount_cn,
-           tax,
            fee,
            total,
+           create_date
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
            #{userBean.id},
+           #{title},
            #{amountJp},
            #{amountCn},
-           #{tax},
            #{fee},
            #{total},
+           current_timestamp
         </trim>
         )
     </insert>
     
+    <select id="count" resultType="int">
+        select
+            count(id)
+        from 
+            m_order
+        <where>
+            <if test="userBean != null">
+            and user_id = #{userBean.id}
+            </if>
+        </where>
+    </select>
+    
+    <select id="fetchBean" resultType="orderBean">
+        select
+        <trim suffixOverrides=",">
+            id,
+            title,
+            user_id         as "userBean.id",
+            amount_jp       as "amountJp",
+            amount_cn       as "amountCn",
+            fee,
+            total,
+            status,
+            create_date     as "createDate",
+            order_date      as "orderDate",
+            pay_date        as "payDate",
+            send_date       as "sendDate",
+            receive_date    as "receiveDate",
+        </trim>
+        from 
+            m_order
+        <where>
+            id = #{orderId}
+        </where>
+    </select>
+    
+    <select id="search" resultType="OrderBean">
+        select
+        <trim suffixOverrides=",">
+            id,
+            title,
+            user_id         as "userBean.id",
+            amount_jp       as "amountJp",
+            amount_cn       as "amountCn",
+            fee,
+            total,
+            status,
+            create_date     as "createDate",
+            order_date      as "orderDate",
+            pay_date        as "payDate",
+            send_date       as "sendDate",
+            receive_date    as "receiveDate",
+        </trim>
+        from 
+            m_order
+        <where>
+            <if test="userBean != null">
+            and user_id = #{userBean.id}
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
 </mapper>

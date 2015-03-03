@@ -20,8 +20,6 @@ public class OrderItemBean extends DtoBean {
 
     private BigDecimal exchangeRate = BigDecimal.ZERO;
 
-    private BigDecimal taxRate = BigDecimal.ZERO;
-
     private BigDecimal fee = BigDecimal.ZERO;
 
     private Integer status = 0;
@@ -66,14 +64,6 @@ public class OrderItemBean extends DtoBean {
         this.exchangeRate = exchangeRate;
     }
 
-    public BigDecimal getTaxRate() {
-        return this.taxRate;
-    }
-
-    public void setTaxRate(final BigDecimal taxRate) {
-        this.taxRate = taxRate;
-    }
-
     public BigDecimal getFee() {
         return this.fee;
     }
@@ -86,16 +76,8 @@ public class OrderItemBean extends DtoBean {
         return this.price.multiply(this.quantity);
     }
 
-    public BigDecimal getTax() {
-        return this.getAmountJp().multiply(this.taxRate);
-
-    }
-
     public BigDecimal getAmountCn() {
-        final BigDecimal amountJp = this.getAmountJp();
-        final BigDecimal tax = this.getTax();
-        final BigDecimal totalJp = amountJp.add(tax);
-        return totalJp.multiply(this.exchangeRate);
+        return this.getAmountJp().multiply(this.exchangeRate);
     }
 
     public BigDecimal getTotal() {

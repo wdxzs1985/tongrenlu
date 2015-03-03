@@ -1,20 +1,33 @@
 package info.tongrenlu.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class OrderBean extends DtoBean {
 
     private UserBean userBean = null;
 
-    private BigDecimal amountJp = BigDecimal.ZERO;
+    private String title = null;
 
-    private BigDecimal tax = BigDecimal.ZERO;
+    private BigDecimal amountJp = BigDecimal.ZERO;
 
     private BigDecimal amountCn = BigDecimal.ZERO;
 
     private BigDecimal fee = BigDecimal.ZERO;
 
     private BigDecimal total = BigDecimal.ZERO;
+
+    private Date createDate = null;
+
+    private Date orderDate = null;
+
+    private Date payDate = null;
+
+    private Date sendDate = null;
+
+    private Date receiveDate = null;
+
+    private Integer status = 0;
 
     public UserBean getUserBean() {
         return this.userBean;
@@ -30,14 +43,6 @@ public class OrderBean extends DtoBean {
 
     public void setAmountJp(final BigDecimal amountJp) {
         this.amountJp = amountJp;
-    }
-
-    public BigDecimal getTax() {
-        return this.tax;
-    }
-
-    public void setTax(final BigDecimal tax) {
-        this.tax = tax;
     }
 
     public BigDecimal getAmountCn() {
@@ -62,6 +67,62 @@ public class OrderBean extends DtoBean {
 
     public void setTotal(final BigDecimal total) {
         this.total = total;
+    }
+
+    public Date getCreateDate() {
+        return this.createDate;
+    }
+
+    public void setCreateDate(final Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getOrderDate() {
+        return this.orderDate;
+    }
+
+    public void setOrderDate(final Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Date getPayDate() {
+        return this.payDate;
+    }
+
+    public void setPayDate(final Date payDate) {
+        this.payDate = payDate;
+    }
+
+    public Date getSendDate() {
+        return this.sendDate;
+    }
+
+    public void setSendDate(final Date sendDate) {
+        this.sendDate = sendDate;
+    }
+
+    public Date getReceiveDate() {
+        return this.receiveDate;
+    }
+
+    public void setReceiveDate(final Date receiveDate) {
+        this.receiveDate = receiveDate;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+    public Integer getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(final Integer status) {
+        this.status = status;
     }
 
 }
