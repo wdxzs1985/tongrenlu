@@ -1,6 +1,7 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.constants.CommonConstants;
+import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
@@ -72,7 +73,7 @@ public class AdminMusicController {
                                  final Model model) {
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("query", query);
-        page.addParam("publishFlg", new String[] { CommonConstants.UNPUBLISH });
+        page.addParam("publishFlg", new String[] { ArticleBean.UNPUBLISH });
         this.musicService.searchMusic(page);
         model.addAttribute("page", page);
 

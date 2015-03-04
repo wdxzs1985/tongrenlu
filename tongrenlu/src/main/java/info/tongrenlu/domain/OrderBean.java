@@ -5,6 +5,18 @@ import java.util.Date;
 
 public class OrderBean extends DtoBean {
 
+    public static final Integer STATUS_CREATE = 0;
+
+    public static final Integer STATUS_START = 1;
+
+    public static final Integer STATUS_PAY = 2;
+
+    public static final Integer STATUS_SEND = 3;
+
+    public static final Integer STATUS_FINISH = 4;
+
+    public static final Integer STATUS_CANCEL = 9;
+
     private UserBean userBean = null;
 
     private String title = null;
@@ -27,7 +39,7 @@ public class OrderBean extends DtoBean {
 
     private Date receiveDate = null;
 
-    private Integer status = 0;
+    private Integer status = STATUS_CREATE;
 
     public UserBean getUserBean() {
         return this.userBean;

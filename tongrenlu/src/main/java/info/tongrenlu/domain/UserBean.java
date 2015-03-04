@@ -9,6 +9,17 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_DEFAULT)
 public class UserBean extends DtoBean {
 
+    public static final Integer ROLE_GUEST = 0;
+    // 1
+    public static final Integer ROLE_MEMBER = Integer.valueOf("0000000001", 2);
+    // 3
+    public static final Integer ROLE_EDITOR = Integer.valueOf("0000000010", 2);
+    // 7
+    public static final Integer ROLE_EDIT_ADMIN = Integer.valueOf("0000000110", 2);
+    // 9
+    public static final Integer ROLE_SHOP_ADMIN = Integer.valueOf("0000001000", 2);
+    // 513
+    public static final Integer ROLE_SUPER_ADMIN = Integer.valueOf("1000000000", 2);
     /**
      *
      */
@@ -36,7 +47,7 @@ public class UserBean extends DtoBean {
     private String fingerprint;
 
     @JsonIgnore
-    private Integer role = CommonConstants.ROLE_GUEST;
+    private Integer role = ROLE_GUEST;
 
     @JsonIgnore
     private Integer includeRedFlg;
@@ -112,27 +123,27 @@ public class UserBean extends DtoBean {
     }
 
     public boolean isGuest() {
-        return this.role == CommonConstants.ROLE_GUEST;
+        return this.role == ROLE_GUEST;
     }
 
     public boolean isMember() {
-        return (CommonConstants.ROLE_MEMBER & (this.role)) == CommonConstants.ROLE_MEMBER;
+        return (ROLE_MEMBER & (this.role)) == ROLE_MEMBER;
     }
 
     public boolean isEditor() {
-        return (CommonConstants.ROLE_EDITOR & (this.role)) == CommonConstants.ROLE_EDITOR;
+        return (ROLE_EDITOR & (this.role)) == ROLE_EDITOR;
     }
 
     public boolean isEditAdmin() {
-        return (CommonConstants.ROLE_EDIT_ADMIN & (this.role)) == CommonConstants.ROLE_EDIT_ADMIN;
+        return (ROLE_EDIT_ADMIN & (this.role)) == ROLE_EDIT_ADMIN;
     }
 
     public boolean isShopAdmin() {
-        return (CommonConstants.ROLE_SHOP_ADMIN & (this.role)) == CommonConstants.ROLE_SHOP_ADMIN;
+        return (ROLE_SHOP_ADMIN & (this.role)) == ROLE_SHOP_ADMIN;
     }
 
     public boolean isSuperAdmin() {
-        return (CommonConstants.ROLE_SUPER_ADMIN & (this.role)) == CommonConstants.ROLE_SUPER_ADMIN;
+        return (ROLE_SUPER_ADMIN & (this.role)) == ROLE_SUPER_ADMIN;
     }
 
     public boolean isOnlyVocal() {

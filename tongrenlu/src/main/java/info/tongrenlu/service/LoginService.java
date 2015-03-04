@@ -1,6 +1,5 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.constants.CommonConstants;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.FileManager;
 import info.tongrenlu.manager.UserManager;
@@ -46,11 +45,11 @@ public class LoginService {
                 if (this.log.isDebugEnabled()) {
                     this.log.debug("Role(DEX) :" + loginUser.getRole());
                     this.log.debug("Role(BIN) :" + Integer.toUnsignedString(loginUser.getRole(), 2));
-                    this.log.debug("Member(" + CommonConstants.ROLE_MEMBER + ") :" + loginUser.isMember());
-                    this.log.debug("Editor(" + CommonConstants.ROLE_EDITOR + ") :" + loginUser.isEditor());
-                    this.log.debug("EditAdmin(" + CommonConstants.ROLE_EDIT_ADMIN + ") :" + loginUser.isEditAdmin());
-                    this.log.debug("ShopAdmin(" + CommonConstants.ROLE_SHOP_ADMIN + ") :" + loginUser.isShopAdmin());
-                    this.log.debug("SuperAdmin(" + CommonConstants.ROLE_SUPER_ADMIN + ") :" + loginUser.isSuperAdmin());
+                    this.log.debug("Member(" + UserBean.ROLE_MEMBER + ") :" + loginUser.isMember());
+                    this.log.debug("Editor(" + UserBean.ROLE_EDITOR + ") :" + loginUser.isEditor());
+                    this.log.debug("EditAdmin(" + UserBean.ROLE_EDIT_ADMIN + ") :" + loginUser.isEditAdmin());
+                    this.log.debug("ShopAdmin(" + UserBean.ROLE_SHOP_ADMIN + ") :" + loginUser.isShopAdmin());
+                    this.log.debug("SuperAdmin(" + UserBean.ROLE_SUPER_ADMIN + ") :" + loginUser.isSuperAdmin());
                 }
                 return loginUser;
             }
@@ -66,11 +65,11 @@ public class LoginService {
             if (this.log.isDebugEnabled()) {
                 this.log.debug("Role(DEX) :" + loginUser.getRole());
                 this.log.debug("Role(BIN) :" + Integer.toUnsignedString(loginUser.getRole(), 2));
-                this.log.debug("Member (" + CommonConstants.ROLE_MEMBER + ") :" + loginUser.isMember());
-                this.log.debug("Editor (" + CommonConstants.ROLE_EDITOR + ") :" + loginUser.isEditor());
-                this.log.debug("EditAdmin (" + CommonConstants.ROLE_EDIT_ADMIN + ") :" + loginUser.isEditAdmin());
-                this.log.debug("ShopAdmin (" + CommonConstants.ROLE_SHOP_ADMIN + ") :" + loginUser.isShopAdmin());
-                this.log.debug("SuperAdmin (" + CommonConstants.ROLE_SUPER_ADMIN + ") :" + loginUser.isSuperAdmin());
+                this.log.debug("Member (" + UserBean.ROLE_MEMBER + ") :" + loginUser.isMember());
+                this.log.debug("Editor (" + UserBean.ROLE_EDITOR + ") :" + loginUser.isEditor());
+                this.log.debug("EditAdmin (" + UserBean.ROLE_EDIT_ADMIN + ") :" + loginUser.isEditAdmin());
+                this.log.debug("ShopAdmin (" + UserBean.ROLE_SHOP_ADMIN + ") :" + loginUser.isShopAdmin());
+                this.log.debug("SuperAdmin (" + UserBean.ROLE_SUPER_ADMIN + ") :" + loginUser.isSuperAdmin());
             }
         }
         return loginUser;
@@ -85,7 +84,7 @@ public class LoginService {
     @Transactional
     public boolean doSignup(final UserBean inputUser, final Map<String, Object> model, final Locale locale) {
         if (this.validateForRegister(inputUser, model, locale)) {
-            inputUser.setRole(CommonConstants.ROLE_MEMBER);
+            inputUser.setRole(UserBean.ROLE_MEMBER);
             this.userManager.insert(inputUser);
             this.fileManager.saveCover(inputUser, null);
             return true;

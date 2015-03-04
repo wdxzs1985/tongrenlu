@@ -59,4 +59,8 @@ public class OrderManager {
     public void updateOrderItem(final OrderItemBean orderItemBean) {
         this.orderItemMapper.update(orderItemBean);
     }
+
+    public void updateOrderStatus(final OrderBean orderBean) {
+        this.orderMapper.updateStatus(orderBean);
+    }
 }

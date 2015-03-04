@@ -99,4 +99,43 @@ public class AdminOrderController {
         this.orderService.updateOrder(orderBean, itemList);
         return "redirect:/admin/order/" + orderId;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/start")
+    public String doGetStart(@PathVariable final Integer orderId,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model,
+                             final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+
+        this.orderService.startOrder(orderBean);
+
+        return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/finish")
+    public String doGetFinish(@PathVariable final Integer orderId,
+                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                              final Model model,
+                              final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+
+        this.orderService.finishOrder(orderBean);
+
+        return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/cancel")
+    public String doGetCancel(@PathVariable final Integer orderId,
+                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                              final Model model,
+                              final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+
+        this.orderService.cancelOrder(orderBean);
+
+        return "redirect:/admin/order/" + orderId;
+    }
 }

@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_DEFAULT)
 public class ArticleBean extends DtoBean {
 
+    public static final String UNPUBLISH = "0";
+    public static final String PUBLISH = "1";
+    public static final String FREE = "2";
     /**
      *
      */
@@ -94,14 +97,14 @@ public class ArticleBean extends DtoBean {
     }
 
     public boolean isUnpublish() {
-        return "0".equals(this.publishFlg);
+        return UNPUBLISH.equals(this.publishFlg);
     }
 
     public boolean isPublish() {
-        return "1".equals(this.publishFlg);
+        return PUBLISH.equals(this.publishFlg);
     }
 
     public boolean isFree() {
-        return "2".equals(this.publishFlg);
+        return FREE.equals(this.publishFlg);
     }
 }

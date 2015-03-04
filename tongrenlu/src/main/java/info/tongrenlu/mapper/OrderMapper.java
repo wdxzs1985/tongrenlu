@@ -17,4 +17,6 @@ public interface OrderMapper {
 
     public void update(OrderBean orderBean);
 
+    public void updateStatus(OrderBean orderBean);
+
 }

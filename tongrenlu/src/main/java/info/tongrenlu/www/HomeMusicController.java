@@ -1,6 +1,6 @@
 package info.tongrenlu.www;
 
-import info.tongrenlu.constants.CommonConstants;
+import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.CommentBean;
 import info.tongrenlu.domain.FileBean;
 import info.tongrenlu.domain.MusicBean;
@@ -70,7 +70,7 @@ public class HomeMusicController {
 
         final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
         page.addParam("query", query);
-        page.addParam("publishFlg", new String[] { CommonConstants.PUBLISH, CommonConstants.FREE });
+        page.addParam("publishFlg", new String[] { ArticleBean.PUBLISH, ArticleBean.FREE });
         this.musicService.searchMusic(page);
         model.addAttribute("page", page);
 

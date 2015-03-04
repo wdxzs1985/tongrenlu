@@ -64,4 +64,19 @@ public class ConsoleOrderService {
 
         this.orderManager.update(orderBean);
     }
+
+    public void startOrder(final OrderBean orderBean) {
+        orderBean.setStatus(OrderBean.STATUS_START);
+        this.orderManager.updateOrderStatus(orderBean);
+    }
+
+    public void finishOrder(final OrderBean orderBean) {
+        orderBean.setStatus(OrderBean.STATUS_FINISH);
+        this.orderManager.updateOrderStatus(orderBean);
+    }
+
+    public void cancelOrder(final OrderBean orderBean) {
+        orderBean.setStatus(OrderBean.STATUS_CANCEL);
+        this.orderManager.updateOrderStatus(orderBean);
+    }
 }
