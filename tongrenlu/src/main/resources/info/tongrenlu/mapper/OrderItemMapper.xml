@@ -53,4 +53,22 @@
         </where>
     </select>
     
+    <update id="update">
+        update
+            m_order_item
+        <set>
+            title = #{title},
+            url = #{url},
+            shop = #{shop},
+            price = #{price},
+            quantity = #{quantity},
+            exchange_rate = #{exchangeRate},
+            fee = #{fee},
+        </set>
+        <where>
+            id = #{id}
+        </where>
+            
+    </update>
+    
 </mapper>

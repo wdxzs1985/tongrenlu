@@ -15,4 +15,6 @@ public interface OrderMapper {
 
     public OrderBean fetchBean(Map<String, Object> params);
 
+    public void update(OrderBean orderBean);
+
 }

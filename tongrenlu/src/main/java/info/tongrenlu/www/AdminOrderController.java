@@ -8,6 +8,8 @@ import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.ConsoleOrderService;
 import info.tongrenlu.support.PaginateSupport;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,5 +64,39 @@ public class AdminOrderController {
         model.addAttribute("itemList", itemList);
 
         return "admin/order/view";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}")
+    public String doPostEdit(@PathVariable final Integer orderId,
+                             @RequestParam("orderItemId[]") final Integer[] orderItemIdArray,
+                             @RequestParam("title[]") final String[] titleArray,
+                             @RequestParam("url[]") final String[] urlArray,
+                             @RequestParam("price[]") final BigDecimal[] priceArray,
+                             @RequestParam("quantity[]") final BigDecimal[] quantityArray,
+                             @RequestParam("exchangeRate[]") final BigDecimal[] exchangeRateArray,
+                             @RequestParam("fee[]") final BigDecimal[] feeArray,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model,
+                             final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+
+        final List<OrderItemBean> itemList = new ArrayList<OrderItemBean>();
+
+        for (int i = 0; i < orderItemIdArray.length; i++) {
+            final OrderItemBean orderItem = new OrderItemBean();
+            orderItem.setId(orderItemIdArray[i]);
+            orderItem.setTitle(titleArray[i]);
+            orderItem.setUrl(urlArray[i]);
+            orderItem.setPrice(priceArray[i]);
+            orderItem.setQuantity(quantityArray[i]);
+            orderItem.setExchangeRate(exchangeRateArray[i]);
+            orderItem.setFee(feeArray[i]);
+
+            itemList.add(orderItem);
+        }
+
+        this.orderService.updateOrder(orderBean, itemList);
+        return "redirect:/admin/order/" + orderId;
     }
 }

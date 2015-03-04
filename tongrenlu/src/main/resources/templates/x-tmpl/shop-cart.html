@@ -13,13 +13,13 @@
             </div>
 {% } else { %}
     <div class="panel card">
-        <table class="table table-bordered">
+        <div class=" table-responsive">
+        <table class="table table-bordered ">
             <tr>
                 <th class="text-center" style="width:50%" th:text="#{shop.title}">title</th>
                 <th class="text-center" th:text="#{shop.price}">price</th>
                 <th class="text-center" th:text="#{shop.quantity}">quantity</th>
-                <th class="text-center" th:text="#{shop.amountJp}">amountJp</th>
-                <th class="text-center" th:text="#{shop.amountCn}">amountCn</th>
+                <th class="text-center" th:text="#{shop.amount}">amount</th>
                 <th class="text-center" th:text="#{shop.total}">total</th>
                 <th class="text-center"></th>
             </tr>
@@ -45,10 +45,7 @@
                     </form>
                 </td>
                 <td class="text-center">
-                    <p class="form-control-static" >{%= numeral(item.amountJp).format('0,0') %} 円</p>
-                </td>
-                <td class="text-center" >
-                    <p class="form-control-static" >{%= numeral(item.amountCn).format('0,0.00') %} 元</p>
+                    <p class="form-control-static" >{%= numeral(item.amountJp).format('0,0') %} 円 / {%= numeral(item.amountCn).format('0,0.00') %} 元</p>
                     <p class="help-block" >(汇率: {%= numeral(item.exchangeRate).format('0.0%') %})</p>
                 </td>
                 <td class="text-center" >
@@ -67,10 +64,7 @@
                 <td></td>
                 <td></td>
                 <td class="text-center" >
-                    <p class="form-control-static" >{%= numeral(o.orderBean.amountJp).format('0,0') %} 円</p>
-                </td>
-                <td class="text-center" >
-                    <p class="form-control-static" >{%= numeral(o.orderBean.amountCn).format('0,0.00') %} 元</p>
+                    <p class="form-control-static" >{%= numeral(o.orderBean.amountJp).format('0,0') %} 円 / {%= numeral(o.orderBean.amountCn).format('0,0.00') %} 元</p>
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(o.orderBean.total).format('0,0.00') %} 元</p>
@@ -79,6 +73,7 @@
                 <td ></td>
             </tr>
         </table>
+        </div>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-xs-6 text-left">

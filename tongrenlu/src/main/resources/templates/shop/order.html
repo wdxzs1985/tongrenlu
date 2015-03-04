@@ -12,7 +12,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8" >
-                            <h1 th:text="#{order.order}"></h1>
+                            <h1 th:text="#{shop.order}"></h1>
                         </div>
                     </div>
                 </div>
@@ -27,13 +27,13 @@
                                     <p><a th:href="@{/}" th:text="#{button.back}" class="btn btn-default">back</a></p>
                                 </div>
                                 <div class="panel card" th:unless="${#lists.isEmpty(itemList)}">
+                                    <div class=" table-responsive">
                                     <table class="table table-bordered">
                                         <tr>
                                             <th class="text-center" style="width:50%" th:text="#{shop.title}">title</th>
                                             <th class="text-center" th:text="#{shop.price}">price</th>
                                             <th class="text-center" th:text="#{shop.quantity}">quantity</th>
-                                            <th class="text-center" th:text="#{shop.amountJp}">amountJp</th>
-                                            <th class="text-center" th:text="#{shop.amountCn}">amountCn</th>
+                                            <th class="text-center" th:text="#{shop.amount}">amount</th>
                                             <th class="text-center" th:text="#{shop.total}">total</th>
                                         </tr>
                                         <tr th:each="item: ${itemList}">
@@ -52,10 +52,7 @@
                                                 <p class="form-control-static" th:text="#{order.quantity(${#numbers.formatInteger(item.quantity,1,'COMMA')})}">item.quantity</p>
                                             </td>
                                             <td class="text-center">
-                                                <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(item.amountJp,1,'COMMA')})}">item.amountJp</p>
-                                            </td>
-                                            <td class="text-center" >
-                                                <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(item.amountCn,1,'COMMA',2,'POINT')})}"></p>
+                                                <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(item.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(item.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp</p>
                                                 <p class="help-block" th:text="#{order.exchange(${#numbers.formatDecimal(item.exchangeRate * 100,1,'COMMA',1,'POINT')})}"></p>
                                             </td>
                                             <td class="text-center" >
@@ -68,10 +65,7 @@
                                             <th></th>
                                             <th></th>
                                             <td class="text-center">
-                                                <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})}">item.amountJp + item.tax</p>
-                                            </td>
-                                            <td class="text-center">
-                                                <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}"></p>
+                                                <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp + item.tax</p>
                                             </td>
                                             <td class="text-center" >
                                                 <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></p>
@@ -79,6 +73,7 @@
                                             </td>
                                         </tr>
                                     </table>
+                                    </div>
                                     <div class="panel-footer">
                                         <div class="row">
                                             <div class="col-xs-6 text-left">

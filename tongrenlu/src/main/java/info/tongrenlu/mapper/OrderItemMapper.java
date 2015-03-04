@@ -11,4 +11,6 @@ public interface OrderItemMapper {
 
     public List<OrderItemBean> fetchList(Map<String, Object> params);
 
+    public void update(OrderItemBean orderItemBean);
+
 }

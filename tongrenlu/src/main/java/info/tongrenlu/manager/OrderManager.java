@@ -51,4 +51,12 @@ public class OrderManager {
         params.put("orderBean", orderBean);
         return this.orderItemMapper.fetchList(params);
     }
+
+    public void update(final OrderBean orderBean) {
+        this.orderMapper.update(orderBean);
+    }
+
+    public void updateOrderItem(final OrderItemBean orderItemBean) {
+        this.orderItemMapper.update(orderItemBean);
+    }
 }

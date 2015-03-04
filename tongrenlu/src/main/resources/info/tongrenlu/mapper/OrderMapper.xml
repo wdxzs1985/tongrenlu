@@ -30,9 +30,10 @@
     
     <select id="count" resultType="int">
         select
-            count(id)
+            count(m_order.id)
         from 
             m_order
+        join v_user on m_order.user_id = v_user.id
         <where>
             <if test="userBean != null">
             and user_id = #{userBean.id}
@@ -43,51 +44,70 @@
     <select id="fetchBean" resultType="orderBean">
         select
         <trim suffixOverrides=",">
-            id,
-            title,
-            user_id         as "userBean.id",
-            amount_jp       as "amountJp",
-            amount_cn       as "amountCn",
-            fee,
-            total,
-            status,
-            create_date     as "createDate",
-            order_date      as "orderDate",
-            pay_date        as "payDate",
-            send_date       as "sendDate",
-            receive_date    as "receiveDate",
+            m_order.id,
+            m_order.title,
+            m_order.amount_jp           as "amountJp",
+            m_order.amount_cn           as "amountCn",
+            m_order.fee,
+            m_order.total,
+            m_order.status,
+            m_order.create_date         as "createDate",
+            m_order.order_date          as "orderDate",
+            m_order.pay_date            as "payDate",
+            m_order.send_date           as "sendDate",
+            m_order.receive_date        as "receiveDate",
+            v_user.id           as "userBean.id",
+            v_user.nickname     as "userBean.nickname",
         </trim>
         from 
             m_order
+        join v_user on m_order.user_id = v_user.id
         <where>
-            id = #{orderId}
+            m_order.id = #{orderId}
         </where>
     </select>
     
     <select id="search" resultType="OrderBean">
         select
         <trim suffixOverrides=",">
-            id,
-            title,
-            user_id         as "userBean.id",
-            amount_jp       as "amountJp",
-            amount_cn       as "amountCn",
-            fee,
-            total,
-            status,
-            create_date     as "createDate",
-            order_date      as "orderDate",
-            pay_date        as "payDate",
-            send_date       as "sendDate",
-            receive_date    as "receiveDate",
+            m_order.id,
+            m_order.title,
+            m_order.amount_jp           as "amountJp",
+            m_order.amount_cn           as "amountCn",
+            m_order.fee,
+            m_order.total,
+            m_order.status,
+            m_order.create_date         as "createDate",
+            m_order.order_date          as "orderDate",
+            m_order.pay_date            as "payDate",
+            m_order.send_date           as "sendDate",
+            m_order.receive_date        as "receiveDate",
+            v_user.id                   as "userBean.id",
+            v_user.nickname             as "userBean.nickname",
         </trim>
         from 
             m_order
+        join v_user on m_order.user_id = v_user.id
         <where>
             <if test="userBean != null">
-            and user_id = #{userBean.id}
+            and v_user.id = #{userBean.id}
             </if>
         </where>
+        order by m_order.id desc
         limit #{start}, #{pageSize}
     </select>
+    
+    <update id="update">
+        update
+            m_order
+        <set>
+            amount_jp = #{amountJp},
+            amount_cn = #{amountCn},
+            fee = #{fee},
+            total = #{total},
+        </set>
+        <where>
+            m_order.id = #{id}
+        </where>
+    </update>
 </mapper>
