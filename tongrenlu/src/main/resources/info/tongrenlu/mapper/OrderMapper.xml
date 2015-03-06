@@ -110,4 +110,32 @@
             m_order.id = #{id}
         </where>
     </update>
+    
+    <update id="updateStatus">
+        update
+            m_order
+        <set>
+            status = #{status},
+            <choose>
+                <when test="status == 1">
+                  order_date = current_timestamp
+                </when>
+                <when test="status == 2">
+                  pay_date = current_timestamp
+                </when>
+                <when test="status == 3">
+                  send_date = current_timestamp
+                </when>
+                <when test="status == 4">
+                  receive_date = current_timestamp
+                </when>
+                <when test="status == 9">
+                  cancel_date = current_timestamp
+                </when>
+            </choose>
+        </set>
+        <where>
+            m_order.id = #{id}
+        </where>
+    </update>
 </mapper>

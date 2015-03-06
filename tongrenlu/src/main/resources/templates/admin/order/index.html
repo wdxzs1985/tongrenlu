@@ -37,9 +37,9 @@
                     <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th class="text-center" style="width:50%" th:text="#{shop.title}">title</th>
-                            <th class="text-center" th:text="#{shop.amount}">amountJp</th>
-                            <th class="text-center" th:text="#{shop.total}">total</th>
+                            <th class="text-center" style="width:50%" th:text="#{OrderBean.title}">title</th>
+                            <th class="text-center" th:text="#{OrderBean.amount}">amountJp</th>
+                            <th class="text-center" th:text="#{OrderBean.total}">total</th>
                             <th class="text-center" th:text="#{shop.status}">status</th>
                         </tr>
                         <tr th:each="orderBean: ${page.items}">
@@ -76,6 +76,10 @@
                                 <div th:case="4" >
                                     <p class="form-control-static" th:text="#{console.order.received}">Package Received</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
+                                <div th:case="9" >
+                                    <p class="form-control-static" th:text="#{console.order.canceled}">Package Received</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.cancelDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                             </td>
                         </tr>

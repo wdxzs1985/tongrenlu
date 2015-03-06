@@ -30,11 +30,11 @@
                                     <div class=" table-responsive">
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th class="text-center" style="width:50%" th:text="#{shop.title}">title</th>
-                                            <th class="text-center" th:text="#{shop.price}">price</th>
-                                            <th class="text-center" th:text="#{shop.quantity}">quantity</th>
-                                            <th class="text-center" th:text="#{shop.amount}">amount</th>
-                                            <th class="text-center" th:text="#{shop.total}">total</th>
+                                            <th class="text-center" style="width:50%" th:text="#{OrderBean.title}">title</th>
+                                            <th class="text-center" th:text="#{OrderBean.price}">price</th>
+                                            <th class="text-center" th:text="#{OrderBean.quantity}">quantity</th>
+                                            <th class="text-center" th:text="#{OrderBean.amount}">amount</th>
+                                            <th class="text-center" th:text="#{OrderBean.total}">total</th>
                                         </tr>
                                         <tr th:each="item: ${itemList}">
                                             <td >

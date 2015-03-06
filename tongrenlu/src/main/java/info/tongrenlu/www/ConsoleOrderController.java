@@ -66,4 +66,5 @@ public class ConsoleOrderController {
 
         return "console/order/view";
     }
+
 }

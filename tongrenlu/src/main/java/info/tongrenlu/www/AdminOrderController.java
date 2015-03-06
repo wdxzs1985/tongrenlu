@@ -100,7 +100,7 @@ public class AdminOrderController {
         return "redirect:/admin/order/" + orderId;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/start")
+    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/start")
     public String doGetStart(@PathVariable final Integer orderId,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model,
@@ -113,7 +113,7 @@ public class AdminOrderController {
         return "redirect:/admin/order/" + orderId;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/finish")
+    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/finish")
     public String doGetFinish(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
@@ -126,7 +126,7 @@ public class AdminOrderController {
         return "redirect:/admin/order/" + orderId;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/cancel")
+    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/cancel")
     public String doGetCancel(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
