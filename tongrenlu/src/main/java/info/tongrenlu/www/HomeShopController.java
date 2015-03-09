@@ -64,12 +64,12 @@ public class HomeShopController {
 
     @RequestMapping(value = "/cart/add", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doPostAddItem(@RequestParam final String nameOrUrl,
+    public Map<String, Object> doPostAddItem(@RequestParam final String titleOrUrl,
                                              @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart) {
         final Map<String, Object> model = new HashMap<String, Object>();
 
-        if (StringUtils.isNotBlank(nameOrUrl)) {
-            final OrderItemBean item = this.shopOrderService.initWithUrl(nameOrUrl);
+        if (StringUtils.isNotBlank(titleOrUrl)) {
+            final OrderItemBean item = this.shopOrderService.initWithUrl(titleOrUrl);
             shoppingCart.put("title:" + item.getTitle(), item);
             model.put("result", true);
         } else {
@@ -81,10 +81,10 @@ public class HomeShopController {
 
     @RequestMapping(value = "/cart/remove", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doPostRemoveItem(@RequestParam final String name,
+    public Map<String, Object> doPostRemoveItem(@RequestParam final String titleOrUrl,
                                                 @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart) {
         final Map<String, Object> model = new HashMap<String, Object>();
-        shoppingCart.remove(name);
+        shoppingCart.remove(titleOrUrl);
 
         model.put("result", true);
         return model;

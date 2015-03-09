@@ -16,12 +16,11 @@ var Cart = function(options) {
 				_cart.onError('Cart.load fail');
 			});
 		},
-		add: function(nameOrUrl) {
-			$.post(settings.addUrl, {nameOrUrl: nameOrUrl}).done(function(response) {
+		add: function(titleOrUrl) {
+			$.post(settings.addUrl, {titleOrUrl: titleOrUrl}).done(function(response) {
 				if(response.result) {
 					var $toast = $('<div class="toast">Event Created</div>');
 					$toast.appendTo('body');
-					//$(document).append($toast);
 					$toast.fadeIn(400).delay(3000).fadeOut(400, function() {
 						$toast.remove();
 					});
@@ -33,10 +32,10 @@ var Cart = function(options) {
 				_cart.onError('Cart.add fail');
 			});
 		},
-		remove: function(name) {
-			$.post(settings.removeUrl, {name: name}).done(function(response) {
+		remove: function(title) {
+			$.post(settings.removeUrl, {title: title}).done(function(response) {
 				if(response.result) {
-					_cart.b();
+					_cart.load();
 				} else {
 					_cart.onError(response.error);
 				}
@@ -53,6 +52,12 @@ var Cart = function(options) {
 		e.preventDefault();
 		var nameOrUrl = $(this).find('input[name="nameOrUrl"]').val();
 		_cart.add(nameOrUrl);
+	});
+	
+	$(settings.container).on('click', 'a.btn-remove', function(e) {
+		e.preventDefault();
+		var title = $(this).data('title')
+		_cart.remove(title);
 	});
 
 	_cart.load();
