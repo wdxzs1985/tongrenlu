@@ -2,8 +2,10 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
+import info.tongrenlu.domain.ShopBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.OrderManager;
+import info.tongrenlu.manager.ShopManager;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,11 +32,15 @@ public class ShopOrderService {
 
     @Autowired
     private OrderManager orderManager = null;
+    @Autowired
+    private ShopManager shopManager = null;
 
     public OrderItemBean initWithUrl(final String nameOrUrl) {
+        final ShopBean shopBean = this.shopManager.getDefaultShop();
+
         final OrderItemBean item = new OrderItemBean();
-        item.setExchangeRate(BigDecimal.valueOf(0.065));
-        item.setFee(BigDecimal.valueOf(10));
+        item.setExchangeRate(shopBean.getExchangeRate());
+        item.setFee(shopBean.getFee());
 
         if (PATTERN_TORANOANA.matcher(nameOrUrl).find()) {
             this.initWithToranoana(item, nameOrUrl);

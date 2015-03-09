@@ -41,7 +41,7 @@
         </where>
     </select>
     
-    <select id="fetchBean" resultType="orderBean">
+    <select id="fetchBean" resultType="OrderBean">
         select
         <trim suffixOverrides=",">
             m_order.id,

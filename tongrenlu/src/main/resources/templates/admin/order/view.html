@@ -44,7 +44,7 @@
                                         th:href="@{/admin/order/__${orderBean.id}__/finish}" 
                                         th:text="#{order.finish}">finish</a>
                                     <a class="btn btn-danger" 
-                                        th:if="${orderBean.status != 9}"
+                                        th:if="${orderBean.status != 9} and ${orderBean.status != 4}"
                                         th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
                                         th:text="#{order.cancel}">cancel</a>
                                 </div>

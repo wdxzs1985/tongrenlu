@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.ShopMapper">
+
+    <select id="fetchBean" resultType="ShopBean">
+        select
+        <trim suffixOverrides=",">
+            m_shop.id,
+            m_shop.shop_name            as shopName,
+            m_shop.fee,
+            m_shop.exchange_rate        as exchangeRate,
+            v_user.id                   as "userBean.id",
+            v_user.nickname             as "userBean.nickname",
+        </trim>
+        from 
+            m_shop
+        inner join v_user on m_shop.user_id = v_user.id
+        <where>
+            m_shop.id = #{shopId}
+        </where>
+    </select>
+    
+</mapper>
