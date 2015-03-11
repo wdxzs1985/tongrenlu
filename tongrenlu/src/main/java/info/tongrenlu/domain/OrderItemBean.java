@@ -2,6 +2,11 @@ package info.tongrenlu.domain;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_DEFAULT)
 public class OrderItemBean extends DtoBean {
 
     private UserBean userBean = null;
@@ -22,7 +27,10 @@ public class OrderItemBean extends DtoBean {
 
     private BigDecimal fee = BigDecimal.ZERO;
 
+    @JsonIgnore
     private Integer status = 0;
+
+    private Boolean removable = true;
 
     public String getUrl() {
         return this.url;
@@ -114,5 +122,13 @@ public class OrderItemBean extends DtoBean {
 
     public void setUserBean(final UserBean userBean) {
         this.userBean = userBean;
+    }
+
+    public Boolean isRemovable() {
+        return this.removable;
+    }
+
+    public void setRemovable(final Boolean removable) {
+        this.removable = removable;
     }
 }

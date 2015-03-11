@@ -39,10 +39,14 @@
                     <p class="form-control-static" >{%= numeral(item.price).format('0,0') %}</p>
                 </td>
                 <td class="text-center" >
+                    {% if (item.removable) { %}
                     <form class="form-inline" method="post">
                         <input type="number" name="quantity" value="{%= item.quantity %}" style="width:60px;" class="form-control text-right"/>
                         <input type="hidden" name="name" value="{%= item.name %}" class="form-control"/>
                     </form>
+                    {% } else { %}
+                        <p class="form-control-static" >{%= numeral(item.quantity).format('0,0') %}</p>
+                    {% } %}
                 </td>
                 <td class="text-center">
                     <p class="form-control-static" >{%= numeral(item.amountJp).format('0,0') %} 円 / {%= numeral(item.amountCn).format('0,0.00') %} 元</p>
@@ -53,9 +57,11 @@
                     <p class="help-block" >(手续费: {%= numeral(item.fee).format('0,0.00') %} 元)</p>
                 </td>
                 <td class="text-center" >
+                    {% if (item.removable) { %}
                     <a class="btn btn-danger btn-remove" data-title="{%= item.title %}">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
+                    {% } %}
                 </td>
             </tr>
             {% } %}
@@ -77,7 +83,7 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-xs-6 text-left">
-                    <a href="" class="btn btn-warning" th:text="#{button.clear}">clear</a>
+                    <a th:href="@{/shop/cart/clear}" class="btn btn-warning" th:text="#{button.clear}">clear</a>
                 </div>
                 <div class="col-xs-6 text-right">
                     <a th:href="@{/shop/order}" class="btn btn-success" th:text="#{button.next}">next</a>

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,8 @@ public class ShopOrderService {
     private OrderManager orderManager = null;
     @Autowired
     private ShopManager shopManager = null;
+    @Autowired
+    private MessageSource messageSource = null;
 
     public OrderItemBean initWithUrl(final String nameOrUrl) {
         final ShopBean shopBean = this.shopManager.getDefaultShop();
@@ -59,12 +63,12 @@ public class ShopOrderService {
         item.setPrice(BigDecimal.valueOf(1500));
     }
 
-    public boolean newOrder(final OrderBean orderBean, final Collection<OrderItemBean> itemList) {
+    public boolean newOrder(final OrderBean orderBean, final Collection<OrderItemBean> itemList, final Locale locale) {
         final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList, 0);
         String title = firstItem.getTitle();
 
         if (CollectionUtils.size(itemList) > 1) {
-            title += " etc.";
+            title = this.messageSource.getMessage("order.title.etc", new String[] { title }, locale);
         }
 
         orderBean.setTitle(title);
@@ -80,7 +84,9 @@ public class ShopOrderService {
         return orderBean;
     }
 
-    public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart, final OrderBean orderBean) {
+    public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart,
+                                            final OrderBean orderBean,
+                                            final Locale locale) {
         final List<OrderItemBean> itemList = new ArrayList<>();
 
         if (!CollectionUtils.sizeIsEmpty(shoppingCart)) {
@@ -94,12 +100,12 @@ public class ShopOrderService {
             for (final OrderItemBean item : shoppingCart.values()) {
                 item.setOrderBean(orderBean);
                 item.setUserBean(orderBean.getUserBean());
+                item.setRemovable(true);
 
                 amountJp = amountJp.add(item.getAmountJp());
                 amountCn = amountCn.add(item.getAmountCn());
                 fee = fee.add(item.getFee());
                 total = total.add(item.getTotal());
-
                 itemList.add(item);
 
                 if (StringUtils.isNotBlank(item.getShop())) {
@@ -121,11 +127,12 @@ public class ShopOrderService {
                     final OrderItemBean item = new OrderItemBean();
                     item.setOrderBean(orderBean);
                     item.setUserBean(orderBean.getUserBean());
-                    item.setTitle("shipping for " + TORANOANA);
+                    item.setTitle(this.messageSource.getMessage("order.shipping", new String[] { TORANOANA }, null));
                     item.setExchangeRate(BigDecimal.valueOf(0.065));
                     item.setFee(BigDecimal.ZERO);
                     item.setPrice(BigDecimal.valueOf(500));
                     item.setQuantity(BigDecimal.ONE);
+                    item.setRemovable(false);
 
                     amountJp = amountJp.add(item.getAmountJp());
                     amountCn = amountCn.add(item.getAmountCn());
