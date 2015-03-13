@@ -5,6 +5,7 @@ import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ShopOrderService;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +36,8 @@ public class HomeShopController {
 
     @Autowired
     private ShopOrderService shopOrderService = null;
+
+    private Log log = LogFactory.getLog(this.getClass());
 
     @ModelAttribute("shoppingCart")
     public Map<String, OrderItemBean> shoppingCart() {
@@ -61,6 +66,7 @@ public class HomeShopController {
 
         model.put("orderBean", orderBean);
         model.put("itemList", itemList);
+
         return model;
     }
 
@@ -72,12 +78,28 @@ public class HomeShopController {
 
         if (StringUtils.isNotBlank(titleOrUrl)) {
             final OrderItemBean item = this.shopOrderService.initWithUrl(titleOrUrl);
-            shoppingCart.put("title:" + item.getTitle(), item);
+            shoppingCart.put(item.getTitle(), item);
             model.put("result", true);
         } else {
             model.put("result", false);
         }
 
+        return model;
+    }
+
+    @RequestMapping(value = "/cart/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> doPostUpdateItem(@RequestParam final String title,
+                                                @RequestParam final Integer quantity,
+                                                @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart) {
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        final OrderItemBean orderItemBean = shoppingCart.get(title);
+        if (orderItemBean != null) {
+            orderItemBean.setQuantity(BigDecimal.valueOf(quantity));
+        }
+
+        model.put("result", true);
         return model;
     }
 

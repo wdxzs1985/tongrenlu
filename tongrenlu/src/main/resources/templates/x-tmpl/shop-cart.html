@@ -41,7 +41,7 @@
                 <td class="text-center" >
                     {% if (item.removable) { %}
                     <form class="form-inline" method="post">
-                        <input type="number" name="quantity" value="{%= item.quantity %}" style="width:60px;" class="form-control text-right"/>
+                        <input type="number" name="quantity" value="{%= item.quantity %}"  data-title="{%= item.title %}" style="width:60px;" class="form-control text-right"/>
                         <input type="hidden" name="name" value="{%= item.name %}" class="form-control"/>
                     </form>
                     {% } else { %}

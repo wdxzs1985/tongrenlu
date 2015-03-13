@@ -9,6 +9,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_DEFAULT)
 public class OrderItemBean extends DtoBean {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4748907038743274705L;
+
     private UserBean userBean = null;
 
     private OrderBean orderBean = null;
@@ -30,7 +35,7 @@ public class OrderItemBean extends DtoBean {
     @JsonIgnore
     private Integer status = 0;
 
-    private Boolean removable = true;
+    private Boolean removable = null;
 
     public String getUrl() {
         return this.url;
@@ -124,7 +129,7 @@ public class OrderItemBean extends DtoBean {
         this.userBean = userBean;
     }
 
-    public Boolean isRemovable() {
+    public Boolean getRemovable() {
         return this.removable;
     }
 

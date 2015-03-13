@@ -45,6 +45,7 @@ public class ShopOrderService {
         final OrderItemBean item = new OrderItemBean();
         item.setExchangeRate(shopBean.getExchangeRate());
         item.setFee(shopBean.getFee());
+        item.setRemovable(true);
 
         if (PATTERN_TORANOANA.matcher(nameOrUrl).find()) {
             this.initWithToranoana(item, nameOrUrl);
@@ -100,7 +101,6 @@ public class ShopOrderService {
             for (final OrderItemBean item : shoppingCart.values()) {
                 item.setOrderBean(orderBean);
                 item.setUserBean(orderBean.getUserBean());
-                item.setRemovable(true);
 
                 amountJp = amountJp.add(item.getAmountJp());
                 amountCn = amountCn.add(item.getAmountCn());
