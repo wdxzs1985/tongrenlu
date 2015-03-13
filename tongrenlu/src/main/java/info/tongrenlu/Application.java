@@ -30,8 +30,7 @@ public class Application implements ServletContextInitializer {
     private final Log log = LogFactory.getLog(this.getClass());
 
     @Override
-    public void
-            onStartup(final ServletContext servletContext) throws ServletException {
+    public void onStartup(final ServletContext servletContext) throws ServletException {
         this.log.info("setSessionTrackingModes: " + SessionTrackingMode.COOKIE);
         servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
     }
@@ -43,4 +42,5 @@ public class Application implements ServletContextInitializer {
         autoLoginCookie.setCookieMaxAge((int) CommonConstants.WEEK);
         return autoLoginCookie;
     }
+
 }

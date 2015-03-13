@@ -1,5 +1,6 @@
 package info.tongrenlu.service;
 
+import info.tongrenlu.HttpClientConfig;
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.ShopBean;
@@ -19,6 +20,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,8 @@ public class ShopOrderService {
     private ShopManager shopManager = null;
     @Autowired
     private MessageSource messageSource = null;
+    @Autowired
+    private HttpClientConfig.HttpClientWraper httpClientForToranoana = null;
 
     public OrderItemBean initWithUrl(final String nameOrUrl) {
         final ShopBean shopBean = this.shopManager.getDefaultShop();
@@ -57,10 +62,14 @@ public class ShopOrderService {
         return item;
     }
 
-    private void initWithToranoana(final OrderItemBean item, final String nameOrUrl) {
+    private void initWithToranoana(final OrderItemBean item, final String url) {
+
+        final String html = this.httpClientForToranoana.getForHtml(url);
+        final Document doc = Jsoup.parse(html);
+
         item.setTitle("[Sound CYCLONE] Sparkle!");
         item.setShop(TORANOANA);
-        item.setUrl(nameOrUrl);
+        item.setUrl(url);
         item.setPrice(BigDecimal.valueOf(1500));
     }
 
