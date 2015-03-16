@@ -39,6 +39,8 @@ public class OrderBean extends DtoBean {
 
     private Date receiveDate = null;
 
+    private Date cancelDate = null;
+
     private Integer status = STATUS_CREATE;
 
     public UserBean getUserBean() {
@@ -135,6 +137,14 @@ public class OrderBean extends DtoBean {
 
     public void setStatus(final Integer status) {
         this.status = status;
+    }
+
+    public Date getCancelDate() {
+        return cancelDate;
+    }
+
+    public void setCancelDate(Date cancelDate) {
+        this.cancelDate = cancelDate;
     }
 
 }

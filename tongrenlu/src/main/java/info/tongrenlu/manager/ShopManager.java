@@ -26,4 +26,9 @@ public class ShopManager {
         params.put("shopId", shopId);
         return this.shopMapper.fetchBean(params);
     }
+
+    public void updateDefaultShop(final ShopBean shopBean) {
+        shopBean.setId(DEFAULT_SHOP_ID);
+        this.shopMapper.update(shopBean);
+    }
 }

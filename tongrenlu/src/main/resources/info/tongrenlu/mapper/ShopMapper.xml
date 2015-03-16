@@ -23,4 +23,16 @@
         </where>
     </select>
     
+    <update id="update">
+        update
+            m_shop
+        <set>
+            tax_rate = #{taxRate},
+            exchange_rate = #{exchangeRate},
+            fee = #{fee},
+        </set>
+        <where>
+            m_shop.id = #{id}
+        </where>
+    </update>
 </mapper>

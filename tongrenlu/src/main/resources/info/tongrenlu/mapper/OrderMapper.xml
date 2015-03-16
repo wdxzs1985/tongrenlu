@@ -56,6 +56,7 @@
             m_order.pay_date            as "payDate",
             m_order.send_date           as "sendDate",
             m_order.receive_date        as "receiveDate",
+            m_order.cancel_date         as "cancelDate",
             v_user.id           as "userBean.id",
             v_user.nickname     as "userBean.nickname",
         </trim>
@@ -82,6 +83,7 @@
             m_order.pay_date            as "payDate",
             m_order.send_date           as "sendDate",
             m_order.receive_date        as "receiveDate",
+            m_order.cancel_date         as "cancelDate",
             v_user.id                   as "userBean.id",
             v_user.nickname             as "userBean.nickname",
         </trim>

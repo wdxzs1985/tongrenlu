@@ -8,4 +8,6 @@ public interface ShopMapper {
 
     public ShopBean fetchBean(Map<String, Object> params);
 
+    public void update(ShopBean shopBean);
+
 }
