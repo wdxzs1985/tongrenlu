@@ -12,7 +12,8 @@ var Cart = function(options) {
 		items: [],
 		load: function() {
 			$.getJSON(settings.listUrl).done(function(response) {
-				$(settings.container).html(tmpl('template-shop-cart', response))
+				$(settings.form).find('input').val('');
+				$(settings.container).html(tmpl('template-shop-cart', response));
 			}).fail(function() {
 				_cart.onError('Cart.load fail');
 			});
@@ -20,14 +21,8 @@ var Cart = function(options) {
 		add: function(titleOrUrl) {
 			$.post(settings.addUrl, {titleOrUrl: titleOrUrl}).done(function(response) {
 				if(response.result) {
-					var $toast = $('<div class="toast">Event Created</div>');
-					$toast.appendTo('body');
-					$toast.fadeIn(400).delay(3000).fadeOut(400, function() {
-						$toast.remove();
-					});
+					_cart.makeToast('Item Created');
 					_cart.load();
-				} else {
-					_cart.onError(response.error);
 				}
 			}).fail(function() {
 				_cart.onError('Cart.add fail');
@@ -36,11 +31,7 @@ var Cart = function(options) {
 		update: function(title, quantity) {
 			$.post(settings.updateUrl, {title: title, quantity: quantity}).done(function(response) {
 				if(response.result) {
-					var $toast = $('<div class="toast">Updated</div>');
-					$toast.appendTo('body');
-					$toast.fadeIn(400).delay(3000).fadeOut(400, function() {
-						$toast.remove();
-					});
+					_cart.makeToast('Item Updated');
 					_cart.load();
 				} else {
 					_cart.onError(response.error);
@@ -61,7 +52,20 @@ var Cart = function(options) {
 			});
 		},
 		onError: function(error) {
-			alert(error);
+			_cart.makeToast(error);
+		},
+		makeToast: function(text) {
+			var $toast = $('.toast');
+			if($toast.length == 0) {
+				$toast = $('<div class="toast"></div>').appendTo('body');
+				$toast.text(text);
+				$toast.fadeIn(400).delay(3000).fadeOut(400, function() {
+					$toast.remove();
+				});
+			} else {
+				$toast.text(text);
+			}
+			return $toast;
 		}
 	};
 	
