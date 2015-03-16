@@ -65,6 +65,17 @@ public class HttpClientConfig {
     @Bean
     public HttpWraper melonbooksClient() {
         final HttpWraper wraper = this.httpWraper();
+
+        final BasicClientCookie cookie = new BasicClientCookie("AUTH_ADULT",
+                "1");
+        cookie.setDomain("www.melonbooks.co.jp");
+        cookie.setPath("/");
+
+        final Calendar expiryDate = Calendar.getInstance();
+        expiryDate.add(Calendar.YEAR, 99);
+        cookie.setExpiryDate(expiryDate.getTime());
+
+        wraper.getCookieStore().addCookie(cookie);
         return wraper;
     }
 
@@ -76,12 +87,7 @@ public class HttpClientConfig {
         connManager.setDefaultMaxPerRoute(this.defaultMaxPerRoute);
 
         final BasicCookieStore cookieStroe = new BasicCookieStore();
-        final RequestConfig defaultRequestConfig = RequestConfig.custom()
-                                                                .setSocketTimeout(this.timeout)
-                                                                .setConnectTimeout(this.timeout)
-                                                                .setConnectionRequestTimeout(this.timeout)
-                                                                .setCookieSpec(CookieSpecs.BROWSER_COMPATIBILITY)
-                                                                .build();
+        final RequestConfig defaultRequestConfig = RequestConfig.custom().setSocketTimeout(this.timeout).setConnectTimeout(this.timeout).setConnectionRequestTimeout(this.timeout).setCookieSpec(CookieSpecs.BROWSER_COMPATIBILITY).build();
 
         final HttpClientBuilder clientBuilder = HttpClients.custom();
         clientBuilder.setConnectionManager(connManager);
@@ -95,7 +101,8 @@ public class HttpClientConfig {
         defaultHeaders.add(new BasicHeader("Cache-Control", "no-cache"));
         defaultHeaders.add(new BasicHeader("Connection", "keep-alive"));
         defaultHeaders.add(new BasicHeader("Pragma", "no-cache"));
-        defaultHeaders.add(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
+        defaultHeaders.add(new BasicHeader("Accept",
+                "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
         clientBuilder.setDefaultHeaders(defaultHeaders);
 
         final HttpWraper wraper = new HttpWraper();

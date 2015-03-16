@@ -90,19 +90,20 @@ public class ShopOrderService implements InitializingBean {
         final Document doc = Jsoup.parse(html);
 
         final String title = doc.select("#title strong.str").get(0).text();
-        final String circleName = doc.select("#title span.circle a").text();
+        final String circleName = doc.select("#title .circle").text();
         BigDecimal price = BigDecimal.ZERO;
 
         // parse the string
         try {
-            final Element priceElement = doc.select("#main .price").first();
+            final Element priceElement = doc.select("#form1 .price").first();
             priceElement.children().remove();
             final String priceText = priceElement.text();
             final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
             symbols.setGroupingSeparator(',');
             symbols.setDecimalSeparator('.');
             final String pattern = "¥#,##0.0#";
-            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern,
+                                                                  symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
         } catch (final ParseException e) {
@@ -130,7 +131,8 @@ public class ShopOrderService implements InitializingBean {
             symbols.setGroupingSeparator(',');
             symbols.setDecimalSeparator('.');
             final String pattern = "#,##0.0#";
-            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern,
+                                                                  symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
         } catch (final ParseException e) {
@@ -143,12 +145,17 @@ public class ShopOrderService implements InitializingBean {
         item.setPrice(price);
     }
 
-    public boolean newOrder(final OrderBean orderBean, final Collection<OrderItemBean> itemList, final Locale locale) {
-        final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList, 0);
+    public boolean newOrder(final OrderBean orderBean,
+                            final Collection<OrderItemBean> itemList,
+                            final Locale locale) {
+        final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList,
+                                                                            0);
         String title = firstItem.getTitle();
 
         if (CollectionUtils.size(itemList) > 1) {
-            title = this.messageSource.getMessage("order.title.etc", new String[] { title }, locale);
+            title = this.messageSource.getMessage("order.title.etc",
+                                                  new String[] { title },
+                                                  locale);
         }
 
         orderBean.setTitle(title);
@@ -207,7 +214,9 @@ public class ShopOrderService implements InitializingBean {
                     final OrderItemBean item = new OrderItemBean();
                     item.setOrderBean(orderBean);
                     item.setUserBean(orderBean.getUserBean());
-                    item.setTitle(this.messageSource.getMessage("order.shipping", new String[] { TORANOANA }, null));
+                    item.setTitle(this.messageSource.getMessage("order.shipping",
+                                                                new String[] { TORANOANA },
+                                                                null));
                     item.setExchangeRate(shopBean.getExchangeRate());
                     item.setFee(BigDecimal.ZERO);
                     item.setPrice(BigDecimal.valueOf(500));
@@ -224,7 +233,9 @@ public class ShopOrderService implements InitializingBean {
                     final OrderItemBean item = new OrderItemBean();
                     item.setOrderBean(orderBean);
                     item.setUserBean(orderBean.getUserBean());
-                    item.setTitle(this.messageSource.getMessage("order.shipping", new String[] { MELONBOOKS }, null));
+                    item.setTitle(this.messageSource.getMessage("order.shipping",
+                                                                new String[] { MELONBOOKS },
+                                                                null));
                     item.setExchangeRate(shopBean.getExchangeRate());
                     item.setFee(BigDecimal.ZERO);
                     item.setPrice(BigDecimal.valueOf(500));
