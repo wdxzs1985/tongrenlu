@@ -8,6 +8,8 @@ public class ShopBean extends DtoBean {
 
     private String shopName;
 
+    private BigDecimal taxRate;
+
     private BigDecimal exchangeRate;
 
     private BigDecimal fee;
@@ -42,6 +44,14 @@ public class ShopBean extends DtoBean {
 
     public void setFee(final BigDecimal fee) {
         this.fee = fee;
+    }
+
+    public BigDecimal getTaxRate() {
+        return this.taxRate;
+    }
+
+    public void setTaxRate(final BigDecimal taxRate) {
+        this.taxRate = taxRate;
     }
 
 }

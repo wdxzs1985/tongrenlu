@@ -10,6 +10,7 @@
             m_shop.id,
             m_shop.shop_name            as shopName,
             m_shop.fee,
+            m_shop.tax_rate             as taxRate,
             m_shop.exchange_rate        as exchangeRate,
             v_user.id                   as "userBean.id",
             v_user.nickname             as "userBean.nickname",

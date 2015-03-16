@@ -72,6 +72,9 @@ public class ShopOrderService implements InitializingBean {
 
         if (PATTERN_TORANOANA.matcher(nameOrUrl).find()) {
             this.initWithToranoana(item, nameOrUrl);
+            final BigDecimal price = item.getPrice();
+            final BigDecimal tax = price.multiply(shopBean.getTaxRate());
+            item.setPrice(price.add(tax));
         } else if (PATTERN_MELONBOOKS.matcher(nameOrUrl).find()) {
             this.initWithMelonbooks(item, nameOrUrl);
         } else {
@@ -102,7 +105,6 @@ public class ShopOrderService implements InitializingBean {
             final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
-            price = price.multiply(new BigDecimal(1.08));
         } catch (final ParseException e) {
             this.log.error(e.getMessage(), e);
         }
@@ -131,7 +133,6 @@ public class ShopOrderService implements InitializingBean {
             final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
-            price = price.multiply(new BigDecimal(1.08));
         } catch (final ParseException e) {
             this.log.error(e.getMessage(), e);
         }
