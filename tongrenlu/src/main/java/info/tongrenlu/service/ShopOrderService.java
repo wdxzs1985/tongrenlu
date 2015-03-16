@@ -1,14 +1,17 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.HttpClientConfig;
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.ShopBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.http.HttpWraper;
 import info.tongrenlu.manager.OrderManager;
 import info.tongrenlu.manager.ShopManager;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,8 +23,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -29,11 +35,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ShopOrderService {
+public class ShopOrderService implements InitializingBean {
 
     public static final Pattern PATTERN_TORANOANA = Pattern.compile("http://www.toranoana.jp/mailorder/.*");
 
     public static final String TORANOANA = "toranoana";
+
+    private final Log log = LogFactory.getLog(this.getClass());
 
     @Autowired
     private OrderManager orderManager = null;
@@ -42,7 +50,19 @@ public class ShopOrderService {
     @Autowired
     private MessageSource messageSource = null;
     @Autowired
-    private HttpClientConfig.HttpClientWraper httpClientForToranoana = null;
+    private HttpWraper httpClientForToranoana = null;
+
+    private DecimalFormat decimalFormat = null;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(',');
+        symbols.setDecimalSeparator('.');
+        final String pattern = "#,##0.0#";
+        this.decimalFormat = new DecimalFormat(pattern, symbols);
+        this.decimalFormat.setParseBigDecimal(true);
+    }
 
     public OrderItemBean initWithUrl(final String nameOrUrl) {
         final ShopBean shopBean = this.shopManager.getDefaultShop();
@@ -63,14 +83,26 @@ public class ShopOrderService {
     }
 
     private void initWithToranoana(final OrderItemBean item, final String url) {
-
         final String html = this.httpClientForToranoana.getForHtml(url);
         final Document doc = Jsoup.parse(html);
 
-        item.setTitle("[Sound CYCLONE] Sparkle!");
+        final String title = doc.select(".table_title_outerflame .td_title_bar_r1c2").get(0).text();
+        final String circleName = doc.select(".CircleName a").text();
+        BigDecimal price = BigDecimal.ZERO;
+
+        // parse the string
+        try {
+            final String priceText = doc.select(".DetailData_SubmitArea span.bold").text();
+            price = (BigDecimal) this.decimalFormat.parse(priceText);
+            price = price.multiply(new BigDecimal(1.08));
+        } catch (final ParseException e) {
+            this.log.error(e.getMessage(), e);
+        }
+
+        item.setTitle(String.format("[%s] %s", circleName, title));
         item.setShop(TORANOANA);
         item.setUrl(url);
-        item.setPrice(BigDecimal.valueOf(1500));
+        item.setPrice(price);
     }
 
     public boolean newOrder(final OrderBean orderBean, final Collection<OrderItemBean> itemList, final Locale locale) {
