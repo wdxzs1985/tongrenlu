@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -38,8 +39,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ShopOrderService implements InitializingBean {
 
     public static final Pattern PATTERN_TORANOANA = Pattern.compile("http://www.toranoana.jp/mailorder/.*");
+    public static final Pattern PATTERN_MELONBOOKS = Pattern.compile("https://www.melonbooks.co.jp/detail/.*");
 
     public static final String TORANOANA = "toranoana";
+    public static final String MELONBOOKS = "melonbooks";
 
     private final Log log = LogFactory.getLog(this.getClass());
 
@@ -50,18 +53,13 @@ public class ShopOrderService implements InitializingBean {
     @Autowired
     private MessageSource messageSource = null;
     @Autowired
-    private HttpWraper httpClientForToranoana = null;
-
-    private DecimalFormat decimalFormat = null;
+    private HttpWraper toranoanaClient = null;
+    @Autowired
+    private HttpWraper melonbooksClient = null;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setGroupingSeparator(',');
-        symbols.setDecimalSeparator('.');
-        final String pattern = "#,##0.0#";
-        this.decimalFormat = new DecimalFormat(pattern, symbols);
-        this.decimalFormat.setParseBigDecimal(true);
+
     }
 
     public OrderItemBean initWithUrl(final String nameOrUrl) {
@@ -74,6 +72,8 @@ public class ShopOrderService implements InitializingBean {
 
         if (PATTERN_TORANOANA.matcher(nameOrUrl).find()) {
             this.initWithToranoana(item, nameOrUrl);
+        } else if (PATTERN_MELONBOOKS.matcher(nameOrUrl).find()) {
+            this.initWithMelonbooks(item, nameOrUrl);
         } else {
             item.setTitle(nameOrUrl);
             item.setPrice(BigDecimal.ZERO);
@@ -82,18 +82,55 @@ public class ShopOrderService implements InitializingBean {
         return item;
     }
 
-    private void initWithToranoana(final OrderItemBean item, final String url) {
-        final String html = this.httpClientForToranoana.getForHtml(url);
+    private void initWithMelonbooks(final OrderItemBean item, final String url) {
+        final String html = this.melonbooksClient.getForHtml(url);
         final Document doc = Jsoup.parse(html);
 
-        final String title = doc.select(".table_title_outerflame .td_title_bar_r1c2").get(0).text();
+        final String title = doc.select("#title strong.str").get(0).text();
+        final String circleName = doc.select("#title span.circle a").text();
+        BigDecimal price = BigDecimal.ZERO;
+
+        // parse the string
+        try {
+            final Element priceElement = doc.select("#main .price").first();
+            priceElement.children().remove();
+            final String priceText = priceElement.text();
+            final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+            symbols.setGroupingSeparator(',');
+            symbols.setDecimalSeparator('.');
+            final String pattern = "¥#,##0.0#";
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+            decimalFormat.setParseBigDecimal(true);
+            price = (BigDecimal) decimalFormat.parse(priceText);
+            price = price.multiply(new BigDecimal(1.08));
+        } catch (final ParseException e) {
+            this.log.error(e.getMessage(), e);
+        }
+
+        item.setTitle(String.format("[%s] %s", circleName, title));
+        item.setShop(MELONBOOKS);
+        item.setUrl(url);
+        item.setPrice(price);
+    }
+
+    private void initWithToranoana(final OrderItemBean item, final String url) {
+        final String html = this.toranoanaClient.getForHtml(url);
+        final Document doc = Jsoup.parse(html);
+
+        final String title = doc.select(".table_title_outerflame .td_title_bar_r1c2").first().text();
         final String circleName = doc.select(".CircleName a").text();
         BigDecimal price = BigDecimal.ZERO;
 
         // parse the string
         try {
             final String priceText = doc.select(".DetailData_SubmitArea span.bold").text();
-            price = (BigDecimal) this.decimalFormat.parse(priceText);
+            final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+            symbols.setGroupingSeparator(',');
+            symbols.setDecimalSeparator('.');
+            final String pattern = "#,##0.0#";
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+            decimalFormat.setParseBigDecimal(true);
+            price = (BigDecimal) decimalFormat.parse(priceText);
             price = price.multiply(new BigDecimal(1.08));
         } catch (final ParseException e) {
             this.log.error(e.getMessage(), e);

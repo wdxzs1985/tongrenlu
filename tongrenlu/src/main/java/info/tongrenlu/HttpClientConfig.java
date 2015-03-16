@@ -46,7 +46,7 @@ public class HttpClientConfig {
     private final Log log = LogFactory.getLog(this.getClass());
 
     @Bean
-    public HttpWraper httpClientForToranoana() {
+    public HttpWraper toranoanaClient() {
         final HttpWraper wraper = this.httpWraper();
         wraper.setEncoding(this.toranoanaEncoding);
 
@@ -59,6 +59,12 @@ public class HttpClientConfig {
         cookie.setExpiryDate(expiryDate.getTime());
 
         wraper.getCookieStore().addCookie(cookie);
+        return wraper;
+    }
+
+    @Bean
+    public HttpWraper melonbooksClient() {
+        final HttpWraper wraper = this.httpWraper();
         return wraper;
     }
 
