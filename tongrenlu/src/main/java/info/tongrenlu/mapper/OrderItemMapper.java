@@ -13,4 +13,6 @@ public interface OrderItemMapper {
 
     public void update(OrderItemBean orderItemBean);
 
+    public void delete(Map<String, Object> params);
+
 }

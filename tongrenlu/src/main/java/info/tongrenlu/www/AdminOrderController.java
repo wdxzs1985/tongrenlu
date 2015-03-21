@@ -34,36 +34,50 @@ public class AdminOrderController {
     @Autowired
     private MessageSource messageSource = null;
 
-    protected void throwExceptionWhenNotAllow(final OrderBean orderBean, final UserBean loginUser, final Locale locale) {
+    protected void throwExceptionWhenNotAllow(final OrderBean orderBean,
+                                              final UserBean loginUser,
+                                              final Locale locale) {
         if (orderBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         } else if (!loginUser.isShopAdmin()) {
-            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
+                                                                       null,
+                                                                       locale));
         }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, final Model model) {
+    public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                             final Model model) {
         final PaginateSupport<OrderBean> page = new PaginateSupport<>(pageNumber);
         this.orderService.searchOrder(page);
         model.addAttribute("page", page);
-
         return "admin/order/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}")
     public String doGetView(@PathVariable final Integer orderId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model,
-                            final Locale locale) {
+                            final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         final List<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
-
         model.addAttribute("orderBean", orderBean);
         model.addAttribute("itemList", itemList);
-
         return "admin/order/view";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/remove/{orderItemId}")
+    public String doGetRemoveItem(@PathVariable final Integer orderId,
+                                  @PathVariable final Integer orderItemId,
+                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                  final Model model, final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.orderService.removeItem(orderBean, orderItemId);
+        return "redirect:/admin/order/" + orderId;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}")
@@ -76,13 +90,11 @@ public class AdminOrderController {
                              @RequestParam("exchangeRate[]") final BigDecimal[] exchangeRateArray,
                              @RequestParam("fee[]") final BigDecimal[] feeArray,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
+                             final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
 
         final List<OrderItemBean> itemList = new ArrayList<OrderItemBean>();
-
         for (int i = 0; i < orderItemIdArray.length; i++) {
             final OrderItemBean orderItem = new OrderItemBean();
             orderItem.setId(orderItemIdArray[i]);
@@ -95,7 +107,6 @@ public class AdminOrderController {
 
             itemList.add(orderItem);
         }
-
         this.orderService.updateOrder(orderBean, itemList);
         return "redirect:/admin/order/" + orderId;
     }
@@ -103,39 +114,30 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}/start")
     public String doGetStart(@PathVariable final Integer orderId,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
+                             final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-
         this.orderService.startOrder(orderBean);
-
         return "redirect:/admin/order/" + orderId;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}/finish")
     public String doGetFinish(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model,
-                              final Locale locale) {
+                              final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-
         this.orderService.finishOrder(orderBean);
-
         return "redirect:/admin/order/" + orderId;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}/cancel")
     public String doGetCancel(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model,
-                              final Locale locale) {
+                              final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-
         this.orderService.cancelOrder(orderBean);
-
         return "redirect:/admin/order/" + orderId;
     }
 }

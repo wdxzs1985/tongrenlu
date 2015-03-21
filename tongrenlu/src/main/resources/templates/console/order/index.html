@@ -74,6 +74,10 @@
                                     <p class="form-control-static" th:text="#{console.order.received}">Package Received</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
+                                <div th:case="9" >
+                                    <p class="form-control-static" th:text="#{console.order.canceled}">Package Received</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.cancelDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
                             </td>
                         </tr>
                     </table>

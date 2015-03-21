@@ -48,7 +48,7 @@
                                 th:text="#{ArticleBean.title}">Title</label>
                             <input type="text" class="form-control" id="inputTitle" name="title"
                                 th:value="${articleBean.title}"
-                                th:placeholder="#{ArticleBean.title}"/>
+                                placeholder="[社团名称] 碟名"/>
                             <span class="glyphicon glyphicon-remove form-control-feedback"
                                 th:unless="${#strings.isEmpty(titleError)}"></span>
                             <p class="help-block" 

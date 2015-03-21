@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -154,7 +153,7 @@ public class ShopOrderService implements InitializingBean {
 
         if (CollectionUtils.size(itemList) > 1) {
             title = this.messageSource.getMessage("order.title.etc",
-                                                  new String[] { title },
+                                                  new Object[] { title },
                                                   locale);
         }
 
@@ -174,7 +173,6 @@ public class ShopOrderService implements InitializingBean {
     public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart,
                                             final OrderBean orderBean,
                                             final Locale locale) {
-        final ShopBean shopBean = this.shopManager.getDefaultShop();
 
         final List<OrderItemBean> itemList = new ArrayList<>();
         if (!CollectionUtils.sizeIsEmpty(shoppingCart)) {
@@ -203,51 +201,6 @@ public class ShopOrderService implements InitializingBean {
                     }
                     shopTotal = shopTotal.add(item.getAmountJp());
                     shippingMap.put(shop, shopTotal);
-                }
-            }
-
-            for (final Entry<String, BigDecimal> entry : shippingMap.entrySet()) {
-                final String shop = entry.getKey();
-                final BigDecimal shopTotal = entry.getValue();
-
-                if (shop.equals(TORANOANA) && shopTotal.compareTo(BigDecimal.valueOf(15000)) < 0) {
-                    final OrderItemBean item = new OrderItemBean();
-                    item.setOrderBean(orderBean);
-                    item.setUserBean(orderBean.getUserBean());
-                    item.setTitle(this.messageSource.getMessage("order.shipping",
-                                                                new String[] { TORANOANA },
-                                                                null));
-                    item.setExchangeRate(shopBean.getExchangeRate());
-                    item.setFee(BigDecimal.ZERO);
-                    item.setPrice(BigDecimal.valueOf(500));
-                    item.setQuantity(BigDecimal.ONE);
-                    item.setRemovable(false);
-
-                    amountJp = amountJp.add(item.getAmountJp());
-                    amountCn = amountCn.add(item.getAmountCn());
-                    fee = fee.add(item.getFee());
-                    total = total.add(item.getTotal());
-
-                    itemList.add(item);
-                } else if (shop.equals(MELONBOOKS) && shopTotal.compareTo(BigDecimal.valueOf(18000)) < 0) {
-                    final OrderItemBean item = new OrderItemBean();
-                    item.setOrderBean(orderBean);
-                    item.setUserBean(orderBean.getUserBean());
-                    item.setTitle(this.messageSource.getMessage("order.shipping",
-                                                                new String[] { MELONBOOKS },
-                                                                null));
-                    item.setExchangeRate(shopBean.getExchangeRate());
-                    item.setFee(BigDecimal.ZERO);
-                    item.setPrice(BigDecimal.valueOf(500));
-                    item.setQuantity(BigDecimal.ONE);
-                    item.setRemovable(false);
-
-                    amountJp = amountJp.add(item.getAmountJp());
-                    amountCn = amountCn.add(item.getAmountCn());
-                    fee = fee.add(item.getFee());
-                    total = total.add(item.getTotal());
-
-                    itemList.add(item);
                 }
             }
 

@@ -50,6 +50,7 @@
             m_order_item
         <where>
             order_id = #{orderBean.id}
+        and del_flg = 0
         </where>
     </select>
     
@@ -71,4 +72,16 @@
             
     </update>
     
+    
+    <update id="delete">
+        update
+            m_order_item
+        <set>
+            del_flg = 1,
+        </set>
+        <where>
+            id = #{orderItemId}
+        </where>
+            
+    </update>
 </mapper>

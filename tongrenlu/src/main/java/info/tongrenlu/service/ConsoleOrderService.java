@@ -8,6 +8,7 @@ import info.tongrenlu.support.PaginateSupport;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,19 +37,20 @@ public class ConsoleOrderService {
         return this.orderManager.findItemList(orderBean);
     }
 
-    public void updateOrderItem(final List<OrderItemBean> itemList) {
+    public void updateOrder(final OrderBean orderBean,
+                            final List<OrderItemBean> itemList) {
 
-    }
-
-    public void updateOrder(final OrderBean orderBean, final List<OrderItemBean> itemList) {
-
+        if (CollectionUtils.isEmpty(itemList)) {
+            orderBean.setStatus(OrderBean.STATUS_CANCEL);
+            this.orderManager.updateOrderStatus(orderBean);
+            return;
+        }
         BigDecimal amountJp = BigDecimal.ZERO;
         BigDecimal amountCn = BigDecimal.ZERO;
         BigDecimal fee = BigDecimal.ZERO;
         BigDecimal total = BigDecimal.ZERO;
 
         for (final OrderItemBean item : itemList) {
-
             amountJp = amountJp.add(item.getAmountJp());
             amountCn = amountCn.add(item.getAmountCn());
             fee = fee.add(item.getFee());
@@ -78,5 +80,11 @@ public class ConsoleOrderService {
     public void cancelOrder(final OrderBean orderBean) {
         orderBean.setStatus(OrderBean.STATUS_CANCEL);
         this.orderManager.updateOrderStatus(orderBean);
+    }
+
+    public void removeItem(OrderBean orderBean, Integer orderItemId) {
+        this.orderManager.removeItem(orderItemId);
+        List<OrderItemBean> itemList = this.findItemList(orderBean);
+        this.updateOrder(orderBean, itemList);
     }
 }
