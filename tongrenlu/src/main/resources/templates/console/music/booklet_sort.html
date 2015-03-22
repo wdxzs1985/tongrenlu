@@ -81,8 +81,8 @@
                              th:each="file : ${fileList}"
                              th:attr="data-id=${file.id},data-name=${file.name}">
                             <div class="card thumbnail">
-                                <a th:href="@{http://files.tongrenlu.info/m__${articleBean.id}__/f__${file.id}___1080.jpg}">
-                                    <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/f__${file.id}___400.jpg}" />
+                                <a th:href="@{http://files.tongrenlu.info/m__${articleBean.id}__/f__${file.checksum}___1080.jpg}">
+                                    <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/f__${file.checksum}___400.jpg}" />
                                 </a>
                                 <div class="caption">
                                     <span class="text-center text-single-line" th:text="${file.name}"></span>
