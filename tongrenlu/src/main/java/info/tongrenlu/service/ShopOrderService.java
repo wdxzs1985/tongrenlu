@@ -40,9 +40,6 @@ public class ShopOrderService implements InitializingBean {
     public static final Pattern PATTERN_TORANOANA = Pattern.compile("http://www.toranoana.jp/mailorder/.*");
     public static final Pattern PATTERN_MELONBOOKS = Pattern.compile("https://www.melonbooks.co.jp/detail/.*");
 
-    public static final String TORANOANA = "toranoana";
-    public static final String MELONBOOKS = "melonbooks";
-
     private final Log log = LogFactory.getLog(this.getClass());
 
     @Autowired
@@ -61,25 +58,37 @@ public class ShopOrderService implements InitializingBean {
 
     }
 
-    public OrderItemBean initWithUrl(final String nameOrUrl) {
+    public OrderItemBean initWithUrl(final String url) {
+
         final ShopBean shopBean = this.shopManager.getDefaultShop();
 
         final OrderItemBean item = new OrderItemBean();
         item.setExchangeRate(shopBean.getExchangeRate());
         item.setFee(shopBean.getFee());
         item.setRemovable(true);
+        item.setQuantity(BigDecimal.ONE);
+        item.setPrice(BigDecimal.ZERO);
 
-        if (PATTERN_TORANOANA.matcher(nameOrUrl).find()) {
-            this.initWithToranoana(item, nameOrUrl);
+        if (PATTERN_TORANOANA.matcher(url).find()) {
+            this.initWithToranoana(item, url);
             final BigDecimal price = item.getPrice();
             final BigDecimal tax = price.multiply(shopBean.getTaxRate());
             item.setPrice(price.add(tax));
-        } else if (PATTERN_MELONBOOKS.matcher(nameOrUrl).find()) {
-            this.initWithMelonbooks(item, nameOrUrl);
+        } else if (PATTERN_MELONBOOKS.matcher(url).find()) {
+            this.initWithMelonbooks(item, url);
         } else {
-            item.setTitle(nameOrUrl);
-            item.setPrice(BigDecimal.ZERO);
+            item.setTitle(url);
         }
+        return item;
+    }
+
+    public OrderItemBean initItem() {
+        final ShopBean shopBean = this.shopManager.getDefaultShop();
+
+        final OrderItemBean item = new OrderItemBean();
+        item.setExchangeRate(shopBean.getExchangeRate());
+        item.setFee(shopBean.getFee());
+        item.setRemovable(true);
         item.setQuantity(BigDecimal.ONE);
         return item;
     }
@@ -101,8 +110,7 @@ public class ShopOrderService implements InitializingBean {
             symbols.setGroupingSeparator(',');
             symbols.setDecimalSeparator('.');
             final String pattern = "¥#,##0.0#";
-            final DecimalFormat decimalFormat = new DecimalFormat(pattern,
-                                                                  symbols);
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
         } catch (final ParseException e) {
@@ -110,7 +118,7 @@ public class ShopOrderService implements InitializingBean {
         }
 
         item.setTitle(String.format("[%s] %s", circleName, title));
-        item.setShop(MELONBOOKS);
+        item.setShop(this.messageSource.getMessage("shop.mailorder.melonbooks", null, null));
         item.setUrl(url);
         item.setPrice(price);
     }
@@ -130,8 +138,7 @@ public class ShopOrderService implements InitializingBean {
             symbols.setGroupingSeparator(',');
             symbols.setDecimalSeparator('.');
             final String pattern = "#,##0.0#";
-            final DecimalFormat decimalFormat = new DecimalFormat(pattern,
-                                                                  symbols);
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
         } catch (final ParseException e) {
@@ -139,22 +146,17 @@ public class ShopOrderService implements InitializingBean {
         }
 
         item.setTitle(String.format("[%s] %s", circleName, title));
-        item.setShop(TORANOANA);
+        item.setShop(this.messageSource.getMessage("shop.mailorder.toranoana", null, null));
         item.setUrl(url);
         item.setPrice(price);
     }
 
-    public boolean newOrder(final OrderBean orderBean,
-                            final Collection<OrderItemBean> itemList,
-                            final Locale locale) {
-        final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList,
-                                                                            0);
+    public boolean newOrder(final OrderBean orderBean, final Collection<OrderItemBean> itemList, final Locale locale) {
+        final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList, 0);
         String title = firstItem.getTitle();
 
         if (CollectionUtils.size(itemList) > 1) {
-            title = this.messageSource.getMessage("order.title.etc",
-                                                  new Object[] { title },
-                                                  locale);
+            title = this.messageSource.getMessage("order.title.etc", new Object[] { title }, locale);
         }
 
         orderBean.setTitle(title);

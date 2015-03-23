@@ -30,17 +30,19 @@
                     <ul class="dropdown-menu">
                         <li ><a th:href="@{/console/music/input}" th:text="#{console.music.input}"></a></li>
                         <li ><a th:href="@{/console/music}" th:text="#{console.music.index}"></a></li>
-                        <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} eq 0">
-                            <a th:href="@{/admin/music}" >
-                                <span th:text="#{admin.music}"></span>
-                            </a>
-                        </li>
-                        <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
-                            <a th:href="@{/admin/music/unpublish}">
-                                <span th:text="#{admin.music}"></span>
-                                <span class="badge" th:text="${unpublishMusicCount}"></span>
-                            </a>
-                        </li>
+                        <th:block th:if="${session.LOGIN_USER.editAdmin}">
+                            <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} eq 0">
+                                <a th:href="@{/admin/music}" >
+                                    <span th:text="#{admin.music}"></span>
+                                </a>
+                            </li>
+                            <li th:if="${#objects.nullSafe(unpublishMusicCount,0)} gt 0">
+                                <a th:href="@{/admin/music/unpublish}">
+                                    <span th:text="#{admin.music}"></span>
+                                    <span class="badge" th:text="${unpublishMusicCount}"></span>
+                                </a>
+                            </li>
+                        </th:block>
                     </ul>
                 </li>
                 <li class="dropdown" th:if="${session.LOGIN_USER.editAdmin}">

@@ -18,8 +18,8 @@ var Cart = function(options) {
 				_cart.onError('Cart.load fail');
 			});
 		},
-		add: function(titleOrUrl) {
-			$.post(settings.addUrl, {titleOrUrl: titleOrUrl}).done(function(response) {
+		add: function(url) {
+			$.post(settings.addUrl, {url: url}).done(function(response) {
 				if(response.result) {
 					_cart.makeToast('Item Created');
 					_cart.load();
@@ -71,8 +71,8 @@ var Cart = function(options) {
 	
 	$(settings.form).on('submit', function (e) {
 		e.preventDefault();
-		var nameOrUrl = $(this).find('input[name="nameOrUrl"]').val();
-		_cart.add(nameOrUrl);
+		var url = $(this).find('input[name="url"]').val();
+		_cart.add(url);
 	});
 	
 	$(settings.container).on('click', 'a.btn-remove', function(e) {

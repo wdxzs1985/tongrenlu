@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="shop/layout">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title th:text="#{shop.event}"></title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="container-wrap container-header" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8" >
+                            <h1 th:text="#{shop.event}"></h1>
+                            <form id="shop-cart-form" th:action="@{/shop/cart/mailorder}" method="post">
+                                <div class="row">
+                                    <div class="col-sm-8" >
+                                        <div class="form-group">
+                                            <label th:text="#{OrderItemBean.title}"></label>
+                                            <input type="text" class="form-control" name="title" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="form-group">
+                                            <label th:text="#{OrderItemBean.price}"></label>
+                                            <input type="number" class="form-control" name="price" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="#{OrderItemBean.url}"></label>
+                                    <input type="text" class="form-control" name="url" value="" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-wrap container-wrap-darker" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="shop-cart-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div layout:fragment="scripts">
+            <script type="text/javascript" src="http://cdn.bootcss.com/numeral.js/1.5.3/numeral.min.js"></script>
+            <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+            <div th:replace="x-tmpl/shop-cart::template-shop-cart"></div>
+            <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-cart.js}"></script>
+            <script type="text/javascript" th:inline="javascript">
+                $(function() {
+                    var cart = new Cart({
+                        addUrl:     /*[[@{/shop/mailorder}]]*/     '/shop/mailorder',
+                        listUrl:    /*[[@{/shop/cart/list}]]*/          '/shop/cart/list',
+                        removeUrl:  /*[[@{/shop/cart/remove}]]*/        '/shop/cart/remove',
+                        form:           '#shop-cart-form',
+                        container:      '#shop-cart-container'
+                    });
+                });
+            </script>
+            <script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
+            <script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
+            <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+            <script type="text/javascript" th:inline="javascript">
+            $(function() {
+                $('.container-header').trianglify({
+                    palette: 'shop'
+                });
+            });
+            </script>
+        </div>
+    </body>
+</html>
