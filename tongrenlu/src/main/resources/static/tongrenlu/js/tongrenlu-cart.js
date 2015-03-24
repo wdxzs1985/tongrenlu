@@ -4,6 +4,7 @@ var Cart = function(options) {
 	        addUrl:         '/shop/cart/add',
 	        updateUrl:      '/shop/cart/update',
 	        removeUrl:      '/shop/cart/remove',
+	        clearUrl:      '/shop/cart/clear',
 	        form:           '#shop-cart-form',
 	        container:      '#shop-cart-container'
 	}, options);
@@ -15,29 +16,29 @@ var Cart = function(options) {
 				$(settings.form).find('input').val('');
 				$(settings.container).html(tmpl('template-shop-cart', response));
 			}).fail(function() {
-				_cart.onError('Cart.load fail');
+				_cart.onError('服务器⑨了，请重试。');
 			});
 		},
 		add: function(data) {
 			$.post(settings.addUrl, data).done(function(response) {
 				if(response.result) {
-					_cart.makeToast('Item Created');
+					_cart.makeToast('添加成功');
 					_cart.load();
 				}
 			}).fail(function() {
-				_cart.onError('Cart.add fail');
+				_cart.onError('服务器⑨了，请重试。');
 			});
 		},
 		update: function(title, quantity) {
 			$.post(settings.updateUrl, {title: title, quantity: quantity}).done(function(response) {
 				if(response.result) {
-					_cart.makeToast('Item Updated');
+					_cart.makeToast('修改成功');
 					_cart.load();
 				} else {
 					_cart.onError(response.error);
 				}
 			}).fail(function() {
-				_cart.onError('Cart.update fail');
+				_cart.onError('服务器⑨了，请重试。');
 			});
 		},
 		remove: function(title) {
@@ -48,7 +49,18 @@ var Cart = function(options) {
 					_cart.onError(response.error);
 				}
 			}).fail(function() {
-				_cart.onError('Cart.remove fail');
+				_cart.onError('服务器⑨了，请重试。');
+			});
+		},
+		clear: function(title) {
+			$.post(settings.clearUrl).done(function(response) {
+				if(response.result) {
+					_cart.load();
+				} else {
+					_cart.onError(response.error);
+				}
+			}).fail(function() {
+				_cart.onError('服务器⑨了，请重试。');
 			});
 		},
 		onError: function(error) {
@@ -78,12 +90,15 @@ var Cart = function(options) {
 		e.preventDefault();
 		var title = $(this).data('title')
 		_cart.remove(title);
+	}).on('click', 'a.btn-clear', function(e) {
+		e.preventDefault();
+		_cart.clear();
 	}).on('change', 'input', function() {
 		var title = $(this).data('title');
 		var quantity = $(this).val();
 		_cart.update(title, quantity);
 	}).on('submit', 'form', function() {
-		return window.confirm('confirm');
+		return window.confirm('确定下单吗？');
 	});
 	_cart.load();
 	return _cart;
