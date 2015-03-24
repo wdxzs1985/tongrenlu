@@ -512,3 +512,7 @@ h1.article-title {
     -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
     box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
 }
+
+body.hide-nav-search .navbar-search{
+	display: none;
+}

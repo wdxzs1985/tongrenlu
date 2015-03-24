@@ -87,7 +87,9 @@
                     <a th:href="@{/shop/cart/clear}" class="btn btn-warning" th:text="#{button.clear}">clear</a>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <a th:href="@{/shop/order}" class="btn btn-success" th:text="#{button.next}">next</a>
+                    <form th:action="@{/shop/order}" method="post">
+                        <button type="submit" class="btn btn-success" th:text="#{button.order}">order</button>
+                    </form> 
                 </div>
             </div>
         </div>

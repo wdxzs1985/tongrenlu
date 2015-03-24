@@ -18,8 +18,8 @@ var Cart = function(options) {
 				_cart.onError('Cart.load fail');
 			});
 		},
-		add: function(url) {
-			$.post(settings.addUrl, {url: url}).done(function(response) {
+		add: function(data) {
+			$.post(settings.addUrl, data).done(function(response) {
 				if(response.result) {
 					_cart.makeToast('Item Created');
 					_cart.load();
@@ -71,8 +71,7 @@ var Cart = function(options) {
 	
 	$(settings.form).on('submit', function (e) {
 		e.preventDefault();
-		var url = $(this).find('input[name="url"]').val();
-		_cart.add(url);
+		_cart.add($(this).serialize());
 	});
 	
 	$(settings.container).on('click', 'a.btn-remove', function(e) {
@@ -83,8 +82,9 @@ var Cart = function(options) {
 		var title = $(this).data('title');
 		var quantity = $(this).val();
 		_cart.update(title, quantity);
+	}).on('submit', 'form', function() {
+		return window.confirm('confirm');
 	});
-
 	_cart.load();
 	return _cart;
 }

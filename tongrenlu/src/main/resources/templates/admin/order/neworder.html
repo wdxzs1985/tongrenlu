@@ -20,22 +20,16 @@
         <div class="container-tab">
             <div class="container">
                 <ul class="nav">
-                    <li class="active">
+                    <li class="">
                         <a th:href="@{/admin/order}">
                             <span class="glyphicon glyphicon-th-list"></span>
                             <span class="" th:text="#{admin.order.index}"></span>
                         </a>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a th:href="@{/admin/order/neworder}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{admin.order.neworder}"></span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a th:href="@{/admin/order/itemlist}">
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="" th:text="#{admin.order.itemlist}"></span>
                         </a>
                     </li>
                 </ul>
@@ -105,6 +99,7 @@
             </th:block>
             <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
                 <h4 th:text="#{console.article.noData}"></h4>
+                <a th:href="@{/admin/order}" th:text="#{button.back}" class="btn btn-default"></a>
             </div>
         </div>
     </div>
@@ -118,7 +113,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/admin/order(p='')}]]*/ '/console/order';
+            var url = /*[[@{/admin/order/neworder(p='')}]]*/ '/console/order';
             window.location.href = url + currval;
             return false;
         }

@@ -37,8 +37,7 @@ public class ConsoleOrderService {
         return this.orderManager.findItemList(orderBean);
     }
 
-    public void updateOrder(final OrderBean orderBean,
-                            final List<OrderItemBean> itemList) {
+    public void updateOrder(final OrderBean orderBean, final List<OrderItemBean> itemList) {
 
         if (CollectionUtils.isEmpty(itemList)) {
             orderBean.setStatus(OrderBean.STATUS_CANCEL);
@@ -82,9 +81,13 @@ public class ConsoleOrderService {
         this.orderManager.updateOrderStatus(orderBean);
     }
 
-    public void removeItem(OrderBean orderBean, Integer orderItemId) {
+    public void removeItem(final OrderBean orderBean, final Integer orderItemId) {
         this.orderManager.removeItem(orderItemId);
-        List<OrderItemBean> itemList = this.findItemList(orderBean);
+        final List<OrderItemBean> itemList = this.findItemList(orderBean);
         this.updateOrder(orderBean, itemList);
+    }
+
+    public List<OrderItemBean> findAllItemList() {
+        return this.orderManager.findAllItemList();
     }
 }

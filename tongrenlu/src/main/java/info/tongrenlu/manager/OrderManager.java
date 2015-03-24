@@ -64,9 +64,13 @@ public class OrderManager {
         this.orderMapper.updateStatus(orderBean);
     }
 
-    public void removeItem(Integer orderItemId) {
+    public void removeItem(final Integer orderItemId) {
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("orderItemId", orderItemId);
         this.orderItemMapper.delete(params);
+    }
+
+    public List<OrderItemBean> findAllItemList() {
+        return this.orderItemMapper.fetchToDoList();
     }
 }

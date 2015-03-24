@@ -35,23 +35,56 @@
     <select id="fetchList" resultType="OrderItemBean">
         select
         <trim suffixOverrides=",">
-            id,
-            user_id         as "userBean.id",
-            order_id        as "orderBean.id",
-            title,
-            url,
-            shop,
-            price,
-            quantity,
-            exchange_rate   as "exchangeRate",
-            fee,
+            m_order_item.id,
+            m_order_item.title,
+            m_order_item.url,
+            m_order_item.shop,
+            m_order_item.price,
+            m_order_item.quantity,
+            m_order_item.exchange_rate  as "exchangeRate",
+            m_order_item.fee,
+            m_order_item.status,
+            m_order.id                  as "orderBean.id",
+            m_order.title               as "orderBean.title",
+            v_user.id                   as "userBean.id",
+            v_user.nickname             as "userBean.nickname",
         </trim>
         from
             m_order_item
+        join m_order on m_order_item.order_id = m_order.id
+        join v_user on m_order_item.user_id = v_user.id
         <where>
-            order_id = #{orderBean.id}
-        and del_flg = 0
+            m_order_item.order_id = #{orderBean.id}
+        and m_order_item.del_flg = 0
         </where>
+    </select>
+    
+    <select id="fetchToDoList" resultType="OrderItemBean">
+        select
+        <trim suffixOverrides=",">
+            m_order_item.id,
+            m_order_item.title,
+            m_order_item.url,
+            m_order_item.shop,
+            m_order_item.price,
+            m_order_item.quantity,
+            m_order_item.exchange_rate  as "exchangeRate",
+            m_order_item.fee,
+            m_order_item.status,
+            m_order.id                  as "orderBean.id",
+            m_order.title               as "orderBean.title",
+            v_user.id                   as "userBean.id",
+            v_user.nickname             as "userBean.nickname",
+        </trim>
+        from
+            m_order_item
+        join m_order on m_order_item.order_id = m_order.id
+        join v_user on m_order_item.user_id = v_user.id
+        <where>
+            m_order.status = 1
+        and m_order_item.del_flg = 0
+        </where>
+        order by m_order_item.status
     </select>
     
     <update id="update">
@@ -69,7 +102,6 @@
         <where>
             id = #{id}
         </where>
-            
     </update>
     
     

@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,6 +37,8 @@ public class HomeShopController {
 
     @Autowired
     private ShopOrderService shopOrderService = null;
+    @Autowired
+    private MessageSource messageSource = null;
 
     private Log log = LogFactory.getLog(this.getClass());
 
@@ -79,7 +82,6 @@ public class HomeShopController {
     @ResponseBody
     public Map<String, Object> doPostEvent(@RequestParam final String title,
                                            @RequestParam final String url,
-                                           @RequestParam final String event,
                                            @RequestParam final Integer price,
                                            @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart) {
         final Map<String, Object> model = new HashMap<String, Object>();
@@ -88,6 +90,7 @@ public class HomeShopController {
         item.setTitle(title);
         item.setUrl(url);
         item.setPrice(BigDecimal.valueOf(price));
+        item.setShop(this.messageSource.getMessage("shop.event", null, null));
 
         shoppingCart.put(item.getTitle(), item);
         model.put("result", true);
@@ -145,24 +148,6 @@ public class HomeShopController {
         return "redirect:/shop/cart";
     }
 
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
-    public String doGetOrder(@ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart,
-                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
-        if (CollectionUtils.sizeIsEmpty(shoppingCart)) {
-            return "redirect:/shop/mailorder";
-        } else {
-            final OrderBean orderBean = this.shopOrderService.makeOrderBean(loginUser);
-            final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean, locale);
-            model.addAttribute("orderBean", orderBean);
-            model.addAttribute("itemList", itemList);
-            model.addAttribute("result", true);
-
-            return "shop/order";
-        }
-    }
-
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     public String doPostOrder(@ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
@@ -173,9 +158,6 @@ public class HomeShopController {
         } else {
             final OrderBean orderBean = this.shopOrderService.makeOrderBean(loginUser);
             final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean, locale);
-            model.addAttribute("orderBean", orderBean);
-            model.addAttribute("itemList", itemList);
-
             this.shopOrderService.newOrder(orderBean, itemList, locale);
 
             return "redirect:/shop/order/finish";

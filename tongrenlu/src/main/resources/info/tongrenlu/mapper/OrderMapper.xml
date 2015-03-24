@@ -94,6 +94,9 @@
             <if test="userBean != null">
             and v_user.id = #{userBean.id}
             </if>
+            <if test="status != null">
+            and m_order.status = #{status}
+            </if>
         </where>
         order by m_order.id desc
         limit #{start}, #{pageSize}

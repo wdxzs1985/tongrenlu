@@ -27,7 +27,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ShopOrderService implements InitializingBean {
+public class ShopOrderService {
 
     public static final Pattern PATTERN_TORANOANA = Pattern.compile("http://www.toranoana.jp/mailorder/.*");
     public static final Pattern PATTERN_MELONBOOKS = Pattern.compile("https://www.melonbooks.co.jp/detail/.*");
@@ -53,13 +52,7 @@ public class ShopOrderService implements InitializingBean {
     @Autowired
     private HttpWraper melonbooksClient = null;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-
-    }
-
     public OrderItemBean initWithUrl(final String url) {
-
         final ShopBean shopBean = this.shopManager.getDefaultShop();
 
         final OrderItemBean item = new OrderItemBean();
