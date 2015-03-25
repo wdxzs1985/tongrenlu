@@ -36,35 +36,11 @@
         join v_user on m_order.user_id = v_user.id
         <where>
             <if test="userBean != null">
-            and user_id = #{userBean.id}
+            and v_user.id = #{userBean.id}
             </if>
-        </where>
-    </select>
-    
-    <select id="fetchBean" resultType="OrderBean">
-        select
-        <trim suffixOverrides=",">
-            m_order.id,
-            m_order.title,
-            m_order.amount_jp           as "amountJp",
-            m_order.amount_cn           as "amountCn",
-            m_order.fee,
-            m_order.total,
-            m_order.status,
-            m_order.create_date         as "createDate",
-            m_order.order_date          as "orderDate",
-            m_order.pay_date            as "payDate",
-            m_order.send_date           as "sendDate",
-            m_order.receive_date        as "receiveDate",
-            m_order.cancel_date         as "cancelDate",
-            v_user.id           as "userBean.id",
-            v_user.nickname     as "userBean.nickname",
-        </trim>
-        from 
-            m_order
-        join v_user on m_order.user_id = v_user.id
-        <where>
-            m_order.id = #{orderId}
+            <if test="status != null">
+                and m_order.status = #{status}
+            </if>
         </where>
     </select>
     
@@ -95,11 +71,39 @@
             and v_user.id = #{userBean.id}
             </if>
             <if test="status != null">
-            and m_order.status = #{status}
+                and m_order.status = #{status}
             </if>
         </where>
         order by m_order.id desc
         limit #{start}, #{pageSize}
+    </select>
+    
+    <select id="fetchBean" resultType="OrderBean">
+        select
+        <trim suffixOverrides=",">
+            m_order.id,
+            m_order.title,
+            m_order.amount_jp           as "amountJp",
+            m_order.amount_cn           as "amountCn",
+            m_order.fee,
+            m_order.total,
+            m_order.status,
+            m_order.tracking_code       as trackingCode,
+            m_order.create_date         as "createDate",
+            m_order.order_date          as "orderDate",
+            m_order.pay_date            as "payDate",
+            m_order.send_date           as "sendDate",
+            m_order.receive_date        as "receiveDate",
+            m_order.cancel_date         as "cancelDate",
+            v_user.id           as "userBean.id",
+            v_user.nickname     as "userBean.nickname",
+        </trim>
+        from 
+            m_order
+        join v_user on m_order.user_id = v_user.id
+        <where>
+            m_order.id = #{orderId}
+        </where>
     </select>
     
     <update id="update">
@@ -129,7 +133,8 @@
                   pay_date = current_timestamp
                 </when>
                 <when test="status == 3">
-                  send_date = current_timestamp
+                  send_date = current_timestamp,
+                  tracking_code = #{trackingCode},
                 </when>
                 <when test="status == 4">
                   receive_date = current_timestamp

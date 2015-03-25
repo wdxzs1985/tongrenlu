@@ -20,22 +20,40 @@
         <div class="container-tab">
             <div class="container">
                 <ul class="nav">
-                    <li class="active">
+                    <li class="">
                         <a th:href="@{/admin/order}">
+                            <span class="glyphicon glyphicon-dashboard"></span>
+                            <span class="" th:text="#{admin.order.dashboard}"></span>
+                        </a>
+                    </li>
+                    <li th:class="${#strings.isEmpty(status)} ? 'active'">
+                        <a th:href="@{/admin/order/list}">
                             <span class="glyphicon glyphicon-th-list"></span>
                             <span class="" th:text="#{admin.order.index}"></span>
                         </a>
                     </li>
-                    <li class="">
-                        <a th:href="@{/admin/order/neworder}">
+                    <li th:class="${status} eq 0 ? 'active'">
+                        <a th:href="@{/admin/order/list(status=0)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="" th:text="#{admin.order.neworder}"></span>
+                            <span class="" th:text="#{console.order.created}"></span>
                         </a>
                     </li>
-                    <li class="">
-                        <a th:href="@{/admin/order/itemlist}">
+                    <li th:class="${status} eq 1 ? 'active'">
+                        <a th:href="@{/admin/order/list(status=1)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="" th:text="#{admin.order.itemlist}"></span>
+                            <span class="" th:text="#{console.order.started}"></span>
+                        </a>
+                    </li>
+                    <li th:class="${status} eq 2 ? 'active'">
+                        <a th:href="@{/admin/order/list(status=2)}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{console.order.paid}"></span>
+                        </a>
+                    </li>
+                    <li th:class="${status} eq 3 ? 'active'">
+                        <a th:href="@{/admin/order/list(status=3)}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{console.order.send}"></span>
                         </a>
                     </li>
                 </ul>

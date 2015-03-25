@@ -31,13 +31,15 @@ public class AdminShopController {
     @RequestMapping(method = RequestMethod.POST, value = "")
     public String doPostView(final BigDecimal taxRate,
                              final BigDecimal exchangeRate,
-                             final BigDecimal fee,
+                             final BigDecimal feeMailorder,
+                             final BigDecimal feeEvent,
                              final Model model,
                              final Locale locale) {
         final ShopBean shopBean = new ShopBean();
         shopBean.setTaxRate(taxRate);
         shopBean.setExchangeRate(exchangeRate);
-        shopBean.setFee(fee);
+        shopBean.setFeeMailorder(feeMailorder);
+        shopBean.setFeeEvent(feeEvent);
 
         this.adminShopService.updateDefaultShop(shopBean);
         return "redirect:/admin/shop";

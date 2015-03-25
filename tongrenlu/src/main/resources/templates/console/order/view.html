@@ -33,26 +33,32 @@
                     <div id="shop-cart-container">
                         <div class="panel card">
                             <div class="panel-body">
-                                <p class="form-control-static">
-                                    <span th:text="#{OrderBean.user}"></span>
-                                    <strong th:text="${orderBean.userBean}"></strong>
-                                </p>
-                                <p class="form-control-static" th:switch="${orderBean.status}">
-                                    <span th:text="#{OrderBean.status}"></span>
-                                    <strong th:case="0" th:text="#{console.order.created}"></strong>
-                                    <strong th:case="1" th:text="#{console.order.started}"></strong>
-                                    <strong th:case="2" th:text="#{console.order.paid}"></strong>
-                                    <strong th:case="3" th:text="#{console.order.send}"></strong>
-                                    <strong th:case="4" th:text="#{console.order.received}"></strong>
-                                    <strong th:case="9" th:text="#{console.order.canceled}"></strong>
-                                </p>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <p class="form-control-static">
+                                            <span th:text="#{OrderBean.user}"></span>
+                                            <strong th:text="${orderBean.userBean}"></strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p class="form-control-static" th:switch="${orderBean.status}">
+                                            <span th:text="#{OrderBean.status}"></span>
+                                            <strong th:case="0" th:text="#{console.order.created}"></strong>
+                                            <strong th:case="1" th:text="#{console.order.started}"></strong>
+                                            <strong th:case="2" th:text="#{console.order.paid}"></strong>
+                                            <strong th:case="3" th:text="#{console.order.send}"></strong>
+                                            <strong th:case="4" th:text="#{console.order.received}"></strong>
+                                            <strong th:case="9" th:text="#{console.order.canceled}"></strong>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <th class="text-center" style="width:50%" th:text="#{OrderBean.title}">title</th>
-                                        <th class="text-center" th:text="#{OrderBean.price}">price</th>
-                                        <th class="text-center" th:text="#{OrderBean.quantity}">quantity</th>
+                                        <th class="text-center" style="width:50%" th:text="#{OrderItemBean.title}">title</th>
+                                        <th class="text-center" th:text="#{OrderItemBean.price}">price</th>
+                                        <th class="text-center" th:text="#{OrderItemBean.quantity}">quantity</th>
                                         <th class="text-center" th:text="#{OrderBean.amount}">amountJp</th>
                                         <th class="text-center" th:text="#{OrderBean.total}">total</th>
                                     </tr>

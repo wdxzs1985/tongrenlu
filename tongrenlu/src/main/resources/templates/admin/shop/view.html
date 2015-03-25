@@ -36,41 +36,27 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div th:class="${#strings.isEmpty(taxRateError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                                        <div class="form-group">
                                             <label for="inputTaxRate" class="control-label" th:text="#{ShopBean.taxRate}">taxRate</label>
-                                            <input type="number" class="form-control" 
-                                                id="inputTaxRate" name="taxRate"
+                                            <input type="number" class="form-control" id="inputTaxRate" name="taxRate"
                                                 th:value="${shopBean.taxRate}" step="0.001" min="0"
                                                 th:placeholder="#{ShopBean.taxRate}"/>
-                                            <span class="glyphicon glyphicon-remove form-control-feedback"
-                                                th:unless="${#strings.isEmpty(taxRateError)}"></span>
-                                            <p class="help-block" 
-                                                th:unless="${#strings.isEmpty(taxRateError)}"
-                                                th:text="${taxRateError}"></p>
                                         </div>
-                                        <div th:class="${#strings.isEmpty(exchangeRateError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
+                                        <div class="form-group">
                                             <label for="inputExchangeRate" class="control-label" th:text="#{ShopBean.exchangeRate}">exchangeRate</label>
-                                            <input type="number" class="form-control" 
-                                                id="inputExchangeRate" name="exchangeRate"
+                                            <input type="number" class="form-control" id="inputExchangeRate" name="exchangeRate"
                                                 th:value="${shopBean.exchangeRate}" step="0.001" min="0"
                                                 th:placeholder="#{ShopBean.exchangeRate}"/>
-                                            <span class="glyphicon glyphicon-remove form-control-feedback"
-                                                th:unless="${#strings.isEmpty(exchangeRateError)}"></span>
-                                            <p class="help-block" 
-                                                th:unless="${#strings.isEmpty(exchangeRateError)}"
-                                                th:text="${exchangeRateError}"></p>
                                         </div>
-                                        <div th:class="${#strings.isEmpty(feeError)} ? 'form-group has-feedback' : 'form-group has-error has-feedback'">
-                                            <label for="inputFee" class="control-label" th:text="#{ShopBean.fee}">fee</label>
-                                            <input type="number" class="form-control" 
-                                                id="inputFee" name="fee"
-                                                th:value="${shopBean.fee}" step="0.01" min="0"
-                                                th:placeholder="#{ShopBean.fee}"/>
-                                            <span class="glyphicon glyphicon-remove form-control-feedback"
-                                                th:unless="${#strings.isEmpty(feeError)}"></span>
-                                            <p class="help-block" 
-                                                th:unless="${#strings.isEmpty(feeError)}"
-                                                th:text="${feeError}"></p>
+                                        <div class="form-group">
+                                            <label for="inputFeeMailorder" class="control-label" th:text="#{ShopBean.feeMailorder}">fee</label>
+                                            <input type="number" class="form-control" id="inputFeeMailorder" name="feeMailorder" step="0.01" min="0"
+                                                th:value="${shopBean.feeMailorder}" th:placeholder="#{ShopBean.feeMailorder}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputFeeEvent" class="control-label" th:text="#{ShopBean.feeEvent}">fee</label>
+                                            <input type="number" class="form-control" id="inputFeeEvent" name="feeEvent" step="0.01" min="0"
+                                                th:value="${shopBean.feeEvent}" th:placeholder="#{ShopBean.feeEvent}"/>
                                         </div>
                                     </div>
                                 </div>

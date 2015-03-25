@@ -21,6 +21,8 @@ public class OrderBean extends DtoBean {
 
     private String title = null;
 
+    private String trackingCode = null;
+
     private BigDecimal amountJp = BigDecimal.ZERO;
 
     private BigDecimal amountCn = BigDecimal.ZERO;
@@ -140,11 +142,19 @@ public class OrderBean extends DtoBean {
     }
 
     public Date getCancelDate() {
-        return cancelDate;
+        return this.cancelDate;
     }
 
-    public void setCancelDate(Date cancelDate) {
+    public void setCancelDate(final Date cancelDate) {
         this.cancelDate = cancelDate;
+    }
+
+    public String getTrackingCode() {
+        return this.trackingCode;
+    }
+
+    public void setTrackingCode(final String trackingCode) {
+        this.trackingCode = trackingCode;
     }
 
 }

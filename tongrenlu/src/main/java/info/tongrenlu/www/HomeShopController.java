@@ -15,7 +15,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +59,12 @@ public class HomeShopController {
     @RequestMapping(value = "/mailorder", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> doPostAddMailOrder(@RequestParam final String url,
-                                                  @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart) {
+                                                  @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart,
+                                                  final Locale locale) {
         final Map<String, Object> model = new HashMap<String, Object>();
 
-        if (StringUtils.isNotBlank(url)) {
-            final OrderItemBean item = this.shopOrderService.initWithUrl(url);
+        final OrderItemBean item = this.shopOrderService.initWithUrl(url, model, locale);
+        if (item != null) {
             shoppingCart.put(item.getTitle(), item);
             model.put("result", true);
         } else {
@@ -80,17 +80,13 @@ public class HomeShopController {
 
     @RequestMapping(value = "/event", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doPostEvent(@RequestParam final String title,
-                                           @RequestParam final String url,
-                                           @RequestParam final Integer price,
-                                           @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart) {
+    public Map<String, Object> doPostEvent(@RequestParam(defaultValue = "", required = false) final String title,
+                                           @RequestParam(defaultValue = "0", required = false) final BigDecimal price,
+                                           @RequestParam(defaultValue = "", required = false) final String url,
+                                           @ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart,
+                                           final Locale locale) {
         final Map<String, Object> model = new HashMap<String, Object>();
-
-        final OrderItemBean item = this.shopOrderService.initItem();
-        item.setTitle(title);
-        item.setUrl(url);
-        item.setPrice(BigDecimal.valueOf(price));
-        item.setShop(this.messageSource.getMessage("shop.event", null, null));
+        final OrderItemBean item = this.shopOrderService.initEventItem(title, price, url, model, locale);
 
         shoppingCart.put(item.getTitle(), item);
         model.put("result", true);
@@ -105,9 +101,7 @@ public class HomeShopController {
                                              final Locale locale) {
         final Map<String, Object> model = new HashMap<String, Object>();
         final OrderBean orderBean = this.shopOrderService.makeOrderBean(loginUser);
-        final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart,
-                                                                                orderBean,
-                                                                                locale);
+        final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean, locale);
 
         model.put("orderBean", orderBean);
         model.put("itemList", itemList);
@@ -157,14 +151,13 @@ public class HomeShopController {
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     public String doPostOrder(@ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model, final Locale locale) {
+                              final Model model,
+                              final Locale locale) {
         if (CollectionUtils.sizeIsEmpty(shoppingCart)) {
             return "redirect:/shop/mailorder";
         } else {
             final OrderBean orderBean = this.shopOrderService.makeOrderBean(loginUser);
-            final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart,
-                                                                                    orderBean,
-                                                                                    locale);
+            final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean, locale);
             this.shopOrderService.newOrder(orderBean, itemList, locale);
 
             return "redirect:/shop/order/finish";

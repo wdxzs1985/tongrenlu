@@ -9,7 +9,8 @@
         <trim suffixOverrides=",">
             m_shop.id,
             m_shop.shop_name            as shopName,
-            m_shop.fee,
+            m_shop.fee_mailorder        as feeMailorder,
+            m_shop.fee_event            as feeEvent,
             m_shop.tax_rate             as taxRate,
             m_shop.exchange_rate        as exchangeRate,
             v_user.id                   as "userBean.id",
@@ -29,7 +30,8 @@
         <set>
             tax_rate = #{taxRate},
             exchange_rate = #{exchangeRate},
-            fee = #{fee},
+            fee_mailorder = #{feeMailorder},
+            fee_event = #{feeEvent},
         </set>
         <where>
             m_shop.id = #{id}

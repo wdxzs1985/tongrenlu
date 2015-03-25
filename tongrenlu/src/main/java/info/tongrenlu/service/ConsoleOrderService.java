@@ -38,46 +38,32 @@ public class ConsoleOrderService {
     }
 
     public void updateOrder(final OrderBean orderBean, final List<OrderItemBean> itemList) {
-
         if (CollectionUtils.isEmpty(itemList)) {
             orderBean.setStatus(OrderBean.STATUS_CANCEL);
             this.orderManager.updateOrderStatus(orderBean);
-            return;
+        } else {
+            BigDecimal amountJp = BigDecimal.ZERO;
+            BigDecimal amountCn = BigDecimal.ZERO;
+            BigDecimal fee = BigDecimal.ZERO;
+            BigDecimal total = BigDecimal.ZERO;
+
+            for (final OrderItemBean item : itemList) {
+                amountJp = amountJp.add(item.getAmountJp());
+                amountCn = amountCn.add(item.getAmountCn());
+                fee = fee.add(item.getFee());
+                total = total.add(item.getTotal());
+                this.orderManager.updateOrderItem(item);
+            }
+            orderBean.setAmountJp(amountJp);
+            orderBean.setAmountCn(amountCn);
+            orderBean.setFee(fee);
+            orderBean.setTotal(total);
+
+            this.orderManager.update(orderBean);
         }
-        BigDecimal amountJp = BigDecimal.ZERO;
-        BigDecimal amountCn = BigDecimal.ZERO;
-        BigDecimal fee = BigDecimal.ZERO;
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (final OrderItemBean item : itemList) {
-            amountJp = amountJp.add(item.getAmountJp());
-            amountCn = amountCn.add(item.getAmountCn());
-            fee = fee.add(item.getFee());
-            total = total.add(item.getTotal());
-
-            this.orderManager.updateOrderItem(item);
-        }
-
-        orderBean.setAmountJp(amountJp);
-        orderBean.setAmountCn(amountCn);
-        orderBean.setFee(fee);
-        orderBean.setTotal(total);
-
-        this.orderManager.update(orderBean);
     }
 
-    public void startOrder(final OrderBean orderBean) {
-        orderBean.setStatus(OrderBean.STATUS_START);
-        this.orderManager.updateOrderStatus(orderBean);
-    }
-
-    public void finishOrder(final OrderBean orderBean) {
-        orderBean.setStatus(OrderBean.STATUS_FINISH);
-        this.orderManager.updateOrderStatus(orderBean);
-    }
-
-    public void cancelOrder(final OrderBean orderBean) {
-        orderBean.setStatus(OrderBean.STATUS_CANCEL);
+    public void updateOrderStatus(final OrderBean orderBean) {
         this.orderManager.updateOrderStatus(orderBean);
     }
 

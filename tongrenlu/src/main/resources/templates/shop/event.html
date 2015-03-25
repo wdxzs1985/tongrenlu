@@ -16,22 +16,40 @@
                         </div>
                     </div>
                 </div>
+                <div class="container-tab">
+                    <div class="container">
+                        <ul class="nav">
+                            <li class="">
+                                <a th:href="@{/shop/mailorder}">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    <span class="hidden-xs" th:text="#{shop.mailorder}"></span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a th:href="@{/shop/event}">
+                                    <span class="glyphicon glyphicon-th-list"></span>
+                                    <span class="" th:text="#{shop.event}"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="container-wrap container-wrap-darker" >
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8">
-                            <form id="shop-cart-form" th:action="@{/shop/cart/event}" method="post">
+                            <form id="shop-cart-form" th:action="@{/shop/event}" method="post">
                                 <div class="row">
                                     <div class="col-sm-8" >
                                         <div class="form-group">
-                                            <label th:text="#{OrderBean.title}"></label>
+                                            <label th:text="#{shop.event.title}">circle + title + location</label>
                                             <input type="text" class="form-control" name="title" value="" />
                                         </div>
                                     </div>
                                     <div class="col-sm-4" >
                                         <div class="form-group">
-                                            <label th:text="#{OrderBean.price}"></label>
+                                            <label th:text="#{OrderItemBean.price}"></label>
                                             <input type="number" class="form-control" name="price" value="" />
                                         </div>
                                     </div>

@@ -52,15 +52,15 @@ public class ShopOrderService {
     @Autowired
     private HttpWraper melonbooksClient = null;
 
-    public OrderItemBean initWithUrl(final String url) {
+    public OrderItemBean initWithUrl(final String url, final Map<String, Object> model, final Locale locale) {
+        final String fieldName = this.messageSource.getMessage("OrderItemBean.url", null, locale);
+        if (StringUtils.isBlank(url)) {
+            model.put("error", this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
+            return null;
+        }
         final ShopBean shopBean = this.shopManager.getDefaultShop();
-
-        final OrderItemBean item = new OrderItemBean();
-        item.setExchangeRate(shopBean.getExchangeRate());
-        item.setFee(shopBean.getFee());
-        item.setRemovable(true);
-        item.setQuantity(BigDecimal.ONE);
-        item.setPrice(BigDecimal.ZERO);
+        final OrderItemBean item = this.initItem(shopBean);
+        item.setFee(shopBean.getFeeMailorder());
 
         if (PATTERN_TORANOANA.matcher(url).find()) {
             this.initWithToranoana(item, url);
@@ -70,19 +70,38 @@ public class ShopOrderService {
         } else if (PATTERN_MELONBOOKS.matcher(url).find()) {
             this.initWithMelonbooks(item, url);
         } else {
-            item.setTitle(url);
+            model.put("error", this.messageSource.getMessage("validate.bad", new Object[] { fieldName }, locale));
+            return null;
         }
         return item;
     }
 
-    public OrderItemBean initItem() {
+    public OrderItemBean initEventItem(final String title,
+                                       final BigDecimal price,
+                                       final String url,
+                                       final Map<String, Object> model,
+                                       final Locale locale) {
+        if (StringUtils.isBlank(title)) {
+            final String fieldName = this.messageSource.getMessage("OrderItemBean.title", null, locale);
+            model.put("error", this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
+            return null;
+        }
         final ShopBean shopBean = this.shopManager.getDefaultShop();
+        final OrderItemBean item = this.initItem(shopBean);
+        item.setTitle(title);
+        item.setPrice(price);
+        item.setUrl(url);
+        item.setFee(shopBean.getFeeEvent());
+        item.setShop(this.messageSource.getMessage("shop.event", null, locale));
+        return item;
+    }
 
+    private OrderItemBean initItem(final ShopBean shopBean) {
         final OrderItemBean item = new OrderItemBean();
         item.setExchangeRate(shopBean.getExchangeRate());
-        item.setFee(shopBean.getFee());
         item.setRemovable(true);
         item.setQuantity(BigDecimal.ONE);
+        item.setPrice(BigDecimal.ZERO);
         return item;
     }
 
@@ -91,7 +110,7 @@ public class ShopOrderService {
         final Document doc = Jsoup.parse(html);
 
         final String title = doc.select("#title strong.str").get(0).text();
-        final String circleName = doc.select("#title .circle").text();
+        final String circleName = StringUtils.trim(doc.select("#title .circle").text());
         BigDecimal price = BigDecimal.ZERO;
 
         // parse the string
@@ -206,5 +225,4 @@ public class ShopOrderService {
         }
         return itemList;
     }
-
 }

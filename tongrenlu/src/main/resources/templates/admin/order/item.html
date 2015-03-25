@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
-    <title th:text="#{admin.order} + ' | ' + #{console}"></title>
+    <title th:text="#{admin.order.item} + ' | ' + #{console}"></title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -13,29 +13,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8" >
-                    <h1 th:text="#{admin.order}"></h1>
+                    <h1 th:text="#{admin.order.item}"></h1>
                 </div>
             </div>
         </div>
         <div class="container-tab">
             <div class="container">
                 <ul class="nav">
-                    <li class="">
-                        <a th:href="@{/admin/order}">
-                            <span class="glyphicon glyphicon-th-list"></span>
-                            <span class="" th:text="#{admin.order.index}"></span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a th:href="@{/admin/order/neworder}">
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="" th:text="#{admin.order.neworder}"></span>
-                        </a>
-                    </li>
                     <li class="active">
-                        <a th:href="@{/admin/order/itemlist}">
+                        <a th:href="@{/admin/order/item}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span class="" th:text="#{admin.order.item}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/order/item}">
                             <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="" th:text="#{admin.order.itemlist}"></span>
+                            <span class="" th:text="#{admin.order.item}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/order/item}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{admin.order.item}"></span>
                         </a>
                     </li>
                 </ul>
@@ -49,9 +49,9 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
-                                <th class="text-center" style="width:50%" th:text="#{OrderBean.title}">title</th>
-                                <th class="text-center" th:text="#{OrderBean.price}">price</th>
-                                <th class="text-center" th:text="#{OrderBean.quantity}">quantity</th>
+                                <th class="text-center" style="width:50%" th:text="#{OrderItemBean.title}">title</th>
+                                <th class="text-center" th:text="#{OrderItemBean.price}">price</th>
+                                <th class="text-center" th:text="#{OrderItemBean.quantity}">quantity</th>
                                 <th class="text-center" th:text="#{OrderBean.status}">status</th>
                             </tr>
                             <tr th:each="orderItemBean: ${itemList}">

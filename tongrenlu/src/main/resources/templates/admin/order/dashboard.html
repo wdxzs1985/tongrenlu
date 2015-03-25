@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <title th:text="#{admin.order} + ' | ' + #{console}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8" >
+                    <h1 th:text="#{admin.order}"></h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li class="active">
+                        <a th:href="@{/admin/order}">
+                            <span class="glyphicon glyphicon-dashboard"></span>
+                            <span class="" th:text="#{admin.order.dashboard}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/order/list}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span class="" th:text="#{admin.order.index}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/order/list(status=0)}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{console.order.created}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/order/list(status=1)}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{console.order.started}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/order/list(status=2)}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{console.order.paid}"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a th:href="@{/admin/order/list(status=3)}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{console.order.send}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrap container-wrap-darker" >
+        <div class="container">
+            <div class="card panel">
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="scripts">
+<script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(function() {
+    $('.container-header').trianglify({
+        palette: 'console'
+    });
+});
+</script>
+</th:block>
+  </body>
+</html>

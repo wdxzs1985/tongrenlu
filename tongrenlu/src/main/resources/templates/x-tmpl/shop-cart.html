@@ -9,16 +9,15 @@
 {% if (o.itemList.length == 0) { %}
             <div class="alert alert-warning">
                 <h4 th:text="#{shop.noData}">no item</h4>
-                <p><a th:href="@{/}" th:text="#{button.back}" class="btn btn-default">back</a></p>
             </div>
 {% } else { %}
     <div class="panel card">
         <div class=" table-responsive">
         <table class="table table-bordered ">
             <tr>
-                <th class="text-center" style="width:50%" th:text="#{OrderBean.title}">title</th>
-                <th class="text-center" th:text="#{OrderBean.price}">price</th>
-                <th class="text-center" th:text="#{OrderBean.quantity}">quantity</th>
+                <th class="text-center" style="width:50%" th:text="#{OrderItemBean.title}">title</th>
+                <th class="text-center" th:text="#{OrderItemBean.price}">price</th>
+                <th class="text-center" th:text="#{OrderItemBean.quantity}">quantity</th>
                 <th class="text-center" th:text="#{OrderBean.amount}">amount</th>
                 <th class="text-center" th:text="#{OrderBean.total}">total</th>
                 <th class="text-center"></th>

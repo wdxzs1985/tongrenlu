@@ -495,12 +495,12 @@ h1.article-title {
 
 .toast {
 	display: none;
-    width:200px;
+    width:280px;
     min-height:20px;
     height:auto;
     position:fixed;
     left:50%;
-    margin-left:-100px;
+    margin-left:-140px;
     bottom:10px;
     background-color: #383838;
     color: #F0F0F0;

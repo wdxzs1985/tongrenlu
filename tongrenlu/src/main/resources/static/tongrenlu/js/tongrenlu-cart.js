@@ -13,7 +13,8 @@ var Cart = function(options) {
 		items: [],
 		load: function() {
 			$.getJSON(settings.listUrl).done(function(response) {
-				$(settings.form).find('input').val('');
+				$(settings.form).find('input[type="text"]').val('');
+				$(settings.form).find('input[type="number"]').val('0');
 				$(settings.container).html(tmpl('template-shop-cart', response));
 			}).fail(function() {
 				_cart.onError('服务器⑨了，请重试。');
@@ -24,6 +25,8 @@ var Cart = function(options) {
 				if(response.result) {
 					_cart.makeToast('添加成功');
 					_cart.load();
+				} else {
+					_cart.onError(response.error);
 				}
 			}).fail(function() {
 				_cart.onError('服务器⑨了，请重试。');
@@ -96,7 +99,18 @@ var Cart = function(options) {
 	}).on('change', 'input', function() {
 		var title = $(this).data('title');
 		var quantity = $(this).val();
-		_cart.update(title, quantity);
+		
+		if(_cart.updatetimeout) {
+			clearTimeout(_cart.updatetimeout);
+		}
+		
+		_cart.updatetimeout = setTimeout(function() {
+			_cart.update(title, quantity);
+			_cart.updatetimeout = null;
+		}, 500);
+		
+		
+		
 	}).on('submit', 'form', function() {
 		return window.confirm('确定下单吗？');
 	});

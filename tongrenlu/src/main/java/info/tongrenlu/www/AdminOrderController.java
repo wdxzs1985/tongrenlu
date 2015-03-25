@@ -43,30 +43,32 @@ public class AdminOrderController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, final Model model) {
+    public String doGetIndex(final Model model) {
+
+        return "admin/order/dashboard";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "list")
+    public String doGetList(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                            @RequestParam(required = false) final Integer status,
+                            final Model model) {
         final PaginateSupport<OrderBean> page = new PaginateSupport<>(pageNumber);
+        if (status != null) {
+            page.addParam("status", status);
+        }
         this.orderService.searchOrder(page);
         model.addAttribute("page", page);
+        model.addAttribute("status", status);
         return "admin/order/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "neworder")
-    public String doGetNewOrder(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                final Model model) {
-        final PaginateSupport<OrderBean> page = new PaginateSupport<>(pageNumber);
-        page.addParam("status", OrderBean.STATUS_CREATE);
-        this.orderService.searchOrder(page);
-        model.addAttribute("page", page);
-        return "admin/order/neworder";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "itemlist")
-    public String doGetItemlist(final Model model) {
+    @RequestMapping(method = RequestMethod.GET, value = "item")
+    public String doGetItem(final Model model) {
 
         final List<OrderItemBean> itemList = this.orderService.findAllItemList();
         model.addAttribute("itemList", itemList);
 
-        return "admin/order/itemlist";
+        return "admin/order/item";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}")
@@ -126,25 +128,53 @@ public class AdminOrderController {
         return "redirect:/admin/order/" + orderId;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/start")
-    public String doGetStart(@PathVariable final Integer orderId,
-                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
-        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-        this.orderService.startOrder(orderBean);
-        return "redirect:/admin/order/" + orderId;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/finish")
-    public String doGetFinish(@PathVariable final Integer orderId,
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/start")
+    public String doPostStart(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-        this.orderService.finishOrder(orderBean);
+        orderBean.setStatus(OrderBean.STATUS_START);
+        this.orderService.updateOrderStatus(orderBean);
+        return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/pay")
+    public String doPostPay(@PathVariable final Integer orderId,
+                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                            final Model model,
+                            final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        orderBean.setStatus(OrderBean.STATUS_PAY);
+        this.orderService.updateOrderStatus(orderBean);
+        return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/send")
+    public String doPostSend(@PathVariable final Integer orderId,
+                             final String trackingCode,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model,
+                             final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        orderBean.setTrackingCode(trackingCode);
+        orderBean.setStatus(OrderBean.STATUS_SEND);
+        this.orderService.updateOrderStatus(orderBean);
+        return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/finish")
+    public String doPostFinish(@PathVariable final Integer orderId,
+                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                               final Model model,
+                               final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        orderBean.setStatus(OrderBean.STATUS_FINISH);
+        this.orderService.updateOrderStatus(orderBean);
         return "redirect:/admin/order/" + orderId;
     }
 
@@ -155,7 +185,8 @@ public class AdminOrderController {
                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-        this.orderService.cancelOrder(orderBean);
+        orderBean.setStatus(OrderBean.STATUS_CANCEL);
+        this.orderService.updateOrderStatus(orderBean);
         return "redirect:/admin/order/" + orderId;
     }
 }

@@ -12,7 +12,9 @@ public class ShopBean extends DtoBean {
 
     private BigDecimal exchangeRate;
 
-    private BigDecimal fee;
+    private BigDecimal feeMailorder;
+
+    private BigDecimal feeEvent;
 
     public UserBean getUserBean() {
         return this.userBean;
@@ -38,20 +40,28 @@ public class ShopBean extends DtoBean {
         this.exchangeRate = exchangeRate;
     }
 
-    public BigDecimal getFee() {
-        return this.fee;
-    }
-
-    public void setFee(final BigDecimal fee) {
-        this.fee = fee;
-    }
-
     public BigDecimal getTaxRate() {
         return this.taxRate;
     }
 
     public void setTaxRate(final BigDecimal taxRate) {
         this.taxRate = taxRate;
+    }
+
+    public BigDecimal getFeeMailorder() {
+        return this.feeMailorder;
+    }
+
+    public void setFeeMailorder(final BigDecimal feeMailorder) {
+        this.feeMailorder = feeMailorder;
+    }
+
+    public BigDecimal getFeeEvent() {
+        return this.feeEvent;
+    }
+
+    public void setFeeEvent(final BigDecimal feeEvent) {
+        this.feeEvent = feeEvent;
     }
 
 }
