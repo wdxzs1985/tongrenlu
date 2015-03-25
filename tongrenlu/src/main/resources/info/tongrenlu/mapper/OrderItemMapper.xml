@@ -16,6 +16,8 @@
            quantity,
            exchange_rate,
            fee,
+           status,
+           create_date,
         </trim>
         ) VALUES (
         <trim suffixOverrides=",">
@@ -28,6 +30,8 @@
            #{quantity},
            #{exchangeRate},
            #{fee},
+           0,
+           current_timestamp,
         </trim>
         )
     </insert>
@@ -44,6 +48,9 @@
             m_order_item.exchange_rate  as "exchangeRate",
             m_order_item.fee,
             m_order_item.status,
+            m_order_item.create_date    as createDate,
+            m_order_item.order_date     as orderDate,
+            m_order_item.receive_date   as receiveDate,
             m_order.id                  as "orderBean.id",
             m_order.title               as "orderBean.title",
             v_user.id                   as "userBean.id",
@@ -59,7 +66,7 @@
         </where>
     </select>
     
-    <select id="fetchToDoList" resultType="OrderItemBean">
+    <select id="findStockItemList" resultType="OrderItemBean">
         select
         <trim suffixOverrides=",">
             m_order_item.id,
@@ -71,6 +78,9 @@
             m_order_item.exchange_rate  as "exchangeRate",
             m_order_item.fee,
             m_order_item.status,
+            m_order_item.create_date    as createDate,
+            m_order_item.order_date     as orderDate,
+            m_order_item.receive_date   as receiveDate,
             m_order.id                  as "orderBean.id",
             m_order.title               as "orderBean.title",
             v_user.id                   as "userBean.id",
@@ -104,6 +114,24 @@
         </where>
     </update>
     
+    <update id="updateStatus">
+        update
+            m_order_item
+        <set>
+            m_order_item.status = #{status},
+            <choose>
+                <when test="status == 1">
+                  m_order_item.order_date = current_timestamp
+                </when>
+                <when test="status == 2">
+                  m_order_item.receive_date = current_timestamp
+                </when>
+            </choose>
+        </set>
+        <where>
+            m_order_item.id = #{id}
+        </where>
+    </update>
     
     <update id="delete">
         update

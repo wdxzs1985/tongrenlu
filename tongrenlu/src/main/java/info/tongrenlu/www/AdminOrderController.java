@@ -62,15 +62,6 @@ public class AdminOrderController {
         return "admin/order/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "item")
-    public String doGetItem(final Model model) {
-
-        final List<OrderItemBean> itemList = this.orderService.findAllItemList();
-        model.addAttribute("itemList", itemList);
-
-        return "admin/order/item";
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}")
     public String doGetView(@PathVariable final Integer orderId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
@@ -189,4 +180,50 @@ public class AdminOrderController {
         this.orderService.updateOrderStatus(orderBean);
         return "redirect:/admin/order/" + orderId;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "item")
+    public String doGetItem(@ModelAttribute("LOGIN_USER") final UserBean loginUser, final Model model) {
+
+        final List<OrderItemBean> itemList = this.orderService.findStockItemList();
+        model.addAttribute("itemList", itemList);
+
+        return "admin/order/item";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/item/{itemId}/pay")
+    public String doPostItemPay(@PathVariable final Integer orderId,
+                                @PathVariable final Integer itemId,
+                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                final Model model,
+                                final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+
+        final OrderItemBean item = new OrderItemBean();
+        item.setId(itemId);
+        item.setStatus(OrderItemBean.STATUS_PAY);
+
+        this.orderService.updateOrderItemStatus(item);
+
+        return "redirect:/admin/order/item";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/item/{itemId}/receive")
+    public String doPostItemReceive(@PathVariable final Integer orderId,
+                                    @PathVariable final Integer itemId,
+                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                    final Model model,
+                                    final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+
+        final OrderItemBean item = new OrderItemBean();
+        item.setId(itemId);
+        item.setStatus(OrderItemBean.STATUS_RECEIVE);
+
+        this.orderService.updateOrderItemStatus(item);
+
+        return "redirect:/admin/order/item";
+    }
+
 }

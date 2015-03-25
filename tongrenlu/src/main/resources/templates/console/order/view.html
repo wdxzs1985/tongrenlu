@@ -61,6 +61,7 @@
                                         <th class="text-center" th:text="#{OrderItemBean.quantity}">quantity</th>
                                         <th class="text-center" th:text="#{OrderBean.amount}">amountJp</th>
                                         <th class="text-center" th:text="#{OrderBean.total}">total</th>
+                                        <th class="text-center" th:text="#{OrderItemBean.status}">status</th>
                                     </tr>
                                     <tr th:each="item: ${itemList}">
                                         <td >
@@ -85,11 +86,25 @@
                                             <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(item.total,1,'COMMA',2,'POINT')})}"></p>
                                             <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(item.fee,1,'COMMA',2,'POINT')})})}"></p>
                                         </td>
+                                        <td class="text-center" th:switch="${item.status}">
+                                            <div th:case="0" >
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.started}"></p>
+                                                <p class="help-block" th:text="${#dates.format(item.createDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                            </div>
+                                            <div th:case="1" >
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.ordered}"></p>
+                                                <p class="help-block" th:text="${#dates.format(item.orderDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                            </div>
+                                            <div th:case="2" >
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
+                                                <p class="help-block" th:text="${#dates.format(item.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                         <td class="text-center">
                                             <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp + item.tax</p>
                                         </td>
@@ -97,6 +112,7 @@
                                             <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></p>
                                             <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(orderBean.fee,1,'COMMA',2,'POINT')})})}"></p>
                                         </td>
+                                        <td></td>
                                     </tr>
                                 </table>
                             </div>

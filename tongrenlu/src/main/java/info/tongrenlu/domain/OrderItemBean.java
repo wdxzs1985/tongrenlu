@@ -1,6 +1,7 @@
 package info.tongrenlu.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,6 +14,10 @@ public class OrderItemBean extends DtoBean {
      *
      */
     private static final long serialVersionUID = 4748907038743274705L;
+
+    public static final Integer STATUS_CREATE = 0;
+    public static final Integer STATUS_PAY = 1;
+    public static final Integer STATUS_RECEIVE = 2;
 
     private UserBean userBean = null;
 
@@ -35,7 +40,11 @@ public class OrderItemBean extends DtoBean {
     @JsonIgnore
     private Integer status = 0;
 
-    private Boolean removable = null;
+    private Date createDate = null;
+
+    private Date orderDate = null;
+
+    private Date receiveDate = null;
 
     public String getUrl() {
         return this.url;
@@ -129,11 +138,27 @@ public class OrderItemBean extends DtoBean {
         this.userBean = userBean;
     }
 
-    public Boolean getRemovable() {
-        return this.removable;
+    public Date getCreateDate() {
+        return this.createDate;
     }
 
-    public void setRemovable(final Boolean removable) {
-        this.removable = removable;
+    public void setCreateDate(final Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getOrderDate() {
+        return this.orderDate;
+    }
+
+    public void setOrderDate(final Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Date getReceiveDate() {
+        return this.receiveDate;
+    }
+
+    public void setReceiveDate(final Date receiveDate) {
+        this.receiveDate = receiveDate;
     }
 }

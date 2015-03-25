@@ -99,7 +99,6 @@ public class ShopOrderService {
     private OrderItemBean initItem(final ShopBean shopBean) {
         final OrderItemBean item = new OrderItemBean();
         item.setExchangeRate(shopBean.getExchangeRate());
-        item.setRemovable(true);
         item.setQuantity(BigDecimal.ONE);
         item.setPrice(BigDecimal.ZERO);
         return item;

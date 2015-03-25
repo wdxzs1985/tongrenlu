@@ -70,7 +70,11 @@ public class OrderManager {
         this.orderItemMapper.delete(params);
     }
 
-    public List<OrderItemBean> findAllItemList() {
-        return this.orderItemMapper.fetchToDoList();
+    public List<OrderItemBean> findStockItemList() {
+        return this.orderItemMapper.findStockItemList();
+    }
+
+    public void updateOrderItemStatus(final OrderItemBean item) {
+        this.orderItemMapper.updateStatus(item);
     }
 }

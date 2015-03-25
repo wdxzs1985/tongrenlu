@@ -13,6 +13,7 @@
            amount_cn,
            fee,
            total,
+           status,
            create_date
         </trim>
         ) VALUES (
@@ -23,6 +24,7 @@
            #{amountCn},
            #{fee},
            #{total},
+           0,
            current_timestamp
         </trim>
         )

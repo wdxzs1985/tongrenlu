@@ -73,7 +73,11 @@ public class ConsoleOrderService {
         this.updateOrder(orderBean, itemList);
     }
 
-    public List<OrderItemBean> findAllItemList() {
-        return this.orderManager.findAllItemList();
+    public List<OrderItemBean> findStockItemList() {
+        return this.orderManager.findStockItemList();
+    }
+
+    public void updateOrderItemStatus(final OrderItemBean item) {
+        this.orderManager.updateOrderItemStatus(item);
     }
 }
