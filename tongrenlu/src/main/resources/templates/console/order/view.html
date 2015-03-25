@@ -51,6 +51,12 @@
                                             <strong th:case="9" th:text="#{console.order.canceled}"></strong>
                                         </p>
                                     </div>
+                                    <div class="col-md-4">
+                                        <p class="form-control-static" th:unless="${#strings.isEmpty(orderBean.trackingCode)}">
+                                            <span th:text="#{OrderBean.trackingCode}"></span>
+                                            <strong th:text="${orderBean.trackingCode}"></strong>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -88,7 +94,7 @@
                                         </td>
                                         <td class="text-center" th:switch="${item.status}">
                                             <div th:case="0" >
-                                                <p class="form-control-static" th:text="#{OrderItemBean.status.started}"></p>
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.created}"></p>
                                                 <p class="help-block" th:text="${#dates.format(item.createDate, 'yyyy/MM/dd HH:mm')}"></p>
                                             </div>
                                             <div th:case="1" >
