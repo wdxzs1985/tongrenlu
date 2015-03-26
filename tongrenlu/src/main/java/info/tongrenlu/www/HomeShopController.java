@@ -87,9 +87,12 @@ public class HomeShopController {
                                            final Locale locale) {
         final Map<String, Object> model = new HashMap<String, Object>();
         final OrderItemBean item = this.shopOrderService.initEventItem(title, price, url, model, locale);
-
-        shoppingCart.put(item.getTitle(), item);
-        model.put("result", true);
+        if (item != null) {
+            shoppingCart.put(item.getTitle(), item);
+            model.put("result", true);
+        } else {
+            model.put("result", false);
+        }
 
         return model;
     }
