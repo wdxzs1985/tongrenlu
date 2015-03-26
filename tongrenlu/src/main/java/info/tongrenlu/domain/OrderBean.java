@@ -19,6 +19,8 @@ public class OrderBean extends DtoBean {
 
     private UserBean userBean = null;
 
+    private UserBean shopper = null;
+
     private String title = null;
 
     private String trackingCode = null;
@@ -155,6 +157,14 @@ public class OrderBean extends DtoBean {
 
     public void setTrackingCode(final String trackingCode) {
         this.trackingCode = trackingCode;
+    }
+
+    public UserBean getShopper() {
+        return this.shopper;
+    }
+
+    public void setShopper(final UserBean shopper) {
+        this.shopper = shopper;
     }
 
 }

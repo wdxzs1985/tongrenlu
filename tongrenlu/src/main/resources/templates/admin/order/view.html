@@ -21,36 +21,30 @@
                         <ul class="nav">
                             <li class="">
                                 <a th:href="@{/admin/order}">
-                                    <span class="glyphicon glyphicon-dashboard"></span>
-                                    <span class="" th:text="#{admin.order.dashboard}"></span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a th:href="@{/admin/order/list}">
                                     <span class="glyphicon glyphicon-th-list"></span>
                                     <span class="" th:text="#{admin.order.index}"></span>
                                 </a>
                             </li>
                             <li class="">
-                                <a th:href="@{/admin/order/list(status=0)}">
+                                <a th:href="@{/admin/order(status=0)}">
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <span class="" th:text="#{console.order.created}"></span>
                                 </a>
                             </li>
                             <li class="">
-                                <a th:href="@{/admin/order/list(status=1)}">
+                                <a th:href="@{/admin/order(status=1)}">
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <span class="" th:text="#{console.order.started}"></span>
                                 </a>
                             </li>
                             <li class="">
-                                <a th:href="@{/admin/order/list(status=2)}">
+                                <a th:href="@{/admin/order(status=2)}">
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <span class="" th:text="#{console.order.paid}"></span>
                                 </a>
                             </li>
                             <li class="">
-                                <a th:href="@{/admin/order/list(status=3)}">
+                                <a th:href="@{/admin/order(status=3)}">
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <span class="" th:text="#{console.order.send}"></span>
                                 </a>
@@ -126,7 +120,7 @@
                                             <th class="text-center" th:text="#{OrderItemBean.quantity}">quantity</th>
                                             <th class="text-center" th:text="#{OrderBean.amount}">amountJp</th>
                                             <th class="text-center" th:text="#{OrderBean.total}">total</th>
-                                            <th class="text-center" ></th>
+                                            <th class="text-center" th:text="#{OrderItemBean.status}">status</th>
                                         </tr>
                                         <tr th:each="item: ${itemList}">
                                             <td >

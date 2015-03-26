@@ -2,6 +2,7 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
+import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.manager.OrderManager;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -89,7 +90,7 @@ public class ConsoleOrderService {
         return this.orderManager.countOrder(params);
     }
 
-    public Map<String, Integer> getDashboard() {
+    public Map<String, Integer> getDashboard(final UserBean loginUser) {
         final Map<String, Integer> dashboard = new HashMap<String, Integer>();
         final List<Map<String, Object>> results = this.orderManager.fetchDashboard();
         for (final Map<String, Object> map : results) {

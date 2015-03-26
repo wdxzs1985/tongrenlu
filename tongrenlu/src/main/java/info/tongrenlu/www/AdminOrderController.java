@@ -46,15 +46,17 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.GET, value = "")
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(required = false) final Integer status,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
 
-        final Map<String, Integer> dashboard = this.orderService.getDashboard();
+        final Map<String, Integer> dashboard = this.orderService.getDashboard(loginUser);
         model.addAllAttributes(dashboard);
 
         final PaginateSupport<OrderBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("shopper", loginUser);
+
         if (status != null) {
             page.addParam("status", status);
-        } else {
         }
         this.orderService.searchOrder(page);
         model.addAttribute("page", page);
@@ -127,6 +129,7 @@ public class AdminOrderController {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         orderBean.setStatus(OrderBean.STATUS_START);
+        orderBean.setShopper(loginUser);
         this.orderService.updateOrderStatus(orderBean);
         return "redirect:/admin/order/" + orderId;
     }

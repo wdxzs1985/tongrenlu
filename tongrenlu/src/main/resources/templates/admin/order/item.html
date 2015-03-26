@@ -87,10 +87,6 @@
                                             <p class="help-block" th:text="${#dates.format(item.orderDate, 'yyyy/MM/dd HH:mm')}"></p>
                                         </form>
                                     </div>
-                                    <div th:case="2" >
-                                        <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
-                                        <p class="help-block" th:text="${#dates.format(item.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
-                                    </div>
                                 </td>
                             </tr>
                         </table>

@@ -92,6 +92,7 @@
         join v_user on m_order_item.user_id = v_user.id
         <where>
             m_order.status = 2
+        and m_order_item.status <![CDATA[<]]> 2
         and m_order_item.del_flg = 0
         </where>
         order by m_order_item.status

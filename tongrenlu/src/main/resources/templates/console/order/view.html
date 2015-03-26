@@ -35,12 +35,6 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <p class="form-control-static">
-                                            <span th:text="#{OrderBean.user}"></span>
-                                            <strong th:text="${orderBean.userBean}"></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2">
                                         <p class="form-control-static" th:switch="${orderBean.status}">
                                             <span th:text="#{OrderBean.status}"></span>
                                             <strong th:case="0" th:text="#{console.order.created}"></strong>
@@ -51,8 +45,14 @@
                                             <strong th:case="9" th:text="#{console.order.canceled}"></strong>
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
-                                        <p class="form-control-static" th:unless="${#strings.isEmpty(orderBean.trackingCode)}">
+                                    <div class="col-md-2" th:if="${orderBean.shopper} != null">
+                                        <p class="form-control-static">
+                                            <span th:text="#{OrderBean.shopper}"></span>
+                                            <strong th:text="${orderBean.shopper}"></strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4" th:unless="${#strings.isEmpty(orderBean.trackingCode)}">
+                                        <p class="form-control-static" >
                                             <span th:text="#{OrderBean.trackingCode}"></span>
                                             <strong th:text="${orderBean.trackingCode}"></strong>
                                         </p>

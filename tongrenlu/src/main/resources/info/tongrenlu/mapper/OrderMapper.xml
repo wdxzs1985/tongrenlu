@@ -35,13 +35,17 @@
             count(m_order.id)
         from 
             m_order
-        join v_user on m_order.user_id = v_user.id
+        join v_user user on m_order.user_id = user.id
         <where>
             <if test="userBean != null">
-            and v_user.id = #{userBean.id}
+            and user.id = #{userBean.id}
             </if>
             <if test="status != null">
                 and m_order.status = #{status}
+            </if>
+            <if test="shopper != null">
+            and (shopper_id = #{shopper.id}
+            or  shopper_id is null)
             </if>
         </where>
     </select>
@@ -56,24 +60,32 @@
             m_order.fee,
             m_order.total,
             m_order.status,
+            m_order.tracking_code       as trackingCode,
             m_order.create_date         as "createDate",
             m_order.order_date          as "orderDate",
             m_order.pay_date            as "payDate",
             m_order.send_date           as "sendDate",
             m_order.receive_date        as "receiveDate",
             m_order.cancel_date         as "cancelDate",
-            v_user.id                   as "userBean.id",
-            v_user.nickname             as "userBean.nickname",
+            user.id                     as "userBean.id",
+            user.nickname               as "userBean.nickname",
+            shopper.id                  as "shopper.id",
+            shopper.nickname            as "shopper.nickname",
         </trim>
         from 
             m_order
-        join v_user on m_order.user_id = v_user.id
+        join v_user user on m_order.user_id = user.id
+        left join v_user shopper on m_order.shopper_id = shopper.id
         <where>
             <if test="userBean != null">
-            and v_user.id = #{userBean.id}
+            and user.id = #{userBean.id}
             </if>
             <if test="status != null">
                 and m_order.status = #{status}
+            </if>
+            <if test="shopper != null">
+            and (shopper_id = #{shopper.id}
+            or  shopper_id is null)
             </if>
         </where>
         order by m_order.id desc
@@ -97,12 +109,15 @@
             m_order.send_date           as "sendDate",
             m_order.receive_date        as "receiveDate",
             m_order.cancel_date         as "cancelDate",
-            v_user.id           as "userBean.id",
-            v_user.nickname     as "userBean.nickname",
+            user.id                     as "userBean.id",
+            user.nickname               as "userBean.nickname",
+            shopper.id                  as "shopper.id",
+            shopper.nickname            as "shopper.nickname",
         </trim>
         from 
             m_order
-        join v_user on m_order.user_id = v_user.id
+        join v_user user on m_order.user_id = user.id
+        left join v_user shopper on m_order.shopper_id = shopper.id
         <where>
             m_order.id = #{orderId}
         </where>
@@ -129,20 +144,21 @@
             status = #{status},
             <choose>
                 <when test="status == 1">
-                  order_date = current_timestamp
+                  order_date = current_timestamp,
+                  shopper_id = #{shopper.id}
                 </when>
                 <when test="status == 2">
-                  pay_date = current_timestamp
+                  pay_date = current_timestamp,
                 </when>
                 <when test="status == 3">
                   send_date = current_timestamp,
                   tracking_code = #{trackingCode},
                 </when>
                 <when test="status == 4">
-                  receive_date = current_timestamp
+                  receive_date = current_timestamp,
                 </when>
                 <when test="status == 9">
-                  cancel_date = current_timestamp
+                  cancel_date = current_timestamp,
                 </when>
             </choose>
         </set>
