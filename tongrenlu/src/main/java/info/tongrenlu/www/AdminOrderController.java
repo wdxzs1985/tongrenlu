@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -43,18 +44,17 @@ public class AdminOrderController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public String doGetIndex(final Model model) {
+    public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                             @RequestParam(required = false) final Integer status,
+                             final Model model) {
 
-        return "admin/order/dashboard";
-    }
+        final Map<String, Integer> dashboard = this.orderService.getDashboard();
+        model.addAllAttributes(dashboard);
 
-    @RequestMapping(method = RequestMethod.GET, value = "list")
-    public String doGetList(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                            @RequestParam(required = false) final Integer status,
-                            final Model model) {
         final PaginateSupport<OrderBean> page = new PaginateSupport<>(pageNumber);
         if (status != null) {
             page.addParam("status", status);
+        } else {
         }
         this.orderService.searchOrder(page);
         model.addAttribute("page", page);

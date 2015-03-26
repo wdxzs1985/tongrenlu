@@ -19,4 +19,5 @@ public interface OrderMapper {
 
     public void updateStatus(OrderBean orderBean);
 
+    public List<Map<String, Object>> fetchDashboard();
 }

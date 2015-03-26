@@ -71,7 +71,7 @@
                                         <form th:action="@{/admin/order/__${item.orderBean.id}__/item/__${item.id}__/pay}" method="post">
                                             <p class="form-control-static" >
                                                 <input type="hidden" name="status" value="1"/>
-                                                <button type="submit" class="btn btn-success"
+                                                <button type="submit" class="btn btn-primary"
                                                     th:text="#{OrderItemBean.status.ordered}"></button>
                                             </p>
                                             <p class="help-block" th:text="${#dates.format(item.createDate, 'yyyy/MM/dd HH:mm')}"></p>

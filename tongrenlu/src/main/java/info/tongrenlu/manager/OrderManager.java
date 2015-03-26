@@ -77,4 +77,8 @@ public class OrderManager {
     public void updateOrderItemStatus(final OrderItemBean item) {
         this.orderItemMapper.updateStatus(item);
     }
+
+    public List<Map<String, Object>> fetchDashboard() {
+        return this.orderMapper.fetchDashboard();
+    }
 }

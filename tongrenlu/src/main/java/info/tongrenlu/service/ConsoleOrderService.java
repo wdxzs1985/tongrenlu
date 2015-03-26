@@ -6,7 +6,9 @@ import info.tongrenlu.manager.OrderManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +81,34 @@ public class ConsoleOrderService {
 
     public void updateOrderItemStatus(final OrderItemBean item) {
         this.orderManager.updateOrderItemStatus(item);
+    }
+
+    public int countOrderByStatus(final Integer status) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("status", status);
+        return this.orderManager.countOrder(params);
+    }
+
+    public Map<String, Integer> getDashboard() {
+        final Map<String, Integer> dashboard = new HashMap<String, Integer>();
+        final List<Map<String, Object>> results = this.orderManager.fetchDashboard();
+        for (final Map<String, Object> map : results) {
+            final Integer status = (Integer) map.get("status");
+            final Integer count = ((Long) map.get("count")).intValue();
+
+            if (OrderBean.STATUS_CREATE.equals(status)) {
+                dashboard.put("createCount", count);
+            }
+            if (OrderBean.STATUS_START.equals(status)) {
+                dashboard.put("startCount", count);
+            }
+            if (OrderBean.STATUS_PAY.equals(status)) {
+                dashboard.put("payCount", count);
+            }
+            if (OrderBean.STATUS_SEND.equals(status)) {
+                dashboard.put("sendCount", count);
+            }
+        }
+        return dashboard;
     }
 }

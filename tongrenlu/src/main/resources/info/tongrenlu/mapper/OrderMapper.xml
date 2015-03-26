@@ -150,4 +150,17 @@
             m_order.id = #{id}
         </where>
     </update>
+    
+    <select id="fetchDashboard" resultType="map">
+        select 
+        <trim suffixOverrides=",">
+            m_order.status,
+            count(m_order.id) as count, 
+        </trim>
+        from
+            m_order
+        join
+            v_user ON m_order.user_id = v_user.id
+        group by m_order.status
+    </select>
 </mapper>
