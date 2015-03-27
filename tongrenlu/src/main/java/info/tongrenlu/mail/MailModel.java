@@ -3,15 +3,15 @@ package info.tongrenlu.mail;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.internet.InternetAddress;
+
 public class MailModel {
 
     private String subject;
 
-    private String from;
+    private InternetAddress to;
 
-    private String to;
-
-    private String bcc;
+    private InternetAddress bcc;
 
     private String template;
 
@@ -43,28 +43,20 @@ public class MailModel {
         this.subject = subject;
     }
 
-    public String getTo() {
+    public InternetAddress getTo() {
         return this.to;
     }
 
-    public void setTo(final String to) {
+    public void setTo(final InternetAddress to) {
         this.to = to;
     }
 
-    public String getBcc() {
+    public InternetAddress getBcc() {
         return this.bcc;
     }
 
-    public void setBcc(final String bcc) {
+    public void setBcc(final InternetAddress bcc) {
         this.bcc = bcc;
-    }
-
-    public String getFrom() {
-        return this.from;
-    }
-
-    public void setFrom(final String from) {
-        this.from = from;
     }
 
 }

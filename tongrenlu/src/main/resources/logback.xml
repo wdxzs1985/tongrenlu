@@ -6,6 +6,5 @@
 	<!-- logger name="org.springframework" level="DEBUG"/-->
     <logger name="org.mybatis" level="INFO" />
     <logger name="info.tongrenlu" level="DEBUG" />
-
     <logger name="info.tongrenlu.http" level="INFO" />
 </configuration>

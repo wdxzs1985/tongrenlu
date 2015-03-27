@@ -1,11 +1,12 @@
 package info.tongrenlu.mail;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.app.VelocityEngine;
@@ -28,11 +29,11 @@ public class MailResolvor {
     @Autowired
     private JavaMailSender mailSender = null;
 
+    @Value("${spring.mail.defaultEncoding:utf-8}")
+    private String defaultEncoding = null;
+
     @Value("${spring.mail.from}")
     private String from = null;
-
-    @Value("${spring.mail.encoding:utf-8}")
-    private String encoding = null;
 
     @Value("${spring.mail.prefix:mail}")
     private String prefix = null;
@@ -40,34 +41,49 @@ public class MailResolvor {
     @Value("${spring.mail.suffix:vm}")
     private String suffix = null;
 
+    @Value("${spring.mail.debug:true}")
+    private boolean debug = true;
+
     public MailModel createMailModel() {
         final MailModel model = new MailModel();
         return model;
     }
 
+    public InternetAddress createAddress(final String address, final String personal) {
+        try {
+            return new InternetAddress(address, personal, this.defaultEncoding);
+        } catch (final UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void send(final MailModel model) {
+        final MimeMessage message = this.mailSender.createMimeMessage();
+        final MimeMessageHelper messageHelper = new MimeMessageHelper(message);
+
         final String templateLocation = String.format("%s/%s.%s", this.prefix, model.getTemplate(), this.suffix);
         final Map<String, Object> modelMap = model.asMap();
         final String text = VelocityEngineUtils.mergeTemplateIntoString(this.velocityEngine,
                                                                         templateLocation,
-                                                                        this.encoding,
+                                                                        this.defaultEncoding,
                                                                         modelMap);
 
         try {
-            final MimeMessage message = this.mailSender.createMimeMessage();
-            final MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-
             messageHelper.setSubject(model.getSubject());
             messageHelper.setFrom(this.from);
             messageHelper.setTo(model.getTo());
-            if (StringUtils.isNotBlank(model.getBcc())) {
+            if (model.getBcc() != null) {
                 messageHelper.setBcc(model.getBcc());
             } else {
                 messageHelper.setBcc(this.from);
             }
             messageHelper.setText(text);
 
-            this.mailSender.send(message);
+            if (this.debug) {
+                this.log.debug(text);
+            } else {
+                this.mailSender.send(message);
+            }
         } catch (final MailException e) {
             this.log.error(e.getMessage(), e);
         } catch (final MessagingException e) {
