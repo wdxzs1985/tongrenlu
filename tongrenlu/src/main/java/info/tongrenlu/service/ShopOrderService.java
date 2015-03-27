@@ -53,7 +53,7 @@ public class ShopOrderService {
     private HttpWraper toranoanaClient = null;
     @Autowired
     private HttpWraper melonbooksClient = null;
-
+    @Autowired
     private MailResolvor mailResolvor = null;
 
     public OrderItemBean initWithUrl(final String url, final Map<String, Object> model, final Locale locale) {
@@ -182,13 +182,16 @@ public class ShopOrderService {
         final UserBean userBean = orderBean.getUserBean();
 
         final MailModel mailModel = this.mailResolvor.createMailModel();
-        mailModel.setSubject(this.messageSource.getMessage("mail.newOrder", null, locale));
+        mailModel.setSubject(this.messageSource.getMessage("mail.orderCreate", null, locale));
         mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
-        mailModel.setTemplate("new_order");
+        mailModel.setTemplate("order_create");
 
         mailModel.addAttribute("userBean", userBean);
         mailModel.addAttribute("orderBean", orderBean);
         mailModel.addAttribute("itemList", itemList);
+
+        this.mailResolvor.send(mailModel);
+
         return true;
     }
 

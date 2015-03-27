@@ -44,7 +44,7 @@
                         <a th:href="@{/admin/order(status=2)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.paid}"></span>
-                            <span class="badge" th:text="${payCount}" th:if="${payCount} != null and ${payCount} > 0"></span>
+                            <span class="badge" th:text="${paidCount}" th:if="${paidCount} != null and ${paidCount} > 0"></span>
                         </a>
                     </li>
                     <li th:class="${status} eq 3 ? 'active'">

@@ -92,7 +92,7 @@
         join v_user on m_order_item.user_id = v_user.id
         <where>
             m_order.status = 2
-        and m_order_item.status <![CDATA[<]]> 2
+        and m_order_item.status in (0, 1)
         and m_order_item.del_flg = 0
         </where>
         order by m_order_item.status
@@ -130,7 +130,12 @@
             </choose>
         </set>
         <where>
-            m_order_item.id = #{id}
+        <if test="orderItemId != null">
+            m_order_item.id = #{orderItemId}
+        </if>
+        <if test="orderId != null">
+            m_order_item.order_id = #{orderId}
+        </if>
         </where>
     </update>
     
@@ -141,7 +146,12 @@
             del_flg = 1,
         </set>
         <where>
+        <if test="orderItemId != null">
             id = #{orderItemId}
+        </if>
+        <if test="orderId != null">
+            order_id = #{orderId}
+        </if>
         </where>
             
     </update>

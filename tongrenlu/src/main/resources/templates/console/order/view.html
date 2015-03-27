@@ -51,11 +51,18 @@
                                             <strong th:text="${orderBean.shopper}"></strong>
                                         </p>
                                     </div>
-                                    <div class="col-md-4" th:unless="${#strings.isEmpty(orderBean.trackingCode)}">
+                                    <div class="col-md-4" th:if="!${#strings.isEmpty(orderBean.trackingCode)}">
                                         <p class="form-control-static" >
                                             <span th:text="#{OrderBean.trackingCode}"></span>
                                             <strong th:text="${orderBean.trackingCode}"></strong>
                                         </p>
+                                    </div>
+                                    <div class="col-md-4" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
+                                        <a th:href="${orderBean.payLink}" 
+                                            target="_blank" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-yen"></span>
+                                            <span class="" th:text="#{OrderBean.payLink}"></span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

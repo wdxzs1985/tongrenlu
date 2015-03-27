@@ -17,6 +17,6 @@ public interface OrderItemMapper {
 
     public List<OrderItemBean> findStockItemList();
 
-    public void updateStatus(OrderItemBean orderItemBean);
+    public void updateStatus(Map<String, Object> params);
 
 }

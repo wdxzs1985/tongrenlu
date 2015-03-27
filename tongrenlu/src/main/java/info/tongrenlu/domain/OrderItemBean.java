@@ -16,8 +16,9 @@ public class OrderItemBean extends DtoBean {
     private static final long serialVersionUID = 4748907038743274705L;
 
     public static final Integer STATUS_CREATE = 0;
-    public static final Integer STATUS_PAY = 1;
+    public static final Integer STATUS_PAID = 1;
     public static final Integer STATUS_RECEIVE = 2;
+    public static final Integer STATUS_CANCEL = 9;
 
     private UserBean userBean = null;
 

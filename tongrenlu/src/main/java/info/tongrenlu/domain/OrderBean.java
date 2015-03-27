@@ -5,25 +5,23 @@ import java.util.Date;
 
 public class OrderBean extends DtoBean {
 
-    public static final Integer STATUS_CREATE = 0;
+    public static final int STATUS_CREATE = 0;
 
-    public static final Integer STATUS_START = 1;
+    public static final int STATUS_START = 1;
 
-    public static final Integer STATUS_PAY = 2;
+    public static final int STATUS_PAID = 2;
 
-    public static final Integer STATUS_SEND = 3;
+    public static final int STATUS_SEND = 3;
 
-    public static final Integer STATUS_FINISH = 4;
+    public static final int STATUS_FINISH = 4;
 
-    public static final Integer STATUS_CANCEL = 9;
+    public static final int STATUS_CANCEL = 9;
 
     private UserBean userBean = null;
 
     private UserBean shopper = null;
 
     private String title = null;
-
-    private String trackingCode = null;
 
     private BigDecimal amountJp = BigDecimal.ZERO;
 
@@ -44,6 +42,10 @@ public class OrderBean extends DtoBean {
     private Date receiveDate = null;
 
     private Date cancelDate = null;
+
+    private String payLink = null;
+
+    private String trackingCode = null;
 
     private Integer status = STATUS_CREATE;
 
@@ -165,6 +167,14 @@ public class OrderBean extends DtoBean {
 
     public void setShopper(final UserBean shopper) {
         this.shopper = shopper;
+    }
+
+    public String getPayLink() {
+        return this.payLink;
+    }
+
+    public void setPayLink(final String payLink) {
+        this.payLink = payLink;
     }
 
 }

@@ -75,10 +75,28 @@ public class OrderManager {
     }
 
     public void updateOrderItemStatus(final OrderItemBean item) {
-        this.orderItemMapper.updateStatus(item);
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("itemId", item.getId());
+        params.put("status", item.getStatus());
+        this.orderItemMapper.updateStatus(params);
     }
 
     public List<Map<String, Object>> fetchDashboard() {
         return this.orderMapper.fetchDashboard();
     }
+
+    public void cancelOrderItem(final OrderBean orderBean) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("orderId", orderBean.getId());
+        params.put("status", OrderItemBean.STATUS_CANCEL);
+        this.orderItemMapper.updateStatus(params);
+    }
+
+    public void delete(final OrderBean orderBean) {
+        this.orderMapper.delete(orderBean);
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("orderId", orderBean.getId());
+        this.orderItemMapper.delete(params);
+    }
+
 }

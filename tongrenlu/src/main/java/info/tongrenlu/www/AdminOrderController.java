@@ -123,14 +123,16 @@ public class AdminOrderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/start")
     public String doPostStart(@PathVariable final Integer orderId,
+                              final String payLink,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-        orderBean.setStatus(OrderBean.STATUS_START);
+        orderBean.setPayLink(payLink);
         orderBean.setShopper(loginUser);
-        this.orderService.updateOrderStatus(orderBean);
+        orderBean.setStatus(OrderBean.STATUS_START);
+        this.orderService.updateOrderStatus(orderBean, locale);
         return "redirect:/admin/order/" + orderId;
     }
 
@@ -141,8 +143,8 @@ public class AdminOrderController {
                             final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-        orderBean.setStatus(OrderBean.STATUS_PAY);
-        this.orderService.updateOrderStatus(orderBean);
+        orderBean.setStatus(OrderBean.STATUS_PAID);
+        this.orderService.updateOrderStatus(orderBean, locale);
         return "redirect:/admin/order/" + orderId;
     }
 
@@ -156,7 +158,7 @@ public class AdminOrderController {
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         orderBean.setTrackingCode(trackingCode);
         orderBean.setStatus(OrderBean.STATUS_SEND);
-        this.orderService.updateOrderStatus(orderBean);
+        this.orderService.updateOrderStatus(orderBean, locale);
         return "redirect:/admin/order/" + orderId;
     }
 
@@ -168,7 +170,7 @@ public class AdminOrderController {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         orderBean.setStatus(OrderBean.STATUS_FINISH);
-        this.orderService.updateOrderStatus(orderBean);
+        this.orderService.updateOrderStatus(orderBean, locale);
         return "redirect:/admin/order/" + orderId;
     }
 
@@ -179,8 +181,10 @@ public class AdminOrderController {
                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+
         orderBean.setStatus(OrderBean.STATUS_CANCEL);
-        this.orderService.updateOrderStatus(orderBean);
+        this.orderService.updateOrderStatus(orderBean, locale);
+
         return "redirect:/admin/order/" + orderId;
     }
 
@@ -204,7 +208,7 @@ public class AdminOrderController {
 
         final OrderItemBean item = new OrderItemBean();
         item.setId(itemId);
-        item.setStatus(OrderItemBean.STATUS_PAY);
+        item.setStatus(OrderItemBean.STATUS_PAID);
 
         this.orderService.updateOrderItemStatus(item);
 

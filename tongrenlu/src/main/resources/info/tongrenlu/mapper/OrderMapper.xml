@@ -47,6 +47,7 @@
             and (shopper_id = #{shopper.id}
             or  shopper_id is null)
             </if>
+            and m_order.del_flg = 0
         </where>
     </select>
     
@@ -61,6 +62,7 @@
             m_order.total,
             m_order.status,
             m_order.tracking_code       as trackingCode,
+            m_order.pay_link            as payLink,
             m_order.create_date         as "createDate",
             m_order.order_date          as "orderDate",
             m_order.pay_date            as "payDate",
@@ -76,8 +78,8 @@
         </trim>
         from 
             m_order
-        join v_user user on m_order.user_id = user.id
-        left join v_user shopper on m_order.shopper_id = shopper.id
+        join m_user user on m_order.user_id = user.id
+        left join m_user shopper on m_order.shopper_id = shopper.id
         <where>
             <if test="userBean != null">
             and user.id = #{userBean.id}
@@ -89,6 +91,7 @@
             and (shopper_id = #{shopper.id}
             or  shopper_id is null)
             </if>
+            and m_order.del_flg = 0
         </where>
         order by m_order.id desc
         limit #{start}, #{pageSize}
@@ -105,6 +108,7 @@
             m_order.total,
             m_order.status,
             m_order.tracking_code       as trackingCode,
+            m_order.pay_link            as payLink,
             m_order.create_date         as "createDate",
             m_order.order_date          as "orderDate",
             m_order.pay_date            as "payDate",
@@ -124,6 +128,7 @@
         left join m_user shopper on m_order.shopper_id = shopper.id
         <where>
             m_order.id = #{orderId}
+        and m_order.del_flg = 0
         </where>
     </select>
     
@@ -141,6 +146,17 @@
         </where>
     </update>
     
+    <update id="delete">
+        update
+            m_order
+        <set>
+            del_flg = 1
+        </set>
+        <where>
+            m_order.id = #{id}
+        </where>
+    </update>
+    
     <update id="updateStatus">
         update
             m_order
@@ -149,7 +165,8 @@
             <choose>
                 <when test="status == 1">
                   order_date = current_timestamp,
-                  shopper_id = #{shopper.id}
+                  shopper_id = #{shopper.id},
+                  pay_link = #{payLink},
                 </when>
                 <when test="status == 2">
                   pay_date = current_timestamp,
@@ -168,6 +185,7 @@
         </set>
         <where>
             m_order.id = #{id}
+        and m_order.del_flg = 0
         </where>
     </update>
     
@@ -181,6 +199,9 @@
             m_order
         join
             v_user ON m_order.user_id = v_user.id
+        <where>
+        and m_order.del_flg = 0
+        </where>
         group by m_order.status
     </select>
 </mapper>
