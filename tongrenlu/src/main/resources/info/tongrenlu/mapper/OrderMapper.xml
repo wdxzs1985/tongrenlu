@@ -69,8 +69,10 @@
             m_order.cancel_date         as "cancelDate",
             user.id                     as "userBean.id",
             user.nickname               as "userBean.nickname",
+            user.email                  as "userBean.email",
             shopper.id                  as "shopper.id",
             shopper.nickname            as "shopper.nickname",
+            shopper.email               as "shopper.email",
         </trim>
         from 
             m_order
@@ -111,13 +113,15 @@
             m_order.cancel_date         as "cancelDate",
             user.id                     as "userBean.id",
             user.nickname               as "userBean.nickname",
+            user.email                  as "userBean.email",
             shopper.id                  as "shopper.id",
             shopper.nickname            as "shopper.nickname",
+            shopper.email               as "shopper.email",
         </trim>
         from 
             m_order
-        join v_user user on m_order.user_id = user.id
-        left join v_user shopper on m_order.shopper_id = shopper.id
+        join m_user user on m_order.user_id = user.id
+        left join m_user shopper on m_order.shopper_id = shopper.id
         <where>
             m_order.id = #{orderId}
         </where>
