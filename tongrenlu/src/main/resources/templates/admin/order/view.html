@@ -76,6 +76,13 @@
                                             <strong th:case="9" th:text="#{console.order.canceled}"></strong>
                                         </p>
                                     </div>
+                                    <div class="col-md-4" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
+                                        <a th:href="${orderBean.payLink}" 
+                                            target="_blank" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-yen"></span>
+                                            <span class="" th:text="#{OrderBean.payLink}"></span>
+                                        </a>
+                                    </div>
                                     <div class="col-md-4">
                                         <p class="form-control-static" th:unless="${#strings.isEmpty(orderBean.trackingCode)}">
                                             <span th:text="#{OrderBean.trackingCode}"></span>
