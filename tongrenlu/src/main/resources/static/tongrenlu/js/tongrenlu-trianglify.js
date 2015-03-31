@@ -6,6 +6,8 @@
 	var PALETTE_ORANGE 		= ['#ff9800','#ffb74d','#ffa726','#ffcc80','#fff3e0','#ffe0b2'];
 	var PALETTE_DEEP_ORANGE = ['#ff5722','#ff8a65','#ff7043','#ffab91','#fbe9e7','#ffccbc'];
 	var PALETTE_TEAL 		= ['#009688','#4DB6AC','#26A69A','#80CBC4','#E0F2F1','#B2DFDB'];
+	var PALETTE_LIGHT_BLUE 	= ['#03A9F4','#4FC3F7','#29B6F6','#81D4FA','#E1F5FE','#B3E5FC'];
+	var PALETTE_GREEN 		= ['#4CAF50','#81C784','#66BB6A','#A5D6A7','#E8F5E9','#C8E6C9'];
 	
 	$.fn.trianglify = function(options) {
 		var defaults = {
@@ -17,13 +19,13 @@
 		
 		switch(settings.palette) {
 		case 'console':
-			settings.x_gradient = PALETTE_DEEP_PURPLE;
+			settings.x_gradient = PALETTE_GREEN;
 			break;
 		case 'shoppingcart':
 			settings.x_gradient = PALETTE_AMBER;
 			break;
 		default:
-			settings.x_gradient = PALETTE_TEAL;
+			settings.x_gradient = PALETTE_LIGHT_BLUE;
 			break;
 		}
 		

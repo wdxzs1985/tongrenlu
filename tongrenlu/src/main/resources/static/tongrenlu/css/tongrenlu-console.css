@@ -1,22 +1,19 @@
 @charset "UTF-8";
 
 body {
-    background: #512DA8;
 }
 
 .navbar-default {
-    background-color: #673AB7;
-    border-color: #673AB7;
 }
 
 .navbar-default .navbar-toggle,
 .navbar-default .navbar-collapse, 
 .navbar-default .navbar-form {
-    border-color: #673AB7; /* Deep Purple 500 */
+    border-color: #4CAF50; /* Deep Purple 500 */
 }
 
 .navbar-default .navbar-brand {
-    color: #EDE7F6; /* 50 */
+    color: #FFF; /* 50 */
 }
 
 .navbar-default .navbar-brand:hover, 
@@ -25,12 +22,12 @@ body {
 }
 
 .navbar-default .navbar-nav>li>a {
-    color: #D1C4E9; /* Deep Purple 100 */
+    color: #FFF; /* Deep Purple 100 */
 }
 
 .navbar-default .navbar-nav>li>a:hover, 
 .navbar-default .navbar-nav>li>a:focus{
-    background-color: #512DA8; /* Deep Purple 600 */
+    background-color: #388E3C; /* Deep Purple 600 */
     color: #FFFFFF;
 }
 
@@ -38,7 +35,7 @@ body {
 .navbar-default .navbar-nav>.open>a, 
 .navbar-default .navbar-nav>.open>a:hover, 
 .navbar-default .navbar-nav>.open>a:focus {
-    background-color: #512DA8; /* Deep Purple 700 */
+    background-color: #388E3C; /* Deep Purple 700 */
     color: #FFFFFF;
 }
 
@@ -69,17 +66,17 @@ body {
 
 .navbar-default .navbar-toggle:hover, 
 .navbar-default .navbar-toggle:focus {
-    background-color: #512DA8;
+    background-color: #388E3C;
 }
 
 .navbar-default .navbar-toggle:hover .icon-bar,
 .navbar-default .navbar-toggle:focus .icon-bar {
-    background-color: #D1C4E9;
+    background-color: #C8E6C9;
 }
 
 .navbar-default .navbar-nav>li>a .badge  {
-    background-color: #D1C4E9;
-    color: #673AB7;
+    background-color: #FFF;
+    color: #4CAF50;
 }
 
 .navbar-default .navbar-nav>li>a:hover .badge , 
@@ -91,13 +88,13 @@ body {
 }
 
 .navbar-default .dropdown-menu li .badge  {
-    background-color: #673AB7;
+    background-color: #4CAF50;
     color: #FFFFFF;
 }
 
 .container-header {
-    background: #673AB7;
-    color: #FFFFFF;
+    background: #4CAF50;
+    color: #fff;
 }
 
 .container-header h1,
@@ -110,7 +107,7 @@ body {
 .container-header a,
 .container-header small,
 .container-header .text-muted {
-    color: #D1C4E9;
+    color: #E0E0E0;
 }
 
 .container-header a:hover,
@@ -119,8 +116,14 @@ body {
     color: #FFFFFF;
 }
 
+
+.container-tab {
+    background: #388E3C;
+}
+
+
 .container-tab .nav>li>a {
-    color: #673AB7; /* Deep Purple 300 */
+    color: #81C784; /* Deep Purple 300 */
 }
 
 .container-tab .nav>li>a:hover, 
@@ -128,13 +131,13 @@ body {
 .container-tab .nav>li.active>a, 
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
-    color: #512DA8; /* Deep Purple 700 */
+    color: #E8F5E9; /* Deep Purple 700 */
     border-bottom: #FFEB3B 4px solid; /* yellow 300 */
 }
 
 .container-tab .nav>li>a .badge {
-    background-color: #673AB7; /* Deep Purple 300 */
-    color: #D1C4E9; /* Deep Purple 50 */
+    background-color: #4CAF50; /* Deep Purple 300 */
+    color: #C8E6C9; /* Deep Purple 50 */
 }
 
 
@@ -143,7 +146,7 @@ body {
 .container-tab .nav>li.active>a .badge , 
 .container-tab .nav>li.active>a:hover .badge , 
 .container-tab .nav>li.active>a:focus .badge {
-    background-color: #512DA8; /* Deep Purple 700 */
+    background-color: #388E3C; /* Deep Purple 700 */
 }
 
 .jPaginate a,
