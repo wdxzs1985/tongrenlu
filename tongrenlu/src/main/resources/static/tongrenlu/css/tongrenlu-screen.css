@@ -23,12 +23,8 @@ pre {
     color: #616161;
 }
 
-.navbar-fixed-top {
-    position: absolute;
-}
-
 .navbar-default {
-    background: transparent;
+    background: rgba(0,0,0,.4);
     border-color: transparent;
 }
 
@@ -149,7 +145,7 @@ pre {
     background: #039BE5;
     color: #fff;
     padding-bottom: 0;
-    box-shadow:0 2px 5px 0 rgba(0,0,0,.16);
+    box-shadow:0 2px 5px 0 rgba(0,0,0,.3);
 }
 
 .container-header h1,
@@ -174,7 +170,7 @@ pre {
 .container-tab {
     margin-top: 40px;
     padding: 0;
-    background-color: #03A9F4;
+    background-color: rgba(255,255,255,.3);
     margin-bottom: 0;
 }
 
@@ -361,7 +357,7 @@ h1.article-title {
 #top-music,
 #top-tags,
 #top-links {
-	padding: 20px 0 60px;
+	padding: 60px 0 60px;
 }
 
 #top-music h1,

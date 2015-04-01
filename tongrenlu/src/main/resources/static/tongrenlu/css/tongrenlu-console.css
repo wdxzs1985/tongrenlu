@@ -107,7 +107,7 @@ body {
 .container-header a,
 .container-header small,
 .container-header .text-muted {
-    color: #E0E0E0;
+    color: #C8E6C9;
 }
 
 .container-header a:hover,
@@ -118,12 +118,11 @@ body {
 
 
 .container-tab {
-    background: #388E3C;
 }
 
 
 .container-tab .nav>li>a {
-    color: #81C784; /* Deep Purple 300 */
+    color: #388E3C; /* Deep Purple 300 */
 }
 
 .container-tab .nav>li>a:hover, 
@@ -131,7 +130,7 @@ body {
 .container-tab .nav>li.active>a, 
 .container-tab .nav>li.active>a:hover, 
 .container-tab .nav>li.active>a:focus {
-    color: #E8F5E9; /* Deep Purple 700 */
+    color: #1B5E20; /* Deep Purple 700 */
     border-bottom: #FFEB3B 4px solid; /* yellow 300 */
 }
 
