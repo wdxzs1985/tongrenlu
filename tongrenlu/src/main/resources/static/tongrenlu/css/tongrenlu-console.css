@@ -4,6 +4,8 @@ body {
 }
 
 .navbar-default {
+    background: #4CAF50;
+    border-color: #4CAF50;
 }
 
 .navbar-default .navbar-toggle,

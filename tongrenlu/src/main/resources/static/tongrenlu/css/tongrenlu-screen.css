@@ -7,6 +7,7 @@ body, html {
 body {
     position: relative;
     background: #616161;
+    padding-top:50px;
 }
 
 textarea {
@@ -24,8 +25,8 @@ pre {
 }
 
 .navbar-default {
-    background: rgba(0,0,0,.4);
-    border-color: transparent;
+    background: #039BE5;
+    border-color: #039BE5;
 }
 
 .navbar-default .navbar-toggle,
@@ -141,7 +142,7 @@ pre {
 }
 
 .container-header {
-    padding-top: 70px;
+    padding-top: 20px;
     background: #039BE5;
     color: #fff;
     padding-bottom: 0;
