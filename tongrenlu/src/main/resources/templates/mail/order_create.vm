@@ -3,8 +3,14 @@ $userBean.nickname
 感谢您使用东方同人录代购服务。
 --------------------------------------------------------------------------
 
-您的订单已经创建。
+您的订单已经创建成功。
 请耐心等待我们核实价格和库存后进行付款。
+
+#foreach ($item in $itemList)
+#$velocityCount $item.title ($number.integer($item.price) 円) x $item.quantity
+#end
+----------
+日元总价: $orderBean.amountJp 円
 
 查看订单内容：
 http://www.tongrenlu.info/console/order/${orderBean.id}

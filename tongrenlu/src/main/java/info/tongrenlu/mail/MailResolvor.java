@@ -1,6 +1,7 @@
 package info.tongrenlu.mail;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -10,8 +11,10 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.tools.generic.NumberTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -29,6 +32,9 @@ public class MailResolvor {
     @Autowired
     private JavaMailSender mailSender = null;
 
+    @Autowired
+    private MessageSource messageSource = null;
+
     @Value("${spring.mail.defaultEncoding:utf-8}")
     private String defaultEncoding = null;
 
@@ -44,8 +50,11 @@ public class MailResolvor {
     @Value("${spring.mail.debug:true}")
     private boolean debug = true;
 
-    public MailModel createMailModel() {
+    public MailModel createMailModel(final Locale locale) {
         final MailModel model = new MailModel();
+        model.addAttribute("messageSource", this.messageSource);
+        model.addAttribute("locale", locale);
+        model.addAttribute("number", new NumberTool());
         return model;
     }
 

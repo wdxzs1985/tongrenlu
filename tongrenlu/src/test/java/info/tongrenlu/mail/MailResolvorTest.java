@@ -7,6 +7,7 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ConsoleOrderService;
 
 import java.util.Collection;
+import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +35,7 @@ public class MailResolvorTest {
         final Collection<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
         final UserBean userBean = orderBean.getUserBean();
 
-        final MailModel mailModel = this.mailResolvor.createMailModel();
+        final MailModel mailModel = this.mailResolvor.createMailModel(Locale.getDefault());
         mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
         mailModel.setSubject(this.messageSource.getMessage("mail.newOrder", null, null));
         mailModel.setTemplate("new_order");

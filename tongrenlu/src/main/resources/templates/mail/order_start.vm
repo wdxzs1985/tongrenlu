@@ -6,6 +6,12 @@ $userBean.nickname
 您的订单已经受理。
 请确认无误后，进行支付。
 
+#foreach ($item in $itemList)
+#$velocityCount $item.title $number.format("#0.00", $item.total) 元 (含手续费: $number.format("#0.00", $item.fee) 元)
+#end
+----------
+总价: $number.format("#0.00", $orderBean.total) 元
+
 查看订单内容：
 http://www.tongrenlu.info/console/order/${orderBean.id}
 

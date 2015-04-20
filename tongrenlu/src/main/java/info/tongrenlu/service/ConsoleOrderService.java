@@ -79,7 +79,7 @@ public class ConsoleOrderService {
             this.orderManager.cancelOrderItem(orderBean);
         }
 
-        final MailModel mailModel = this.mailResolvor.createMailModel();
+        final MailModel mailModel = this.mailResolvor.createMailModel(locale);
         final UserBean userBean = orderBean.getUserBean();
         final UserBean shopper = orderBean.getShopper();
         mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
