@@ -15,7 +15,7 @@ public class UserBean extends DtoBean {
     // 3
     public static final Integer ROLE_EDITOR = Integer.valueOf("0000000010", 2);
     // 7
-    public static final Integer ROLE_EDIT_ADMIN = Integer.valueOf("0000000110", 2);
+    public static final Integer ROLE_EDIT_ADMIN = Integer.valueOf("0000000100", 2);
     // 9
     public static final Integer ROLE_SHOP_ADMIN = Integer.valueOf("0000001000", 2);
     // 513

@@ -52,21 +52,15 @@ public class AdminUserController {
     @Autowired
     private ConsoleLibraryService libraryService = null;
 
-    private void throwExceptionWhenNotFound(final UserBean userBean,
-                                            final Locale locale) {
+    private void throwExceptionWhenNotFound(final UserBean userBean, final Locale locale) {
         if (userBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
     }
 
-    private void throwExceptionWhenNotFound(final MusicBean musicBean,
-                                            final Locale locale) {
+    private void throwExceptionWhenNotFound(final MusicBean musicBean, final Locale locale) {
         if (musicBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         }
     }
 
@@ -74,8 +68,7 @@ public class AdminUserController {
     public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @RequestParam(value = "q", required = false) final String query,
                              final Model model) {
-        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber,
-                                                                     PAGE_SIZE);
+        final PaginateSupport<UserBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("query", query);
         this.userService.searchUser(page);
         model.addAttribute("page", page);
@@ -85,10 +78,8 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "role")
     @ResponseBody
-    public Map<String, Object> doGetRoleEditor(final Integer userId,
-                                               final Integer role,
-                                               final Locale locale) {
-        Map<String, Object> model = new HashMap<>();
+    public Map<String, Object> doPostRoleEditor(final Integer userId, final Integer role, final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
         final UserBean userBean = this.userService.getById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
@@ -107,10 +98,8 @@ public class AdminUserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "auth")
-    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                            final Model model) {
-        final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber,
-                                                                            PAGE_SIZE);
+    public String doGetAuth(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber, final Model model) {
+        final PaginateSupport<UserProfileBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("status", 0);
         this.libraryService.searchUser(page);
         model.addAttribute("page", page);
@@ -121,14 +110,14 @@ public class AdminUserController {
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/library")
     public String doGetLibrary(@PathVariable final Integer userId,
                                @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                               final Model model, final Locale locale) {
+                               final Model model,
+                               final Locale locale) {
         final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 1);
         this.libraryService.searchLibrary(page);
@@ -138,7 +127,8 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/library/add")
     public String doPostLibraryAdd(@PathVariable final Integer userId,
-                                   final String url, final Model model,
+                                   final String url,
+                                   final Model model,
                                    final Locale locale,
                                    final RedirectAttributes redirectAttr) {
         final UserProfileBean userBean = this.userService.getUserProfileById(userId);
@@ -157,14 +147,14 @@ public class AdminUserController {
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth")
     public String doGetAuthView(@PathVariable final Integer userId,
                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                final Model model, final Locale locale) {
+                                final Model model,
+                                final Locale locale) {
         final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
 
         model.addAttribute("userBean", userBean);
 
-        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber,
-                                                                      PAGE_SIZE);
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PAGE_SIZE);
         page.addParam("userBean", userBean);
         page.addParam("status", 0);
         this.libraryService.searchLibrary(page);
@@ -174,7 +164,8 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/auth")
     public String doPostAuth(@PathVariable final Integer userId,
-                             final Integer articleId, final Model model,
+                             final Integer articleId,
+                             final Model model,
                              final Locale locale,
                              final RedirectAttributes redirectAttr) {
         final UserProfileBean userBean = this.userService.getUserProfileById(userId);
@@ -190,8 +181,7 @@ public class AdminUserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth/upload")
-    public String doGetAuthFile(@PathVariable final Integer userId,
-                                final Model model, final Locale locale) {
+    public String doGetAuthFile(@PathVariable final Integer userId, final Model model, final Locale locale) {
         final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         model.addAttribute("userBean", userBean);
@@ -200,8 +190,7 @@ public class AdminUserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/auth/file")
     @ResponseBody
-    public Map<String, Object> doGetAuthFile(@PathVariable final Integer userId,
-                                             final Locale locale) {
+    public Map<String, Object> doGetAuthFile(@PathVariable final Integer userId, final Locale locale) {
         final UserProfileBean userBean = this.userService.getUserProfileById(userId);
         this.throwExceptionWhenNotFound(userBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
@@ -235,7 +224,7 @@ public class AdminUserController {
                 String checksum = null;
                 try {
                     checksum = DigestUtils.md5Hex(upload.getBytes());
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new RuntimeException();
                 }
 
@@ -243,10 +232,7 @@ public class AdminUserController {
                 authFileBean.setUserBean(userBean);
                 authFileBean.setChecksum(checksum);
 
-                authFileBean = this.libraryService.saveAuthFile(upload,
-                                                                authFileBean,
-                                                                fileModel,
-                                                                locale);
+                authFileBean = this.libraryService.saveAuthFile(upload, authFileBean, fileModel, locale);
                 if (authFileBean != null) {
                     fileModel.put("id", authFileBean.getId());
                     fileModel.put("status", authFileBean.getStatus());

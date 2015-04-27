@@ -107,13 +107,13 @@ public class AdminOrderController {
         final List<OrderItemBean> itemList = new ArrayList<OrderItemBean>();
         for (int i = 0; i < orderItemIdArray.length; i++) {
             final OrderItemBean orderItem = new OrderItemBean();
-            orderItem.setId(orderItemIdArray[i]);
-            orderItem.setTitle(titleArray[i]);
-            orderItem.setUrl(urlArray[i]);
-            orderItem.setPrice(priceArray[i]);
-            orderItem.setQuantity(quantityArray[i]);
-            orderItem.setExchangeRate(exchangeRateArray[i]);
-            orderItem.setFee(feeArray[i]);
+            orderItem.setId(orderItemIdArray.length > 0 ? orderItemIdArray[i] : null);
+            orderItem.setTitle(titleArray.length > 0 ? titleArray[i] : null);
+            orderItem.setUrl(urlArray.length > 0 ? urlArray[i] : null);
+            orderItem.setPrice(priceArray.length > 0 ? priceArray[i] : null);
+            orderItem.setQuantity(quantityArray.length > 0 ? quantityArray[i] : null);
+            orderItem.setExchangeRate(exchangeRateArray.length > 0 ? exchangeRateArray[i] : null);
+            orderItem.setFee(feeArray.length > 0 ? feeArray[i] : null);
 
             itemList.add(orderItem);
         }

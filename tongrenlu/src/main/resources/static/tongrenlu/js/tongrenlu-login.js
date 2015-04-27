@@ -6,13 +6,13 @@ var login = function(options){
 		signin: function(loginUser) {
 	        $(document).data('loginUser', loginUser);
 			if(!loginUser.guest) {
-				$('#nav-signin').addClass('hidden').removeClass('show');
-		        $('#nav-console').addClass('show').removeClass('hidden');
+				$('.hide-when-signin').addClass('hidden').removeClass('show');
+		        $('.show-when-signin').addClass('show').removeClass('hidden');
 		        $('#nav-nickname').text(loginUser.nickname + '#' + loginUser.id);
 		        $(document).trigger('signin', loginUser);
 			} else {
-				$('#nav-console').addClass('hidden').removeClass('show');
-		        $('#nav-signin').addClass('show').removeClass('hidden');
+		        $('.hide-when-signin').addClass('show').removeClass('hidden');
+				$('.show-when-signin').addClass('hidden').removeClass('show');
 		        $('#nav-nickname').text(loginUser.nickname);
 			}
 		},
