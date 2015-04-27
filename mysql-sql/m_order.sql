@@ -7,6 +7,8 @@ CREATE TABLE `m_order` (
   `fee` decimal(10,3) NOT NULL DEFAULT '0.000',
   `total` decimal(10,3) NOT NULL DEFAULT '0.000',
   `status` int(1) NOT NULL DEFAULT '0',
+  `shopper_id` int(11) DEFAULT NULL,
+  `pay_link` varchar(255) DEFAULT NULL,
   `tracking_code` varchar(45) DEFAULT NULL,
   `create_date` timestamp NULL DEFAULT NULL,
   `order_date` timestamp NULL DEFAULT NULL,
