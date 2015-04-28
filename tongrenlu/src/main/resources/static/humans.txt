@@ -1,15 +1,38 @@
-# humanstxt.org/
-# The humans responsible & technology colophon
+/* the humans responsible & colophon */
+/* humanstxt.org */
 
-# TEAM
 
-    <name> -- <role> -- <twitter>
+/* TEAM */
+  <your title>: <your name>
+  Site: http://www.tongrenlu.info
+  Github: https://github.com/wdxzs1985/tongrenlu
+  Weibo: 
+  Location: 
 
-# THANKS
+/* THANKS */
+  Names (& URL): 
 
-    <name>
-
-# TECHNOLOGY COLOPHON
-
-    HTML5, CSS3
-    jQuery, Modernizr
+/* SITE */
+  Standards: 
+    Java
+    HTML5
+    CSS3
+    Javascript
+    
+  Components: 
+    spring-projects/spring-boot
+    mybatis/mybatis-3
+    Modernizr/Modernizr
+    jquery/jquery
+    twbs/bootstrap
+    happyworm/jPlayer
+    blueimp/jQuery-File-Upload
+    blueimp/Bootstrap-Image-Gallery
+    nicolasbize/magicsuggest
+    
+  Software:
+    Spring Tool Suite
+    Brackets
+    MySql
+    Solr
+    Maven
