@@ -89,30 +89,26 @@ public class ConsoleOrderService {
         mailModel.addAttribute("shopper", shopper);
         mailModel.addAttribute("orderBean", orderBean);
 
+        mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
+                                                           new Object[] { userBean.getNickname() },
+                                                           locale));
         switch (orderBean.getStatus()) {
         case OrderBean.STATUS_START:
             mailModel.setTemplate("order_start");
-            mailModel.setSubject(this.messageSource.getMessage("mail.orderStart", null, locale));
-
             final List<OrderItemBean> itemList = this.orderManager.findItemList(orderBean);
             mailModel.addAttribute("itemList", itemList);
-
             break;
         case OrderBean.STATUS_PAID:
             mailModel.setTemplate("order_paid");
-            mailModel.setSubject(this.messageSource.getMessage("mail.orderPaid", null, locale));
             break;
         case OrderBean.STATUS_SEND:
             mailModel.setTemplate("order_send");
-            mailModel.setSubject(this.messageSource.getMessage("mail.orderSend", null, locale));
             break;
         case OrderBean.STATUS_FINISH:
             mailModel.setTemplate("order_finish");
-            mailModel.setSubject(this.messageSource.getMessage("mail.orderFinish", null, locale));
             break;
         case OrderBean.STATUS_CANCEL:
             mailModel.setTemplate("order_cancel");
-            mailModel.setSubject(this.messageSource.getMessage("mail.orderCancel", null, locale));
             break;
         default:
             break;

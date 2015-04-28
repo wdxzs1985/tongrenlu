@@ -182,7 +182,9 @@ public class ShopOrderService {
         final UserBean userBean = orderBean.getUserBean();
 
         final MailModel mailModel = this.mailResolvor.createMailModel(locale);
-        mailModel.setSubject(this.messageSource.getMessage("mail.orderCreate", null, locale));
+        mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
+                                                           new Object[] { userBean.getNickname() },
+                                                           locale));
         mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
         mailModel.setTemplate("order_create");
 
