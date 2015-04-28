@@ -84,14 +84,18 @@
                     </div>
                     <div class="card-footer">
                         <div class="btn-group btn-group-justified">
+                            <a id="mai-mai-mai" class="btn btn-success" role="button">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                <span class="" th:text="#{home.article.maimaimai}"></span>
+                            </a>
                             <a id="add-to-library" class="btn btn-primary" role="button"
                                 th:if="${articleBean.publish}">
-                                <span class="glyphicon glyphicon glyphicon-check"></span>
+                                <span class="glyphicon glyphicon-check"></span>
                                 <span class="" th:text="#{console.library.auth}"></span>
                             </a>
                             <a id="add-to-library" class="btn btn-primary" role="button"
                                 th:if="${articleBean.free}">
-                                <span class="glyphicon glyphicon glyphicon-check"></span>
+                                <span class="glyphicon glyphicon-check"></span>
                                 <span class="" th:text="#{console.library.add}"></span>
                             </a>
                             <a id="share_article" class="btn btn-warning" role="button">
@@ -155,6 +159,7 @@
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-tag.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-comment.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-library.js}" ></script>
+<script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-cart.js}"></script>
 
 <div th:replace="x-tmpl/article-view::template-playlist-item"></div>
 <div th:replace="x-tmpl/article-view::template-rate"></div>
@@ -207,6 +212,19 @@ $(function() {
     $('#add-to-library').library({
         url: /*[[@{/music/__${articleBean.id}__/library}]]*/''
     });
+
+    var cart = new Cart({
+        addUrl:     /*[[@{/shop/event}]]*/     '/shop/event',
+        listUrl:    /*[[@{/shop/cart/list}]]*/          '/shop/cart/list',
+        useUi: false
+    });
+    $('#mai-mai-mai').click(function() {
+    	cart.add({
+    		title: /*[[${articleBean.title}]]*/,
+            url: /*[[@{http://www.tongrenlu.info/music/__${articleBean.id}__}]]*/
+    	});
+    });
+    
 });
 </script>
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
