@@ -83,13 +83,19 @@
                                             <span class="" th:text="#{OrderBean.payLink}"></span>
                                         </a>
                                     </div>
+                                    <div class="col-md-4" th:if="!${#strings.isEmpty(orderBean.payNo)}">
+                                        <p class="form-control-static">
+                                            <span th:text="#{OrderBean.payNo}"></span>
+                                            <strong th:text="${orderBean.payNo}"></strong>
+                                        </p>
+                                    </div>
                                     <div class="col-md-4">
                                         <p class="form-control-static" th:unless="${#strings.isEmpty(orderBean.trackingCode)}">
                                             <span th:text="#{OrderBean.trackingCode}"></span>
                                             <strong th:text="${orderBean.trackingCode}"></strong>
                                         </p>
                                     </div>
-                                    <div class="col-md-4 text-right" th:switch="${orderBean.status}">
+                                    <div class="col-md-12 text-right" th:switch="${orderBean.status}">
                                         <form class="form-inline" method="post" th:case="0"
                                             th:action="@{/admin/order/__${orderBean.id}__/start}">
                                             <div class="input-group">
@@ -103,7 +109,12 @@
                                         </form>
                                         <form class="form-inline" method="post" th:case="1"
                                             th:action="@{/admin/order/__${orderBean.id}__/pay}" >
-                                            <button type="submit" class="btn btn-success" th:text="#{order.pay}"></button>
+                                            <div class="input-group">
+                                                <input type="text" name="payNo" class="form-control" th:placehold="#{OrderBean.payNo}"/>
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-success" th:text="#{order.pay}"></button>
+                                                </span>
+                                            </div>
 	                                        <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
 	                                           th:text="#{order.cancel}" class="btn btn-danger" ></a>
                                         </form>
@@ -118,7 +129,7 @@
                                         </form>
                                         <form class="form-inline" method="post" th:case="3"
                                             th:action="@{/admin/order/__${orderBean.id}__/finish}" >
-                                                <button type="submit" class="btn btn-success" th:text="#{order.finish}"></button>
+                                            <button type="submit" class="btn btn-success" th:text="#{order.finish}"></button>
                                         </form>
                                     </div>
                                 </div>

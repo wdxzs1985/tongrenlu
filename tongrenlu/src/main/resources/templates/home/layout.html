@@ -34,7 +34,7 @@
                         <span th:text="#{shop.cart}"></span> 
                         <span id="shop-cart-badge" class="badge" 
                             th:classappend="${session.shoppingCart == null or #maps.size(session.shoppingCart) == 0} ? 'hidden'" 
-                            th:text="${#maps.size(session.shoppingCart)}">99</span>
+                            th:text="${session.shoppingCart != null and #maps.size(session.shoppingCart) > 0} ? ${#maps.size(session.shoppingCart)}">99</span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">

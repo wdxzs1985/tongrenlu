@@ -48,7 +48,8 @@ public class ConsoleOrderService {
         return this.orderManager.findItemList(orderBean);
     }
 
-    public void updateOrder(final OrderBean orderBean, final List<OrderItemBean> itemList) {
+    public void updateOrder(final OrderBean orderBean,
+                            final List<OrderItemBean> itemList) {
         if (CollectionUtils.isEmpty(itemList)) {
             this.orderManager.delete(orderBean);
         } else {
@@ -82,12 +83,17 @@ public class ConsoleOrderService {
         final MailModel mailModel = this.mailResolvor.createMailModel(locale);
         final UserBean userBean = orderBean.getUserBean();
         final UserBean shopper = orderBean.getShopper();
-        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
-        mailModel.setBcc(this.mailResolvor.createAddress(shopper.getEmail(), shopper.getNickname()));
 
-        mailModel.addAttribute("userBean", userBean);
-        mailModel.addAttribute("shopper", shopper);
         mailModel.addAttribute("orderBean", orderBean);
+        mailModel.addAttribute("userBean", userBean);
+        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(),
+                                                        userBean.getNickname()));
+
+        if (shopper != null) {
+            mailModel.setBcc(this.mailResolvor.createAddress(shopper.getEmail(),
+                                                             shopper.getNickname()));
+            mailModel.addAttribute("shopper", shopper);
+        }
 
         mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
                                                            new Object[] { userBean.getNickname() },

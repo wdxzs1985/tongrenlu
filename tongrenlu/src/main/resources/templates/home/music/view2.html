@@ -84,7 +84,8 @@
                     </div>
                     <div class="card-footer">
                         <div class="btn-group btn-group-justified">
-                            <a id="mai-mai-mai" class="btn btn-success" role="button">
+                            <a id="mai-mai-mai" class="btn btn-success" role="button"
+                                th:if="${articleBean.publish}">
                                 <span class="glyphicon glyphicon-shopping-cart"></span>
                                 <span class="" th:text="#{home.article.maimaimai}"></span>
                             </a>

@@ -45,6 +45,8 @@ public class OrderBean extends DtoBean {
 
     private String payLink = null;
 
+    private String payNo = null;
+
     private String trackingCode = null;
 
     private Integer status = STATUS_CREATE;
@@ -175,6 +177,14 @@ public class OrderBean extends DtoBean {
 
     public void setPayLink(final String payLink) {
         this.payLink = payLink;
+    }
+
+    public String getPayNo() {
+        return this.payNo;
+    }
+
+    public void setPayNo(String payNo) {
+        this.payNo = payNo;
     }
 
 }
