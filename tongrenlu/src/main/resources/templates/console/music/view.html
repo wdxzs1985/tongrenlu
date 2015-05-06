@@ -4,7 +4,7 @@
   layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="http://cdn.bootcss.com/blueimp-gallery/2.15.2/css/blueimp-gallery.min.css" />
+    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery/2.15.2/css/blueimp-gallery.min.css" />
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" type="text/css"/>
     <title th:text="${articleBean.title} + ' | ' + #{console.music.index}"></title>
 </head>
@@ -109,10 +109,10 @@
     </div>
 </div>
 <th:block layout:fragment="scripts-libs">
-<script type="text/javascript" src="http://cdn.bootcss.com/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/jplayer/2.9.2/add-on/jplayer.playlist.min.js" ></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/blueimp-gallery/2.15.2/js/jquery.blueimp-gallery.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates-2.5.3/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/jPlayer/2.9.2/add-on/jplayer.playlist.min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/Gallery/2.15.2/js/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
@@ -129,7 +129,7 @@ $(function() {
     new player({
     	url: /*[[@{/console/music/__${articleBean.id}__/track}]]*/ '',
     	filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
-        swfPath: 'http://cdn.bootcss.com/jplayer/2.9.2/jplayer',
+        swfPath: 'http://static.tongrenlu.info/jPlayer/2.9.2/jplayer',
     });
     new carousel({
         url: /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '',
@@ -147,8 +147,8 @@ $(function() {
     
 });
 </script>
-<script type="text/javascript" src="http://cdn.bootcss.com/d3/3.5.3/d3.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/trianglify/0.1.5/trianglify.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/d3/3.5.5/d3.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.info/trianglify/0.2.1/trianglify.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-trianglify.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {

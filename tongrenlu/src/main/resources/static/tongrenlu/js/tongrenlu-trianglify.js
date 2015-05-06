@@ -11,27 +11,30 @@
 	
 	$.fn.trianglify = function(options) {
 		var defaults = {
-			noiseIntensity: 0,
-			cellpadding: 0
+			//noiseIntensity: 0,
+			//cellpadding: 0
 		};
 		
 		var settings = $.extend(defaults, options);
 		
 		switch(settings.palette) {
 		case 'console':
-			settings.x_gradient = PALETTE_GREEN;
+			settings.x_colors = PALETTE_GREEN;
 			break;
 		case 'shoppingcart':
-			settings.x_gradient = PALETTE_AMBER;
+			settings.x_colors = PALETTE_AMBER;
 			break;
 		default:
-			settings.x_gradient = PALETTE_LIGHT_BLUE;
+			settings.x_colors = PALETTE_LIGHT_BLUE;
 			break;
 		}
 		
-	    var t = new Trianglify(settings);
-	    var pattern = t.generate(2000, 1000);
-	    this.css('background-image', pattern.dataUrl);
+//	    var pattern = Trianglify({
+//	        width: window.innerWidth, 
+//	        height: window.innerHeight
+//	    });
+	    //var pattern = t.generate(2000, 1000);
+//	    this.css('background-image', pattern.dataUrl);
 	    return this;
 	}
 })(jQuery);

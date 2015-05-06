@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>C87 东方XFD试听</title>
+		<title>第12回博丽神社例大祭 XFD试听合集</title>
 
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/bootstrap-3.3.4-dist/css/bootstrap.min.css" />
@@ -71,18 +71,16 @@
 		<script src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
 		<script src="http://static.tongrenlu.info/jquery.waterfall/jquery.waterfall.js"></script>
         <script src="http://static.tongrenlu.info/jquery.lazyload/jquery.lazyload.min.js"></script>
-		<script src="data.js"></script>
-
+		
 		<script id="template-waterfall-item" type="text/x-tmpl">
 			<div class="card thumbnail" data-span="{%= o.span %}">
 				<a class="play" href="javascript:;">
 					<img class="lazy" data-original="{%= o.poster %}" style="{%= o.style %}" />
 			    </a>
 				<div class="caption">
-					<h4 class="text-single-line">{%= o.title %}</h4>
-                    <p class="text-single-line text-muted">
-                        <a href="http://www.tongrenlu.info/music/search?q={%= encodeURI(o.artist) %}" target="_blank">{%= o.artist %}</a>
-                    </p>
+					<h4 class="text-single-line">
+                        <a href="http://www.tongrenlu.info/music/{%= o.id %}" target="_blank">{%= o.title %}</a>
+                    </h4>
 			    </div>
 			</div>
 		</script>
@@ -121,7 +119,13 @@
                     $jplayer.jPlayer("play");
                 });
                 
-                $.each(data, function(index, element) {
+                $.getJSON('rts12.json').done(function(data) {
+                    
+                    $.each(data, function(index, element) {
+                        
+                        element.poster = 'http://files.tongrenlu.info/m' + element.id + "/cover_400.jpg"
+                        element.mp3 = 'http://files.tongrenlu.info/m' + element.id + "/xfd.mp3"
+                        
                     var html = tmpl('template-media-item', element);
                     var $item = $(html).appendTo('#left-side');
                     $item.find('a.play').data(element);
@@ -145,6 +149,8 @@
                     });
                     $('#items-case').waterfall();
                 }
+                });
+                
 			});
 		</script>
 	</body>
