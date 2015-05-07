@@ -56,7 +56,9 @@
 		<div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 ">
-                    <div class="mediailist" id="left-side"></div>
+                    <div class="card panel">
+                        <div class="media-list" id="left-side"></div>
+                    </div>
                 </div>
                 <div class="col-md-9 hidden-sm hidden-xs">
                     <div id="items-case" class="case" data-col-min-width="100"></div>
@@ -88,10 +90,9 @@
 		<script id="template-media-item" type="text/x-tmpl">
             <div class="media">
                 <a class="media-left play" href="javascript:;">
-                    <img class="img-60 lazy" data-original="{%= o.poster %}" />
+                    <img class="img-120 lazy" data-original="{%= o.poster %}" />
                 </a>
                 <div class="media-body">
-                    <h4 class="media-heading"><small>{%= o.artist %}</small></h4>
 					<p class=""><a class="play" href="javascript:;">{%= o.title %}</a></p>
                 </div>
             </div>
@@ -101,7 +102,7 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				var $jplayer = $("#jquery_jplayer_1").jPlayer({
-					swfPath: "http://static.tongrenlu.info/jPlayer-2.9.2/jplayer",
+					swfPath: "http://static.tongrenlu.info/jPlayer/2.9.2/jplayer",
 					supplied: "mp3",
 					wmode: "window",
 					useStateClassSkin: true,
@@ -120,7 +121,6 @@
                 });
                 
                 $.getJSON('rts12.json').done(function(data) {
-                    
                     $.each(data, function(index, element) {
                         
                         element.poster = 'http://files.tongrenlu.info/m' + element.id + "/cover_400.jpg"
@@ -136,10 +136,10 @@
                     $.each(data, function(index, element) {
                         if(index % 3 == 0) {
                             element.span = '4';
-                            element.style = 'height:400px';
+                            element.style = 'height:440px';
                         } else {
                             element.span = '2';
-                            element.style = 'height:200px';
+                            element.style = 'height:220px';
                         }
                         
                         var html = tmpl('template-waterfall-item', element);
