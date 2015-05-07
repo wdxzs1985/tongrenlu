@@ -99,4 +99,8 @@ public class OrderManager {
         this.orderItemMapper.delete(params);
     }
 
+    public List<OrderBean> getList(Map<String, Object> params) {
+        return this.orderMapper.fetchList(params);
+    }
+
 }

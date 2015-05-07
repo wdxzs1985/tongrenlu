@@ -6,9 +6,11 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.mail.MailModel;
 import info.tongrenlu.mail.MailResolvor;
 import info.tongrenlu.manager.OrderManager;
+import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +28,8 @@ public class ConsoleOrderService {
 
     @Autowired
     private OrderManager orderManager = null;
+    @Autowired
+    private UserManager userManager = null;
     @Autowired
     private MailResolvor mailResolvor = null;
     @Autowired
@@ -119,9 +123,7 @@ public class ConsoleOrderService {
         default:
             break;
         }
-
         this.mailResolvor.send(mailModel);
-
     }
 
     public void removeItem(final OrderBean orderBean, final Integer orderItemId) {
@@ -173,5 +175,78 @@ public class ConsoleOrderService {
 
     public void deleteOrder(final OrderBean orderBean) {
         this.orderManager.delete(orderBean);
+        this.orderManager.cancelOrderItem(orderBean);
+    }
+
+    public void mergeOrder(Integer userId, Locale locale) {
+
+        UserBean userBean = this.userManager.getById(userId);
+
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userBean", userBean);
+        params.put("status", OrderBean.STATUS_CREATE);
+        final List<OrderBean> orderList = this.orderManager.getList(params);
+        if (CollectionUtils.size(orderList) > 1) {
+            List<OrderItemBean> newItemList = new ArrayList<OrderItemBean>();
+
+            for (OrderBean orderBean : orderList) {
+                List<OrderItemBean> itemList = this.orderManager.findItemList(orderBean);
+                newItemList.addAll(itemList);
+                this.deleteOrder(orderBean);
+            }
+
+            if (CollectionUtils.isNotEmpty(newItemList)) {
+                OrderBean orderBean = new OrderBean();
+                final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(newItemList,
+                                                                                    0);
+                String title = firstItem.getTitle();
+
+                if (CollectionUtils.size(newItemList) > 1) {
+                    title = this.messageSource.getMessage("order.title.etc",
+                                                          new Object[] { title },
+                                                          locale);
+                }
+
+                orderBean.setUserBean(userBean);
+                orderBean.setTitle(title);
+
+                BigDecimal amountJp = BigDecimal.ZERO;
+                BigDecimal amountCn = BigDecimal.ZERO;
+                BigDecimal fee = BigDecimal.ZERO;
+                BigDecimal total = BigDecimal.ZERO;
+
+                for (final OrderItemBean item : newItemList) {
+                    amountJp = amountJp.add(item.getAmountJp());
+                    amountCn = amountCn.add(item.getAmountCn());
+                    fee = fee.add(item.getFee());
+                    total = total.add(item.getTotal());
+
+                    item.setOrderBean(orderBean);
+                }
+
+                orderBean.setAmountJp(amountJp);
+                orderBean.setAmountCn(amountCn);
+                orderBean.setFee(fee);
+                orderBean.setTotal(total);
+
+                this.orderManager.insertOrder(orderBean);
+                this.orderManager.insertOrderItems(newItemList);
+
+                final MailModel mailModel = this.mailResolvor.createMailModel(locale);
+                mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
+                                                                   new Object[] { userBean.getNickname() },
+                                                                   locale));
+                mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(),
+                                                                userBean.getNickname()));
+                mailModel.setTemplate("order_merge");
+
+                mailModel.addAttribute("userBean", userBean);
+                mailModel.addAttribute("orderBean", orderBean);
+                mailModel.addAttribute("itemList", newItemList);
+
+                this.mailResolvor.send(mailModel);
+
+            }
+        }
     }
 }

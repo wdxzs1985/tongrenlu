@@ -1,0 +1,13 @@
+#parse("templates/mail/order_header.vm")
+
+您的订单已被合并成功。
+请耐心等待我们核实价格和库存后进行付款。
+---------------------------------------------
+
+#foreach ($item in $itemList)
+#$velocityCount $item.title ($number.integer($item.price) 円) x $item.quantity
+#end
+---------------------------------------------
+日元总价: $orderBean.amountJp 円
+
+#parse("templates/mail/order_footer.vm")

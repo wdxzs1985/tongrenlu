@@ -70,6 +70,13 @@ public class AdminOrderController {
         return "admin/order/index";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "merge/{userId}")
+    public String doGetMerge(@PathVariable final Integer userId,
+                             final Locale locale) {
+        this.orderService.mergeOrder(userId, locale);
+        return "redirect:/admin/order";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}")
     public String doGetView(@PathVariable final Integer orderId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,

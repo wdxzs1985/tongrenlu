@@ -75,7 +75,12 @@
                                 <p class="form-control-static">
                                     <a th:href="@{/admin/order/__${orderBean.id}__}" th:text="${orderBean.title}"></a>
                                 </p>
-                                <p class="help-block" th:text="${orderBean.userBean}"></p>
+                                <p class="help-block" >
+                                    <span th:text="${orderBean.userBean}"></span>
+                                    <a class="btn btn-primary btn-xs" th:href="@{/admin/order/merge/__${orderBean.userBean.id}__}" 
+                                        th:text="#{admin.order.merge}"
+                                        th:if="${orderBean.status} eq 0"></a>
+                                </p>
                             </td>
                             <td class="text-center">
                                 <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp + item.tax</p>
@@ -134,7 +139,7 @@ $(function() {
         count       : /*[[${page.pageCount}]]*/ 20,
         start       : /*[[${page.pageNumber}]]*/ 1,
         onChange                : function (currval){
-            var url = /*[[@{/admin/order(p='')}]]*/ '/console/order';
+            var url = /*[[@{/admin/order(status=${status},p='')}]]*/ '/console/order';
             window.location.href = url + currval;
             return false;
         }

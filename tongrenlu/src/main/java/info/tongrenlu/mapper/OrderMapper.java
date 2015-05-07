@@ -22,4 +22,6 @@ public interface OrderMapper {
     public List<Map<String, Object>> fetchDashboard();
 
     public void delete(OrderBean orderBean);
+
+    public List<OrderBean> fetchList(Map<String, Object> params);
 }
