@@ -5,9 +5,9 @@
 ---------------------------------------------
 
 #foreach ($item in $itemList)
-#$velocityCount $item.title ($number.integer($item.price) 円) x $item.quantity
+#$velocityCount $item.title ($number.integer($item.price) 円) x $number.integer($item.quantity)
 #end
 ---------------------------------------------
-日元总价: $orderBean.amountJp 円
+日元总价: $number.integer($orderBean.amountJp) 円
 
 #parse("templates/mail/order_footer.vm")
