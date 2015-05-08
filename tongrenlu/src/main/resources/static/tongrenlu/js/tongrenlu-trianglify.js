@@ -11,8 +11,8 @@
 	
 	$.fn.trianglify = function(options) {
 		var defaults = {
-			//noiseIntensity: 0,
-			//cellpadding: 0
+				width: window.innerWidth, 
+				height: window.innerHeight
 		};
 		
 		var settings = $.extend(defaults, options);
@@ -29,12 +29,15 @@
 			break;
 		}
 		
-//	    var pattern = Trianglify({
-//	        width: window.innerWidth, 
-//	        height: window.innerHeight
-//	    });
-	    //var pattern = t.generate(2000, 1000);
-//	    this.css('background-image', pattern.dataUrl);
-	    return this;
+		var that = this;
+		$(window).resize(function() {
+			settings.width = that.outerWidth();
+			settings.height = that.outerHeight();
+			
+		    var pattern = Trianglify(settings);
+		    that.css('background-image', 'url(' + pattern.png() + ')');
+		}).resize();
+		
+	    return that;
 	}
 })(jQuery);
