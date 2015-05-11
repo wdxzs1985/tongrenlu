@@ -76,7 +76,7 @@ public class OrderManager {
 
     public void updateOrderItemStatus(final OrderItemBean item) {
         final Map<String, Object> params = new HashMap<String, Object>();
-        params.put("itemId", item.getId());
+        params.put("orderItemId", item.getId());
         params.put("status", item.getStatus());
         this.orderItemMapper.updateStatus(params);
     }
@@ -99,7 +99,7 @@ public class OrderManager {
         this.orderItemMapper.delete(params);
     }
 
-    public List<OrderBean> getList(Map<String, Object> params) {
+    public List<OrderBean> getList(final Map<String, Object> params) {
         return this.orderMapper.fetchList(params);
     }
 
