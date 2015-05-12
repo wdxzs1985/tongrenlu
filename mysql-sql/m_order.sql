@@ -7,17 +7,17 @@ CREATE TABLE `m_order` (
   `fee` decimal(10,3) NOT NULL DEFAULT '0.000',
   `total` decimal(10,3) NOT NULL DEFAULT '0.000',
   `status` int(1) NOT NULL DEFAULT '0',
+  `shopper_id` int(11) DEFAULT NULL,
+  `pay_link` varchar(255) DEFAULT NULL,
+  `pay_no` varchar(45) DEFAULT NULL,
+  `tracking_code` varchar(45) DEFAULT NULL,
   `create_date` timestamp NULL DEFAULT NULL,
   `order_date` timestamp NULL DEFAULT NULL,
   `pay_date` timestamp NULL DEFAULT NULL,
   `send_date` timestamp NULL DEFAULT NULL,
   `receive_date` timestamp NULL DEFAULT NULL,
   `cancel_date` timestamp NULL DEFAULT NULL,
-  `shopper_id` int(11) DEFAULT NULL,
-  `pay_link` varchar(255) DEFAULT NULL,
-  `pay_no` varchar(45) DEFAULT NULL,
-  `tracking_code` varchar(45) DEFAULT NULL,
   `upd_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `del_flg` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1018 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;

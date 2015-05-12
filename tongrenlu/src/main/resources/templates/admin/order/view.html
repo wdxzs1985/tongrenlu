@@ -237,12 +237,22 @@
                                         </td>
                                         <td class="text-center" th:switch="${item.status}">
                                             <div th:case="0" >
-                                                <p class="form-control-static" th:text="#{OrderItemBean.status.created}"></p>
-                                                <p class="help-block" th:text="${#dates.format(item.createDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                                <form th:action="@{/admin/order/__${item.orderBean.id}__/item/__${item.id}__/pay}" method="post">
+                                                    <p class="form-control-static" >
+                                                        <input type="hidden" name="status" value="1"/>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            th:text="#{OrderItemBean.status.ordered}"></button>
+                                                    </p>
+                                                </form>
                                             </div>
                                             <div th:case="1" >
-                                                <p class="form-control-static" th:text="#{OrderItemBean.status.ordered}"></p>
-                                                <p class="help-block" th:text="${#dates.format(item.orderDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                                <form th:action="@{/admin/order/__${item.orderBean.id}__/item/__${item.id}__/receive}" method="post">
+		                                            <p class="form-control-static" >
+		                                                <input type="hidden" name="status" value="2"/>
+		                                                <button type="submit" class="btn btn-success"
+		                                                    th:text="#{OrderItemBean.status.received}"></button>
+		                                            </p>
+		                                        </form>
                                             </div>
                                             <div th:case="2" >
                                                 <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
