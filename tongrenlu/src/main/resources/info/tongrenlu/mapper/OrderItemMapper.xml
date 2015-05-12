@@ -87,10 +87,10 @@
         <where>
             m_order.status = 2
         and m_order.shopper_id = #{shopperBean.id}
-        and m_order_item.status in (0, 1)
+        and m_order_item.status = 0
         and m_order_item.del_flg = 0
         </where>
-        order by m_order_item.status
+        order by m_order_item.title
     </select>
     
     <update id="update">
