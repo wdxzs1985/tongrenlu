@@ -77,6 +77,9 @@
                             <a th:href="@{/user/__${userBean.id}__}" class="btn btn-info" role="button" target="_blank">
                                 <span th:text="#{home.user.timeline}"></span>
                             </a>
+                            <a th:href="@{/admin/user/__${userBean.id}__/library}" class="btn btn-success" role="button" target="_blank">
+                                <span th:text="#{admin.user.library}"></span>
+                            </a>
                             <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
                                 data-role="2"
                                 th:classappend="${userBean.editor} ? 'btn-danger' : 'btn-default'"
