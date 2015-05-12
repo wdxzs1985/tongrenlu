@@ -1,6 +1,7 @@
 package info.tongrenlu.www;
 
 import info.tongrenlu.domain.MusicBean;
+import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
 import info.tongrenlu.solr.MusicDocument;
@@ -20,12 +21,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes("LOGIN_USER")
 @RequestMapping("/fm")
 @Transactional
 public class FmController {
@@ -41,9 +45,9 @@ public class FmController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/lucky")
     @ResponseBody
-    public Map<String, Object> lucky() {
+    public Map<String, Object> lucky(@ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final Map<String, Object> model = new HashMap<String, Object>();
-        final MusicBean musicBean = this.musicService.getRandomMusic();
+        final MusicBean musicBean = this.musicService.getRandomMusic(loginUser);
         model.put("music", musicBean);
         return model;
     }

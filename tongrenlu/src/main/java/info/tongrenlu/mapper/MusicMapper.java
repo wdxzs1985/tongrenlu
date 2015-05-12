@@ -19,4 +19,8 @@ public interface MusicMapper {
 
     public List<MusicBean> fetchTopping(Map<String, Object> param);
 
+    public int countLucky(Map<String, Object> param);
+
+    public List<MusicBean> fetchLucky(Map<String, Object> param);
+
 }

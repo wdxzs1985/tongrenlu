@@ -79,10 +79,11 @@ public class HomeMusicService {
         paginate.setItems(items);
     }
 
-    public MusicBean getRandomMusic() {
+    public MusicBean getRandomMusic(final UserBean userBean) {
         final Map<String, Object> params = new HashMap<>();
+        params.put("userBean", userBean);
         params.put("publishFlg", new String[] { ArticleBean.FREE });
-        final int itemCount = this.articleManager.countMusic(params);
+        final int itemCount = this.articleManager.countLuckyMusic(params);
 
         if (itemCount == 0) {
             return null;
@@ -93,7 +94,7 @@ public class HomeMusicService {
         params.put("start", start);
         params.put("pageSize", 1);
 
-        final List<MusicBean> items = this.articleManager.searchMusic(params);
+        final List<MusicBean> items = this.articleManager.fetchLuckyMusic(params);
         return items.get(0);
     }
 

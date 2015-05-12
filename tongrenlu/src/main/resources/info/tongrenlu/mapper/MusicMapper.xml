@@ -148,4 +148,50 @@
             v_music_ranking.publishDate desc
         limit 0, #{pageSize}
     </select>
+    
+        
+    <select id="countLucky" resultType="int">
+        SELECT 
+            count(v_music.id)
+        FROM
+            v_music
+        LEFT JOIN
+            r_user_library ON v_music.id = r_user_library.article_id
+        <where>
+            v_music.publishFlg = 2
+            <if test="userBean != null">
+            OR (r_user_library.user_id = #{userBean.id}
+            AND r_user_library.status = 1)
+            </if>
+        </where>
+    </select>
+    
+    <select id="fetchLucky" resultType="MusicBean">
+        SELECT 
+        <trim suffixOverrides=",">
+            v_music.id                      as id,
+            v_music.title                   as title,
+            v_music.description             as description,
+            v_music.publishFlg              as publishFlg,
+            v_music.publishDate             as publishDate,
+            v_music.`userBean.id`           as `userBean.id`,
+            v_music.`userBean.nickname`     as `userBean.nickname`,
+            v_music.accessCount             as accessCount,
+            v_music.likeCount               as likeCount,
+            v_music.commentCount            as commentCount,
+        </trim>
+        FROM
+            v_music
+        LEFT JOIN
+            r_user_library ON v_music.id = r_user_library.article_id
+        <where>
+            v_music.publishFlg = 2
+            <if test="userBean != null">
+            OR (r_user_library.user_id = #{userBean.id}
+            AND r_user_library.status = 1)
+            </if>
+        </where>
+        order by v_music.id desc
+        limit #{start}, #{pageSize}
+    </select>
 </mapper>

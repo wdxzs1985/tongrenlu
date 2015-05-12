@@ -186,4 +186,12 @@ public class ArticleManager {
         return isValid;
     }
 
+    public int countLuckyMusic(final Map<String, Object> params) {
+        return this.musicMapper.countLucky(params);
+    }
+
+    public List<MusicBean> fetchLuckyMusic(final Map<String, Object> params) {
+        return this.musicMapper.fetchLucky(params);
+    }
+
 }

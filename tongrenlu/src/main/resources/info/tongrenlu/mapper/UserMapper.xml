@@ -58,9 +58,6 @@
             U.NICKNAME              as nickname,
             U.signature             as signature,
             U.musicCount            as musicCount,
-            U.comicCount            as comicCount,
-            U.followCount           as followCount,
-            U.followerCount         as followerCount,
         </trim>
         FROM
             v_user U

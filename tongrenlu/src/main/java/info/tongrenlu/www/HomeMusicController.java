@@ -250,8 +250,8 @@ public class HomeMusicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lucky")
-    public String doGetLucky() {
-        final MusicBean musicBean = this.musicService.getRandomMusic();
+    public String doGetLucky(@ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final MusicBean musicBean = this.musicService.getRandomMusic(loginUser);
         return "redirect:/music/" + musicBean.getId();
     }
 
