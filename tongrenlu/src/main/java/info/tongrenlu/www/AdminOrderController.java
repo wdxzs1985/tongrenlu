@@ -10,6 +10,7 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -194,6 +195,24 @@ public class AdminOrderController {
         this.orderService.updateOrderStatus(orderBean, locale);
 
         return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "items")
+    public String doGetItems(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model,
+                             final Locale locale) {
+        final List<OrderItemBean> itemList = this.orderService.findStockItemList(loginUser);
+        final Map<String, List<OrderItemBean>> itemMap = new HashMap<String, List<OrderItemBean>>();
+        for (final OrderItemBean item : itemList) {
+            List<OrderItemBean> subList = itemMap.get(item.getTitle());
+            if (subList == null) {
+                subList = new ArrayList<OrderItemBean>();
+                itemMap.put(item.getTitle(), subList);
+            }
+            subList.add(item);
+        }
+        model.addAttribute("itemMap", itemMap);
+        return "/admin/order/items";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/item/{itemId}/pay")

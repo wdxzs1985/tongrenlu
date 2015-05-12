@@ -75,12 +75,6 @@
             m_order_item.shop,
             m_order_item.price,
             m_order_item.quantity,
-            m_order_item.exchange_rate  as "exchangeRate",
-            m_order_item.fee,
-            m_order_item.status,
-            m_order_item.create_date    as createDate,
-            m_order_item.order_date     as orderDate,
-            m_order_item.receive_date   as receiveDate,
             m_order.id                  as "orderBean.id",
             m_order.title               as "orderBean.title",
             v_user.id                   as "userBean.id",
@@ -92,6 +86,7 @@
         join v_user on m_order_item.user_id = v_user.id
         <where>
             m_order.status = 2
+        and m_order.shopper_id = #{shopperBean.id}
         and m_order_item.status in (0, 1)
         and m_order_item.del_flg = 0
         </where>

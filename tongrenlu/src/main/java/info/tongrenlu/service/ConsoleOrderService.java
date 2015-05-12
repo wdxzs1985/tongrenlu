@@ -52,8 +52,7 @@ public class ConsoleOrderService {
         return this.orderManager.findItemList(orderBean);
     }
 
-    public void updateOrder(final OrderBean orderBean,
-                            final List<OrderItemBean> itemList) {
+    public void updateOrder(final OrderBean orderBean, final List<OrderItemBean> itemList) {
         if (CollectionUtils.isEmpty(itemList)) {
             this.orderManager.delete(orderBean);
         } else {
@@ -90,12 +89,10 @@ public class ConsoleOrderService {
 
         mailModel.addAttribute("orderBean", orderBean);
         mailModel.addAttribute("userBean", userBean);
-        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(),
-                                                        userBean.getNickname()));
+        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
 
         if (shopper != null) {
-            mailModel.setBcc(this.mailResolvor.createAddress(shopper.getEmail(),
-                                                             shopper.getNickname()));
+            mailModel.setBcc(this.mailResolvor.createAddress(shopper.getEmail(), shopper.getNickname()));
             mailModel.addAttribute("shopper", shopper);
         }
 
@@ -132,8 +129,8 @@ public class ConsoleOrderService {
         this.updateOrder(orderBean, itemList);
     }
 
-    public List<OrderItemBean> findStockItemList() {
-        return this.orderManager.findStockItemList();
+    public List<OrderItemBean> findStockItemList(final UserBean shopperBean) {
+        return this.orderManager.findStockItemList(shopperBean);
     }
 
     public void updateOrderItemStatus(final OrderItemBean item) {
@@ -178,33 +175,30 @@ public class ConsoleOrderService {
         this.orderManager.cancelOrderItem(orderBean);
     }
 
-    public void mergeOrder(Integer userId, Locale locale) {
+    public void mergeOrder(final Integer userId, final Locale locale) {
 
-        UserBean userBean = this.userManager.getById(userId);
+        final UserBean userBean = this.userManager.getById(userId);
 
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("userBean", userBean);
         params.put("status", OrderBean.STATUS_CREATE);
         final List<OrderBean> orderList = this.orderManager.getList(params);
         if (CollectionUtils.size(orderList) > 1) {
-            List<OrderItemBean> newItemList = new ArrayList<OrderItemBean>();
+            final List<OrderItemBean> newItemList = new ArrayList<OrderItemBean>();
 
-            for (OrderBean orderBean : orderList) {
-                List<OrderItemBean> itemList = this.orderManager.findItemList(orderBean);
+            for (final OrderBean orderBean : orderList) {
+                final List<OrderItemBean> itemList = this.orderManager.findItemList(orderBean);
                 newItemList.addAll(itemList);
                 this.deleteOrder(orderBean);
             }
 
             if (CollectionUtils.isNotEmpty(newItemList)) {
-                OrderBean orderBean = new OrderBean();
-                final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(newItemList,
-                                                                                    0);
+                final OrderBean orderBean = new OrderBean();
+                final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(newItemList, 0);
                 String title = firstItem.getTitle();
 
                 if (CollectionUtils.size(newItemList) > 1) {
-                    title = this.messageSource.getMessage("order.title.etc",
-                                                          new Object[] { title },
-                                                          locale);
+                    title = this.messageSource.getMessage("order.title.etc", new Object[] { title }, locale);
                 }
 
                 orderBean.setUserBean(userBean);
@@ -236,8 +230,7 @@ public class ConsoleOrderService {
                 mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
                                                                    new Object[] { userBean.getNickname() },
                                                                    locale));
-                mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(),
-                                                                userBean.getNickname()));
+                mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
                 mailModel.setTemplate("order_merge");
 
                 mailModel.addAttribute("userBean", userBean);

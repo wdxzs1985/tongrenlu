@@ -20,38 +20,44 @@
         <div class="container-tab">
             <div class="container">
                 <ul class="nav">
-                    <li th:class="${#strings.isEmpty(status)} ? 'active'">
+                    <li th:classappend="${#strings.isEmpty(status)} ? 'active'">
                         <a th:href="@{/admin/order}">
                             <span class="glyphicon glyphicon-th-list"></span>
                             <span class="" th:text="#{admin.order.index}"></span>
                         </a>
                     </li>
-                    <li th:class="${status} eq 0 ? 'active'">
+                    <li class="hidden-xs" th:classappend="${status} eq 0 ? 'active'">
                         <a th:href="@{/admin/order(status=0)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.created}"></span>
                             <span class="badge" th:text="${createCount}" th:if="${createCount} != null and ${createCount} > 0"></span>
                         </a>
                     </li>
-                    <li th:class="${status} eq 1 ? 'active'">
+                    <li class="hidden-xs" th:classappend="${status} eq 1 ? 'active'">
                         <a th:href="@{/admin/order(status=1)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.started}"></span>
                             <span class="badge" th:text="${startCount}" th:if="${startCount} != null and ${startCount} > 0"></span>
                         </a>
                     </li>
-                    <li th:class="${status} eq 2 ? 'active'">
+                    <li class="hidden-xs" th:classappend="${status} eq 2 ? 'active'">
                         <a th:href="@{/admin/order(status=2)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.paid}"></span>
                             <span class="badge" th:text="${paidCount}" th:if="${paidCount} != null and ${paidCount} > 0"></span>
                         </a>
                     </li>
-                    <li th:class="${status} eq 3 ? 'active'">
+                    <li class="hidden-xs" th:classappend="${status} eq 3 ? 'active'">
                         <a th:href="@{/admin/order(status=3)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.send}"></span>
                             <span class="badge" th:text="${sendCount}" th:if="${sendCount} != null and ${sendCount} > 0"></span>
+                        </a>
+                    </li>
+                    <li >
+                        <a th:href="@{/admin/order/items}">
+                            <span class="glyphicon glyphicon-th"></span>
+                            <span class="" th:text="#{admin.order.item}"></span>
                         </a>
                     </li>
                 </ul>

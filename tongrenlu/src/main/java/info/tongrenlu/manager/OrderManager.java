@@ -2,6 +2,7 @@ package info.tongrenlu.manager;
 
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
+import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.mapper.OrderItemMapper;
 import info.tongrenlu.mapper.OrderMapper;
 
@@ -70,8 +71,10 @@ public class OrderManager {
         this.orderItemMapper.delete(params);
     }
 
-    public List<OrderItemBean> findStockItemList() {
-        return this.orderItemMapper.findStockItemList();
+    public List<OrderItemBean> findStockItemList(final UserBean shopperBean) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("shopperBean", shopperBean);
+        return this.orderItemMapper.findStockItemList(params);
     }
 
     public void updateOrderItemStatus(final OrderItemBean item) {

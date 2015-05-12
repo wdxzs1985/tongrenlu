@@ -15,7 +15,7 @@ public interface OrderItemMapper {
 
     public void delete(Map<String, Object> params);
 
-    public List<OrderItemBean> findStockItemList();
+    public List<OrderItemBean> findStockItemList(Map<String, Object> params);
 
     public void updateStatus(Map<String, Object> params);
 

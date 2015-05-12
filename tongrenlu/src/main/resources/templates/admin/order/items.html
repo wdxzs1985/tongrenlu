@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="console/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <title th:text="#{admin.order.item} + ' | ' + #{console}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-wrap container-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8" >
+                    <h1 th:text="#{admin.order.item}"></h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-tab">
+            <div class="container">
+                <ul class="nav">
+                    <li >
+                        <a th:href="@{/admin/order}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            <span class="" th:text="#{admin.order.index}"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/admin/order/item}">
+                            <span class="glyphicon glyphicon-th"></span>
+                            <span class="" th:text="#{admin.order.item}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrap container-wrap-darker" >
+        <div class="container">
+            <th:block th:unless="${#maps.isEmpty(itemMap)}">
+                <div class="card panel" th:each="itemEntry: ${itemMap}">
+                    <div class="panel-body" >
+                        <h4 class="" th:text="'(' + ${#lists.size(itemEntry.value)} + ') ' + ${itemEntry.key}"></h4>
+                        <ul class="list-unstyled">
+                            <li class="" th:each="item: ${itemEntry.value}">
+                                 <a target="_blank" th:href="@{/admin/order/__${item.orderBean.id}__}" th:alt-title="${item.shop}">
+                                     <strong th:text="'【' + ${item.userBean} + '】'" ></strong>
+                                     <span th:text="${item.orderBean.title}" ></span>
+                                 </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </th:block>
+            <div class="alert alert-warning" th:if="${#maps.isEmpty(itemMap)}">
+                <h4 th:text="#{console.article.noData}"></h4>
+                <a th:href="@{/admin/order}" th:text="#{button.back}" class="btn btn-default"></a>
+            </div>
+        </div>
+    </div>
+</div>
+  </body>
+</html>
