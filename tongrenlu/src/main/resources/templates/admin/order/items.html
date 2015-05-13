@@ -38,22 +38,22 @@
     </div>
     <div class="container-wrap container-wrap-darker" >
         <div class="container">
-            <th:block th:unless="${#maps.isEmpty(itemMap)}">
-                <div class="card panel" th:each="itemEntry: ${itemMap}">
+            <th:block th:unless="${#maps.isEmpty(stockItemMap)}">
+                <div class="card panel" th:each="itemEntry: ${stockItemMap}">
                     <div class="panel-body" >
-                        <h4 class="" th:text="'(' + ${#lists.size(itemEntry.value)} + ') ' + ${itemEntry.key}"></h4>
+                        <h4 class="" th:text="'(' + ${#numbers.formatInteger(itemEntry.value.quantity, 0)} + ') ' + ${itemEntry.key}"></h4>
                         <ul class="list-unstyled">
-                            <li class="" th:each="item: ${itemEntry.value}">
-                                 <a target="_blank" th:href="@{/admin/order/__${item.orderBean.id}__}" th:alt-title="${item.shop}">
-                                     <strong th:text="'【' + ${item.userBean} + '】'" ></strong>
-                                     <span th:text="${item.orderBean.title}" ></span>
+                            <li class="" th:each="itemBean : ${itemEntry.value.itemList}">
+                                 <a target="_blank" th:href="@{/admin/order/__${itemBean.orderBean.id}__}" >
+                                     <strong th:text="'【' + ${itemBean.userBean} + '】'" ></strong>
+                                     <span th:text="${itemBean.orderBean.title}" ></span>
                                  </a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </th:block>
-            <div class="alert alert-warning" th:if="${#maps.isEmpty(itemMap)}">
+            <div class="alert alert-warning" th:if="${#maps.isEmpty(stockItemMap)}">
                 <h4 th:text="#{console.article.noData}"></h4>
                 <a th:href="@{/admin/order}" th:text="#{button.back}" class="btn btn-default"></a>
             </div>

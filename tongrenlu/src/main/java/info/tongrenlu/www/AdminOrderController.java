@@ -36,17 +36,11 @@ public class AdminOrderController {
     @Autowired
     private MessageSource messageSource = null;
 
-    protected void throwExceptionWhenNotAllow(final OrderBean orderBean,
-                                              final UserBean loginUser,
-                                              final Locale locale) {
+    protected void throwExceptionWhenNotAllow(final OrderBean orderBean, final UserBean loginUser, final Locale locale) {
         if (orderBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
-                                                                          null,
-                                                                          locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
         } else if (!loginUser.isShopAdmin()) {
-            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
-                                                                       null,
-                                                                       locale));
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
         }
     }
 
@@ -72,8 +66,7 @@ public class AdminOrderController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "merge/{userId}")
-    public String doGetMerge(@PathVariable final Integer userId,
-                             final Locale locale) {
+    public String doGetMerge(@PathVariable final Integer userId, final Locale locale) {
         this.orderService.mergeOrder(userId, locale);
         return "redirect:/admin/order";
     }
@@ -81,7 +74,8 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}")
     public String doGetView(@PathVariable final Integer orderId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model, final Locale locale) {
+                            final Model model,
+                            final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         final List<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
@@ -94,7 +88,8 @@ public class AdminOrderController {
     public String doGetRemoveItem(@PathVariable final Integer orderId,
                                   @PathVariable final Integer orderItemId,
                                   @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                  final Model model, final Locale locale) {
+                                  final Model model,
+                                  final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         this.orderService.removeItem(orderBean, orderItemId);
@@ -111,7 +106,8 @@ public class AdminOrderController {
                              @RequestParam("exchangeRate[]") final BigDecimal[] exchangeRateArray,
                              @RequestParam("fee[]") final BigDecimal[] feeArray,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model, final Locale locale) {
+                             final Model model,
+                             final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
 
@@ -136,7 +132,8 @@ public class AdminOrderController {
     public String doPostStart(@PathVariable final Integer orderId,
                               final String payLink,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model, final Locale locale) {
+                              final Model model,
+                              final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         orderBean.setPayLink(payLink);
@@ -150,7 +147,8 @@ public class AdminOrderController {
     public String doPostPay(@PathVariable final Integer orderId,
                             final String payNo,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model, final Locale locale) {
+                            final Model model,
+                            final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         orderBean.setStatus(OrderBean.STATUS_PAID);
@@ -163,7 +161,8 @@ public class AdminOrderController {
     public String doPostSend(@PathVariable final Integer orderId,
                              final String trackingCode,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model, final Locale locale) {
+                             final Model model,
+                             final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         orderBean.setTrackingCode(trackingCode);
@@ -175,7 +174,8 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/finish")
     public String doPostFinish(@PathVariable final Integer orderId,
                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                               final Model model, final Locale locale) {
+                               final Model model,
+                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         orderBean.setStatus(OrderBean.STATUS_FINISH);
@@ -186,7 +186,8 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}/cancel")
     public String doGetCancel(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model, final Locale locale) {
+                              final Model model,
+                              final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
 
@@ -198,18 +199,30 @@ public class AdminOrderController {
 
     @RequestMapping(method = RequestMethod.GET, value = "items")
     public String doGetItems(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model, final Locale locale) {
-        final List<OrderItemBean> itemList = this.orderService.findStockItemList(loginUser);
-        final Map<String, List<OrderItemBean>> itemMap = new HashMap<String, List<OrderItemBean>>();
-        for (final OrderItemBean item : itemList) {
-            List<OrderItemBean> subList = itemMap.get(item.getTitle());
-            if (subList == null) {
-                subList = new ArrayList<OrderItemBean>();
-                itemMap.put(item.getTitle(), subList);
+                             final Model model,
+                             final Locale locale) {
+        final List<OrderItemBean> stockItemList = this.orderService.findStockItemList(loginUser);
+        final Map<String, Object> stockItemMap = new HashMap<String, Object>();
+        for (final OrderItemBean item : stockItemList) {
+            final String title = item.getTitle();
+            Map<String, Object> itemMap = (Map<String, Object>) stockItemMap.get(title);
+            if (itemMap == null) {
+                itemMap = new HashMap<String, Object>();
+                stockItemMap.put(title, itemMap);
             }
-            subList.add(item);
+
+            BigDecimal quantity = (BigDecimal) itemMap.get("quantity");
+            quantity = quantity == null ? BigDecimal.ZERO : quantity;
+            quantity = quantity.add(item.getQuantity());
+            itemMap.put("quantity", quantity);
+
+            List<OrderItemBean> itemList = (List<OrderItemBean>) itemMap.get("itemList");
+            itemList = itemList == null ? new ArrayList<OrderItemBean>() : itemList;
+            itemList.add(item);
+            itemMap.put("itemList", itemList);
+
         }
-        model.addAttribute("itemMap", itemMap);
+        model.addAttribute("stockItemMap", stockItemMap);
         return "admin/order/items";
     }
 
@@ -217,7 +230,8 @@ public class AdminOrderController {
     public String doPostItemPay(@PathVariable final Integer orderId,
                                 @PathVariable final Integer itemId,
                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                final Model model, final Locale locale) {
+                                final Model model,
+                                final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
 
@@ -234,7 +248,8 @@ public class AdminOrderController {
     public String doPostItemReceive(@PathVariable final Integer orderId,
                                     @PathVariable final Integer itemId,
                                     @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                    final Model model, final Locale locale) {
+                                    final Model model,
+                                    final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
 
