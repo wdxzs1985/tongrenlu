@@ -12,7 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 @Component
-public class AdminAuthInterceptor extends HandlerInterceptorAdapter {
+public class ShopAdminAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
@@ -22,7 +22,7 @@ public class AdminAuthInterceptor extends HandlerInterceptorAdapter {
         final HttpSession session = request.getSession();
         final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
         if (loginUser != null) {
-            if (loginUser.isEditAdmin()) {
+            if (loginUser.isShopAdmin()) {
                 return true;
             } else {
                 response.sendRedirect(request.getContextPath() + "/console");

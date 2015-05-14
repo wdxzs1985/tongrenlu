@@ -3,7 +3,6 @@ package info.tongrenlu.www;
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.ConsoleOrderService;
 import info.tongrenlu.support.PaginateSupport;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
@@ -36,11 +36,9 @@ public class AdminOrderController {
     @Autowired
     private MessageSource messageSource = null;
 
-    protected void throwExceptionWhenNotAllow(final OrderBean orderBean, final UserBean loginUser, final Locale locale) {
+    protected void throwExceptionWhenNotFound(final OrderBean orderBean, final Locale locale) {
         if (orderBean == null) {
             throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
-        } else if (!loginUser.isShopAdmin()) {
-            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
         }
     }
 
@@ -77,7 +75,7 @@ public class AdminOrderController {
                             final Model model,
                             final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
         final List<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
         model.addAttribute("orderBean", orderBean);
         model.addAttribute("itemList", itemList);
@@ -91,7 +89,7 @@ public class AdminOrderController {
                                   final Model model,
                                   final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
         this.orderService.removeItem(orderBean, orderItemId);
         return "redirect:/admin/order/" + orderId;
     }
@@ -109,7 +107,7 @@ public class AdminOrderController {
                              final Model model,
                              final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
 
         final List<OrderItemBean> itemList = new ArrayList<OrderItemBean>();
         for (int i = 0; i < orderItemIdArray.length; i++) {
@@ -135,7 +133,7 @@ public class AdminOrderController {
                               final Model model,
                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
         orderBean.setPayLink(payLink);
         orderBean.setShopper(loginUser);
         orderBean.setStatus(OrderBean.STATUS_START);
@@ -150,7 +148,8 @@ public class AdminOrderController {
                             final Model model,
                             final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+
         orderBean.setStatus(OrderBean.STATUS_PAID);
         orderBean.setPayNo(payNo);
         this.orderService.updateOrderStatus(orderBean, locale);
@@ -164,7 +163,8 @@ public class AdminOrderController {
                              final Model model,
                              final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+
         orderBean.setTrackingCode(trackingCode);
         orderBean.setStatus(OrderBean.STATUS_SEND);
         this.orderService.updateOrderStatus(orderBean, locale);
@@ -177,7 +177,8 @@ public class AdminOrderController {
                                final Model model,
                                final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+
         orderBean.setStatus(OrderBean.STATUS_FINISH);
         this.orderService.updateOrderStatus(orderBean, locale);
         return "redirect:/admin/order/" + orderId;
@@ -189,7 +190,7 @@ public class AdminOrderController {
                               final Model model,
                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+        this.throwExceptionWhenNotFound(orderBean, locale);
 
         orderBean.setStatus(OrderBean.STATUS_CANCEL);
         this.orderService.updateOrderStatus(orderBean, locale);
@@ -226,40 +227,23 @@ public class AdminOrderController {
         return "admin/order/items";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/item/{itemId}/pay")
-    public String doPostItemPay(@PathVariable final Integer orderId,
-                                @PathVariable final Integer itemId,
-                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                final Model model,
-                                final Locale locale) {
-        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
+    @RequestMapping(method = RequestMethod.POST, value = "item/status")
+    @ResponseBody
+    public Map<String, Object> doPostItemPay(final Integer itemId,
+                                             final Integer status,
+                                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                             final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
 
         final OrderItemBean item = new OrderItemBean();
         item.setId(itemId);
-        item.setStatus(OrderItemBean.STATUS_PAID);
+        item.setStatus(status);
 
         this.orderService.updateOrderItemStatus(item);
 
-        return "redirect:/admin/order/" + orderId;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/item/{itemId}/receive")
-    public String doPostItemReceive(@PathVariable final Integer orderId,
-                                    @PathVariable final Integer itemId,
-                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                    final Model model,
-                                    final Locale locale) {
-        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
-        this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
-
-        final OrderItemBean item = new OrderItemBean();
-        item.setId(itemId);
-        item.setStatus(OrderItemBean.STATUS_RECEIVE);
-
-        this.orderService.updateOrderItemStatus(item);
-
-        return "redirect:/admin/order/" + orderId;
+        model.put("result", true);
+        model.put("item", item);
+        return model;
     }
 
 }

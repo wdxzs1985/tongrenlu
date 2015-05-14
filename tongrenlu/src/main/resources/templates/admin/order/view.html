@@ -235,28 +235,9 @@
                                             <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(item.total,1,'COMMA',2,'POINT')})}"></p>
                                             <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(item.fee,1,'COMMA',2,'POINT')})})}"></p>
                                         </td>
-                                        <td class="text-center" th:switch="${item.status}">
-                                            <div th:case="0" >
-                                                <form th:action="@{/admin/order/__${item.orderBean.id}__/item/__${item.id}__/pay}" method="post">
-                                                    <p class="form-control-static" >
-                                                        <input type="hidden" name="status" value="1"/>
-                                                        <button type="submit" class="btn btn-primary"
-                                                            th:text="#{OrderItemBean.status.ordered}"></button>
-                                                    </p>
-                                                </form>
-                                            </div>
-                                            <div th:case="1" >
-                                                <form th:action="@{/admin/order/__${item.orderBean.id}__/item/__${item.id}__/receive}" method="post">
-		                                            <p class="form-control-static" >
-		                                                <input type="hidden" name="status" value="2"/>
-		                                                <button type="submit" class="btn btn-success"
-		                                                    th:text="#{OrderItemBean.status.received}"></button>
-		                                            </p>
-		                                        </form>
-                                            </div>
-                                            <div th:case="2" >
-                                                <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
-                                                <p class="help-block" th:text="${#dates.format(item.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                        <td class="text-center" >
+                                            <div class="order-item-status" th:attr="data-order-id=${orderBean.id},data-item-id=${item.id},data-status=${item.status}" >
+                                                
                                             </div>
                                         </td>
                                     </tr>
@@ -283,6 +264,26 @@
         <div layout:fragment="scripts">
             <script type="text/javascript" src="http://static.tongrenlu.info/Numeral/1.5.3/min/numeral.min.js"></script>
             <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
+
+            <div th:replace="x-tmpl/order-view::template-order-status"></div>
+
+            <script type="text/javascript" th:inline="javascript">
+            $(function(){
+            	$('.order-item-status').each(function(index, element) {
+            		var $element = $(element);
+                    $element.html(tmpl('template-order-status', $element.data()));
+            	}).on('click', '.btn', function(e) {
+            		e.preventDefault();
+            		var $this = $(this);
+            		var url = /*[[@{/admin/order/item/status}]]*/ '';
+            		$.post(url, $this.data()).done(function(response) {
+            			if(response.result) {
+            				$this.parents('.order-item-status').html(tmpl('template-order-status', response.item));
+            			}
+            		});
+            	});
+            });
+            </script>
         </div>
     </body>
 </html>

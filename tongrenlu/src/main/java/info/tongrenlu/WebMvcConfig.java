@@ -3,11 +3,13 @@ package info.tongrenlu;
 import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.interceptor.AccessInterceptor;
-import info.tongrenlu.interceptor.AdminAuthInterceptor;
 import info.tongrenlu.interceptor.AutoLoginInterceptor;
 import info.tongrenlu.interceptor.ConsoleAuthInterceptor;
+import info.tongrenlu.interceptor.EditAdminAuthInterceptor;
 import info.tongrenlu.interceptor.GuestAuthInterceptor;
+import info.tongrenlu.interceptor.ShopAdminAuthInterceptor;
 import info.tongrenlu.interceptor.TimerInterceptor;
+import info.tongrenlu.interceptor.UserAdminAuthInterceptor;
 
 import java.util.Collections;
 
@@ -65,7 +67,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private ConsoleAuthInterceptor consoleAuthInterceptor = null;
     @Autowired
-    private AdminAuthInterceptor adminAuthInterceptor = null;
+    private EditAdminAuthInterceptor editAdminAuthInterceptor = null;
+    @Autowired
+    private ShopAdminAuthInterceptor shopAdminAuthInterceptor = null;
+    @Autowired
+    private UserAdminAuthInterceptor userAdminAuthInterceptor = null;
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
@@ -78,7 +84,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/**")
                 .excludePathPatterns(WebMvcConfig.EXCLUDE_PATH);
         registry.addInterceptor(this.consoleAuthInterceptor).addPathPatterns("/console/**", "/shop/**");
-        registry.addInterceptor(this.adminAuthInterceptor).addPathPatterns("/admin/**");
+        registry.addInterceptor(this.editAdminAuthInterceptor).addPathPatterns("/admin/music", "/admin/comment");
+        registry.addInterceptor(this.shopAdminAuthInterceptor).addPathPatterns("/admin/shop");
+        registry.addInterceptor(this.userAdminAuthInterceptor).addPathPatterns("/admin/user");
     }
 
     @Bean

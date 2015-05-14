@@ -3,7 +3,6 @@ package info.tongrenlu.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -38,7 +37,6 @@ public class OrderItemBean extends DtoBean {
 
     private BigDecimal fee = BigDecimal.ZERO;
 
-    @JsonIgnore
     private Integer status = 0;
 
     private Date createDate = null;
