@@ -86,6 +86,11 @@
                                     <a class="btn btn-primary btn-xs" th:href="@{/admin/order/merge/__${orderBean.userBean.id}__}" 
                                         th:text="#{admin.order.merge}"
                                         th:if="${orderBean.status} eq 0"></a>
+                                        
+                                    <a class="btn btn-primary btn-xs" target="_blank"
+                                        th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
+                                        th:text="#{OrderBean.payNo} + ': ' + ${orderBean.payNo}" 
+                                        th:if="${orderBean.payNo}"></a>
                                 </p>
                             </td>
                             <td class="text-center">
