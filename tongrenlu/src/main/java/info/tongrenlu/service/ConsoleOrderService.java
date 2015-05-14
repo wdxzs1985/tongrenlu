@@ -133,8 +133,10 @@ public class ConsoleOrderService {
         return this.orderManager.findStockItemList(shopperBean);
     }
 
-    public void updateOrderItemStatus(final OrderItemBean item) {
-        this.orderManager.updateOrderItemStatus(item);
+    public void updateOrderItemStatus(final List<OrderItemBean> items) {
+        for (final OrderItemBean item : items) {
+            this.orderManager.updateOrderItemStatus(item);
+        }
     }
 
     public int countOrderByStatus(final Integer status) {

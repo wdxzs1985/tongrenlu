@@ -8,14 +8,14 @@
 <script id="template-order-status" type="text/x-tmpl" th:inline="text" th:fragment="template-order-status">
 {% if (o.status == 0) { %}
     <p class="form-control-static" >
-        <button class="btn btn-primary" 
+        <button class="btn btn-primary btn-status" 
             data-item-id="{%=o.itemId%}" 
             data-status="1" 
             th:text="#{OrderItemBean.status.ordered}"></button>
     </p>
 {% } else if (o.status == 1) { %}
     <p class="form-control-static" >
-        <button class="btn btn-success" 
+        <button class="btn btn-success btn-status" 
             data-item-id="{%=o.itemId%}" 
             data-status="2" 
             th:text="#{OrderItemBean.status.received}"></button>

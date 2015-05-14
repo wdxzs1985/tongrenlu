@@ -272,13 +272,20 @@
             	$('.order-item-status').each(function(index, element) {
             		var $element = $(element);
                     $element.html(tmpl('template-order-status', $element.data()));
-            	}).on('click', '.btn', function(e) {
+            	}).on('click', '.btn-status', function(e) {
             		e.preventDefault();
             		var $this = $(this);
+                    var itemId = $this.data('itemId');
+            		var status = $this.data('status');
+            		var data = {
+            			"status": status,
+            			"itemId[]": [itemId]
+            		}
+            		
             		var url = /*[[@{/admin/order/item/status}]]*/ '';
-            		$.post(url, $this.data()).done(function(response) {
+            		$.post(url, data).done(function(response) {
             			if(response.result) {
-            				$this.parents('.order-item-status').html(tmpl('template-order-status', response.item));
+            				$this.parents('.order-item-status').html(tmpl('template-order-status', response));
             			}
             		});
             	});

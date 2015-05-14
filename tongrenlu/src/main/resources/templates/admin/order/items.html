@@ -2,63 +2,104 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="console/layout">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
-    <title th:text="#{admin.order.item} + ' | ' + #{console}"></title>
-</head>
-<body>
-<div layout:fragment="content">
-    <div class="container-wrap container-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8" >
-                    <h1 th:text="#{admin.order.item}"></h1>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+        <title th:text="#{admin.order.item} + ' | ' + #{console}"></title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="container-wrap container-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8" >
+                            <h1 th:text="#{admin.order.item}"></h1>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="container-tab">
-            <div class="container">
-                <ul class="nav">
-                    <li >
-                        <a th:href="@{/admin/order}">
-                            <span class="glyphicon glyphicon-th-list"></span>
-                            <span class="" th:text="#{admin.order.index}"></span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a th:href="@{/admin/order/item}">
-                            <span class="glyphicon glyphicon-th"></span>
-                            <span class="" th:text="#{admin.order.item}"></span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container-wrap container-wrap-darker" >
-        <div class="container">
-            <th:block th:unless="${#maps.isEmpty(stockItemMap)}">
-                <div class="card panel" th:each="itemEntry: ${stockItemMap}">
-                    <div class="panel-body" >
-                        <h4 class="" th:text="'(' + ${#numbers.formatInteger(itemEntry.value.quantity, 0)} + ') ' + ${itemEntry.key}"></h4>
-                        <ul class="list-unstyled">
-                            <li class="" th:each="itemBean : ${itemEntry.value.itemList}">
-                                 <a target="_blank" th:href="@{/admin/order/__${itemBean.orderBean.id}__}" >
-                                     <strong th:text="'【' + ${itemBean.userBean} + '】'" ></strong>
-                                     <span th:text="${itemBean.orderBean.title}" ></span>
-                                 </a>
+                <div class="container-tab">
+                    <div class="container">
+                        <ul class="nav">
+                            <li >
+                                <a th:href="@{/admin/order}">
+                                    <span class="glyphicon glyphicon-th-list"></span>
+                                    <span class="" th:text="#{admin.order.index}"></span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a th:href="@{/admin/order/item}">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                    <span class="" th:text="#{admin.order.item}"></span>
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </th:block>
-            <div class="alert alert-warning" th:if="${#maps.isEmpty(stockItemMap)}">
-                <h4 th:text="#{console.article.noData}"></h4>
-                <a th:href="@{/admin/order}" th:text="#{button.back}" class="btn btn-default"></a>
+            </div>
+            <div class="container-wrap container-wrap-darker" >
+                <div class="container">
+                    <div class="card panel" th:unless="${#maps.isEmpty(stockItemMap)}">
+                        <table class="table ">
+                            <tr>
+                                <th th:text="#{OrderItemBean.title}"></th>
+                                <th th:text="#{OrderItemBean.quantity}" class="text-center" ></th>
+                                <th></th>
+                            </tr>
+                            <tr th:each="itemEntry: ${stockItemMap}">
+                                <td class="" style="width:80%;">
+                                    <span th:text="${itemEntry.key}"></span>
+                                    <div class="media" th:each="item : ${itemEntry.value.itemList}" >
+                                        <a th:href="@{/admin/order/__${item.orderBean.id}__}" 
+                                            class="media-left" >
+                                            <img style="width:24px;height:24px;"
+                                                th:src="@{http://files.tongrenlu.info/u__${item.UserBean.id}__/cover_60.jpg}" />
+                                        </a>
+                                        <div class="media-body">
+                                            <a th:href="@{/admin/order/__${item.orderBean.id}__}" 
+                                                th:text="${item.userBean}"
+                                                class="" ></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center" th:text="${#numbers.formatInteger(itemEntry.value.quantity, 0)}"></td>
+                                <td class="text-center order-item-status">
+                                    <button class="btn btn-primary btn-status" 
+                                        th:attr="data-item-id=${itemEntry.value.itemIdList}"
+                                        data-status="1" 
+                                        th:text="#{OrderItemBean.status.ordered}"></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="alert alert-warning" th:if="${#maps.isEmpty(stockItemMap)}">
+                        <h4 th:text="#{console.article.noData}"></h4>
+                        <a th:href="@{/admin/order}" th:text="#{button.back}" class="btn btn-default"></a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-  </body>
+        <div layout:fragment="scripts">
+            <script type="text/javascript" th:inline="javascript">
+            $(function(){
+                $('.order-item-status').on('click', '.btn-status', function(e) {
+                    e.preventDefault();
+                    var $this = $(this);
+                    var itemId = $this.data('itemId');
+                    var status = $this.data('status');
+                    var data = {
+                        "status": status,
+                        "itemId[]": itemId
+                    }
+                    
+                    var url = /*[[@{/admin/order/item/status}]]*/ '';
+                    $.post(url, data).done(function(response) {
+                        if(response.result) {
+                            location.reload();
+                        }
+                    });
+                });
+            });
+            </script>
+        </div>
+    </body>
 </html>

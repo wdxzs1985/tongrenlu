@@ -217,11 +217,15 @@ public class AdminOrderController {
             quantity = quantity.add(item.getQuantity());
             itemMap.put("quantity", quantity);
 
+            List<Integer> itemIdList = (List<Integer>) itemMap.get("itemIdList");
+            itemIdList = itemIdList == null ? new ArrayList<Integer>() : itemIdList;
+            itemIdList.add(item.getId());
+            itemMap.put("itemIdList", itemIdList);
+
             List<OrderItemBean> itemList = (List<OrderItemBean>) itemMap.get("itemList");
             itemList = itemList == null ? new ArrayList<OrderItemBean>() : itemList;
             itemList.add(item);
             itemMap.put("itemList", itemList);
-
         }
         model.addAttribute("stockItemMap", stockItemMap);
         return "admin/order/items";
@@ -229,20 +233,25 @@ public class AdminOrderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "item/status")
     @ResponseBody
-    public Map<String, Object> doPostItemPay(final Integer itemId,
+    public Map<String, Object> doPostItemPay(@RequestParam("itemId[]") final Integer[] itemIds,
                                              final Integer status,
                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                                              final Locale locale) {
         final Map<String, Object> model = new HashMap<>();
 
-        final OrderItemBean item = new OrderItemBean();
-        item.setId(itemId);
-        item.setStatus(status);
+        final List<OrderItemBean> items = new ArrayList<>();
+        for (final Integer itemId : itemIds) {
+            final OrderItemBean item = new OrderItemBean();
+            item.setId(itemId);
+            item.setStatus(status);
 
-        this.orderService.updateOrderItemStatus(item);
+            items.add(item);
+        }
+
+        this.orderService.updateOrderItemStatus(items);
 
         model.put("result", true);
-        model.put("item", item);
+        model.put("status", status);
         return model;
     }
 
