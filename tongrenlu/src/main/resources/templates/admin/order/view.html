@@ -19,34 +19,15 @@
                 <div class="container-tab">
                     <div class="container">
                         <ul class="nav">
-                            <li class="">
+                            <li>
                                 <a th:href="@{/admin/order}">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a th:href="@{/admin/order/user/__${orderBean.userBean.id}__}">
                                     <span class="glyphicon glyphicon-th-list"></span>
-                                    <span class="" th:text="#{admin.order.index}"></span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a th:href="@{/admin/order(status=0)}">
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="" th:text="#{console.order.created}"></span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a th:href="@{/admin/order(status=1)}">
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="" th:text="#{console.order.started}"></span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a th:href="@{/admin/order(status=2)}">
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="" th:text="#{console.order.paid}"></span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a th:href="@{/admin/order(status=3)}">
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="" th:text="#{console.order.send}"></span>
+                                    <span class="" th:text="#{admin.order.user(${orderBean.userBean})}"></span>
                                 </a>
                             </li>
                         </ul>
@@ -62,63 +43,60 @@
                                     <div class="col-md-2">
                                         <p class="form-control-static">
                                             <span th:text="#{OrderBean.user}"></span>
-                                            <strong th:text="${orderBean.userBean}"></strong>
+                                            <strong  th:text="${orderBean.userBean}"></strong>
                                         </p>
-                                    </div>
+                                    </div><!--  -->
                                     <div class="col-md-2">
                                         <p class="form-control-static" th:switch="${orderBean.status}">
                                             <span th:text="#{OrderBean.status}"></span>
-                                            <strong th:case="0" th:text="#{console.order.created}"></strong>
-                                            <strong th:case="1" th:text="#{console.order.started}"></strong>
-                                            <strong th:case="2" th:text="#{console.order.paid}"></strong>
-                                            <strong th:case="3" th:text="#{console.order.send}"></strong>
-                                            <strong th:case="4" th:text="#{console.order.received}"></strong>
-                                            <strong th:case="9" th:text="#{console.order.canceled}"></strong>
+                                            <strong class="label label-default" th:case="0" th:text="#{console.order.created}"></strong>
+                                            <strong class="label label-primary" th:case="1" th:text="#{console.order.started}"></strong>
+                                            <strong class="label label-warning" th:case="2" th:text="#{console.order.paid}"></strong>
+                                            <strong class="label label-success" th:case="3" th:text="#{console.order.send}"></strong>
+                                            <strong class="label label-success" th:case="4" th:text="#{console.order.received}"></strong>
+                                            <strong class="label label-default" th:case="9" th:text="#{console.order.canceled}"></strong>
                                         </p>
-                                    </div>
-                                    <div class="col-md-4" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
+                                    </div><!--  -->
+                                    <div class="col-md-8"  th:if="${orderBean.status} eq 0">
+                                        <form class="" method="post" th:action="@{/admin/order/__${orderBean.id}__/start}">
+                                            <div class="form-group">
+	                                            <div class="input-group">
+                                                    <input type="text" name="payLink" class="form-control" th:placehold="#{OrderBean.payLink}"/>
+                                                    <span class="input-group-btn">
+                                                        <button type="submit" class="btn btn-success" th:text="#{order.start}"></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div><!--  -->
+                                    <div class="col-md-4"  th:if="${orderBean.status} eq 1">
                                         <a th:href="${orderBean.payLink}" 
                                             target="_blank" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-yen"></span>
                                             <span class="" th:text="#{OrderBean.payLink}"></span>
                                         </a>
-                                    </div>
-                                    <div class="col-md-4" th:if="!${#strings.isEmpty(orderBean.payNo)}">
-                                        <p class="form-control-static">
-                                            <span th:text="#{OrderBean.payNo}"></span>
-                                            <strong th:text="${orderBean.payNo}"></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="form-control-static" th:unless="${#strings.isEmpty(orderBean.trackingCode)}">
-                                            <span th:text="#{OrderBean.trackingCode}"></span>
-                                            <strong th:text="${orderBean.trackingCode}"></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-12 text-right" th:switch="${orderBean.status}">
-                                        <form class="form-inline" method="post" th:case="0"
-                                            th:action="@{/admin/order/__${orderBean.id}__/start}">
-                                            <div class="input-group">
-                                                <input type="text" name="payLink" class="form-control" th:placehold="#{OrderBean.payLink}"/>
-                                                <span class="input-group-btn">
-                                                    <button type="submit" class="btn btn-success" th:text="#{order.start}"></button>
-                                                </span>
-                                            </div>
-	                                        <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
-	                                           th:text="#{order.cancel}" class="btn btn-danger" ></a>
-                                        </form>
-                                        <form class="form-inline" method="post" th:case="1"
-                                            th:action="@{/admin/order/__${orderBean.id}__/pay}" >
+                                    </div><!--  -->
+                                    <div class="col-md-4"  th:if="${orderBean.status} eq 1">
+                                        <form class="" method="post" th:action="@{/admin/order/__${orderBean.id}__/pay}" >
                                             <div class="input-group">
                                                 <input type="text" name="payNo" class="form-control" th:placehold="#{OrderBean.payNo}"/>
                                                 <span class="input-group-btn">
                                                     <button type="submit" class="btn btn-success" th:text="#{order.pay}"></button>
                                                 </span>
                                             </div>
-	                                        <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
-	                                           th:text="#{order.cancel}" class="btn btn-danger" ></a>
                                         </form>
-                                        <form class="form-inline" method="post" th:case="2"
+                                    </div><!--  -->
+                                    <div class="col-md-4"  th:if="${orderBean.payNo}">
+                                        <span th:text="#{OrderBean.payNo}"></span>
+                                        <strong class="" th:text="${orderBean.payNo}"></strong>
+                                        <a class="btn btn-primary" 
+                                            th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
+                                            target="_blank">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </a>
+                                    </div><!--  -->
+                                    <div class="col-md-4"  th:if="${orderBean.status} eq 2">
+                                        <form class="" method="post"
                                             th:action="@{/admin/order/__${orderBean.id}__/send}" >
                                             <div class="input-group">
                                                 <input type="text" name="trackingCode" class="form-control" th:placehold="#{OrderBean.trackingCode}"/>
@@ -127,11 +105,33 @@
                                                 </span>
                                             </div>
                                         </form>
-                                        <form class="form-inline" method="post" th:case="3"
+                                    </div><!--  -->
+                                    <div class="col-md-2" th:if="${orderBean.trackingCode}">
+                                        <p class="form-control-static">
+                                            <span th:text="#{OrderBean.trackingCode}"></span>
+                                            <strong class="label label-success"  th:text="${orderBean.trackingCode}"></strong>
+                                        </p>
+                                    </div><!--  -->
+                                    <div class="col-md-2 text-right" th:if="${orderBean.status} eq 3">
+                                        <form class="form-inline" method="post"
                                             th:action="@{/admin/order/__${orderBean.id}__/finish}" >
                                             <button type="submit" class="btn btn-success" th:text="#{order.finish}"></button>
                                         </form>
-                                    </div>
+                                    </div><!--  -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-right" th:if="${orderBean.status} lt 2">
+                                        <p class="form-control-static">
+                                            <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
+                                               th:text="#{order.cancel}" class="btn btn-danger" ></a>
+                                        </p>
+                                    </div><!--  -->
+                                    <div class="col-md-12 text-right" th:if="${orderBean.status} eq 9">
+                                        <p class="form-control-static">
+                                            <a th:href="@{/admin/order/__${orderBean.id}__/restore}" 
+                                               th:text="#{order.restore}" class="btn btn-danger" ></a>
+                                        </p>
+                                    </div><!--  -->
                                 </div>
                             </div>
                             <form th:action="@{/admin/order/__${orderBean.id}__}" method="post" th:if="${orderBean.status == 0}">
@@ -237,7 +237,6 @@
                                         </td>
                                         <td class="text-center" >
                                             <div class="order-item-status" th:attr="data-order-id=${orderBean.id},data-item-id=${item.id},data-status=${item.status}" >
-                                                
                                             </div>
                                         </td>
                                     </tr>

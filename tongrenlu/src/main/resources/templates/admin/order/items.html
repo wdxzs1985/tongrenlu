@@ -94,7 +94,8 @@
                     var url = /*[[@{/admin/order/item/status}]]*/ '';
                     $.post(url, data).done(function(response) {
                         if(response.result) {
-                            location.reload();
+                            //location.reload();
+                        	$this.remove();
                         }
                     });
                 });

@@ -4,6 +4,7 @@ import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
+import info.tongrenlu.service.AdminUserService;
 import info.tongrenlu.service.ConsoleOrderService;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -34,6 +35,8 @@ public class AdminOrderController {
     @Autowired
     private ConsoleOrderService orderService = null;
     @Autowired
+    private AdminUserService adminUserService = null;
+    @Autowired
     private MessageSource messageSource = null;
 
     protected void throwExceptionWhenNotFound(final OrderBean orderBean, final Locale locale) {
@@ -43,8 +46,8 @@ public class AdminOrderController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public String doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                             @RequestParam(required = false) final Integer status,
+    public String doGetIndex(@RequestParam(required = false) final Integer status,
+                             @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                              final Model model) {
 
@@ -63,10 +66,39 @@ public class AdminOrderController {
         return "admin/order/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "merge/{userId}")
+    @RequestMapping(method = RequestMethod.GET, value = "user/{userId}")
+    public String doGetUserOrder(@PathVariable final Integer userId,
+                                 @RequestParam(required = false) final Integer status,
+                                 @RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                 @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                 final Model model) {
+        final UserBean userBean = this.adminUserService.getById(userId);
+
+        final PaginateSupport<OrderBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("shopper", loginUser);
+        page.addParam("userBean", userBean);
+
+        if (status != null) {
+            page.addParam("status", status);
+        }
+
+        this.orderService.searchOrder(page);
+
+        model.addAttribute("userBean", userBean);
+        model.addAttribute("page", page);
+        model.addAttribute("status", status);
+
+        return "admin/order/user";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "user/{userId}/merge")
     public String doGetMerge(@PathVariable final Integer userId, final Locale locale) {
-        this.orderService.mergeOrder(userId, locale);
-        return "redirect:/admin/order";
+        final OrderBean orderBean = this.orderService.mergeOrder(userId, locale);
+        if (orderBean != null) {
+            return "redirect:/admin/order/" + orderBean.getId();
+        } else {
+            return "redirect:/admin/order";
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}")
@@ -193,6 +225,20 @@ public class AdminOrderController {
         this.throwExceptionWhenNotFound(orderBean, locale);
 
         orderBean.setStatus(OrderBean.STATUS_CANCEL);
+        this.orderService.updateOrderStatus(orderBean, locale);
+
+        return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/restore")
+    public String doGetRestore(@PathVariable final Integer orderId,
+                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                               final Model model,
+                               final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+
+        orderBean.setStatus(OrderBean.STATUS_CREATE);
         this.orderService.updateOrderStatus(orderBean, locale);
 
         return "redirect:/admin/order/" + orderId;

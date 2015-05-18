@@ -79,7 +79,9 @@ public class ConsoleOrderService {
 
     public void updateOrderStatus(final OrderBean orderBean, final Locale locale) {
         this.orderManager.updateOrderStatus(orderBean);
-        if (OrderBean.STATUS_CANCEL == (orderBean.getStatus())) {
+        if (OrderBean.STATUS_CREATE == (orderBean.getStatus())) {
+            this.orderManager.createOrderItem(orderBean);
+        } else if (OrderBean.STATUS_CANCEL == (orderBean.getStatus())) {
             this.orderManager.cancelOrderItem(orderBean);
         }
 
@@ -100,10 +102,13 @@ public class ConsoleOrderService {
                                                            new Object[] { userBean.getNickname() },
                                                            locale));
         switch (orderBean.getStatus()) {
+        case OrderBean.STATUS_CREATE:
+            mailModel.setTemplate("order_restore");
+            mailModel.addAttribute("itemList", this.orderManager.findItemList(orderBean));
+            break;
         case OrderBean.STATUS_START:
             mailModel.setTemplate("order_start");
-            final List<OrderItemBean> itemList = this.orderManager.findItemList(orderBean);
-            mailModel.addAttribute("itemList", itemList);
+            mailModel.addAttribute("itemList", this.orderManager.findItemList(orderBean));
             break;
         case OrderBean.STATUS_PAID:
             mailModel.setTemplate("order_paid");
@@ -177,13 +182,12 @@ public class ConsoleOrderService {
         this.orderManager.cancelOrderItem(orderBean);
     }
 
-    public void mergeOrder(final Integer userId, final Locale locale) {
-
+    public OrderBean mergeOrder(final Integer userId, final Locale locale) {
         final UserBean userBean = this.userManager.getById(userId);
 
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("userBean", userBean);
-        params.put("status", OrderBean.STATUS_CREATE);
+        params.put("status", new Integer[] { OrderBean.STATUS_CREATE, OrderBean.STATUS_START });
         final List<OrderBean> orderList = this.orderManager.getList(params);
         if (CollectionUtils.size(orderList) > 1) {
             final List<OrderItemBean> newItemList = new ArrayList<OrderItemBean>();
@@ -241,7 +245,9 @@ public class ConsoleOrderService {
 
                 this.mailResolvor.send(mailModel);
 
+                return orderBean;
             }
         }
+        return null;
     }
 }

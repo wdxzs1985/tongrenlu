@@ -88,6 +88,13 @@ public class OrderManager {
         return this.orderMapper.fetchDashboard();
     }
 
+    public void createOrderItem(final OrderBean orderBean) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("orderId", orderBean.getId());
+        params.put("status", OrderItemBean.STATUS_CREATE);
+        this.orderItemMapper.updateStatus(params);
+    }
+
     public void cancelOrderItem(final OrderBean orderBean) {
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("orderId", orderBean.getId());

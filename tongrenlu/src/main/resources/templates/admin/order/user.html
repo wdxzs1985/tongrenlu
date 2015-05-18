@@ -13,51 +13,50 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8" >
-                    <h1 th:text="#{admin.order}"></h1>
+                    <h1 th:text="#{admin.order.user(${userBean})}"></h1>
                 </div>
             </div>
         </div>
         <div class="container-tab">
             <div class="container">
                 <ul class="nav">
-                    <li th:classappend="${#strings.isEmpty(status)} ? 'active'">
+                    <li>
                         <a th:href="@{/admin/order}">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                    </li>
+                    <li th:classappend="${#strings.isEmpty(status)} ? 'active'">
+                        <a th:href="@{/admin/order/user/__${userBean.id}__}">
                             <span class="glyphicon glyphicon-th-list"></span>
                             <span class="" th:text="#{admin.order.index}"></span>
                         </a>
                     </li>
                     <li class="hidden-xs" th:classappend="${status} eq 0 ? 'active'">
-                        <a th:href="@{/admin/order(status=0)}">
+                        <a th:href="@{/admin/order/user/__${userBean.id}__(status=0)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.created}"></span>
                             <span class="badge" th:text="${createCount}" th:if="${createCount} != null and ${createCount} > 0"></span>
                         </a>
                     </li>
                     <li class="hidden-xs" th:classappend="${status} eq 1 ? 'active'">
-                        <a th:href="@{/admin/order(status=1)}">
+                        <a th:href="@{/admin/order/user/__${userBean.id}__(status=1)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.started}"></span>
                             <span class="badge" th:text="${startCount}" th:if="${startCount} != null and ${startCount} > 0"></span>
                         </a>
                     </li>
                     <li class="hidden-xs" th:classappend="${status} eq 2 ? 'active'">
-                        <a th:href="@{/admin/order(status=2)}">
+                        <a th:href="@{/admin/order/user/__${userBean.id}__(status=2)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.paid}"></span>
                             <span class="badge" th:text="${paidCount}" th:if="${paidCount} != null and ${paidCount} > 0"></span>
                         </a>
                     </li>
                     <li class="hidden-xs" th:classappend="${status} eq 3 ? 'active'">
-                        <a th:href="@{/admin/order(status=3)}">
+                        <a th:href="@{/admin/order/user/__${userBean.id}__(status=3)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.send}"></span>
                             <span class="badge" th:text="${sendCount}" th:if="${sendCount} != null and ${sendCount} > 0"></span>
-                        </a>
-                    </li>
-                    <li >
-                        <a th:href="@{/admin/order/items}">
-                            <span class="glyphicon glyphicon-th"></span>
-                            <span class="" th:text="#{admin.order.item}"></span>
                         </a>
                     </li>
                 </ul>
@@ -82,14 +81,11 @@
                                     <a th:href="@{/admin/order/__${orderBean.id}__}" th:text="${orderBean.title}"></a>
                                 </p>
                                 <p class="help-block" >
-                                    <a class="btn btn-primary btn-xs" th:href="@{/admin/order/user/__${orderBean.userBean.id}__}" 
-                                        th:text="#{admin.order.user(${orderBean.userBean})}"></a>
-                                    
-                                    <a class="btn btn-warning btn-xs" th:href="@{/admin/order/user/__${orderBean.userBean.id}__/merge}" 
+                                    <a class="btn btn-primary btn-xs" th:href="@{/admin/order/user/__${orderBean.userBean.id}__/merge}" 
                                         th:text="#{admin.order.merge}"
                                         th:if="${orderBean.status} lt 2"></a>
                                         
-                                    <a class="btn btn-success btn-xs" target="_blank"
+                                    <a class="btn btn-primary btn-xs" target="_blank"
                                         th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
                                         th:text="#{OrderBean.payNo} + ': ' + ${orderBean.payNo}" 
                                         th:if="${orderBean.payNo}"></a>

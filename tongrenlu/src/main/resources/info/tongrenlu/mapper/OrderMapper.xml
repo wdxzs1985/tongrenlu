@@ -133,7 +133,11 @@
             and user.id = #{userBean.id}
             </if>
             <if test="status != null">
-                and m_order.status = #{status}
+                and m_order.status in
+                <foreach item="sts" index="index" collection="status"
+                    open="(" separator="," close=")">
+                      #{sts}
+                </foreach>
             </if>
             and m_order.del_flg = 0
         </where>

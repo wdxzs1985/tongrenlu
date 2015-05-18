@@ -20,6 +20,8 @@
             data-status="2" 
             th:text="#{OrderItemBean.status.received}"></button>
     </p>
+{% } else if (o.status == 9) { %}
+    <p class="form-control-static" th:text="#{OrderItemBean.status.canceled}"></p>
 {% } else { %}
     <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
 {% } %}
