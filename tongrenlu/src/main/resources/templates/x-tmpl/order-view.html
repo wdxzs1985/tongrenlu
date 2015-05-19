@@ -20,10 +20,16 @@
             data-status="2" 
             th:text="#{OrderItemBean.status.received}"></button>
     </p>
+{% } else if (o.status == 2) { %}
+    <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
+{% } else if (o.status == 3) { %}
+    <p class="form-control-static" th:text="#{OrderItemBean.status.sendGroup}"></p>
+{% } else if (o.status == 4) { %}
+    <p class="form-control-static" th:text="#{OrderItemBean.status.sendDirect}"></p>
+{% } else if (o.status == 5) { %}
+    <p class="form-control-static" th:text="#{OrderItemBean.status.finish}"></p>
 {% } else if (o.status == 9) { %}
     <p class="form-control-static" th:text="#{OrderItemBean.status.canceled}"></p>
-{% } else { %}
-    <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
 {% } %}
 </script>
 </body>

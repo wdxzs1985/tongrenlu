@@ -6,15 +6,11 @@ import java.util.Date;
 public class OrderBean extends DtoBean {
 
     public static final int STATUS_CREATE = 0;
-
     public static final int STATUS_START = 1;
-
     public static final int STATUS_PAID = 2;
-
-    public static final int STATUS_SEND = 3;
-
-    public static final int STATUS_FINISH = 4;
-
+    public static final int STATUS_SEND_GROUP = 3;
+    public static final int STATUS_SEND_DIRECT = 4;
+    public static final int STATUS_FINISH = 5;
     public static final int STATUS_CANCEL = 9;
 
     private UserBean userBean = null;
@@ -183,7 +179,7 @@ public class OrderBean extends DtoBean {
         return this.payNo;
     }
 
-    public void setPayNo(String payNo) {
+    public void setPayNo(final String payNo) {
         this.payNo = payNo;
     }
 

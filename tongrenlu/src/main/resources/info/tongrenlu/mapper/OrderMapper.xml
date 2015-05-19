@@ -222,9 +222,12 @@
                 </when>
                 <when test="status == 3">
                   send_date = current_timestamp,
-                  tracking_code = #{trackingCode},
                 </when>
                 <when test="status == 4">
+                  send_date = current_timestamp,
+                  tracking_code = #{trackingCode},
+                </when>
+                <when test="status == 5">
                   receive_date = current_timestamp,
                 </when>
                 <when test="status == 9">

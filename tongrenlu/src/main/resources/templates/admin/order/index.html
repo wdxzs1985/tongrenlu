@@ -51,7 +51,14 @@
                         <a th:href="@{/admin/order(status=3)}">
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <span class="" th:text="#{console.order.send}"></span>
-                            <span class="badge" th:text="${sendCount}" th:if="${sendCount} != null and ${sendCount} > 0"></span>
+                            <span class="badge" th:text="${sendCountGroup}" th:if="${sendCountGroup} != null and ${sendCountGroup} > 0"></span>
+                        </a>
+                    </li>
+                    <li class="hidden-xs" th:classappend="${status} eq 4 ? 'active'">
+                        <a th:href="@{/admin/order(status=4)}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="" th:text="#{console.order.send}"></span>
+                            <span class="badge" th:text="${sendCountDirect}" th:if="${sendCountDirect} != null and ${sendCountDirect} > 0"></span>
                         </a>
                     </li>
                     <li >
@@ -120,6 +127,10 @@
                                     <p class="help-block" th:text="${#dates.format(orderBean.sendDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                                 <div th:case="4" >
+                                    <p class="form-control-static" th:text="#{console.order.send}">Package Received</p>
+                                    <p class="help-block" th:text="${#dates.format(orderBean.sendDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                </div>
+                                <div th:case="5" >
                                     <p class="form-control-static" th:text="#{console.order.received}">Package Received</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>

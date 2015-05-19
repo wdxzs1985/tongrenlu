@@ -17,6 +17,9 @@ public class OrderItemBean extends DtoBean {
     public static final Integer STATUS_CREATE = 0;
     public static final Integer STATUS_PAID = 1;
     public static final Integer STATUS_RECEIVE = 2;
+    public static final Integer STATUS_SEND_GROUP = 3;
+    public static final Integer STATUS_SEND_DIRECT = 4;
+    public static final Integer STATUS_FINISH = 5;
     public static final Integer STATUS_CANCEL = 9;
 
     private UserBean userBean = null;

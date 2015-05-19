@@ -1,0 +1,7 @@
+#parse("templates/mail/order_header.vm")
+
+您的订单正发往国内仓库。
+
+---------------------------------------------
+
+#parse("templates/mail/order_footer.vm")

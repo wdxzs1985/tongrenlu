@@ -52,15 +52,40 @@
                                             <strong class="label label-default" th:case="0" th:text="#{console.order.created}"></strong>
                                             <strong class="label label-primary" th:case="1" th:text="#{console.order.started}"></strong>
                                             <strong class="label label-warning" th:case="2" th:text="#{console.order.paid}"></strong>
-                                            <strong class="label label-success" th:case="3" th:text="#{console.order.send}"></strong>
-                                            <strong class="label label-success" th:case="4" th:text="#{console.order.received}"></strong>
+                                            <strong class="label label-info" th:case="3" th:text="#{console.order.send}"></strong>
+                                            <strong class="label label-success" th:case="4" th:text="#{console.order.send}"></strong>
+                                            <strong class="label label-success" th:case="5" th:text="#{console.order.received}"></strong>
                                             <strong class="label label-default" th:case="9" th:text="#{console.order.canceled}"></strong>
                                         </p>
                                     </div><!--  -->
+                                    <div class="col-md-6"  th:if="${orderBean.status} eq 1">
+                                        <a th:href="${orderBean.payLink}" 
+                                            target="_blank" class="btn btn-link">
+                                            <span class="glyphicon glyphicon-yen"></span>
+                                            <span class="" th:text="${orderBean.payLink}"></span>
+                                        </a>
+                                    </div><!--  -->
+                                    <div class="col-md-4" th:if="${orderBean.payNo}">
+                                            <span th:text="#{OrderBean.payNo}"></span>
+                                            <a th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
+                                                th:text="${orderBean.payNo}"
+                                                class="btn btn-primary" target="_blank">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </a>
+                                    </div><!--  -->
+                                    <div class="col-md-4" th:if="${orderBean.trackingCode}">
+                                        <p class="form-control-static">
+                                            <span th:text="#{OrderBean.trackingCode}"></span>
+                                            <strong class="label label-success"  th:text="${orderBean.trackingCode}"></strong>
+                                        </p>
+                                    </div><!--  -->
+                                </div>
+                                <hr />
+                                <div class="row">
                                     <div class="col-md-8"  th:if="${orderBean.status} eq 0">
                                         <form class="" method="post" th:action="@{/admin/order/__${orderBean.id}__/start}">
                                             <div class="form-group">
-	                                            <div class="input-group">
+                                                <div class="input-group">
                                                     <input type="text" name="payLink" class="form-control" th:placehold="#{OrderBean.payLink}"/>
                                                     <span class="input-group-btn">
                                                         <button type="submit" class="btn btn-success" th:text="#{order.start}"></button>
@@ -69,14 +94,7 @@
                                             </div>
                                         </form>
                                     </div><!--  -->
-                                    <div class="col-md-4"  th:if="${orderBean.status} eq 1">
-                                        <a th:href="${orderBean.payLink}" 
-                                            target="_blank" class="btn btn-primary">
-                                            <span class="glyphicon glyphicon-yen"></span>
-                                            <span class="" th:text="#{OrderBean.payLink}"></span>
-                                        </a>
-                                    </div><!--  -->
-                                    <div class="col-md-4"  th:if="${orderBean.status} eq 1">
+                                    <div class="col-md-8"  th:if="${orderBean.status} eq 1">
                                         <form class="" method="post" th:action="@{/admin/order/__${orderBean.id}__/pay}" >
                                             <div class="input-group">
                                                 <input type="text" name="payNo" class="form-control" th:placehold="#{OrderBean.payNo}"/>
@@ -86,18 +104,15 @@
                                             </div>
                                         </form>
                                     </div><!--  -->
-                                    <div class="col-md-4"  th:if="${orderBean.payNo}">
-                                        <span th:text="#{OrderBean.payNo}"></span>
-                                        <strong class="" th:text="${orderBean.payNo}"></strong>
-                                        <a class="btn btn-primary" 
-                                            th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
-                                            target="_blank">
-                                            <span class="glyphicon glyphicon-search"></span>
-                                        </a>
-                                    </div><!--  -->
-                                    <div class="col-md-4"  th:if="${orderBean.status} eq 2">
+                                    <div class="col-md-4" th:if="${orderBean.status} eq 2">
                                         <form class="" method="post"
-                                            th:action="@{/admin/order/__${orderBean.id}__/send}" >
+                                            th:action="@{/admin/order/__${orderBean.id}__/send/group}" >
+                                            <button type="submit" class="btn btn-success" th:text="#{admin.order.send.group}"></button>
+                                        </form>
+                                    </div><!--  -->
+                                    <div class="col-md-8" th:classappend="${orderBean.status} eq 3 ? 'col-md-offset-4'" th:if="${orderBean.status} eq 2 or ${orderBean.status} eq 3">
+                                        <form class="" method="post"
+                                            th:action="@{/admin/order/__${orderBean.id}__/send/direct}" >
                                             <div class="input-group">
                                                 <input type="text" name="trackingCode" class="form-control" th:placehold="#{OrderBean.trackingCode}"/>
                                                 <span class="input-group-btn">
@@ -106,21 +121,13 @@
                                             </div>
                                         </form>
                                     </div><!--  -->
-                                    <div class="col-md-2" th:if="${orderBean.trackingCode}">
-                                        <p class="form-control-static">
-                                            <span th:text="#{OrderBean.trackingCode}"></span>
-                                            <strong class="label label-success"  th:text="${orderBean.trackingCode}"></strong>
-                                        </p>
-                                    </div><!--  -->
-                                    <div class="col-md-2 text-right" th:if="${orderBean.status} eq 3">
+                                    <div class="col-md-12 text-right" th:if="${orderBean.status} eq 4">
                                         <form class="form-inline" method="post"
                                             th:action="@{/admin/order/__${orderBean.id}__/finish}" >
                                             <button type="submit" class="btn btn-success" th:text="#{order.finish}"></button>
                                         </form>
                                     </div><!--  -->
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 text-right" th:if="${orderBean.status} lt 2">
+                                    <div class="col-md-4 text-right" th:if="${orderBean.status} lt 2">
                                         <p class="form-control-static">
                                             <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
                                                th:text="#{order.cancel}" class="btn btn-danger" ></a>

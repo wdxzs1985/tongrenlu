@@ -34,35 +34,46 @@
                         <div class="panel card">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-2">
-                                        <p class="form-control-static" th:switch="${orderBean.status}">
-                                            <span th:text="#{OrderBean.status}"></span>
-                                            <strong th:case="0" th:text="#{console.order.created}"></strong>
-                                            <strong th:case="1" th:text="#{console.order.started}"></strong>
-                                            <strong th:case="2" th:text="#{console.order.paid}"></strong>
-                                            <strong th:case="3" th:text="#{console.order.send}"></strong>
-                                            <strong th:case="4" th:text="#{console.order.received}"></strong>
-                                            <strong th:case="9" th:text="#{console.order.canceled}"></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2" th:if="${orderBean.shopper} != null">
+                                    <div class="col-md-3" th:if="${orderBean.shopper} != null">
                                         <p class="form-control-static">
                                             <span th:text="#{OrderBean.shopper}"></span>
                                             <strong th:text="${orderBean.shopper}"></strong>
                                         </p>
                                     </div>
-                                    <div class="col-md-4" th:if="!${#strings.isEmpty(orderBean.trackingCode)}">
-                                        <p class="form-control-static" >
-                                            <span th:text="#{OrderBean.trackingCode}"></span>
-                                            <strong th:text="${orderBean.trackingCode}"></strong>
+                                    <div class="col-md-3">
+                                        <p class="form-control-static" th:switch="${orderBean.status}">
+                                            <span th:text="#{OrderBean.status}"></span>
+                                            <strong class="label label-default" th:case="0" th:text="#{console.order.created}"></strong>
+                                            <strong class="label label-primary" th:case="1" th:text="#{console.order.started}"></strong>
+                                            <strong class="label label-warning" th:case="2" th:text="#{console.order.paid}"></strong>
+                                            <strong class="label label-info" th:case="3" th:text="#{console.order.send}"></strong>
+                                            <strong class="label label-success" th:case="4" th:text="#{console.order.send}"></strong>
+                                            <strong class="label label-success" th:case="5" th:text="#{console.order.received}"></strong>
+                                            <strong class="label label-default" th:case="9" th:text="#{console.order.canceled}"></strong>
                                         </p>
-                                    </div>
-                                    <div class="col-md-4" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
+                                    </div><!--  -->
+                                    <div class="col-md-3" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
                                         <a th:href="${orderBean.payLink}" 
                                             target="_blank" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-yen"></span>
                                             <span class="" th:text="#{OrderBean.payLink}"></span>
                                         </a>
+                                    </div>
+                                    <div class="col-md-3" th:if="${orderBean.payNo}">
+                                        <p class="form-control-static" >
+                                            <span th:text="#{OrderBean.payNo}"></span>
+                                            <a th:href="@{http://tradearchive.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
+                                                th:text="${orderBean.payNo}"
+                                                class="btn btn-primary btn-xs" target="_blank">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </a>
+                                        </p>
+                                    </div><!--  -->
+                                    <div class="col-md-3" th:if="!${#strings.isEmpty(orderBean.trackingCode)}">
+                                        <p class="form-control-static" >
+                                            <span th:text="#{OrderBean.trackingCode}"></span>
+                                            <strong th:text="${orderBean.trackingCode}"></strong>
+                                        </p>
                                     </div>
                                 </div>
                             </div>

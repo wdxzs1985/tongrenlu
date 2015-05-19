@@ -188,17 +188,30 @@ public class AdminOrderController {
         return "redirect:/admin/order/" + orderId;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/send")
-    public String doPostSend(@PathVariable final Integer orderId,
-                             final String trackingCode,
-                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/send/group")
+    public String doPostSendGroup(@PathVariable final Integer orderId,
+                                  @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                  final Model model,
+                                  final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+
+        orderBean.setStatus(OrderBean.STATUS_SEND_GROUP);
+        this.orderService.updateOrderStatus(orderBean, locale);
+        return "redirect:/admin/order/" + orderId;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/send/direct")
+    public String doPostSendDirect(@PathVariable final Integer orderId,
+                                   final String trackingCode,
+                                   @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                   final Model model,
+                                   final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
 
         orderBean.setTrackingCode(trackingCode);
-        orderBean.setStatus(OrderBean.STATUS_SEND);
+        orderBean.setStatus(OrderBean.STATUS_SEND_DIRECT);
         this.orderService.updateOrderStatus(orderBean, locale);
         return "redirect:/admin/order/" + orderId;
     }

@@ -80,9 +80,15 @@ public class ConsoleOrderService {
     public void updateOrderStatus(final OrderBean orderBean, final Locale locale) {
         this.orderManager.updateOrderStatus(orderBean);
         if (OrderBean.STATUS_CREATE == (orderBean.getStatus())) {
-            this.orderManager.createOrderItem(orderBean);
+            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_CREATE);
         } else if (OrderBean.STATUS_CANCEL == (orderBean.getStatus())) {
-            this.orderManager.cancelOrderItem(orderBean);
+            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_CANCEL);
+        } else if (OrderBean.STATUS_SEND_DIRECT == (orderBean.getStatus())) {
+            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_SEND_DIRECT);
+        } else if (OrderBean.STATUS_SEND_GROUP == (orderBean.getStatus())) {
+            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_SEND_GROUP);
+        } else if (OrderBean.STATUS_FINISH == (orderBean.getStatus())) {
+            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_FINISH);
         }
 
         final MailModel mailModel = this.mailResolvor.createMailModel(locale);
@@ -113,8 +119,11 @@ public class ConsoleOrderService {
         case OrderBean.STATUS_PAID:
             mailModel.setTemplate("order_paid");
             break;
-        case OrderBean.STATUS_SEND:
-            mailModel.setTemplate("order_send");
+        case OrderBean.STATUS_SEND_GROUP:
+            mailModel.setTemplate("order_send_group");
+            break;
+        case OrderBean.STATUS_SEND_DIRECT:
+            mailModel.setTemplate("order_send_direct");
             break;
         case OrderBean.STATUS_FINISH:
             mailModel.setTemplate("order_finish");
@@ -167,8 +176,11 @@ public class ConsoleOrderService {
             case OrderBean.STATUS_PAID:
                 dashboard.put("paidCount", count);
                 break;
-            case OrderBean.STATUS_SEND:
-                dashboard.put("sendCount", count);
+            case OrderBean.STATUS_SEND_GROUP:
+                dashboard.put("sendGroupCount", count);
+                break;
+            case OrderBean.STATUS_SEND_DIRECT:
+                dashboard.put("sendDirectCount", count);
                 break;
             default:
                 break;
@@ -179,7 +191,6 @@ public class ConsoleOrderService {
 
     public void deleteOrder(final OrderBean orderBean) {
         this.orderManager.delete(orderBean);
-        this.orderManager.cancelOrderItem(orderBean);
     }
 
     public OrderBean mergeOrder(final Integer userId, final Locale locale) {
