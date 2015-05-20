@@ -34,45 +34,43 @@
                         <div class="panel card">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-3" th:if="${orderBean.shopper} != null">
+                                    <div class="col-md-2" th:if="${orderBean.shopper} != null">
                                         <p class="form-control-static">
                                             <span th:text="#{OrderBean.shopper}"></span>
                                             <strong th:text="${orderBean.shopper}"></strong>
                                         </p>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <p class="form-control-static" th:switch="${orderBean.status}">
                                             <span th:text="#{OrderBean.status}"></span>
-                                            <strong class="label label-default" th:case="0" th:text="#{console.order.created}"></strong>
-                                            <strong class="label label-primary" th:case="1" th:text="#{console.order.started}"></strong>
-                                            <strong class="label label-warning" th:case="2" th:text="#{console.order.paid}"></strong>
-                                            <strong class="label label-info" th:case="3" th:text="#{console.order.send}"></strong>
-                                            <strong class="label label-success" th:case="4" th:text="#{console.order.send}"></strong>
-                                            <strong class="label label-success" th:case="5" th:text="#{console.order.received}"></strong>
-                                            <strong class="label label-default" th:case="9" th:text="#{console.order.canceled}"></strong>
+                                            <strong class="label label-default" th:case="0" th:text="#{OrderBean.status.created}"></strong>
+                                            <strong class="label label-primary" th:case="1" th:text="#{OrderBean.status.started}"></strong>
+                                            <strong class="label label-warning" th:case="2" th:text="#{OrderBean.status.paid}"></strong>
+                                            <strong class="label label-info" th:case="3" th:text="#{OrderBean.status.send.group}"></strong>
+                                            <strong class="label label-success" th:case="4" th:text="#{OrderBean.status.send.direct}"></strong>
+                                            <strong class="label label-success" th:case="5" th:text="#{OrderBean.status.finish}"></strong>
+                                            <strong class="label label-default" th:case="9" th:text="#{OrderBean.status.canceled}"></strong>
                                         </p>
                                     </div><!--  -->
-                                    <div class="col-md-3" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
+                                    <div class="col-md-4" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
                                         <a th:href="${orderBean.payLink}" 
                                             target="_blank" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-yen"></span>
                                             <span class="" th:text="#{OrderBean.payLink}"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-3" th:if="${orderBean.payNo}">
-                                        <p class="form-control-static" >
+                                    <div class="col-md-4" th:if="${orderBean.payNo}">
                                             <span th:text="#{OrderBean.payNo}"></span>
                                             <a th:href="@{http://tradearchive.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
                                                 th:text="${orderBean.payNo}"
-                                                class="btn btn-primary btn-xs" target="_blank">
+                                                class="btn btn-primary" target="_blank">
                                                 <span class="glyphicon glyphicon-search"></span>
                                             </a>
-                                        </p>
                                     </div><!--  -->
-                                    <div class="col-md-3" th:if="!${#strings.isEmpty(orderBean.trackingCode)}">
-                                        <p class="form-control-static" >
+                                    <div class="col-md-4" th:if="!${#strings.isEmpty(orderBean.trackingCode)}">
+                                        <p class="form-control-static">
                                             <span th:text="#{OrderBean.trackingCode}"></span>
-                                            <strong th:text="${orderBean.trackingCode}"></strong>
+                                            <strong class="label label-success"  th:text="${orderBean.trackingCode}"></strong>
                                         </p>
                                     </div>
                                 </div>
@@ -80,7 +78,7 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <th class="text-center" style="width:50%" th:text="#{OrderItemBean.title}">title</th>
+                                        <th class="text-center" style="width:40%" th:text="#{OrderItemBean.title}">title</th>
                                         <th class="text-center" th:text="#{OrderItemBean.price}">price</th>
                                         <th class="text-center" th:text="#{OrderItemBean.quantity}">quantity</th>
                                         <th class="text-center" th:text="#{OrderBean.amount}">amountJp</th>
@@ -122,6 +120,18 @@
                                             <div th:case="2" >
                                                 <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
                                                 <p class="help-block" th:text="${#dates.format(item.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
+                                            </div>
+                                            <div th:case="3" >
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.send.group}"></p>
+                                            </div>
+                                            <div th:case="4" >
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.send.direct}"></p>
+                                            </div>
+                                            <div th:case="5" >
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.finish}"></p>
+                                            </div>
+                                            <div th:case="9" >
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
                                             </div>
                                         </td>
                                     </tr>

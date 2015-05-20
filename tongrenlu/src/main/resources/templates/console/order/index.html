@@ -57,31 +57,31 @@
                             </td>
                             <td class="text-center" th:switch="${orderBean.status}">
                                 <div th:case="0" >
-                                    <p class="form-control-static" th:text="#{console.order.created}"></p>
+                                    <p class="form-control-static" th:text="#{OrderBean.status.created}"></p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.createDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                                 <div th:case="1" >
-                                    <p class="form-control-static" th:text="#{console.order.started}">Order Created</p>
+                                    <p class="form-control-static" th:text="#{OrderBean.status.started}">Order Created</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.orderDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                                 <div th:case="2" >
-                                    <p class="form-control-static" th:text="#{console.order.paid}">Order Paid</p>
+                                    <p class="form-control-static" th:text="#{OrderBean.status.paid}">Order Paid</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.payDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                                 <div th:case="3" >
-                                    <p class="form-control-static" th:text="#{console.order.send}">Package Send</p>
+                                    <p class="form-control-static" th:text="#{OrderBean.status.send.group}">Package Send</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.sendDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                                 <div th:case="4" >
-                                    <p class="form-control-static" th:text="#{console.order.send}">Package Send</p>
+                                    <p class="form-control-static" th:text="#{OrderBean.status.send.direct}">Package Send</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.sendDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                                 <div th:case="5" >
-                                    <p class="form-control-static" th:text="#{console.order.received}">Package Received</p>
+                                    <p class="form-control-static" th:text="#{OrderBean.status.finish}">Package Received</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.receiveDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                                 <div th:case="9" >
-                                    <p class="form-control-static" th:text="#{console.order.canceled}">Package Received</p>
+                                    <p class="form-control-static" th:text="#{OrderBean.status.canceled}">Package Received</p>
                                     <p class="help-block" th:text="${#dates.format(orderBean.cancelDate, 'yyyy/MM/dd HH:mm')}"></p>
                                 </div>
                             </td>
