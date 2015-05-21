@@ -53,17 +53,17 @@
                         </a>
                     </li>
                     <li class="hidden-xs" th:classappend="${status} eq 3 ? 'active'">
-                        <a th:href="@{/admin/order/user/__${userBean.id}__(status=3)}">
+                        <a th:href="@{/admin/order(status=3)}">
                             <span class="glyphicon" th:classappend="${status} eq 3 ? 'glyphicon-star' : 'glyphicon-star-empty'"></span>
-                            <span class="" th:text="#{OrderBean.status.send}"></span>
-                            <span class="badge" th:text="${sendCount}" th:if="${sendCount} != null and ${sendCount} > 0"></span>
+                            <span class="" th:text="#{OrderBean.status.send.group}"></span>
+                            <span class="badge" th:text="${sendGroupCount}" th:if="${sendGroupCount} != null and ${sendGroupCount} > 0"></span>
                         </a>
                     </li>
                     <li class="hidden-xs" th:classappend="${status} eq 4 ? 'active'">
-                        <a th:href="@{/admin/order/user/__${userBean.id}__(status=4)}">
+                        <a th:href="@{/admin/order(status=4)}">
                             <span class="glyphicon" th:classappend="${status} eq 4 ? 'glyphicon-star' : 'glyphicon-star-empty'"></span>
-                            <span class="" th:text="#{OrderBean.status.send}"></span>
-                            <span class="badge" th:text="${sendCount}" th:if="${sendCount} != null and ${sendCount} > 0"></span>
+                            <span class="" th:text="#{OrderBean.status.send.direct}"></span>
+                            <span class="badge" th:text="${sendDirectCount}" th:if="${sendDirectCount} != null and ${sendDirectCount} > 0"></span>
                         </a>
                     </li>
                 </ul>
