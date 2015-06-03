@@ -32,7 +32,6 @@ public class ShopManager implements InitializingBean {
     public void updateDefaultShop(final ShopBean shopBean) {
         shopBean.setId(DEFAULT_SHOP_ID);
         this.shopMapper.update(shopBean);
-
         this.defaltShop = this.getShop(DEFAULT_SHOP_ID);
     }
 
@@ -41,4 +40,5 @@ public class ShopManager implements InitializingBean {
         params.put("shopId", shopId);
         return this.shopMapper.fetchBean(params);
     }
+
 }

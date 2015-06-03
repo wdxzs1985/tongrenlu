@@ -109,6 +109,10 @@ public class HomeShopController {
         model.put("orderBean", orderBean);
         model.put("itemList", itemList);
 
+        model.put("emsPrice", this.shopOrderService.getEmsPrice(orderBean.getQuantity()));
+        model.put("salPrice", this.shopOrderService.getSalPrice(orderBean.getQuantity()));
+        model.put("groupPrice", this.shopOrderService.getGroupPrice(orderBean.getQuantity()));
+
         return model;
     }
 

@@ -138,7 +138,7 @@ var Cart = function(options) {
 			}).on('click', 'a.btn-clear', function(e) {
 				e.preventDefault();
 				_cart.clear();
-			}).on('change', 'input', function() {
+			}).on('change', 'input[name="quantity"]', function() {
 				var title = $(this).data('title');
 				var quantity = $(this).val();
 
@@ -150,10 +150,11 @@ var Cart = function(options) {
 					_cart.update(title, quantity);
 					_cart.updatetimeout = null;
 				}, 500);
-			}).on('submit', 'form', function() {
-				return window.confirm('确定下单吗？');
-			});
-
+			}).on('change', 'input[name="shipping"]', function() {
+				if(window.confirm($(this).val() + "?")) {
+					$('#order-form').submit();
+				}
+			})
 		}
 	};
 

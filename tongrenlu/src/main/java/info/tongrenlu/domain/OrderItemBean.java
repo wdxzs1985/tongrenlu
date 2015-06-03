@@ -92,6 +92,10 @@ public class OrderItemBean extends DtoBean {
         return this.fee;
     }
 
+    public BigDecimal getTotalFee() {
+        return this.fee.multiply(this.quantity.subtract(BigDecimal.ONE));
+    }
+
     public void setFee(final BigDecimal fee) {
         this.fee = fee;
     }
@@ -105,7 +109,7 @@ public class OrderItemBean extends DtoBean {
     }
 
     public BigDecimal getTotal() {
-        return this.getAmountCn().add(this.fee);
+        return this.getAmountCn().add(this.getTotalFee());
     }
 
     public Integer getStatus() {

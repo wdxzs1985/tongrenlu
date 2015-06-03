@@ -3,9 +3,12 @@ package info.tongrenlu.manager;
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.mapper.EmsMapper;
 import info.tongrenlu.mapper.OrderItemMapper;
 import info.tongrenlu.mapper.OrderMapper;
+import info.tongrenlu.mapper.SalMapper;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +25,12 @@ public class OrderManager {
 
     @Autowired
     private OrderItemMapper orderItemMapper = null;
+
+    @Autowired
+    private EmsMapper emsMapper = null;
+
+    @Autowired
+    private SalMapper salMapper = null;
 
     public void insertOrder(final OrderBean orderBean) {
         this.orderMapper.insert(orderBean);
@@ -106,4 +115,15 @@ public class OrderManager {
         return this.orderMapper.fetchList(params);
     }
 
+    public Integer getEmsPrice(final BigDecimal quantity) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("quantity", quantity);
+        return this.emsMapper.fetchPrice(params);
+    }
+
+    public Integer getSalPrice(final BigDecimal quantity) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("quantity", quantity);
+        return this.salMapper.fetchPrice(params);
+    }
 }

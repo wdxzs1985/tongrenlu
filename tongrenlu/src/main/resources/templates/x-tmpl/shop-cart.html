@@ -47,7 +47,7 @@
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(item.total).format('0,0.00') %} 元</p>
-                    <p class="help-block" >(内含手续费: {%= numeral(item.fee).format('0,0.00') %} 元)</p>
+                    <p class="help-block" >(内含手续费: {%= numeral(item.totalFee ).format('0,0.00') %} 元)</p>
                 </td>
                 <td class="text-center" >
                     <a class="btn btn-danger btn-remove" data-title="{%= item.title %}">
@@ -77,8 +77,18 @@
                     <a href="javascript:;" class="btn btn-danger btn-clear" th:text="#{button.clear}">clear</a>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <form th:action="@{/shop/order}" method="post">
-                        <button type="submit" class="btn btn-success" th:text="#{button.order}">order</button>
+                    <form id="order-form" th:action="@{/shop/order}" method="post">
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary ">
+    <input type="radio" value="ems" name="shipping" id="shipByEms" autocomplete="off"/> EMS ({%= numeral(o.emsPrice).format('0,0.00') %})
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" value="sal" name="shipping" id="shipBySal" autocomplete="off"/> SAL ({%= numeral(o.salPrice).format('0,0.00') %})
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" value="group" name="shipping" id="shipByGroup" autocomplete="off"/> GROUP ({%= numeral(o.groupPrice).format('0,0.00') %})
+  </label>
+</div>
                     </form> 
                 </div>
             </div>

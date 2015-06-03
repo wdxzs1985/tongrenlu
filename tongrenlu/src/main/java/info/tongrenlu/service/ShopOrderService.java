@@ -16,7 +16,6 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -213,8 +212,7 @@ public class ShopOrderService {
             BigDecimal amountCn = BigDecimal.ZERO;
             BigDecimal fee = BigDecimal.ZERO;
             BigDecimal total = BigDecimal.ZERO;
-
-            final Map<String, BigDecimal> shippingMap = new HashMap<>();
+            BigDecimal quantity = BigDecimal.ZERO;
 
             for (final OrderItemBean item : shoppingCart.values()) {
                 item.setOrderBean(orderBean);
@@ -222,26 +220,36 @@ public class ShopOrderService {
 
                 amountJp = amountJp.add(item.getAmountJp());
                 amountCn = amountCn.add(item.getAmountCn());
-                fee = fee.add(item.getFee());
+                fee = fee.add(item.getTotalFee());
                 total = total.add(item.getTotal());
                 itemList.add(item);
 
-                if (StringUtils.isNotBlank(item.getShop())) {
-                    final String shop = item.getShop();
-                    BigDecimal shopTotal = shippingMap.get(shop);
-                    if (shopTotal == null) {
-                        shopTotal = BigDecimal.ZERO;
-                    }
-                    shopTotal = shopTotal.add(item.getAmountJp());
-                    shippingMap.put(shop, shopTotal);
-                }
+                quantity = quantity.add(item.getQuantity());
             }
 
             orderBean.setAmountJp(amountJp);
             orderBean.setAmountCn(amountCn);
             orderBean.setFee(fee);
             orderBean.setTotal(total);
+
+            orderBean.setQuantity(quantity);
         }
         return itemList;
+    }
+
+    public BigDecimal getEmsPrice(final BigDecimal quantity) {
+        final Integer price = this.orderManager.getEmsPrice(quantity);
+        final BigDecimal exchageRate = this.shopManager.getDefaultShop().getExchangeRate();
+        return exchageRate.multiply(BigDecimal.valueOf(price));
+    }
+
+    public BigDecimal getSalPrice(final BigDecimal quantity) {
+        final Integer price = this.orderManager.getSalPrice(quantity);
+        final BigDecimal exchageRate = this.shopManager.getDefaultShop().getExchangeRate();
+        return exchageRate.multiply(BigDecimal.valueOf(price));
+    }
+
+    public BigDecimal getGroupPrice(final BigDecimal quantity) {
+        return BigDecimal.valueOf(5).multiply(quantity).add(BigDecimal.TEN);
     }
 }

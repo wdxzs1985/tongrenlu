@@ -47,6 +47,8 @@ public class OrderBean extends DtoBean {
 
     private Integer status = STATUS_CREATE;
 
+    private BigDecimal quantity = BigDecimal.ZERO;
+
     public UserBean getUserBean() {
         return this.userBean;
     }
@@ -181,6 +183,14 @@ public class OrderBean extends DtoBean {
 
     public void setPayNo(final String payNo) {
         this.payNo = payNo;
+    }
+
+    public BigDecimal getQuantity() {
+        return this.quantity;
+    }
+
+    public void setQuantity(final BigDecimal quantity) {
+        this.quantity = quantity;
     }
 
 }
