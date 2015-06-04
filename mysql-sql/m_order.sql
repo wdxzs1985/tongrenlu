@@ -5,7 +5,9 @@ CREATE TABLE `m_order` (
   `amount_jp` decimal(10,3) NOT NULL DEFAULT '0.000',
   `amount_cn` decimal(10,3) NOT NULL DEFAULT '0.000',
   `fee` decimal(10,3) NOT NULL DEFAULT '0.000',
+  `shipping_fee` decimal(10,3) NOT NULL DEFAULT '0.000',
   `total` decimal(10,3) NOT NULL DEFAULT '0.000',
+  `shipping_method` int(1) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '0',
   `shopper_id` int(11) DEFAULT NULL,
   `pay_link` varchar(255) DEFAULT NULL,
@@ -20,4 +22,4 @@ CREATE TABLE `m_order` (
   `upd_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `del_flg` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
