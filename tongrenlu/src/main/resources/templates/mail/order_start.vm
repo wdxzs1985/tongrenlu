@@ -1,7 +1,7 @@
 #parse("templates/mail/order_header.vm")
 
-您的订单已经受理。
-请确认无误后，进行支付。
+您的订单已经开始处理。
+请确认价格无误后，进行支付。
 ---------------------------------------------
 
 #foreach ($item in $itemList)
@@ -10,8 +10,6 @@
 ---------------------------------------------
 总价: $number.format("#0.00", $orderBean.total) 元
 
-付款链接:
-${orderBean.payLink}
 ---------------------------------------------
 
 #parse("templates/mail/order_footer.vm")

@@ -126,4 +126,5 @@ public class OrderManager {
         params.put("quantity", quantity);
         return this.salMapper.fetchPrice(params);
     }
+
 }

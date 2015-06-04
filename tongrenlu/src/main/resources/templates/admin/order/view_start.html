@@ -62,30 +62,6 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6"  th:if="${orderBean.status} eq 1">
-                                        <a th:href="${orderBean.payLink}" 
-                                            target="_blank" class="btn btn-link">
-                                            <span class="glyphicon glyphicon-yen"></span>
-                                            <span class="" th:text="${orderBean.payLink}"></span>
-                                        </a>
-                                    </div><!--  -->
-                                    <div class="col-md-4" th:if="${orderBean.payNo}">
-                                            <span th:text="#{OrderBean.payNo}"></span>
-                                            <a th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
-                                                th:text="${orderBean.payNo}"
-                                                class="btn btn-primary" target="_blank">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </a>
-                                    </div><!--  -->
-                                    <div class="col-md-4" th:if="${orderBean.trackingCode}">
-                                        <p class="form-control-static">
-                                            <span th:text="#{OrderBean.trackingCode}"></span>
-                                            <strong class="label label-success"  th:text="${orderBean.trackingCode}"></strong>
-                                        </p>
-                                    </div><!--  -->
-                                </div>
-
                             </div>
                             <div class="table-responsive" th:if="${orderBean.status == 0}">
                                 <form th:action="@{/admin/order/__${orderBean.id}__}" method="post" th:if="${orderBean.status == 0}">
@@ -247,22 +223,10 @@
                                             </div>
                                         </form>
                                     </div><!--  -->
-                                    <div class="col-md-12 text-right" th:if="${orderBean.status} eq 4">
-                                        <form class="form-inline" method="post"
-                                            th:action="@{/admin/order/__${orderBean.id}__/finish}" >
-                                            <button type="submit" class="btn btn-success" th:text="#{order.finish}"></button>
-                                        </form>
-                                    </div><!--  -->
                                     <div class="col-md-4 text-right" th:if="${orderBean.status} lt 2">
                                         <p class="form-control-static">
                                             <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
                                                th:text="#{order.cancel}" class="btn btn-danger" ></a>
-                                        </p>
-                                    </div><!--  -->
-                                    <div class="col-md-12 text-right" th:if="${orderBean.status} eq 9">
-                                        <p class="form-control-static">
-                                            <a th:href="@{/admin/order/__${orderBean.id}__/restore}" 
-                                               th:text="#{order.restore}" class="btn btn-danger" ></a>
                                         </p>
                                     </div><!--  -->
                                 </div>

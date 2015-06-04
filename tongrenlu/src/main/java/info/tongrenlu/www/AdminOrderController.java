@@ -111,6 +111,29 @@ public class AdminOrderController {
         final List<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
         model.addAttribute("orderBean", orderBean);
         model.addAttribute("itemList", itemList);
+
+        switch (orderBean.getStatus()) {
+        case OrderBean.STATUS_CREATE:
+            return "admin/order/view_create";
+
+        case OrderBean.STATUS_START:
+            return "admin/order/view_start";
+
+        case OrderBean.STATUS_PAID:
+            return "admin/order/view_paid";
+
+        case OrderBean.STATUS_SEND_DIRECT:
+            return "admin/order/view_send_direct";
+
+        case OrderBean.STATUS_SEND_GROUP:
+            return "admin/order/view_send_group";
+
+        case OrderBean.STATUS_FINISH:
+            return "admin/order/view_finish";
+
+        default:
+            break;
+        }
         return "admin/order/view";
     }
 
@@ -136,10 +159,13 @@ public class AdminOrderController {
                              @RequestParam("exchangeRate[]") final BigDecimal[] exchangeRateArray,
                              @RequestParam("fee[]") final BigDecimal[] feeArray,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Integer shippingMethod,
                              final Model model,
                              final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
+
+        orderBean.setShippingMethod(shippingMethod);
 
         final List<OrderItemBean> itemList = new ArrayList<OrderItemBean>();
         for (int i = 0; i < orderItemIdArray.length; i++) {
@@ -160,13 +186,11 @@ public class AdminOrderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/start")
     public String doPostStart(@PathVariable final Integer orderId,
-                              final String payLink,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
                               final Model model,
                               final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
-        orderBean.setPayLink(payLink);
         orderBean.setShopper(loginUser);
         orderBean.setStatus(OrderBean.STATUS_START);
         this.orderService.updateOrderStatus(orderBean, locale);

@@ -6,6 +6,7 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.mail.MailModel;
 import info.tongrenlu.mail.MailResolvor;
 import info.tongrenlu.manager.OrderManager;
+import info.tongrenlu.manager.ShopManager;
 import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
 
@@ -28,6 +29,8 @@ public class ConsoleOrderService {
 
     @Autowired
     private OrderManager orderManager = null;
+    @Autowired
+    private ShopManager shopManager = null;
     @Autowired
     private UserManager userManager = null;
     @Autowired
@@ -60,17 +63,37 @@ public class ConsoleOrderService {
             BigDecimal amountCn = BigDecimal.ZERO;
             BigDecimal fee = BigDecimal.ZERO;
             BigDecimal total = BigDecimal.ZERO;
+            BigDecimal quantity = BigDecimal.ZERO;
+            BigDecimal shippingFee = BigDecimal.ZERO;
 
             for (final OrderItemBean item : itemList) {
                 amountJp = amountJp.add(item.getAmountJp());
                 amountCn = amountCn.add(item.getAmountCn());
-                fee = fee.add(item.getFee());
+                fee = fee.add(item.getTotalFee());
                 total = total.add(item.getTotal());
+                quantity = quantity.add(item.getQuantity());
+
                 this.orderManager.updateOrderItem(item);
             }
+
+            switch (orderBean.getShippingMethod()) {
+            case OrderBean.SHIPPING_EMS:
+                shippingFee = (this.getEmsPrice(quantity));
+                break;
+            case OrderBean.SHIPPING_SAL:
+                shippingFee = (this.getSalPrice(quantity));
+                break;
+            case OrderBean.SHIPPING_GROUP:
+                shippingFee = (this.getGroupPrice(quantity));
+                break;
+            }
+            total = total.add(shippingFee);
+
+            orderBean.setQuantity(quantity);
             orderBean.setAmountJp(amountJp);
             orderBean.setAmountCn(amountCn);
             orderBean.setFee(fee);
+            orderBean.setShippingFee(shippingFee);
             orderBean.setTotal(total);
 
             this.orderManager.update(orderBean);
@@ -225,19 +248,37 @@ public class ConsoleOrderService {
                 BigDecimal amountCn = BigDecimal.ZERO;
                 BigDecimal fee = BigDecimal.ZERO;
                 BigDecimal total = BigDecimal.ZERO;
+                BigDecimal quantity = BigDecimal.ZERO;
+                BigDecimal shippingFee = BigDecimal.ZERO;
 
                 for (final OrderItemBean item : newItemList) {
                     amountJp = amountJp.add(item.getAmountJp());
                     amountCn = amountCn.add(item.getAmountCn());
-                    fee = fee.add(item.getFee());
+                    fee = fee.add(item.getTotalFee());
                     total = total.add(item.getTotal());
+                    quantity = quantity.add(item.getQuantity());
 
                     item.setOrderBean(orderBean);
                 }
 
+                switch (orderBean.getShippingMethod()) {
+                case OrderBean.SHIPPING_EMS:
+                    shippingFee = (this.getEmsPrice(quantity));
+                    break;
+                case OrderBean.SHIPPING_SAL:
+                    shippingFee = (this.getSalPrice(quantity));
+                    break;
+                case OrderBean.SHIPPING_GROUP:
+                    shippingFee = (this.getGroupPrice(quantity));
+                    break;
+                }
+                total = total.add(shippingFee);
+
+                orderBean.setQuantity(quantity);
                 orderBean.setAmountJp(amountJp);
                 orderBean.setAmountCn(amountCn);
                 orderBean.setFee(fee);
+                orderBean.setShippingFee(shippingFee);
                 orderBean.setTotal(total);
 
                 this.orderManager.insertOrder(orderBean);
@@ -260,5 +301,21 @@ public class ConsoleOrderService {
             }
         }
         return null;
+    }
+
+    public BigDecimal getEmsPrice(final BigDecimal quantity) {
+        final Integer price = this.orderManager.getEmsPrice(quantity);
+        final BigDecimal exchageRate = this.shopManager.getDefaultShop().getExchangeRate();
+        return exchageRate.multiply(BigDecimal.valueOf(price));
+    }
+
+    public BigDecimal getSalPrice(final BigDecimal quantity) {
+        final Integer price = this.orderManager.getSalPrice(quantity);
+        final BigDecimal exchageRate = this.shopManager.getDefaultShop().getExchangeRate();
+        return exchageRate.multiply(BigDecimal.valueOf(price));
+    }
+
+    public BigDecimal getGroupPrice(final BigDecimal quantity) {
+        return BigDecimal.valueOf(5).multiply(quantity).add(BigDecimal.TEN);
     }
 }

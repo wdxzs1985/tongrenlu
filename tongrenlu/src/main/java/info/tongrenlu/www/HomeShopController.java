@@ -99,7 +99,7 @@ public class HomeShopController {
                                              final Locale locale) {
         final Map<String, Object> model = new HashMap<String, Object>();
         final OrderBean orderBean = this.shopOrderService.makeOrderBean(loginUser);
-        final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean, locale);
+        final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean);
 
         model.put("orderBean", orderBean);
         model.put("itemList", itemList);
@@ -161,7 +161,7 @@ public class HomeShopController {
         } else {
             final OrderBean orderBean = this.shopOrderService.makeOrderBean(loginUser);
             orderBean.setShippingMethod(shippingMethod);
-            final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean, locale);
+            final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean);
             this.shopOrderService.newOrder(orderBean, itemList, locale);
 
             return "redirect:/shop/order/finish";

@@ -202,9 +202,7 @@ public class ShopOrderService {
         return orderBean;
     }
 
-    public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart,
-                                            final OrderBean orderBean,
-                                            final Locale locale) {
+    public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart, final OrderBean orderBean) {
 
         final List<OrderItemBean> itemList = new ArrayList<>();
         if (!CollectionUtils.sizeIsEmpty(shoppingCart)) {

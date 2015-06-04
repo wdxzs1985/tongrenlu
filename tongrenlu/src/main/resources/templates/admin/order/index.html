@@ -78,8 +78,7 @@
                     <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th class="text-center" style="width:50%" th:text="#{OrderBean.title}">title</th>
-                            <th class="text-center" th:text="#{OrderBean.amount}">amountJp</th>
+                            <th class="text-center" style="width:70%" th:text="#{OrderBean.title}">title</th>
                             <th class="text-center" th:text="#{OrderBean.total}">total</th>
                             <th class="text-center" th:text="#{OrderBean.status}">status</th>
                         </tr>
@@ -101,9 +100,6 @@
                                         th:text="#{OrderBean.payNo} + ': ' + ${orderBean.payNo}" 
                                         th:if="${orderBean.payNo}"></a>
                                 </p>
-                            </td>
-                            <td class="text-center">
-                                <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp + item.tax</p>
                             </td>
                             <td class="text-center" >
                                 <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></p>

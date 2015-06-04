@@ -198,6 +198,8 @@
             amount_cn = #{amountCn},
             fee = #{fee},
             total = #{total},
+            shipping_method = #{shippingMethod},
+            shipping_fee = #{shippingFee},
         </set>
         <where>
             m_order.id = #{id}
