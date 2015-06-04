@@ -220,7 +220,8 @@ $(function() {
         useUi: false
     });
     $('#mai-mai-mai').click(function() {
-    	cart.add({
+    	var action = /*[[@{/shop/event}]]*/     '/shop/event';
+    	cart.add(action, {
             title: /*[[${articleBean.title}]]*/,
             url: /*[[@{http://www.tongrenlu.info/music/__${articleBean.id}__}]]*/
         });
