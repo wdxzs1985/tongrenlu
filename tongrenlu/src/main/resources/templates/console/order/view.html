@@ -34,43 +34,31 @@
                         <div class="panel card">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-2" th:if="${orderBean.shopper} != null">
-                                        <p class="form-control-static">
+                                    <div class="col-md-4">
+                                        <p class="" th:switch="${orderBean.status}">
+                                            <span class="text-lg" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></span>
+                                            <small class="label label-default" th:case="0" th:text="#{OrderBean.status.created}"></small>
+                                            <small class="label label-primary" th:case="1" th:text="#{OrderBean.status.started}"></small>
+                                            <small class="label label-warning" th:case="2" th:text="#{OrderBean.status.paid}"></small>
+                                            <small class="label label-info" th:case="3" th:text="#{OrderBean.status.send.group}"></small>
+                                            <small class="label label-success" th:case="4" th:text="#{OrderBean.status.send.direct}"></small>
+                                            <small class="label label-success" th:case="5" th:text="#{OrderBean.status.finish}"></small>
+                                            <small class="label label-default" th:case="9" th:text="#{OrderBean.status.canceled}"></small>
+                                        </p>
+                                    </div><!--  -->
+                                    <div class=" col-md-4" >
+                                        <p class="" th:switch="${orderBean.shippingMethod}">
+                                            <span class="text-md" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.shippingFee,1,'COMMA',2,'POINT')})}"></span>
+                                            
+                                            <span class="label label-primary" th:case="3" th:text="#{OrderBean.shipping.ems}"></span>
+                                            <span class="label label-success" th:case="2" th:text="#{OrderBean.shipping.sal}"></span>
+                                            <span class="label label-default" th:case="*" th:text="#{OrderBean.shipping.group}"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4" >
+                                        <p class="text-right" th:if="${orderBean.shopper}">
                                             <span th:text="#{OrderBean.shopper}"></span>
                                             <strong th:text="${orderBean.shopper}"></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <p class="form-control-static" th:switch="${orderBean.status}">
-                                            <span th:text="#{OrderBean.status}"></span>
-                                            <strong class="label label-default" th:case="0" th:text="#{OrderBean.status.created}"></strong>
-                                            <strong class="label label-primary" th:case="1" th:text="#{OrderBean.status.started}"></strong>
-                                            <strong class="label label-warning" th:case="2" th:text="#{OrderBean.status.paid}"></strong>
-                                            <strong class="label label-info" th:case="3" th:text="#{OrderBean.status.send.group}"></strong>
-                                            <strong class="label label-success" th:case="4" th:text="#{OrderBean.status.send.direct}"></strong>
-                                            <strong class="label label-success" th:case="5" th:text="#{OrderBean.status.finish}"></strong>
-                                            <strong class="label label-default" th:case="9" th:text="#{OrderBean.status.canceled}"></strong>
-                                        </p>
-                                    </div><!--  -->
-                                    <div class="col-md-4" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
-                                        <a th:href="${orderBean.payLink}" 
-                                            target="_blank" class="btn btn-primary">
-                                            <span class="glyphicon glyphicon-yen"></span>
-                                            <span class="" th:text="#{OrderBean.payLink}"></span>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4" th:if="${orderBean.payNo}">
-                                            <span th:text="#{OrderBean.payNo}"></span>
-                                            <a th:href="@{http://tradearchive.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
-                                                th:text="${orderBean.payNo}"
-                                                class="btn btn-primary" target="_blank">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </a>
-                                    </div><!--  -->
-                                    <div class="col-md-4" th:if="!${#strings.isEmpty(orderBean.trackingCode)}">
-                                        <p class="form-control-static">
-                                            <span th:text="#{OrderBean.trackingCode}"></span>
-                                            <strong class="label label-success"  th:text="${orderBean.trackingCode}"></strong>
                                         </p>
                                     </div>
                                 </div>
@@ -131,28 +119,38 @@
                                                 <p class="form-control-static" th:text="#{OrderItemBean.status.finish}"></p>
                                             </div>
                                             <div th:case="9" >
-                                                <p class="form-control-static" th:text="#{OrderItemBean.status.received}"></p>
+                                                <p class="form-control-static" th:text="#{OrderItemBean.status.canceled}"></p>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-center">
-                                            <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp + item.tax</p>
-                                        </td>
-                                        <td class="text-center" >
-                                            <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></p>
-                                            <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(orderBean.fee,1,'COMMA',2,'POINT')})})}"></p>
-                                        </td>
-                                        <td></td>
-                                    </tr>
                                 </table>
                             </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4" th:if="${orderBean.status} eq 1 and !${#strings.isEmpty(orderBean.payLink)}">
+                                        <a th:href="${orderBean.payLink}" 
+                                            target="_blank" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-yen"></span>
+                                            <span class="" th:text="#{OrderBean.payLink}"></span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4" th:if="${orderBean.payNo}">
+                                            <span th:text="#{OrderBean.payNo}"></span>
+                                            <a th:href="@{http://tradearchive.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}"
+                                                th:text="${orderBean.payNo}"
+                                                class="btn btn-primary" target="_blank">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </a>
+                                    </div><!--  -->
+                                    <div class="col-md-4" th:if="!${#strings.isEmpty(orderBean.trackingCode)}">
+                                        <p class="form-control-static">
+                                            <span th:text="#{OrderBean.trackingCode}"></span>
+                                            <strong class="label label-success"  th:text="${orderBean.trackingCode}"></strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="panel-footer">
-                                <a th:href="@{/console/order}" class="btn btn-default" 
-                                    th:text="#{button.back}">back</a>
                             </div>
                         </div>
                     </div>
