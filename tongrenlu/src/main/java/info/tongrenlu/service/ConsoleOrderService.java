@@ -86,6 +86,19 @@ public class ConsoleOrderService {
             case OrderBean.SHIPPING_GROUP:
                 shippingFee = (this.getGroupPrice(quantity));
                 break;
+            default:
+                final int quantityInt = quantity.intValue();
+                if (quantityInt > 15) {
+                    orderBean.setShippingMethod(OrderBean.SHIPPING_SAL);
+                    shippingFee = (this.getSalPrice(quantity));
+                } else if (quantityInt >= 10) {
+                    orderBean.setShippingMethod(OrderBean.SHIPPING_EMS);
+                    shippingFee = (this.getEmsPrice(quantity));
+                } else {
+                    orderBean.setShippingMethod(OrderBean.SHIPPING_GROUP);
+                    shippingFee = (this.getGroupPrice(quantity));
+                }
+                break;
             }
             total = total.add(shippingFee);
 
@@ -270,6 +283,19 @@ public class ConsoleOrderService {
                     break;
                 case OrderBean.SHIPPING_GROUP:
                     shippingFee = (this.getGroupPrice(quantity));
+                    break;
+                default:
+                    final int quantityInt = quantity.intValue();
+                    if (quantityInt > 15) {
+                        orderBean.setShippingMethod(OrderBean.SHIPPING_SAL);
+                        shippingFee = (this.getSalPrice(quantity));
+                    } else if (quantityInt >= 10) {
+                        orderBean.setShippingMethod(OrderBean.SHIPPING_EMS);
+                        shippingFee = (this.getEmsPrice(quantity));
+                    } else {
+                        orderBean.setShippingMethod(OrderBean.SHIPPING_GROUP);
+                        shippingFee = (this.getGroupPrice(quantity));
+                    }
                     break;
                 }
                 total = total.add(shippingFee);
