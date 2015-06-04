@@ -30,17 +30,12 @@
             <ul class="nav navbar-nav navbar-left">
                 <li class=""><a th:href="@{/music}" th:text="#{home.music}"></a></li>
                 <li class="dropdown hidden show-when-signin">
-                    <a href="javascript:;" class="dropdown-toggle " data-toggle="dropdown">
+                    <a th:href="@{/shop}" >
                         <span th:text="#{shop.cart}"></span> 
                         <span id="shop-cart-badge" class="badge" 
                             th:classappend="${session.shoppingCart == null or #maps.size(session.shoppingCart) == 0} ? 'hidden'" 
                             th:text="${session.shoppingCart != null and #maps.size(session.shoppingCart) > 0} ? ${#maps.size(session.shoppingCart)}">99</span>
-                        <b class="caret"></b>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li ><a th:href="@{/shop/mailorder}" th:text="#{shop.mailorder}" rel="nofollow"></a></li>
-                        <li ><a th:href="@{/shop/event}" th:text="#{shop.event}" rel="nofollow"></a></li>
-                    </ul>
                 </li>
             </ul>
             <ul id="nav-signin" class="nav navbar-nav navbar-right hidden hide-when-signin">

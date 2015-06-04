@@ -213,6 +213,7 @@ public class ShopOrderService {
             BigDecimal fee = BigDecimal.ZERO;
             BigDecimal total = BigDecimal.ZERO;
             BigDecimal quantity = BigDecimal.ZERO;
+            BigDecimal shippingFee = BigDecimal.ZERO;
 
             for (final OrderItemBean item : shoppingCart.values()) {
                 item.setOrderBean(orderBean);
@@ -227,12 +228,26 @@ public class ShopOrderService {
                 quantity = quantity.add(item.getQuantity());
             }
 
+            switch (orderBean.getShippingMethod()) {
+            case OrderBean.SHIPPING_EMS:
+                shippingFee = (this.getEmsPrice(quantity));
+                break;
+            case OrderBean.SHIPPING_SAL:
+                shippingFee = (this.getSalPrice(quantity));
+                break;
+            case OrderBean.SHIPPING_GROUP:
+                shippingFee = (this.getGroupPrice(quantity));
+                break;
+            }
+            total = total.add(shippingFee);
+
+            orderBean.setQuantity(quantity);
             orderBean.setAmountJp(amountJp);
             orderBean.setAmountCn(amountCn);
             orderBean.setFee(fee);
+            orderBean.setShippingFee(shippingFee);
             orderBean.setTotal(total);
 
-            orderBean.setQuantity(quantity);
         }
         return itemList;
     }

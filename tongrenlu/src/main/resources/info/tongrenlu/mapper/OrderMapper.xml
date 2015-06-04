@@ -14,6 +14,8 @@
            fee,
            total,
            status,
+           shipping_method,
+           shipping_fee,
            create_date
         </trim>
         ) VALUES (
@@ -25,6 +27,8 @@
            #{fee},
            #{total},
            0,
+           #{shippingMethod},
+           #{shippingFee},
            current_timestamp
         </trim>
         )
@@ -61,6 +65,8 @@
             m_order.fee,
             m_order.total,
             m_order.status,
+            m_order.shipping_method     as shippingMethod,
+            m_order.shipping_fee        as shippingFee,
             m_order.pay_link            as payLink,
             m_order.pay_no              as payNo,
             m_order.tracking_code       as trackingCode,
@@ -108,6 +114,8 @@
             m_order.fee,
             m_order.total,
             m_order.status,
+            m_order.shipping_method     as shippingMethod,
+            m_order.shipping_fee        as shippingFee,
             m_order.pay_link            as payLink,
             m_order.pay_no              as payNo,
             m_order.tracking_code       as trackingCode,
@@ -154,6 +162,8 @@
             m_order.fee,
             m_order.total,
             m_order.status,
+            m_order.shipping_method     as shippingMethod,
+            m_order.shipping_fee        as shippingFee,
             m_order.pay_link            as payLink,
             m_order.pay_no              as payNo,
             m_order.tracking_code       as trackingCode,

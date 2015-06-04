@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="shop/layout">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title th:text="#{shop.cart}"></title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="container-wrap container-header" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8" >
+                            <h1 ></h1>
+                            <div th:replace="shop/layout::header-alert">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-wrap container-wrap-darker" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mailorder-modal"
+                                th:text="#{shop.mailorder}">mailorder</button>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-default " data-toggle="modal" data-target="#event-modal"
+                                th:text="#{shop.event}">event</button>
+                        </div>
+                        <hr />
+                        <div class="col-md-12">
+                            <div id="shop-cart-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div layout:fragment="scripts">
+        
+<!-- mailorder-modal -->
+<div class="modal fade" id="mailorder-modal" tabindex="-1" role="dialog" aria-labelledby="mailorder-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="mailorder-modal-label" th:text="#{shop.mailorder}">mailorder-modal title</h4>
+      </div>
+      <div class="modal-body">
+        <form id="toranoana-form" class="shop-cart-form"  th:action="@{/shop/mailorder}" method="post">
+                        <div class="form-group">
+                            <a href="http://www.toranoana.jp/mailorder/" class="btn btn-warning" target="_blank" >
+                                <span th:text="#{shop.mailorder.toranoana}"></span>
+                                <span class="glyphicon glyphicon-new-window"></span>
+                            </a>
+                            <a href="https://www.melonbooks.co.jp/" class="btn btn-success"  target="_blank">
+                                <span th:text="#{shop.mailorder.melonbooks}"></span>
+                                <span class="glyphicon glyphicon-new-window"></span>
+                            </a>
+                        </div>
+<div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="url" value="" th:placeholder="#{shop.mailorder.placeholder}"/>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-warning" type="submit">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        <span th:text="#{button.add}"></span>
+                                    </button>
+                                </div><!-- /btn-group -->
+                            </div><!-- /input-group -->
+                        </div>
+                            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">Close</button>
+      </div>
+    </div>
+  </div>
+</div><!-- mailorder-modal -->
+<!-- event-modal -->
+<div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-labelledby="event-modal-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="event-modal-label" th:text="#{shop.event}">event-modal title</h4>
+      </div>
+      <div class="modal-body">
+<form id="shop-cart-form" class="shop-cart-form"  th:action="@{/shop/event}" method="post">
+                                <div class="row">
+                                    <div class="col-sm-8" >
+                                        <div class="form-group">
+                                            <label th:text="#{shop.event.title}">circle + title + location</label>
+                                            <input type="text" class="form-control" name="title" value="" 
+                                                th:placeholder="#{shop.event.title.placeholder}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="form-group">
+                                            <label th:text="#{OrderItemBean.price}"></label>
+                                            <input type="number" class="form-control" name="price" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="#{shop.event.url}"></label>
+                                    <input type="text" class="form-control" name="url" value="" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" th:text="#{button.add}" class="btn btn-warning"></button>
+                                </div>
+                            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div><!-- event-modal -->
+        
+            <script type="text/javascript" src="http://static.tongrenlu.info/Numeral/1.5.3/min/numeral.min.js"></script>
+            <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
+            <div th:replace="x-tmpl/shop-cart::template-shop-cart"></div>
+            <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-cart.js}"></script>
+            <script type="text/javascript" th:inline="javascript">
+                $(function() {
+                    var cart = new Cart({
+                        addUrl:     /*[[@{/shop/event}]]*/     '/shop/event',
+                        listUrl:    /*[[@{/shop/cart/list}]]*/          '/shop/cart/list',
+                        removeUrl:  /*[[@{/shop/cart/remove}]]*/        '/shop/cart/remove'
+                    });
+                    
+                });
+            </script>
+        </div>
+    </body>
+</html>

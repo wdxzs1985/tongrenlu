@@ -51,9 +51,9 @@ public class HomeShopController {
         return (UserBean) session.getAttribute("LOGIN_USER");
     }
 
-    @RequestMapping(value = "/mailorder", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String doGetMailOrder(final Model model) {
-        return "shop/mailorder";
+        return "shop/index";
     }
 
     @RequestMapping(value = "/mailorder", method = RequestMethod.POST)
@@ -71,11 +71,6 @@ public class HomeShopController {
             model.put("result", false);
         }
         return model;
-    }
-
-    @RequestMapping(value = "/event", method = RequestMethod.GET)
-    public String doGetEvent(final Model model) {
-        return "shop/event";
     }
 
     @RequestMapping(value = "/event", method = RequestMethod.POST)
@@ -158,12 +153,14 @@ public class HomeShopController {
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     public String doPostOrder(@ModelAttribute("shoppingCart") final Map<String, OrderItemBean> shoppingCart,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                              final Integer shippingMethod,
                               final Model model,
                               final Locale locale) {
         if (CollectionUtils.sizeIsEmpty(shoppingCart)) {
-            return "redirect:/shop/mailorder";
+            return "redirect:/shop";
         } else {
             final OrderBean orderBean = this.shopOrderService.makeOrderBean(loginUser);
+            orderBean.setShippingMethod(shippingMethod);
             final List<OrderItemBean> itemList = this.shopOrderService.makeItemList(shoppingCart, orderBean, locale);
             this.shopOrderService.newOrder(orderBean, itemList, locale);
 

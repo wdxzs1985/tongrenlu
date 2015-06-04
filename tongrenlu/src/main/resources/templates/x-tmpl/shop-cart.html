@@ -47,7 +47,7 @@
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(item.total).format('0,0.00') %} 元</p>
-                    <p class="help-block" >(内含手续费: {%= numeral(item.totalFee ).format('0,0.00') %} 元)</p>
+                    <p class="help-block" >(含手续费: {%= numeral(item.totalFee ).format('0,0.00') %} 元)</p>
                 </td>
                 <td class="text-center" >
                     <a class="btn btn-danger btn-remove" data-title="{%= item.title %}">
@@ -65,34 +65,48 @@
                 </td>
                 <td class="text-center" >
                     <p class="form-control-static" >{%= numeral(o.orderBean.total).format('0,0.00') %} 元</p>
-                    <p class="help-block" >(内含手续费: {%= numeral(o.orderBean.fee).format('0,0.00') %} 元)</p>
+                    <p class="help-block" >(含手续费: {%= numeral(o.orderBean.fee).format('0,0.00') %} 元)</p>
                 </td>
-                <td ></td>
+                 <td class="text-center" >
+                    <a href="javascript:;" class="btn btn-danger btn-clear" th:text="#{button.clear}">clear</a>
+                </td>
             </tr>
         </table>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-xs-6 text-left">
-                    <a href="javascript:;" class="btn btn-danger btn-clear" th:text="#{button.clear}">clear</a>
-                </div>
-                <div class="col-xs-6 text-right">
-                    <form id="order-form" th:action="@{/shop/order}" method="post">
-<div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-primary ">
-    <input type="radio" value="ems" name="shipping" id="shipByEms" autocomplete="off"/> EMS ({%= numeral(o.emsPrice).format('0,0.00') %})
-  </label>
-  <label class="btn btn-default">
-    <input type="radio" value="sal" name="shipping" id="shipBySal" autocomplete="off"/> SAL ({%= numeral(o.salPrice).format('0,0.00') %})
-  </label>
-  <label class="btn btn-default">
-    <input type="radio" value="group" name="shipping" id="shipByGroup" autocomplete="off"/> GROUP ({%= numeral(o.groupPrice).format('0,0.00') %})
-  </label>
+<div class="panel-body">
+<div class="page-header">
+<h4>选择运送方式</h4>
 </div>
-                    </form> 
-                </div>
-            </div>
-        </div>
+    <div class="row">
+<div class="col-md-4">
+<form method="post" th:action="@{/shop/order}">
+    <input type="hidden" name="shippingMethod" value="3" />
+  <button type="submit"  class="btn btn-default btn-block  btn-shipping" data-shipping-method="2">
+    <h4 class="list-group-item-heading">EMS直发 ({%= numeral(o.emsPrice).format('0,0.00') %} 元)</h4>
+    <p class="list-group-item-text">3～5天可以收到。<br/>推荐购买10－15张时使用。</p>
+  </button>
+</form>
+  </div>
+<div class="col-md-4">
+<form method="post" th:action="@{/shop/order}">
+    <input type="hidden" name="shippingMethod" value="2" />
+  <button type="submit"  class="btn btn-default btn-block btn-shipping" data-shipping-method="1">
+    <h4 class="list-group-item-heading">SAL直发 ({%= numeral(o.salPrice).format('0,0.00') %} 元)</h4>
+    <p class="list-group-item-text">1～3周可以收到。<br/>推荐购买15张以上时使用。</p>
+  </button>
+</form>
+  </div>
+<div class="col-md-4">
+<form method="post" th:action="@{/shop/order}">
+    <input type="hidden" name="shippingMethod" value="1" />
+  <button type="submit"  class="btn btn-default  btn-block  btn-shipping" data-shipping-method="0">
+    <h4 class="list-group-item-heading">SAL团发 ({%= numeral(o.groupPrice).format('0,0.00') %} 元)</h4>
+    <p class="list-group-item-text">1个月左右可以收到，国内快递使用顺丰到付。<br/>推荐购买10张以下时使用。</p>
+  </button>
+</form>
+  </div>
+  </div>
+  </div>
     </div>
 {% } %}
 </script>

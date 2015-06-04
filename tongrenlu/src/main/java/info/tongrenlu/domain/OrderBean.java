@@ -13,6 +13,11 @@ public class OrderBean extends DtoBean {
     public static final int STATUS_FINISH = 5;
     public static final int STATUS_CANCEL = 9;
 
+    public static final int SHIPPING_EMS = 3;
+    public static final int SHIPPING_SAL = 2;
+    public static final int SHIPPING_GROUP = 1;
+    public static final int SHIPPING_UNKNOWN = 0;
+
     private UserBean userBean = null;
 
     private UserBean shopper = null;
@@ -26,6 +31,8 @@ public class OrderBean extends DtoBean {
     private BigDecimal fee = BigDecimal.ZERO;
 
     private BigDecimal total = BigDecimal.ZERO;
+
+    private BigDecimal shippingFee = BigDecimal.ZERO;
 
     private Date createDate = null;
 
@@ -46,6 +53,8 @@ public class OrderBean extends DtoBean {
     private String trackingCode = null;
 
     private Integer status = STATUS_CREATE;
+
+    private Integer shippingMethod = SHIPPING_UNKNOWN;
 
     private BigDecimal quantity = BigDecimal.ZERO;
 
@@ -191,6 +200,22 @@ public class OrderBean extends DtoBean {
 
     public void setQuantity(final BigDecimal quantity) {
         this.quantity = quantity;
+    }
+
+    public Integer getShippingMethod() {
+        return this.shippingMethod;
+    }
+
+    public void setShippingMethod(final Integer shippingMethod) {
+        this.shippingMethod = shippingMethod;
+    }
+
+    public BigDecimal getShippingFee() {
+        return this.shippingFee;
+    }
+
+    public void setShippingFee(final BigDecimal shippingFee) {
+        this.shippingFee = shippingFee;
     }
 
 }

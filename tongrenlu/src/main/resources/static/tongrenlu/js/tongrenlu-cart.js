@@ -5,7 +5,7 @@ var Cart = function(options) {
 		updateUrl : '/shop/cart/update',
 		removeUrl : '/shop/cart/remove',
 		clearUrl : '/shop/cart/clear',
-		form : '#shop-cart-form',
+		form : '.shop-cart-form',
 		container : '#shop-cart-container',
 		badge : '#shop-cart-badge',
 		useUi : true
@@ -15,26 +15,26 @@ var Cart = function(options) {
 		items : [],
 		load : function() {
 			$.getJSON(settings.listUrl).done(function(response) {
-						if (settings.useUi) {
-							$(settings.form).find('input[type="text"]')
-									.val('');
-							$(settings.form).find(
-									'input[type="number"]').val('0');
-							$(settings.container)
-									.html(
-											tmpl('template-shop-cart',
-													response));
-						}
+				if (settings.useUi) {
+					$(settings.form).find('input[type="text"]').val('');
+					$(settings.form).find('input[type="number"]').val('0');
+					$(settings.container).html(tmpl('template-shop-cart', response));
+					
+					if(response.orderBean.quantity > 15) {
+						$('.btn-shipping[data-shipping-method="1"]').addClass('btn-success');
+					} else if(response.orderBean.quantity >= 10) {
+						$('.btn-shipping[data-shipping-method="2"]').addClass('btn-success');
+					} else {
+						$('.btn-shipping[data-shipping-method="0"]').addClass('btn-success');
+					}
+				}
 
-						if (response.itemList
-								&& response.itemList.length > 0) {
-							$(settings.badge).text(
-									response.itemList.length)
-									.removeClass('hidden');
-						} else {
-							$(settings.badge).addClass('hidden');
-						}
-					}).fail(function() {
+				if (response.itemList && response.itemList.length > 0) {
+					$(settings.badge).text(response.itemList.length).removeClass('hidden');
+				} else {
+					$(settings.badge).addClass('hidden');
+				}
+			}).fail(function() {
 				_cart.onError('服务器⑨了，请重试。');
 			});
 		},
@@ -49,9 +49,9 @@ var Cart = function(options) {
 				$('#signinModal').modal('show');
 			}
 		},
-		add : function(data) {
+		add : function(action, data) {
 			this.login(function() {
-				$.post(settings.addUrl, data).done(function(response) {
+				$.post(action, data).done(function(response) {
 					if (response.result) {
 						_cart.makeToast('添加成功');
 						_cart.load();
@@ -128,16 +128,21 @@ var Cart = function(options) {
 		initUI : function() {
 			$(settings.form).on('submit', function(e) {
 				e.preventDefault();
-				_cart.add($(this).serialize());
+				var $form = $(this);
+				_cart.add($form.attr('action'), $form.serialize());
 			});
 
 			$(settings.container).on('click', 'a.btn-remove', function(e) {
 				e.preventDefault();
 				var title = $(this).data('title')
 				_cart.remove(title);
+			}).on('submit', 'form.form-inline', function(e) {
+				e.preventDefault();
 			}).on('click', 'a.btn-clear', function(e) {
 				e.preventDefault();
-				_cart.clear();
+				if(confirm('确定要全部清空吗？')) {
+					_cart.clear();
+				}
 			}).on('change', 'input[name="quantity"]', function() {
 				var title = $(this).data('title');
 				var quantity = $(this).val();
@@ -150,9 +155,21 @@ var Cart = function(options) {
 					_cart.update(title, quantity);
 					_cart.updatetimeout = null;
 				}, 500);
-			}).on('change', 'input[name="shipping"]', function() {
-				if(window.confirm($(this).val() + "?")) {
-					$('#order-form').submit();
+			}).on('click', 'a.btn-shipping', function(e) {
+				e.preventDefault();
+				var $this = $(this);
+				
+				if($this.hasClass('disabled')) {
+					return;
+				}
+				
+				var shippingMethod = $this.data('shippingMethod');
+				var confirmText = ['确定使用 SAL团发 并下单吗？',
+				                   '确定使用 SAL直发 并下单吗？',
+				                   '确定使用 EMS直发 并下单吗？'];
+				
+				if(confirm(confirmText[shippingMethod - 1])) {
+					$('a.btn-shipping').addClass('disabled');
 				}
 			})
 		}
