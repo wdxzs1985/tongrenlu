@@ -208,7 +208,7 @@ public class AdminOrderController {
         this.throwExceptionWhenNotFound(orderBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
 
-        final List<OrderPayBean> orderPayBeanList = this.orderService.getPayList(orderBean);
+        final List<OrderPayBean> orderPayBeanList = this.orderService.findPayList(orderBean);
         model.put("orderPayBeanList", orderPayBeanList);
         model.put("result", true);
         return model;

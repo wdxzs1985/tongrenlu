@@ -2,6 +2,7 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
+import info.tongrenlu.domain.OrderPayBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.ForbiddenException;
 import info.tongrenlu.exception.PageNotFoundException;
@@ -60,9 +61,11 @@ public class ConsoleOrderController {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotAllow(orderBean, loginUser, locale);
         final List<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
+        final List<OrderPayBean> payList = this.orderService.findPayList(orderBean);
 
         model.addAttribute("orderBean", orderBean);
         model.addAttribute("itemList", itemList);
+        model.addAttribute("payList", payList);
 
         return "console/order/view";
     }

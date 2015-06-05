@@ -39,4 +39,11 @@ public class OrderPayManager {
         this.orderPayMapper.delete(params);
     }
 
+    public void updateStatus(final OrderBean orderBean, final Integer status) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("orderId", orderBean.getId());
+        params.put("status", status);
+        this.orderPayMapper.updateStatus(params);
+    }
+
 }

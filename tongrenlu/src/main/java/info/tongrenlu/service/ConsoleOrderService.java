@@ -126,6 +126,7 @@ public class ConsoleOrderService {
             this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_CREATE);
         } else if (OrderBean.STATUS_CANCEL == (orderBean.getStatus())) {
             this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_CANCEL);
+            this.orderPayManager.updateStatus(orderBean, OrderItemBean.STATUS_CANCEL);
         } else if (OrderBean.STATUS_SEND_DIRECT == (orderBean.getStatus())) {
             this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_SEND_DIRECT);
         } else if (OrderBean.STATUS_SEND_GROUP == (orderBean.getStatus())) {
@@ -361,7 +362,7 @@ public class ConsoleOrderService {
         return BigDecimal.valueOf(5).multiply(quantity).add(BigDecimal.TEN);
     }
 
-    public List<OrderPayBean> getPayList(final OrderBean orderBean) {
+    public List<OrderPayBean> findPayList(final OrderBean orderBean) {
         return this.orderPayManager.findList(orderBean);
     }
 
