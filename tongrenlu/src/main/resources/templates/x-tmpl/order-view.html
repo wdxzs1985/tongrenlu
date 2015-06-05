@@ -32,5 +32,89 @@
     <p class="form-control-static" th:text="#{OrderItemBean.status.canceled}"></p>
 {% } %}
 </script>
+<script id="template-order-pay" type="text/x-tmpl" th:inline="text" th:fragment="template-order-pay">
+{% for (var i=0, orderPayBean; orderPayBean=o.orderPayBeanList[i]; i++) { %}
+    <div class="row">
+        {% if (orderPayBean.status == 0) { %}
+        <form class="order-pay-update-form" action="" method="post">
+            <div class="col-md-1 col-xs-2">
+                <div class="form-group">
+                            <a class="btn btn-danger btn-remove" data-order-pay-id="{%= orderPayBean.id %}">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </a>
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-6">
+                <div class="form-group">
+                <p class="form-control-static" >
+                    <strong>{%= orderPayBean.title %}</strong>
+                </p>
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-4">
+                <div class="form-group">
+                <p class="form-control-static text-right">{%= numeral(orderPayBean.amount).format('0,0.00') %} 元</p>
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-0 col-xs-6 col-xs-offset-2">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="payNo" />
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-4">
+                <div class="form-group">
+                            <input type="hidden" class="form-control" name="orderPayId" value="{%= orderPayBean.id %}" />
+                            <button type="submit" class="btn btn-success btn-block" th:text="#{order.pay}"></button>
+                </div>
+            </div>
+        </form>
+        {% } else { %}
+            <div class="col-md-2 col-xs-6 col-md-offset-1 col-xs-offset-2">
+                <div class="form-group">
+                <p class="form-control-static" >
+                    <strong>{%= orderPayBean.title %}</strong>
+                </p>
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-4">
+                <div class="form-group">
+                <p class="form-control-static text-right">{%= numeral(orderPayBean.amount).format('0,0.00') %} 元</p>
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-0 col-xs-6 col-xs-offset-2">
+                <div class="form-group">
+                <p class="form-control-static" >
+                    <strong>{%= orderPayBean.payNo %}</strong>
+                </p>
+                </div>
+            </div>
+        {% } %}
+    </div>
+{% } %}
+    <div class="row">
+        <form class="order-pay-add-form" action="" method="post">
+            <div class="col-md-2 col-xs-6 col-md-offset-1 col-xs-offset-2">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="title" th:value="#{order.pay.title2}"/>
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="amount" />
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-0 col-xs-6 col-xs-offset-2">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="payLink" />
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block" th:text="#{button.add}"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
 </body>
 </html>

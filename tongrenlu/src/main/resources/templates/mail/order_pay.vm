@@ -1,0 +1,14 @@
+#parse("templates/mail/order_header.vm")
+
+请确认价格无误后，进行支付。
+---------------------------------------------
+
+合计
+${orderBean.total}
+
+付款链接
+${orderPayBean.payLink}
+
+---------------------------------------------
+
+#parse("templates/mail/order_footer.vm")

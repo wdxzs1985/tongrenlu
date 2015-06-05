@@ -2,6 +2,7 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
+import info.tongrenlu.domain.OrderPayBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.AdminUserService;
@@ -194,22 +195,90 @@ public class AdminOrderController {
         orderBean.setShopper(loginUser);
         orderBean.setStatus(OrderBean.STATUS_START);
         this.orderService.updateOrderStatus(orderBean, locale);
+
         return "redirect:/admin/order/" + orderId;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/pay")
-    public String doPostPay(@PathVariable final Integer orderId,
-                            final String payNo,
-                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model,
-                            final Locale locale) {
+    @RequestMapping(method = RequestMethod.GET, value = "{orderId}/pay")
+    @ResponseBody
+    public Map<String, Object> doGetPayStatus(@PathVariable final Integer orderId,
+                                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                              final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
+        final Map<String, Object> model = new HashMap<String, Object>();
 
-        orderBean.setStatus(OrderBean.STATUS_PAID);
-        orderBean.setPayNo(payNo);
-        this.orderService.updateOrderStatus(orderBean, locale);
-        return "redirect:/admin/order/" + orderId;
+        final List<OrderPayBean> orderPayBeanList = this.orderService.getPayList(orderBean);
+        model.put("orderPayBeanList", orderPayBeanList);
+        model.put("result", true);
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/pay/add")
+    @ResponseBody
+    public Map<String, Object> doPostPayAdd(@PathVariable final Integer orderId,
+                                            final String title,
+                                            final String payLink,
+                                            final BigDecimal amount,
+                                            @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                            final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        final OrderPayBean orderPayBean = new OrderPayBean();
+        orderPayBean.setOrderBean(orderBean);
+        orderPayBean.setUserBean(orderBean.getUserBean());
+        orderPayBean.setTitle(title);
+        orderPayBean.setPayLink(payLink);
+        orderPayBean.setAmount(amount);
+        orderPayBean.setStatus(OrderPayBean.STATUS_CREATE);
+        this.orderService.addPay(orderPayBean, locale);
+
+        model.put("result", true);
+
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/pay/update")
+    @ResponseBody
+    public Map<String, Object> doPostPayUpdate(@PathVariable final Integer orderId,
+                                               final Integer orderPayId,
+                                               final String payNo,
+                                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                               final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        model.put("orderPayId", orderPayId);
+        model.put("status", OrderPayBean.STATUS_PAID);
+        model.put("payNo", payNo);
+
+        this.orderService.updatePayStatus(model);
+
+        model.put("result", true);
+
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/pay/remove")
+    @ResponseBody
+    public Map<String, Object> doPostPayRemove(@PathVariable final Integer orderId,
+                                               final Integer orderPayId,
+                                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                               final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        model.put("orderPayId", orderPayId);
+
+        this.orderService.removePay(model);
+
+        model.put("result", true);
+
+        return model;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/send/group")

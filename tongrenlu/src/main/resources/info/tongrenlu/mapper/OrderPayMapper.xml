@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.tongrenlu.mapper.OrderPayMapper">
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO m_order_pay(
+        <trim suffixOverrides=",">
+            user_id,
+            order_id,
+            title,
+            amount,
+            pay_link,
+            pay_no,
+            status,
+            create_date,
+            <if test="payDate != null">
+            pay_date,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+           #{userBean.id},
+           #{orderBean.id},
+           #{title},
+           #{amount},
+           #{payLink},
+           #{payNo},
+           #{status},
+           <if test="createDate != null">
+           #{createDate},
+           </if>
+           <if test="createDate == null">
+           current_timestamp,
+           </if>
+           <if test="payDate != null">
+           #{payDate},
+           </if>
+        </trim>
+        )
+    </insert>
+    
+    <select id="fetchList" resultType="OrderPayBean">
+        select
+        <trim suffixOverrides=",">
+            m_order_pay.id,
+            m_order_pay.title,
+            m_order_pay.amount,
+            m_order_pay.pay_link        as payLink,
+            m_order_pay.pay_no          as payNo,
+            m_order_pay.status,
+            m_order_pay.create_date     as createDate,
+            m_order_pay.pay_date        as payDate,
+            m_order.id                  as "orderBean.id",
+            m_order.title               as "orderBean.title",
+            v_user.id                   as "userBean.id",
+            v_user.nickname             as "userBean.nickname",
+        </trim>
+        from
+            m_order_pay
+        join m_order on m_order_pay.order_id = m_order.id
+        join v_user on m_order_pay.user_id = v_user.id
+        <where>
+            m_order_pay.order_id = #{orderBean.id}
+        and m_order_pay.del_flg = 0
+        </where>
+    </select>
+    
+    <update id="update">
+        update
+            m_order_pay
+        <set>
+            <if test="orderBean != null">
+                m_order_pay.order_id = #{orderBean.id}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    <update id="updateStatus">
+        update
+            m_order_pay
+        <set>
+            m_order_pay.status = #{status},
+            <choose>
+                <when test="status == 1">
+                  m_order_pay.pay_no = #{payNo},
+                  m_order_pay.pay_date = current_timestamp
+                </when>
+            </choose>
+        </set>
+        <where>
+        <if test="orderPayId != null">
+            m_order_pay.id = #{orderPayId}
+        </if>
+        </where>
+    </update>
+    
+    <update id="delete">
+        update
+            m_order_pay
+        <set>
+            del_flg = 1,
+        </set>
+        <where>
+        <if test="orderPayId != null">
+            id = #{orderPayId}
+        </if>
+        </where>
+            
+    </update>
+</mapper>

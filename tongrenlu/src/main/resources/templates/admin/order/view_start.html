@@ -117,56 +117,8 @@
                                 </table>
                             </div>
                             
-                            <div class="panel-body">
-                                <form th:action="@{/admin/order/__${orderBean.id}__/pay/add}" method="post">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="payNo" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-xs-6">
-                                            <p class="form-control-static text-right">2,161.20 元</p>
-                                        </div>
-                                        <div class="col-md-2 col-xs-6">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-success btn-block" th:text="#{order.pay}"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="payNo" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-xs-6">
-                                            <p class="form-control-static text-right">156.00 元</p>
-                                        </div>
-                                        <div class="col-md-2 col-xs-6">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-success btn-block" th:text="#{order.pay}"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="payLink" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-xs-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="amount" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-xs-6">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block" th:text="#{button.add}"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                            <div id="order-pay-container" class="panel-body">
+                                <!--  -->
                             </div>
                             <div class="panel-footer">
                                 <div class="text-right">
@@ -184,31 +136,24 @@
         <div layout:fragment="scripts">
             <script type="text/javascript" src="http://static.tongrenlu.info/Numeral/1.5.3/min/numeral.min.js"></script>
             <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
+            <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-order-item.js}"></script>
+            <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-order-pay.js}"></script>
 
             <div th:replace="x-tmpl/order-view::template-order-status"></div>
+            <div th:replace="x-tmpl/order-view::template-order-pay"></div>
 
             <script type="text/javascript" th:inline="javascript">
             $(function(){
-            	$('.order-item-status').each(function(index, element) {
-            		var $element = $(element);
-                    $element.html(tmpl('template-order-status', $element.data()));
-            	}).on('click', '.btn-status', function(e) {
-            		e.preventDefault();
-            		var $this = $(this);
-                    var itemId = $this.data('itemId');
-            		var status = $this.data('status');
-            		var data = {
-            			"status": status,
-            			"itemId[]": [itemId]
-            		}
-            		
-            		var url = /*[[@{/admin/order/item/status}]]*/ '';
-            		$.post(url, data).done(function(response) {
-            			if(response.result) {
-            				$this.parents('.order-item-status').html(tmpl('template-order-status', response));
-            			}
-            		});
-            	});
+           		new orderItemController({
+           			"url": /*[[@{/admin/order/item/status}]]*/ ''
+           		});
+           		
+                new orderPayController({
+                	"listUrl": /*[[@{/admin/order/__${orderBean.id}__/pay}]]*/ '',
+                    "addUrl": /*[[@{/admin/order/__${orderBean.id}__/pay/add}]]*/ '',
+                    "updateUrl": /*[[@{/admin/order/__${orderBean.id}__/pay/update}]]*/ '',
+                    "removeUrl": /*[[@{/admin/order/__${orderBean.id}__/pay/remove}]]*/ ''
+                });
             });
             </script>
         </div>

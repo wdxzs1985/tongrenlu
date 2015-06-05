@@ -7,6 +7,7 @@ import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.http.HttpWraper;
 import info.tongrenlu.mail.MailModel;
 import info.tongrenlu.mail.MailResolvor;
+import info.tongrenlu.manager.OrderItemManager;
 import info.tongrenlu.manager.OrderManager;
 import info.tongrenlu.manager.ShopManager;
 
@@ -44,6 +45,8 @@ public class ShopOrderService {
 
     @Autowired
     private OrderManager orderManager = null;
+    @Autowired
+    private OrderItemManager orderItemManager = null;
     @Autowired
     private ShopManager shopManager = null;
     @Autowired
@@ -176,7 +179,11 @@ public class ShopOrderService {
         orderBean.setTitle(title);
 
         this.orderManager.insertOrder(orderBean);
-        this.orderManager.insertOrderItems(itemList);
+        // this.orderManager.insertOrderItems(itemList);
+        for (final OrderItemBean orderItemBean : itemList) {
+            orderItemBean.setOrderBean(orderBean);
+            this.orderItemManager.insert(orderItemBean);
+        }
 
         final UserBean userBean = orderBean.getUserBean();
 

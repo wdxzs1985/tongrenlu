@@ -104,6 +104,9 @@
             quantity = #{quantity},
             exchange_rate = #{exchangeRate},
             fee = #{fee},
+            <if test="orderBean != null">
+                m_order_item.order_id = #{orderBean.id}
+            </if>
         </set>
         <where>
             id = #{id}

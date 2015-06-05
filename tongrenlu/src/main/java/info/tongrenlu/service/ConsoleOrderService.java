@@ -2,10 +2,13 @@ package info.tongrenlu.service;
 
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
+import info.tongrenlu.domain.OrderPayBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.mail.MailModel;
 import info.tongrenlu.mail.MailResolvor;
+import info.tongrenlu.manager.OrderItemManager;
 import info.tongrenlu.manager.OrderManager;
+import info.tongrenlu.manager.OrderPayManager;
 import info.tongrenlu.manager.ShopManager;
 import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
@@ -30,6 +33,10 @@ public class ConsoleOrderService {
     @Autowired
     private OrderManager orderManager = null;
     @Autowired
+    private OrderItemManager orderItemManager = null;
+    @Autowired
+    private OrderPayManager orderPayManager = null;
+    @Autowired
     private ShopManager shopManager = null;
     @Autowired
     private UserManager userManager = null;
@@ -52,7 +59,7 @@ public class ConsoleOrderService {
     }
 
     public List<OrderItemBean> findItemList(final OrderBean orderBean) {
-        return this.orderManager.findItemList(orderBean);
+        return this.orderItemManager.findList(orderBean);
     }
 
     public void updateOrder(final OrderBean orderBean, final List<OrderItemBean> itemList) {
@@ -73,7 +80,7 @@ public class ConsoleOrderService {
                 total = total.add(item.getTotal());
                 quantity = quantity.add(item.getQuantity());
 
-                this.orderManager.updateOrderItem(item);
+                this.orderItemManager.update(item);
             }
 
             switch (orderBean.getShippingMethod()) {
@@ -116,15 +123,15 @@ public class ConsoleOrderService {
     public void updateOrderStatus(final OrderBean orderBean, final Locale locale) {
         this.orderManager.updateOrderStatus(orderBean);
         if (OrderBean.STATUS_CREATE == (orderBean.getStatus())) {
-            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_CREATE);
+            this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_CREATE);
         } else if (OrderBean.STATUS_CANCEL == (orderBean.getStatus())) {
-            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_CANCEL);
+            this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_CANCEL);
         } else if (OrderBean.STATUS_SEND_DIRECT == (orderBean.getStatus())) {
-            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_SEND_DIRECT);
+            this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_SEND_DIRECT);
         } else if (OrderBean.STATUS_SEND_GROUP == (orderBean.getStatus())) {
-            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_SEND_GROUP);
+            this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_SEND_GROUP);
         } else if (OrderBean.STATUS_FINISH == (orderBean.getStatus())) {
-            this.orderManager.updateOrderItemStatus(orderBean, OrderItemBean.STATUS_FINISH);
+            this.orderItemManager.updateStatus(orderBean, OrderItemBean.STATUS_FINISH);
         }
 
         final MailModel mailModel = this.mailResolvor.createMailModel(locale);
@@ -146,11 +153,11 @@ public class ConsoleOrderService {
         switch (orderBean.getStatus()) {
         case OrderBean.STATUS_CREATE:
             mailModel.setTemplate("order_restore");
-            mailModel.addAttribute("itemList", this.orderManager.findItemList(orderBean));
+            mailModel.addAttribute("itemList", this.orderItemManager.findList(orderBean));
             break;
         case OrderBean.STATUS_START:
             mailModel.setTemplate("order_start");
-            mailModel.addAttribute("itemList", this.orderManager.findItemList(orderBean));
+            mailModel.addAttribute("itemList", this.orderItemManager.findList(orderBean));
             break;
         case OrderBean.STATUS_PAID:
             mailModel.setTemplate("order_paid");
@@ -174,18 +181,18 @@ public class ConsoleOrderService {
     }
 
     public void removeItem(final OrderBean orderBean, final Integer orderItemId) {
-        this.orderManager.removeItem(orderItemId);
+        this.orderItemManager.remove(orderItemId);
         final List<OrderItemBean> itemList = this.findItemList(orderBean);
         this.updateOrder(orderBean, itemList);
     }
 
     public List<OrderItemBean> findStockItemList(final UserBean shopperBean) {
-        return this.orderManager.findStockItemList(shopperBean);
+        return this.orderItemManager.findStockList(shopperBean);
     }
 
     public void updateOrderItemStatus(final List<OrderItemBean> items) {
         for (final OrderItemBean item : items) {
-            this.orderManager.updateOrderItemStatus(item);
+            this.orderItemManager.updateStatus(item);
         }
     }
 
@@ -238,93 +245,102 @@ public class ConsoleOrderService {
         final List<OrderBean> orderList = this.orderManager.getList(params);
         if (CollectionUtils.size(orderList) > 1) {
             final List<OrderItemBean> newItemList = new ArrayList<OrderItemBean>();
+            final List<OrderPayBean> newPayList = new ArrayList<OrderPayBean>();
 
             for (final OrderBean orderBean : orderList) {
-                final List<OrderItemBean> itemList = this.orderManager.findItemList(orderBean);
+                final List<OrderItemBean> itemList = this.orderItemManager.findList(orderBean);
                 newItemList.addAll(itemList);
+
+                final List<OrderPayBean> payList = this.orderPayManager.findList(orderBean);
+                newPayList.addAll(payList);
+
                 this.deleteOrder(orderBean);
             }
 
-            if (CollectionUtils.isNotEmpty(newItemList)) {
-                final OrderBean orderBean = new OrderBean();
-                final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(newItemList, 0);
-                String title = firstItem.getTitle();
+            final OrderBean orderBean = new OrderBean();
+            final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(newItemList, 0);
+            String title = firstItem.getTitle();
 
-                if (CollectionUtils.size(newItemList) > 1) {
-                    title = this.messageSource.getMessage("order.title.etc", new Object[] { title }, locale);
-                }
-
-                orderBean.setUserBean(userBean);
-                orderBean.setTitle(title);
-
-                BigDecimal amountJp = BigDecimal.ZERO;
-                BigDecimal amountCn = BigDecimal.ZERO;
-                BigDecimal fee = BigDecimal.ZERO;
-                BigDecimal total = BigDecimal.ZERO;
-                BigDecimal quantity = BigDecimal.ZERO;
-                BigDecimal shippingFee = BigDecimal.ZERO;
-
-                for (final OrderItemBean item : newItemList) {
-                    amountJp = amountJp.add(item.getAmountJp());
-                    amountCn = amountCn.add(item.getAmountCn());
-                    fee = fee.add(item.getTotalFee());
-                    total = total.add(item.getTotal());
-                    quantity = quantity.add(item.getQuantity());
-
-                    item.setOrderBean(orderBean);
-                }
-
-                switch (orderBean.getShippingMethod()) {
-                case OrderBean.SHIPPING_EMS:
-                    shippingFee = (this.getEmsPrice(quantity));
-                    break;
-                case OrderBean.SHIPPING_SAL:
-                    shippingFee = (this.getSalPrice(quantity));
-                    break;
-                case OrderBean.SHIPPING_GROUP:
-                    shippingFee = (this.getGroupPrice(quantity));
-                    break;
-                default:
-                    final int quantityInt = quantity.intValue();
-                    if (quantityInt > 15) {
-                        orderBean.setShippingMethod(OrderBean.SHIPPING_SAL);
-                        shippingFee = (this.getSalPrice(quantity));
-                    } else if (quantityInt >= 10) {
-                        orderBean.setShippingMethod(OrderBean.SHIPPING_EMS);
-                        shippingFee = (this.getEmsPrice(quantity));
-                    } else {
-                        orderBean.setShippingMethod(OrderBean.SHIPPING_GROUP);
-                        shippingFee = (this.getGroupPrice(quantity));
-                    }
-                    break;
-                }
-                total = total.add(shippingFee);
-
-                orderBean.setQuantity(quantity);
-                orderBean.setAmountJp(amountJp);
-                orderBean.setAmountCn(amountCn);
-                orderBean.setFee(fee);
-                orderBean.setShippingFee(shippingFee);
-                orderBean.setTotal(total);
-
-                this.orderManager.insertOrder(orderBean);
-                this.orderManager.insertOrderItems(newItemList);
-
-                final MailModel mailModel = this.mailResolvor.createMailModel(locale);
-                mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
-                                                                   new Object[] { userBean.getNickname() },
-                                                                   locale));
-                mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
-                mailModel.setTemplate("order_merge");
-
-                mailModel.addAttribute("userBean", userBean);
-                mailModel.addAttribute("orderBean", orderBean);
-                mailModel.addAttribute("itemList", newItemList);
-
-                this.mailResolvor.send(mailModel);
-
-                return orderBean;
+            if (CollectionUtils.size(newItemList) > 1) {
+                title = this.messageSource.getMessage("order.title.etc", new Object[] { title }, locale);
             }
+
+            orderBean.setUserBean(userBean);
+            orderBean.setTitle(title);
+
+            BigDecimal amountJp = BigDecimal.ZERO;
+            BigDecimal amountCn = BigDecimal.ZERO;
+            BigDecimal fee = BigDecimal.ZERO;
+            BigDecimal total = BigDecimal.ZERO;
+            BigDecimal quantity = BigDecimal.ZERO;
+            BigDecimal shippingFee = BigDecimal.ZERO;
+
+            for (final OrderItemBean item : newItemList) {
+                amountJp = amountJp.add(item.getAmountJp());
+                amountCn = amountCn.add(item.getAmountCn());
+                fee = fee.add(item.getTotalFee());
+                total = total.add(item.getTotal());
+                quantity = quantity.add(item.getQuantity());
+            }
+
+            switch (orderBean.getShippingMethod()) {
+            case OrderBean.SHIPPING_EMS:
+                shippingFee = (this.getEmsPrice(quantity));
+                break;
+            case OrderBean.SHIPPING_SAL:
+                shippingFee = (this.getSalPrice(quantity));
+                break;
+            case OrderBean.SHIPPING_GROUP:
+                shippingFee = (this.getGroupPrice(quantity));
+                break;
+            default:
+                final int quantityInt = quantity.intValue();
+                if (quantityInt > 15) {
+                    orderBean.setShippingMethod(OrderBean.SHIPPING_SAL);
+                    shippingFee = (this.getSalPrice(quantity));
+                } else if (quantityInt >= 10) {
+                    orderBean.setShippingMethod(OrderBean.SHIPPING_EMS);
+                    shippingFee = (this.getEmsPrice(quantity));
+                } else {
+                    orderBean.setShippingMethod(OrderBean.SHIPPING_GROUP);
+                    shippingFee = (this.getGroupPrice(quantity));
+                }
+                break;
+            }
+            total = total.add(shippingFee);
+
+            orderBean.setQuantity(quantity);
+            orderBean.setAmountJp(amountJp);
+            orderBean.setAmountCn(amountCn);
+            orderBean.setFee(fee);
+            orderBean.setShippingFee(shippingFee);
+            orderBean.setTotal(total);
+
+            this.orderManager.insertOrder(orderBean);
+
+            for (final OrderItemBean orderItemBean : newItemList) {
+                orderItemBean.setOrderBean(orderBean);
+                this.orderItemManager.update(orderItemBean);
+            }
+            for (final OrderPayBean orderPayBean : newPayList) {
+                orderPayBean.setOrderBean(orderBean);
+                this.orderPayManager.update(orderPayBean);
+            }
+
+            final MailModel mailModel = this.mailResolvor.createMailModel(locale);
+            mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
+                                                               new Object[] { userBean.getNickname() },
+                                                               locale));
+            mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
+            mailModel.setTemplate("order_merge");
+
+            mailModel.addAttribute("userBean", userBean);
+            mailModel.addAttribute("orderBean", orderBean);
+            mailModel.addAttribute("itemList", newItemList);
+
+            this.mailResolvor.send(mailModel);
+
+            return orderBean;
         }
         return null;
     }
@@ -343,5 +359,37 @@ public class ConsoleOrderService {
 
     public BigDecimal getGroupPrice(final BigDecimal quantity) {
         return BigDecimal.valueOf(5).multiply(quantity).add(BigDecimal.TEN);
+    }
+
+    public List<OrderPayBean> getPayList(final OrderBean orderBean) {
+        return this.orderPayManager.findList(orderBean);
+    }
+
+    public void addPay(final OrderPayBean orderPayBean, final Locale locale) {
+        this.orderPayManager.add(orderPayBean);
+
+        final UserBean userBean = orderPayBean.getUserBean();
+        final OrderBean orderBean = orderPayBean.getOrderBean();
+
+        final MailModel mailModel = this.mailResolvor.createMailModel(locale);
+        mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
+                                                           new Object[] { userBean.getNickname() },
+                                                           locale));
+        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
+        mailModel.setTemplate("order_pay");
+
+        mailModel.addAttribute("userBean", userBean);
+        mailModel.addAttribute("orderBean", orderBean);
+        mailModel.addAttribute("orderPayBean", orderPayBean);
+
+        this.mailResolvor.send(mailModel);
+    }
+
+    public void updatePayStatus(final Map<String, Object> model) {
+        this.orderPayManager.updateStatus(model);
+    }
+
+    public void removePay(final Map<String, Object> model) {
+        this.orderPayManager.remove(model);
     }
 }
