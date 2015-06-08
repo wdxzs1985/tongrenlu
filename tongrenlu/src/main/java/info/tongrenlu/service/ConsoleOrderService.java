@@ -242,7 +242,7 @@ public class ConsoleOrderService {
 
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("userBean", userBean);
-        params.put("status", new Integer[] { OrderBean.STATUS_CREATE, OrderBean.STATUS_START });
+        params.put("status", new Integer[] { OrderBean.STATUS_CREATE, OrderBean.STATUS_START, OrderBean.STATUS_PAID });
         final List<OrderBean> orderList = this.orderManager.getList(params);
         if (CollectionUtils.size(orderList) > 1) {
             final List<OrderItemBean> newItemList = new ArrayList<OrderItemBean>();
@@ -366,11 +366,11 @@ public class ConsoleOrderService {
         return this.orderPayManager.findList(orderBean);
     }
 
-    public void addPay(final OrderPayBean orderPayBean, final Locale locale) {
+    public void addPay(final OrderBean orderBean, final OrderPayBean orderPayBean, final Locale locale) {
+
         this.orderPayManager.add(orderPayBean);
 
         final UserBean userBean = orderPayBean.getUserBean();
-        final OrderBean orderBean = orderPayBean.getOrderBean();
 
         final MailModel mailModel = this.mailResolvor.createMailModel(locale);
         mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
@@ -386,8 +386,27 @@ public class ConsoleOrderService {
         this.mailResolvor.send(mailModel);
     }
 
-    public void updatePayStatus(final Map<String, Object> model) {
-        this.orderPayManager.updateStatus(model);
+    public void updatePayStatus(final OrderBean orderBean, final OrderPayBean orderPayBean, final Locale locale) {
+
+        orderManager.updateOrderStatus(orderBean);
+        
+        
+        this.orderPayManager.updateStatus(orderPayBean);
+
+        final UserBean userBean = orderBean.getUserBean();
+
+        final MailModel mailModel = this.mailResolvor.createMailModel(locale);
+        mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
+                                                           new Object[] { userBean.getNickname() },
+                                                           locale));
+        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
+        mailModel.setTemplate("order_paid");
+
+        mailModel.addAttribute("userBean", userBean);
+        mailModel.addAttribute("orderBean", orderBean);
+        mailModel.addAttribute("orderPayBean", orderPayBean);
+
+        this.mailResolvor.send(mailModel);
     }
 
     public void removePay(final Map<String, Object> model) {

@@ -31,7 +31,12 @@ public class OrderPayManager {
         this.orderPayMapper.update(orderPayBean);
     }
 
-    public void updateStatus(final Map<String, Object> params) {
+    public void updateStatus(final OrderPayBean orderPayBean) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("orderPayId", orderPayBean.getId());
+        params.put("payNo", orderPayBean.getPayNo());
+        params.put("status", orderPayBean.getStatus());
+
         this.orderPayMapper.updateStatus(params);
     }
 

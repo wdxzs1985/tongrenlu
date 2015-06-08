@@ -69,73 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive" th:if="${orderBean.status == 0}">
-                                <form th:action="@{/admin/order/__${orderBean.id}__}" method="post" th:if="${orderBean.status == 0}">
-                                    <table class="table" >
-                                        <tr>
-                                            <th class="text-center" style="width:40%" th:text="#{OrderItemBean.title}">title</th>
-                                            <th class="text-center" th:text="#{OrderItemBean.price}">price</th>
-                                            <th class="text-center" th:text="#{OrderItemBean.quantity}">quantity</th>
-                                            <th class="text-center" th:text="#{OrderBean.amount}">amountJp</th>
-                                            <th class="text-center" th:text="#{OrderBean.total}">total</th>
-                                            <th class="text-center"></th>
-                                        </tr>
-                                        <tr th:each="item: ${itemList}">
-                                            <td >
-                                                <input type="hidden" name="orderItemId[]" th:value="${item.id}" />
-                                                <input type="text" name="title[]" class="form-control" th:value="${item.title}"/>
-                                                <input type="text" name="url[]" class="form-control" th:value="${item.url}"/>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="form-group" >
-                                                    <input type="number" name="price[]" class="form-control" min="0"
-                                                        th:value="${#numbers.formatInteger(item.price,1)}" />
-                                                </div>
-                                            </td>
-                                            <td class="text-center" >
-                                                <div class="form-group" >
-                                                    <input type="number" name="quantity[]" class="form-control" min="1"
-                                                        th:value="${#numbers.formatInteger(item.quantity,1)}"  />
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(item.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(item.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp</p>
-                                                <div class="form-group" >
-                                                    <input type="number" name="exchangeRate[]" class="form-control" step="0.001" min="0"
-                                                        th:value="${#numbers.formatDecimal(item.exchangeRate,1,'NONE',3,'POINT')}" />
-                                                </div>
-                                            </td>
-                                            <td class="text-center" >
-                                                <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(item.total,1,'COMMA',2,'POINT')})}"></p>
-                                                <div class="form-group" >
-                                                    <input type="number" name="fee[]" class="form-control" step="0.01" min="0"
-                                                        th:value="${#numbers.formatDecimal(item.fee,1,'NONE',2,'POINT')}" />
-                                                </div>
-                                            </td>
-                                            <td class="text-center" >
-                                                <a th:href="@{/admin/order/__${orderBean.id}__/remove/__${item.id}__}" class="btn btn-danger">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>
-                                            </th>
-                                            <th></th>
-                                            <th></th>
-                                            <td class="text-center">
-                                                <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp + item.tax</p>
-                                            </td>
-                                            <td class="text-center" >
-                                                <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.amountCn + orderBean.fee,1,'COMMA',2,'POINT')})}"></p>
-                                                <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(orderBean.fee,1,'COMMA',2,'POINT')})})}"></p>
-                                            </td>
-                                            <th><button type="submit" th:text="#{button.save}" class="btn btn-success"></button></th>
-                                        </tr>
-                                    </table>
-                                </form>
-                            </div>
-                            <div class="table-responsive" th:unless="${orderBean.status == 0}">
+                            <div class="table-responsive" >
                                 <table class="table">
                                     <tr>
                                         <th class="text-center" style="width:40%" th:text="#{OrderItemBean.title}">title</th>
@@ -166,17 +100,10 @@
                                         </td>
                                         <td class="text-center" >
                                             <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(item.total,1,'COMMA',2,'POINT')})}"></p>
-                                            <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(item.fee,1,'COMMA',2,'POINT')})})}"></p>
+                                            <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(item.totalFee,1,'COMMA',2,'POINT')})})}"></p>
                                         </td>
                                         <td class="text-center" >
-                                            <div class="order-item-status" th:switch="${item.status}">
-                                            <span class="label label-primary" th:case="0" th:text="#{OrderItemBean.status.created}"></span>
-                                            <span class="label label-success" th:case="1" th:text="#{OrderItemBean.status.ordered}"></span>
-                                            <span class="label label-success" th:case="2" th:text="#{OrderItemBean.status.received}"></span>
-                                            <span class="label label-success" th:case="3" th:text="#{OrderItemBean.status.send.group}"></span>
-                                            <span class="label label-success" th:case="4" th:text="#{OrderItemBean.status.send.direct}"></span>
-                                            <span class="label label-success" th:case="5" th:text="#{OrderItemBean.status.finish}"></span>
-                                            <span class="label label-default" th:case="9" th:text="#{OrderItemBean.status.canceled}"></span>
+                                            <div class="order-item-status" th:attr="data-order-id=${orderBean.id},data-item-id=${item.id},data-status=${item.status}" >
                                             </div>
                                         </td>
                                     </tr>
@@ -188,7 +115,7 @@
                                             <p class="form-control-static" th:text="#{order.JPY(${#numbers.formatInteger(orderBean.amountJp,1,'COMMA')})} + ' / ' + #{order.CNY(${#numbers.formatDecimal(orderBean.amountCn,1,'COMMA',2,'POINT')})}">item.amountJp + item.tax</p>
                                         </td>
                                         <td class="text-center" >
-                                            <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.total,1,'COMMA',2,'POINT')})}"></p>
+                                            <p class="form-control-static" th:text="#{order.CNY(${#numbers.formatDecimal(orderBean.amountCn + orderBean.fee,1,'COMMA',2,'POINT')})}"></p>
                                             <p class="help-block" th:text="#{order.fee(#{order.CNY(${#numbers.formatDecimal(orderBean.fee,1,'COMMA',2,'POINT')})})}"></p>
                                         </td>
                                         <td></td>
@@ -222,20 +149,55 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-footer" th:if="${orderBean.status} eq 9">
+                            <div class="panel-footer">
                                 <div class="row">
-                                    <div class="col-md-12 text-right">
+                                    <div class="col-xs-6">
+                                        <form class="" method="post" th:if="${orderBean.status} eq 2 and ${orderBean.shippingMethod} eq 1"
+                                            th:action="@{/admin/order/__${orderBean.id}__/send/group}" >
+                                            <button type="submit" class="btn btn-success" th:text="#{admin.order.send.group}"></button>
+                                        </form>
+                                        <form class="" method="post" th:if="${orderBean.status} eq 3 or ${orderBean.shippingMethod} ne 1"
+                                            th:action="@{/admin/order/__${orderBean.id}__/send/direct}" >
+                                            <div class="input-group">
+                                                <input type="text" name="trackingCode" class="form-control" th:placehold="#{OrderBean.trackingCode}"/>
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-success" th:text="#{order.send}"></button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                        <form class="" method="post" th:if="${orderBean.status} eq 4"
+                                            th:action="@{/admin/order/__${orderBean.id}__/finish}" >
+                                            <button type="submit" class="btn btn-success" th:text="#{order.finish}"></button>
+                                        </form>
+                                    </div>
+                                    <div class="col-xs-6 text-right" th:if="${orderBean.status} lt 3">
                                         <p class="form-control-static">
-                                            <a th:href="@{/admin/order/__${orderBean.id}__/restore}" 
-                                               th:text="#{order.restore}" class="btn btn-danger" ></a>
+                                            <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
+                                               th:text="#{order.cancel}" class="btn btn-danger" ></a>
                                         </p>
-                                    </div><!--  -->
+                                    </div>
                                 </div>
+                            
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div layout:fragment="scripts">
+            <script type="text/javascript" src="http://static.tongrenlu.info/Numeral/1.5.3/min/numeral.min.js"></script>
+            <script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
+            <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-order-item.js}"></script>
+
+            <div th:replace="x-tmpl/order-view::template-order-status"></div>
+
+            <script type="text/javascript" th:inline="javascript">
+            $(function(){
+           		new orderItemController({
+           			"url": /*[[@{/admin/order/item/status}]]*/ ''
+           		});
+            });
+            </script>
         </div>
     </body>
 </html>

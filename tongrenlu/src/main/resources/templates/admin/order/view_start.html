@@ -121,12 +121,23 @@
                                 <!--  -->
                             </div>
                             <div class="panel-footer">
-                                <div class="text-right">
-                                        <p class="form-control-static">
-                                            <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
-                                               th:text="#{order.cancel}" class="btn btn-danger" ></a>
-                                        </p>
-                                </div>
+	                            <div class="row">
+	                                <div class="col-xs-6">
+	                                   <form class="" method="post" th:action="@{/admin/order/__${orderBean.id}__/paid}" >
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success" th:text="#{order.pay}"></button>
+                                            </div>
+                                        </form>
+	                                </div>
+	                                <div class="col-xs-6">
+		                                <div class="text-right">
+	                                        <p class="form-control-static">
+	                                            <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
+	                                               th:text="#{order.cancel}" class="btn btn-danger" ></a>
+	                                        </p>
+	                                   </div>
+	                                </div>
+	                            </div>
                             </div>
                         </div>
                     </div>

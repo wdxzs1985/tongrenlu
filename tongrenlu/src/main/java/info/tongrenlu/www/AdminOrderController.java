@@ -110,28 +110,21 @@ public class AdminOrderController {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
         final List<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
+        final List<OrderPayBean> payList = this.orderService.findPayList(orderBean);
+
         model.addAttribute("orderBean", orderBean);
         model.addAttribute("itemList", itemList);
+        model.addAttribute("payList", payList);
 
         switch (orderBean.getStatus()) {
         case OrderBean.STATUS_CREATE:
             return "admin/order/view_create";
-
         case OrderBean.STATUS_START:
             return "admin/order/view_start";
-
         case OrderBean.STATUS_PAID:
-            return "admin/order/view_paid";
-
         case OrderBean.STATUS_SEND_DIRECT:
-            return "admin/order/view_send_direct";
-
         case OrderBean.STATUS_SEND_GROUP:
-            return "admin/order/view_send_group";
-
-        case OrderBean.STATUS_FINISH:
-            return "admin/order/view_finish";
-
+            return "admin/order/view_paid";
         default:
             break;
         }
@@ -226,6 +219,8 @@ public class AdminOrderController {
         this.throwExceptionWhenNotFound(orderBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
 
+        orderBean.setStatus(OrderBean.STATUS_START);
+
         final OrderPayBean orderPayBean = new OrderPayBean();
         orderPayBean.setOrderBean(orderBean);
         orderPayBean.setUserBean(orderBean.getUserBean());
@@ -233,7 +228,7 @@ public class AdminOrderController {
         orderPayBean.setPayLink(payLink);
         orderPayBean.setAmount(amount);
         orderPayBean.setStatus(OrderPayBean.STATUS_CREATE);
-        this.orderService.addPay(orderPayBean, locale);
+        this.orderService.addPay(orderBean, orderPayBean, locale);
 
         model.put("result", true);
 
@@ -251,11 +246,15 @@ public class AdminOrderController {
         this.throwExceptionWhenNotFound(orderBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
 
-        model.put("orderPayId", orderPayId);
-        model.put("status", OrderPayBean.STATUS_PAID);
-        model.put("payNo", payNo);
+        orderBean.setStatus(OrderBean.STATUS_PAID);
 
-        this.orderService.updatePayStatus(model);
+        final OrderPayBean orderPayBean = new OrderPayBean();
+        orderPayBean.setId(orderPayId);
+        orderPayBean.setPayNo(payNo);
+        orderPayBean.setStatus(OrderPayBean.STATUS_PAID);
+        orderPayBean.setOrderBean(orderBean);
+
+        this.orderService.updatePayStatus(orderBean, orderPayBean, locale);
 
         model.put("result", true);
 
@@ -279,6 +278,20 @@ public class AdminOrderController {
         model.put("result", true);
 
         return model;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{orderId}/paid")
+    public String doPostPaid(@PathVariable final Integer orderId,
+                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                             final Model model,
+                             final Locale locale) {
+        final OrderBean orderBean = this.orderService.findByOrderId(orderId);
+        this.throwExceptionWhenNotFound(orderBean, locale);
+        orderBean.setShopper(loginUser);
+        orderBean.setStatus(OrderBean.STATUS_PAID);
+        this.orderService.updateOrderStatus(orderBean, locale);
+
+        return "redirect:/admin/order/" + orderId;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/send/group")

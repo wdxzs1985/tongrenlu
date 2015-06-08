@@ -20,7 +20,7 @@
 			//var url = /*[[@{/admin/order/item/status}]]*/ '';
 			$.post(settings.url, data).done(function(response) {
 				if(response.result) {
-					$this.parents('.order-item-status').html(tmpl('template-order-status', response));
+					$this.parents('.order-item-status').html(tmpl('template-order-status', $this.data()));
 				}
 			});
 		});
