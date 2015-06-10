@@ -3,8 +3,8 @@
 请确认价格无误后，进行支付。
 ---------------------------------------------
 
-合计
-${orderBean.total}
+${orderPayBean.title}
+$number.format("#0.00", ${orderPayBean.amount})
 
 付款链接
 ${orderPayBean.payLink}
