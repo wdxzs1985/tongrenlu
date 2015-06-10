@@ -164,6 +164,10 @@
                                         <input type="radio" name="shippingMethod" id="shipping-method-group" value="1" th:checked="${orderBean.shippingMethod} eq '1'" autocomplete="off"/> 
                                         <span class="" th:text="#{OrderBean.shipping.group}"></span>
                                       </label>
+                                      <label class="btn btn-default" th:classappend="${orderBean.shippingMethod} eq '0' ? 'active'">
+                                        <input type="radio" name="shippingMethod" id="shipping-method-none" value="0" th:checked="${orderBean.shippingMethod} eq '0'" autocomplete="off"/> 
+                                        <span class="" th:text="#{OrderBean.shipping.none}"></span>
+                                      </label>
                                     </div>
                                     <div class="append-bottom-lg" >
                                         <button type="submit" th:text="#{button.save}" class="btn btn-success"></button>
