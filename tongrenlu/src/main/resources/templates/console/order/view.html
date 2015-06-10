@@ -144,8 +144,8 @@
                                                     th:if="${orderPayBean.status} eq 0 and ${orderPayBean.payLink}" 
                                                     th:text="#{OrderBean.payLink}" 
                                                     class="btn btn-primary" target="_blank"></a>
-                                                <a th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderBean.payNo}__}" 
-                                                    th:if="${orderPayBean.status} eq 1 and ${orderBean.payNo}" 
+                                                <a th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderPayBean.payNo}__}" 
+                                                    th:if="${orderPayBean.status} eq 1 and ${orderPayBean.payNo}" 
                                                     th:text="#{OrderBean.payNo}" 
                                                     class="btn btn-primary" target="_blank"></a>
                                                     </div>
