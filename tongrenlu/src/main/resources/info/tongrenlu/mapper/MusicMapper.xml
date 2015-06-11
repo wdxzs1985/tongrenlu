@@ -152,46 +152,63 @@
         
     <select id="countLucky" resultType="int">
         SELECT 
-            count(v_music.id)
+            count(m_article.id)
         FROM
-            v_music
+            m_article
+        JOIN
+            r_music ON m_article.id = r_music.id
+        <if test="userBean != null">
         LEFT JOIN
-            r_user_library ON v_music.id = r_user_library.article_id
+            (SELECT 
+                id, article_id
+            FROM
+                r_user_library
+            WHERE
+                user_id = #{userBean.id} 
+            AND status = 1
+            AND del_flg = 0) r_user_library 
+        ON m_article.id = r_user_library.article_id
+        </if>
         <where>
-            v_music.publishFlg = 2
+            m_article.del_flg = 0
+        AND (m_article.publish_flg = 2
             <if test="userBean != null">
-            OR (r_user_library.user_id = #{userBean.id}
-            AND r_user_library.status = 1)
-            </if>
+            OR r_user_library.id IS NOT NULL
+            </if>)
         </where>
     </select>
     
     <select id="fetchLucky" resultType="MusicBean">
         SELECT 
         <trim suffixOverrides=",">
-            v_music.id                      as id,
-            v_music.title                   as title,
-            v_music.description             as description,
-            v_music.publishFlg              as publishFlg,
-            v_music.publishDate             as publishDate,
-            v_music.`userBean.id`           as `userBean.id`,
-            v_music.`userBean.nickname`     as `userBean.nickname`,
-            v_music.accessCount             as accessCount,
-            v_music.likeCount               as likeCount,
-            v_music.commentCount            as commentCount,
+            m_article.id AS id,
+            m_article.title AS title,
+            m_article.publish_flg,
         </trim>
         FROM
-            v_music
+            m_article
+        JOIN
+            r_music ON m_article.id = r_music.id
+        <if test="userBean != null">
         LEFT JOIN
-            r_user_library ON v_music.id = r_user_library.article_id
+            (SELECT 
+                id, article_id
+            FROM
+                r_user_library
+            WHERE
+                user_id = #{userBean.id} 
+            AND status = 1
+            AND del_flg = 0) r_user_library 
+        ON m_article.id = r_user_library.article_id
+        </if>
         <where>
-            v_music.publishFlg = 2
+            m_article.del_flg = 0
+        AND (m_article.publish_flg = 2
             <if test="userBean != null">
-            OR (r_user_library.user_id = #{userBean.id}
-            AND r_user_library.status = 1)
-            </if>
+            OR r_user_library.id IS NOT NULL
+            </if>)
         </where>
-        order by v_music.id desc
+        order by m_article.id desc
         limit #{start}, #{pageSize}
     </select>
 </mapper>
