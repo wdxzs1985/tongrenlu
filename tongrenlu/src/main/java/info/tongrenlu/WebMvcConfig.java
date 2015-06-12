@@ -18,12 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -87,14 +85,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(this.editAdminAuthInterceptor).addPathPatterns("/admin/music", "/admin/comment");
         registry.addInterceptor(this.shopAdminAuthInterceptor).addPathPatterns("/admin/shop");
         registry.addInterceptor(this.userAdminAuthInterceptor).addPathPatterns("/admin/user");
-    }
-
-    @Bean
-    public CharacterEncodingFilter characterEncodingFilter() {
-        final CharacterEncodingFilter filter = new CharacterEncodingFilter();
-        filter.setForceEncoding(true);
-        filter.setEncoding("UTF-8");
-        return filter;
     }
 
     @Autowired
