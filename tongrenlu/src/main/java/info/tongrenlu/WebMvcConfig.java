@@ -83,7 +83,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .excludePathPatterns(WebMvcConfig.EXCLUDE_PATH);
         registry.addInterceptor(this.consoleAuthInterceptor).addPathPatterns("/console/**", "/shop/**");
         registry.addInterceptor(this.editAdminAuthInterceptor).addPathPatterns("/admin/music", "/admin/comment");
-        registry.addInterceptor(this.shopAdminAuthInterceptor).addPathPatterns("/admin/shop");
+        registry.addInterceptor(this.shopAdminAuthInterceptor).addPathPatterns("/admin/shop", "/admin/order");
         registry.addInterceptor(this.userAdminAuthInterceptor).addPathPatterns("/admin/user");
     }
 
