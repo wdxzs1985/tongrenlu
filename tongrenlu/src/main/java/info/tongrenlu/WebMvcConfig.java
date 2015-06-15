@@ -30,13 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ControllerAdvice
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    public static final String[] EXCLUDE_PATH = { "/signin",
-            "/signin/salt",
-            "/signout",
-            "/signup",
-            "/signup/**",
-            "/forgot",
-            "/forgot/**" };
+    public static final String[] EXCLUDE_PATH = { "/signin", "/signin/salt", "/signout", "/signup", "/signup/**", "/forgot", "/forgot/**" };
 
     @InitBinder
     public void initBinder(final WebDataBinder binder) {
@@ -75,16 +69,15 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(this.timerInterceptor).addPathPatterns("/**").excludePathPatterns("/error");
         registry.addInterceptor(this.accessInterceptor).addPathPatterns("/**").excludePathPatterns("/error");
-        registry.addInterceptor(this.autoLoginInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns(WebMvcConfig.EXCLUDE_PATH);
-        registry.addInterceptor(this.guestAuthInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns(WebMvcConfig.EXCLUDE_PATH);
-        registry.addInterceptor(this.consoleAuthInterceptor).addPathPatterns("/console/**", "/shop/**");
-        registry.addInterceptor(this.editAdminAuthInterceptor).addPathPatterns("/admin/music", "/admin/comment");
-        registry.addInterceptor(this.shopAdminAuthInterceptor).addPathPatterns("/admin/shop", "/admin/order");
-        registry.addInterceptor(this.userAdminAuthInterceptor).addPathPatterns("/admin/user");
+        registry.addInterceptor(this.autoLoginInterceptor).addPathPatterns("/**").excludePathPatterns(WebMvcConfig.EXCLUDE_PATH);
+        registry.addInterceptor(this.guestAuthInterceptor).addPathPatterns("/**").excludePathPatterns(WebMvcConfig.EXCLUDE_PATH);
+        registry.addInterceptor(this.consoleAuthInterceptor).addPathPatterns("/console/**",
+                                                                             "/shop/**");
+        registry.addInterceptor(this.editAdminAuthInterceptor).addPathPatterns("/admin/music/**",
+                                                                               "/admin/comment/**");
+        registry.addInterceptor(this.shopAdminAuthInterceptor).addPathPatterns("/admin/shop/**",
+                                                                               "/admin/order/**");
+        registry.addInterceptor(this.userAdminAuthInterceptor).addPathPatterns("/admin/user/**");
     }
 
     @Autowired
@@ -94,9 +87,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public ModelAndView handlePageNotFoundException(final PageNotFoundException ex) {
         String message = ex.getMessage();
         if (StringUtils.isBlank(message)) {
-            message = this.messageSource.getMessage("error.pageNotFound", null, null);
+            message = this.messageSource.getMessage("error.pageNotFound",
+                                                    null,
+                                                    null);
         }
-        final ModelAndView model = new ModelAndView("error", Collections.singletonMap("error", message));
+        final ModelAndView model = new ModelAndView("error",
+                                                    Collections.singletonMap("error",
+                                                                             message));
         return model;
     }
 
@@ -104,9 +101,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public ModelAndView handleForbiddenException(final ForbiddenException ex) {
         String message = ex.getMessage();
         if (StringUtils.isBlank(message)) {
-            message = this.messageSource.getMessage("error.forbidden", null, null);
+            message = this.messageSource.getMessage("error.forbidden",
+                                                    null,
+                                                    null);
         }
-        final ModelAndView model = new ModelAndView("error", Collections.singletonMap("error", message));
+        final ModelAndView model = new ModelAndView("error",
+                                                    Collections.singletonMap("error",
+                                                                             message));
         return model;
     }
 }
