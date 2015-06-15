@@ -26,7 +26,7 @@ public class ConsoleAuthInterceptor extends HandlerInterceptorAdapter {
         if (loginUser != null && !loginUser.isGuest()) {
             return true;
         }
-        response.sendRedirect(request.getContextPath() + "/");
+        response.sendRedirect("/");
         return false;
     }
 }

@@ -15,7 +15,9 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 public class EditAdminAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request,
+                             final HttpServletResponse response,
+                             final Object handler) throws Exception {
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
@@ -25,10 +27,10 @@ public class EditAdminAuthInterceptor extends HandlerInterceptorAdapter {
             if (loginUser.isEditAdmin()) {
                 return true;
             } else {
-                response.sendRedirect(request.getContextPath() + "/console");
+                response.sendRedirect("/console");
             }
         } else {
-            response.sendRedirect(request.getContextPath() + "/");
+            response.sendRedirect("/");
         }
         return false;
     }
