@@ -139,7 +139,9 @@
                                                 <span class="label label-success" th:if="${orderPayBean.status} eq 1" th:text="#{OrderPaybean.status.paid}">1</span>
                                                 <strong th:text="${orderPayBean.title}">orderPayBean.title</strong>
                                                 <span th:text="#{order.CNY(${#numbers.formatDecimal(orderPayBean.amount,1,'COMMA',2,'POINT')})}">orderPayBean.amount</span>
-                                                <div class="media-right">
+                                                
+                                            </div>
+                                            <div class="media-right">
                                                 <a th:href="${orderPayBean.payLink}" 
                                                     th:if="${orderPayBean.status} eq 0 and ${orderPayBean.payLink}" 
                                                     th:text="#{OrderBean.payLink}" 
@@ -148,7 +150,6 @@
                                                     th:if="${orderPayBean.status} eq 1 and ${orderPayBean.payNo}" 
                                                     th:text="#{OrderBean.payNo}" 
                                                     class="btn btn-primary" target="_blank"></a>
-                                                    </div>
                                             </div>
                                         </div>
                                 </div>

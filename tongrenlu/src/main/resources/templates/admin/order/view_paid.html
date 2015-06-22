@@ -163,19 +163,18 @@
                                                 </span>
                                             </div>
                                         </form>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <p class="form-control-static" th:if="${orderBean.status} lt 3">
+                                            <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
+                                               th:text="#{order.cancel}" class="btn btn-danger" ></a>
+                                        </p>
                                         <form class="form-inline" method="post" th:if="${orderBean.status} eq 4"
                                             th:action="@{/admin/order/__${orderBean.id}__/finish}" >
                                             <button type="submit" class="btn btn-success" th:text="#{order.finish}"></button>
                                         </form>
                                     </div>
-                                    <div class="col-xs-6 text-right" th:if="${orderBean.status} lt 3">
-                                        <p class="form-control-static">
-                                            <a th:href="@{/admin/order/__${orderBean.id}__/cancel}" 
-                                               th:text="#{order.cancel}" class="btn btn-danger" ></a>
-                                        </p>
-                                    </div>
                                 </div>
-                            
                             </div>
                         </div>
                     </div>
