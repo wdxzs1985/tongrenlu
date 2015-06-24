@@ -44,6 +44,20 @@ public class LoginController {
         return model;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/signin")
+    @ResponseBody
+    public Map<String, Object> doGetSignin(final HttpServletRequest request) {
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        final HttpSession session = request.getSession();
+        final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
+
+        model.put("loginUser", loginUser);
+        model.put("result", true);
+
+        return model;
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/signin")
     @ResponseBody
     public Map<String, Object> doPostLogin(final String email,
