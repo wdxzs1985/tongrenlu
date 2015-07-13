@@ -171,6 +171,7 @@ public class AdminOrderController {
             orderItem.setQuantity(quantityArray.length > 0 ? quantityArray[i] : null);
             orderItem.setExchangeRate(exchangeRateArray.length > 0 ? exchangeRateArray[i] : null);
             orderItem.setFee(feeArray.length > 0 ? feeArray[i] : null);
+            orderItem.setTotalFee(feeArray.length > 0 ? feeArray[i] : null);
 
             itemList.add(orderItem);
         }

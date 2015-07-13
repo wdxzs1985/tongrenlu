@@ -40,6 +40,8 @@ public class OrderItemBean extends DtoBean {
 
     private BigDecimal fee = BigDecimal.ZERO;
 
+    private BigDecimal totalFee = BigDecimal.ZERO;
+
     private Integer status = 0;
 
     private Date createDate = null;
@@ -92,12 +94,16 @@ public class OrderItemBean extends DtoBean {
         return this.fee;
     }
 
-    public BigDecimal getTotalFee() {
-        return this.fee.multiply(this.quantity.subtract(BigDecimal.ONE));
-    }
-
     public void setFee(final BigDecimal fee) {
         this.fee = fee;
+    }
+
+    public BigDecimal getTotalFee() {
+        return this.totalFee;
+    }
+
+    public BigDecimal setTotalFee(final BigDecimal totalFee) {
+        return this.totalFee = totalFee;
     }
 
     public BigDecimal getAmountJp() {

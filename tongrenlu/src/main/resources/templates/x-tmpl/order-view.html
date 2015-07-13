@@ -83,7 +83,9 @@
             </div>
             <div class="col-md-5 col-md-offset-0 col-xs-6 col-xs-offset-2">
                 <div class="form-group">
-                <p class="form-control-static" >{%= orderPayBean.payNo %}</p>
+                    <a href="http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId={%= orderPayBean.payNo %}" 
+                        th:text="#{OrderBean.payNo}" 
+                        class="btn btn-primary" target="_blank"></a>
                 </div>
             </div>
         {% } %}

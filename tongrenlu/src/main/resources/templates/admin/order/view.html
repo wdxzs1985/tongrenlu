@@ -196,8 +196,8 @@
                                 </table>
                             </div>
                             <div id="order-pay-container" class="panel-body" th:unless="${#lists.isEmpty(payList)}">
-                                <div class="media-list" >
-                                        <div class="media" th:each="orderPayBean: ${payList}">
+                                <div class="list-group" >
+                                        <div class="list-group-item" th:each="orderPayBean: ${payList}">
                                             <div class="media-left">
                                                 <span class="label label-default" th:if="${orderPayBean.status} eq 0" th:text="#{OrderPaybean.status.created}">0</span>
                                                 <span class="label label-success" th:if="${orderPayBean.status} eq 1" th:text="#{OrderPaybean.status.paid}">1</span>
@@ -208,15 +208,19 @@
                                                 
                                             </div>
                                             <div class="media-right">
-                                                <a th:href="${orderPayBean.payLink}" 
-                                                    th:if="${orderPayBean.status} eq 0 and ${orderPayBean.payLink}" 
-                                                    th:text="#{OrderBean.payLink}" 
-                                                    class="btn btn-primary" target="_blank"></a>
-                                                <a th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderPayBean.payNo}__}" 
-                                                    th:if="${orderPayBean.status} eq 1 and ${orderPayBean.payNo}" 
-                                                    th:text="#{OrderBean.payNo}" 
-                                                    class="btn btn-primary" target="_blank"></a>
-                                                    </div>
+                                                    <a th:href="${orderPayBean.payLink}" 
+                                                        th:if="${orderPayBean.status} eq 0 and ${orderPayBean.payLink}" 
+                                                        th:text="#{OrderBean.payLink}" 
+                                                        class="btn btn-primary" target="_blank"></a>
+                                                    <a th:href="@{http://trade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=__${orderPayBean.payNo}__}" 
+                                                        th:if="${orderPayBean.status} eq 1 and ${orderPayBean.payNo}" 
+                                                        th:text="#{OrderBean.payNo}" 
+                                                        class="btn btn-primary" target="_blank"></a>
+                                                    <a th:href="@{/admin/order/__${orderBean.id}__/refund/__${orderPayBean.id}__}" 
+                                                        th:if="${orderBean.status} eq 9 and ${orderPayBean.status} eq 1" 
+                                                        th:text="#{order.pay.refund}" 
+                                                        class="btn btn-danger" target="_blank"></a>
+                                            </div>
                                         </div>
                                 </div>
                             </div>

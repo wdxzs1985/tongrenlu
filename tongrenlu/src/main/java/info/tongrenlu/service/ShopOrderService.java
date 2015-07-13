@@ -67,6 +67,7 @@ public class ShopOrderService {
         final ShopBean shopBean = this.shopManager.getDefaultShop();
         final OrderItemBean item = this.initItem(shopBean);
         item.setFee(shopBean.getFeeMailorder());
+        item.setTotalFee(shopBean.getFeeMailorder());
 
         if (PATTERN_TORANOANA.matcher(url).find()) {
             this.initWithToranoana(item, url);
@@ -98,6 +99,7 @@ public class ShopOrderService {
         item.setPrice(price);
         item.setUrl(url);
         item.setFee(shopBean.getFeeEvent());
+        item.setTotalFee(shopBean.getFeeEvent());
         item.setShop(this.messageSource.getMessage("shop.event", null, locale));
         return item;
     }
@@ -226,6 +228,10 @@ public class ShopOrderService {
 
                 amountJp = amountJp.add(item.getAmountJp());
                 amountCn = amountCn.add(item.getAmountCn());
+
+                final BigDecimal totalFee = item.getFee().multiply(item.getQuantity());
+                item.setTotalFee(totalFee);
+
                 fee = fee.add(item.getTotalFee());
                 total = total.add(item.getTotal());
                 itemList.add(item);

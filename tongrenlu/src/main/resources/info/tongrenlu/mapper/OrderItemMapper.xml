@@ -29,7 +29,7 @@
            #{price},
            #{quantity},
            #{exchangeRate},
-           #{fee},
+           #{totalFee},
            0,
            current_timestamp,
         </trim>
@@ -47,6 +47,7 @@
             m_order_item.quantity,
             m_order_item.exchange_rate  as "exchangeRate",
             m_order_item.fee,
+            m_order_item.fee            as totalFee,
             m_order_item.status,
             m_order_item.create_date    as createDate,
             m_order_item.order_date     as orderDate,
