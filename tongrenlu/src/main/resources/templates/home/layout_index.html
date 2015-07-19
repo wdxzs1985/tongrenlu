@@ -7,94 +7,28 @@
 </head>
 <body>
     <div id="top-tags" class="container-wrap" >
-        <div class="container" th:fragment="top-tags-reitaisai">
-            <div class="page-header">
-                <h3 th:text="#{home.music.reitaisai}"></h3>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-danger" 
-                       href="http://static.tongrenlu.info/tongrenlu/preview/rts12/index.html" title="博丽神社例大祭12 (2015-05-10)">
-                        <span >例大祭12 (试听)</span>
-                    </a>
-                </div>
-                <div class="col-xs-12 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-danger" 
-                       th:href="@{/tag/2536}" title="博丽神社例大祭12 (2015-05-10)">
-                        <span >例大祭12 (索引)</span>
-                    </a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1826}" title="博丽神社例大祭11 (2014-05-11)">例大祭11</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1350}" >例大祭10</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1030}" >例大祭9</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1045}" >例大祭8</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1186}" >例大祭7</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1047}" >例大祭6</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1212}" >例大祭5</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1180}" >例大祭4</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1348}" >例大祭3</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:href="@{/tag/1681}" >例大祭2</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block append-bottom btn-default" 
-                       th:disabled="true" >例大祭1</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block btn-default append-bottom" 
-                       th:href="@{/tag/1501}" >例大祭SP2</a>
-                </div>
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block btn-default append-bottom" 
-                       th:href="@{/tag/1215}" >例大祭SP1</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a class="btn btn-block btn-default append-bottom" 
-                       th:href="@{/tag/2381}" >秋季例大祭1</a>
-                </div>
-            </div>
-        </div>
         <div class="container" th:fragment="top-tags-comiket">
             <div class="page-header">
                 <h3 th:text="#{home.music.comike}"></h3>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="col-xs-12 col-sm-3 col-md-2">
                     <a class="btn btn-block append-bottom btn-primary" 
+                       href="http://static.tongrenlu.info/tongrenlu/preview/c88/index.html" 
+                       title="ComicMarket88 (2015-08-14)" target="_blank">
+                        <span >C88 (试听)</span>
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-primary" 
+                       th:href="@{/tag/2627}" title="ComicMarket88 (2015-08-14)">
+                        <span>C88 (索引)</span>
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
                        th:href="@{/tag/2413}"  title="ComicMarket87 (2014-12-29)">
-                        <span>ComicMarket87 (2014-12-29)</span>
+                        <span>C87</span>
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-3 col-md-2">
@@ -201,6 +135,79 @@
                     <a class="btn btn-block append-bottom btn-default" 
                        th:href="@{/tag/1642}" 
                        th:text="C66"></a>
+                </div>
+            </div>
+        </div>
+        <div class="container" th:fragment="top-tags-reitaisai">
+            <div class="page-header">
+                <h3 th:text="#{home.music.reitaisai}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-danger" 
+                       th:href="@{/tag/2536}" title="博丽神社例大祭12 (2015-05-10)">
+                        <span >例大祭12</span>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1826}" title="博丽神社例大祭11 (2014-05-11)">例大祭11</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1350}" >例大祭10</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1030}" >例大祭9</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1045}" >例大祭8</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1186}" >例大祭7</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1047}" >例大祭6</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1212}" >例大祭5</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1180}" >例大祭4</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1348}" >例大祭3</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:href="@{/tag/1681}" >例大祭2</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-default" 
+                       th:disabled="true" >例大祭1</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/1501}" >例大祭SP2</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/1215}" >例大祭SP1</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/2381}" >秋季例大祭1</a>
                 </div>
             </div>
         </div>
