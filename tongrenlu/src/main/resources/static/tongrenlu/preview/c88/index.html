@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>C88 XFD试听合集</title>
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/bootstrap/3.3.5/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="http://www.tongrenlu.info/tongrenlu/css/tongrenlu-screen.css" />
+		<link rel="stylesheet" type="text/css" href="http://www.tongrenlu.info/tongrenlu/css/tongrenlu-jplayer.css" />
+		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/tongrenlu/css/tongrenlu-preview.css" />
+	</head>
+	<body>
+        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+        <div id="jp_container_1" class="jp-audio">
+            <div class="jp-type-playlist">
+                <div class="jp-gui">
+                    <div class="jp-interface">
+                        <div class="jp-progress">
+                            <div class="jp-current-time"></div>
+                            <div class="jp-duration"></div>
+                            <div class="jp-seek-bar">
+                                <div class="jp-play-bar"></div>
+                            </div>
+                        </div>
+                        <ul class="jp-controls">
+                            <li><a href="javascript:;" class="jp-play" tabindex="1"><span class="glyphicon glyphicon-play"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-pause" tabindex="1"><span class="glyphicon glyphicon-pause"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-stop" tabindex="1"><span class="glyphicon glyphicon-stop"></span></a>
+                            </li>
+                        </ul>
+                        <ul class="jp-volumn hidden-xs">
+                            <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><span class="glyphicon glyphicon-volume-down"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><span class="glyphicon glyphicon-volume-off"></span></a>
+                            </li>
+                            <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><span class="glyphicon glyphicon-volume-up"></span></a>
+                            </li>
+                        </ul>
+                        <div class="jp-volume-bar hidden-xs">
+                            <div class="jp-volume-bar-value"></div>
+                        </div>
+                        <div class="jp-details">
+                            <ul>
+                                <li><span class="jp-title"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 ">
+                    <div class="card panel">
+                        <div class="media-list" id="left-side"></div>
+                    </div>
+                </div>
+                <div class="col-md-9 hidden-sm hidden-xs">
+                    <div id="items-case" class="case" data-col-min-width="100"></div>
+                </div>
+            </div>
+		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="http://static.tongrenlu.info/jquery/2.1.4/jquery-2.1.4.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="http://static.tongrenlu.info/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="http://static.tongrenlu.info/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js"></script>
+		<script src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
+		<script src="http://static.tongrenlu.info/jquery.waterfall/jquery.waterfall.js"></script>
+        <script src="http://static.tongrenlu.info/jquery.lazyload/jquery.lazyload.min.js"></script>
+		
+		<script id="template-waterfall-item" type="text/x-tmpl">
+			<div class="card thumbnail" data-span="{%= o.span %}">
+				<a class="play" href="javascript:;">
+					<img class="lazy" data-original="{%= o.poster %}" 
+                        src="{%= o.poster %}"
+                        style="{%= o.style %}" />
+			    </a>
+				<div class="caption">
+					<h4 class="text-single-line">
+                        <a href="http://www.tongrenlu.info/music/{%= o.id %}" target="_blank">{%= o.title %}</a>
+                    </h4>
+			    </div>
+			</div>
+		</script>
+        
+		<script id="template-media-item" type="text/x-tmpl">
+            <div class="media">
+                <a class="media-left play" href="javascript:;">
+                    <img class="img-120 lazy" data-original="{%= o.poster %}" />
+                </a>
+                <div class="media-body">
+					<p class=""><a class="play" href="javascript:;">{%= o.title %}</a></p>
+                </div>
+            </div>
+		</script>
+        
+        
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var $jplayer = $("#jquery_jplayer_1").jPlayer({
+					swfPath: "http://static.tongrenlu.info/jPlayer/2.9.2/jplayer",
+					supplied: "mp3",
+					wmode: "window",
+					useStateClassSkin: true,
+					autoBlur: false,
+					smoothPlayBar: true,
+					keyEnabled: false,
+					remainingDuration: true,
+					toggleDuration: true
+				});
+                
+                $(document).on('click', 'a.play', function(event) {
+                    event.preventDefault();
+                    var media = $(this).data();
+                    $jplayer.jPlayer("setMedia", media);
+                    $jplayer.jPlayer("play");
+                });
+                
+                $.getJSON('c88.json').done(function(data) {
+                    $.each(data, function(index, element) {
+                        
+                        element.poster = 'http://files.tongrenlu.info/m' + element.id + "/cover_400.jpg"
+                        element.mp3 = 'http://files.tongrenlu.info/m' + element.id + "/xfd.mp3"
+                        
+                    var html = tmpl('template-media-item', element);
+                    var $item = $(html).appendTo('#left-side');
+                    $item.find('a.play').data(element);
+                    $item.find("img.lazy").lazyload();
+                });
+                
+                if($(window).width() > 400) {
+                    $.each(data, function(index, element) {
+                        if(index % 3 == 0) {
+                            element.span = '4';
+                            element.style = 'height:400px';
+                        } else {
+                            element.span = '2';
+                            element.style = 'height:200px';
+                        }
+                        
+                        var html = tmpl('template-waterfall-item', element);
+                        var $item = $(html).appendTo('#items-case');
+                        $item.find('a.play').data(element);
+                        $item.find("img.lazy").lazyload();
+                    });
+                    $('#items-case').waterfall();
+                }
+                });
+                
+			});
+		</script>
+	</body>
+</html>

@@ -25,13 +25,13 @@ public class EventPreviewDataService implements CommandLineRunner {
     @Override
     public void run(final String... arg0) throws Exception {
 
-        List<Map<String, Object>> musicList = this.findMusicByTag(2536);
+        List<Map<String, Object>> musicList = this.findMusicByTag(2627);
 
         Gson gson = new Gson();
         String data = gson.toJson(musicList);
         this.log.debug(data);
 
-        FileUtils.writeStringToFile(new File("rts12.json"), data);
+        FileUtils.writeStringToFile(new File("c88.json"), data);
     }
 
     private List<Map<String, Object>> findMusicByTag(int tagId) {
