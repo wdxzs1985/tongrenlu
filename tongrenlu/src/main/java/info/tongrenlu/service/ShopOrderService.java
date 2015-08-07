@@ -58,10 +58,17 @@ public class ShopOrderService {
     @Autowired
     private MailResolvor mailResolvor = null;
 
-    public OrderItemBean initWithUrl(final String url, final Map<String, Object> model, final Locale locale) {
-        final String fieldName = this.messageSource.getMessage("OrderItemBean.url", null, locale);
+    public OrderItemBean initWithUrl(final String url,
+                                     final Map<String, Object> model,
+                                     final Locale locale) {
+        final String fieldName = this.messageSource.getMessage("OrderItemBean.url",
+                                                               null,
+                                                               locale);
         if (StringUtils.isBlank(url)) {
-            model.put("error", this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
+            model.put("error",
+                      this.messageSource.getMessage("validate.empty",
+                                                    new Object[] { fieldName },
+                                                    locale));
             return null;
         }
         final ShopBean shopBean = this.shopManager.getDefaultShop();
@@ -77,7 +84,10 @@ public class ShopOrderService {
         } else if (PATTERN_MELONBOOKS.matcher(url).find()) {
             this.initWithMelonbooks(item, url);
         } else {
-            model.put("error", this.messageSource.getMessage("validate.bad", new Object[] { fieldName }, locale));
+            model.put("error",
+                      this.messageSource.getMessage("validate.bad",
+                                                    new Object[] { fieldName },
+                                                    locale));
             return null;
         }
         return item;
@@ -89,8 +99,13 @@ public class ShopOrderService {
                                        final Map<String, Object> model,
                                        final Locale locale) {
         if (StringUtils.isBlank(title)) {
-            final String fieldName = this.messageSource.getMessage("OrderItemBean.title", null, locale);
-            model.put("error", this.messageSource.getMessage("validate.empty", new Object[] { fieldName }, locale));
+            final String fieldName = this.messageSource.getMessage("OrderItemBean.title",
+                                                                   null,
+                                                                   locale);
+            model.put("error",
+                      this.messageSource.getMessage("validate.empty",
+                                                    new Object[] { fieldName },
+                                                    locale));
             return null;
         }
         final ShopBean shopBean = this.shopManager.getDefaultShop();
@@ -122,14 +137,15 @@ public class ShopOrderService {
 
         // parse the string
         try {
-            final Element priceElement = doc.select("#form1 .price").first();
+            final Element priceElement = doc.select("#form_1_product .price").first();
             priceElement.children().remove();
             final String priceText = priceElement.text();
             final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
             symbols.setGroupingSeparator(',');
             symbols.setDecimalSeparator('.');
             final String pattern = "¥#,##0.0#";
-            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern,
+                                                                  symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
         } catch (final ParseException e) {
@@ -137,7 +153,9 @@ public class ShopOrderService {
         }
 
         item.setTitle(String.format("[%s] %s", circleName, title));
-        item.setShop(this.messageSource.getMessage("shop.mailorder.melonbooks", null, null));
+        item.setShop(this.messageSource.getMessage("shop.mailorder.melonbooks",
+                                                   null,
+                                                   null));
         item.setUrl(url);
         item.setPrice(price);
     }
@@ -157,7 +175,8 @@ public class ShopOrderService {
             symbols.setGroupingSeparator(',');
             symbols.setDecimalSeparator('.');
             final String pattern = "#,##0.0#";
-            final DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+            final DecimalFormat decimalFormat = new DecimalFormat(pattern,
+                                                                  symbols);
             decimalFormat.setParseBigDecimal(true);
             price = (BigDecimal) decimalFormat.parse(priceText);
         } catch (final ParseException e) {
@@ -165,17 +184,24 @@ public class ShopOrderService {
         }
 
         item.setTitle(String.format("[%s] %s", circleName, title));
-        item.setShop(this.messageSource.getMessage("shop.mailorder.toranoana", null, null));
+        item.setShop(this.messageSource.getMessage("shop.mailorder.toranoana",
+                                                   null,
+                                                   null));
         item.setUrl(url);
         item.setPrice(price);
     }
 
-    public boolean newOrder(final OrderBean orderBean, final Collection<OrderItemBean> itemList, final Locale locale) {
-        final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList, 0);
+    public boolean newOrder(final OrderBean orderBean,
+                            final Collection<OrderItemBean> itemList,
+                            final Locale locale) {
+        final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList,
+                                                                            0);
         String title = firstItem.getTitle();
 
         if (CollectionUtils.size(itemList) > 1) {
-            title = this.messageSource.getMessage("order.title.etc", new Object[] { title }, locale);
+            title = this.messageSource.getMessage("order.title.etc",
+                                                  new Object[] { title },
+                                                  locale);
         }
 
         orderBean.setTitle(title);
@@ -193,7 +219,8 @@ public class ShopOrderService {
         mailModel.setSubject(this.messageSource.getMessage("mail.order.subject",
                                                            new Object[] { userBean.getNickname() },
                                                            locale));
-        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(), userBean.getNickname()));
+        mailModel.setTo(this.mailResolvor.createAddress(userBean.getEmail(),
+                                                        userBean.getNickname()));
         mailModel.setTemplate("order_create");
 
         mailModel.addAttribute("userBean", userBean);
@@ -211,7 +238,8 @@ public class ShopOrderService {
         return orderBean;
     }
 
-    public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart, final OrderBean orderBean) {
+    public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart,
+                                            final OrderBean orderBean) {
 
         final List<OrderItemBean> itemList = new ArrayList<>();
         if (!CollectionUtils.sizeIsEmpty(shoppingCart)) {
