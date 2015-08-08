@@ -137,7 +137,7 @@ public class ShopOrderService {
 
         // parse the string
         try {
-            final Element priceElement = doc.select("#form_1_product .price").first();
+            final Element priceElement = doc.select("#form_product .price").first();
             priceElement.children().remove();
             final String priceText = priceElement.text();
             final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
