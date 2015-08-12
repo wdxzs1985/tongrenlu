@@ -40,9 +40,12 @@ public class AdminOrderController {
     @Autowired
     private MessageSource messageSource = null;
 
-    protected void throwExceptionWhenNotFound(final OrderBean orderBean, final Locale locale) {
+    protected void throwExceptionWhenNotFound(final OrderBean orderBean,
+                                              final Locale locale) {
         if (orderBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         }
     }
 
@@ -93,7 +96,8 @@ public class AdminOrderController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "user/{userId}/merge")
-    public String doGetMerge(@PathVariable final Integer userId, final Locale locale) {
+    public String doGetMerge(@PathVariable final Integer userId,
+                             final Locale locale) {
         final OrderBean orderBean = this.orderService.mergeOrder(userId, locale);
         if (orderBean != null) {
             return "redirect:/admin/order/" + orderBean.getId();
@@ -105,8 +109,7 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}")
     public String doGetView(@PathVariable final Integer orderId,
                             @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                            final Model model,
-                            final Locale locale) {
+                            final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
         final List<OrderItemBean> itemList = this.orderService.findItemList(orderBean);
@@ -135,8 +138,7 @@ public class AdminOrderController {
     public String doGetRemoveItem(@PathVariable final Integer orderId,
                                   @PathVariable final Integer orderItemId,
                                   @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                  final Model model,
-                                  final Locale locale) {
+                                  final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
         this.orderService.removeItem(orderBean, orderItemId);
@@ -153,8 +155,7 @@ public class AdminOrderController {
                              @RequestParam("exchangeRate[]") final BigDecimal[] exchangeRateArray,
                              @RequestParam("fee[]") final BigDecimal[] feeArray,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Integer shippingMethod,
-                             final Model model,
+                             final Integer shippingMethod, final Model model,
                              final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
@@ -182,8 +183,7 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/start")
     public String doPostStart(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model,
-                              final Locale locale) {
+                              final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
         orderBean.setShopper(loginUser);
@@ -247,7 +247,7 @@ public class AdminOrderController {
         this.throwExceptionWhenNotFound(orderBean, locale);
         final Map<String, Object> model = new HashMap<String, Object>();
 
-        orderBean.setStatus(OrderBean.STATUS_PAID);
+        // orderBean.setStatus(OrderBean.STATUS_PAID);
 
         final OrderPayBean orderPayBean = new OrderPayBean();
         orderPayBean.setId(orderPayId);
@@ -284,8 +284,7 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/paid")
     public String doPostPaid(@PathVariable final Integer orderId,
                              @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
+                             final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
         orderBean.setShopper(loginUser);
@@ -298,8 +297,7 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/send/group")
     public String doPostSendGroup(@PathVariable final Integer orderId,
                                   @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                  final Model model,
-                                  final Locale locale) {
+                                  final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
 
@@ -312,8 +310,7 @@ public class AdminOrderController {
     public String doPostSendDirect(@PathVariable final Integer orderId,
                                    final String trackingCode,
                                    @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                                   final Model model,
-                                   final Locale locale) {
+                                   final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
 
@@ -326,8 +323,7 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.POST, value = "{orderId}/finish")
     public String doPostFinish(@PathVariable final Integer orderId,
                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                               final Model model,
-                               final Locale locale) {
+                               final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
 
@@ -339,8 +335,7 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}/cancel")
     public String doGetCancel(@PathVariable final Integer orderId,
                               @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                              final Model model,
-                              final Locale locale) {
+                              final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
 
@@ -353,8 +348,7 @@ public class AdminOrderController {
     @RequestMapping(method = RequestMethod.GET, value = "{orderId}/restore")
     public String doGetRestore(@PathVariable final Integer orderId,
                                @ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                               final Model model,
-                               final Locale locale) {
+                               final Model model, final Locale locale) {
         final OrderBean orderBean = this.orderService.findByOrderId(orderId);
         this.throwExceptionWhenNotFound(orderBean, locale);
 
@@ -366,8 +360,7 @@ public class AdminOrderController {
 
     @RequestMapping(method = RequestMethod.GET, value = "items")
     public String doGetItems(@ModelAttribute("LOGIN_USER") final UserBean loginUser,
-                             final Model model,
-                             final Locale locale) {
+                             final Model model, final Locale locale) {
         final List<OrderItemBean> stockItemList = this.orderService.findStockItemList(loginUser);
         final Map<String, Object> stockItemMap = new HashMap<String, Object>();
         for (final OrderItemBean item : stockItemList) {
