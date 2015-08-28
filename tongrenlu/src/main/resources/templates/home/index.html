@@ -14,10 +14,7 @@
         <div id="top-music" class="container-wrap" >
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 ">
-                        <h1><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h1>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-md-offset-6">
                         <form class="append-top-lg" th:action="@{/music/search}" method="get" role="search">
                             <div class="input-group">
                                 <input type="text" name="q" id="inputMusicSearch"

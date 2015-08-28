@@ -8,12 +8,36 @@
     <meta name="keywords" th:content="#{application.keywords}" />
     <link rel="author" href="humans.txt" />
     <link rel="stylesheet" href="http://static.tongrenlu.info/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/mdl/material.css}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-screen.css}"/>
     <script src="http://static.tongrenlu.info/modernizr/2.8.3/modernizr.custom.61407.js"></script>
     <title th:text="#{application}"></title>
 </head>
 <body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--overlay-drawer-button">
 <div layout:fragment="header"></div>
+<div class="mdl-layout__drawer">
+    <header style="padding-top: 64px;" class="mdl-layout-title" >
+        <div >
+            <img class="img-circle" th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" />
+        </div>
+        <div >
+            <span id="nav-nickname" th:text="${session.LOGIN_USER}"></span>
+        </div>
+    </header>
+    <nav id="nav-signin" class="mdl-navigation hidden hide-when-signin">
+      <a class="mdl-navigation__link" th:href="@{/signup}" th:text="#{login.signup}" rel="nofollow">Link</a>
+      <a class="mdl-navigation__link" href="#signinModal" data-toggle="modal" th:text="#{login.signin}">Link</a>
+    </nav>
+    <nav id="nav-console" class="mdl-navigation hidden show-when-signin">
+        <a class="mdl-navigation__link" th:href="@{/console}" th:text="#{console}" rel="nofollow">Link</a>
+        <a class="mdl-navigation__link" th:href="@{/console/setting}" th:text="#{console.profile.setting}" rel="nofollow">Link</a>
+        <a class="mdl-navigation__link" th:href="@{/console/password}" th:text="#{console.profile.password}" rel="nofollow">Link</a>
+        <a class="mdl-navigation__link" th:href="@{/signout}" th:text="#{login.signout}" rel="nofollow">Link</a>
+    </nav>
+  </div>
+<div class="mdl-layout__content">
 <div layout:fragment="content"></div>
 <div layout:fragment="footer">
 <div id="footer" class="container-wrap">
@@ -31,8 +55,11 @@
   </div>
 </div>
 </div>
+</div>
+</div>
 <script type="text/javascript" src="http://static.tongrenlu.info/jquery/2.1.4/jquery-2.1.4.min.js" ></script>
 <script type="text/javascript" src="http://static.tongrenlu.info/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+<script type="text/javascript" th:src="@{/mdl/material.js}" ></script>
 <th:block layout:fragment="scripts-libs"></th:block>
 <th:block layout:fragment="scripts"></th:block>
 </body>

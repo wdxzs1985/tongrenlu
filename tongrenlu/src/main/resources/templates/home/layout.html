@@ -15,58 +15,31 @@
     </script>
 </head>
 <body>
-<div class="navbar navbar-default navbar-fixed-top" layout:fragment="header">
-    <div class="container">
-        <div class="navbar-header ">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                <span class="sr-only" th:text="#{application}"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html" th:href="@{/}" th:text="#{application}"></a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-            <ul class="nav navbar-nav navbar-left">
-                <li class=""><a th:href="@{/music}" th:text="#{home.music}"></a></li>
-                <li class="dropdown hidden show-when-signin">
-                    <a th:href="@{/shop}" >
-                        <span th:text="#{shop.cart}"></span> 
-                        <span id="shop-cart-badge" class="badge" 
-                            th:classappend="${session.shoppingCart == null or #maps.size(session.shoppingCart) == 0} ? 'hidden'" 
-                            th:text="${session.shoppingCart != null and #maps.size(session.shoppingCart) > 0} ? ${#maps.size(session.shoppingCart)}">99</span>
-                    </a>
-                </li>
-            </ul>
-            <ul id="nav-signin" class="nav navbar-nav navbar-right hidden hide-when-signin">
-                <li class=""><a th:href="@{/signup}" th:text="#{login.signup}" rel="nofollow"></a></li>
-                <li class=""><a href="#signinModal" data-toggle="modal" th:text="#{login.signin}"></a></li>
-            </ul>
-            <ul id="nav-console" class="nav navbar-nav navbar-right hidden show-when-signin">
-                <li class=""><a th:href="@{/console}" th:text="#{console}" rel="nofollow"></a></li>
-                <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span id="nav-nickname" th:text="#{UserBean.nickname}"></span> <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{/console/setting}" th:text="#{console.profile.setting}" rel="nofollow"></a></li>
-                        <li><a th:href="@{/console/password}" th:text="#{console.profile.password}" rel="nofollow"></a></li>
-                        <li><a th:href="@{/signout}" th:text="#{login.signout}" rel="nofollow"></a></li>
-                    </ul>
-                </li>
-            </ul>
-            <form class="navbar-form navbar-right navbar-search hidden-xs hidden-sm" th:action="@{/music/search}" method="get" role="search">
-                <div class="form-group">
-                    <input type="text" name="q" class="form-control" th:placeholder="#{home.search.music.hint}"/>
-                </div>
-                <button class="btn btn-warning" type="submit">
-                    <span class="glyphicon glyphicon-search"></span>
-                    <span class="hidden-xs hidden-sm" th:text="#{home.search.music}"></span>
-                </button>
-            </form>
+<header class="mdl-layout__header mdl-color--primary-dark" layout:fragment="header">
+    <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">
+            <a th:href="@{/}" th:text="#{application}" class="mdl-ripple-effect mdl-color-text--accent-contrast">Link</a>
+        </span>
+        <!-- Add spacer, to align navigation to the right -->
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" th:href="@{/music}" th:text="#{home.music}">Link</a>
+            <a class="mdl-navigation__link" th:href="@{/shop}" th:text="#{shop.cart}">Link</a>
+        </nav>
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                  mdl-textfield--floating-label mdl-textfield--align-right">
+            <label class="mdl-button mdl-js-button mdl-button--icon"
+               for="waterfall-exp">
+            <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-textfield__expandable-holder">
+            <input class="mdl-textfield__input" type="text" name="sample"
+                 id="waterfall-exp" />
+            </div>
         </div>
     </div>
-</div>
+</header>
 <th:block layout:fragment="scripts-libs">
 <!-- Modal -->
 <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
