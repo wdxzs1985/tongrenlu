@@ -2,6 +2,7 @@ package info.tongrenlu.www;
 
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.service.ConsoleLibraryService;
 import info.tongrenlu.service.HomeMusicService;
 import info.tongrenlu.service.SearchService;
 import info.tongrenlu.solr.MusicDocument;
@@ -39,6 +40,8 @@ public class FmController {
 
     @Autowired
     private HomeMusicService musicService = null;
+    @Autowired
+    private ConsoleLibraryService libraryService = null;
 
     @Autowired
     private SearchService searchService = null;
@@ -93,4 +96,23 @@ public class FmController {
         }
         return model;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/library")
+    @ResponseBody
+    public Map<String, Object> doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        if (loginUser.isMember()) {
+            final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber, PaginateSupport.PAGESIZE);
+            page.addParam("userBean", loginUser);
+            page.addParam("status", 1);
+            page.addParam("order", "byTitle");
+            this.libraryService.searchLibrary(page);
+            model.put("page", page);
+        }
+
+        return model;
+    }
+
 }
