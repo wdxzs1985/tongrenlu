@@ -50,7 +50,8 @@ public class MailResolvor {
     @Value("${spring.mail.debug:true}")
     private boolean debug = true;
 
-    public MailModel createMailModel(final Locale locale) {
+    public MailModel createMailModel(
+                                     final Locale locale) {
         final MailModel model = new MailModel();
         model.addAttribute("messageSource", this.messageSource);
         model.addAttribute("locale", locale);
@@ -58,7 +59,9 @@ public class MailResolvor {
         return model;
     }
 
-    public InternetAddress createAddress(final String address, final String personal) {
+    public InternetAddress createAddress(
+                                         final String address,
+                                         final String personal) {
         try {
             return new InternetAddress(address, personal, this.defaultEncoding);
         } catch (final UnsupportedEncodingException e) {
@@ -66,11 +69,15 @@ public class MailResolvor {
         }
     }
 
-    public void send(final MailModel model) {
+    public void send(
+                     final MailModel model) {
         final MimeMessage message = this.mailSender.createMimeMessage();
         final MimeMessageHelper messageHelper = new MimeMessageHelper(message);
 
-        final String templateLocation = String.format("%s/%s.%s", this.prefix, model.getTemplate(), this.suffix);
+        final String templateLocation = String.format("%s/%s.%s",
+                                                      this.prefix,
+                                                      model.getTemplate(),
+                                                      this.suffix);
         final Map<String, Object> modelMap = model.asMap();
         final String text = VelocityEngineUtils.mergeTemplateIntoString(this.velocityEngine,
                                                                         templateLocation,
@@ -91,7 +98,12 @@ public class MailResolvor {
             if (this.debug) {
                 this.log.debug(text);
             } else {
-                this.mailSender.send(message);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MailResolvor.this.mailSender.send(message);
+                    }
+                }).start();
             }
         } catch (final MailException e) {
             this.log.error(e.getMessage(), e);
