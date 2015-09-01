@@ -110,6 +110,9 @@ public class FmController {
             page.addParam("order", "byTitle");
             this.libraryService.searchLibrary(page);
             model.put("page", page);
+            model.put("result", true);
+        } else {
+            model.put("result", false);
         }
 
         return model;

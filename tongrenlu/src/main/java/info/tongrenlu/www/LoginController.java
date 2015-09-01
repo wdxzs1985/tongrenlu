@@ -52,8 +52,12 @@ public class LoginController {
         final HttpSession session = request.getSession();
         final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
 
-        model.put("loginUser", loginUser);
-        model.put("result", true);
+        if (loginUser != null) {
+            model.put("loginUser", loginUser);
+            model.put("result", true);
+        } else {
+            model.put("result", false);
+        }
 
         return model;
     }
