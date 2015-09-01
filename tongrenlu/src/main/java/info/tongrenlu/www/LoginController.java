@@ -52,7 +52,7 @@ public class LoginController {
         final HttpSession session = request.getSession();
         final UserBean loginUser = (UserBean) session.getAttribute(CommonConstants.LOGIN_USER);
 
-        if (loginUser != null) {
+        if (loginUser != null && loginUser.isMember()) {
             model.put("loginUser", loginUser);
             model.put("result", true);
         } else {
