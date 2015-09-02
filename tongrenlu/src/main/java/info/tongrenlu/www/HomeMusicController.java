@@ -146,7 +146,9 @@ public class HomeMusicController {
             playable.put("xfd", true);
             playlist.add(playable);
         }
+        model.put("musicBean", musicBean);
         model.put("playlist", playlist);
+        model.put("result", true);
         return model;
     }
 

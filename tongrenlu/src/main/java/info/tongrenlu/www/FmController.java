@@ -1,5 +1,6 @@
 package info.tongrenlu.www;
 
+import info.tongrenlu.domain.ArticleBean;
 import info.tongrenlu.domain.MusicBean;
 import info.tongrenlu.domain.UserBean;
 import info.tongrenlu.service.ConsoleLibraryService;
@@ -11,7 +12,10 @@ import info.tongrenlu.support.PaginateSupport;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -97,10 +102,48 @@ public class FmController {
         return model;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/music")
+    @ResponseBody
+    public Map<String, Object> doGetMusic(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber) {
+        final Map<String, Object> model = new HashMap<String, Object>();
+
+        final PaginateSupport<MusicBean> page = new PaginateSupport<>(pageNumber);
+        page.addParam("publishFlg", new String[] { ArticleBean.PUBLISH, ArticleBean.FREE });
+        this.musicService.searchMusic(page);
+        model.put("page", page);
+        model.put("result", true);
+
+        return model;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/music/{articleId}/track")
+    @ResponseBody
+    public Map<String, Object> doGetTrack(@PathVariable final Integer articleId,
+                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser,
+                                          final Locale locale) {
+        final Map<String, Object> model = new HashMap<>();
+        final MusicBean musicBean = this.musicService.getById(articleId);
+
+        List<Map<String, Object>> playlist;
+        if (musicBean.isFree() || this.musicService.isOwner(loginUser, musicBean)) {
+            playlist = this.musicService.getPlaylist(articleId, loginUser);
+        } else {
+            playlist = new ArrayList<Map<String, Object>>();
+            final Map<String, Object> playable = new HashMap<String, Object>();
+            playable.put("title", musicBean.getTitle());
+            playable.put("xfd", true);
+            playlist.add(playable);
+        }
+        model.put("musicBean", musicBean);
+        model.put("playlist", playlist);
+        model.put("result", true);
+        return model;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/library")
     @ResponseBody
-    public Map<String, Object> doGetIndex(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
-                                          @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
+    public Map<String, Object> doGetLibrary(@RequestParam(value = "p", defaultValue = "1") final Integer pageNumber,
+                                            @ModelAttribute("LOGIN_USER") final UserBean loginUser) {
         final Map<String, Object> model = new HashMap<String, Object>();
 
         if (loginUser.isMember()) {
