@@ -4,7 +4,7 @@
   layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" />
+    <link rel="stylesheet" href="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.css" />
     <title th:text="#{console.music.input} + ' | ' + #{console.music}"></title>
 </head>
 <body>
@@ -77,7 +77,7 @@
                     <div class="col-sm-4">
                         <div class="thumbnail">
                                 <img src="http://placehold.it/400x400" alt="..." 
-                                    th:src="@{http://files.tongrenlu.info/default/cover_400.jpg}"/>
+                                    th:src="@{http://files.tongrenlu.org/default/cover_400.jpg}"/>
                             <div class="caption">
                                 <h4 th:text="#{console.music.cover}">cover</h4>
                                 <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
@@ -100,7 +100,7 @@
         </div>
     </div>
 <th:block layout:fragment="scripts">
-<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
 	var initValue = /*[[${tags}]]*/ [];

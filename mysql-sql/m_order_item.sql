@@ -17,4 +17,3 @@ CREATE TABLE `m_order_item` (
   `del_flg` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
-SELECT * FROM tongrenlu.m_order_item;

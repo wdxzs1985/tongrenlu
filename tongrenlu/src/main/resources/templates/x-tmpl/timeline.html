@@ -8,17 +8,17 @@
   <div class="media card-body-180">
     {% if (o.action == 'publish_comic') { %}
     <a href="/comic/{%=o.articleBean.id%}" class="media-left" target="_blank">
-        <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-120 visible-xs"/>
-        <img src="http://files.tongrenlu.info/c{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-180 hidden-xs"/>
+        <img src="http://files.tongrenlu.org/c{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-120 visible-xs"/>
+        <img src="http://files.tongrenlu.org/c{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-180 hidden-xs"/>
     </a>
     {% } else if (o.action == 'publish_music') { %}
     <a href="/music/{%=o.articleBean.id%}" class="media-left" target="_blank">
-        <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-120 visible-xs"/>
-        <img src="http://files.tongrenlu.info/m{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-180 hidden-xs"/>
+        <img src="http://files.tongrenlu.org/m{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-120 visible-xs"/>
+        <img src="http://files.tongrenlu.org/m{%=o.articleBean.id%}/cover_180.jpg" class="media-object img-180 hidden-xs"/>
     </a>
     {% } else { %}
     <a href="/user/{%=o.userBean.id%}" class="media-left" target="_blank">
-        <img src="http://files.tongrenlu.info/u{%=o.userBean.id%}/cover_120.jpg" class="media-object img-120"/>
+        <img src="http://files.tongrenlu.org/u{%=o.userBean.id%}/cover_120.jpg" class="media-object img-120"/>
     </a>
     {% } %}
     <div class=" media-body ">

@@ -45,38 +45,12 @@
                         </th:block>
                     </ul>
                 </li>
-                <li class="dropdown" th:if="${session.LOGIN_USER.editAdmin}">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
+                <li class="dropdown" th:if="${session.LOGIN_USER.superAdmin}">
+                    <a href="javascript:;" th:href="@{/admin/user}" >
                         <span th:text="#{admin.user}"></span> 
                         <span class="badge" th:text="${authUserCount}"
                             th:if="${#objects.nullSafe(authUserCount,0)} gt 0"></span>
-                        <b class="caret"></b>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a th:href="@{/admin/user}" th:text="#{admin.user}"></a>
-                        </li>
-                        <li >
-                            <a th:href="@{/admin/user/auth}">
-                                <span th:text="#{admin.user.auth}"></span>
-                                <span class="badge" th:text="${authUserCount}"
-                                    th:if="${#objects.nullSafe(authUserCount,0)} gt 0"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown" th:if="${session.LOGIN_USER.shopAdmin}">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span th:text="#{admin.order}"></span> 
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a th:href="@{/admin/order}" th:text="#{admin.order}"></a>
-                            <a th:href="@{/admin/order/items}" th:text="#{admin.order.item}"></a>
-                            <a th:href="@{/admin/shop}" th:text="#{admin.shop}"></a>
-                        </li>
-                    </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

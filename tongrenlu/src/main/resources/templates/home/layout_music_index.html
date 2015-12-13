@@ -4,7 +4,7 @@
   layout:decorator="home/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
     <title th:text="#{home.music} + ' | ' + #{application}"></title>
 </head>
 <body>
@@ -39,7 +39,7 @@
                                     <li class="media media-bordered" th:each="articleBean : ${page.items}">
                                         <a class="media-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                             <img class="media-object img-120 img-rounded" src="http://placehold.it/180x180" 
-                                                th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}"
+                                                th:src="@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_120.jpg}"
                                                 th:alt-title="${articleBean.title}" />
                                         </a>
                                         <div class="media-body">
@@ -66,14 +66,15 @@
                                         </div>
                                     </li>
                                 </ul>
+                                <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
+                                    <h4 th:text="#{home.article.noData}"></h4>
+                                    <a th:href="@{/music}" th:text="#{button.back}" class="btn btn-default"></a>
+                                </div>
                             </div>
                             <div class="panel-footer">
                                 <div id="jpaginate" class="hidden-xs"></div>
                                 <div id="select-paginate" class="form-group visible-xs"></div>
                             </div>
-                        </div>
-                        <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                            <h4 th:text="#{home.article.noData}"></h4>
                         </div>
                     </div>
                 </div>
@@ -87,7 +88,7 @@
                                <li class="media" th:each="articleBean,iterStat : ${ranking}">
                                    <a class="media-left" th:href="@{/music/__${articleBean.id}__}" th:alt-title="${articleBean.title}">
                                        <img class="media-object img-60 img-rounded " src="http://placehold.it/60x60" 
-                                           th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_120.jpg}"
+                                           th:src="@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_120.jpg}"
                                            th:alt-title="${articleBean.title}" />
                                    </a>
                                    <div class="media-body">

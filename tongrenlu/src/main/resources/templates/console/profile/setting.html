@@ -13,7 +13,7 @@
             <div class="media">
                 <a class="media-left" th:href="@{/console/setting}">
                     <img class="img-120 img-circle media-object" 
-                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
+                        th:src="@{http://files.tongrenlu.org/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
                         th:alt-title="${session.LOGIN_USER}"/>
                 </a>
                 <div class="media-body">
@@ -59,7 +59,7 @@
                     <div class="col-sm-4">
                         <div class="thumbnail">
                             <img src="http://placehold.it/400x400" alt="..." class="img-400"
-                                 th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_400.jpg(nocache=${#strings.randomAlphanumeric(6)})}" th:alt-title="${userBean}"/>
+                                 th:src="@{http://files.tongrenlu.org/u__${userBean.id}__/cover_400.jpg(nocache=${#strings.randomAlphanumeric(6)})}" th:alt-title="${userBean}"/>
                             <div class="caption">
                                 <input type="file" id="cover" name="cover" class="form-control" accept="image/jpeg,image/png" />
                             </div>

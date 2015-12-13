@@ -4,7 +4,7 @@
   layout:decorator="console/layout">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
         <title th:text="#{admin.order.item} + ' | ' + #{console}"></title>
     </head>
     <body>
@@ -52,7 +52,7 @@
                                         <a th:href="@{/admin/order/__${item.orderBean.id}__}" 
                                             class="media-left" >
                                             <img style="width:24px;height:24px;"
-                                                th:src="@{http://files.tongrenlu.info/u__${item.UserBean.id}__/cover_60.jpg}" />
+                                                th:src="@{http://files.tongrenlu.org/u__${item.UserBean.id}__/cover_60.jpg}" />
                                         </a>
                                         <div class="media-body">
                                             <a th:href="@{/admin/order/__${item.orderBean.id}__}" 

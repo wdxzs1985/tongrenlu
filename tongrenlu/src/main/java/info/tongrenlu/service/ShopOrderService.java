@@ -1,16 +1,5 @@
 package info.tongrenlu.service;
 
-import info.tongrenlu.domain.OrderBean;
-import info.tongrenlu.domain.OrderItemBean;
-import info.tongrenlu.domain.ShopBean;
-import info.tongrenlu.domain.UserBean;
-import info.tongrenlu.http.HttpWraper;
-import info.tongrenlu.mail.MailModel;
-import info.tongrenlu.mail.MailResolvor;
-import info.tongrenlu.manager.OrderItemManager;
-import info.tongrenlu.manager.OrderManager;
-import info.tongrenlu.manager.ShopManager;
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -31,10 +20,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import info.tongrenlu.domain.OrderBean;
+import info.tongrenlu.domain.OrderItemBean;
+import info.tongrenlu.domain.ShopBean;
+import info.tongrenlu.domain.UserBean;
+import info.tongrenlu.http.HttpWraper;
+import info.tongrenlu.mail.MailModel;
+import info.tongrenlu.mail.MailResolvor;
+import info.tongrenlu.manager.OrderItemManager;
+import info.tongrenlu.manager.OrderManager;
+import info.tongrenlu.manager.ShopManager;
+
 @Transactional
 public class ShopOrderService {
 
@@ -58,7 +56,8 @@ public class ShopOrderService {
     @Autowired
     private MailResolvor mailResolvor = null;
 
-    public OrderItemBean initWithUrl(final String url,
+    public OrderItemBean initWithUrl(
+                                     final String url,
                                      final Map<String, Object> model,
                                      final Locale locale) {
         final String fieldName = this.messageSource.getMessage("OrderItemBean.url",
@@ -93,9 +92,9 @@ public class ShopOrderService {
         return item;
     }
 
-    public OrderItemBean initEventItem(final String title,
-                                       final BigDecimal price,
-                                       final String url,
+    public OrderItemBean initEventItem(
+                                       final String title,
+                                       final BigDecimal price, final String url,
                                        final Map<String, Object> model,
                                        final Locale locale) {
         if (StringUtils.isBlank(title)) {
@@ -119,7 +118,8 @@ public class ShopOrderService {
         return item;
     }
 
-    private OrderItemBean initItem(final ShopBean shopBean) {
+    private OrderItemBean initItem(
+                                   final ShopBean shopBean) {
         final OrderItemBean item = new OrderItemBean();
         item.setExchangeRate(shopBean.getExchangeRate());
         item.setQuantity(BigDecimal.ONE);
@@ -127,7 +127,9 @@ public class ShopOrderService {
         return item;
     }
 
-    private void initWithMelonbooks(final OrderItemBean item, final String url) {
+    private void initWithMelonbooks(
+                                    final OrderItemBean item,
+                                    final String url) {
         final String html = this.melonbooksClient.getForHtml(url);
         final Document doc = Jsoup.parse(html);
 
@@ -160,7 +162,8 @@ public class ShopOrderService {
         item.setPrice(price);
     }
 
-    private void initWithToranoana(final OrderItemBean item, final String url) {
+    private void initWithToranoana(
+                                   final OrderItemBean item, final String url) {
         final String html = this.toranoanaClient.getForHtml(url);
         final Document doc = Jsoup.parse(html);
 
@@ -191,7 +194,8 @@ public class ShopOrderService {
         item.setPrice(price);
     }
 
-    public boolean newOrder(final OrderBean orderBean,
+    public boolean newOrder(
+                            final OrderBean orderBean,
                             final Collection<OrderItemBean> itemList,
                             final Locale locale) {
         final OrderItemBean firstItem = (OrderItemBean) CollectionUtils.get(itemList,
@@ -232,13 +236,15 @@ public class ShopOrderService {
         return true;
     }
 
-    public OrderBean makeOrderBean(final UserBean userBean) {
+    public OrderBean makeOrderBean(
+                                   final UserBean userBean) {
         final OrderBean orderBean = new OrderBean();
         orderBean.setUserBean(userBean);
         return orderBean;
     }
 
-    public List<OrderItemBean> makeItemList(final Map<String, OrderItemBean> shoppingCart,
+    public List<OrderItemBean> makeItemList(
+                                            final Map<String, OrderItemBean> shoppingCart,
                                             final OrderBean orderBean) {
 
         final List<OrderItemBean> itemList = new ArrayList<>();
@@ -291,19 +297,22 @@ public class ShopOrderService {
         return itemList;
     }
 
-    public BigDecimal getEmsPrice(final BigDecimal quantity) {
+    public BigDecimal getEmsPrice(
+                                  final BigDecimal quantity) {
         final Integer price = this.orderManager.getEmsPrice(quantity);
         final BigDecimal exchageRate = this.shopManager.getDefaultShop().getExchangeRate();
         return exchageRate.multiply(BigDecimal.valueOf(price));
     }
 
-    public BigDecimal getSalPrice(final BigDecimal quantity) {
+    public BigDecimal getSalPrice(
+                                  final BigDecimal quantity) {
         final Integer price = this.orderManager.getSalPrice(quantity);
         final BigDecimal exchageRate = this.shopManager.getDefaultShop().getExchangeRate();
         return exchageRate.multiply(BigDecimal.valueOf(price));
     }
 
-    public BigDecimal getGroupPrice(final BigDecimal quantity) {
+    public BigDecimal getGroupPrice(
+                                    final BigDecimal quantity) {
         return BigDecimal.valueOf(5).multiply(quantity).add(BigDecimal.TEN);
     }
 }

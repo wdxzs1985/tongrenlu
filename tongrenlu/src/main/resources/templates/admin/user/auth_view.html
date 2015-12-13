@@ -4,7 +4,7 @@
     layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
     <title th:text="${userBean} + ' | ' + #{console.auth}"></title>
 </head>
 <body>
@@ -19,7 +19,7 @@
                     </div>
                     <form th:action="@{/admin/user/__${userBean.id}__/library/add}" method="post">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="url" placeholder="http://www.tongrenlu.info/music/"/>
+                            <input type="text" class="form-control" name="url" placeholder="http://www.tongrenlu.org/music/"/>
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-warning">
                                     <span class="glyphicon glyphicon-plus"></span>
@@ -70,7 +70,7 @@
                         <a class="media-left" target="_blank" 
                             th:href="@{/music/__${articleBean.id}__}" 
                             th:alt-title="${articleBean.title}" >
-                            <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}" 
+                            <img th:src="@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_180.jpg}" 
                                 th:alt-title="${articleBean.title}"
                                 class="img-180 "/>
                         </a>
@@ -103,7 +103,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {

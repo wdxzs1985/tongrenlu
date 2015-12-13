@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
 VIEW `v_article_access_count` AS
     select 
         `m_access`.`article_id` AS `articleId`,

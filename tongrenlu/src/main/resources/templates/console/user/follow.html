@@ -4,7 +4,7 @@
   layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
 </head>
   <body>
 <div layout:fragment="content">
@@ -13,7 +13,7 @@
             <div class="media">
                 <a class="media-left" th:href="@{/console/setting}">
                     <img class="img-120 img-circle media-object" 
-                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
+                        th:src="@{http://files.tongrenlu.org/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
                         th:alt-title="${session.LOGIN_USER}"/>
                 </a>
                 <div class="media-body">
@@ -67,12 +67,12 @@
                             <a class="visible-sm visible-xs pull-left" target="_blank" 
                                th:href="@{/user/__${userBean.id}__}" 
                                th:alt-title="${userBean}">
-                                <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_180.jpg}" th:alt-title="${userBean}"
+                                <img th:src="@{http://files.tongrenlu.org/u__${userBean.id}__/cover_180.jpg}" th:alt-title="${userBean}"
                                      class="media-object img-60 "/>
                             </a>
                             <a class="hidden-sm hidden-xs" target="_blank" 
                                th:href="@{/user/__${userBean.id}__}">
-                                <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_180.jpg}" th:alt-title="${userBean}"
+                                <img th:src="@{http://files.tongrenlu.org/u__${userBean.id}__/cover_180.jpg}" th:alt-title="${userBean}"
                                      class="img-180 "/>
                             </a>
                             <div class="caption">
@@ -96,7 +96,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
 <script th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {

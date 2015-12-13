@@ -4,8 +4,8 @@
     layout:decorator="home/layout">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="canonical" href="http://www.tongrenlu.info/music" />
-        <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+        <link rel="canonical" href="http://www.tongrenlu.org/music" />
+        <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
         <title th:text="#{home.music} + ' | ' + #{application}"></title>
     </head>
 <body class="hide-nav-search">
@@ -15,7 +15,6 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <h1 th:text="#{home.music}"></h1>
-                        <div th:replace="home/layout_music_index::search-form"></div>
                     </div>
                 </div>
             </div>
@@ -25,10 +24,6 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <div th:replace="home/layout_music_index::list-content"></div>
-                        <div class="alert alert-warning" th:if="${#lists.isEmpty(page.items)}">
-                            <h4 th:text="#{home.article.noData}"></h4>
-                            <a th:href="@{/music}" th:text="#{button.back}" class="btn btn-default"></a>
-                        </div>
                     </div>
                     <div class="col-sm-4" >
                         <div th:replace="home/layout_music_index::ranking"></div>
@@ -38,7 +33,7 @@
         </div>
     </div>
     <th:block layout:fragment="scripts">
-        <script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+        <script type="text/javascript" src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
         <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
         <script type="text/javascript" th:inline="javascript">
         $(function() {

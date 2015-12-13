@@ -4,7 +4,7 @@
     layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" rel="stylesheet" />
+    <link href="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.css" rel="stylesheet" />
     <title th:text="${articleBean.title} + ' | ' + #{console.music.index}"></title>
 </head>
     <body>
@@ -95,7 +95,7 @@
                             <div class="col-sm-4">
                                 <div class="thumbnail">
                                     <img src="http://placehold.it/400x400" alt="..." 
-                                        th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg(nocache=${#strings.randomAlphanumeric(6)})}" 
+                                        th:src="@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_400.jpg(nocache=${#strings.randomAlphanumeric(6)})}" 
                                         th:alt-title="${articleBean.title}"/>
                                     <div class="caption">
                                         <h4 th:text="#{console.music.cover}">cover</h4>
@@ -119,7 +119,7 @@
             </div>
         </div>
         <th:block layout:fragment="scripts">
-            <script src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+            <script src="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.js" ></script>
             <script type="text/javascript" th:inline="javascript">
             $(function() {
                 var initValue = /*[[${tags}]]*/ [];

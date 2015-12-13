@@ -1,12 +1,10 @@
 package info.tongrenlu.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import info.tongrenlu.domain.ShopBean;
 import info.tongrenlu.manager.ShopManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Service
 public class AdminShopService {
 
     @Autowired
@@ -16,10 +14,12 @@ public class AdminShopService {
         return this.shopManager.getDefaultShop();
     }
 
-    public void update(final ShopBean shopBean) {
+    public void update(
+                       final ShopBean shopBean) {
     }
 
-    public void updateDefaultShop(final ShopBean shopBean) {
+    public void updateDefaultShop(
+                                  final ShopBean shopBean) {
         this.shopManager.updateDefaultShop(shopBean);
     }
 

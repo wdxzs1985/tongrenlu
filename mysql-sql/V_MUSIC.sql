@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `tongrenlu`@`%` 
-    SQL SECURITY DEFINER
 VIEW `v_music` AS
     select 
         `a`.`id` AS `id`,

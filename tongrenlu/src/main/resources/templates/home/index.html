@@ -5,9 +5,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta property="wb:webmaster" content="8e90072a3b17c980" />
-    <link rel="canonical" href="http://www.tongrenlu.info" />
+    <link rel="canonical" href="http://www.tongrenlu.org" />
     <link rel="stylesheet" type="text/css" th:href="@{/tongrenlu/css/tongrenlu-gallery.css}" />
-    <meta name="description" content="http://www.tongrenlu.info 东方同人录" />
+    <meta name="description" content="http://www.tongrenlu.org 东方同人录" />
 </head>
 <body class="hide-nav-search">
     <div layout:fragment="content">
@@ -18,31 +18,19 @@
                         <h1><a th:href="@{/music}" th:text="#{home.music} + ' >>'"></a></h1>
                     </div>
                     <div class="col-md-6">
-                        <form class="append-top-lg" th:action="@{/music/search}" method="get" role="search">
-                            <div class="input-group">
-                                <input type="text" name="q" id="inputMusicSearch"
-                                    class="form-control" 
-                                    autocomplete="off"
-                                    th:placeholder="#{home.search.music.hint}"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning" type="submit">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                        <span class="hidden-xs" th:text="#{home.search.music}"></span>
-                                    </button>
+                                <div class="text-right">
                                     <a th:href="@{/music/lucky}" class="btn btn-info">
                                         <span class="glyphicon glyphicon-star" rel="nofollow"></span>
                                         <span class="hidden-xs" th:text="#{home.music.lucky}"></span>
                                     </a>
-                                </span>
-                            </div>
-                        </form>
+                                </div>
                     </div>
                 </div>
             </div>
             <div id="gallery" class="gallery clearfix">
                 <th:block th:each="articleBean,iterStat : ${musicRanking}">
                     <div class="large pull-left " th:if="${iterStat.index == 0}">
-                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                        <img th:src="@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_400.jpg}"
                              th:alt-title="${articleBean.title}" />
                         <div class="gallery-overlay">
                             <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
@@ -52,7 +40,7 @@
                         </a>
                     </div>
                     <div class="large pull-right " th:if="${iterStat.index == 22}">
-                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}"
+                        <img th:src="@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_400.jpg}"
                              th:alt-title="${articleBean.title}" />
                         <div class="gallery-overlay">
                             <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
@@ -62,7 +50,7 @@
                         </a>
                     </div>
                     <div class="pull-left " th:unless="${iterStat.index == 0 or iterStat.index == 22}">
-                        <img th:src="@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_180.jpg}"
+                        <img th:src="@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_180.jpg}"
                              th:alt-title="${articleBean.title}" />
                         <div class="gallery-overlay">
                             <h2 class="gallery-title" th:text="${articleBean.title}"></h2>
@@ -75,9 +63,7 @@
             </div>
         </div>
         <div id="top-tags" class="container-wrap" >
-            <div th:replace="home/layout_index::top-tags-comiket"></div>
-            <div th:replace="home/layout_index::top-tags-reitaisai"></div>
-            <div th:replace="home/layout_index::top-tags-other"></div>
+            <div th:replace="home/layout_index::top-tags-c89"></div>
         </div>
         <div id="top-links" class="container-wrap" >
             <div class="container">
@@ -89,7 +75,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <h3 class="">
-                                            <a href="http://static.tongrenlu.info/tongrenlu/ost.html" target="_blank" title="原曲列表">原曲列表</a>
+                                            <a href="http://tongrenlu.wicp.net/tongrenlu/ost.html" target="_blank" title="原曲列表">原曲列表</a>
                                         </h3>
                                         <p class="text-muted">东方Project原曲列表</p>
                                     </div>
@@ -139,7 +125,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <h3 class="">
-                                            <a href="http://otonikki.tongrenlu.info/" target="_blank" title="♪音日記♪">♪音日記♪</a>
+                                            <a href="http://otonikki.tongrenlu.org/" target="_blank" title="♪音日記♪">♪音日記♪</a>
                                         </h3>
                                         <p class="text-muted">ゆめにっきアレンジ＆イメージ合同CD</p>
                                     </div>

@@ -1,5 +1,13 @@
 package info.tongrenlu.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.util.ClientUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import info.tongrenlu.solr.ComicDocument;
 import info.tongrenlu.solr.ComicRepository;
 import info.tongrenlu.solr.MusicDocument;
@@ -7,27 +15,18 @@ import info.tongrenlu.solr.MusicRepository;
 import info.tongrenlu.solr.TrackDocument;
 import info.tongrenlu.solr.TrackRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.client.solrj.util.ClientUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-@Service
+//@Service
 public class SearchService {
 
-    @Autowired
+    // @Autowired
     private MusicRepository musicRepository = null;
-    @Autowired
+    // @Autowired
     private ComicRepository comicRepository = null;
-    @Autowired
+    // @Autowired
     private TrackRepository trackRepository = null;
 
-    public Page<MusicDocument> findMusic(final String query,
+    public Page<MusicDocument> findMusic(
+                                         final String query,
                                          final Pageable pageable) {
         final List<String> queries = new ArrayList<>();
         for (final String text : StringUtils.split(query)) {
@@ -36,7 +35,8 @@ public class SearchService {
         return this.musicRepository.findMusic(queries, pageable);
     }
 
-    public Page<ComicDocument> findComic(final String query,
+    public Page<ComicDocument> findComic(
+                                         final String query,
                                          final Pageable pageable) {
         final List<String> queries = new ArrayList<>();
         for (final String text : StringUtils.split(query)) {
@@ -45,7 +45,8 @@ public class SearchService {
         return this.comicRepository.findComic(queries, pageable);
     }
 
-    public Page<TrackDocument> findTrack(final String query,
+    public Page<TrackDocument> findTrack(
+                                         final String query,
                                          final Pageable pageable) {
         final List<String> queries = new ArrayList<>();
         for (final String text : StringUtils.split(query)) {

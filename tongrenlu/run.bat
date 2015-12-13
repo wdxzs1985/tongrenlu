@@ -1,1 +1,1 @@
-java -jar target/tongrenlu-1.0.1-RELEASE.jar --spring.config.name=application-prod
+java -jar target/tongrenlu-2.0.0-RELEASE.jar -Dspring.profiles.active=production

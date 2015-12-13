@@ -7,6 +7,20 @@
 </head>
 <body>
     <div id="top-tags" class="container-wrap" >
+        <div class="container" th:fragment="top-tags-c89">
+            <div class="page-header">
+                <h3 th:text="#{home.music.comike}"></h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-md-2">
+                    <a class="btn btn-block append-bottom btn-primary" 
+                       href="http://www.tongrenlu.org/" 
+                       title="ComicMarket89 (2015-12-28)" target="_blank">
+                        <span >C89</span>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="container" th:fragment="top-tags-comiket">
             <div class="page-header">
                 <h3 th:text="#{home.music.comike}"></h3>
@@ -14,7 +28,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-3 col-md-2">
                     <a class="btn btn-block append-bottom btn-primary" 
-                       href="http://c88.tongrenlu.info/" 
+                       href="http://c88.tongrenlu.org/" 
                        title="ComicMarket88 (2015-08-14)" target="_blank">
                         <span >C88 (试听)</span>
                     </a>
@@ -207,6 +221,10 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-3 col-md-2">
                     <a class="btn btn-block btn-default append-bottom" 
+                       th:href="@{/tag/2688}" >秋季例大祭2</a>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-md-2">
+                    <a class="btn btn-block btn-default append-bottom" 
                        th:href="@{/tag/2381}" >秋季例大祭1</a>
                 </div>
             </div>
@@ -223,7 +241,8 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <!-- <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-35 (M3-2015春)</a></li> -->
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">M3-36 (M3-2015秋)</a></li>
+                            <li role="presentation"><a th:href="@{/tag/2602}" role="menuitem" tabindex="-1">M3-35 (M3-2015春)</a></li>
                             <li role="presentation"><a th:href="@{/tag/2548}" role="menuitem" tabindex="-1">M3-34 (M3-2014秋)</a></li>
                             <li role="presentation"><a th:href="@{/tag/1838}" role="menuitem" tabindex="-1">M3-33 (M3-2014春)</a></li>
                             <li role="presentation"><a th:href="@{/tag/2404}" role="menuitem" tabindex="-1">M3-32 (M3-2013秋)</a></li>
@@ -250,6 +269,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">東方紅楼夢11</a></li>
                             <li role="presentation"><a th:href="@{/tag/2312}" role="menuitem" tabindex="-1">東方紅楼夢10</a></li>
                             <li role="presentation"><a th:href="@{/tag/1727}" role="menuitem" tabindex="-1">東方紅楼夢9</a></li>
                             <li role="presentation"><a th:href="@{/tag/1250}" role="menuitem" tabindex="-1">東方紅楼夢8</a></li>
@@ -270,6 +290,10 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭13</a></li>
+                            <li role="presentation" class=""><a th:href="@{/tag/2687}" role="menuitem" tabindex="-1">大⑨州東方祭12</a></li>
+                            <li role="presentation" class=""><a th:href="@{/tag/2551}" role="menuitem" tabindex="-1">大⑨州東方祭11</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭10</a></li>
                             <li role="presentation"><a th:href="@{/tag/1843}" role="menuitem" tabindex="-1">大⑨州東方祭9</a></li>
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1">大⑨州東方祭8</a></li>
                             <li role="presentation"><a th:href="@{/tag/2136}" role="menuitem" tabindex="-1">大⑨州東方祭7</a></li>

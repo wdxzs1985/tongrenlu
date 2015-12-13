@@ -1,7 +1,4 @@
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
+CREATE
 VIEW `v_article_comment_count` AS
     select 
         `m_comment`.`article_id` AS `articleId`,

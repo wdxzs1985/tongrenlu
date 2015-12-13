@@ -4,7 +4,7 @@
   layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
     <title th:text="#{admin.user} + ' | ' + #{console}"></title>
 </head>
 <body>
@@ -37,12 +37,6 @@
                             <span class="" th:text="#{admin.user}"></span>
                         </a>
                     </li>
-                    <li class="">
-                        <a th:href="@{/admin/user/auth}">
-                            <span class="glyphicon glyphicon-cd"></span>
-                            <span class="hidden-xs" th:text="#{admin.user.auth}"></span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -55,7 +49,7 @@
                         <div class="media">
                             <a class="media-left" target="_blank" 
                                th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
-                                <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_180.jpg}" 
+                                <img th:src="@{http://files.tongrenlu.org/u__${userBean.id}__/cover_180.jpg}" 
                                     th:alt-title="${userBean}" class="media-object img-180 "/>
                             </a>
                             <div class="media-body">
@@ -68,7 +62,6 @@
                                      <span class="label label-default" th:if="${userBean.member}" th:text="#{UserBean.member}"></span>
                                      <span class="label label-danger" th:if="${userBean.editor}" th:text="#{UserBean.editor}"></span>
                                      <span class="label label-danger" th:if="${userBean.editAdmin}" th:text="#{UserBean.editAdmin}"></span>
-                                     <span class="label label-danger" th:if="${userBean.shopAdmin}" th:text="#{UserBean.shopAdmin}"></span>
                                      <span class="label label-danger" th:if="${userBean.superAdmin}" th:text="#{UserBean.superAdmin}"></span>
                                 </p>
                             </div>
@@ -83,7 +76,7 @@
                             <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
                                 data-role="2"
                                 th:classappend="${userBean.editor} ? 'btn-danger' : 'btn-default'"
-                                th:if="${session.LOGIN_USER.editAdmin}">
+                                th:if="${session.LOGIN_USER.editAdmin or session.LOGIN_USER.superAdmin}">
                                 <span th:text="#{UserBean.editor}"></span>
                             </button>
                             <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
@@ -91,12 +84,6 @@
                                 th:classappend="${userBean.editAdmin} ? 'btn-danger' : 'btn-default'"
                                 th:if="${session.LOGIN_USER.superAdmin}">
                                 <span th:text="#{UserBean.editAdmin}"></span>
-                            </button>
-                            <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
-                                data-role="8"
-                                th:classappend="${userBean.shopAdmin} ? 'btn-danger' : 'btn-default'"
-                                th:if="${session.LOGIN_USER.superAdmin}">
-                                <span th:text="#{UserBean.shopAdmin}"></span>
                             </button>
                             <button class="btn action-role" role="button" th:attr="data-user-id=${userBean.id}"  
                                 data-role="512"
@@ -118,7 +105,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {

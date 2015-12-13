@@ -4,7 +4,7 @@
     layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
     <title th:text="${articleBean.title} + ' | ' + #{console.article.comment}"></title>
 </head>
 <body>
@@ -63,7 +63,7 @@
                         <div class="media" th:each="commentBean : ${page.items}">
                             <a class="media-left" th:href="@{/user/__${commentBean.userBean.id}__}" th:alt-title="${commentBean.userBean}">
                                 <img class="media-object img-120 img-circle" src="http://placehold.it/180x180" 
-                                    th:src="@{http://files.tongrenlu.info/u__${commentBean.userBean.id}__/cover_120.jpg}"
+                                    th:src="@{http://files.tongrenlu.org/u__${commentBean.userBean.id}__/cover_120.jpg}"
                                     th:alt-title="${commentBean.userBean}" />
                             </a>
                             <div class="media-body">
@@ -98,7 +98,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {

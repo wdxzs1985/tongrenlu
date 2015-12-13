@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `tongrenlu`@`%` 
-    SQL SECURITY DEFINER
 VIEW `v_user_follow_count` AS
     select 
         `r_like`.`user_id` AS `followerId`,

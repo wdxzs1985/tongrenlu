@@ -15,7 +15,7 @@
                 <div class="media-left">
                     <a th:href="@{/user/__${userBean.id}__}" class="">
                         <img class="img-120 img-circle media-object" 
-                            th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
+                            th:src="@{http://files.tongrenlu.org/u__${userBean.id}__/cover_120.jpg}" 
                             th:alt-title="${userBean}"/>
                     </a>
                 </div>
@@ -84,8 +84,8 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/JavaScript-Templates/2.5.6/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-likebutton.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-timeline.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>

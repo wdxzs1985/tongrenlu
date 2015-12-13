@@ -4,8 +4,8 @@
     layout:decorator="home/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="canonical" href="http://www.tongrenlu.info/music/search" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen" />
+    <link rel="canonical" href="http://www.tongrenlu.org/music/search" />
+    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen" />
     <title th:text="#{home.music} + ' | ' + #{application}"></title>
 </head>
 <body class="hide-nav-search">
@@ -32,7 +32,7 @@
                                             th:href="@{/__${articleDocument.category}__/__${articleDocument.articleId}__}"
                                             th:alt-title="${articleDocument.title}" target="_blank"> 
                                             <img class="media-object img-120 img-rounded"
-                                                th:src="@{http://files.tongrenlu.info/__${articleDocument.id}__/cover_180.jpg}"
+                                                th:src="@{http://files.tongrenlu.org/__${articleDocument.id}__/cover_180.jpg}"
                                                 th:alt-title="${articleDocument.title}" />
                                         </a>
                                         <div class="media-body">
@@ -110,7 +110,7 @@
         </div>
     </div>
 <th:block layout:fragment="scripts">
-<script type="text/javascript" src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     $(function() {

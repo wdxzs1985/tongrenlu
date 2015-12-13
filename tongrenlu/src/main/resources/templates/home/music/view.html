@@ -5,9 +5,9 @@
     layout:decorator="home/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="http://static.tongrenlu.info/Gallery/2.15.2/css/blueimp-gallery.min.css" type="text/css"/>
-    <link rel="stylesheet" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" type="text/css"/>
-    <link rel="stylesheet" href="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://tongrenlu.wicp.net/Gallery/2.16.0/css/blueimp-gallery.min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.css" type="text/css"/>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" type="text/css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title th:text="${articleBean.title} + ' | ' + #{application}"></title>
@@ -29,12 +29,12 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script type="text/javascript" src="http://static.tongrenlu.info/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jPlayer/2.9.2/add-on/jplayer.playlist.min.js" ></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/Gallery/2.15.2/js/jquery.blueimp-gallery.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/magicsuggest-2.0.5/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/jPlayer/2.9.2/add-on/jplayer.playlist.min.js" ></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/Gallery/2.16.0/js/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/JavaScript-Templates/2.5.6/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
@@ -52,8 +52,8 @@ $(function() {
     new player({
         url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
         rateUrl: /*[[@{/music/rate}]]*/ '',
-        filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
-        swfPath: 'http://static.tongrenlu.info/jPlayer/2.9.2/jplayer',
+        filePath: /*[[@{http://files.tongrenlu.org/m__${articleBean.id}__}]]*/'',
+        swfPath: 'http://tongrenlu.wicp.net/jPlayer/2.9.2/jplayer',
         playlistOptions: {
             enableRemoveControls: true
         },
@@ -71,7 +71,7 @@ $(function() {
     
     new carousel({
         url: /*[[@{/music/__${articleBean.id}__/booklet}]]*/ '',
-        filePath: /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__}]]*/'',
+        filePath: /*[[@{http://files.tongrenlu.org/m__${articleBean.id}__}]]*/'',
         startSlideshow: false
     });
     
@@ -95,8 +95,8 @@ $(function() {
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     var title = /*[[${articleBean.title} + ' | ' + #{application}]]*/ '';
-    var share_url = /*[[@{http://www.tongrenlu.info/music/__${articleBean.id}__}]]*/ '';
-    var image_url = /*[[@{http://files.tongrenlu.info/m__${articleBean.id}__/cover_400.jpg}]]*/ '';
+    var share_url = /*[[@{http://www.tongrenlu.org/music/__${articleBean.id}__}]]*/ '';
+    var image_url = /*[[@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_400.jpg}]]*/ '';
     WB2.anyWhere(function(W){
         W.widget.publish({
             toolbar: 'face',

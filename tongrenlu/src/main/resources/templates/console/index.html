@@ -12,7 +12,7 @@
             <div class="media">
                 <a class="media-left" th:href="@{/console/setting}">
                     <img class="img-120 img-circle media-object" 
-                        th:src="@{http://files.tongrenlu.info/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
+                        th:src="@{http://files.tongrenlu.org/u__${session.LOGIN_USER.id}__/cover_120.jpg}" 
                         th:alt-title="${session.LOGIN_USER}"/>
                 </a>
                 <div class="media-body">
@@ -33,30 +33,6 @@
                         <a th:href="@{/console}">
                             <span class="glyphicon glyphicon-home"></span>
                             <span class="" th:text="#{console.user.timeline}"></span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a th:href="@{/console/library}">
-                            <span class="glyphicon glyphicon-cd"></span>
-                            <span class="hidden-xs" th:text="#{console.library}"></span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a th:href="@{/console/auth}">
-                            <span class="glyphicon glyphicon-check"></span>
-                            <span class="hidden-xs" th:text="#{console.auth}"></span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a th:href="@{/console/auth/upload}">
-                            <span class="glyphicon glyphicon-upload"></span>
-                            <span class="hidden-xs" th:text="#{console.auth.upload}"></span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a th:href="@{/console/order}">
-                            <span class="glyphicon glyphicon-piggy-bank"></span>
-                            <span class="hidden-xs" th:text="#{console.order}"></span>
                         </a>
                     </li>
                 </ul>
@@ -96,8 +72,8 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script type="text/javascript" src="http://static.tongrenlu.info/JavaScript-Templates/2.5.3/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://static.tongrenlu.info/jquery-ui-1.10.4/js/jquery.ui.effect.min.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/JavaScript-Templates/2.5.6/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://tongrenlu.wicp.net/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-timeline.js}" ></script>
 

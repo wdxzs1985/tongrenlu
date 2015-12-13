@@ -4,7 +4,7 @@
   layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.info/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
     <title th:text="#{admin.user.auth} + ' | ' + #{admin.user}"></title>
 </head>
 <body>
@@ -40,7 +40,7 @@
                         <div class="media">
                             <a class="media-left" target="_blank" 
                                th:href="@{/user/__${userBean.id}__}" th:alt-title="${userBean}">
-                                <img th:src="@{http://files.tongrenlu.info/u__${userBean.id}__/cover_120.jpg}" 
+                                <img th:src="@{http://files.tongrenlu.org/u__${userBean.id}__/cover_120.jpg}" 
                                     th:alt-title="${userBean}" class="media-object img-120 "/>
                             </a>
                             <div class="media-body">
@@ -77,7 +77,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://static.tongrenlu.info/jquery.jpaginate/jquery.paginate.js"></script>
+<script src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {

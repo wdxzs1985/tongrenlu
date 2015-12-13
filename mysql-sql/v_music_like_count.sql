@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
 VIEW `v_music_like_count` AS
     select 
         `r_like`.`like_id` AS `articleId`,
