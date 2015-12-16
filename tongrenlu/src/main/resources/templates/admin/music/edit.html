@@ -4,7 +4,7 @@
   layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.css" rel="stylesheet" />
+    <link href="http://static.tongrenlu.org/magicsuggest/2.1.4/magicsuggest-min.css" rel="stylesheet" />
     <title th:text="${articleBean.title} + ' | ' + #{button.edit}"></title>
 </head>
 <body>
@@ -116,7 +116,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script type="text/javascript" src="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.org/magicsuggest/2.1.4/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
 	var initValue = /*[[${tags}]]*/ [];

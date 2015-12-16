@@ -4,7 +4,7 @@
     layout:decorator="console/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="http://static.tongrenlu.org/jquery.jpaginate/css/style.css" media="screen"/>
     <title th:text="${userBean} + ' | ' + #{admin.user.library}"></title>
 </head>
 <body>
@@ -19,7 +19,7 @@
                     </div>
                     <form th:action="@{/admin/user/__${userBean.id}__/library/add}" method="post">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="url" placeholder="http://www.tongrenlu.org/music/"/>
+                            <input type="text" class="form-control" name="url" placeholder="http://static.tongrenlu.org/music/"/>
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-warning">
                                     <span class="glyphicon glyphicon-plus"></span>
@@ -96,7 +96,7 @@
     </div>
 </div>
 <th:block layout:fragment="scripts">
-<script src="http://tongrenlu.wicp.net/jquery.jpaginate/jquery.paginate.js"></script>
+<script src="http://static.tongrenlu.org/jquery.jpaginate/jquery.paginate.js"></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-paginate.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {

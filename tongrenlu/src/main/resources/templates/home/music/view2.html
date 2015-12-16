@@ -5,9 +5,9 @@
     layout:decorator="home/layout">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="http://tongrenlu.wicp.net/Gallery/2.16.0/css/blueimp-gallery.min.css" type="text/css"/>
-    <link rel="stylesheet" href="http://tongrenlu.wicp.net/jquery.jpaginate/css/style.css" type="text/css"/>
-    <link rel="stylesheet" href="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://static.tongrenlu.org/Gallery/2.16.0/css/blueimp-gallery.min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://static.tongrenlu.org/jquery.jpaginate/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="http://static.tongrenlu.org/magicsuggest/2.1.4/magicsuggest-min.css" type="text/css"/>
     <link rel="stylesheet" th:href="@{/tongrenlu/css/tongrenlu-jplayer.css}" type="text/css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title th:text="${articleBean.title} + ' | ' + #{application}"></title>
@@ -84,11 +84,6 @@
                     </div>
                     <div class="card-footer">
                         <div class="btn-group btn-group-justified">
-                            <a id="mai-mai-mai" class="btn btn-success" role="button"
-                                th:if="${articleBean.publish}">
-                                <span class="glyphicon glyphicon-shopping-cart"></span>
-                                <span class="" th:text="#{home.article.maimaimai}"></span>
-                            </a>
                             <a id="add-to-library" class="btn btn-primary" role="button"
                                 th:if="${articleBean.publish}">
                                 <span class="glyphicon glyphicon-check"></span>
@@ -148,12 +143,12 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<script type="text/javascript" src="http://tongrenlu.wicp.net/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
-<script type="text/javascript" src="http://tongrenlu.wicp.net/jPlayer/2.9.2/add-on/jplayer.playlist.min.js" ></script>
-<script type="text/javascript" src="http://tongrenlu.wicp.net/Gallery/2.16.0/js/jquery.blueimp-gallery.min.js"></script>
-<script type="text/javascript" src="http://tongrenlu.wicp.net/jquery-ui/1.11.4/jquery-ui.min.js"></script>
-<script type="text/javascript" src="http://tongrenlu.wicp.net/JavaScript-Templates/2.5.6/js/tmpl.min.js"></script>
-<script type="text/javascript" src="http://tongrenlu.wicp.net/magicsuggest/2.1.4/magicsuggest-min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.org/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.org/jPlayer/2.9.2/add-on/jplayer.playlist.min.js" ></script>
+<script type="text/javascript" src="http://static.tongrenlu.org/Gallery/2.16.0/js/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.org/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.org/JavaScript-Templates/2.5.6/js/tmpl.min.js"></script>
+<script type="text/javascript" src="http://static.tongrenlu.org/magicsuggest/2.1.4/magicsuggest-min.js" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-player.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-carousel.js}" ></script>
 <script type="text/javascript" th:src="@{/tongrenlu/js/tongrenlu-url.js}" ></script>
@@ -174,7 +169,7 @@ $(function() {
         url: /*[[@{/music/__${articleBean.id}__/track}]]*/ '',
         rateUrl: /*[[@{/music/rate}]]*/ '',
         filePath: /*[[@{http://files.tongrenlu.org/m__${articleBean.id}__}]]*/'',
-        swfPath: 'http://tongrenlu.wicp.net/jPlayer/2.9.2/jplayer',
+        swfPath: 'http://static.tongrenlu.org/jPlayer/2.9.2/jplayer',
         playlistOptions: {
             enableRemoveControls: true
         },
@@ -214,26 +209,13 @@ $(function() {
         url: /*[[@{/music/__${articleBean.id}__/library}]]*/''
     });
 
-    var cart = new Cart({
-        addUrl:     /*[[@{/shop/event}]]*/     '/shop/event',
-        listUrl:    /*[[@{/shop/cart/list}]]*/          '/shop/cart/list',
-        useUi: false
-    });
-    $('#mai-mai-mai').click(function() {
-    	var action = /*[[@{/shop/event}]]*/     '/shop/event';
-    	cart.add(action, {
-            title: /*[[${articleBean.title}]]*/,
-            url: /*[[@{http://www.tongrenlu.org/music/__${articleBean.id}__}]]*/
-        });
-    });
-    
 });
 </script>
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1854505917" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
 $(function() {
     var title = /*[[${articleBean.title} + ' | ' + #{application}]]*/ '';
-    var share_url = /*[[@{http://www.tongrenlu.org/music/__${articleBean.id}__}]]*/ '';
+    var share_url = /*[[@{http://static.tongrenlu.org/music/__${articleBean.id}__}]]*/ '';
     var image_url = /*[[@{http://files.tongrenlu.org/m__${articleBean.id}__/cover_400.jpg}]]*/ '';
     WB2.anyWhere(function(W){
         W.widget.publish({

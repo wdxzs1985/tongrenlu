@@ -1,5 +1,17 @@
 package info.tongrenlu.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.transaction.annotation.Transactional;
+
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.OrderPayBean;
@@ -13,20 +25,6 @@ import info.tongrenlu.manager.ShopManager;
 import info.tongrenlu.manager.UserManager;
 import info.tongrenlu.support.PaginateSupport;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-@Service
 @Transactional
 public class ConsoleOrderService {
 
@@ -111,7 +109,8 @@ public class ConsoleOrderService {
         }
     }
 
-    public void updateOrderStatus(final OrderBean orderBean, final Locale locale) {
+    public void updateOrderStatus(final OrderBean orderBean,
+                                  final Locale locale) {
         this.orderManager.updateOrderStatus(orderBean);
         if (OrderBean.STATUS_CREATE == (orderBean.getStatus())) {
             this.orderItemManager.updateStatus(orderBean,
@@ -184,7 +183,8 @@ public class ConsoleOrderService {
         this.mailResolvor.send(mailModel);
     }
 
-    public void removeItem(final OrderBean orderBean, final Integer orderItemId) {
+    public void removeItem(final OrderBean orderBean,
+                           final Integer orderItemId) {
         this.orderItemManager.remove(orderItemId);
         final List<OrderItemBean> itemList = this.findItemList(orderBean);
         this.updateOrder(orderBean, itemList);
@@ -375,7 +375,8 @@ public class ConsoleOrderService {
     }
 
     public void addPay(final OrderBean orderBean,
-                       final OrderPayBean orderPayBean, final Locale locale) {
+                       final OrderPayBean orderPayBean,
+                       final Locale locale) {
 
         this.orderPayManager.add(orderPayBean);
 

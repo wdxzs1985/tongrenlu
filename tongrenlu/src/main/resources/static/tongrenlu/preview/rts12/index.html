@@ -7,9 +7,9 @@
 		<title>第12回博丽神社例大祭 XFD试听合集</title>
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="http://tongrenlu.wicp.net/bootstrap-3.3.4-dist/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="http://www.tongrenlu.org/tongrenlu/css/tongrenlu-screen.css" />
-		<link rel="stylesheet" type="text/css" href="http://www.tongrenlu.org/tongrenlu/css/tongrenlu-jplayer.css" />
+		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.org/bootstrap-3.3.4-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.org/tongrenlu/css/tongrenlu-screen.css" />
+		<link rel="stylesheet" type="text/css" href="http://static.tongrenlu.org/tongrenlu/css/tongrenlu-jplayer.css" />
 		<link rel="stylesheet" href="/tongrenlu/css/tongrenlu-preview.css" />
 	</head>
 	<body>
@@ -66,13 +66,13 @@
             </div>
 		</div>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="http://tongrenlu.wicp.net/jquery/2.1.3/jquery-2.1.3.min.js"></script>
+		<script src="http://static.tongrenlu.org/jquery/2.1.3/jquery-2.1.3.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="http://tongrenlu.wicp.net/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-		<script src="http://tongrenlu.wicp.net/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js"></script>
-		<script src="http://tongrenlu.wicp.net/JavaScript-Templates/2.5.6/js/tmpl.min.js"></script>
-		<script src="http://tongrenlu.wicp.net/jquery.waterfall/jquery.waterfall.js"></script>
-        <script src="http://tongrenlu.wicp.net/jquery.lazyload/jquery.lazyload.min.js"></script>
+		<script src="http://static.tongrenlu.org/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+		<script src="http://static.tongrenlu.org/jPlayer/2.9.2/jplayer/jquery.jplayer.min.js"></script>
+		<script src="http://static.tongrenlu.org/JavaScript-Templates/2.5.6/js/tmpl.min.js"></script>
+		<script src="http://static.tongrenlu.org/jquery.waterfall/jquery.waterfall.js"></script>
+        <script src="http://static.tongrenlu.org/jquery.lazyload/jquery.lazyload.min.js"></script>
 		
 		<script id="template-waterfall-item" type="text/x-tmpl">
 			<div class="card thumbnail" data-span="{%= o.span %}">
@@ -81,7 +81,7 @@
 			    </a>
 				<div class="caption">
 					<h4 class="text-single-line">
-                        <a href="http://www.tongrenlu.org/music/{%= o.id %}" target="_blank">{%= o.title %}</a>
+                        <a href="http://static.tongrenlu.org/music/{%= o.id %}" target="_blank">{%= o.title %}</a>
                     </h4>
 			    </div>
 			</div>
@@ -102,7 +102,7 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				var $jplayer = $("#jquery_jplayer_1").jPlayer({
-					swfPath: "http://tongrenlu.wicp.net/jPlayer/2.9.2/jplayer",
+					swfPath: "http://static.tongrenlu.org/jPlayer/2.9.2/jplayer",
 					supplied: "mp3",
 					wmode: "window",
 					useStateClassSkin: true,

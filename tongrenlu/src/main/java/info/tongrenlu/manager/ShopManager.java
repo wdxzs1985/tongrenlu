@@ -1,17 +1,14 @@
 package info.tongrenlu.manager;
 
-import info.tongrenlu.domain.ShopBean;
-import info.tongrenlu.mapper.ShopMapper;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ShopManager implements InitializingBean {
+import info.tongrenlu.domain.ShopBean;
+import info.tongrenlu.mapper.ShopMapper;
+
+public class ShopManager {
 
     public static final Integer DEFAULT_SHOP_ID = 0;
 
@@ -20,10 +17,10 @@ public class ShopManager implements InitializingBean {
     @Autowired
     private ShopMapper shopMapper = null;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        this.defaltShop = this.getShop(DEFAULT_SHOP_ID);
-    }
+    // @Override
+    // public void afterPropertiesSet() throws Exception {
+    // this.defaltShop = this.getShop(DEFAULT_SHOP_ID);
+    // }
 
     public ShopBean getDefaultShop() {
         return this.defaltShop;

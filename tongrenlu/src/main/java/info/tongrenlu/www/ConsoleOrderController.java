@@ -1,5 +1,18 @@
 package info.tongrenlu.www;
 
+import java.util.List;
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import info.tongrenlu.domain.OrderBean;
 import info.tongrenlu.domain.OrderItemBean;
 import info.tongrenlu.domain.OrderPayBean;
@@ -9,21 +22,6 @@ import info.tongrenlu.exception.PageNotFoundException;
 import info.tongrenlu.service.ConsoleOrderService;
 import info.tongrenlu.support.PaginateSupport;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-@Controller
 @SessionAttributes("LOGIN_USER")
 @RequestMapping("/console/order")
 public class ConsoleOrderController {
@@ -33,11 +31,17 @@ public class ConsoleOrderController {
     @Autowired
     private MessageSource messageSource = null;
 
-    protected void throwExceptionWhenNotAllow(final OrderBean orderBean, final UserBean loginUser, final Locale locale) {
+    protected void throwExceptionWhenNotAllow(final OrderBean orderBean,
+                                              final UserBean loginUser,
+                                              final Locale locale) {
         if (orderBean == null) {
-            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound", null, locale));
+            throw new PageNotFoundException(this.messageSource.getMessage("error.pageNotFound",
+                                                                          null,
+                                                                          locale));
         } else if (!loginUser.equals(orderBean.getUserBean()) && !loginUser.isShopAdmin()) {
-            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden", null, locale));
+            throw new ForbiddenException(this.messageSource.getMessage("error.forbidden",
+                                                                       null,
+                                                                       locale));
         }
     }
 
